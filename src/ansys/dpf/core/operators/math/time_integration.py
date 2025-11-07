@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class time_integration(Operator):
     r"""Integrates a field of time varying quantities over time
@@ -210,23 +213,29 @@ class InputsTimeIntegration(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(time_integration._spec().inputs, op)
-        self._field = Input(time_integration._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field] = Input(
+            time_integration._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._resample_output = Input(time_integration._spec().input_pin(1), 1, op, -1)
+        self._resample_output: Input[bool] = Input(
+            time_integration._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._resample_output)
-        self._absolute_error = Input(time_integration._spec().input_pin(2), 2, op, -1)
+        self._absolute_error: Input[float] = Input(
+            time_integration._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._absolute_error)
-        self._minimum_step_size = Input(
+        self._minimum_step_size: Input[float] = Input(
             time_integration._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._minimum_step_size)
-        self._integration_constant = Input(
+        self._integration_constant: Input[float] = Input(
             time_integration._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._integration_constant)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
         field
@@ -247,7 +256,7 @@ class InputsTimeIntegration(_Inputs):
         return self._field
 
     @property
-    def resample_output(self) -> Input:
+    def resample_output(self) -> Input[bool]:
         r"""Allows to connect resample_output input to the operator.
 
         Resample the output
@@ -268,7 +277,7 @@ class InputsTimeIntegration(_Inputs):
         return self._resample_output
 
     @property
-    def absolute_error(self) -> Input:
+    def absolute_error(self) -> Input[float]:
         r"""Allows to connect absolute_error input to the operator.
 
         Absolute error for the resampling
@@ -289,7 +298,7 @@ class InputsTimeIntegration(_Inputs):
         return self._absolute_error
 
     @property
-    def minimum_step_size(self) -> Input:
+    def minimum_step_size(self) -> Input[float]:
         r"""Allows to connect minimum_step_size input to the operator.
 
         Minimum time step size for the resamplig
@@ -310,7 +319,7 @@ class InputsTimeIntegration(_Inputs):
         return self._minimum_step_size
 
     @property
-    def integration_constant(self) -> Input:
+    def integration_constant(self) -> Input[float]:
         r"""Allows to connect integration_constant input to the operator.
 
         Constant to be added to the integrated field
@@ -345,11 +354,13 @@ class OutputsTimeIntegration(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(time_integration._spec().outputs, op)
-        self._field = Output(time_integration._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            time_integration._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

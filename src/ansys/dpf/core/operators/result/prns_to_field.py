@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class prns_to_field(Operator):
     r"""Read the presol of nodal field generated file from mapdl.
@@ -156,13 +159,17 @@ class InputsPrnsToField(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(prns_to_field._spec().inputs, op)
-        self._filepath = Input(prns_to_field._spec().input_pin(0), 0, op, -1)
+        self._filepath: Input[str] = Input(
+            prns_to_field._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._filepath)
-        self._columns_to_read = Input(prns_to_field._spec().input_pin(1), 1, op, -1)
+        self._columns_to_read: Input[int] = Input(
+            prns_to_field._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._columns_to_read)
 
     @property
-    def filepath(self) -> Input:
+    def filepath(self) -> Input[str]:
         r"""Allows to connect filepath input to the operator.
 
         filepath
@@ -183,7 +190,7 @@ class InputsPrnsToField(_Inputs):
         return self._filepath
 
     @property
-    def columns_to_read(self) -> Input:
+    def columns_to_read(self) -> Input[int]:
         r"""Allows to connect columns_to_read input to the operator.
 
         columns_to_read
@@ -218,11 +225,11 @@ class OutputsPrnsToField(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(prns_to_field._spec().outputs, op)
-        self._field = Output(prns_to_field._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(prns_to_field._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

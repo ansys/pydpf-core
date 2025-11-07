@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.dpf_operator import Operator
+
 
 class make_producer_consumer_for_each_iterator(Operator):
     r"""Generates an iterator that can be consumed by the for_each operator.The
@@ -385,88 +388,88 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(make_producer_consumer_for_each_iterator._spec().inputs, op)
-        self._try_generate_iterable = Input(
+        self._try_generate_iterable: Input[bool] = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(-1), -1, op, -1
         )
         self._inputs.append(self._try_generate_iterable)
-        self._iterable = Input(
+        self._iterable: Input = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._iterable)
-        self._operator_to_iterate = Input(
+        self._operator_to_iterate: Input[Operator] = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._operator_to_iterate)
-        self._pin_index = Input(
+        self._pin_index: Input[int] = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._pin_index)
-        self._valueA = Input(
+        self._valueA: Input = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._valueA)
-        self._valueB = Input(
+        self._valueB: Input = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._valueB)
-        self._valueC1 = Input(
+        self._valueC1: Input = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(5), 5, op, 0
         )
         self._inputs.append(self._valueC1)
-        self._valueC2 = Input(
+        self._valueC2: Input = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(6), 6, op, 1
         )
         self._inputs.append(self._valueC2)
-        self._producer_op11 = Input(
+        self._producer_op11: Input[Operator] = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(1000),
             1000,
             op,
             0,
         )
         self._inputs.append(self._producer_op11)
-        self._producer_op12 = Input(
+        self._producer_op12: Input[Operator] = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(1001),
             1001,
             op,
             1,
         )
         self._inputs.append(self._producer_op12)
-        self._output_pin_of_producer_op11 = Input(
+        self._output_pin_of_producer_op11: Input[int] = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(1001),
             1001,
             op,
             0,
         )
         self._inputs.append(self._output_pin_of_producer_op11)
-        self._output_pin_of_producer_op12 = Input(
+        self._output_pin_of_producer_op12: Input[int] = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(1002),
             1002,
             op,
             1,
         )
         self._inputs.append(self._output_pin_of_producer_op12)
-        self._input_pin_of_consumer_op11 = Input(
+        self._input_pin_of_consumer_op11: Input[int] = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(1002),
             1002,
             op,
             0,
         )
         self._inputs.append(self._input_pin_of_consumer_op11)
-        self._input_pin_of_consumer_op12 = Input(
+        self._input_pin_of_consumer_op12: Input[int] = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(1003),
             1003,
             op,
             1,
         )
         self._inputs.append(self._input_pin_of_consumer_op12)
-        self._consumer_op11 = Input(
+        self._consumer_op11: Input[Operator] = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(1003),
             1003,
             op,
             0,
         )
         self._inputs.append(self._consumer_op11)
-        self._consumer_op12 = Input(
+        self._consumer_op12: Input[Operator] = Input(
             make_producer_consumer_for_each_iterator._spec().input_pin(1004),
             1004,
             op,
@@ -475,7 +478,7 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
         self._inputs.append(self._consumer_op12)
 
     @property
-    def try_generate_iterable(self) -> Input:
+    def try_generate_iterable(self) -> Input[bool]:
         r"""Allows to connect try_generate_iterable input to the operator.
 
         if true, already iterable values connected in pin 3 like vectors, Scoping, TimefreqSupport, Containers and DataSources are split to iterate on it (default is true)
@@ -517,7 +520,7 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
         return self._iterable
 
     @property
-    def operator_to_iterate(self) -> Input:
+    def operator_to_iterate(self) -> Input[Operator]:
         r"""Allows to connect operator_to_iterate input to the operator.
 
         Operator that must be reconnected with the range values.
@@ -538,7 +541,7 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
         return self._operator_to_iterate
 
     @property
-    def pin_index(self) -> Input:
+    def pin_index(self) -> Input[int]:
         r"""Allows to connect pin_index input to the operator.
 
         Returns
@@ -633,7 +636,7 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
         return self._valueC2
 
     @property
-    def producer_op11(self) -> Input:
+    def producer_op11(self) -> Input[Operator]:
         r"""Allows to connect producer_op11 input to the operator.
 
         Returns
@@ -652,7 +655,7 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
         return self._producer_op11
 
     @property
-    def producer_op12(self) -> Input:
+    def producer_op12(self) -> Input[Operator]:
         r"""Allows to connect producer_op12 input to the operator.
 
         Returns
@@ -671,7 +674,7 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
         return self._producer_op12
 
     @property
-    def output_pin_of_producer_op11(self) -> Input:
+    def output_pin_of_producer_op11(self) -> Input[int]:
         r"""Allows to connect output_pin_of_producer_op11 input to the operator.
 
         Returns
@@ -690,7 +693,7 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
         return self._output_pin_of_producer_op11
 
     @property
-    def output_pin_of_producer_op12(self) -> Input:
+    def output_pin_of_producer_op12(self) -> Input[int]:
         r"""Allows to connect output_pin_of_producer_op12 input to the operator.
 
         Returns
@@ -709,7 +712,7 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
         return self._output_pin_of_producer_op12
 
     @property
-    def input_pin_of_consumer_op11(self) -> Input:
+    def input_pin_of_consumer_op11(self) -> Input[int]:
         r"""Allows to connect input_pin_of_consumer_op11 input to the operator.
 
         Returns
@@ -728,7 +731,7 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
         return self._input_pin_of_consumer_op11
 
     @property
-    def input_pin_of_consumer_op12(self) -> Input:
+    def input_pin_of_consumer_op12(self) -> Input[int]:
         r"""Allows to connect input_pin_of_consumer_op12 input to the operator.
 
         Returns
@@ -747,7 +750,7 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
         return self._input_pin_of_consumer_op12
 
     @property
-    def consumer_op11(self) -> Input:
+    def consumer_op11(self) -> Input[Operator]:
         r"""Allows to connect consumer_op11 input to the operator.
 
         Returns
@@ -766,7 +769,7 @@ class InputsMakeProducerConsumerForEachIterator(_Inputs):
         return self._consumer_op11
 
     @property
-    def consumer_op12(self) -> Input:
+    def consumer_op12(self) -> Input[Operator]:
         r"""Allows to connect consumer_op12 input to the operator.
 
         Returns
@@ -799,7 +802,7 @@ class OutputsMakeProducerConsumerForEachIterator(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(make_producer_consumer_for_each_iterator._spec().outputs, op)
-        self._iterator = Output(
+        self._iterator: Output = Output(
             make_producer_consumer_for_each_iterator._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._iterator)

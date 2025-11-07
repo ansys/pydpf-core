@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class elementary_data_selector_fc(Operator):
     r"""Creates a scalar fields container based on the selected elementary data
@@ -183,21 +187,21 @@ class InputsElementaryDataSelectorFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(elementary_data_selector_fc._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer | Field] = Input(
             elementary_data_selector_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._elementary_data_index = Input(
+        self._elementary_data_index: Input[int] = Input(
             elementary_data_selector_fc._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._elementary_data_index)
-        self._elementary_data_index_2 = Input(
+        self._elementary_data_index_2: Input[int] = Input(
             elementary_data_selector_fc._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._elementary_data_index_2)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer | Field]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -216,7 +220,7 @@ class InputsElementaryDataSelectorFc(_Inputs):
         return self._fields_container
 
     @property
-    def elementary_data_index(self) -> Input:
+    def elementary_data_index(self) -> Input[int]:
         r"""Allows to connect elementary_data_index input to the operator.
 
         one or several elementary data indices that will be extracted from the initial field. For a field with a nature matrix, this extracts the line indices.
@@ -237,7 +241,7 @@ class InputsElementaryDataSelectorFc(_Inputs):
         return self._elementary_data_index
 
     @property
-    def elementary_data_index_2(self) -> Input:
+    def elementary_data_index_2(self) -> Input[int]:
         r"""Allows to connect elementary_data_index_2 input to the operator.
 
         For a field with nature matrix, this extracts the column indices.
@@ -272,13 +276,13 @@ class OutputsElementaryDataSelectorFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(elementary_data_selector_fc._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             elementary_data_selector_fc._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scoping import Scoping
+
 
 class min_max_over_label_fc(Operator):
     r"""Create two fields (0 min 1 max) by looping over the fields container in
@@ -213,15 +218,17 @@ class InputsMinMaxOverLabelFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(min_max_over_label_fc._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             min_max_over_label_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._label = Input(min_max_over_label_fc._spec().input_pin(1), 1, op, -1)
+        self._label: Input[str] = Input(
+            min_max_over_label_fc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._label)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -240,7 +247,7 @@ class InputsMinMaxOverLabelFc(_Inputs):
         return self._fields_container
 
     @property
-    def label(self) -> Input:
+    def label(self) -> Input[str]:
         r"""Allows to connect label input to the operator.
 
         label name from the fields container
@@ -280,29 +287,33 @@ class OutputsMinMaxOverLabelFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(min_max_over_label_fc._spec().outputs, op)
-        self._field_min = Output(min_max_over_label_fc._spec().output_pin(0), 0, op)
+        self._field_min: Output[Field] = Output(
+            min_max_over_label_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field_min)
-        self._field_max = Output(min_max_over_label_fc._spec().output_pin(1), 1, op)
+        self._field_max: Output[Field] = Output(
+            min_max_over_label_fc._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._field_max)
-        self._domain_ids_min = Output(
+        self._domain_ids_min: Output[Scoping] = Output(
             min_max_over_label_fc._spec().output_pin(2), 2, op
         )
         self._outputs.append(self._domain_ids_min)
-        self._domain_ids_max = Output(
+        self._domain_ids_max: Output[Scoping] = Output(
             min_max_over_label_fc._spec().output_pin(3), 3, op
         )
         self._outputs.append(self._domain_ids_max)
-        self._scoping_ids_min = Output(
+        self._scoping_ids_min: Output[Scoping] = Output(
             min_max_over_label_fc._spec().output_pin(4), 4, op
         )
         self._outputs.append(self._scoping_ids_min)
-        self._scoping_ids_max = Output(
+        self._scoping_ids_max: Output[Scoping] = Output(
             min_max_over_label_fc._spec().output_pin(5), 5, op
         )
         self._outputs.append(self._scoping_ids_max)
 
     @property
-    def field_min(self) -> Output:
+    def field_min(self) -> Output[Field]:
         r"""Allows to get field_min output of the operator
 
         Returns
@@ -320,7 +331,7 @@ class OutputsMinMaxOverLabelFc(_Outputs):
         return self._field_min
 
     @property
-    def field_max(self) -> Output:
+    def field_max(self) -> Output[Field]:
         r"""Allows to get field_max output of the operator
 
         Returns
@@ -338,7 +349,7 @@ class OutputsMinMaxOverLabelFc(_Outputs):
         return self._field_max
 
     @property
-    def domain_ids_min(self) -> Output:
+    def domain_ids_min(self) -> Output[Scoping]:
         r"""Allows to get domain_ids_min output of the operator
 
         Returns
@@ -356,7 +367,7 @@ class OutputsMinMaxOverLabelFc(_Outputs):
         return self._domain_ids_min
 
     @property
-    def domain_ids_max(self) -> Output:
+    def domain_ids_max(self) -> Output[Scoping]:
         r"""Allows to get domain_ids_max output of the operator
 
         Returns
@@ -374,7 +385,7 @@ class OutputsMinMaxOverLabelFc(_Outputs):
         return self._domain_ids_max
 
     @property
-    def scoping_ids_min(self) -> Output:
+    def scoping_ids_min(self) -> Output[Scoping]:
         r"""Allows to get scoping_ids_min output of the operator
 
         Returns
@@ -392,7 +403,7 @@ class OutputsMinMaxOverLabelFc(_Outputs):
         return self._scoping_ids_min
 
     @property
-    def scoping_ids_max(self) -> Output:
+    def scoping_ids_max(self) -> Output[Scoping]:
         r"""Allows to get scoping_ids_max output of the operator
 
         Returns

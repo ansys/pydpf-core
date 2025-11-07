@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class fft(Operator):
     r"""Computes the Fast Fourier Transform on each component of input Field or
@@ -243,21 +247,29 @@ class InputsFft(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(fft._spec().inputs, op)
-        self._field = Input(fft._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            fft._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._scale_forward_transform = Input(fft._spec().input_pin(3), 3, op, -1)
+        self._scale_forward_transform: Input[float] = Input(
+            fft._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._scale_forward_transform)
-        self._inplace = Input(fft._spec().input_pin(4), 4, op, -1)
+        self._inplace: Input[bool] = Input(fft._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._inplace)
-        self._force_fft_points = Input(fft._spec().input_pin(5), 5, op, -1)
+        self._force_fft_points: Input[int] = Input(fft._spec().input_pin(5), 5, op, -1)
         self._inputs.append(self._force_fft_points)
-        self._cutoff_frequency = Input(fft._spec().input_pin(6), 6, op, -1)
+        self._cutoff_frequency: Input[float] = Input(
+            fft._spec().input_pin(6), 6, op, -1
+        )
         self._inputs.append(self._cutoff_frequency)
-        self._scale_right_amplitude = Input(fft._spec().input_pin(7), 7, op, -1)
+        self._scale_right_amplitude: Input[bool] = Input(
+            fft._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._scale_right_amplitude)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         Field or Fields Container.
@@ -278,7 +290,7 @@ class InputsFft(_Inputs):
         return self._field
 
     @property
-    def scale_forward_transform(self) -> Input:
+    def scale_forward_transform(self) -> Input[float]:
         r"""Allows to connect scale_forward_transform input to the operator.
 
         Scale for Forward Transform, default is 2/field_num_elementary_data.
@@ -299,7 +311,7 @@ class InputsFft(_Inputs):
         return self._scale_forward_transform
 
     @property
-    def inplace(self) -> Input:
+    def inplace(self) -> Input[bool]:
         r"""Allows to connect inplace input to the operator.
 
         True if inplace, default is false.
@@ -320,7 +332,7 @@ class InputsFft(_Inputs):
         return self._inplace
 
     @property
-    def force_fft_points(self) -> Input:
+    def force_fft_points(self) -> Input[int]:
         r"""Allows to connect force_fft_points input to the operator.
 
         Explicitely define number of fft points to either rescope or perform zero padding.
@@ -341,7 +353,7 @@ class InputsFft(_Inputs):
         return self._force_fft_points
 
     @property
-    def cutoff_frequency(self) -> Input:
+    def cutoff_frequency(self) -> Input[float]:
         r"""Allows to connect cutoff_frequency input to the operator.
 
         Restrict output frequency up to this cutoff frequency
@@ -362,7 +374,7 @@ class InputsFft(_Inputs):
         return self._cutoff_frequency
 
     @property
-    def scale_right_amplitude(self) -> Input:
+    def scale_right_amplitude(self) -> Input[bool]:
         r"""Allows to connect scale_right_amplitude input to the operator.
 
         If set to true (default is false), 2/field_num_entities scaling will be applied, to have right amplitude values.
@@ -397,11 +409,13 @@ class OutputsFft(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(fft._spec().outputs, op)
-        self._fields_container = Output(fft._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            fft._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Output Complex Fields Container with labels matching input Fields Container. No supports binded, but prepare_sampling_fft provides it.

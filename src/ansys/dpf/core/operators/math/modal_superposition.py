@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.scoping import Scoping
+
 
 class modal_superposition(Operator):
     r"""Computes the solution in the time/frequency space from a modal solution
@@ -218,23 +223,29 @@ class InputsModalSuperposition(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(modal_superposition._spec().inputs, op)
-        self._modal_basis = Input(modal_superposition._spec().input_pin(0), 0, op, -1)
+        self._modal_basis: Input[FieldsContainer] = Input(
+            modal_superposition._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._modal_basis)
-        self._solution_in_modal_space = Input(
+        self._solution_in_modal_space: Input[FieldsContainer] = Input(
             modal_superposition._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._solution_in_modal_space)
-        self._incremental_fc = Input(
+        self._incremental_fc: Input[FieldsContainer] = Input(
             modal_superposition._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._incremental_fc)
-        self._time_scoping = Input(modal_superposition._spec().input_pin(3), 3, op, -1)
+        self._time_scoping: Input[Scoping] = Input(
+            modal_superposition._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping = Input(modal_superposition._spec().input_pin(4), 4, op, -1)
+        self._mesh_scoping: Input[Scoping | ScopingsContainer] = Input(
+            modal_superposition._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
 
     @property
-    def modal_basis(self) -> Input:
+    def modal_basis(self) -> Input[FieldsContainer]:
         r"""Allows to connect modal_basis input to the operator.
 
         One field by mode with each field representing a mode shape on nodes or elements.
@@ -255,7 +266,7 @@ class InputsModalSuperposition(_Inputs):
         return self._modal_basis
 
     @property
-    def solution_in_modal_space(self) -> Input:
+    def solution_in_modal_space(self) -> Input[FieldsContainer]:
         r"""Allows to connect solution_in_modal_space input to the operator.
 
         One field by time/frequency with each field having a ponderating coefficient for each mode of the modal_basis pin.
@@ -276,7 +287,7 @@ class InputsModalSuperposition(_Inputs):
         return self._solution_in_modal_space
 
     @property
-    def incremental_fc(self) -> Input:
+    def incremental_fc(self) -> Input[FieldsContainer]:
         r"""Allows to connect incremental_fc input to the operator.
 
         If a non-empty fields container is introduced, it is modified, and sent to the output, to add the contribution of the requested expansion. The label spaces produced from the multiplication must be the same as the incremental ones.
@@ -297,7 +308,7 @@ class InputsModalSuperposition(_Inputs):
         return self._incremental_fc
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         Compute the result on a subset of the time frequency domain defined in the solution_in_modal_space fields container.
@@ -318,7 +329,7 @@ class InputsModalSuperposition(_Inputs):
         return self._time_scoping
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Compute the result on a subset of the space domain defined in the modal_basis fields container.
@@ -353,13 +364,13 @@ class OutputsModalSuperposition(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(modal_superposition._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             modal_superposition._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

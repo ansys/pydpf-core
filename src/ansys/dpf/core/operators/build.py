@@ -236,6 +236,8 @@ def build_operator(
     for input_pin in input_pins:
         annotation_import_types.update(input_pin["docstring_types"])
     for output_pin in output_pins:
+        if output_pin["multiple_types"]:
+            continue
         annotation_import_types.update(output_pin["docstring_types"])
     annotation_import_list = []
     for annotation_type in annotation_import_types:
@@ -351,8 +353,8 @@ def build_operators():
         # Convert Markdown descriptions to RST
         specification_description = translator.convert(specification.description)
 
-        if scripting_name not in ("stress", "propertyfield_get_attribute", "mesh_support_provider"):
-            continue
+        # if scripting_name not in ("stress", "propertyfield_get_attribute", "mesh_support_provider"):
+        #     continue
         # if "stress" == scripting_name:
         #     pass
 

@@ -14,6 +14,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class find_reduced_coordinates(Operator):
     r"""Finds the elements corresponding to the given coordinates in input and
@@ -194,19 +201,23 @@ class InputsFindReducedCoordinates(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(find_reduced_coordinates._spec().inputs, op)
-        self._coordinates = Input(
-            find_reduced_coordinates._spec().input_pin(1), 1, op, -1
-        )
+        self._coordinates: Input[
+            Field | FieldsContainer | MeshedRegion | MeshesContainer
+        ] = Input(find_reduced_coordinates._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._coordinates)
-        self._mesh = Input(find_reduced_coordinates._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
+            find_reduced_coordinates._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._use_quadratic_elements = Input(
+        self._use_quadratic_elements: Input[bool] = Input(
             find_reduced_coordinates._spec().input_pin(200), 200, op, -1
         )
         self._inputs.append(self._use_quadratic_elements)
 
     @property
-    def coordinates(self) -> Input:
+    def coordinates(
+        self,
+    ) -> Input[Field | FieldsContainer | MeshedRegion | MeshesContainer]:
         r"""Allows to connect coordinates input to the operator.
 
         Returns
@@ -225,7 +236,7 @@ class InputsFindReducedCoordinates(_Inputs):
         return self._coordinates
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
         If the first field in input has no mesh in support, then the mesh in this pin is expected (default is false). If a meshes container with several meshes is set, it should be on the same label spaces as the coordinates fields container.
@@ -246,7 +257,7 @@ class InputsFindReducedCoordinates(_Inputs):
         return self._mesh
 
     @property
-    def use_quadratic_elements(self) -> Input:
+    def use_quadratic_elements(self) -> Input[bool]:
         r"""Allows to connect use_quadratic_elements input to the operator.
 
         If this pin is set to true, reduced coordinates are computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false.
@@ -282,17 +293,17 @@ class OutputsFindReducedCoordinates(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(find_reduced_coordinates._spec().outputs, op)
-        self._reduced_coordinates = Output(
+        self._reduced_coordinates: Output[FieldsContainer] = Output(
             find_reduced_coordinates._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._reduced_coordinates)
-        self._element_ids = Output(
+        self._element_ids: Output[ScopingsContainer] = Output(
             find_reduced_coordinates._spec().output_pin(1), 1, op
         )
         self._outputs.append(self._element_ids)
 
     @property
-    def reduced_coordinates(self) -> Output:
+    def reduced_coordinates(self) -> Output[FieldsContainer]:
         r"""Allows to get reduced_coordinates output of the operator
 
         coordinates in the reference elements
@@ -312,7 +323,7 @@ class OutputsFindReducedCoordinates(_Outputs):
         return self._reduced_coordinates
 
     @property
-    def element_ids(self) -> Output:
+    def element_ids(self) -> Output[ScopingsContainer]:
         r"""Allows to get element_ids output of the operator
 
         Ids of the elements where each set of reduced coordinates is found

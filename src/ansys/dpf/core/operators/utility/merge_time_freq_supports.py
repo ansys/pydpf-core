@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
+
 
 class merge_time_freq_supports(Operator):
     r"""Assembles a set of time/frequency supports into a unique one.
@@ -162,17 +165,17 @@ class InputsMergeTimeFreqSupports(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_time_freq_supports._spec().inputs, op)
-        self._time_freq_supports1 = Input(
+        self._time_freq_supports1: Input[TimeFreqSupport] = Input(
             merge_time_freq_supports._spec().input_pin(0), 0, op, 0
         )
         self._inputs.append(self._time_freq_supports1)
-        self._time_freq_supports2 = Input(
+        self._time_freq_supports2: Input[TimeFreqSupport] = Input(
             merge_time_freq_supports._spec().input_pin(1), 1, op, 1
         )
         self._inputs.append(self._time_freq_supports2)
 
     @property
-    def time_freq_supports1(self) -> Input:
+    def time_freq_supports1(self) -> Input[TimeFreqSupport]:
         r"""Allows to connect time_freq_supports1 input to the operator.
 
         A vector of time/frequency supports to merge or time/frequency supports from pin 0 to ...
@@ -193,7 +196,7 @@ class InputsMergeTimeFreqSupports(_Inputs):
         return self._time_freq_supports1
 
     @property
-    def time_freq_supports2(self) -> Input:
+    def time_freq_supports2(self) -> Input[TimeFreqSupport]:
         r"""Allows to connect time_freq_supports2 input to the operator.
 
         A vector of time/frequency supports to merge or time/frequency supports from pin 0 to ...
@@ -228,13 +231,13 @@ class OutputsMergeTimeFreqSupports(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_time_freq_supports._spec().outputs, op)
-        self._merged_support = Output(
+        self._merged_support: Output[TimeFreqSupport] = Output(
             merge_time_freq_supports._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._merged_support)
 
     @property
-    def merged_support(self) -> Output:
+    def merged_support(self) -> Output[TimeFreqSupport]:
         r"""Allows to get merged_support output of the operator
 
         Returns

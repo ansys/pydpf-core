@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class overlap_fields(Operator):
     r"""Take two fields and superpose them, the overlapping field will override
@@ -158,13 +161,17 @@ class InputsOverlapFields(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(overlap_fields._spec().inputs, op)
-        self._base_field = Input(overlap_fields._spec().input_pin(0), 0, op, -1)
+        self._base_field: Input[Field] = Input(
+            overlap_fields._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._base_field)
-        self._overlapping_field = Input(overlap_fields._spec().input_pin(1), 1, op, -1)
+        self._overlapping_field: Input[Field] = Input(
+            overlap_fields._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._overlapping_field)
 
     @property
-    def base_field(self) -> Input:
+    def base_field(self) -> Input[Field]:
         r"""Allows to connect base_field input to the operator.
 
         Returns
@@ -183,7 +190,7 @@ class InputsOverlapFields(_Inputs):
         return self._base_field
 
     @property
-    def overlapping_field(self) -> Input:
+    def overlapping_field(self) -> Input[Field]:
         r"""Allows to connect overlapping_field input to the operator.
 
         Returns
@@ -216,11 +223,11 @@ class OutputsOverlapFields(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(overlap_fields._spec().outputs, op)
-        self._field = Output(overlap_fields._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(overlap_fields._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

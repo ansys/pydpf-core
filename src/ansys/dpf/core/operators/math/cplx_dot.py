@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class cplx_dot(Operator):
     r"""Computes product between two field containers containing complex fields.
@@ -156,13 +159,17 @@ class InputsCplxDot(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(cplx_dot._spec().inputs, op)
-        self._fields_containerA = Input(cplx_dot._spec().input_pin(0), 0, op, -1)
+        self._fields_containerA: Input[FieldsContainer] = Input(
+            cplx_dot._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields_containerA)
-        self._fields_containerB = Input(cplx_dot._spec().input_pin(1), 1, op, -1)
+        self._fields_containerB: Input[FieldsContainer] = Input(
+            cplx_dot._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._fields_containerB)
 
     @property
-    def fields_containerA(self) -> Input:
+    def fields_containerA(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerA input to the operator.
 
         Returns
@@ -181,7 +188,7 @@ class InputsCplxDot(_Inputs):
         return self._fields_containerA
 
     @property
-    def fields_containerB(self) -> Input:
+    def fields_containerB(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerB input to the operator.
 
         Returns
@@ -214,11 +221,13 @@ class OutputsCplxDot(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(cplx_dot._spec().outputs, op)
-        self._fields_container = Output(cplx_dot._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            cplx_dot._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

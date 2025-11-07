@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.workflow import Workflow
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.streams_container import StreamsContainer
+
 
 class remote_workflow_instantiate(Operator):
     r"""Sends a local workflow to a remote process (and keep a local image of
@@ -185,21 +190,21 @@ class InputsRemoteWorkflowInstantiate(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(remote_workflow_instantiate._spec().inputs, op)
-        self._workflow_to_send = Input(
+        self._workflow_to_send: Input[Workflow | int] = Input(
             remote_workflow_instantiate._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._workflow_to_send)
-        self._streams_to_remote = Input(
+        self._streams_to_remote: Input[StreamsContainer] = Input(
             remote_workflow_instantiate._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._streams_to_remote)
-        self._data_sources_to_remote = Input(
+        self._data_sources_to_remote: Input[DataSources] = Input(
             remote_workflow_instantiate._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources_to_remote)
 
     @property
-    def workflow_to_send(self) -> Input:
+    def workflow_to_send(self) -> Input[Workflow | int]:
         r"""Allows to connect workflow_to_send input to the operator.
 
         local workflow to push to a remote or id of a remote workflow
@@ -220,7 +225,7 @@ class InputsRemoteWorkflowInstantiate(_Inputs):
         return self._workflow_to_send
 
     @property
-    def streams_to_remote(self) -> Input:
+    def streams_to_remote(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_to_remote input to the operator.
 
         Returns
@@ -239,7 +244,7 @@ class InputsRemoteWorkflowInstantiate(_Inputs):
         return self._streams_to_remote
 
     @property
-    def data_sources_to_remote(self) -> Input:
+    def data_sources_to_remote(self) -> Input[DataSources]:
         r"""Allows to connect data_sources_to_remote input to the operator.
 
         Returns
@@ -272,13 +277,13 @@ class OutputsRemoteWorkflowInstantiate(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(remote_workflow_instantiate._spec().outputs, op)
-        self._remote_workflow = Output(
+        self._remote_workflow: Output[Workflow] = Output(
             remote_workflow_instantiate._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._remote_workflow)
 
     @property
-    def remote_workflow(self) -> Output:
+    def remote_workflow(self) -> Output[Workflow]:
         r"""Allows to get remote_workflow output of the operator
 
         remote workflow containing an image of the remote workflow and the protocols streams

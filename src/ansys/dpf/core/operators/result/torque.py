@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class torque(Operator):
     r"""Compute torque of a force based on a 3D point.
@@ -171,13 +175,17 @@ class InputsTorque(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(torque._spec().inputs, op)
-        self._fields_container = Input(torque._spec().input_pin(0), 0, op, -1)
+        self._fields_container: Input[FieldsContainer] = Input(
+            torque._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields_container)
-        self._spoint = Input(torque._spec().input_pin(1), 1, op, -1)
+        self._spoint: Input[Field | FieldsContainer] = Input(
+            torque._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._spoint)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Fields container containing the nodal forces.
@@ -198,7 +206,7 @@ class InputsTorque(_Inputs):
         return self._fields_container
 
     @property
-    def spoint(self) -> Input:
+    def spoint(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect spoint input to the operator.
 
         Field or fields container containing the summation points for each associated field on pin 0.
@@ -245,11 +253,13 @@ class OutputsTorque(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(torque._spec().outputs, op)
-        self._fields_container = Output(torque._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            torque._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

@@ -15,6 +15,17 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.property_field import PropertyField
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.string_field import StringField
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.custom_type_field import CustomTypeField
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class extract_scoping(Operator):
     r"""Takes a field type object, mesh or a collection of them and extracts its
@@ -24,10 +35,9 @@ class extract_scoping(Operator):
     Inputs
     ------
     field_or_fields_container: Field or FieldsContainer or PropertyField or
-        PropertyFieldsContainer or CustomTypeField or
-        CustomTypeFieldsContainer or StringField or Scoping
-        or ScopingsContainer or MeshedRegion or
-        MeshesContainer, optional
+      PropertyFieldsContainer or CustomTypeField or
+      CustomTypeFieldsContainer or StringField or Scoping or
+      ScopingsContainer or MeshedRegion or MeshesContainer, optional
     requested_location: int, optional
         If input 0 is a mesh or a meshes_container, the operator returns the nodes scoping, possible locations are: Nodal(default) or Elemental
 
@@ -180,17 +190,37 @@ class InputsExtractScoping(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(extract_scoping._spec().inputs, op)
-        self._field_or_fields_container = Input(
-            extract_scoping._spec().input_pin(0), 0, op, -1
-        )
+        self._field_or_fields_container: Input[
+            Field
+            | FieldsContainer
+            | PropertyField
+            | CustomTypeField
+            | StringField
+            | Scoping
+            | ScopingsContainer
+            | MeshedRegion
+            | MeshesContainer
+        ] = Input(extract_scoping._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field_or_fields_container)
-        self._requested_location = Input(
+        self._requested_location: Input[int] = Input(
             extract_scoping._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._requested_location)
 
     @property
-    def field_or_fields_container(self) -> Input:
+    def field_or_fields_container(
+        self,
+    ) -> Input[
+        Field
+        | FieldsContainer
+        | PropertyField
+        | CustomTypeField
+        | StringField
+        | Scoping
+        | ScopingsContainer
+        | MeshedRegion
+        | MeshesContainer
+    ]:
         r"""Allows to connect field_or_fields_container input to the operator.
 
         Returns
@@ -209,7 +239,7 @@ class InputsExtractScoping(_Inputs):
         return self._field_or_fields_container
 
     @property
-    def requested_location(self) -> Input:
+    def requested_location(self) -> Input[int]:
         r"""Allows to connect requested_location input to the operator.
 
         If input 0 is a mesh or a meshes_container, the operator returns the nodes scoping, possible locations are: Nodal(default) or Elemental

@@ -14,6 +14,16 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class specific_heat(Operator):
     r"""Read Specific Heat by calling the readers defined by the datasources.
@@ -265,25 +275,41 @@ class InputsSpecificHeat(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(specific_heat._spec().inputs, op)
-        self._time_scoping = Input(specific_heat._spec().input_pin(0), 0, op, -1)
+        self._time_scoping: Input[Scoping | int | float | Field] = Input(
+            specific_heat._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping = Input(specific_heat._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[ScopingsContainer | Scoping] = Input(
+            specific_heat._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._streams_container = Input(specific_heat._spec().input_pin(3), 3, op, -1)
+        self._streams_container: Input[StreamsContainer] = Input(
+            specific_heat._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(specific_heat._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            specific_heat._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
-        self._mesh = Input(specific_heat._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
+            specific_heat._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._region_scoping = Input(specific_heat._spec().input_pin(25), 25, op, -1)
+        self._region_scoping: Input[Scoping | int] = Input(
+            specific_heat._spec().input_pin(25), 25, op, -1
+        )
         self._inputs.append(self._region_scoping)
-        self._qualifiers1 = Input(specific_heat._spec().input_pin(1000), 1000, op, 0)
+        self._qualifiers1: Input[dict] = Input(
+            specific_heat._spec().input_pin(1000), 1000, op, 0
+        )
         self._inputs.append(self._qualifiers1)
-        self._qualifiers2 = Input(specific_heat._spec().input_pin(1001), 1001, op, 1)
+        self._qualifiers2: Input[dict] = Input(
+            specific_heat._spec().input_pin(1001), 1001, op, 1
+        )
         self._inputs.append(self._qualifiers2)
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping | int | float | Field]:
         r"""Allows to connect time_scoping input to the operator.
 
         time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
@@ -304,7 +330,7 @@ class InputsSpecificHeat(_Inputs):
         return self._time_scoping
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[ScopingsContainer | Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains
@@ -325,7 +351,7 @@ class InputsSpecificHeat(_Inputs):
         return self._mesh_scoping
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         result file container allowed to be kept open to cache data
@@ -346,7 +372,7 @@ class InputsSpecificHeat(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         result file path container, used if no streams are set
@@ -367,7 +393,7 @@ class InputsSpecificHeat(_Inputs):
         return self._data_sources
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
         prevents from reading the mesh in the result files
@@ -388,7 +414,7 @@ class InputsSpecificHeat(_Inputs):
         return self._mesh
 
     @property
-    def region_scoping(self) -> Input:
+    def region_scoping(self) -> Input[Scoping | int]:
         r"""Allows to connect region_scoping input to the operator.
 
         region id (integer) or vector of region ids (vector) or region scoping (scoping) of the model (region corresponds to zone for Fluid results or part for LSDyna results).
@@ -409,7 +435,7 @@ class InputsSpecificHeat(_Inputs):
         return self._region_scoping
 
     @property
-    def qualifiers1(self) -> Input:
+    def qualifiers1(self) -> Input[dict]:
         r"""Allows to connect qualifiers1 input to the operator.
 
         (for Fluid results only) LabelSpace with combination of zone, phases or species ids
@@ -430,7 +456,7 @@ class InputsSpecificHeat(_Inputs):
         return self._qualifiers1
 
     @property
-    def qualifiers2(self) -> Input:
+    def qualifiers2(self) -> Input[dict]:
         r"""Allows to connect qualifiers2 input to the operator.
 
         (for Fluid results only) LabelSpace with combination of zone, phases or species ids
@@ -465,11 +491,13 @@ class OutputsSpecificHeat(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(specific_heat._spec().outputs, op)
-        self._fields_container = Output(specific_heat._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            specific_heat._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

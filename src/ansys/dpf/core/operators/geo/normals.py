@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class normals(Operator):
     r"""compute the normals at the given nodes or element scoping based on the
@@ -174,15 +179,17 @@ class InputsNormals(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(normals._spec().inputs, op)
-        self._mesh = Input(normals._spec().input_pin(0), 0, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(normals._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._mesh)
-        self._mesh_scoping = Input(normals._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(
+            normals._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._field = Input(normals._spec().input_pin(3), 3, op, -1)
+        self._field: Input[Field] = Input(normals._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._field)
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -201,7 +208,7 @@ class InputsNormals(_Inputs):
         return self._mesh
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Returns
@@ -220,7 +227,7 @@ class InputsNormals(_Inputs):
         return self._mesh_scoping
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
         Returns
@@ -253,11 +260,11 @@ class OutputsNormals(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(normals._spec().outputs, op)
-        self._field = Output(normals._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(normals._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

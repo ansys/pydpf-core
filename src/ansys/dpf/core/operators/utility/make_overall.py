@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class make_overall(Operator):
     r"""Extracts a value from a field and makes a new field containing only this
@@ -156,13 +159,13 @@ class InputsMakeOverall(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(make_overall._spec().inputs, op)
-        self._field = Input(make_overall._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field] = Input(make_overall._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field)
-        self._id = Input(make_overall._spec().input_pin(1), 1, op, -1)
+        self._id: Input[int] = Input(make_overall._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._id)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
         Returns
@@ -181,7 +184,7 @@ class InputsMakeOverall(_Inputs):
         return self._field
 
     @property
-    def id(self) -> Input:
+    def id(self) -> Input[int]:
         r"""Allows to connect id input to the operator.
 
         Returns
@@ -214,11 +217,11 @@ class OutputsMakeOverall(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(make_overall._spec().outputs, op)
-        self._field = Output(make_overall._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(make_overall._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

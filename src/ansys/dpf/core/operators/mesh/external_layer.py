@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class external_layer(Operator):
     r"""Extracts the external layer (thick skin) of the mesh (3D elements) in a
@@ -162,11 +166,13 @@ class InputsExternalLayer(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(external_layer._spec().inputs, op)
-        self._mesh = Input(external_layer._spec().input_pin(0), 0, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            external_layer._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -201,17 +207,21 @@ class OutputsExternalLayer(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(external_layer._spec().outputs, op)
-        self._mesh = Output(external_layer._spec().output_pin(0), 0, op)
+        self._mesh: Output[MeshedRegion] = Output(
+            external_layer._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._mesh)
-        self._nodes_mesh_scoping = Output(external_layer._spec().output_pin(1), 1, op)
+        self._nodes_mesh_scoping: Output[Scoping] = Output(
+            external_layer._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._nodes_mesh_scoping)
-        self._elements_mesh_scoping = Output(
+        self._elements_mesh_scoping: Output[Scoping] = Output(
             external_layer._spec().output_pin(2), 2, op
         )
         self._outputs.append(self._elements_mesh_scoping)
 
     @property
-    def mesh(self) -> Output:
+    def mesh(self) -> Output[MeshedRegion]:
         r"""Allows to get mesh output of the operator
 
         Returns
@@ -229,7 +239,7 @@ class OutputsExternalLayer(_Outputs):
         return self._mesh
 
     @property
-    def nodes_mesh_scoping(self) -> Output:
+    def nodes_mesh_scoping(self) -> Output[Scoping]:
         r"""Allows to get nodes_mesh_scoping output of the operator
 
         Returns
@@ -247,7 +257,7 @@ class OutputsExternalLayer(_Outputs):
         return self._nodes_mesh_scoping
 
     @property
-    def elements_mesh_scoping(self) -> Output:
+    def elements_mesh_scoping(self) -> Output[Scoping]:
         r"""Allows to get elements_mesh_scoping output of the operator
 
         Returns

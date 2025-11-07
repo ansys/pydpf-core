@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scopings_container import ScopingsContainer
+
 
 class change_fc(Operator):
     r"""DEPRECATED, PLEASE USE ADAPT WITH SCOPINGS CONTAINER. Rescopes/splits a
@@ -162,15 +167,17 @@ class InputsChangeFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(change_fc._spec().inputs, op)
-        self._field_or_fields_container = Input(
+        self._field_or_fields_container: Input[FieldsContainer | Field] = Input(
             change_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._field_or_fields_container)
-        self._scopings_container = Input(change_fc._spec().input_pin(1), 1, op, -1)
+        self._scopings_container: Input[ScopingsContainer] = Input(
+            change_fc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._scopings_container)
 
     @property
-    def field_or_fields_container(self) -> Input:
+    def field_or_fields_container(self) -> Input[FieldsContainer | Field]:
         r"""Allows to connect field_or_fields_container input to the operator.
 
         Returns
@@ -189,7 +196,7 @@ class InputsChangeFc(_Inputs):
         return self._field_or_fields_container
 
     @property
-    def scopings_container(self) -> Input:
+    def scopings_container(self) -> Input[ScopingsContainer]:
         r"""Allows to connect scopings_container input to the operator.
 
         Returns
@@ -222,11 +229,13 @@ class OutputsChangeFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(change_fc._spec().outputs, op)
-        self._fields_container = Output(change_fc._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            change_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

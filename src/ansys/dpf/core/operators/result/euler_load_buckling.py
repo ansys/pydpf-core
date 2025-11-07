@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.data_sources import DataSources
+
 
 class euler_load_buckling(Operator):
     r"""Computing Euler’s Critical Load. Formula: Ncr = n\ *E*\ I\ *pi*\ pi
@@ -215,25 +219,25 @@ class InputsEulerLoadBuckling(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(euler_load_buckling._spec().inputs, op)
-        self._field_beam_end_condition = Input(
+        self._field_beam_end_condition: Input[DataSources | Field] = Input(
             euler_load_buckling._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._field_beam_end_condition)
-        self._field_beam_moment_inertia = Input(
+        self._field_beam_moment_inertia: Input[Field] = Input(
             euler_load_buckling._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._field_beam_moment_inertia)
-        self._field_beam_young_modulus = Input(
+        self._field_beam_young_modulus: Input[Field] = Input(
             euler_load_buckling._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._field_beam_young_modulus)
-        self._field_beam_length = Input(
+        self._field_beam_length: Input[Field] = Input(
             euler_load_buckling._spec().input_pin(8), 8, op, -1
         )
         self._inputs.append(self._field_beam_length)
 
     @property
-    def field_beam_end_condition(self) -> Input:
+    def field_beam_end_condition(self) -> Input[DataSources | Field]:
         r"""Allows to connect field_beam_end_condition input to the operator.
 
         This pin contains file csv or field of beam's end condition added by the user. If there's no file added, it would take value of all beam's end condition as 1.
@@ -254,7 +258,7 @@ class InputsEulerLoadBuckling(_Inputs):
         return self._field_beam_end_condition
 
     @property
-    def field_beam_moment_inertia(self) -> Input:
+    def field_beam_moment_inertia(self) -> Input[Field]:
         r"""Allows to connect field_beam_moment_inertia input to the operator.
 
         Field of beam's moment inertia
@@ -275,7 +279,7 @@ class InputsEulerLoadBuckling(_Inputs):
         return self._field_beam_moment_inertia
 
     @property
-    def field_beam_young_modulus(self) -> Input:
+    def field_beam_young_modulus(self) -> Input[Field]:
         r"""Allows to connect field_beam_young_modulus input to the operator.
 
         Field of beam's young modulus
@@ -296,7 +300,7 @@ class InputsEulerLoadBuckling(_Inputs):
         return self._field_beam_young_modulus
 
     @property
-    def field_beam_length(self) -> Input:
+    def field_beam_length(self) -> Input[Field]:
         r"""Allows to connect field_beam_length input to the operator.
 
         Field of beam's length
@@ -333,21 +337,21 @@ class OutputsEulerLoadBuckling(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(euler_load_buckling._spec().outputs, op)
-        self._field_euler_critical_load = Output(
+        self._field_euler_critical_load: Output[Field] = Output(
             euler_load_buckling._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._field_euler_critical_load)
-        self._field_euler_critical_load_yy = Output(
+        self._field_euler_critical_load_yy: Output[Field] = Output(
             euler_load_buckling._spec().output_pin(1), 1, op
         )
         self._outputs.append(self._field_euler_critical_load_yy)
-        self._field_euler_critical_load_zz = Output(
+        self._field_euler_critical_load_zz: Output[Field] = Output(
             euler_load_buckling._spec().output_pin(2), 2, op
         )
         self._outputs.append(self._field_euler_critical_load_zz)
 
     @property
-    def field_euler_critical_load(self) -> Output:
+    def field_euler_critical_load(self) -> Output[Field]:
         r"""Allows to get field_euler_critical_load output of the operator
 
         This field contains Euler's Critical Load about the principle axis of the cross section having the least moment of inertia.
@@ -367,7 +371,7 @@ class OutputsEulerLoadBuckling(_Outputs):
         return self._field_euler_critical_load
 
     @property
-    def field_euler_critical_load_yy(self) -> Output:
+    def field_euler_critical_load_yy(self) -> Output[Field]:
         r"""Allows to get field_euler_critical_load_yy output of the operator
 
         This field contains Euler's Critical Load on axis y.
@@ -387,7 +391,7 @@ class OutputsEulerLoadBuckling(_Outputs):
         return self._field_euler_critical_load_yy
 
     @property
-    def field_euler_critical_load_zz(self) -> Output:
+    def field_euler_critical_load_zz(self) -> Output[Field]:
         r"""Allows to get field_euler_critical_load_zz output of the operator
 
         This field contains Euler's Critical Load on axis z.

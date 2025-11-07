@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.scoping import Scoping
+
 
 class elements_volumes_over_time(Operator):
     r"""Calculates for a mesh, the volume of each element over time for each
@@ -174,19 +179,21 @@ class InputsElementsVolumesOverTime(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(elements_volumes_over_time._spec().inputs, op)
-        self._scoping = Input(
+        self._scoping: Input[Scoping] = Input(
             elements_volumes_over_time._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._scoping)
-        self._displacement = Input(
+        self._displacement: Input[FieldsContainer] = Input(
             elements_volumes_over_time._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._displacement)
-        self._mesh = Input(elements_volumes_over_time._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            elements_volumes_over_time._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def scoping(self) -> Input:
+    def scoping(self) -> Input[Scoping]:
         r"""Allows to connect scoping input to the operator.
 
         Returns
@@ -205,7 +212,7 @@ class InputsElementsVolumesOverTime(_Inputs):
         return self._scoping
 
     @property
-    def displacement(self) -> Input:
+    def displacement(self) -> Input[FieldsContainer]:
         r"""Allows to connect displacement input to the operator.
 
         Displacement field's container. Must contain the mesh if mesh not specified in input.
@@ -226,7 +233,7 @@ class InputsElementsVolumesOverTime(_Inputs):
         return self._displacement
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Mesh must be defined if the displacement field's container does not contain it, or if there is no displacement.
@@ -261,13 +268,13 @@ class OutputsElementsVolumesOverTime(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(elements_volumes_over_time._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             elements_volumes_over_time._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

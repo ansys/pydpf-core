@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class quantization_fc(Operator):
     r"""Scales all the fields of a fields container to a given precision
@@ -167,13 +171,17 @@ class InputsQuantizationFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(quantization_fc._spec().inputs, op)
-        self._input_fc = Input(quantization_fc._spec().input_pin(0), 0, op, -1)
+        self._input_fc: Input[FieldsContainer] = Input(
+            quantization_fc._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._input_fc)
-        self._threshold = Input(quantization_fc._spec().input_pin(1), 1, op, -1)
+        self._threshold: Input[float | Field | FieldsContainer] = Input(
+            quantization_fc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._threshold)
 
     @property
-    def input_fc(self) -> Input:
+    def input_fc(self) -> Input[FieldsContainer]:
         r"""Allows to connect input_fc input to the operator.
 
         Fields container to be quantized.
@@ -194,7 +202,7 @@ class InputsQuantizationFc(_Inputs):
         return self._input_fc
 
     @property
-    def threshold(self) -> Input:
+    def threshold(self) -> Input[float | Field | FieldsContainer]:
         r"""Allows to connect threshold input to the operator.
 
         Precision threshold desired.
@@ -233,11 +241,13 @@ class OutputsQuantizationFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(quantization_fc._spec().outputs, op)
-        self._output_fc = Output(quantization_fc._spec().output_pin(0), 0, op)
+        self._output_fc: Output[FieldsContainer] = Output(
+            quantization_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._output_fc)
 
     @property
-    def output_fc(self) -> Output:
+    def output_fc(self) -> Output[FieldsContainer]:
         r"""Allows to get output_fc output of the operator
 
         Quantized fields container.

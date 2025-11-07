@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class mapdl_split_to_acmo_facet_indices(Operator):
     r"""This will retain the already existing labels from the input FC and will
@@ -175,17 +178,17 @@ class InputsMapdlSplitToAcmoFacetIndices(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(mapdl_split_to_acmo_facet_indices._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             mapdl_split_to_acmo_facet_indices._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._property_fields_container_element_types = Input(
+        self._property_fields_container_element_types: Input = Input(
             mapdl_split_to_acmo_facet_indices._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._property_fields_container_element_types)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Fields container to split, with generic number of labels (e.g. time, zone, complex...), 'facet' label is compulsory.The Fields of the FieldsContainer will have location Elemental and the Scoping Ids will be the Element Ids on the skin mesh.
@@ -241,13 +244,13 @@ class OutputsMapdlSplitToAcmoFacetIndices(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(mapdl_split_to_acmo_facet_indices._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             mapdl_split_to_acmo_facet_indices._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Output splitted fields containter

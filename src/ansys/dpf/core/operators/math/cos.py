@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class cos(Operator):
     r"""Computes element-wise cos(field[i]).
@@ -141,11 +145,13 @@ class InputsCos(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(cos._spec().inputs, op)
-        self._field = Input(cos._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            cos._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -180,11 +186,11 @@ class OutputsCos(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(cos._spec().outputs, op)
-        self._field = Output(cos._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(cos._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

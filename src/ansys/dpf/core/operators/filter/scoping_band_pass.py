@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scoping import Scoping
+
 
 class scoping_band_pass(Operator):
     r"""The band pass filter returns all the values above (but not equal to) the
@@ -182,15 +187,21 @@ class InputsScopingBandPass(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(scoping_band_pass._spec().inputs, op)
-        self._field = Input(scoping_band_pass._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            scoping_band_pass._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._min_threshold = Input(scoping_band_pass._spec().input_pin(1), 1, op, -1)
+        self._min_threshold: Input[float | Field] = Input(
+            scoping_band_pass._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._min_threshold)
-        self._max_threshold = Input(scoping_band_pass._spec().input_pin(2), 2, op, -1)
+        self._max_threshold: Input[float | Field] = Input(
+            scoping_band_pass._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._max_threshold)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -211,7 +222,7 @@ class InputsScopingBandPass(_Inputs):
         return self._field
 
     @property
-    def min_threshold(self) -> Input:
+    def min_threshold(self) -> Input[float | Field]:
         r"""Allows to connect min_threshold input to the operator.
 
         A minimum threshold scalar or a field containing one value is expected.
@@ -232,7 +243,7 @@ class InputsScopingBandPass(_Inputs):
         return self._min_threshold
 
     @property
-    def max_threshold(self) -> Input:
+    def max_threshold(self) -> Input[float | Field]:
         r"""Allows to connect max_threshold input to the operator.
 
         A maximum threshold scalar or a field containing one value is expected.
@@ -267,11 +278,13 @@ class OutputsScopingBandPass(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(scoping_band_pass._spec().outputs, op)
-        self._scoping = Output(scoping_band_pass._spec().output_pin(0), 0, op)
+        self._scoping: Output[Scoping] = Output(
+            scoping_band_pass._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._scoping)
 
     @property
-    def scoping(self) -> Output:
+    def scoping(self) -> Output[Scoping]:
         r"""Allows to get scoping output of the operator
 
         Returns

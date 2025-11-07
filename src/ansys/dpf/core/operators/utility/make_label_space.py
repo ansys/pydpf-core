@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scopings_container import ScopingsContainer
+
 
 class make_label_space(Operator):
     r"""Assemble strings and integers to make a label space.
@@ -195,17 +199,25 @@ class InputsMakeLabelSpace(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(make_label_space._spec().inputs, op)
-        self._base_label = Input(make_label_space._spec().input_pin(0), 0, op, -1)
+        self._base_label: Input[dict | FieldsContainer | ScopingsContainer] = Input(
+            make_label_space._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._base_label)
-        self._label_name = Input(make_label_space._spec().input_pin(1), 1, op, -1)
+        self._label_name: Input[str] = Input(
+            make_label_space._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._label_name)
-        self._label_value1 = Input(make_label_space._spec().input_pin(2), 2, op, 0)
+        self._label_value1: Input[int] = Input(
+            make_label_space._spec().input_pin(2), 2, op, 0
+        )
         self._inputs.append(self._label_value1)
-        self._label_value2 = Input(make_label_space._spec().input_pin(3), 3, op, 1)
+        self._label_value2: Input[int] = Input(
+            make_label_space._spec().input_pin(3), 3, op, 1
+        )
         self._inputs.append(self._label_value2)
 
     @property
-    def base_label(self) -> Input:
+    def base_label(self) -> Input[dict | FieldsContainer | ScopingsContainer]:
         r"""Allows to connect base_label input to the operator.
 
         Used as a base label (extracted from Fields/Scoping Container, or directly from Label Space) that is concatenated with provided values.
@@ -226,7 +238,7 @@ class InputsMakeLabelSpace(_Inputs):
         return self._base_label
 
     @property
-    def label_name(self) -> Input:
+    def label_name(self) -> Input[str]:
         r"""Allows to connect label_name input to the operator.
 
         Returns
@@ -245,7 +257,7 @@ class InputsMakeLabelSpace(_Inputs):
         return self._label_name
 
     @property
-    def label_value1(self) -> Input:
+    def label_value1(self) -> Input[int]:
         r"""Allows to connect label_value1 input to the operator.
 
         Returns
@@ -264,7 +276,7 @@ class InputsMakeLabelSpace(_Inputs):
         return self._label_value1
 
     @property
-    def label_value2(self) -> Input:
+    def label_value2(self) -> Input[int]:
         r"""Allows to connect label_value2 input to the operator.
 
         Returns
@@ -297,11 +309,13 @@ class OutputsMakeLabelSpace(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(make_label_space._spec().outputs, op)
-        self._label = Output(make_label_space._spec().output_pin(0), 0, op)
+        self._label: Output[dict] = Output(
+            make_label_space._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._label)
 
     @property
-    def label(self) -> Output:
+    def label(self) -> Output[dict]:
         r"""Allows to get label output of the operator
 
         Returns

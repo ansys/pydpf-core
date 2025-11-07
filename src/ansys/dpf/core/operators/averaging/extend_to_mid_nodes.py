@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class extend_to_mid_nodes(Operator):
     r"""Extends an Elemental Nodal or Nodal field defined on corner nodes to a
@@ -157,13 +162,17 @@ class InputsExtendToMidNodes(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(extend_to_mid_nodes._spec().inputs, op)
-        self._field = Input(extend_to_mid_nodes._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            extend_to_mid_nodes._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._mesh = Input(extend_to_mid_nodes._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            extend_to_mid_nodes._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -184,7 +193,7 @@ class InputsExtendToMidNodes(_Inputs):
         return self._field
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -217,11 +226,13 @@ class OutputsExtendToMidNodes(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(extend_to_mid_nodes._spec().outputs, op)
-        self._field = Output(extend_to_mid_nodes._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            extend_to_mid_nodes._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

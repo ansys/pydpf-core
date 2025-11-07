@@ -14,6 +14,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.data_tree import DataTree
+from ansys.dpf.core.generic_data_container import GenericDataContainer
+from ansys.dpf.core.workflow import Workflow
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class migrate_to_h5dpf(Operator):
     r"""Read mesh properties from the results files contained in the streams or
@@ -322,43 +329,53 @@ class InputsMigrateToH5Dpf(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(migrate_to_h5dpf._spec().inputs, op)
-        self._h5_chunk_size = Input(migrate_to_h5dpf._spec().input_pin(-7), -7, op, -1)
+        self._h5_chunk_size: Input[int | GenericDataContainer] = Input(
+            migrate_to_h5dpf._spec().input_pin(-7), -7, op, -1
+        )
         self._inputs.append(self._h5_chunk_size)
-        self._dataset_size_compression_threshold = Input(
-            migrate_to_h5dpf._spec().input_pin(-5), -5, op, -1
+        self._dataset_size_compression_threshold: Input[int | GenericDataContainer] = (
+            Input(migrate_to_h5dpf._spec().input_pin(-5), -5, op, -1)
         )
         self._inputs.append(self._dataset_size_compression_threshold)
-        self._h5_native_compression = Input(
-            migrate_to_h5dpf._spec().input_pin(-2), -2, op, -1
+        self._h5_native_compression: Input[int | DataTree | GenericDataContainer] = (
+            Input(migrate_to_h5dpf._spec().input_pin(-2), -2, op, -1)
         )
         self._inputs.append(self._h5_native_compression)
-        self._export_floats = Input(migrate_to_h5dpf._spec().input_pin(-1), -1, op, -1)
+        self._export_floats: Input[bool | GenericDataContainer] = Input(
+            migrate_to_h5dpf._spec().input_pin(-1), -1, op, -1
+        )
         self._inputs.append(self._export_floats)
-        self._filename = Input(migrate_to_h5dpf._spec().input_pin(0), 0, op, -1)
+        self._filename: Input[str] = Input(
+            migrate_to_h5dpf._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._filename)
-        self._comma_separated_list_of_results = Input(
+        self._comma_separated_list_of_results: Input[str] = Input(
             migrate_to_h5dpf._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._comma_separated_list_of_results)
-        self._all_time_sets = Input(migrate_to_h5dpf._spec().input_pin(2), 2, op, -1)
+        self._all_time_sets: Input[bool] = Input(
+            migrate_to_h5dpf._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._all_time_sets)
-        self._streams_container = Input(
+        self._streams_container: Input[StreamsContainer] = Input(
             migrate_to_h5dpf._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(migrate_to_h5dpf._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            migrate_to_h5dpf._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
-        self._compression_workflow = Input(
+        self._compression_workflow: Input[Workflow | GenericDataContainer] = Input(
             migrate_to_h5dpf._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._compression_workflow)
-        self._filtering_workflow = Input(
+        self._filtering_workflow: Input[Workflow | GenericDataContainer] = Input(
             migrate_to_h5dpf._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._filtering_workflow)
 
     @property
-    def h5_chunk_size(self) -> Input:
+    def h5_chunk_size(self) -> Input[int | GenericDataContainer]:
         r"""Allows to connect h5_chunk_size input to the operator.
 
         Size of each HDF5 chunk in kilobytes (KB). Default: 1 MB when compression is enabled; for uncompressed datasets, the default is the full dataset size x dimension.
@@ -379,7 +396,7 @@ class InputsMigrateToH5Dpf(_Inputs):
         return self._h5_chunk_size
 
     @property
-    def dataset_size_compression_threshold(self) -> Input:
+    def dataset_size_compression_threshold(self) -> Input[int | GenericDataContainer]:
         r"""Allows to connect dataset_size_compression_threshold input to the operator.
 
         Integer value that defines the minimum dataset size (in bytes) to use h5 native compression Applicable for arrays of floats, doubles and integers.
@@ -400,7 +417,7 @@ class InputsMigrateToH5Dpf(_Inputs):
         return self._dataset_size_compression_threshold
 
     @property
-    def h5_native_compression(self) -> Input:
+    def h5_native_compression(self) -> Input[int | DataTree | GenericDataContainer]:
         r"""Allows to connect h5_native_compression input to the operator.
 
         Integer value / DataTree that defines the h5 native compression used For Integer Input {0: No Compression (default); 1-9: GZIP Compression : 9 provides maximum compression but at the slowest speed.}For DataTree Input {type: None / GZIP / ZSTD; level: GZIP (1-9) / ZSTD (1-20); num_threads: ZSTD (>0)}
@@ -421,7 +438,7 @@ class InputsMigrateToH5Dpf(_Inputs):
         return self._h5_native_compression
 
     @property
-    def export_floats(self) -> Input:
+    def export_floats(self) -> Input[bool | GenericDataContainer]:
         r"""Allows to connect export_floats input to the operator.
 
         Converts double to float to reduce file size (default is true).If False, nodal results are exported as double precision and elemental results as single precision.
@@ -442,7 +459,7 @@ class InputsMigrateToH5Dpf(_Inputs):
         return self._export_floats
 
     @property
-    def filename(self) -> Input:
+    def filename(self) -> Input[str]:
         r"""Allows to connect filename input to the operator.
 
         filename of the migrated file
@@ -463,7 +480,7 @@ class InputsMigrateToH5Dpf(_Inputs):
         return self._filename
 
     @property
-    def comma_separated_list_of_results(self) -> Input:
+    def comma_separated_list_of_results(self) -> Input[str]:
         r"""Allows to connect comma_separated_list_of_results input to the operator.
 
         list of results (source operator names) separated by semicolons that will be stored. (Example: U;S;EPEL). If empty, all available results will be converted.
@@ -484,7 +501,7 @@ class InputsMigrateToH5Dpf(_Inputs):
         return self._comma_separated_list_of_results
 
     @property
-    def all_time_sets(self) -> Input:
+    def all_time_sets(self) -> Input[bool]:
         r"""Allows to connect all_time_sets input to the operator.
 
         Deprecated. Please use filtering workflows instead to select time scoping. Default is false.
@@ -505,7 +522,7 @@ class InputsMigrateToH5Dpf(_Inputs):
         return self._all_time_sets
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         streams (result file container) (optional)
@@ -526,7 +543,7 @@ class InputsMigrateToH5Dpf(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         if the stream is null then we need to get the file path from the data sources
@@ -547,7 +564,7 @@ class InputsMigrateToH5Dpf(_Inputs):
         return self._data_sources
 
     @property
-    def compression_workflow(self) -> Input:
+    def compression_workflow(self) -> Input[Workflow | GenericDataContainer]:
         r"""Allows to connect compression_workflow input to the operator.
 
         BETA Option: Applies input compression workflow.
@@ -568,7 +585,7 @@ class InputsMigrateToH5Dpf(_Inputs):
         return self._compression_workflow
 
     @property
-    def filtering_workflow(self) -> Input:
+    def filtering_workflow(self) -> Input[Workflow | GenericDataContainer]:
         r"""Allows to connect filtering_workflow input to the operator.
 
         Applies input filtering workflow.
@@ -603,11 +620,13 @@ class OutputsMigrateToH5Dpf(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(migrate_to_h5dpf._spec().outputs, op)
-        self._migrated_file = Output(migrate_to_h5dpf._spec().output_pin(0), 0, op)
+        self._migrated_file: Output[DataSources] = Output(
+            migrate_to_h5dpf._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._migrated_file)
 
     @property
-    def migrated_file(self) -> Output:
+    def migrated_file(self) -> Output[DataSources]:
         r"""Allows to get migrated_file output of the operator
 
         Returns

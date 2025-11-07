@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class elemental_to_elemental_nodal_fc(Operator):
     r"""Transforms Elemental field to Elemental Nodal field.
@@ -179,21 +184,21 @@ class InputsElementalToElementalNodalFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(elemental_to_elemental_nodal_fc._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             elemental_to_elemental_nodal_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._mesh = Input(
+        self._mesh: Input[MeshedRegion] = Input(
             elemental_to_elemental_nodal_fc._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh)
-        self._mesh_scoping = Input(
+        self._mesh_scoping: Input[Scoping] = Input(
             elemental_to_elemental_nodal_fc._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._mesh_scoping)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -212,7 +217,7 @@ class InputsElementalToElementalNodalFc(_Inputs):
         return self._fields_container
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -231,7 +236,7 @@ class InputsElementalToElementalNodalFc(_Inputs):
         return self._mesh
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Returns
@@ -264,13 +269,13 @@ class OutputsElementalToElementalNodalFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(elemental_to_elemental_nodal_fc._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             elemental_to_elemental_nodal_fc._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scoping import Scoping
+
 
 class fft_eval(Operator):
     r"""Evaluate the fast fourier transforms at a given set of fields.
@@ -164,13 +168,15 @@ class InputsFftEval(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(fft_eval._spec().inputs, op)
-        self._field_t = Input(fft_eval._spec().input_pin(0), 0, op, -1)
+        self._field_t: Input[Field] = Input(fft_eval._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field_t)
-        self._time_scoping = Input(fft_eval._spec().input_pin(1), 1, op, -1)
+        self._time_scoping: Input[Scoping] = Input(
+            fft_eval._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._time_scoping)
 
     @property
-    def field_t(self) -> Input:
+    def field_t(self) -> Input[Field]:
         r"""Allows to connect field_t input to the operator.
 
         field of values to evaluate
@@ -191,7 +197,7 @@ class InputsFftEval(_Inputs):
         return self._field_t
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         if specified only the results at these set ids are used
@@ -227,13 +233,13 @@ class OutputsFftEval(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(fft_eval._spec().outputs, op)
-        self._field = Output(fft_eval._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(fft_eval._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
-        self._offset = Output(fft_eval._spec().output_pin(2), 2, op)
+        self._offset: Output[Field] = Output(fft_eval._spec().output_pin(2), 2, op)
         self._outputs.append(self._offset)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns
@@ -251,7 +257,7 @@ class OutputsFftEval(_Outputs):
         return self._field
 
     @property
-    def offset(self) -> Output:
+    def offset(self) -> Output[Field]:
         r"""Allows to get offset output of the operator
 
         Returns

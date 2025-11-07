@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshes_container import MeshesContainer
+
 
 class split_fields(Operator):
     r"""Split the input field or fields container based on the input mesh
@@ -159,15 +164,17 @@ class InputsSplitFields(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(split_fields._spec().inputs, op)
-        self._field_or_fields_container = Input(
+        self._field_or_fields_container: Input[Field | FieldsContainer] = Input(
             split_fields._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._field_or_fields_container)
-        self._meshes = Input(split_fields._spec().input_pin(1), 1, op, -1)
+        self._meshes: Input[MeshesContainer] = Input(
+            split_fields._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._meshes)
 
     @property
-    def field_or_fields_container(self) -> Input:
+    def field_or_fields_container(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field_or_fields_container input to the operator.
 
         Returns
@@ -186,7 +193,7 @@ class InputsSplitFields(_Inputs):
         return self._field_or_fields_container
 
     @property
-    def meshes(self) -> Input:
+    def meshes(self) -> Input[MeshesContainer]:
         r"""Allows to connect meshes input to the operator.
 
         body meshes in the mesh controller cannot be mixed shell/solid
@@ -221,11 +228,13 @@ class OutputsSplitFields(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(split_fields._spec().outputs, op)
-        self._fields_container = Output(split_fields._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            split_fields._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

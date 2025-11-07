@@ -14,6 +14,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+
 
 class merge_collections(Operator):
     r"""Merges a set of collections into a unique one.
@@ -156,9 +158,13 @@ class InputsMergeCollections(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_collections._spec().inputs, op)
-        self._collections1 = Input(merge_collections._spec().input_pin(0), 0, op, 0)
+        self._collections1: Input = Input(
+            merge_collections._spec().input_pin(0), 0, op, 0
+        )
         self._inputs.append(self._collections1)
-        self._collections2 = Input(merge_collections._spec().input_pin(1), 1, op, 1)
+        self._collections2: Input = Input(
+            merge_collections._spec().input_pin(1), 1, op, 1
+        )
         self._inputs.append(self._collections2)
 
     @property
@@ -218,7 +224,7 @@ class OutputsMergeCollections(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_collections._spec().outputs, op)
-        self._merged_collections = Output(
+        self._merged_collections: Output = Output(
             merge_collections._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._merged_collections)

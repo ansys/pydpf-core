@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class add_rigid_body_motion(Operator):
     r"""Adds a given rigid translation, center and rotation from a displacement
@@ -210,27 +214,29 @@ class InputsAddRigidBodyMotion(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(add_rigid_body_motion._spec().inputs, op)
-        self._displacement_field = Input(
+        self._displacement_field: Input[Field] = Input(
             add_rigid_body_motion._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._displacement_field)
-        self._translation_field = Input(
+        self._translation_field: Input[Field] = Input(
             add_rigid_body_motion._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._translation_field)
-        self._rotation_field = Input(
+        self._rotation_field: Input[Field] = Input(
             add_rigid_body_motion._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._rotation_field)
-        self._center_field = Input(
+        self._center_field: Input[Field] = Input(
             add_rigid_body_motion._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._center_field)
-        self._mesh = Input(add_rigid_body_motion._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            add_rigid_body_motion._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def displacement_field(self) -> Input:
+    def displacement_field(self) -> Input[Field]:
         r"""Allows to connect displacement_field input to the operator.
 
         Returns
@@ -249,7 +255,7 @@ class InputsAddRigidBodyMotion(_Inputs):
         return self._displacement_field
 
     @property
-    def translation_field(self) -> Input:
+    def translation_field(self) -> Input[Field]:
         r"""Allows to connect translation_field input to the operator.
 
         Returns
@@ -268,7 +274,7 @@ class InputsAddRigidBodyMotion(_Inputs):
         return self._translation_field
 
     @property
-    def rotation_field(self) -> Input:
+    def rotation_field(self) -> Input[Field]:
         r"""Allows to connect rotation_field input to the operator.
 
         Returns
@@ -287,7 +293,7 @@ class InputsAddRigidBodyMotion(_Inputs):
         return self._rotation_field
 
     @property
-    def center_field(self) -> Input:
+    def center_field(self) -> Input[Field]:
         r"""Allows to connect center_field input to the operator.
 
         Returns
@@ -306,7 +312,7 @@ class InputsAddRigidBodyMotion(_Inputs):
         return self._center_field
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         default is the mesh in the support
@@ -341,11 +347,13 @@ class OutputsAddRigidBodyMotion(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(add_rigid_body_motion._spec().outputs, op)
-        self._field = Output(add_rigid_body_motion._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            add_rigid_body_motion._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

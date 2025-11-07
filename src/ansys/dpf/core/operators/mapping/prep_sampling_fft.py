@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
+
 
 class prep_sampling_fft(Operator):
     r"""Prepare time sampling optimum for FFT computation and expected
@@ -190,21 +193,21 @@ class InputsPrepSamplingFft(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(prep_sampling_fft._spec().inputs, op)
-        self._time_freq_support = Input(
+        self._time_freq_support: Input[TimeFreqSupport] = Input(
             prep_sampling_fft._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._time_freq_support)
-        self._cutoff_frequency = Input(
+        self._cutoff_frequency: Input[float] = Input(
             prep_sampling_fft._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._cutoff_frequency)
-        self._number_sampling_point = Input(
+        self._number_sampling_point: Input[int] = Input(
             prep_sampling_fft._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._number_sampling_point)
 
     @property
-    def time_freq_support(self) -> Input:
+    def time_freq_support(self) -> Input[TimeFreqSupport]:
         r"""Allows to connect time_freq_support input to the operator.
 
         Initial time domain TimeFreqSupport.
@@ -225,7 +228,7 @@ class InputsPrepSamplingFft(_Inputs):
         return self._time_freq_support
 
     @property
-    def cutoff_frequency(self) -> Input:
+    def cutoff_frequency(self) -> Input[float]:
         r"""Allows to connect cutoff_frequency input to the operator.
 
         Cutoff Frequency. In this case, number of points is calculated computing (time_range * cutoff_freq * 2) and taking the next power of 2 (optimum for fft calculation).
@@ -246,7 +249,7 @@ class InputsPrepSamplingFft(_Inputs):
         return self._cutoff_frequency
 
     @property
-    def number_sampling_point(self) -> Input:
+    def number_sampling_point(self) -> Input[int]:
         r"""Allows to connect number_sampling_point input to the operator.
 
         For number of sampling point (calculation with cutoff_frequency is ignored).
@@ -282,13 +285,17 @@ class OutputsPrepSamplingFft(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(prep_sampling_fft._spec().outputs, op)
-        self._time_tfs_sampled = Output(prep_sampling_fft._spec().output_pin(0), 0, op)
+        self._time_tfs_sampled: Output[TimeFreqSupport] = Output(
+            prep_sampling_fft._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._time_tfs_sampled)
-        self._freq_tfs_fft = Output(prep_sampling_fft._spec().output_pin(1), 1, op)
+        self._freq_tfs_fft: Output[TimeFreqSupport] = Output(
+            prep_sampling_fft._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._freq_tfs_fft)
 
     @property
-    def time_tfs_sampled(self) -> Output:
+    def time_tfs_sampled(self) -> Output[TimeFreqSupport]:
         r"""Allows to get time_tfs_sampled output of the operator
 
         Optimum sampled time domain TimeFreqSupport.
@@ -308,7 +315,7 @@ class OutputsPrepSamplingFft(_Outputs):
         return self._time_tfs_sampled
 
     @property
-    def freq_tfs_fft(self) -> Output:
+    def freq_tfs_fft(self) -> Output[TimeFreqSupport]:
         r"""Allows to get freq_tfs_fft output of the operator
 
         Frequency domain TimeFreqSupport expected in output of FFT.

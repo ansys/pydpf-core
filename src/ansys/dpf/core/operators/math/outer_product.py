@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class outer_product(Operator):
     r"""Computes the outer product of two vector fields.
@@ -166,13 +170,17 @@ class InputsOuterProduct(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(outer_product._spec().inputs, op)
-        self._fieldA = Input(outer_product._spec().input_pin(0), 0, op, -1)
+        self._fieldA: Input[Field | FieldsContainer | float] = Input(
+            outer_product._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fieldA)
-        self._fieldB = Input(outer_product._spec().input_pin(1), 1, op, -1)
+        self._fieldB: Input[Field | FieldsContainer | float] = Input(
+            outer_product._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._fieldB)
 
     @property
-    def fieldA(self) -> Input:
+    def fieldA(self) -> Input[Field | FieldsContainer | float]:
         r"""Allows to connect fieldA input to the operator.
 
         field or fields container with only one field is expected
@@ -193,7 +201,7 @@ class InputsOuterProduct(_Inputs):
         return self._fieldA
 
     @property
-    def fieldB(self) -> Input:
+    def fieldB(self) -> Input[Field | FieldsContainer | float]:
         r"""Allows to connect fieldB input to the operator.
 
         field or fields container with only one field is expected
@@ -228,11 +236,11 @@ class OutputsOuterProduct(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(outer_product._spec().outputs, op)
-        self._field = Output(outer_product._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(outer_product._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

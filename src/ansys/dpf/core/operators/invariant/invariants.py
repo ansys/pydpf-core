@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class invariants(Operator):
     r"""Computes the element-wise invariants of a tensor field.
@@ -159,11 +162,11 @@ class InputsInvariants(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(invariants._spec().inputs, op)
-        self._field = Input(invariants._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field] = Input(invariants._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
         Returns
@@ -198,15 +201,17 @@ class OutputsInvariants(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(invariants._spec().outputs, op)
-        self._field_int = Output(invariants._spec().output_pin(0), 0, op)
+        self._field_int: Output[Field] = Output(invariants._spec().output_pin(0), 0, op)
         self._outputs.append(self._field_int)
-        self._field_eqv = Output(invariants._spec().output_pin(1), 1, op)
+        self._field_eqv: Output[Field] = Output(invariants._spec().output_pin(1), 1, op)
         self._outputs.append(self._field_eqv)
-        self._field_max_shear = Output(invariants._spec().output_pin(2), 2, op)
+        self._field_max_shear: Output[Field] = Output(
+            invariants._spec().output_pin(2), 2, op
+        )
         self._outputs.append(self._field_max_shear)
 
     @property
-    def field_int(self) -> Output:
+    def field_int(self) -> Output[Field]:
         r"""Allows to get field_int output of the operator
 
         stress intensity field
@@ -226,7 +231,7 @@ class OutputsInvariants(_Outputs):
         return self._field_int
 
     @property
-    def field_eqv(self) -> Output:
+    def field_eqv(self) -> Output[Field]:
         r"""Allows to get field_eqv output of the operator
 
         stress equivalent intensity
@@ -246,7 +251,7 @@ class OutputsInvariants(_Outputs):
         return self._field_eqv
 
     @property
-    def field_max_shear(self) -> Output:
+    def field_max_shear(self) -> Output[Field]:
         r"""Allows to get field_max_shear output of the operator
 
         max shear stress field

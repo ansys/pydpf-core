@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class convertnum_bcs_to_nod(Operator):
     r"""Converts a fields container from BCS to NOD ordering.
@@ -158,17 +162,17 @@ class InputsConvertnumBcsToNod(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(convertnum_bcs_to_nod._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             convertnum_bcs_to_nod._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._data_sources = Input(
+        self._data_sources: Input[DataSources] = Input(
             convertnum_bcs_to_nod._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         fields_container
@@ -189,7 +193,7 @@ class InputsConvertnumBcsToNod(_Inputs):
         return self._fields_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Data_sources (must contain the full file).
@@ -224,13 +228,13 @@ class OutputsConvertnumBcsToNod(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(convertnum_bcs_to_nod._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             convertnum_bcs_to_nod._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

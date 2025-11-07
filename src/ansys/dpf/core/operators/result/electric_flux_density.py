@@ -14,6 +14,16 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class electric_flux_density(Operator):
     r"""Read/compute Electric flux density by calling the readers defined by the
@@ -555,55 +565,57 @@ class InputsElectricFluxDensity(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(electric_flux_density._spec().inputs, op)
-        self._time_scoping = Input(
+        self._time_scoping: Input[Scoping | int | float | Field] = Input(
             electric_flux_density._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping = Input(
+        self._mesh_scoping: Input[ScopingsContainer | Scoping] = Input(
             electric_flux_density._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_scoping)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             electric_flux_density._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._streams_container = Input(
+        self._streams_container: Input[StreamsContainer] = Input(
             electric_flux_density._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(
+        self._data_sources: Input[DataSources] = Input(
             electric_flux_density._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
-        self._bool_rotate_to_global = Input(
+        self._bool_rotate_to_global: Input[bool] = Input(
             electric_flux_density._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._bool_rotate_to_global)
-        self._mesh = Input(electric_flux_density._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
+            electric_flux_density._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._requested_location = Input(
+        self._requested_location: Input[str] = Input(
             electric_flux_density._spec().input_pin(9), 9, op, -1
         )
         self._inputs.append(self._requested_location)
-        self._read_beams = Input(
+        self._read_beams: Input[bool] = Input(
             electric_flux_density._spec().input_pin(22), 22, op, -1
         )
         self._inputs.append(self._read_beams)
-        self._split_shells = Input(
+        self._split_shells: Input[bool] = Input(
             electric_flux_density._spec().input_pin(26), 26, op, -1
         )
         self._inputs.append(self._split_shells)
-        self._shell_layer = Input(
+        self._shell_layer: Input[int] = Input(
             electric_flux_density._spec().input_pin(27), 27, op, -1
         )
         self._inputs.append(self._shell_layer)
-        self._extend_to_mid_nodes = Input(
+        self._extend_to_mid_nodes: Input[bool] = Input(
             electric_flux_density._spec().input_pin(28), 28, op, -1
         )
         self._inputs.append(self._extend_to_mid_nodes)
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping | int | float | Field]:
         r"""Allows to connect time_scoping input to the operator.
 
         time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
@@ -624,7 +636,7 @@ class InputsElectricFluxDensity(_Inputs):
         return self._time_scoping
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[ScopingsContainer | Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains
@@ -645,7 +657,7 @@ class InputsElectricFluxDensity(_Inputs):
         return self._mesh_scoping
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Fields container already allocated modified inplace
@@ -666,7 +678,7 @@ class InputsElectricFluxDensity(_Inputs):
         return self._fields_container
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         result file container allowed to be kept open to cache data
@@ -687,7 +699,7 @@ class InputsElectricFluxDensity(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         result file path container, used if no streams are set
@@ -708,7 +720,7 @@ class InputsElectricFluxDensity(_Inputs):
         return self._data_sources
 
     @property
-    def bool_rotate_to_global(self) -> Input:
+    def bool_rotate_to_global(self) -> Input[bool]:
         r"""Allows to connect bool_rotate_to_global input to the operator.
 
         if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
@@ -729,7 +741,7 @@ class InputsElectricFluxDensity(_Inputs):
         return self._bool_rotate_to_global
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
         prevents from reading the mesh in the result files
@@ -750,7 +762,7 @@ class InputsElectricFluxDensity(_Inputs):
         return self._mesh
 
     @property
-    def requested_location(self) -> Input:
+    def requested_location(self) -> Input[str]:
         r"""Allows to connect requested_location input to the operator.
 
         requested location Nodal, Elemental or ElementalNodal
@@ -771,7 +783,7 @@ class InputsElectricFluxDensity(_Inputs):
         return self._requested_location
 
     @property
-    def read_beams(self) -> Input:
+    def read_beams(self) -> Input[bool]:
         r"""Allows to connect read_beams input to the operator.
 
         elemental nodal beam results are read if this pin is set to true (default is false)
@@ -792,7 +804,7 @@ class InputsElectricFluxDensity(_Inputs):
         return self._read_beams
 
     @property
-    def split_shells(self) -> Input:
+    def split_shells(self) -> Input[bool]:
         r"""Allows to connect split_shells input to the operator.
 
         If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value is false if averaging is not required and true if averaging is required.
@@ -813,7 +825,7 @@ class InputsElectricFluxDensity(_Inputs):
         return self._split_shells
 
     @property
-    def shell_layer(self) -> Input:
+    def shell_layer(self) -> Input[int]:
         r"""Allows to connect shell_layer input to the operator.
 
         If connected, this pin allows you to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
@@ -834,7 +846,7 @@ class InputsElectricFluxDensity(_Inputs):
         return self._shell_layer
 
     @property
-    def extend_to_mid_nodes(self) -> Input:
+    def extend_to_mid_nodes(self) -> Input[bool]:
         r"""Allows to connect extend_to_mid_nodes input to the operator.
 
         Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True
@@ -869,13 +881,13 @@ class OutputsElectricFluxDensity(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(electric_flux_density._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             electric_flux_density._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

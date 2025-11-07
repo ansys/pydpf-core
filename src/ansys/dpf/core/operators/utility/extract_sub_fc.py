@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+
 
 class extract_sub_fc(Operator):
     r"""Creates a new fields container with all the fields corresponding to the
@@ -183,15 +187,21 @@ class InputsExtractSubFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(extract_sub_fc._spec().inputs, op)
-        self._fields_container = Input(extract_sub_fc._spec().input_pin(0), 0, op, -1)
+        self._fields_container: Input[FieldsContainer] = Input(
+            extract_sub_fc._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields_container)
-        self._label_space = Input(extract_sub_fc._spec().input_pin(1), 1, op, -1)
+        self._label_space: Input[dict | Scoping] = Input(
+            extract_sub_fc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._label_space)
-        self._collapse_labels = Input(extract_sub_fc._spec().input_pin(2), 2, op, -1)
+        self._collapse_labels: Input[bool] = Input(
+            extract_sub_fc._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._collapse_labels)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         fields_container
@@ -212,7 +222,7 @@ class InputsExtractSubFc(_Inputs):
         return self._fields_container
 
     @property
-    def label_space(self) -> Input:
+    def label_space(self) -> Input[dict | Scoping]:
         r"""Allows to connect label_space input to the operator.
 
         Label space, or scoping defining the label space (scoping location), values to keep (scoping IDs)
@@ -233,7 +243,7 @@ class InputsExtractSubFc(_Inputs):
         return self._label_space
 
     @property
-    def collapse_labels(self) -> Input:
+    def collapse_labels(self) -> Input[bool]:
         r"""Allows to connect collapse_labels input to the operator.
 
         If set to true (default) the input label space (scoping location) is suppressed from the output fields container, otherwise, label space is kept.
@@ -268,11 +278,13 @@ class OutputsExtractSubFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(extract_sub_fc._spec().outputs, op)
-        self._fields_container = Output(extract_sub_fc._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            extract_sub_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         fields_container

@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class forward_meshes_container(Operator):
     r"""Returns the input mesh or meshes container into a meshes container.
@@ -155,15 +159,17 @@ class InputsForwardMeshesContainer(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(forward_meshes_container._spec().inputs, op)
-        self._meshes = Input(forward_meshes_container._spec().input_pin(0), 0, op, -1)
+        self._meshes: Input[MeshesContainer | MeshedRegion] = Input(
+            forward_meshes_container._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._meshes)
-        self._default_label = Input(
+        self._default_label: Input[str] = Input(
             forward_meshes_container._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._default_label)
 
     @property
-    def meshes(self) -> Input:
+    def meshes(self) -> Input[MeshesContainer | MeshedRegion]:
         r"""Allows to connect meshes input to the operator.
 
         Returns
@@ -182,7 +188,7 @@ class InputsForwardMeshesContainer(_Inputs):
         return self._meshes
 
     @property
-    def default_label(self) -> Input:
+    def default_label(self) -> Input[str]:
         r"""Allows to connect default_label input to the operator.
 
         this default label is used if a new meshes container needs to be created (default is unknown)
@@ -217,13 +223,13 @@ class OutputsForwardMeshesContainer(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(forward_meshes_container._spec().outputs, op)
-        self._meshes_container = Output(
+        self._meshes_container: Output[MeshesContainer] = Output(
             forward_meshes_container._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._meshes_container)
 
     @property
-    def meshes_container(self) -> Output:
+    def meshes_container(self) -> Output[MeshesContainer]:
         r"""Allows to get meshes_container output of the operator
 
         Returns

@@ -14,6 +14,14 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class force_summation(Operator):
     r"""Computes the sum of elemental forces contribution on a set of nodes in
@@ -288,23 +296,37 @@ class InputsForceSummation(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(force_summation._spec().inputs, op)
-        self._time_scoping = Input(force_summation._spec().input_pin(0), 0, op, -1)
+        self._time_scoping: Input[Scoping] = Input(
+            force_summation._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._time_scoping)
-        self._nodal_scoping = Input(force_summation._spec().input_pin(1), 1, op, -1)
+        self._nodal_scoping: Input[Scoping | ScopingsContainer] = Input(
+            force_summation._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._nodal_scoping)
-        self._elemental_scoping = Input(force_summation._spec().input_pin(2), 2, op, -1)
+        self._elemental_scoping: Input[Scoping | ScopingsContainer] = Input(
+            force_summation._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._elemental_scoping)
-        self._streams_container = Input(force_summation._spec().input_pin(3), 3, op, -1)
+        self._streams_container: Input[StreamsContainer] = Input(
+            force_summation._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(force_summation._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            force_summation._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
-        self._force_type = Input(force_summation._spec().input_pin(5), 5, op, -1)
+        self._force_type: Input[int] = Input(
+            force_summation._spec().input_pin(5), 5, op, -1
+        )
         self._inputs.append(self._force_type)
-        self._spoint = Input(force_summation._spec().input_pin(6), 6, op, -1)
+        self._spoint: Input[Field | FieldsContainer] = Input(
+            force_summation._spec().input_pin(6), 6, op, -1
+        )
         self._inputs.append(self._spoint)
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         default = all time steps
@@ -325,7 +347,7 @@ class InputsForceSummation(_Inputs):
         return self._time_scoping
 
     @property
-    def nodal_scoping(self) -> Input:
+    def nodal_scoping(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect nodal_scoping input to the operator.
 
         Nodal Scoping or Scopings Container with a single label. Set of nodes in which elemental contribution forces will be accumulated (default = all nodes)
@@ -346,7 +368,7 @@ class InputsForceSummation(_Inputs):
         return self._nodal_scoping
 
     @property
-    def elemental_scoping(self) -> Input:
+    def elemental_scoping(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect elemental_scoping input to the operator.
 
         Elemental Scoping or Scopings Container with a single label. Set of elements contributing to the force calculation. (default = all elements)
@@ -367,7 +389,7 @@ class InputsForceSummation(_Inputs):
         return self._elemental_scoping
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         Streams container. Optional if using data sources.
@@ -388,7 +410,7 @@ class InputsForceSummation(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Data sources. Optional if using a streams container.
@@ -409,7 +431,7 @@ class InputsForceSummation(_Inputs):
         return self._data_sources
 
     @property
-    def force_type(self) -> Input:
+    def force_type(self) -> Input[int]:
         r"""Allows to connect force_type input to the operator.
 
         Type of force to be processed (0: Total forces (static, damping, and inertia)., 1 (default): Static forces, 2: Damping forces, 3: Inertia forces)
@@ -430,7 +452,7 @@ class InputsForceSummation(_Inputs):
         return self._force_type
 
     @property
-    def spoint(self) -> Input:
+    def spoint(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect spoint input to the operator.
 
         Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).
@@ -470,21 +492,33 @@ class OutputsForceSummation(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(force_summation._spec().outputs, op)
-        self._force_accumulation = Output(force_summation._spec().output_pin(0), 0, op)
+        self._force_accumulation: Output[FieldsContainer] = Output(
+            force_summation._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._force_accumulation)
-        self._moment_accumulation = Output(force_summation._spec().output_pin(1), 1, op)
+        self._moment_accumulation: Output[FieldsContainer] = Output(
+            force_summation._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._moment_accumulation)
-        self._heat_accumulation = Output(force_summation._spec().output_pin(2), 2, op)
+        self._heat_accumulation: Output[FieldsContainer] = Output(
+            force_summation._spec().output_pin(2), 2, op
+        )
         self._outputs.append(self._heat_accumulation)
-        self._forces_on_nodes = Output(force_summation._spec().output_pin(10), 10, op)
+        self._forces_on_nodes: Output[FieldsContainer] = Output(
+            force_summation._spec().output_pin(10), 10, op
+        )
         self._outputs.append(self._forces_on_nodes)
-        self._moments_on_nodes = Output(force_summation._spec().output_pin(11), 11, op)
+        self._moments_on_nodes: Output[FieldsContainer] = Output(
+            force_summation._spec().output_pin(11), 11, op
+        )
         self._outputs.append(self._moments_on_nodes)
-        self._heats_on_nodes = Output(force_summation._spec().output_pin(12), 12, op)
+        self._heats_on_nodes: Output[FieldsContainer] = Output(
+            force_summation._spec().output_pin(12), 12, op
+        )
         self._outputs.append(self._heats_on_nodes)
 
     @property
-    def force_accumulation(self) -> Output:
+    def force_accumulation(self) -> Output[FieldsContainer]:
         r"""Allows to get force_accumulation output of the operator
 
         Returns
@@ -502,7 +536,7 @@ class OutputsForceSummation(_Outputs):
         return self._force_accumulation
 
     @property
-    def moment_accumulation(self) -> Output:
+    def moment_accumulation(self) -> Output[FieldsContainer]:
         r"""Allows to get moment_accumulation output of the operator
 
         Returns
@@ -520,7 +554,7 @@ class OutputsForceSummation(_Outputs):
         return self._moment_accumulation
 
     @property
-    def heat_accumulation(self) -> Output:
+    def heat_accumulation(self) -> Output[FieldsContainer]:
         r"""Allows to get heat_accumulation output of the operator
 
         Returns
@@ -538,7 +572,7 @@ class OutputsForceSummation(_Outputs):
         return self._heat_accumulation
 
     @property
-    def forces_on_nodes(self) -> Output:
+    def forces_on_nodes(self) -> Output[FieldsContainer]:
         r"""Allows to get forces_on_nodes output of the operator
 
         Returns
@@ -556,7 +590,7 @@ class OutputsForceSummation(_Outputs):
         return self._forces_on_nodes
 
     @property
-    def moments_on_nodes(self) -> Output:
+    def moments_on_nodes(self) -> Output[FieldsContainer]:
         r"""Allows to get moments_on_nodes output of the operator
 
         Returns
@@ -574,7 +608,7 @@ class OutputsForceSummation(_Outputs):
         return self._moments_on_nodes
 
     @property
-    def heats_on_nodes(self) -> Output:
+    def heats_on_nodes(self) -> Output[FieldsContainer]:
         r"""Allows to get heats_on_nodes output of the operator
 
         Returns

@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class to_polar_coordinates(Operator):
     r"""Finds r, theta (rad), and z coordinates of a coordinates (nodal) field
@@ -160,15 +164,17 @@ class InputsToPolarCoordinates(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(to_polar_coordinates._spec().inputs, op)
-        self._field = Input(to_polar_coordinates._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            to_polar_coordinates._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._coordinate_system = Input(
+        self._coordinate_system: Input[Field] = Input(
             to_polar_coordinates._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._coordinate_system)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -189,7 +195,7 @@ class InputsToPolarCoordinates(_Inputs):
         return self._field
 
     @property
-    def coordinate_system(self) -> Input:
+    def coordinate_system(self) -> Input[Field]:
         r"""Allows to connect coordinate_system input to the operator.
 
         3-3 rotation matrix and origin coordinates must be set here to define a coordinate system. By default, the rotation axis is the z axis and the origin is [0,0,0].
@@ -224,11 +230,13 @@ class OutputsToPolarCoordinates(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(to_polar_coordinates._spec().outputs, op)
-        self._field = Output(to_polar_coordinates._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            to_polar_coordinates._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

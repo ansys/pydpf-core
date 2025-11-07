@@ -15,6 +15,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.data_tree import DataTree
+from ansys.dpf.core.scoping import Scoping
+
 
 class hdf5dpf_custom_read(Operator):
     r"""Extract a custom result from an hdf5dpf file. This operator is
@@ -227,21 +233,33 @@ class InputsHdf5DpfCustomRead(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(hdf5dpf_custom_read._spec().inputs, op)
-        self._time_scoping = Input(hdf5dpf_custom_read._spec().input_pin(0), 0, op, -1)
+        self._time_scoping: Input[Scoping] = Input(
+            hdf5dpf_custom_read._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping = Input(hdf5dpf_custom_read._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(
+            hdf5dpf_custom_read._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._streams = Input(hdf5dpf_custom_read._spec().input_pin(3), 3, op, -1)
+        self._streams: Input[StreamsContainer] = Input(
+            hdf5dpf_custom_read._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._streams)
-        self._data_sources = Input(hdf5dpf_custom_read._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            hdf5dpf_custom_read._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
-        self._meta_data = Input(hdf5dpf_custom_read._spec().input_pin(24), 24, op, -1)
+        self._meta_data: Input[DataTree] = Input(
+            hdf5dpf_custom_read._spec().input_pin(24), 24, op, -1
+        )
         self._inputs.append(self._meta_data)
-        self._result_name = Input(hdf5dpf_custom_read._spec().input_pin(60), 60, op, -1)
+        self._result_name: Input = Input(
+            hdf5dpf_custom_read._spec().input_pin(60), 60, op, -1
+        )
         self._inputs.append(self._result_name)
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         Returns
@@ -260,7 +278,7 @@ class InputsHdf5DpfCustomRead(_Inputs):
         return self._time_scoping
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Returns
@@ -279,7 +297,7 @@ class InputsHdf5DpfCustomRead(_Inputs):
         return self._mesh_scoping
 
     @property
-    def streams(self) -> Input:
+    def streams(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams input to the operator.
 
         Hdf5df file stream.
@@ -300,7 +318,7 @@ class InputsHdf5DpfCustomRead(_Inputs):
         return self._streams
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Hdf5df file data source.
@@ -321,7 +339,7 @@ class InputsHdf5DpfCustomRead(_Inputs):
         return self._data_sources
 
     @property
-    def meta_data(self) -> Input:
+    def meta_data(self) -> Input[DataTree]:
         r"""Allows to connect meta_data input to the operator.
 
         meta_data that may be used to evaluate results or extract workflows.

@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.property_field import PropertyField
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class weighted_merge_fields_by_label(Operator):
     r"""Performs a weighted merge on fields of a fields container that share the
@@ -231,33 +235,33 @@ class InputsWeightedMergeFieldsByLabel(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(weighted_merge_fields_by_label._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             weighted_merge_fields_by_label._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._label = Input(
+        self._label: Input[str] = Input(
             weighted_merge_fields_by_label._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._label)
-        self._merged_field_support = Input(
+        self._merged_field_support: Input = Input(
             weighted_merge_fields_by_label._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._merged_field_support)
-        self._sum_merge = Input(
+        self._sum_merge: Input[bool] = Input(
             weighted_merge_fields_by_label._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._sum_merge)
-        self._weights1 = Input(
+        self._weights1: Input[PropertyField] = Input(
             weighted_merge_fields_by_label._spec().input_pin(1000), 1000, op, 0
         )
         self._inputs.append(self._weights1)
-        self._weights2 = Input(
+        self._weights2: Input[PropertyField] = Input(
             weighted_merge_fields_by_label._spec().input_pin(1001), 1001, op, 1
         )
         self._inputs.append(self._weights2)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -276,7 +280,7 @@ class InputsWeightedMergeFieldsByLabel(_Inputs):
         return self._fields_container
 
     @property
-    def label(self) -> Input:
+    def label(self) -> Input[str]:
         r"""Allows to connect label input to the operator.
 
         Label identifier that should be merged.
@@ -318,7 +322,7 @@ class InputsWeightedMergeFieldsByLabel(_Inputs):
         return self._merged_field_support
 
     @property
-    def sum_merge(self) -> Input:
+    def sum_merge(self) -> Input[bool]:
         r"""Allows to connect sum_merge input to the operator.
 
         Default is false. If true, redundant quantities are summed instead of being ignored.
@@ -339,7 +343,7 @@ class InputsWeightedMergeFieldsByLabel(_Inputs):
         return self._sum_merge
 
     @property
-    def weights1(self) -> Input:
+    def weights1(self) -> Input[PropertyField]:
         r"""Allows to connect weights1 input to the operator.
 
         Weights to apply to each field from pin 1000 to ...
@@ -360,7 +364,7 @@ class InputsWeightedMergeFieldsByLabel(_Inputs):
         return self._weights1
 
     @property
-    def weights2(self) -> Input:
+    def weights2(self) -> Input[PropertyField]:
         r"""Allows to connect weights2 input to the operator.
 
         Weights to apply to each field from pin 1000 to ...
@@ -395,13 +399,13 @@ class OutputsWeightedMergeFieldsByLabel(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(weighted_merge_fields_by_label._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             weighted_merge_fields_by_label._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.scoping import Scoping
+
 
 class gauss_to_node(Operator):
     r"""Extrapolating results available at Gauss or quadrature points to nodal
@@ -176,15 +181,19 @@ class InputsGaussToNode(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(gauss_to_node._spec().inputs, op)
-        self._field = Input(gauss_to_node._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field] = Input(gauss_to_node._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field)
-        self._scoping = Input(gauss_to_node._spec().input_pin(1), 1, op, -1)
+        self._scoping: Input[Scoping] = Input(
+            gauss_to_node._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._scoping)
-        self._mesh = Input(gauss_to_node._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            gauss_to_node._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
         Returns
@@ -203,7 +212,7 @@ class InputsGaussToNode(_Inputs):
         return self._field
 
     @property
-    def scoping(self) -> Input:
+    def scoping(self) -> Input[Scoping]:
         r"""Allows to connect scoping input to the operator.
 
         Scoping to integrate on, if not provided, the one from input field is provided.
@@ -224,7 +233,7 @@ class InputsGaussToNode(_Inputs):
         return self._scoping
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Mesh to integrate on.
@@ -259,11 +268,11 @@ class OutputsGaussToNode(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(gauss_to_node._spec().outputs, op)
-        self._field = Output(gauss_to_node._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(gauss_to_node._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

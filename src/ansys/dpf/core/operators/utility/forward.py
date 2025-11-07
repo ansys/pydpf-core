@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.any import Any
+
 
 class forward(Operator):
     r"""Return all the inputs as outputs.
@@ -142,11 +145,11 @@ class InputsForward(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(forward._spec().inputs, op)
-        self._any = Input(forward._spec().input_pin(0), 0, op, -1)
+        self._any: Input[Any] = Input(forward._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._any)
 
     @property
-    def any(self) -> Input:
+    def any(self) -> Input[Any]:
         r"""Allows to connect any input to the operator.
 
         any type of input
@@ -181,11 +184,11 @@ class OutputsForward(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(forward._spec().outputs, op)
-        self._any = Output(forward._spec().output_pin(0), 0, op)
+        self._any: Output[Any] = Output(forward._spec().output_pin(0), 0, op)
         self._outputs.append(self._any)
 
     @property
-    def any(self) -> Output:
+    def any(self) -> Output[Any]:
         r"""Allows to get any output of the operator
 
         same types as inputs

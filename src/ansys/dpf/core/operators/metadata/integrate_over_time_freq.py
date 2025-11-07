@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
+from ansys.dpf.core.scoping import Scoping
+
 
 class integrate_over_time_freq(Operator):
     r"""Integration of an input field over timefreq.
@@ -172,17 +177,21 @@ class InputsIntegrateOverTimeFreq(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(integrate_over_time_freq._spec().inputs, op)
-        self._field = Input(integrate_over_time_freq._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field] = Input(
+            integrate_over_time_freq._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._scoping = Input(integrate_over_time_freq._spec().input_pin(1), 1, op, -1)
+        self._scoping: Input[Scoping] = Input(
+            integrate_over_time_freq._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._scoping)
-        self._time_freq_support = Input(
+        self._time_freq_support: Input[TimeFreqSupport] = Input(
             integrate_over_time_freq._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._time_freq_support)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
         Returns
@@ -201,7 +210,7 @@ class InputsIntegrateOverTimeFreq(_Inputs):
         return self._field
 
     @property
-    def scoping(self) -> Input:
+    def scoping(self) -> Input[Scoping]:
         r"""Allows to connect scoping input to the operator.
 
         Integrate the input field over a specific scoping.
@@ -222,7 +231,7 @@ class InputsIntegrateOverTimeFreq(_Inputs):
         return self._scoping
 
     @property
-    def time_freq_support(self) -> Input:
+    def time_freq_support(self) -> Input[TimeFreqSupport]:
         r"""Allows to connect time_freq_support input to the operator.
 
         Time Freq to integrate on, otherwise time freq support from the input field is taken.
@@ -257,11 +266,13 @@ class OutputsIntegrateOverTimeFreq(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(integrate_over_time_freq._spec().outputs, op)
-        self._field = Output(integrate_over_time_freq._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            integrate_over_time_freq._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

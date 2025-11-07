@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class streams_provider(Operator):
     r"""Creates streams (files with cache) from the data sources.
@@ -140,11 +144,13 @@ class InputsStreamsProvider(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(streams_provider._spec().inputs, op)
-        self._data_sources = Input(streams_provider._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            streams_provider._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Returns
@@ -177,11 +183,13 @@ class OutputsStreamsProvider(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(streams_provider._spec().outputs, op)
-        self._streams_container = Output(streams_provider._spec().output_pin(0), 0, op)
+        self._streams_container: Output[StreamsContainer] = Output(
+            streams_provider._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._streams_container)
 
     @property
-    def streams_container(self) -> Output:
+    def streams_container(self) -> Output[StreamsContainer]:
         r"""Allows to get streams_container output of the operator
 
         Returns

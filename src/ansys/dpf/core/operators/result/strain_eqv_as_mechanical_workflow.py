@@ -14,6 +14,15 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.workflow import Workflow
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class strain_eqv_as_mechanical_workflow(Operator):
     r"""Generates a workflow that computes the equivalent (Von Mises) elastic
@@ -268,41 +277,41 @@ class InputsStrainEqvAsMechanicalWorkflow(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(strain_eqv_as_mechanical_workflow._spec().inputs, op)
-        self._time_scoping = Input(
+        self._time_scoping: Input[Scoping] = Input(
             strain_eqv_as_mechanical_workflow._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping = Input(
+        self._mesh_scoping: Input[Scoping | ScopingsContainer] = Input(
             strain_eqv_as_mechanical_workflow._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_scoping)
-        self._streams_container = Input(
+        self._streams_container: Input[StreamsContainer] = Input(
             strain_eqv_as_mechanical_workflow._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(
+        self._data_sources: Input[DataSources] = Input(
             strain_eqv_as_mechanical_workflow._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
-        self._mesh = Input(
+        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
             strain_eqv_as_mechanical_workflow._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._mesh)
-        self._requested_location = Input(
+        self._requested_location: Input[str] = Input(
             strain_eqv_as_mechanical_workflow._spec().input_pin(9), 9, op, -1
         )
         self._inputs.append(self._requested_location)
-        self._read_cyclic = Input(
+        self._read_cyclic: Input[bool] = Input(
             strain_eqv_as_mechanical_workflow._spec().input_pin(14), 14, op, -1
         )
         self._inputs.append(self._read_cyclic)
-        self._average_across_bodies = Input(
+        self._average_across_bodies: Input[bool] = Input(
             strain_eqv_as_mechanical_workflow._spec().input_pin(200), 200, op, -1
         )
         self._inputs.append(self._average_across_bodies)
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         time/freq (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids use scoping with TimeFreq_steps location) required in output.
@@ -323,7 +332,7 @@ class InputsStrainEqvAsMechanicalWorkflow(_Inputs):
         return self._time_scoping
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         nodes or elements scoping required in output.
@@ -344,7 +353,7 @@ class InputsStrainEqvAsMechanicalWorkflow(_Inputs):
         return self._mesh_scoping
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         result file container allowed to be kept open to cache data.
@@ -365,7 +374,7 @@ class InputsStrainEqvAsMechanicalWorkflow(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         result file path container.
@@ -386,7 +395,7 @@ class InputsStrainEqvAsMechanicalWorkflow(_Inputs):
         return self._data_sources
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
         prevents from reading the mesh in the results file.
@@ -407,7 +416,7 @@ class InputsStrainEqvAsMechanicalWorkflow(_Inputs):
         return self._mesh
 
     @property
-    def requested_location(self) -> Input:
+    def requested_location(self) -> Input[str]:
         r"""Allows to connect requested_location input to the operator.
 
         average the elemental nodal result to the requested location (default is nodal).
@@ -428,7 +437,7 @@ class InputsStrainEqvAsMechanicalWorkflow(_Inputs):
         return self._requested_location
 
     @property
-    def read_cyclic(self) -> Input:
+    def read_cyclic(self) -> Input[bool]:
         r"""Allows to connect read_cyclic input to the operator.
 
         if true, cyclic expansion is done. If false, it's ignored..
@@ -449,7 +458,7 @@ class InputsStrainEqvAsMechanicalWorkflow(_Inputs):
         return self._read_cyclic
 
     @property
-    def average_across_bodies(self) -> Input:
+    def average_across_bodies(self) -> Input[bool]:
         r"""Allows to connect average_across_bodies input to the operator.
 
         for multibody simulations, the stresses are averaged across bodies if true or not if false (default).
@@ -484,13 +493,13 @@ class OutputsStrainEqvAsMechanicalWorkflow(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(strain_eqv_as_mechanical_workflow._spec().outputs, op)
-        self._workflow = Output(
+        self._workflow: Output[Workflow] = Output(
             strain_eqv_as_mechanical_workflow._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._workflow)
 
     @property
-    def workflow(self) -> Output:
+    def workflow(self) -> Output[Workflow]:
         r"""Allows to get workflow output of the operator
 
         Returns

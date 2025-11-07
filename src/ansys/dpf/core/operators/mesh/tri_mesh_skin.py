@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class tri_mesh_skin(Operator):
     r"""Extracts a skin of the mesh in triangles in a new meshed region.
@@ -189,15 +193,21 @@ class InputsTriMeshSkin(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(tri_mesh_skin._spec().inputs, op)
-        self._mesh = Input(tri_mesh_skin._spec().input_pin(0), 0, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            tri_mesh_skin._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._include_surfaces = Input(tri_mesh_skin._spec().input_pin(1), 1, op, -1)
+        self._include_surfaces: Input[bool] = Input(
+            tri_mesh_skin._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._include_surfaces)
-        self._mesh_scoping = Input(tri_mesh_skin._spec().input_pin(2), 2, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(
+            tri_mesh_skin._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -216,7 +226,7 @@ class InputsTriMeshSkin(_Inputs):
         return self._mesh
 
     @property
-    def include_surfaces(self) -> Input:
+    def include_surfaces(self) -> Input[bool]:
         r"""Allows to connect include_surfaces input to the operator.
 
         True: meshing will also take into account shell and skin elements. False: meshing will ignore shell and skin elements. The default is false.
@@ -237,7 +247,7 @@ class InputsTriMeshSkin(_Inputs):
         return self._include_surfaces
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Nodal scoping to restrict the skin extraction to a set of nodes. If provided, a skin element is added to the skin mesh if all its nodes are in the scoping.
@@ -273,13 +283,17 @@ class OutputsTriMeshSkin(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(tri_mesh_skin._spec().outputs, op)
-        self._mesh = Output(tri_mesh_skin._spec().output_pin(0), 0, op)
+        self._mesh: Output[MeshedRegion] = Output(
+            tri_mesh_skin._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._mesh)
-        self._nodes_mesh_scoping = Output(tri_mesh_skin._spec().output_pin(1), 1, op)
+        self._nodes_mesh_scoping: Output[Scoping] = Output(
+            tri_mesh_skin._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._nodes_mesh_scoping)
 
     @property
-    def mesh(self) -> Output:
+    def mesh(self) -> Output[MeshedRegion]:
         r"""Allows to get mesh output of the operator
 
         Returns
@@ -297,7 +311,7 @@ class OutputsTriMeshSkin(_Outputs):
         return self._mesh
 
     @property
-    def nodes_mesh_scoping(self) -> Output:
+    def nodes_mesh_scoping(self) -> Output[Scoping]:
         r"""Allows to get nodes_mesh_scoping output of the operator
 
         Returns

@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.scopings_container import ScopingsContainer
+
 
 class fft_approx(Operator):
     r"""Computes the fitting curve using FFT filtering and cubic fitting in
@@ -281,25 +286,39 @@ class InputsFftApprox(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(fft_approx._spec().inputs, op)
-        self._time_scoping = Input(fft_approx._spec().input_pin(0), 0, op, -1)
+        self._time_scoping: Input[Scoping] = Input(
+            fft_approx._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping = Input(fft_approx._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[Scoping | ScopingsContainer] = Input(
+            fft_approx._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._entity_to_fit = Input(fft_approx._spec().input_pin(2), 2, op, -1)
+        self._entity_to_fit: Input[FieldsContainer] = Input(
+            fft_approx._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._entity_to_fit)
-        self._component_number = Input(fft_approx._spec().input_pin(3), 3, op, -1)
+        self._component_number: Input[int] = Input(
+            fft_approx._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._component_number)
-        self._first_derivative = Input(fft_approx._spec().input_pin(4), 4, op, -1)
+        self._first_derivative: Input[bool] = Input(
+            fft_approx._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._first_derivative)
-        self._second_derivative = Input(fft_approx._spec().input_pin(5), 5, op, -1)
+        self._second_derivative: Input[bool] = Input(
+            fft_approx._spec().input_pin(5), 5, op, -1
+        )
         self._inputs.append(self._second_derivative)
-        self._fit_data = Input(fft_approx._spec().input_pin(6), 6, op, -1)
+        self._fit_data: Input[bool] = Input(fft_approx._spec().input_pin(6), 6, op, -1)
         self._inputs.append(self._fit_data)
-        self._cutoff_fr = Input(fft_approx._spec().input_pin(7), 7, op, -1)
+        self._cutoff_fr: Input[float | int] = Input(
+            fft_approx._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._cutoff_fr)
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         A time scoping to rescope / split the fields container given as input.
@@ -320,7 +339,7 @@ class InputsFftApprox(_Inputs):
         return self._time_scoping
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         A space (mesh entities) scoping (or scopings container) to rescope / split the fields container given as input.
@@ -341,7 +360,7 @@ class InputsFftApprox(_Inputs):
         return self._mesh_scoping
 
     @property
-    def entity_to_fit(self) -> Input:
+    def entity_to_fit(self) -> Input[FieldsContainer]:
         r"""Allows to connect entity_to_fit input to the operator.
 
         Data changing in time to be fitted.
@@ -362,7 +381,7 @@ class InputsFftApprox(_Inputs):
         return self._entity_to_fit
 
     @property
-    def component_number(self) -> Input:
+    def component_number(self) -> Input[int]:
         r"""Allows to connect component_number input to the operator.
 
         Component number as an integer, for example '0' for X-displacement, '1' for Y-displacement, and so on.
@@ -383,7 +402,7 @@ class InputsFftApprox(_Inputs):
         return self._component_number
 
     @property
-    def first_derivative(self) -> Input:
+    def first_derivative(self) -> Input[bool]:
         r"""Allows to connect first_derivative input to the operator.
 
         Calculate the first derivative (bool). The default is false.
@@ -404,7 +423,7 @@ class InputsFftApprox(_Inputs):
         return self._first_derivative
 
     @property
-    def second_derivative(self) -> Input:
+    def second_derivative(self) -> Input[bool]:
         r"""Allows to connect second_derivative input to the operator.
 
         Calculate the second derivative (bool). The default is false.
@@ -425,7 +444,7 @@ class InputsFftApprox(_Inputs):
         return self._second_derivative
 
     @property
-    def fit_data(self) -> Input:
+    def fit_data(self) -> Input[bool]:
         r"""Allows to connect fit_data input to the operator.
 
         Calculate the fitted values (bool). The default is false
@@ -446,7 +465,7 @@ class InputsFftApprox(_Inputs):
         return self._fit_data
 
     @property
-    def cutoff_fr(self) -> Input:
+    def cutoff_fr(self) -> Input[float | int]:
         r"""Allows to connect cutoff_fr input to the operator.
 
         Cutoff frequency.
@@ -483,15 +502,21 @@ class OutputsFftApprox(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(fft_approx._spec().outputs, op)
-        self._fitted_entity_y = Output(fft_approx._spec().output_pin(0), 0, op)
+        self._fitted_entity_y: Output[FieldsContainer] = Output(
+            fft_approx._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fitted_entity_y)
-        self._first_der_dy = Output(fft_approx._spec().output_pin(1), 1, op)
+        self._first_der_dy: Output[FieldsContainer] = Output(
+            fft_approx._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._first_der_dy)
-        self._second_der_d2y = Output(fft_approx._spec().output_pin(2), 2, op)
+        self._second_der_d2y: Output[FieldsContainer] = Output(
+            fft_approx._spec().output_pin(2), 2, op
+        )
         self._outputs.append(self._second_der_d2y)
 
     @property
-    def fitted_entity_y(self) -> Output:
+    def fitted_entity_y(self) -> Output[FieldsContainer]:
         r"""Allows to get fitted_entity_y output of the operator
 
         The fitted entity is fitted using FFT along the space scoping (node i: x=time, y=data). Fitted Y is expected to be close to the input data.
@@ -511,7 +536,7 @@ class OutputsFftApprox(_Outputs):
         return self._fitted_entity_y
 
     @property
-    def first_der_dy(self) -> Output:
+    def first_der_dy(self) -> Output[FieldsContainer]:
         r"""Allows to get first_der_dy output of the operator
 
         The first derivative (dY) from the fitted Y.
@@ -531,7 +556,7 @@ class OutputsFftApprox(_Outputs):
         return self._first_der_dy
 
     @property
-    def second_der_d2y(self) -> Output:
+    def second_der_d2y(self) -> Output[FieldsContainer]:
         r"""Allows to get second_der_d2y output of the operator
 
         The second derivative (d2Y) from the fitted Y.

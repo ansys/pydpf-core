@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class merge_fields_by_label(Operator):
     r"""Merges the fields of a fields container that share the same label value.
@@ -205,21 +208,25 @@ class InputsMergeFieldsByLabel(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_fields_by_label._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             merge_fields_by_label._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._label = Input(merge_fields_by_label._spec().input_pin(1), 1, op, -1)
+        self._label: Input[str] = Input(
+            merge_fields_by_label._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._label)
-        self._merged_field_support = Input(
+        self._merged_field_support: Input = Input(
             merge_fields_by_label._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._merged_field_support)
-        self._sum_merge = Input(merge_fields_by_label._spec().input_pin(3), 3, op, -1)
+        self._sum_merge: Input[bool] = Input(
+            merge_fields_by_label._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._sum_merge)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -238,7 +245,7 @@ class InputsMergeFieldsByLabel(_Inputs):
         return self._fields_container
 
     @property
-    def label(self) -> Input:
+    def label(self) -> Input[str]:
         r"""Allows to connect label input to the operator.
 
         Label identifier that should be merged.
@@ -280,7 +287,7 @@ class InputsMergeFieldsByLabel(_Inputs):
         return self._merged_field_support
 
     @property
-    def sum_merge(self) -> Input:
+    def sum_merge(self) -> Input[bool]:
         r"""Allows to connect sum_merge input to the operator.
 
         Default is false. If true, redundant quantities are summed instead of being ignored.
@@ -316,17 +323,17 @@ class OutputsMergeFieldsByLabel(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_fields_by_label._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             merge_fields_by_label._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
-        self._merged_field_support = Output(
+        self._merged_field_support: Output = Output(
             merge_fields_by_label._spec().output_pin(1), 1, op
         )
         self._outputs.append(self._merged_field_support)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

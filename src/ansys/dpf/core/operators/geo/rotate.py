@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class rotate(Operator):
     r"""Applies a transformation (rotation) matrix on a field.
@@ -158,13 +162,17 @@ class InputsRotate(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(rotate._spec().inputs, op)
-        self._field = Input(rotate._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            rotate._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._field_rotation_matrix = Input(rotate._spec().input_pin(1), 1, op, -1)
+        self._field_rotation_matrix: Input[Field] = Input(
+            rotate._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._field_rotation_matrix)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -185,7 +193,7 @@ class InputsRotate(_Inputs):
         return self._field
 
     @property
-    def field_rotation_matrix(self) -> Input:
+    def field_rotation_matrix(self) -> Input[Field]:
         r"""Allows to connect field_rotation_matrix input to the operator.
 
         3-3 rotation matrix
@@ -220,11 +228,11 @@ class OutputsRotate(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(rotate._spec().outputs, op)
-        self._field = Output(rotate._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(rotate._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

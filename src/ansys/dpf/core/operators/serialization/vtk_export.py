@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class vtk_export(Operator):
     r"""Write the input field and fields container into a given vtk path
@@ -200,19 +205,27 @@ class InputsVtkExport(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(vtk_export._spec().inputs, op)
-        self._export_type = Input(vtk_export._spec().input_pin(-1), -1, op, -1)
+        self._export_type: Input[int] = Input(
+            vtk_export._spec().input_pin(-1), -1, op, -1
+        )
         self._inputs.append(self._export_type)
-        self._file_path = Input(vtk_export._spec().input_pin(0), 0, op, -1)
+        self._file_path: Input[str] = Input(vtk_export._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._file_path)
-        self._mesh = Input(vtk_export._spec().input_pin(1), 1, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            vtk_export._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._fields1 = Input(vtk_export._spec().input_pin(2), 2, op, 0)
+        self._fields1: Input[FieldsContainer | Field] = Input(
+            vtk_export._spec().input_pin(2), 2, op, 0
+        )
         self._inputs.append(self._fields1)
-        self._fields2 = Input(vtk_export._spec().input_pin(3), 3, op, 1)
+        self._fields2: Input[FieldsContainer | Field] = Input(
+            vtk_export._spec().input_pin(3), 3, op, 1
+        )
         self._inputs.append(self._fields2)
 
     @property
-    def export_type(self) -> Input:
+    def export_type(self) -> Input[int]:
         r"""Allows to connect export_type input to the operator.
 
         Either export volume elements in the mesh with their fields with value 0 or faces elements in the mesh with their fields with value 1 (default is 0)
@@ -233,7 +246,7 @@ class InputsVtkExport(_Inputs):
         return self._export_type
 
     @property
-    def file_path(self) -> Input:
+    def file_path(self) -> Input[str]:
         r"""Allows to connect file_path input to the operator.
 
         path with vtk extension were the export occurs
@@ -254,7 +267,7 @@ class InputsVtkExport(_Inputs):
         return self._file_path
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         necessary if the first field or fields container don't have a mesh in their support
@@ -275,7 +288,7 @@ class InputsVtkExport(_Inputs):
         return self._mesh
 
     @property
-    def fields1(self) -> Input:
+    def fields1(self) -> Input[FieldsContainer | Field]:
         r"""Allows to connect fields1 input to the operator.
 
         fields exported
@@ -296,7 +309,7 @@ class InputsVtkExport(_Inputs):
         return self._fields1
 
     @property
-    def fields2(self) -> Input:
+    def fields2(self) -> Input[FieldsContainer | Field]:
         r"""Allows to connect fields2 input to the operator.
 
         fields exported

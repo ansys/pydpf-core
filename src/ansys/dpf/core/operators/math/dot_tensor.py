@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class dot_tensor(Operator):
     r"""DEPRECATED, PLEASE USE GENERALIZED INNER PRODUCT. Computes element-wise
@@ -158,13 +162,17 @@ class InputsDotTensor(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(dot_tensor._spec().inputs, op)
-        self._fieldA = Input(dot_tensor._spec().input_pin(0), 0, op, -1)
+        self._fieldA: Input[Field | FieldsContainer] = Input(
+            dot_tensor._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fieldA)
-        self._fieldB = Input(dot_tensor._spec().input_pin(1), 1, op, -1)
+        self._fieldB: Input[Field | FieldsContainer] = Input(
+            dot_tensor._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._fieldB)
 
     @property
-    def fieldA(self) -> Input:
+    def fieldA(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect fieldA input to the operator.
 
         field or fields container with only one field is expected
@@ -185,7 +193,7 @@ class InputsDotTensor(_Inputs):
         return self._fieldA
 
     @property
-    def fieldB(self) -> Input:
+    def fieldB(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect fieldB input to the operator.
 
         field or fields container with only one field is expected
@@ -220,11 +228,11 @@ class OutputsDotTensor(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(dot_tensor._spec().outputs, op)
-        self._field = Output(dot_tensor._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(dot_tensor._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

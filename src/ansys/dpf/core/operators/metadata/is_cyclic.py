@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class is_cyclic(Operator):
     r"""Reads if the model is cyclic from the result file.
@@ -159,13 +163,17 @@ class InputsIsCyclic(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(is_cyclic._spec().inputs, op)
-        self._streams_container = Input(is_cyclic._spec().input_pin(3), 3, op, -1)
+        self._streams_container: Input[StreamsContainer] = Input(
+            is_cyclic._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(is_cyclic._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            is_cyclic._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         streams (result file container) (optional)
@@ -186,7 +194,7 @@ class InputsIsCyclic(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         If the stream is null, retrieves the file path from the data sources.
@@ -221,11 +229,11 @@ class OutputsIsCyclic(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(is_cyclic._spec().outputs, op)
-        self._file_path = Output(is_cyclic._spec().output_pin(0), 0, op)
+        self._file_path: Output[str] = Output(is_cyclic._spec().output_pin(0), 0, op)
         self._outputs.append(self._file_path)
 
     @property
-    def file_path(self) -> Output:
+    def file_path(self) -> Output[str]:
         r"""Allows to get file_path output of the operator
 
         returns 'single_stage' or 'multi_stage' or an empty string for non cyclic model

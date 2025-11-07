@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.generic_data_container import GenericDataContainer
+
 
 class merge_generic_data_container(Operator):
     r"""Merges a list of generic data container. For each data entry, the merge
@@ -170,17 +173,17 @@ class InputsMergeGenericDataContainer(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_generic_data_container._spec().inputs, op)
-        self._generic_data_container1 = Input(
+        self._generic_data_container1: Input[GenericDataContainer] = Input(
             merge_generic_data_container._spec().input_pin(0), 0, op, 0
         )
         self._inputs.append(self._generic_data_container1)
-        self._generic_data_container2 = Input(
+        self._generic_data_container2: Input[GenericDataContainer] = Input(
             merge_generic_data_container._spec().input_pin(1), 1, op, 1
         )
         self._inputs.append(self._generic_data_container2)
 
     @property
-    def generic_data_container1(self) -> Input:
+    def generic_data_container1(self) -> Input[GenericDataContainer]:
         r"""Allows to connect generic_data_container1 input to the operator.
 
         Either a vector of generic data containers (sharing the same data types) or generic data containers from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
@@ -201,7 +204,7 @@ class InputsMergeGenericDataContainer(_Inputs):
         return self._generic_data_container1
 
     @property
-    def generic_data_container2(self) -> Input:
+    def generic_data_container2(self) -> Input[GenericDataContainer]:
         r"""Allows to connect generic_data_container2 input to the operator.
 
         Either a vector of generic data containers (sharing the same data types) or generic data containers from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
@@ -236,13 +239,13 @@ class OutputsMergeGenericDataContainer(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_generic_data_container._spec().outputs, op)
-        self._generic_data_container = Output(
+        self._generic_data_container: Output[GenericDataContainer] = Output(
             merge_generic_data_container._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._generic_data_container)
 
     @property
-    def generic_data_container(self) -> Output:
+    def generic_data_container(self) -> Output[GenericDataContainer]:
         r"""Allows to get generic_data_container output of the operator
 
         Returns

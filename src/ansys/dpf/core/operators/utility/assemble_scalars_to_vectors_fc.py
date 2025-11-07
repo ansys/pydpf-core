@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class assemble_scalars_to_vectors_fc(Operator):
     r"""Takes three scalar fields container and assembles them as a 3D vector
@@ -174,15 +177,21 @@ class InputsAssembleScalarsToVectorsFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(assemble_scalars_to_vectors_fc._spec().inputs, op)
-        self._x = Input(assemble_scalars_to_vectors_fc._spec().input_pin(0), 0, op, -1)
+        self._x: Input[FieldsContainer] = Input(
+            assemble_scalars_to_vectors_fc._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._x)
-        self._y = Input(assemble_scalars_to_vectors_fc._spec().input_pin(1), 1, op, -1)
+        self._y: Input[FieldsContainer] = Input(
+            assemble_scalars_to_vectors_fc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._y)
-        self._z = Input(assemble_scalars_to_vectors_fc._spec().input_pin(2), 2, op, -1)
+        self._z: Input[FieldsContainer] = Input(
+            assemble_scalars_to_vectors_fc._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._z)
 
     @property
-    def x(self) -> Input:
+    def x(self) -> Input[FieldsContainer]:
         r"""Allows to connect x input to the operator.
 
         Returns
@@ -201,7 +210,7 @@ class InputsAssembleScalarsToVectorsFc(_Inputs):
         return self._x
 
     @property
-    def y(self) -> Input:
+    def y(self) -> Input[FieldsContainer]:
         r"""Allows to connect y input to the operator.
 
         Returns
@@ -220,7 +229,7 @@ class InputsAssembleScalarsToVectorsFc(_Inputs):
         return self._y
 
     @property
-    def z(self) -> Input:
+    def z(self) -> Input[FieldsContainer]:
         r"""Allows to connect z input to the operator.
 
         Returns
@@ -253,13 +262,13 @@ class OutputsAssembleScalarsToVectorsFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(assemble_scalars_to_vectors_fc._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             assemble_scalars_to_vectors_fc._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

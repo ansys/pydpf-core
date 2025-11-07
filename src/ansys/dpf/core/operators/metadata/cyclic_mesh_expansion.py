@@ -14,6 +14,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.cyclic_support import CyclicSupport
+
 
 class cyclic_mesh_expansion(Operator):
     r"""Expand the mesh.
@@ -186,21 +193,21 @@ class InputsCyclicMeshExpansion(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(cyclic_mesh_expansion._spec().inputs, op)
-        self._sector_meshed_region = Input(
+        self._sector_meshed_region: Input[MeshedRegion | MeshesContainer] = Input(
             cyclic_mesh_expansion._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._sector_meshed_region)
-        self._cyclic_support = Input(
+        self._cyclic_support: Input[CyclicSupport] = Input(
             cyclic_mesh_expansion._spec().input_pin(16), 16, op, -1
         )
         self._inputs.append(self._cyclic_support)
-        self._sectors_to_expand = Input(
+        self._sectors_to_expand: Input[Scoping | ScopingsContainer] = Input(
             cyclic_mesh_expansion._spec().input_pin(18), 18, op, -1
         )
         self._inputs.append(self._sectors_to_expand)
 
     @property
-    def sector_meshed_region(self) -> Input:
+    def sector_meshed_region(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect sector_meshed_region input to the operator.
 
         Returns
@@ -219,7 +226,7 @@ class InputsCyclicMeshExpansion(_Inputs):
         return self._sector_meshed_region
 
     @property
-    def cyclic_support(self) -> Input:
+    def cyclic_support(self) -> Input[CyclicSupport]:
         r"""Allows to connect cyclic_support input to the operator.
 
         Returns
@@ -238,7 +245,7 @@ class InputsCyclicMeshExpansion(_Inputs):
         return self._cyclic_support
 
     @property
-    def sectors_to_expand(self) -> Input:
+    def sectors_to_expand(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect sectors_to_expand input to the operator.
 
         sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.
@@ -274,15 +281,17 @@ class OutputsCyclicMeshExpansion(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(cyclic_mesh_expansion._spec().outputs, op)
-        self._meshed_region = Output(cyclic_mesh_expansion._spec().output_pin(0), 0, op)
+        self._meshed_region: Output[MeshedRegion] = Output(
+            cyclic_mesh_expansion._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._meshed_region)
-        self._cyclic_support = Output(
+        self._cyclic_support: Output[CyclicSupport] = Output(
             cyclic_mesh_expansion._spec().output_pin(1), 1, op
         )
         self._outputs.append(self._cyclic_support)
 
     @property
-    def meshed_region(self) -> Output:
+    def meshed_region(self) -> Output[MeshedRegion]:
         r"""Allows to get meshed_region output of the operator
 
         expanded meshed region.
@@ -302,7 +311,7 @@ class OutputsCyclicMeshExpansion(_Outputs):
         return self._meshed_region
 
     @property
-    def cyclic_support(self) -> Output:
+    def cyclic_support(self) -> Output[CyclicSupport]:
         r"""Allows to get cyclic_support output of the operator
 
         input cyclic support modified in place containing the new expanded meshed regions.

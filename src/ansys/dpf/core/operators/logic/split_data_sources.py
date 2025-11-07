@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.data_sources import DataSources
+
 
 class split_data_sources(Operator):
     r"""Splits a Data Sources into multiple coherent data sources, actual number
@@ -179,13 +182,17 @@ class InputsSplitDataSources(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(split_data_sources._spec().inputs, op)
-        self._data_sources = Input(split_data_sources._spec().input_pin(0), 0, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            split_data_sources._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._data_sources)
-        self._output_count = Input(split_data_sources._spec().input_pin(1), 1, op, -1)
+        self._output_count: Input[int] = Input(
+            split_data_sources._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._output_count)
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Data sources to split.
@@ -206,7 +213,7 @@ class InputsSplitDataSources(_Inputs):
         return self._data_sources
 
     @property
-    def output_count(self) -> Input:
+    def output_count(self) -> Input[int]:
         r"""Allows to connect output_count input to the operator.
 
         Number of desired outputs.
@@ -243,15 +250,21 @@ class OutputsSplitDataSources(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(split_data_sources._spec().outputs, op)
-        self._output_count = Output(split_data_sources._spec().output_pin(-1), -1, op)
+        self._output_count: Output[int] = Output(
+            split_data_sources._spec().output_pin(-1), -1, op
+        )
         self._outputs.append(self._output_count)
-        self._outputs1 = Output(split_data_sources._spec().output_pin(0), 0, op)
+        self._outputs1: Output[DataSources] = Output(
+            split_data_sources._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._outputs1)
-        self._outputs2 = Output(split_data_sources._spec().output_pin(1), 1, op)
+        self._outputs2: Output[DataSources] = Output(
+            split_data_sources._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._outputs2)
 
     @property
-    def output_count(self) -> Output:
+    def output_count(self) -> Output[int]:
         r"""Allows to get output_count output of the operator
 
         Actual number of outputs.
@@ -271,7 +284,7 @@ class OutputsSplitDataSources(_Outputs):
         return self._output_count
 
     @property
-    def outputs1(self) -> Output:
+    def outputs1(self) -> Output[DataSources]:
         r"""Allows to get outputs1 output of the operator
 
         Data sources outputs.
@@ -291,7 +304,7 @@ class OutputsSplitDataSources(_Outputs):
         return self._outputs1
 
     @property
-    def outputs2(self) -> Output:
+    def outputs2(self) -> Output[DataSources]:
         r"""Allows to get outputs2 output of the operator
 
         Data sources outputs.

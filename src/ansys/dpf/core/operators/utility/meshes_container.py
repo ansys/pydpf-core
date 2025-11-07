@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.meshes_container import MeshesContainer
+
 
 class meshes_container(Operator):
     r"""Incrementaly merge the input.
@@ -143,11 +146,13 @@ class InputsMeshesContainer(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(meshes_container._spec().inputs, op)
-        self._input = Input(meshes_container._spec().input_pin(0), 0, op, -1)
+        self._input: Input[MeshesContainer] = Input(
+            meshes_container._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._input)
 
     @property
-    def input(self) -> Input:
+    def input(self) -> Input[MeshesContainer]:
         r"""Allows to connect input input to the operator.
 
         Returns
@@ -180,7 +185,9 @@ class OutputsMeshesContainer(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(meshes_container._spec().outputs, op)
-        self._incremented_result = Output(meshes_container._spec().output_pin(0), 0, op)
+        self._incremented_result: Output = Output(
+            meshes_container._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._incremented_result)
 
     @property

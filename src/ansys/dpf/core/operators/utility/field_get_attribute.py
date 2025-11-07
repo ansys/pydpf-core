@@ -15,6 +15,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class field_get_attribute(Operator):
     r"""Gets a property from an input field/field container. A Fieldin pin 0, a
@@ -164,13 +168,17 @@ class InputsFieldGetAttribute(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(field_get_attribute._spec().inputs, op)
-        self._field = Input(field_get_attribute._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            field_get_attribute._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._property_name = Input(field_get_attribute._spec().input_pin(1), 1, op, -1)
+        self._property_name: Input[str] = Input(
+            field_get_attribute._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._property_name)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         Returns
@@ -189,7 +197,7 @@ class InputsFieldGetAttribute(_Inputs):
         return self._field
 
     @property
-    def property_name(self) -> Input:
+    def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
         Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.

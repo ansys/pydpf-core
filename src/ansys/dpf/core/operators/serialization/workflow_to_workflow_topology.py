@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.workflow import Workflow
+from ansys.dpf.core.generic_data_container import GenericDataContainer
+
 
 class workflow_to_workflow_topology(Operator):
     r"""Creates a GenericDataContainer based on WorkflowTopology structure from
@@ -149,13 +153,13 @@ class InputsWorkflowToWorkflowTopology(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(workflow_to_workflow_topology._spec().inputs, op)
-        self._workflow = Input(
+        self._workflow: Input[Workflow] = Input(
             workflow_to_workflow_topology._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._workflow)
 
     @property
-    def workflow(self) -> Input:
+    def workflow(self) -> Input[Workflow]:
         r"""Allows to connect workflow input to the operator.
 
         Returns
@@ -188,13 +192,13 @@ class OutputsWorkflowToWorkflowTopology(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(workflow_to_workflow_topology._spec().outputs, op)
-        self._workflow_topology = Output(
+        self._workflow_topology: Output[GenericDataContainer] = Output(
             workflow_to_workflow_topology._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._workflow_topology)
 
     @property
-    def workflow_topology(self) -> Output:
+    def workflow_topology(self) -> Output[GenericDataContainer]:
         r"""Allows to get workflow_topology output of the operator
 
         Returns

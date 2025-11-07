@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class field_to_fc(Operator):
     r"""Creates a fields container containing the field provided on pin 0.
@@ -156,13 +160,15 @@ class InputsFieldToFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(field_to_fc._spec().inputs, op)
-        self._field = Input(field_to_fc._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            field_to_fc._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._label = Input(field_to_fc._spec().input_pin(1), 1, op, -1)
+        self._label: Input[dict] = Input(field_to_fc._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._label)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         If a fields container is set in input, it is passed on as an output with the additional label space (if any).
@@ -183,7 +189,7 @@ class InputsFieldToFc(_Inputs):
         return self._field
 
     @property
-    def label(self) -> Input:
+    def label(self) -> Input[dict]:
         r"""Allows to connect label input to the operator.
 
         Sets a label space.
@@ -218,11 +224,13 @@ class OutputsFieldToFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(field_to_fc._spec().outputs, op)
-        self._fields_container = Output(field_to_fc._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            field_to_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

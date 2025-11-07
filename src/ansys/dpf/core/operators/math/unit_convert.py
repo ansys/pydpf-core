@@ -15,6 +15,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class unit_convert(Operator):
     r"""Converts an input field/fields container or mesh of a given unit to
@@ -171,13 +177,19 @@ class InputsUnitConvert(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(unit_convert._spec().inputs, op)
-        self._entity_to_convert = Input(unit_convert._spec().input_pin(0), 0, op, -1)
+        self._entity_to_convert: Input[
+            Field | FieldsContainer | MeshedRegion | MeshesContainer
+        ] = Input(unit_convert._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._entity_to_convert)
-        self._unit_name = Input(unit_convert._spec().input_pin(1), 1, op, -1)
+        self._unit_name: Input[str | int | Field] = Input(
+            unit_convert._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._unit_name)
 
     @property
-    def entity_to_convert(self) -> Input:
+    def entity_to_convert(
+        self,
+    ) -> Input[Field | FieldsContainer | MeshedRegion | MeshesContainer]:
         r"""Allows to connect entity_to_convert input to the operator.
 
         Returns
@@ -196,7 +208,7 @@ class InputsUnitConvert(_Inputs):
         return self._entity_to_convert
 
     @property
-    def unit_name(self) -> Input:
+    def unit_name(self) -> Input[str | int | Field]:
         r"""Allows to connect unit_name input to the operator.
 
         unit as a string, ex 'm' for meter, 'Pa' for pascal,... Or ansys unit system's ID, or a field from which expected unit will be extracted.

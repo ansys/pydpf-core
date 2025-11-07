@@ -14,6 +14,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.property_field import PropertyField
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class mesh_to_graphics(Operator):
     r"""Generate tessellation for input mesh
@@ -189,15 +195,21 @@ class InputsMeshToGraphics(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(mesh_to_graphics._spec().inputs, op)
-        self._mesh_scoping = Input(mesh_to_graphics._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(
+            mesh_to_graphics._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._node_normals = Input(mesh_to_graphics._spec().input_pin(2), 2, op, -1)
+        self._node_normals: Input[bool] = Input(
+            mesh_to_graphics._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._node_normals)
-        self._mesh = Input(mesh_to_graphics._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            mesh_to_graphics._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Returns
@@ -216,7 +228,7 @@ class InputsMeshToGraphics(_Inputs):
         return self._mesh_scoping
 
     @property
-    def node_normals(self) -> Input:
+    def node_normals(self) -> Input[bool]:
         r"""Allows to connect node_normals input to the operator.
 
         average element normals for node normals (default no, use element normals for node normals)
@@ -237,7 +249,7 @@ class InputsMeshToGraphics(_Inputs):
         return self._node_normals
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -272,15 +284,21 @@ class OutputsMeshToGraphics(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(mesh_to_graphics._spec().outputs, op)
-        self._nodes = Output(mesh_to_graphics._spec().output_pin(0), 0, op)
+        self._nodes: Output[Field] = Output(
+            mesh_to_graphics._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._nodes)
-        self._normals = Output(mesh_to_graphics._spec().output_pin(1), 1, op)
+        self._normals: Output[Field] = Output(
+            mesh_to_graphics._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._normals)
-        self._connectivity = Output(mesh_to_graphics._spec().output_pin(2), 2, op)
+        self._connectivity: Output[PropertyField] = Output(
+            mesh_to_graphics._spec().output_pin(2), 2, op
+        )
         self._outputs.append(self._connectivity)
 
     @property
-    def nodes(self) -> Output:
+    def nodes(self) -> Output[Field]:
         r"""Allows to get nodes output of the operator
 
         node coordinates
@@ -300,7 +318,7 @@ class OutputsMeshToGraphics(_Outputs):
         return self._nodes
 
     @property
-    def normals(self) -> Output:
+    def normals(self) -> Output[Field]:
         r"""Allows to get normals output of the operator
 
         node normals
@@ -320,7 +338,7 @@ class OutputsMeshToGraphics(_Outputs):
         return self._normals
 
     @property
-    def connectivity(self) -> Output:
+    def connectivity(self) -> Output[PropertyField]:
         r"""Allows to get connectivity output of the operator
 
         Returns

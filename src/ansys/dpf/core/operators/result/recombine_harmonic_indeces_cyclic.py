@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class recombine_harmonic_indeces_cyclic(Operator):
     r"""Add the fields corresponding to different load steps with the same
@@ -163,17 +166,17 @@ class InputsRecombineHarmonicIndecesCyclic(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(recombine_harmonic_indeces_cyclic._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             recombine_harmonic_indeces_cyclic._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._is_constant = Input(
+        self._is_constant: Input[bool] = Input(
             recombine_harmonic_indeces_cyclic._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._is_constant)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -192,7 +195,7 @@ class InputsRecombineHarmonicIndecesCyclic(_Inputs):
         return self._fields_container
 
     @property
-    def is_constant(self) -> Input:
+    def is_constant(self) -> Input[bool]:
         r"""Allows to connect is_constant input to the operator.
 
         If the result is constant, it will only copy the first result found.
@@ -227,13 +230,13 @@ class OutputsRecombineHarmonicIndecesCyclic(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(recombine_harmonic_indeces_cyclic._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             recombine_harmonic_indeces_cyclic._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

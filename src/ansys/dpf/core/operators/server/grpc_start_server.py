@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class grpc_start_server(Operator):
     r"""Starts a dpf’s grpc server (if local) or connect to one and keep it
@@ -229,23 +233,31 @@ class InputsGrpcStartServer(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(grpc_start_server._spec().inputs, op)
-        self._ip = Input(grpc_start_server._spec().input_pin(0), 0, op, -1)
+        self._ip: Input[str] = Input(grpc_start_server._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._ip)
-        self._port = Input(grpc_start_server._spec().input_pin(1), 1, op, -1)
+        self._port: Input[str | int] = Input(
+            grpc_start_server._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._port)
-        self._starting_option = Input(grpc_start_server._spec().input_pin(2), 2, op, -1)
+        self._starting_option: Input[int] = Input(
+            grpc_start_server._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._starting_option)
-        self._should_start_server = Input(
+        self._should_start_server: Input[bool] = Input(
             grpc_start_server._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._should_start_server)
-        self._data_sources = Input(grpc_start_server._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            grpc_start_server._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
-        self._dpf_context = Input(grpc_start_server._spec().input_pin(5), 5, op, -1)
+        self._dpf_context: Input[str | int] = Input(
+            grpc_start_server._spec().input_pin(5), 5, op, -1
+        )
         self._inputs.append(self._dpf_context)
 
     @property
-    def ip(self) -> Input:
+    def ip(self) -> Input[str]:
         r"""Allows to connect ip input to the operator.
 
         If no ip address is put, the local ip address is taken
@@ -266,7 +278,7 @@ class InputsGrpcStartServer(_Inputs):
         return self._ip
 
     @property
-    def port(self) -> Input:
+    def port(self) -> Input[str | int]:
         r"""Allows to connect port input to the operator.
 
         If no port is put, port 50052 is taken
@@ -287,7 +299,7 @@ class InputsGrpcStartServer(_Inputs):
         return self._port
 
     @property
-    def starting_option(self) -> Input:
+    def starting_option(self) -> Input[int]:
         r"""Allows to connect starting_option input to the operator.
 
         default is 1 that starts server in new thread. With 0, this thread will be waiting for grpc calls and will not be usable for anything else. With 2, it the server will be started in a new process.
@@ -308,7 +320,7 @@ class InputsGrpcStartServer(_Inputs):
         return self._starting_option
 
     @property
-    def should_start_server(self) -> Input:
+    def should_start_server(self) -> Input[bool]:
         r"""Allows to connect should_start_server input to the operator.
 
         If true, the server is assumed to be local and is started. If false, only a client (able to send grpc calls) will be started
@@ -329,7 +341,7 @@ class InputsGrpcStartServer(_Inputs):
         return self._should_start_server
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         A data source with result key 'grpc' and file path 'port:ip' can be used instead of the input port and IP.
@@ -350,7 +362,7 @@ class InputsGrpcStartServer(_Inputs):
         return self._data_sources
 
     @property
-    def dpf_context(self) -> Input:
+    def dpf_context(self) -> Input[str | int]:
         r"""Allows to connect dpf_context input to the operator.
 
         This pin is associated with pin(2) = 2 (server started in a new process). User can enter the integer associated with a DPF context (1: Standalone Context - DpfCoreStandalone.xml, 3: Custom - DpfCustomDefined.xml) or a string with the path of the XML specifying the context.
@@ -385,11 +397,13 @@ class OutputsGrpcStartServer(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(grpc_start_server._spec().outputs, op)
-        self._grpc_streams = Output(grpc_start_server._spec().output_pin(0), 0, op)
+        self._grpc_streams: Output[StreamsContainer] = Output(
+            grpc_start_server._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._grpc_streams)
 
     @property
-    def grpc_streams(self) -> Output:
+    def grpc_streams(self) -> Output[StreamsContainer]:
         r"""Allows to get grpc_streams output of the operator
 
         dpf streams handling the server, if the server is started in this thread, then nothing is added in output

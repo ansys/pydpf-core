@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class component_transformer(Operator):
     r"""Takes the input field and creates a field with overriden value on given
@@ -179,19 +183,21 @@ class InputsComponentTransformer(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(component_transformer._spec().inputs, op)
-        self._field = Input(component_transformer._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            component_transformer._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._component_number = Input(
+        self._component_number: Input[int] = Input(
             component_transformer._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._component_number)
-        self._default_value = Input(
+        self._default_value: Input[float] = Input(
             component_transformer._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._default_value)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         Returns
@@ -210,7 +216,7 @@ class InputsComponentTransformer(_Inputs):
         return self._field
 
     @property
-    def component_number(self) -> Input:
+    def component_number(self) -> Input[int]:
         r"""Allows to connect component_number input to the operator.
 
         One or several component index that will be modified from the initial field.
@@ -231,7 +237,7 @@ class InputsComponentTransformer(_Inputs):
         return self._component_number
 
     @property
-    def default_value(self) -> Input:
+    def default_value(self) -> Input[float]:
         r"""Allows to connect default_value input to the operator.
 
         Set a default value for components selected.
@@ -266,11 +272,13 @@ class OutputsComponentTransformer(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(component_transformer._spec().outputs, op)
-        self._field = Output(component_transformer._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            component_transformer._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class scoping_on_coordinates(Operator):
     r"""Finds the Elemental scoping of a set of coordinates.
@@ -154,15 +159,17 @@ class InputsScopingOnCoordinates(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(scoping_on_coordinates._spec().inputs, op)
-        self._coordinates = Input(
+        self._coordinates: Input[Field] = Input(
             scoping_on_coordinates._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._coordinates)
-        self._mesh = Input(scoping_on_coordinates._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            scoping_on_coordinates._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def coordinates(self) -> Input:
+    def coordinates(self) -> Input[Field]:
         r"""Allows to connect coordinates input to the operator.
 
         Returns
@@ -181,7 +188,7 @@ class InputsScopingOnCoordinates(_Inputs):
         return self._coordinates
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -214,11 +221,13 @@ class OutputsScopingOnCoordinates(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(scoping_on_coordinates._spec().outputs, op)
-        self._scoping = Output(scoping_on_coordinates._spec().output_pin(0), 0, op)
+        self._scoping: Output[Scoping] = Output(
+            scoping_on_coordinates._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._scoping)
 
     @property
-    def scoping(self) -> Output:
+    def scoping(self) -> Output[Scoping]:
         r"""Allows to get scoping output of the operator
 
         Returns

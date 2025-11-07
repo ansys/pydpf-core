@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.property_field import PropertyField
+
 
 class merge_property_fields(Operator):
     r"""Assembles a set of property fields into a unique one.
@@ -178,21 +181,21 @@ class InputsMergePropertyFields(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_property_fields._spec().inputs, op)
-        self._naive_merge = Input(
+        self._naive_merge: Input[bool] = Input(
             merge_property_fields._spec().input_pin(-201), -201, op, -1
         )
         self._inputs.append(self._naive_merge)
-        self._property_fields1 = Input(
+        self._property_fields1: Input[PropertyField] = Input(
             merge_property_fields._spec().input_pin(0), 0, op, 0
         )
         self._inputs.append(self._property_fields1)
-        self._property_fields2 = Input(
+        self._property_fields2: Input[PropertyField] = Input(
             merge_property_fields._spec().input_pin(1), 1, op, 1
         )
         self._inputs.append(self._property_fields2)
 
     @property
-    def naive_merge(self) -> Input:
+    def naive_merge(self) -> Input[bool]:
         r"""Allows to connect naive_merge input to the operator.
 
         If true, merge the input property fields assuming that there is no repetition in their scoping ids. Default is false.
@@ -213,7 +216,7 @@ class InputsMergePropertyFields(_Inputs):
         return self._naive_merge
 
     @property
-    def property_fields1(self) -> Input:
+    def property_fields1(self) -> Input[PropertyField]:
         r"""Allows to connect property_fields1 input to the operator.
 
         Either a property fields container, a vector of property fields to merge or property fields from pin 0 to ...
@@ -234,7 +237,7 @@ class InputsMergePropertyFields(_Inputs):
         return self._property_fields1
 
     @property
-    def property_fields2(self) -> Input:
+    def property_fields2(self) -> Input[PropertyField]:
         r"""Allows to connect property_fields2 input to the operator.
 
         Either a property fields container, a vector of property fields to merge or property fields from pin 0 to ...
@@ -269,13 +272,13 @@ class OutputsMergePropertyFields(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_property_fields._spec().outputs, op)
-        self._property_field = Output(
+        self._property_field: Output[PropertyField] = Output(
             merge_property_fields._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._property_field)
 
     @property
-    def property_field(self) -> Output:
+    def property_field(self) -> Output[PropertyField]:
         r"""Allows to get property_field output of the operator
 
         Returns

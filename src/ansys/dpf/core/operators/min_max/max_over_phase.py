@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class max_over_phase(Operator):
     r"""Returns, for each entity, the maximum value of (real value \* cos(theta)
@@ -196,17 +199,25 @@ class InputsMaxOverPhase(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(max_over_phase._spec().inputs, op)
-        self._real_field = Input(max_over_phase._spec().input_pin(0), 0, op, -1)
+        self._real_field: Input[Field] = Input(
+            max_over_phase._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._real_field)
-        self._imaginary_field = Input(max_over_phase._spec().input_pin(1), 1, op, -1)
+        self._imaginary_field: Input[Field] = Input(
+            max_over_phase._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._imaginary_field)
-        self._abs_value = Input(max_over_phase._spec().input_pin(2), 2, op, -1)
+        self._abs_value: Input[bool] = Input(
+            max_over_phase._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._abs_value)
-        self._phase_increment = Input(max_over_phase._spec().input_pin(3), 3, op, -1)
+        self._phase_increment: Input[float] = Input(
+            max_over_phase._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._phase_increment)
 
     @property
-    def real_field(self) -> Input:
+    def real_field(self) -> Input[Field]:
         r"""Allows to connect real_field input to the operator.
 
         Returns
@@ -225,7 +236,7 @@ class InputsMaxOverPhase(_Inputs):
         return self._real_field
 
     @property
-    def imaginary_field(self) -> Input:
+    def imaginary_field(self) -> Input[Field]:
         r"""Allows to connect imaginary_field input to the operator.
 
         Returns
@@ -244,7 +255,7 @@ class InputsMaxOverPhase(_Inputs):
         return self._imaginary_field
 
     @property
-    def abs_value(self) -> Input:
+    def abs_value(self) -> Input[bool]:
         r"""Allows to connect abs_value input to the operator.
 
         Should use absolute value.
@@ -265,7 +276,7 @@ class InputsMaxOverPhase(_Inputs):
         return self._abs_value
 
     @property
-    def phase_increment(self) -> Input:
+    def phase_increment(self) -> Input[float]:
         r"""Allows to connect phase_increment input to the operator.
 
         Phase increment (default is 10.0 degrees).
@@ -300,11 +311,11 @@ class OutputsMaxOverPhase(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(max_over_phase._spec().outputs, op)
-        self._field = Output(max_over_phase._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(max_over_phase._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

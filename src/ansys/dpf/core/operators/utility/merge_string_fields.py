@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.string_field import StringField
+
 
 class merge_string_fields(Operator):
     r"""Assembles a set of string fields into a unique one.
@@ -158,13 +161,17 @@ class InputsMergeStringFields(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_string_fields._spec().inputs, op)
-        self._string_fields1 = Input(merge_string_fields._spec().input_pin(0), 0, op, 0)
+        self._string_fields1: Input[StringField] = Input(
+            merge_string_fields._spec().input_pin(0), 0, op, 0
+        )
         self._inputs.append(self._string_fields1)
-        self._string_fields2 = Input(merge_string_fields._spec().input_pin(1), 1, op, 1)
+        self._string_fields2: Input[StringField] = Input(
+            merge_string_fields._spec().input_pin(1), 1, op, 1
+        )
         self._inputs.append(self._string_fields2)
 
     @property
-    def string_fields1(self) -> Input:
+    def string_fields1(self) -> Input[StringField]:
         r"""Allows to connect string_fields1 input to the operator.
 
         Either a a vector of string fields to merge or string fields from pin 0 to ...
@@ -185,7 +192,7 @@ class InputsMergeStringFields(_Inputs):
         return self._string_fields1
 
     @property
-    def string_fields2(self) -> Input:
+    def string_fields2(self) -> Input[StringField]:
         r"""Allows to connect string_fields2 input to the operator.
 
         Either a a vector of string fields to merge or string fields from pin 0 to ...
@@ -220,11 +227,13 @@ class OutputsMergeStringFields(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_string_fields._spec().outputs, op)
-        self._string_field = Output(merge_string_fields._spec().output_pin(0), 0, op)
+        self._string_field: Output[StringField] = Output(
+            merge_string_fields._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._string_field)
 
     @property
-    def string_field(self) -> Output:
+    def string_field(self) -> Output[StringField]:
         r"""Allows to get string_field output of the operator
 
         Returns

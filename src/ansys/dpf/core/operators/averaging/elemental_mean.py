@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scoping import Scoping
+
 
 class elemental_mean(Operator):
     r"""Computes the average of a multi-entity field, (ElementalNodal ->
@@ -195,19 +199,25 @@ class InputsElementalMean(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(elemental_mean._spec().inputs, op)
-        self._field = Input(elemental_mean._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field] = Input(
+            elemental_mean._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._collapse_shell_layers = Input(
+        self._collapse_shell_layers: Input[bool] = Input(
             elemental_mean._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._collapse_shell_layers)
-        self._force_averaging = Input(elemental_mean._spec().input_pin(2), 2, op, -1)
+        self._force_averaging: Input[bool] = Input(
+            elemental_mean._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._force_averaging)
-        self._scoping = Input(elemental_mean._spec().input_pin(3), 3, op, -1)
+        self._scoping: Input[Scoping] = Input(
+            elemental_mean._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._scoping)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
         Returns
@@ -226,7 +236,7 @@ class InputsElementalMean(_Inputs):
         return self._field
 
     @property
-    def collapse_shell_layers(self) -> Input:
+    def collapse_shell_layers(self) -> Input[bool]:
         r"""Allows to connect collapse_shell_layers input to the operator.
 
         If true, shell layers are averaged as well (default is false).
@@ -247,7 +257,7 @@ class InputsElementalMean(_Inputs):
         return self._collapse_shell_layers
 
     @property
-    def force_averaging(self) -> Input:
+    def force_averaging(self) -> Input[bool]:
         r"""Allows to connect force_averaging input to the operator.
 
         If true you average, if false you just sum.
@@ -268,7 +278,7 @@ class InputsElementalMean(_Inputs):
         return self._force_averaging
 
     @property
-    def scoping(self) -> Input:
+    def scoping(self) -> Input[Scoping]:
         r"""Allows to connect scoping input to the operator.
 
         Average only on these elements. If it is a scoping container, the label must correspond to the one of the fields containers.
@@ -303,11 +313,11 @@ class OutputsElementalMean(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(elemental_mean._spec().outputs, op)
-        self._field = Output(elemental_mean._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(elemental_mean._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

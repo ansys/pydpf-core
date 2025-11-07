@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class mesh_to_mc(Operator):
     r"""Creates a meshes container containing the mesh provided on pin 0.
@@ -156,13 +160,15 @@ class InputsMeshToMc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(mesh_to_mc._spec().inputs, op)
-        self._mesh = Input(mesh_to_mc._spec().input_pin(0), 0, op, -1)
+        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
+            mesh_to_mc._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._label = Input(mesh_to_mc._spec().input_pin(1), 1, op, -1)
+        self._label: Input[dict] = Input(mesh_to_mc._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._label)
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
         If a meshes container is set in input, it is passed on as an output with the additional label space (if any).
@@ -183,7 +189,7 @@ class InputsMeshToMc(_Inputs):
         return self._mesh
 
     @property
-    def label(self) -> Input:
+    def label(self) -> Input[dict]:
         r"""Allows to connect label input to the operator.
 
         Sets a label space.
@@ -218,11 +224,13 @@ class OutputsMeshToMc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(mesh_to_mc._spec().outputs, op)
-        self._meshes_container = Output(mesh_to_mc._spec().output_pin(0), 0, op)
+        self._meshes_container: Output[MeshesContainer] = Output(
+            mesh_to_mc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._meshes_container)
 
     @property
-    def meshes_container(self) -> Output:
+    def meshes_container(self) -> Output[MeshesContainer]:
         r"""Allows to get meshes_container output of the operator
 
         Returns

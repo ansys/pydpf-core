@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class rotate_in_cylindrical_cs(Operator):
     r"""Rotates a field to its corresponding values into the specified
@@ -179,17 +184,21 @@ class InputsRotateInCylindricalCs(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(rotate_in_cylindrical_cs._spec().inputs, op)
-        self._field = Input(rotate_in_cylindrical_cs._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            rotate_in_cylindrical_cs._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._coordinate_system = Input(
+        self._coordinate_system: Input[Field] = Input(
             rotate_in_cylindrical_cs._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._coordinate_system)
-        self._mesh = Input(rotate_in_cylindrical_cs._spec().input_pin(2), 2, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            rotate_in_cylindrical_cs._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -210,7 +219,7 @@ class InputsRotateInCylindricalCs(_Inputs):
         return self._field
 
     @property
-    def coordinate_system(self) -> Input:
+    def coordinate_system(self) -> Input[Field]:
         r"""Allows to connect coordinate_system input to the operator.
 
         3-3 rotation matrix and origin coordinates must be set here to define a coordinate system.
@@ -231,7 +240,7 @@ class InputsRotateInCylindricalCs(_Inputs):
         return self._coordinate_system
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Mesh support of the input field.
@@ -266,11 +275,13 @@ class OutputsRotateInCylindricalCs(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(rotate_in_cylindrical_cs._spec().outputs, op)
-        self._field = Output(rotate_in_cylindrical_cs._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            rotate_in_cylindrical_cs._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+
 
 class identical_scopings(Operator):
     r"""Check if two scopings are identical.
@@ -163,13 +166,17 @@ class InputsIdenticalScopings(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(identical_scopings._spec().inputs, op)
-        self._scopingA = Input(identical_scopings._spec().input_pin(0), 0, op, -1)
+        self._scopingA: Input[Scoping] = Input(
+            identical_scopings._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._scopingA)
-        self._scopingB = Input(identical_scopings._spec().input_pin(1), 1, op, -1)
+        self._scopingB: Input[Scoping] = Input(
+            identical_scopings._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._scopingB)
 
     @property
-    def scopingA(self) -> Input:
+    def scopingA(self) -> Input[Scoping]:
         r"""Allows to connect scopingA input to the operator.
 
         Returns
@@ -188,7 +195,7 @@ class InputsIdenticalScopings(_Inputs):
         return self._scopingA
 
     @property
-    def scopingB(self) -> Input:
+    def scopingB(self) -> Input[Scoping]:
         r"""Allows to connect scopingB input to the operator.
 
         Returns
@@ -222,13 +229,17 @@ class OutputsIdenticalScopings(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(identical_scopings._spec().outputs, op)
-        self._boolean = Output(identical_scopings._spec().output_pin(0), 0, op)
+        self._boolean: Output[bool] = Output(
+            identical_scopings._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._boolean)
-        self._message = Output(identical_scopings._spec().output_pin(1), 1, op)
+        self._message: Output[str] = Output(
+            identical_scopings._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._message)
 
     @property
-    def boolean(self) -> Output:
+    def boolean(self) -> Output[bool]:
         r"""Allows to get boolean output of the operator
 
         bool (true if identical...)
@@ -248,7 +259,7 @@ class OutputsIdenticalScopings(_Outputs):
         return self._boolean
 
     @property
-    def message(self) -> Output:
+    def message(self) -> Output[str]:
         r"""Allows to get message output of the operator
 
         Returns

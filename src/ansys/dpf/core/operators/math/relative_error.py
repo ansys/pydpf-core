@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scoping import Scoping
+
 
 class relative_error(Operator):
     r"""Computes the relative error between a reference scalar field and another
@@ -186,13 +191,17 @@ class InputsRelativeError(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(relative_error._spec().inputs, op)
-        self._value = Input(relative_error._spec().input_pin(0), 0, op, -1)
+        self._value: Input[Field | FieldsContainer | float] = Input(
+            relative_error._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._value)
-        self._reference = Input(relative_error._spec().input_pin(1), 1, op, -1)
+        self._reference: Input[Field | FieldsContainer | float] = Input(
+            relative_error._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._reference)
 
     @property
-    def value(self) -> Input:
+    def value(self) -> Input[Field | FieldsContainer | float]:
         r"""Allows to connect value input to the operator.
 
         field or fields container with only one field is expected
@@ -213,7 +222,7 @@ class InputsRelativeError(_Inputs):
         return self._value
 
     @property
-    def reference(self) -> Input:
+    def reference(self) -> Input[Field | FieldsContainer | float]:
         r"""Allows to connect reference input to the operator.
 
         field or fields container with only one field is expected
@@ -250,15 +259,19 @@ class OutputsRelativeError(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(relative_error._spec().outputs, op)
-        self._field = Output(relative_error._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(relative_error._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
-        self._zero_ref_scoping = Output(relative_error._spec().output_pin(1), 1, op)
+        self._zero_ref_scoping: Output[Scoping] = Output(
+            relative_error._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._zero_ref_scoping)
-        self._no_ref_scoping = Output(relative_error._spec().output_pin(2), 2, op)
+        self._no_ref_scoping: Output[Scoping] = Output(
+            relative_error._spec().output_pin(2), 2, op
+        )
         self._outputs.append(self._no_ref_scoping)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns
@@ -276,7 +289,7 @@ class OutputsRelativeError(_Outputs):
         return self._field
 
     @property
-    def zero_ref_scoping(self) -> Output:
+    def zero_ref_scoping(self) -> Output[Scoping]:
         r"""Allows to get zero_ref_scoping output of the operator
 
         Ids of entities where reference value is zero.
@@ -296,7 +309,7 @@ class OutputsRelativeError(_Outputs):
         return self._zero_ref_scoping
 
     @property
-    def no_ref_scoping(self) -> Output:
+    def no_ref_scoping(self) -> Output[Scoping]:
         r"""Allows to get no_ref_scoping output of the operator
 
         Ids of entities where there are no reference value.

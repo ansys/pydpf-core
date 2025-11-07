@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.dpf_operator import Operator
+from ansys.dpf.core.scoping import Scoping
+
 
 class split_in_for_each_range(Operator):
     r"""Split a scoping into several pieces so you can iterate it with a
@@ -208,17 +212,23 @@ class InputsSplitInForEachRange(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(split_in_for_each_range._spec().inputs, op)
-        self._iterable = Input(split_in_for_each_range._spec().input_pin(0), 0, op, -1)
+        self._iterable: Input = Input(
+            split_in_for_each_range._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._iterable)
-        self._operator_to_iterate = Input(
+        self._operator_to_iterate: Input[Operator] = Input(
             split_in_for_each_range._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._operator_to_iterate)
-        self._pin_index = Input(split_in_for_each_range._spec().input_pin(2), 2, op, -1)
+        self._pin_index: Input[int] = Input(
+            split_in_for_each_range._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._pin_index)
-        self._scoping = Input(split_in_for_each_range._spec().input_pin(3), 3, op, -1)
+        self._scoping: Input[Scoping] = Input(
+            split_in_for_each_range._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._scoping)
-        self._chunk_size = Input(
+        self._chunk_size: Input[int] = Input(
             split_in_for_each_range._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._chunk_size)
@@ -245,7 +255,7 @@ class InputsSplitInForEachRange(_Inputs):
         return self._iterable
 
     @property
-    def operator_to_iterate(self) -> Input:
+    def operator_to_iterate(self) -> Input[Operator]:
         r"""Allows to connect operator_to_iterate input to the operator.
 
         Operator that must be reconnected with the range values.
@@ -266,7 +276,7 @@ class InputsSplitInForEachRange(_Inputs):
         return self._operator_to_iterate
 
     @property
-    def pin_index(self) -> Input:
+    def pin_index(self) -> Input[int]:
         r"""Allows to connect pin_index input to the operator.
 
         Returns
@@ -285,7 +295,7 @@ class InputsSplitInForEachRange(_Inputs):
         return self._pin_index
 
     @property
-    def scoping(self) -> Input:
+    def scoping(self) -> Input[Scoping]:
         r"""Allows to connect scoping input to the operator.
 
         Returns
@@ -304,7 +314,7 @@ class InputsSplitInForEachRange(_Inputs):
         return self._scoping
 
     @property
-    def chunk_size(self) -> Input:
+    def chunk_size(self) -> Input[int]:
         r"""Allows to connect chunk_size input to the operator.
 
         Returns
@@ -337,7 +347,9 @@ class OutputsSplitInForEachRange(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(split_in_for_each_range._spec().outputs, op)
-        self._output = Output(split_in_for_each_range._spec().output_pin(0), 0, op)
+        self._output: Output = Output(
+            split_in_for_each_range._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._output)
 
     @property

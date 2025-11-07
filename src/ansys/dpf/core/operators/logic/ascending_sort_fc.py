@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class ascending_sort_fc(Operator):
     r"""Sort a field (in 0) in ascending order with an optional component
@@ -182,19 +185,21 @@ class InputsAscendingSortFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(ascending_sort_fc._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             ascending_sort_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._component_priority_table = Input(
+        self._component_priority_table: Input = Input(
             ascending_sort_fc._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._component_priority_table)
-        self._sort_by_scoping = Input(ascending_sort_fc._spec().input_pin(2), 2, op, -1)
+        self._sort_by_scoping: Input[bool] = Input(
+            ascending_sort_fc._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._sort_by_scoping)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         field or fields container with only one field is expected
@@ -236,7 +241,7 @@ class InputsAscendingSortFc(_Inputs):
         return self._component_priority_table
 
     @property
-    def sort_by_scoping(self) -> Input:
+    def sort_by_scoping(self) -> Input[bool]:
         r"""Allows to connect sort_by_scoping input to the operator.
 
         if true, uses scoping to sort the field (default is false)
@@ -271,11 +276,13 @@ class OutputsAscendingSortFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(ascending_sort_fc._spec().outputs, op)
-        self._fields_container = Output(ascending_sort_fc._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            ascending_sort_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

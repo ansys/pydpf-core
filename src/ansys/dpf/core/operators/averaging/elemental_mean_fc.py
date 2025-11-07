@@ -14,6 +14,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class elemental_mean_fc(Operator):
     r"""Computes the average of a multi-entity container of fields,
@@ -257,31 +264,37 @@ class InputsElementalMeanFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(elemental_mean_fc._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             elemental_mean_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._collapse_shell_layers = Input(
+        self._collapse_shell_layers: Input[bool] = Input(
             elemental_mean_fc._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._collapse_shell_layers)
-        self._force_averaging = Input(elemental_mean_fc._spec().input_pin(2), 2, op, -1)
+        self._force_averaging: Input[bool] = Input(
+            elemental_mean_fc._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._force_averaging)
-        self._scoping = Input(elemental_mean_fc._spec().input_pin(3), 3, op, -1)
+        self._scoping: Input[Scoping | ScopingsContainer] = Input(
+            elemental_mean_fc._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._scoping)
-        self._abstract_meshed_region = Input(
+        self._abstract_meshed_region: Input[MeshedRegion | MeshesContainer] = Input(
             elemental_mean_fc._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._abstract_meshed_region)
-        self._merge_solid_shell = Input(
+        self._merge_solid_shell: Input[bool] = Input(
             elemental_mean_fc._spec().input_pin(26), 26, op, -1
         )
         self._inputs.append(self._merge_solid_shell)
-        self._e_shell_layer = Input(elemental_mean_fc._spec().input_pin(27), 27, op, -1)
+        self._e_shell_layer: Input[int] = Input(
+            elemental_mean_fc._spec().input_pin(27), 27, op, -1
+        )
         self._inputs.append(self._e_shell_layer)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -300,7 +313,7 @@ class InputsElementalMeanFc(_Inputs):
         return self._fields_container
 
     @property
-    def collapse_shell_layers(self) -> Input:
+    def collapse_shell_layers(self) -> Input[bool]:
         r"""Allows to connect collapse_shell_layers input to the operator.
 
         If true, the data across different shell layers is averaged as well (default is false).
@@ -321,7 +334,7 @@ class InputsElementalMeanFc(_Inputs):
         return self._collapse_shell_layers
 
     @property
-    def force_averaging(self) -> Input:
+    def force_averaging(self) -> Input[bool]:
         r"""Allows to connect force_averaging input to the operator.
 
         If true you average, if false you just sum.
@@ -342,7 +355,7 @@ class InputsElementalMeanFc(_Inputs):
         return self._force_averaging
 
     @property
-    def scoping(self) -> Input:
+    def scoping(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect scoping input to the operator.
 
         Average only on these elements. If it is a scoping container, the label must correspond to the one of the fields container.
@@ -363,7 +376,7 @@ class InputsElementalMeanFc(_Inputs):
         return self._scoping
 
     @property
-    def abstract_meshed_region(self) -> Input:
+    def abstract_meshed_region(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect abstract_meshed_region input to the operator.
 
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
@@ -384,7 +397,7 @@ class InputsElementalMeanFc(_Inputs):
         return self._abstract_meshed_region
 
     @property
-    def merge_solid_shell(self) -> Input:
+    def merge_solid_shell(self) -> Input[bool]:
         r"""Allows to connect merge_solid_shell input to the operator.
 
         For shell/solid mixed fields, group in the same field all solids and shells (false by default). This pin only has an effect when collapse_shell_layers is false and a value for e_shell_layer is provided.
@@ -405,7 +418,7 @@ class InputsElementalMeanFc(_Inputs):
         return self._merge_solid_shell
 
     @property
-    def e_shell_layer(self) -> Input:
+    def e_shell_layer(self) -> Input[int]:
         r"""Allows to connect e_shell_layer input to the operator.
 
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. This pin only has an effect when collapse_shell_layers is false.
@@ -440,11 +453,13 @@ class OutputsElementalMeanFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(elemental_mean_fc._spec().outputs, op)
-        self._fields_container = Output(elemental_mean_fc._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            elemental_mean_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

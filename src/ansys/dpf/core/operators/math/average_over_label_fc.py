@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class average_over_label_fc(Operator):
     r"""Compute the component-wise average over all the fields that have the
@@ -163,15 +167,17 @@ class InputsAverageOverLabelFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(average_over_label_fc._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             average_over_label_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._label = Input(average_over_label_fc._spec().input_pin(1), 1, op, -1)
+        self._label: Input[str] = Input(
+            average_over_label_fc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._label)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -190,7 +196,7 @@ class InputsAverageOverLabelFc(_Inputs):
         return self._fields_container
 
     @property
-    def label(self) -> Input:
+    def label(self) -> Input[str]:
         r"""Allows to connect label input to the operator.
 
         Label of the fields container where it should operate. If not defined and the input Fields Container has only one Label, the operation will be done over all the fields.
@@ -225,11 +231,13 @@ class OutputsAverageOverLabelFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(average_over_label_fc._spec().outputs, op)
-        self._field = Output(average_over_label_fc._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            average_over_label_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.workflow import Workflow
+from ansys.dpf.core.data_sources import DataSources
+
 
 class import_symbolic_workflow(Operator):
     r"""Reads a file or string holding a Symbolic Workflow and instantiate a
@@ -157,15 +161,17 @@ class InputsImportSymbolicWorkflow(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(import_symbolic_workflow._spec().inputs, op)
-        self._string_or_path = Input(
+        self._string_or_path: Input[str | DataSources] = Input(
             import_symbolic_workflow._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._string_or_path)
-        self._format = Input(import_symbolic_workflow._spec().input_pin(2), 2, op, -1)
+        self._format: Input[int] = Input(
+            import_symbolic_workflow._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._format)
 
     @property
-    def string_or_path(self) -> Input:
+    def string_or_path(self) -> Input[str | DataSources]:
         r"""Allows to connect string_or_path input to the operator.
 
         Returns
@@ -184,7 +190,7 @@ class InputsImportSymbolicWorkflow(_Inputs):
         return self._string_or_path
 
     @property
-    def format(self) -> Input:
+    def format(self) -> Input[int]:
         r"""Allows to connect format input to the operator.
 
         -1 is auto-detection, 0 is ASCII format, 1 is binary, 2 is json, default is -1 (auto-detection).
@@ -219,11 +225,13 @@ class OutputsImportSymbolicWorkflow(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(import_symbolic_workflow._spec().outputs, op)
-        self._workflow = Output(import_symbolic_workflow._spec().output_pin(0), 0, op)
+        self._workflow: Output[Workflow] = Output(
+            import_symbolic_workflow._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._workflow)
 
     @property
-    def workflow(self) -> Output:
+    def workflow(self) -> Output[Workflow]:
         r"""Allows to get workflow output of the operator
 
         Returns

@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.property_field import PropertyField
+from ansys.dpf.core.data_sources import DataSources
+
 
 class cms_subfile_info_provider(Operator):
     r"""Read required information from a subfile.
@@ -190,21 +194,21 @@ class InputsCmsSubfileInfoProvider(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(cms_subfile_info_provider._spec().inputs, op)
-        self._data_sources = Input(
+        self._data_sources: Input[DataSources] = Input(
             cms_subfile_info_provider._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
-        self._cms_subfile_data = Input(
+        self._cms_subfile_data: Input[bool] = Input(
             cms_subfile_info_provider._spec().input_pin(200), 200, op, -1
         )
         self._inputs.append(self._cms_subfile_data)
-        self._output_maxdof_on_masternodes = Input(
+        self._output_maxdof_on_masternodes: Input[bool] = Input(
             cms_subfile_info_provider._spec().input_pin(300), 300, op, -1
         )
         self._inputs.append(self._output_maxdof_on_masternodes)
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Data_sources (must contain at least one subfile).
@@ -225,7 +229,7 @@ class InputsCmsSubfileInfoProvider(_Inputs):
         return self._data_sources
 
     @property
-    def cms_subfile_data(self) -> Input:
+    def cms_subfile_data(self) -> Input[bool]:
         r"""Allows to connect cms_subfile_data input to the operator.
 
         If this pin i set to true, data are return in a field.
@@ -246,7 +250,7 @@ class InputsCmsSubfileInfoProvider(_Inputs):
         return self._cms_subfile_data
 
     @property
-    def output_maxdof_on_masternodes(self) -> Input:
+    def output_maxdof_on_masternodes(self) -> Input[bool]:
         r"""Allows to connect output_maxdof_on_masternodes input to the operator.
 
         If this pin is set to true, compute and add field with max degrees of freedom on master nodes
@@ -282,13 +286,17 @@ class OutputsCmsSubfileInfoProvider(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(cms_subfile_info_provider._spec().outputs, op)
-        self._int32 = Output(cms_subfile_info_provider._spec().output_pin(0), 0, op)
+        self._int32: Output[int] = Output(
+            cms_subfile_info_provider._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._int32)
-        self._field = Output(cms_subfile_info_provider._spec().output_pin(1), 1, op)
+        self._field: Output[PropertyField] = Output(
+            cms_subfile_info_provider._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def int32(self) -> Output:
+    def int32(self) -> Output[int]:
         r"""Allows to get int32 output of the operator
 
         returns integer values in the order : unit system used, stiffness matrix present key, damping matrix present key, mass matrix present key, number of master nodes, number of virtual nodes
@@ -308,7 +316,7 @@ class OutputsCmsSubfileInfoProvider(_Outputs):
         return self._int32
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[PropertyField]:
         r"""Allows to get field output of the operator
 
         returns integer values in the order : number of load vectors (nvects), number of nodes (nnod), number of virtual nodes (nvnodes), number of modes (nvmodes)

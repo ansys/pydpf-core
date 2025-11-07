@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class identical_meshes(Operator):
     r"""Takes two meshes and compares them. Note: When comparing mesh
@@ -212,21 +215,29 @@ class InputsIdenticalMeshes(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(identical_meshes._spec().inputs, op)
-        self._meshA = Input(identical_meshes._spec().input_pin(0), 0, op, -1)
+        self._meshA: Input[MeshedRegion] = Input(
+            identical_meshes._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._meshA)
-        self._meshB = Input(identical_meshes._spec().input_pin(1), 1, op, -1)
+        self._meshB: Input[MeshedRegion] = Input(
+            identical_meshes._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._meshB)
-        self._small_value = Input(identical_meshes._spec().input_pin(2), 2, op, -1)
+        self._small_value: Input[float] = Input(
+            identical_meshes._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._small_value)
-        self._tolerance = Input(identical_meshes._spec().input_pin(3), 3, op, -1)
+        self._tolerance: Input[float] = Input(
+            identical_meshes._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._tolerance)
-        self._compare_auxiliary = Input(
+        self._compare_auxiliary: Input[bool] = Input(
             identical_meshes._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._compare_auxiliary)
 
     @property
-    def meshA(self) -> Input:
+    def meshA(self) -> Input[MeshedRegion]:
         r"""Allows to connect meshA input to the operator.
 
         Returns
@@ -245,7 +256,7 @@ class InputsIdenticalMeshes(_Inputs):
         return self._meshA
 
     @property
-    def meshB(self) -> Input:
+    def meshB(self) -> Input[MeshedRegion]:
         r"""Allows to connect meshB input to the operator.
 
         Returns
@@ -264,7 +275,7 @@ class InputsIdenticalMeshes(_Inputs):
         return self._meshB
 
     @property
-    def small_value(self) -> Input:
+    def small_value(self) -> Input[float]:
         r"""Allows to connect small_value input to the operator.
 
         define what is a small value for numeric comparison (default value:1.0e-14).
@@ -285,7 +296,7 @@ class InputsIdenticalMeshes(_Inputs):
         return self._small_value
 
     @property
-    def tolerance(self) -> Input:
+    def tolerance(self) -> Input[float]:
         r"""Allows to connect tolerance input to the operator.
 
         define the relative tolerance ceil for numeric comparison (default is 0.001).
@@ -306,7 +317,7 @@ class InputsIdenticalMeshes(_Inputs):
         return self._tolerance
 
     @property
-    def compare_auxiliary(self) -> Input:
+    def compare_auxiliary(self) -> Input[bool]:
         r"""Allows to connect compare_auxiliary input to the operator.
 
         compare auxiliary data (i.e property fields, scopings...). Default value is 'false'.
@@ -341,11 +352,13 @@ class OutputsIdenticalMeshes(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(identical_meshes._spec().outputs, op)
-        self._are_identical = Output(identical_meshes._spec().output_pin(0), 0, op)
+        self._are_identical: Output[bool] = Output(
+            identical_meshes._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._are_identical)
 
     @property
-    def are_identical(self) -> Output:
+    def are_identical(self) -> Output[bool]:
         r"""Allows to get are_identical output of the operator
 
         Returns

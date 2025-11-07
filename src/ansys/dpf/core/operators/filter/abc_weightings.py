@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class abc_weightings(Operator):
     r"""Computes ABC-weightings for the amplitude spectrum in dB units.
@@ -179,17 +182,21 @@ class InputsAbcWeightings(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(abc_weightings._spec().inputs, op)
-        self._fields_container = Input(abc_weightings._spec().input_pin(0), 0, op, -1)
+        self._fields_container: Input[FieldsContainer] = Input(
+            abc_weightings._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields_container)
-        self._weighting_type = Input(abc_weightings._spec().input_pin(1), 1, op, -1)
+        self._weighting_type: Input[int] = Input(
+            abc_weightings._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._weighting_type)
-        self._shape_by_tf_scoping = Input(
+        self._shape_by_tf_scoping: Input[bool] = Input(
             abc_weightings._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._shape_by_tf_scoping)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         data to be weighted in dB units.
@@ -210,7 +217,7 @@ class InputsAbcWeightings(_Inputs):
         return self._fields_container
 
     @property
-    def weighting_type(self) -> Input:
+    def weighting_type(self) -> Input[int]:
         r"""Allows to connect weighting_type input to the operator.
 
         if this pin is set to 0, the A-weighting is computed, 1 the B-weigting is computed and 2 the C-weightings is computed.
@@ -231,7 +238,7 @@ class InputsAbcWeightings(_Inputs):
         return self._weighting_type
 
     @property
-    def shape_by_tf_scoping(self) -> Input:
+    def shape_by_tf_scoping(self) -> Input[bool]:
         r"""Allows to connect shape_by_tf_scoping input to the operator.
 
         if this pin is set to true, each field of the input fields container is defined by time freq scoping and not by ids. Default is false
@@ -266,11 +273,13 @@ class OutputsAbcWeightings(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(abc_weightings._spec().outputs, op)
-        self._weightings = Output(abc_weightings._spec().output_pin(0), 0, op)
+        self._weightings: Output[FieldsContainer] = Output(
+            abc_weightings._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._weightings)
 
     @property
-    def weightings(self) -> Output:
+    def weightings(self) -> Output[FieldsContainer]:
         r"""Allows to get weightings output of the operator
 
         weighted data in dB units.

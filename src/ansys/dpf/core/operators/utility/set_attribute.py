@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class set_attribute(Operator):
     r"""Uses the FieldsContainer APIs to modify it.
@@ -182,15 +185,21 @@ class InputsSetAttribute(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(set_attribute._spec().inputs, op)
-        self._fields_container = Input(set_attribute._spec().input_pin(0), 0, op, -1)
+        self._fields_container: Input[FieldsContainer] = Input(
+            set_attribute._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields_container)
-        self._property_name = Input(set_attribute._spec().input_pin(1), 1, op, -1)
+        self._property_name: Input[str] = Input(
+            set_attribute._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._property_name)
-        self._property_identifier = Input(set_attribute._spec().input_pin(2), 2, op, -1)
+        self._property_identifier: Input[dict] = Input(
+            set_attribute._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._property_identifier)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -209,7 +218,7 @@ class InputsSetAttribute(_Inputs):
         return self._fields_container
 
     @property
-    def property_name(self) -> Input:
+    def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
         Supported property names are: "labels".
@@ -230,7 +239,7 @@ class InputsSetAttribute(_Inputs):
         return self._property_name
 
     @property
-    def property_identifier(self) -> Input:
+    def property_identifier(self) -> Input[dict]:
         r"""Allows to connect property_identifier input to the operator.
 
         Value of the property to be set : vector of string or LabelSpace for "labels".
@@ -265,11 +274,13 @@ class OutputsSetAttribute(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(set_attribute._spec().outputs, op)
-        self._fields_container = Output(set_attribute._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            set_attribute._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns the modified FieldsContainer.

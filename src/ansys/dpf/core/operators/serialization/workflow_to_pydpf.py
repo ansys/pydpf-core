@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.workflow import Workflow
+
 
 class workflow_to_pydpf(Operator):
     r"""Generates a PyDPF script that can recreate the given workflow. The
@@ -158,13 +161,17 @@ class InputsWorkflowToPydpf(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(workflow_to_pydpf._spec().inputs, op)
-        self._workflow = Input(workflow_to_pydpf._spec().input_pin(0), 0, op, -1)
+        self._workflow: Input[Workflow] = Input(
+            workflow_to_pydpf._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._workflow)
-        self._output_path = Input(workflow_to_pydpf._spec().input_pin(1), 1, op, -1)
+        self._output_path: Input[str] = Input(
+            workflow_to_pydpf._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._output_path)
 
     @property
-    def workflow(self) -> Input:
+    def workflow(self) -> Input[Workflow]:
         r"""Allows to connect workflow input to the operator.
 
         Returns
@@ -183,7 +190,7 @@ class InputsWorkflowToPydpf(_Inputs):
         return self._workflow
 
     @property
-    def output_path(self) -> Input:
+    def output_path(self) -> Input[str]:
         r"""Allows to connect output_path input to the operator.
 
         Returns
@@ -216,11 +223,13 @@ class OutputsWorkflowToPydpf(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(workflow_to_pydpf._spec().outputs, op)
-        self._pydpf_code = Output(workflow_to_pydpf._spec().output_pin(0), 0, op)
+        self._pydpf_code: Output[str] = Output(
+            workflow_to_pydpf._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._pydpf_code)
 
     @property
-    def pydpf_code(self) -> Output:
+    def pydpf_code(self) -> Output[str]:
         r"""Allows to get pydpf_code output of the operator
 
         Returns

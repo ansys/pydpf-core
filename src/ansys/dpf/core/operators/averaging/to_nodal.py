@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+
 
 class to_nodal(Operator):
     r"""Transforms a field into a Nodal field using an averaging process. The
@@ -195,17 +200,25 @@ class InputsToNodal(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(to_nodal._spec().inputs, op)
-        self._field = Input(to_nodal._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            to_nodal._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._mesh_scoping = Input(to_nodal._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(
+            to_nodal._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._merge_solid_shell = Input(to_nodal._spec().input_pin(26), 26, op, -1)
+        self._merge_solid_shell: Input[bool] = Input(
+            to_nodal._spec().input_pin(26), 26, op, -1
+        )
         self._inputs.append(self._merge_solid_shell)
-        self._shell_layer = Input(to_nodal._spec().input_pin(27), 27, op, -1)
+        self._shell_layer: Input[int] = Input(
+            to_nodal._spec().input_pin(27), 27, op, -1
+        )
         self._inputs.append(self._shell_layer)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -226,7 +239,7 @@ class InputsToNodal(_Inputs):
         return self._field
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Returns
@@ -245,7 +258,7 @@ class InputsToNodal(_Inputs):
         return self._mesh_scoping
 
     @property
-    def merge_solid_shell(self) -> Input:
+    def merge_solid_shell(self) -> Input[bool]:
         r"""Allows to connect merge_solid_shell input to the operator.
 
         For shell/solid mixed fields, group in the same field all solids and shells (false by default). If this pin is true, a shell_layer needs to be specified.
@@ -266,7 +279,7 @@ class InputsToNodal(_Inputs):
         return self._merge_solid_shell
 
     @property
-    def shell_layer(self) -> Input:
+    def shell_layer(self) -> Input[int]:
         r"""Allows to connect shell_layer input to the operator.
 
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).
@@ -301,11 +314,11 @@ class OutputsToNodal(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(to_nodal._spec().outputs, op)
-        self._field = Output(to_nodal._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(to_nodal._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

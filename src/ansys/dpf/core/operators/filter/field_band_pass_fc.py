@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class field_band_pass_fc(Operator):
     r"""The band pass filter returns all the values above (but not equal to) the
@@ -182,17 +186,21 @@ class InputsFieldBandPassFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(field_band_pass_fc._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             field_band_pass_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._min_threshold = Input(field_band_pass_fc._spec().input_pin(1), 1, op, -1)
+        self._min_threshold: Input[float | Field] = Input(
+            field_band_pass_fc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._min_threshold)
-        self._max_threshold = Input(field_band_pass_fc._spec().input_pin(2), 2, op, -1)
+        self._max_threshold: Input[float | Field] = Input(
+            field_band_pass_fc._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._max_threshold)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         field or fields container with only one field is expected
@@ -213,7 +221,7 @@ class InputsFieldBandPassFc(_Inputs):
         return self._fields_container
 
     @property
-    def min_threshold(self) -> Input:
+    def min_threshold(self) -> Input[float | Field]:
         r"""Allows to connect min_threshold input to the operator.
 
         A minimum threshold scalar or a field containing one value is expected.
@@ -234,7 +242,7 @@ class InputsFieldBandPassFc(_Inputs):
         return self._min_threshold
 
     @property
-    def max_threshold(self) -> Input:
+    def max_threshold(self) -> Input[float | Field]:
         r"""Allows to connect max_threshold input to the operator.
 
         A maximum threshold scalar or a field containing one value is expected.
@@ -269,11 +277,13 @@ class OutputsFieldBandPassFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(field_band_pass_fc._spec().outputs, op)
-        self._fields_container = Output(field_band_pass_fc._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            field_band_pass_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

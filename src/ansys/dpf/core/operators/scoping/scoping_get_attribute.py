@@ -15,6 +15,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+
 
 class scoping_get_attribute(Operator):
     r"""Uses the Scoping APIs to return a given attribute of the scoping in
@@ -159,15 +162,17 @@ class InputsScopingGetAttribute(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(scoping_get_attribute._spec().inputs, op)
-        self._scoping = Input(scoping_get_attribute._spec().input_pin(0), 0, op, -1)
+        self._scoping: Input[Scoping] = Input(
+            scoping_get_attribute._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._scoping)
-        self._property_name = Input(
+        self._property_name: Input[str] = Input(
             scoping_get_attribute._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._property_name)
 
     @property
-    def scoping(self) -> Input:
+    def scoping(self) -> Input[Scoping]:
         r"""Allows to connect scoping input to the operator.
 
         Returns
@@ -186,7 +191,7 @@ class InputsScopingGetAttribute(_Inputs):
         return self._scoping
 
     @property
-    def property_name(self) -> Input:
+    def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
         Supported property names are: "ids", "location".

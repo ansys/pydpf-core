@@ -15,6 +15,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class change_cs(Operator):
     r"""Applies a transformation (rotation and displacement) matrix on a mesh or
@@ -158,13 +163,17 @@ class InputsChangeCs(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(change_cs._spec().inputs, op)
-        self._meshes = Input(change_cs._spec().input_pin(0), 0, op, -1)
+        self._meshes: Input[MeshedRegion | MeshesContainer] = Input(
+            change_cs._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._meshes)
-        self._coordinate_system = Input(change_cs._spec().input_pin(1), 1, op, -1)
+        self._coordinate_system: Input[Field] = Input(
+            change_cs._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._coordinate_system)
 
     @property
-    def meshes(self) -> Input:
+    def meshes(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect meshes input to the operator.
 
         Returns
@@ -183,7 +192,7 @@ class InputsChangeCs(_Inputs):
         return self._meshes
 
     @property
-    def coordinate_system(self) -> Input:
+    def coordinate_system(self) -> Input[Field]:
         r"""Allows to connect coordinate_system input to the operator.
 
         3-3 rotation matrix + 3 translations (X, Y, Z)

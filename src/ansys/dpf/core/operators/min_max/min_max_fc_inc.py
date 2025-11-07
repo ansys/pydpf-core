@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class min_max_fc_inc(Operator):
     r"""Compute the component-wise minimum (out 0) and maximum (out 1) over a
@@ -150,11 +154,13 @@ class InputsMinMaxFcInc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(min_max_fc_inc._spec().inputs, op)
-        self._fields_container = Input(min_max_fc_inc._spec().input_pin(0), 0, op, -1)
+        self._fields_container: Input[FieldsContainer] = Input(
+            min_max_fc_inc._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -188,13 +194,17 @@ class OutputsMinMaxFcInc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(min_max_fc_inc._spec().outputs, op)
-        self._field_min = Output(min_max_fc_inc._spec().output_pin(0), 0, op)
+        self._field_min: Output[Field] = Output(
+            min_max_fc_inc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field_min)
-        self._field_max = Output(min_max_fc_inc._spec().output_pin(1), 1, op)
+        self._field_max: Output[Field] = Output(
+            min_max_fc_inc._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._field_max)
 
     @property
-    def field_min(self) -> Output:
+    def field_min(self) -> Output[Field]:
         r"""Allows to get field_min output of the operator
 
         Returns
@@ -212,7 +222,7 @@ class OutputsMinMaxFcInc(_Outputs):
         return self._field_min
 
     @property
-    def field_max(self) -> Output:
+    def field_max(self) -> Output[Field]:
         r"""Allows to get field_max output of the operator
 
         Returns

@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+
 
 class timefreq_signed_high_pass(Operator):
     r"""The high pass filter returns all the values above, or equal, in absolute
@@ -191,19 +196,21 @@ class InputsTimefreqSignedHighPass(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(timefreq_signed_high_pass._spec().inputs, op)
-        self._time_freq_support = Input(
+        self._time_freq_support: Input[TimeFreqSupport] = Input(
             timefreq_signed_high_pass._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._time_freq_support)
-        self._threshold = Input(
+        self._threshold: Input[float | Field] = Input(
             timefreq_signed_high_pass._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._threshold)
-        self._both = Input(timefreq_signed_high_pass._spec().input_pin(2), 2, op, -1)
+        self._both: Input[bool] = Input(
+            timefreq_signed_high_pass._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._both)
 
     @property
-    def time_freq_support(self) -> Input:
+    def time_freq_support(self) -> Input[TimeFreqSupport]:
         r"""Allows to connect time_freq_support input to the operator.
 
         Returns
@@ -222,7 +229,7 @@ class InputsTimefreqSignedHighPass(_Inputs):
         return self._time_freq_support
 
     @property
-    def threshold(self) -> Input:
+    def threshold(self) -> Input[float | Field]:
         r"""Allows to connect threshold input to the operator.
 
         A threshold scalar or a field containing one value is expected.
@@ -243,7 +250,7 @@ class InputsTimefreqSignedHighPass(_Inputs):
         return self._threshold
 
     @property
-    def both(self) -> Input:
+    def both(self) -> Input[bool]:
         r"""Allows to connect both input to the operator.
 
         The default is false. If set to true, the complement of the filtered fields container is returned on output pin 1.
@@ -279,15 +286,17 @@ class OutputsTimefreqSignedHighPass(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(timefreq_signed_high_pass._spec().outputs, op)
-        self._time_freq_support = Output(
+        self._time_freq_support: Output[TimeFreqSupport] = Output(
             timefreq_signed_high_pass._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._time_freq_support)
-        self._scoping = Output(timefreq_signed_high_pass._spec().output_pin(1), 1, op)
+        self._scoping: Output[Scoping] = Output(
+            timefreq_signed_high_pass._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._scoping)
 
     @property
-    def time_freq_support(self) -> Output:
+    def time_freq_support(self) -> Output[TimeFreqSupport]:
         r"""Allows to get time_freq_support output of the operator
 
         Returns
@@ -305,7 +314,7 @@ class OutputsTimefreqSignedHighPass(_Outputs):
         return self._time_freq_support
 
     @property
-    def scoping(self) -> Output:
+    def scoping(self) -> Output[Scoping]:
         r"""Allows to get scoping output of the operator
 
         Returns

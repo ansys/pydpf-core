@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class field_signed_high_pass_fc(Operator):
     r"""The high pass filter returns all the values above, or equal, in absolute
@@ -179,19 +183,21 @@ class InputsFieldSignedHighPassFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(field_signed_high_pass_fc._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             field_signed_high_pass_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._threshold = Input(
+        self._threshold: Input[float | Field] = Input(
             field_signed_high_pass_fc._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._threshold)
-        self._both = Input(field_signed_high_pass_fc._spec().input_pin(2), 2, op, -1)
+        self._both: Input[bool] = Input(
+            field_signed_high_pass_fc._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._both)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         field or fields container with only one field is expected
@@ -212,7 +218,7 @@ class InputsFieldSignedHighPassFc(_Inputs):
         return self._fields_container
 
     @property
-    def threshold(self) -> Input:
+    def threshold(self) -> Input[float | Field]:
         r"""Allows to connect threshold input to the operator.
 
         A threshold scalar or a field containing one value is expected.
@@ -233,7 +239,7 @@ class InputsFieldSignedHighPassFc(_Inputs):
         return self._threshold
 
     @property
-    def both(self) -> Input:
+    def both(self) -> Input[bool]:
         r"""Allows to connect both input to the operator.
 
         The default is false. If set to true, the complement of the filtered fields container is returned on output pin 1.
@@ -268,13 +274,13 @@ class OutputsFieldSignedHighPassFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(field_signed_high_pass_fc._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             field_signed_high_pass_fc._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

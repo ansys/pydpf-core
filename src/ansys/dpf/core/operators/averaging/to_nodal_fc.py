@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class to_nodal_fc(Operator):
     r"""Transforms fields into Nodal fields using an averaging process. The
@@ -209,19 +214,29 @@ class InputsToNodalFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(to_nodal_fc._spec().inputs, op)
-        self._fields_container = Input(to_nodal_fc._spec().input_pin(0), 0, op, -1)
+        self._fields_container: Input[FieldsContainer] = Input(
+            to_nodal_fc._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields_container)
-        self._mesh = Input(to_nodal_fc._spec().input_pin(1), 1, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            to_nodal_fc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._mesh_scoping = Input(to_nodal_fc._spec().input_pin(3), 3, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(
+            to_nodal_fc._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._merge_solid_shell = Input(to_nodal_fc._spec().input_pin(26), 26, op, -1)
+        self._merge_solid_shell: Input[bool] = Input(
+            to_nodal_fc._spec().input_pin(26), 26, op, -1
+        )
         self._inputs.append(self._merge_solid_shell)
-        self._shell_layer = Input(to_nodal_fc._spec().input_pin(27), 27, op, -1)
+        self._shell_layer: Input[int] = Input(
+            to_nodal_fc._spec().input_pin(27), 27, op, -1
+        )
         self._inputs.append(self._shell_layer)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -240,7 +255,7 @@ class InputsToNodalFc(_Inputs):
         return self._fields_container
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -259,7 +274,7 @@ class InputsToNodalFc(_Inputs):
         return self._mesh
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Returns
@@ -278,7 +293,7 @@ class InputsToNodalFc(_Inputs):
         return self._mesh_scoping
 
     @property
-    def merge_solid_shell(self) -> Input:
+    def merge_solid_shell(self) -> Input[bool]:
         r"""Allows to connect merge_solid_shell input to the operator.
 
         For shell/solid mixed fields, group in the same field all solids and shells (false by default). If this pin is true, a shell_layer needs to be specified.
@@ -299,7 +314,7 @@ class InputsToNodalFc(_Inputs):
         return self._merge_solid_shell
 
     @property
-    def shell_layer(self) -> Input:
+    def shell_layer(self) -> Input[int]:
         r"""Allows to connect shell_layer input to the operator.
 
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).
@@ -334,11 +349,13 @@ class OutputsToNodalFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(to_nodal_fc._spec().outputs, op)
-        self._fields_container = Output(to_nodal_fc._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            to_nodal_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

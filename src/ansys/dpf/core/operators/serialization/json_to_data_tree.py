@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.data_tree import DataTree
+
 
 class json_to_data_tree(Operator):
     r"""Reads a json file or string to a DataTree
@@ -140,11 +144,13 @@ class InputsJsonToDataTree(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(json_to_data_tree._spec().inputs, op)
-        self._string_or_path = Input(json_to_data_tree._spec().input_pin(0), 0, op, -1)
+        self._string_or_path: Input[str | DataSources] = Input(
+            json_to_data_tree._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._string_or_path)
 
     @property
-    def string_or_path(self) -> Input:
+    def string_or_path(self) -> Input[str | DataSources]:
         r"""Allows to connect string_or_path input to the operator.
 
         Returns
@@ -177,11 +183,13 @@ class OutputsJsonToDataTree(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(json_to_data_tree._spec().outputs, op)
-        self._data_tree = Output(json_to_data_tree._spec().output_pin(0), 0, op)
+        self._data_tree: Output[DataTree] = Output(
+            json_to_data_tree._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._data_tree)
 
     @property
-    def data_tree(self) -> Output:
+    def data_tree(self) -> Output[DataTree]:
         r"""Allows to get data_tree output of the operator
 
         Returns

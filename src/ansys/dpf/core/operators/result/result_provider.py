@@ -15,6 +15,16 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class result_provider(Operator):
     r"""Read/compute user defined result by calling the readers defined by the
@@ -290,31 +300,45 @@ class InputsResultProvider(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(result_provider._spec().inputs, op)
-        self._time_scoping = Input(result_provider._spec().input_pin(0), 0, op, -1)
+        self._time_scoping: Input[Scoping | int | float | Field] = Input(
+            result_provider._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping = Input(result_provider._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[ScopingsContainer | Scoping] = Input(
+            result_provider._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._fields_container = Input(result_provider._spec().input_pin(2), 2, op, -1)
+        self._fields_container: Input[FieldsContainer] = Input(
+            result_provider._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._fields_container)
-        self._streams_container = Input(result_provider._spec().input_pin(3), 3, op, -1)
+        self._streams_container: Input[StreamsContainer] = Input(
+            result_provider._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(result_provider._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            result_provider._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
-        self._bool_rotate_to_global = Input(
+        self._bool_rotate_to_global: Input[bool] = Input(
             result_provider._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._bool_rotate_to_global)
-        self._mesh = Input(result_provider._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
+            result_provider._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._result_name = Input(result_provider._spec().input_pin(60), 60, op, -1)
+        self._result_name: Input = Input(
+            result_provider._spec().input_pin(60), 60, op, -1
+        )
         self._inputs.append(self._result_name)
-        self._result_scripting_name = Input(
+        self._result_scripting_name: Input = Input(
             result_provider._spec().input_pin(64), 64, op, -1
         )
         self._inputs.append(self._result_scripting_name)
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping | int | float | Field]:
         r"""Allows to connect time_scoping input to the operator.
 
         time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
@@ -335,7 +359,7 @@ class InputsResultProvider(_Inputs):
         return self._time_scoping
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[ScopingsContainer | Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains
@@ -356,7 +380,7 @@ class InputsResultProvider(_Inputs):
         return self._mesh_scoping
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Fields container already allocated modified inplace
@@ -377,7 +401,7 @@ class InputsResultProvider(_Inputs):
         return self._fields_container
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         result file container allowed to be kept open to cache data
@@ -398,7 +422,7 @@ class InputsResultProvider(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         result file path container, used if no streams are set
@@ -419,7 +443,7 @@ class InputsResultProvider(_Inputs):
         return self._data_sources
 
     @property
-    def bool_rotate_to_global(self) -> Input:
+    def bool_rotate_to_global(self) -> Input[bool]:
         r"""Allows to connect bool_rotate_to_global input to the operator.
 
         if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
@@ -440,7 +464,7 @@ class InputsResultProvider(_Inputs):
         return self._bool_rotate_to_global
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
         prevents from reading the mesh in the result files
@@ -517,11 +541,13 @@ class OutputsResultProvider(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(result_provider._spec().outputs, op)
-        self._fields_container = Output(result_provider._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            result_provider._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

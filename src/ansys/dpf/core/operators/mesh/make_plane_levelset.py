@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class make_plane_levelset(Operator):
     r"""Computes the level set for a plane using coordinates.
@@ -172,15 +176,21 @@ class InputsMakePlaneLevelset(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(make_plane_levelset._spec().inputs, op)
-        self._coordinates = Input(make_plane_levelset._spec().input_pin(0), 0, op, -1)
+        self._coordinates: Input[MeshedRegion | Field] = Input(
+            make_plane_levelset._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._coordinates)
-        self._normal = Input(make_plane_levelset._spec().input_pin(1), 1, op, -1)
+        self._normal: Input[Field] = Input(
+            make_plane_levelset._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._normal)
-        self._origin = Input(make_plane_levelset._spec().input_pin(2), 2, op, -1)
+        self._origin: Input[Field] = Input(
+            make_plane_levelset._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._origin)
 
     @property
-    def coordinates(self) -> Input:
+    def coordinates(self) -> Input[MeshedRegion | Field]:
         r"""Allows to connect coordinates input to the operator.
 
         Returns
@@ -199,7 +209,7 @@ class InputsMakePlaneLevelset(_Inputs):
         return self._coordinates
 
     @property
-    def normal(self) -> Input:
+    def normal(self) -> Input[Field]:
         r"""Allows to connect normal input to the operator.
 
         An overall 3D vector that gives the normal direction of the plane.
@@ -220,7 +230,7 @@ class InputsMakePlaneLevelset(_Inputs):
         return self._normal
 
     @property
-    def origin(self) -> Input:
+    def origin(self) -> Input[Field]:
         r"""Allows to connect origin input to the operator.
 
         An overall 3d vector that gives a point of the plane.
@@ -255,11 +265,13 @@ class OutputsMakePlaneLevelset(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(make_plane_levelset._spec().outputs, op)
-        self._field = Output(make_plane_levelset._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            make_plane_levelset._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

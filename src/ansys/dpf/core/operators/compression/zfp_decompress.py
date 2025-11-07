@@ -15,6 +15,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+
 
 class zfp_decompress(Operator):
     r"""zfp decompression using the information about compression written into
@@ -154,7 +156,7 @@ class InputsZfpDecompress(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(zfp_decompress._spec().inputs, op)
-        self._dataIn = Input(zfp_decompress._spec().input_pin(0), 0, op, -1)
+        self._dataIn: Input = Input(zfp_decompress._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._dataIn)
 
     @property
@@ -210,11 +212,13 @@ class OutputsZfpDecompress(_Outputs):
             op,
         )
         self._outputs.append(self.dataOut_as_fields_container)
-        self._decompress_speed = Output(zfp_decompress._spec().output_pin(1), 1, op)
+        self._decompress_speed: Output[float] = Output(
+            zfp_decompress._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._decompress_speed)
 
     @property
-    def decompress_speed(self) -> Output:
+    def decompress_speed(self) -> Output[float]:
         r"""Allows to get decompress_speed output of the operator
 
         the output entity is a double, containing decompression speed (mb/sec)

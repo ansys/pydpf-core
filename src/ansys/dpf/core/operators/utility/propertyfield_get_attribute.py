@@ -15,6 +15,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.property_field import PropertyField
+
 
 class propertyfield_get_attribute(Operator):
     r"""Gets a property from an input field/field container. A PropertyFieldin
@@ -170,17 +173,17 @@ class InputsPropertyfieldGetAttribute(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(propertyfield_get_attribute._spec().inputs, op)
-        self._property_field = Input(
+        self._property_field: Input[PropertyField] = Input(
             propertyfield_get_attribute._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._property_field)
-        self._property_name = Input(
+        self._property_name: Input[str] = Input(
             propertyfield_get_attribute._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._property_name)
 
     @property
-    def property_field(self) -> Input:
+    def property_field(self) -> Input[PropertyField]:
         r"""Allows to connect property_field input to the operator.
 
         Returns
@@ -199,7 +202,7 @@ class InputsPropertyfieldGetAttribute(_Inputs):
         return self._property_field
 
     @property
-    def property_name(self) -> Input:
+    def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
         Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.

@@ -15,6 +15,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.data_tree import DataTree
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+
 
 class set_property(Operator):
     r"""Sets a property to an input field/field container. A Fieldin pin 0, a
@@ -28,7 +35,7 @@ class set_property(Operator):
     property_name: str
         Property to set. Accepted inputs are specific strings namely: 'unit', 'name', 'time_freq_support', 'scoping', 'header'.
     property: str or TimeFreqSupport or Scoping or DataTree or int or
-        float
+      float
         Property Value to set. Accepted inputs on this pin are: CTimeFreqSupport, CScoping, DataTree, int, double, string.
 
     Outputs
@@ -186,15 +193,21 @@ class InputsSetProperty(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(set_property._spec().inputs, op)
-        self._field = Input(set_property._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            set_property._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._property_name = Input(set_property._spec().input_pin(1), 1, op, -1)
+        self._property_name: Input[str] = Input(
+            set_property._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._property_name)
-        self._property = Input(set_property._spec().input_pin(2), 2, op, -1)
+        self._property: Input[
+            str | TimeFreqSupport | Scoping | DataTree | int | float
+        ] = Input(set_property._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._property)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         Returns
@@ -213,7 +226,7 @@ class InputsSetProperty(_Inputs):
         return self._field
 
     @property
-    def property_name(self) -> Input:
+    def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
         Property to set. Accepted inputs are specific strings namely: 'unit', 'name', 'time_freq_support', 'scoping', 'header'.
@@ -234,7 +247,9 @@ class InputsSetProperty(_Inputs):
         return self._property_name
 
     @property
-    def property(self) -> Input:
+    def property(
+        self,
+    ) -> Input[str | TimeFreqSupport | Scoping | DataTree | int | float]:
         r"""Allows to connect property input to the operator.
 
         Property Value to set. Accepted inputs on this pin are: CTimeFreqSupport, CScoping, DataTree, int, double, string.

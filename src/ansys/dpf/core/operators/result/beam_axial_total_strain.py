@@ -14,6 +14,15 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.unit_system import UnitSystem
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class beam_axial_total_strain(Operator):
     r"""Read Beam X Axial Total strain by calling the readers defined by the
@@ -239,33 +248,33 @@ class InputsBeamAxialTotalStrain(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(beam_axial_total_strain._spec().inputs, op)
-        self._time_scoping = Input(
+        self._time_scoping: Input[Scoping | int | float | Field] = Input(
             beam_axial_total_strain._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping = Input(
+        self._mesh_scoping: Input[ScopingsContainer | Scoping] = Input(
             beam_axial_total_strain._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_scoping)
-        self._streams_container = Input(
+        self._streams_container: Input[StreamsContainer] = Input(
             beam_axial_total_strain._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(
+        self._data_sources: Input[DataSources] = Input(
             beam_axial_total_strain._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
-        self._integration_point = Input(
+        self._integration_point: Input[int] = Input(
             beam_axial_total_strain._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._integration_point)
-        self._unit_system = Input(
+        self._unit_system: Input[int | str | UnitSystem] = Input(
             beam_axial_total_strain._spec().input_pin(50), 50, op, -1
         )
         self._inputs.append(self._unit_system)
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping | int | float | Field]:
         r"""Allows to connect time_scoping input to the operator.
 
         time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
@@ -286,7 +295,7 @@ class InputsBeamAxialTotalStrain(_Inputs):
         return self._time_scoping
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[ScopingsContainer | Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         elements scoping required in output.
@@ -307,7 +316,7 @@ class InputsBeamAxialTotalStrain(_Inputs):
         return self._mesh_scoping
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         result file container allowed to be kept open to cache data
@@ -328,7 +337,7 @@ class InputsBeamAxialTotalStrain(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         result file path container, used if no streams are set
@@ -349,7 +358,7 @@ class InputsBeamAxialTotalStrain(_Inputs):
         return self._data_sources
 
     @property
-    def integration_point(self) -> Input:
+    def integration_point(self) -> Input[int]:
         r"""Allows to connect integration_point input to the operator.
 
         integration point where the result will be read from. Default value: 0 (first integration point).
@@ -370,7 +379,7 @@ class InputsBeamAxialTotalStrain(_Inputs):
         return self._integration_point
 
     @property
-    def unit_system(self) -> Input:
+    def unit_system(self) -> Input[int | str | UnitSystem]:
         r"""Allows to connect unit_system input to the operator.
 
         (LSDyna) Unit System ID (int), semicolon-separated list of base unit strings (str) or UnitSystem instance
@@ -405,13 +414,13 @@ class OutputsBeamAxialTotalStrain(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(beam_axial_total_strain._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             beam_axial_total_strain._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

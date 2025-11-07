@@ -15,6 +15,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scoping import Scoping
+
 
 class rescope(Operator):
     r"""Rescopes a field on the given scoping. If an ID does not exist in the
@@ -179,15 +184,21 @@ class InputsRescope(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(rescope._spec().inputs, op)
-        self._fields = Input(rescope._spec().input_pin(0), 0, op, -1)
+        self._fields: Input[FieldsContainer | Field] = Input(
+            rescope._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields)
-        self._mesh_scoping = Input(rescope._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(
+            rescope._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._default_value = Input(rescope._spec().input_pin(2), 2, op, -1)
+        self._default_value: Input[float] = Input(
+            rescope._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._default_value)
 
     @property
-    def fields(self) -> Input:
+    def fields(self) -> Input[FieldsContainer | Field]:
         r"""Allows to connect fields input to the operator.
 
         Returns
@@ -206,7 +217,7 @@ class InputsRescope(_Inputs):
         return self._fields
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Returns
@@ -225,7 +236,7 @@ class InputsRescope(_Inputs):
         return self._mesh_scoping
 
     @property
-    def default_value(self) -> Input:
+    def default_value(self) -> Input[float]:
         r"""Allows to connect default_value input to the operator.
 
         If pin 2 is used, the IDs not found in the field are added with this default value.

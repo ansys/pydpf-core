@@ -14,6 +14,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class compute_stress(Operator):
     r"""Computes the stress from an elastic strain field. compute_total_strain
@@ -213,19 +220,29 @@ class InputsComputeStress(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(compute_stress._spec().inputs, op)
-        self._scoping = Input(compute_stress._spec().input_pin(1), 1, op, -1)
+        self._scoping: Input[Scoping] = Input(
+            compute_stress._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._scoping)
-        self._streams_container = Input(compute_stress._spec().input_pin(3), 3, op, -1)
+        self._streams_container: Input[StreamsContainer] = Input(
+            compute_stress._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(compute_stress._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            compute_stress._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
-        self._requested_location = Input(compute_stress._spec().input_pin(9), 9, op, -1)
+        self._requested_location: Input[str] = Input(
+            compute_stress._spec().input_pin(9), 9, op, -1
+        )
         self._inputs.append(self._requested_location)
-        self._strain = Input(compute_stress._spec().input_pin(10), 10, op, -1)
+        self._strain: Input[FieldsContainer | Field] = Input(
+            compute_stress._spec().input_pin(10), 10, op, -1
+        )
         self._inputs.append(self._strain)
 
     @property
-    def scoping(self) -> Input:
+    def scoping(self) -> Input[Scoping]:
         r"""Allows to connect scoping input to the operator.
 
         The element scoping on which the result is computed.
@@ -246,7 +263,7 @@ class InputsComputeStress(_Inputs):
         return self._scoping
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         Needed to get mesh and material ids. Optional if a data_sources have been connected.
@@ -267,7 +284,7 @@ class InputsComputeStress(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Needed to get mesh and material ids. Optional if a streams_container have been connected.
@@ -288,7 +305,7 @@ class InputsComputeStress(_Inputs):
         return self._data_sources
 
     @property
-    def requested_location(self) -> Input:
+    def requested_location(self) -> Input[str]:
         r"""Allows to connect requested_location input to the operator.
 
         Average the Elemental Nodal result to the requested location.
@@ -309,7 +326,7 @@ class InputsComputeStress(_Inputs):
         return self._requested_location
 
     @property
-    def strain(self) -> Input:
+    def strain(self) -> Input[FieldsContainer | Field]:
         r"""Allows to connect strain input to the operator.
 
         Field/or fields container containing only the elastic strain field (element nodal).
@@ -344,11 +361,13 @@ class OutputsComputeStress(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(compute_stress._spec().outputs, op)
-        self._fields_container = Output(compute_stress._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            compute_stress._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         The computed result fields container (elemental nodal).

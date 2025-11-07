@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+
 
 class intersect(Operator):
     r"""Intersect 2 scopings and return the intersection and the difference
@@ -164,13 +167,17 @@ class InputsIntersect(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(intersect._spec().inputs, op)
-        self._scopingA = Input(intersect._spec().input_pin(0), 0, op, -1)
+        self._scopingA: Input[Scoping] = Input(
+            intersect._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._scopingA)
-        self._scopingB = Input(intersect._spec().input_pin(1), 1, op, -1)
+        self._scopingB: Input[Scoping] = Input(
+            intersect._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._scopingB)
 
     @property
-    def scopingA(self) -> Input:
+    def scopingA(self) -> Input[Scoping]:
         r"""Allows to connect scopingA input to the operator.
 
         Returns
@@ -189,7 +196,7 @@ class InputsIntersect(_Inputs):
         return self._scopingA
 
     @property
-    def scopingB(self) -> Input:
+    def scopingB(self) -> Input[Scoping]:
         r"""Allows to connect scopingB input to the operator.
 
         Returns
@@ -223,13 +230,17 @@ class OutputsIntersect(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(intersect._spec().outputs, op)
-        self._intersection = Output(intersect._spec().output_pin(0), 0, op)
+        self._intersection: Output[Scoping] = Output(
+            intersect._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._intersection)
-        self._scopingA_min_intersection = Output(intersect._spec().output_pin(1), 1, op)
+        self._scopingA_min_intersection: Output[Scoping] = Output(
+            intersect._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._scopingA_min_intersection)
 
     @property
-    def intersection(self) -> Output:
+    def intersection(self) -> Output[Scoping]:
         r"""Allows to get intersection output of the operator
 
         Returns
@@ -247,7 +258,7 @@ class OutputsIntersect(_Outputs):
         return self._intersection
 
     @property
-    def scopingA_min_intersection(self) -> Output:
+    def scopingA_min_intersection(self) -> Output[Scoping]:
         r"""Allows to get scopingA_min_intersection output of the operator
 
         Returns

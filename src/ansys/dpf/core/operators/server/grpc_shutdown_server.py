@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.streams_container import StreamsContainer
+
 
 class grpc_shutdown_server(Operator):
     r"""Shutdowns dpf’s grpc server
@@ -131,11 +134,13 @@ class InputsGrpcShutdownServer(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(grpc_shutdown_server._spec().inputs, op)
-        self._grpc_stream = Input(grpc_shutdown_server._spec().input_pin(0), 0, op, -1)
+        self._grpc_stream: Input[StreamsContainer] = Input(
+            grpc_shutdown_server._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._grpc_stream)
 
     @property
-    def grpc_stream(self) -> Input:
+    def grpc_stream(self) -> Input[StreamsContainer]:
         r"""Allows to connect grpc_stream input to the operator.
 
         dpf streams handling the server

@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.scoping import Scoping
+
 
 class migrate_to_vtu(Operator):
     r"""Extract all results from a datasources and exports them into vtu format.
@@ -263,25 +268,41 @@ class InputsMigrateToVtu(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(migrate_to_vtu._spec().inputs, op)
-        self._time_scoping = Input(migrate_to_vtu._spec().input_pin(0), 0, op, -1)
+        self._time_scoping: Input[Scoping] = Input(
+            migrate_to_vtu._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._time_scoping)
-        self._streams_container = Input(migrate_to_vtu._spec().input_pin(3), 3, op, -1)
+        self._streams_container: Input[StreamsContainer] = Input(
+            migrate_to_vtu._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(migrate_to_vtu._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            migrate_to_vtu._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
-        self._directory = Input(migrate_to_vtu._spec().input_pin(20), 20, op, -1)
+        self._directory: Input[str] = Input(
+            migrate_to_vtu._spec().input_pin(20), 20, op, -1
+        )
         self._inputs.append(self._directory)
-        self._base_name = Input(migrate_to_vtu._spec().input_pin(21), 21, op, -1)
+        self._base_name: Input[str] = Input(
+            migrate_to_vtu._spec().input_pin(21), 21, op, -1
+        )
         self._inputs.append(self._base_name)
-        self._result1 = Input(migrate_to_vtu._spec().input_pin(30), 30, op, 0)
+        self._result1: Input[str] = Input(
+            migrate_to_vtu._spec().input_pin(30), 30, op, 0
+        )
         self._inputs.append(self._result1)
-        self._result2 = Input(migrate_to_vtu._spec().input_pin(31), 31, op, 1)
+        self._result2: Input[str] = Input(
+            migrate_to_vtu._spec().input_pin(31), 31, op, 1
+        )
         self._inputs.append(self._result2)
-        self._write_mode = Input(migrate_to_vtu._spec().input_pin(100), 100, op, -1)
+        self._write_mode: Input[str] = Input(
+            migrate_to_vtu._spec().input_pin(100), 100, op, -1
+        )
         self._inputs.append(self._write_mode)
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         time sets to export, default is all
@@ -302,7 +323,7 @@ class InputsMigrateToVtu(_Inputs):
         return self._time_scoping
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         result file container allowed to be kept open to cache data
@@ -323,7 +344,7 @@ class InputsMigrateToVtu(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         result file path container, used if no streams are set
@@ -344,7 +365,7 @@ class InputsMigrateToVtu(_Inputs):
         return self._data_sources
 
     @property
-    def directory(self) -> Input:
+    def directory(self) -> Input[str]:
         r"""Allows to connect directory input to the operator.
 
         directory path
@@ -365,7 +386,7 @@ class InputsMigrateToVtu(_Inputs):
         return self._directory
 
     @property
-    def base_name(self) -> Input:
+    def base_name(self) -> Input[str]:
         r"""Allows to connect base_name input to the operator.
 
         vtu base file name, (default is file)
@@ -386,7 +407,7 @@ class InputsMigrateToVtu(_Inputs):
         return self._base_name
 
     @property
-    def result1(self) -> Input:
+    def result1(self) -> Input[str]:
         r"""Allows to connect result1 input to the operator.
 
         if Operator's names are connected to this Pin, only these results are exported (else all available results are exported)
@@ -407,7 +428,7 @@ class InputsMigrateToVtu(_Inputs):
         return self._result1
 
     @property
-    def result2(self) -> Input:
+    def result2(self) -> Input[str]:
         r"""Allows to connect result2 input to the operator.
 
         if Operator's names are connected to this Pin, only these results are exported (else all available results are exported)
@@ -428,7 +449,7 @@ class InputsMigrateToVtu(_Inputs):
         return self._result2
 
     @property
-    def write_mode(self) -> Input:
+    def write_mode(self) -> Input[str]:
         r"""Allows to connect write_mode input to the operator.
 
         Available are rawbinarycompressed, rawbinary, base64appended, base64inline, ascii, default is (rawbinarycompressed)
@@ -463,11 +484,13 @@ class OutputsMigrateToVtu(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(migrate_to_vtu._spec().outputs, op)
-        self._path = Output(migrate_to_vtu._spec().output_pin(0), 0, op)
+        self._path: Output[DataSources] = Output(
+            migrate_to_vtu._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._path)
 
     @property
-    def path(self) -> Output:
+    def path(self) -> Output[DataSources]:
         r"""Allows to get path output of the operator
 
         list of output vtu file path

@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+
 
 class rescope_fc(Operator):
     r"""Rescopes a field on the given scoping. If an ID does not exist in the
@@ -178,15 +182,21 @@ class InputsRescopeFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(rescope_fc._spec().inputs, op)
-        self._fields_container = Input(rescope_fc._spec().input_pin(0), 0, op, -1)
+        self._fields_container: Input[FieldsContainer] = Input(
+            rescope_fc._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields_container)
-        self._mesh_scoping = Input(rescope_fc._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(
+            rescope_fc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._default_value = Input(rescope_fc._spec().input_pin(2), 2, op, -1)
+        self._default_value: Input[float] = Input(
+            rescope_fc._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._default_value)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -205,7 +215,7 @@ class InputsRescopeFc(_Inputs):
         return self._fields_container
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Returns
@@ -224,7 +234,7 @@ class InputsRescopeFc(_Inputs):
         return self._mesh_scoping
 
     @property
-    def default_value(self) -> Input:
+    def default_value(self) -> Input[float]:
         r"""Allows to connect default_value input to the operator.
 
         If pin 2 is used, the IDs not found in the field are added with this default value.
@@ -259,11 +269,13 @@ class OutputsRescopeFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(rescope_fc._spec().outputs, op)
-        self._fields_container = Output(rescope_fc._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            rescope_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

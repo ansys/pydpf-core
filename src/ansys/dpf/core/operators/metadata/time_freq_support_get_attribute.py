@@ -15,6 +15,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
+
 
 class time_freq_support_get_attribute(Operator):
     r"""Uses the TimeFreqSupport APIs to return a given attribute of the scoping
@@ -201,25 +205,25 @@ class InputsTimeFreqSupportGetAttribute(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(time_freq_support_get_attribute._spec().inputs, op)
-        self._time_freq_support = Input(
+        self._time_freq_support: Input[TimeFreqSupport] = Input(
             time_freq_support_get_attribute._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._time_freq_support)
-        self._property_name = Input(
+        self._property_name: Input[str] = Input(
             time_freq_support_get_attribute._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._property_name)
-        self._property_identifier = Input(
+        self._property_identifier: Input[int | Scoping] = Input(
             time_freq_support_get_attribute._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._property_identifier)
-        self._property_identifier_2 = Input(
+        self._property_identifier_2: Input[int] = Input(
             time_freq_support_get_attribute._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._property_identifier_2)
 
     @property
-    def time_freq_support(self) -> Input:
+    def time_freq_support(self) -> Input[TimeFreqSupport]:
         r"""Allows to connect time_freq_support input to the operator.
 
         Returns
@@ -238,7 +242,7 @@ class InputsTimeFreqSupportGetAttribute(_Inputs):
         return self._time_freq_support
 
     @property
-    def property_name(self) -> Input:
+    def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
         Supported property names are: "time_freqs", "imaginary_freqs", "frequency_tolerance", "set_id", "cummulative_index", "sets_freqs", "step_id_from_harmonic_index".
@@ -259,7 +263,7 @@ class InputsTimeFreqSupportGetAttribute(_Inputs):
         return self._property_name
 
     @property
-    def property_identifier(self) -> Input:
+    def property_identifier(self) -> Input[int | Scoping]:
         r"""Allows to connect property_identifier input to the operator.
 
         Additional pin for properties "set_id" and "cummulative_index": the step id, for "sets_freqs": the sets scoping, for "step_id_from_harmonic_index" : the harmonic index.
@@ -280,7 +284,7 @@ class InputsTimeFreqSupportGetAttribute(_Inputs):
         return self._property_identifier
 
     @property
-    def property_identifier_2(self) -> Input:
+    def property_identifier_2(self) -> Input[int]:
         r"""Allows to connect property_identifier_2 input to the operator.
 
         Additional pin for properties "set_id" and "cummulative_index": the substep id (if none, last substep is considered).

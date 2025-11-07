@@ -15,6 +15,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class transpose(Operator):
     r"""Transposes the input scoping or scopings container (Elemental/Faces –>
@@ -197,17 +203,23 @@ class InputsTranspose(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(transpose._spec().inputs, op)
-        self._mesh_scoping = Input(transpose._spec().input_pin(0), 0, op, -1)
+        self._mesh_scoping: Input[Scoping | ScopingsContainer] = Input(
+            transpose._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._meshed_region = Input(transpose._spec().input_pin(1), 1, op, -1)
+        self._meshed_region: Input[MeshedRegion | MeshesContainer] = Input(
+            transpose._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._meshed_region)
-        self._inclusive = Input(transpose._spec().input_pin(2), 2, op, -1)
+        self._inclusive: Input[int] = Input(transpose._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._inclusive)
-        self._requested_location = Input(transpose._spec().input_pin(9), 9, op, -1)
+        self._requested_location: Input[str] = Input(
+            transpose._spec().input_pin(9), 9, op, -1
+        )
         self._inputs.append(self._requested_location)
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Scoping or scopings container (the input type is the output type)
@@ -228,7 +240,7 @@ class InputsTranspose(_Inputs):
         return self._mesh_scoping
 
     @property
-    def meshed_region(self) -> Input:
+    def meshed_region(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect meshed_region input to the operator.
 
         Returns
@@ -247,7 +259,7 @@ class InputsTranspose(_Inputs):
         return self._meshed_region
 
     @property
-    def inclusive(self) -> Input:
+    def inclusive(self) -> Input[int]:
         r"""Allows to connect inclusive input to the operator.
 
         if inclusive == 1 then all the elements/faces adjacent to the nodes/faces ids in input are added, if inclusive == 0, only the elements/faces which have all their nodes/faces in the scoping are included
@@ -268,7 +280,7 @@ class InputsTranspose(_Inputs):
         return self._inclusive
 
     @property
-    def requested_location(self) -> Input:
+    def requested_location(self) -> Input[str]:
         r"""Allows to connect requested_location input to the operator.
 
         Output scoping location for meshes with nodes, faces and elements. By default, elemental and faces scopings transpose to nodal, and nodal scopings transpose to elemental.

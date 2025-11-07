@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.data_sources import DataSources
+
 
 class total_mass(Operator):
     r"""Reads total mass from mode file.
@@ -142,11 +145,13 @@ class InputsTotalMass(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(total_mass._spec().inputs, op)
-        self._data_sources = Input(total_mass._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            total_mass._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Data sources (must contain at least one mode file).
@@ -181,11 +186,11 @@ class OutputsTotalMass(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(total_mass._spec().outputs, op)
-        self._mass = Output(total_mass._spec().output_pin(0), 0, op)
+        self._mass: Output[float] = Output(total_mass._spec().output_pin(0), 0, op)
         self._outputs.append(self._mass)
 
     @property
-    def mass(self) -> Output:
+    def mass(self) -> Output[float]:
         r"""Allows to get mass output of the operator
 
         the unit should be grabbed from the rst file

@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class bind_support(Operator):
     r"""Ties a support to a field.
@@ -156,13 +161,17 @@ class InputsBindSupport(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(bind_support._spec().inputs, op)
-        self._field = Input(bind_support._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            bind_support._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._support = Input(bind_support._spec().input_pin(1), 1, op, -1)
+        self._support: Input[MeshedRegion] = Input(
+            bind_support._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._support)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -183,7 +192,7 @@ class InputsBindSupport(_Inputs):
         return self._field
 
     @property
-    def support(self) -> Input:
+    def support(self) -> Input[MeshedRegion]:
         r"""Allows to connect support input to the operator.
 
         meshed region or a support of the field
@@ -218,11 +227,11 @@ class OutputsBindSupport(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(bind_support._spec().outputs, op)
-        self._field = Output(bind_support._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(bind_support._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

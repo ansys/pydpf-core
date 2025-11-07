@@ -14,6 +14,14 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
+from ansys.dpf.core.result_info import ResultInfo
+from ansys.dpf.core.any import Any
+from ansys.dpf.core.data_tree import DataTree
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.data_sources import DataSources
+
 
 class hdf5dpf_generate_result_file(Operator):
     r"""Generate a dpf result file from provided information.
@@ -313,53 +321,53 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(hdf5dpf_generate_result_file._spec().inputs, op)
-        self._h5_chunk_size = Input(
+        self._h5_chunk_size: Input[int] = Input(
             hdf5dpf_generate_result_file._spec().input_pin(-7), -7, op, -1
         )
         self._inputs.append(self._h5_chunk_size)
-        self._append_mode = Input(
+        self._append_mode: Input[bool] = Input(
             hdf5dpf_generate_result_file._spec().input_pin(-6), -6, op, -1
         )
         self._inputs.append(self._append_mode)
-        self._dataset_size_compression_threshold = Input(
+        self._dataset_size_compression_threshold: Input[int] = Input(
             hdf5dpf_generate_result_file._spec().input_pin(-5), -5, op, -1
         )
         self._inputs.append(self._dataset_size_compression_threshold)
-        self._h5_native_compression = Input(
+        self._h5_native_compression: Input[int | DataTree] = Input(
             hdf5dpf_generate_result_file._spec().input_pin(-2), -2, op, -1
         )
         self._inputs.append(self._h5_native_compression)
-        self._export_floats = Input(
+        self._export_floats: Input[bool] = Input(
             hdf5dpf_generate_result_file._spec().input_pin(-1), -1, op, -1
         )
         self._inputs.append(self._export_floats)
-        self._filename = Input(
+        self._filename: Input[str] = Input(
             hdf5dpf_generate_result_file._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._filename)
-        self._mesh_provider_out = Input(
+        self._mesh_provider_out: Input[MeshedRegion] = Input(
             hdf5dpf_generate_result_file._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_provider_out)
-        self._time_freq_support_out = Input(
+        self._time_freq_support_out: Input[TimeFreqSupport] = Input(
             hdf5dpf_generate_result_file._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._time_freq_support_out)
-        self._ansys_unit_system_id = Input(
+        self._ansys_unit_system_id: Input[int | ResultInfo] = Input(
             hdf5dpf_generate_result_file._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._ansys_unit_system_id)
-        self._input_name1 = Input(
+        self._input_name1: Input[str | Any] = Input(
             hdf5dpf_generate_result_file._spec().input_pin(4), 4, op, 0
         )
         self._inputs.append(self._input_name1)
-        self._input_name2 = Input(
+        self._input_name2: Input[str | Any] = Input(
             hdf5dpf_generate_result_file._spec().input_pin(5), 5, op, 1
         )
         self._inputs.append(self._input_name2)
 
     @property
-    def h5_chunk_size(self) -> Input:
+    def h5_chunk_size(self) -> Input[int]:
         r"""Allows to connect h5_chunk_size input to the operator.
 
         Size of each HDF5 chunk in kilobytes (KB). Default: 1 MB when compression is enabled; for uncompressed datasets, the default is the full dataset size x dimension.
@@ -380,7 +388,7 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         return self._h5_chunk_size
 
     @property
-    def append_mode(self) -> Input:
+    def append_mode(self) -> Input[bool]:
         r"""Allows to connect append_mode input to the operator.
 
         Experimental: Allow appending chunked data to the file. This disables fields container content deduplication.
@@ -401,7 +409,7 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         return self._append_mode
 
     @property
-    def dataset_size_compression_threshold(self) -> Input:
+    def dataset_size_compression_threshold(self) -> Input[int]:
         r"""Allows to connect dataset_size_compression_threshold input to the operator.
 
         Integer value that defines the minimum dataset size (in bytes) to use h5 native compression Applicable for arrays of floats, doubles and integers.
@@ -422,7 +430,7 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         return self._dataset_size_compression_threshold
 
     @property
-    def h5_native_compression(self) -> Input:
+    def h5_native_compression(self) -> Input[int | DataTree]:
         r"""Allows to connect h5_native_compression input to the operator.
 
         Integer value / DataTree that defines the h5 native compression used For Integer Input {0: No Compression (default); 1-9: GZIP Compression : 9 provides maximum compression but at the slowest speed.}For DataTree Input {type: None / GZIP / ZSTD; level: GZIP (1-9) / ZSTD (1-20); num_threads: ZSTD (>0)}
@@ -443,7 +451,7 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         return self._h5_native_compression
 
     @property
-    def export_floats(self) -> Input:
+    def export_floats(self) -> Input[bool]:
         r"""Allows to connect export_floats input to the operator.
 
         converts double to float to reduce file size (default is true)
@@ -464,7 +472,7 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         return self._export_floats
 
     @property
-    def filename(self) -> Input:
+    def filename(self) -> Input[str]:
         r"""Allows to connect filename input to the operator.
 
         name of the output file that will be generated (utf8).
@@ -485,7 +493,7 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         return self._filename
 
     @property
-    def mesh_provider_out(self) -> Input:
+    def mesh_provider_out(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh_provider_out input to the operator.
 
         defines the MeshedRegion that is exported and provided by MeshProvider.
@@ -506,7 +514,7 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         return self._mesh_provider_out
 
     @property
-    def time_freq_support_out(self) -> Input:
+    def time_freq_support_out(self) -> Input[TimeFreqSupport]:
         r"""Allows to connect time_freq_support_out input to the operator.
 
         defines the TimeFreqSupport that is exported and provided by TimeFreqSupportProvider.
@@ -527,7 +535,7 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         return self._time_freq_support_out
 
     @property
-    def ansys_unit_system_id(self) -> Input:
+    def ansys_unit_system_id(self) -> Input[int | ResultInfo]:
         r"""Allows to connect ansys_unit_system_id input to the operator.
 
         defines the unit system the results are exported with. A Result info can be input to also export Physics Type and Analysis Type.
@@ -548,7 +556,7 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         return self._ansys_unit_system_id
 
     @property
-    def input_name1(self) -> Input:
+    def input_name1(self) -> Input[str | Any]:
         r"""Allows to connect input_name1 input to the operator.
 
         Set of even and odd pins to serialize results. Odd pins (4, 6, 8...) are strings, and they represent the names of the results to be serialized. Even pins (5, 7, 9...) are DPF types, and they represent the results to be serialized. They should go in pairs (for each result name, there should be a result) and connected sequentially.
@@ -569,7 +577,7 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         return self._input_name1
 
     @property
-    def input_name2(self) -> Input:
+    def input_name2(self) -> Input[str | Any]:
         r"""Allows to connect input_name2 input to the operator.
 
         Set of even and odd pins to serialize results. Odd pins (4, 6, 8...) are strings, and they represent the names of the results to be serialized. Even pins (5, 7, 9...) are DPF types, and they represent the results to be serialized. They should go in pairs (for each result name, there should be a result) and connected sequentially.
@@ -604,13 +612,13 @@ class OutputsHdf5DpfGenerateResultFile(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(hdf5dpf_generate_result_file._spec().outputs, op)
-        self._data_sources = Output(
+        self._data_sources: Output[DataSources] = Output(
             hdf5dpf_generate_result_file._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._data_sources)
 
     @property
-    def data_sources(self) -> Output:
+    def data_sources(self) -> Output[DataSources]:
         r"""Allows to get data_sources output of the operator
 
         data_sources filled with the H5 generated file path.

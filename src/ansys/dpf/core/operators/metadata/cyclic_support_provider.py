@@ -15,6 +15,15 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.cyclic_support import CyclicSupport
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class cyclic_support_provider(Operator):
     r"""Read the cyclic support (DPF entity containing necessary information for
@@ -233,29 +242,29 @@ class InputsCyclicSupportProvider(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(cyclic_support_provider._spec().inputs, op)
-        self._streams_container = Input(
+        self._streams_container: Input[StreamsContainer] = Input(
             cyclic_support_provider._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(
+        self._data_sources: Input[DataSources] = Input(
             cyclic_support_provider._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
-        self._sector_meshed_region = Input(
+        self._sector_meshed_region: Input[MeshedRegion | MeshesContainer] = Input(
             cyclic_support_provider._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._sector_meshed_region)
-        self._expanded_meshed_region = Input(
+        self._expanded_meshed_region: Input[MeshedRegion | MeshesContainer] = Input(
             cyclic_support_provider._spec().input_pin(15), 15, op, -1
         )
         self._inputs.append(self._expanded_meshed_region)
-        self._sectors_to_expand = Input(
+        self._sectors_to_expand: Input[Scoping | ScopingsContainer] = Input(
             cyclic_support_provider._spec().input_pin(18), 18, op, -1
         )
         self._inputs.append(self._sectors_to_expand)
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         Streams containing the result file.
@@ -276,7 +285,7 @@ class InputsCyclicSupportProvider(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         data sources containing the result file.
@@ -297,7 +306,7 @@ class InputsCyclicSupportProvider(_Inputs):
         return self._data_sources
 
     @property
-    def sector_meshed_region(self) -> Input:
+    def sector_meshed_region(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect sector_meshed_region input to the operator.
 
         mesh of the first sector.
@@ -318,7 +327,7 @@ class InputsCyclicSupportProvider(_Inputs):
         return self._sector_meshed_region
 
     @property
-    def expanded_meshed_region(self) -> Input:
+    def expanded_meshed_region(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect expanded_meshed_region input to the operator.
 
         if this pin is set, expanding the mesh is not necessary.
@@ -339,7 +348,7 @@ class InputsCyclicSupportProvider(_Inputs):
         return self._expanded_meshed_region
 
     @property
-    def sectors_to_expand(self) -> Input:
+    def sectors_to_expand(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect sectors_to_expand input to the operator.
 
         sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.
@@ -375,17 +384,17 @@ class OutputsCyclicSupportProvider(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(cyclic_support_provider._spec().outputs, op)
-        self._cyclic_support = Output(
+        self._cyclic_support: Output[CyclicSupport] = Output(
             cyclic_support_provider._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._cyclic_support)
-        self._sector_meshes = Output(
+        self._sector_meshes: Output[MeshesContainer] = Output(
             cyclic_support_provider._spec().output_pin(1), 1, op
         )
         self._outputs.append(self._sector_meshes)
 
     @property
-    def cyclic_support(self) -> Output:
+    def cyclic_support(self) -> Output[CyclicSupport]:
         r"""Allows to get cyclic_support output of the operator
 
         Returns
@@ -403,7 +412,7 @@ class OutputsCyclicSupportProvider(_Outputs):
         return self._cyclic_support
 
     @property
-    def sector_meshes(self) -> Output:
+    def sector_meshes(self) -> Output[MeshesContainer]:
         r"""Allows to get sector_meshes output of the operator
 
         Returns

@@ -15,6 +15,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.workflow import Workflow
+
 
 class export_symbolic_workflow(Operator):
     r"""Transforms a Workflow into a symbolic Workflow and writes it to a file
@@ -195,17 +198,25 @@ class InputsExportSymbolicWorkflow(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(export_symbolic_workflow._spec().inputs, op)
-        self._workflow = Input(export_symbolic_workflow._spec().input_pin(0), 0, op, -1)
+        self._workflow: Input[Workflow] = Input(
+            export_symbolic_workflow._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._workflow)
-        self._path = Input(export_symbolic_workflow._spec().input_pin(1), 1, op, -1)
+        self._path: Input[str] = Input(
+            export_symbolic_workflow._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._path)
-        self._format = Input(export_symbolic_workflow._spec().input_pin(2), 2, op, -1)
+        self._format: Input[int] = Input(
+            export_symbolic_workflow._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._format)
-        self._options = Input(export_symbolic_workflow._spec().input_pin(3), 3, op, -1)
+        self._options: Input[int] = Input(
+            export_symbolic_workflow._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._options)
 
     @property
-    def workflow(self) -> Input:
+    def workflow(self) -> Input[Workflow]:
         r"""Allows to connect workflow input to the operator.
 
         Returns
@@ -224,7 +235,7 @@ class InputsExportSymbolicWorkflow(_Inputs):
         return self._workflow
 
     @property
-    def path(self) -> Input:
+    def path(self) -> Input[str]:
         r"""Allows to connect path input to the operator.
 
         Returns
@@ -243,7 +254,7 @@ class InputsExportSymbolicWorkflow(_Inputs):
         return self._path
 
     @property
-    def format(self) -> Input:
+    def format(self) -> Input[int]:
         r"""Allows to connect format input to the operator.
 
         0 is ASCII format and 1 is binary, default is 0.
@@ -264,7 +275,7 @@ class InputsExportSymbolicWorkflow(_Inputs):
         return self._format
 
     @property
-    def options(self) -> Input:
+    def options(self) -> Input[int]:
         r"""Allows to connect options input to the operator.
 
         1 copies connections with its data, 2 forwards named inputs and outputs names, 7 copies connections of named inputs and ouputs with their data. default is 7.

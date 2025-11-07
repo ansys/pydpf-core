@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.any import Any
+
 
 class serializer(Operator):
     r"""Take any input and serialize them in a file.
@@ -193,17 +196,19 @@ class InputsSerializer(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(serializer._spec().inputs, op)
-        self._stream_type = Input(serializer._spec().input_pin(-1), -1, op, -1)
+        self._stream_type: Input[int] = Input(
+            serializer._spec().input_pin(-1), -1, op, -1
+        )
         self._inputs.append(self._stream_type)
-        self._file_path = Input(serializer._spec().input_pin(0), 0, op, -1)
+        self._file_path: Input[str] = Input(serializer._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._file_path)
-        self._any_input1 = Input(serializer._spec().input_pin(1), 1, op, 0)
+        self._any_input1: Input[Any] = Input(serializer._spec().input_pin(1), 1, op, 0)
         self._inputs.append(self._any_input1)
-        self._any_input2 = Input(serializer._spec().input_pin(2), 2, op, 1)
+        self._any_input2: Input[Any] = Input(serializer._spec().input_pin(2), 2, op, 1)
         self._inputs.append(self._any_input2)
 
     @property
-    def stream_type(self) -> Input:
+    def stream_type(self) -> Input[int]:
         r"""Allows to connect stream_type input to the operator.
 
         0 for ASCII (default), and 1 for binary
@@ -224,7 +229,7 @@ class InputsSerializer(_Inputs):
         return self._stream_type
 
     @property
-    def file_path(self) -> Input:
+    def file_path(self) -> Input[str]:
         r"""Allows to connect file_path input to the operator.
 
         Returns
@@ -243,7 +248,7 @@ class InputsSerializer(_Inputs):
         return self._file_path
 
     @property
-    def any_input1(self) -> Input:
+    def any_input1(self) -> Input[Any]:
         r"""Allows to connect any_input1 input to the operator.
 
         any input
@@ -264,7 +269,7 @@ class InputsSerializer(_Inputs):
         return self._any_input1
 
     @property
-    def any_input2(self) -> Input:
+    def any_input2(self) -> Input[Any]:
         r"""Allows to connect any_input2 input to the operator.
 
         any input
@@ -299,11 +304,11 @@ class OutputsSerializer(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(serializer._spec().outputs, op)
-        self._file_path = Output(serializer._spec().output_pin(0), 0, op)
+        self._file_path: Output[str] = Output(serializer._spec().output_pin(0), 0, op)
         self._outputs.append(self._file_path)
 
     @property
-    def file_path(self) -> Output:
+    def file_path(self) -> Output[str]:
         r"""Allows to get file_path output of the operator
 
         Returns

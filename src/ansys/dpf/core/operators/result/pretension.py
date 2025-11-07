@@ -14,6 +14,15 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class pretension(Operator):
     r"""Reads the pretension adjustment and tension force. Rotation is not
@@ -297,31 +306,47 @@ class InputsPretension(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(pretension._spec().inputs, op)
-        self._time_scoping = Input(pretension._spec().input_pin(0), 0, op, -1)
+        self._time_scoping: Input[ScopingsContainer | Scoping] = Input(
+            pretension._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping = Input(pretension._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[ScopingsContainer | Scoping] = Input(
+            pretension._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._fields_container = Input(pretension._spec().input_pin(2), 2, op, -1)
+        self._fields_container: Input[FieldsContainer] = Input(
+            pretension._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._fields_container)
-        self._streams_container = Input(pretension._spec().input_pin(3), 3, op, -1)
+        self._streams_container: Input[StreamsContainer] = Input(
+            pretension._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(pretension._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            pretension._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
-        self._mesh = Input(pretension._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
+            pretension._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._read_cyclic = Input(pretension._spec().input_pin(14), 14, op, -1)
+        self._read_cyclic: Input[int] = Input(
+            pretension._spec().input_pin(14), 14, op, -1
+        )
         self._inputs.append(self._read_cyclic)
-        self._expanded_meshed_region = Input(
+        self._expanded_meshed_region: Input[MeshedRegion | MeshesContainer] = Input(
             pretension._spec().input_pin(15), 15, op, -1
         )
         self._inputs.append(self._expanded_meshed_region)
-        self._sectors_to_expand = Input(pretension._spec().input_pin(18), 18, op, -1)
+        self._sectors_to_expand: Input[Scoping | ScopingsContainer] = Input(
+            pretension._spec().input_pin(18), 18, op, -1
+        )
         self._inputs.append(self._sectors_to_expand)
-        self._phi = Input(pretension._spec().input_pin(19), 19, op, -1)
+        self._phi: Input[float] = Input(pretension._spec().input_pin(19), 19, op, -1)
         self._inputs.append(self._phi)
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[ScopingsContainer | Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         Returns
@@ -340,7 +365,7 @@ class InputsPretension(_Inputs):
         return self._time_scoping
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[ScopingsContainer | Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Returns
@@ -359,7 +384,7 @@ class InputsPretension(_Inputs):
         return self._mesh_scoping
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -378,7 +403,7 @@ class InputsPretension(_Inputs):
         return self._fields_container
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         Returns
@@ -397,7 +422,7 @@ class InputsPretension(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Returns
@@ -416,7 +441,7 @@ class InputsPretension(_Inputs):
         return self._data_sources
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
         mesh. If cylic expansion is to be done, mesh of the base sector
@@ -437,7 +462,7 @@ class InputsPretension(_Inputs):
         return self._mesh
 
     @property
-    def read_cyclic(self) -> Input:
+    def read_cyclic(self) -> Input[int]:
         r"""Allows to connect read_cyclic input to the operator.
 
         if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
@@ -458,7 +483,7 @@ class InputsPretension(_Inputs):
         return self._read_cyclic
 
     @property
-    def expanded_meshed_region(self) -> Input:
+    def expanded_meshed_region(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect expanded_meshed_region input to the operator.
 
         mesh expanded, use if cyclic expansion is to be done.
@@ -479,7 +504,7 @@ class InputsPretension(_Inputs):
         return self._expanded_meshed_region
 
     @property
-    def sectors_to_expand(self) -> Input:
+    def sectors_to_expand(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect sectors_to_expand input to the operator.
 
         sectors to expand (start at 0), for multistage: use scopings container with 'stage' label, use if cyclic expansion is to be done.
@@ -500,7 +525,7 @@ class InputsPretension(_Inputs):
         return self._sectors_to_expand
 
     @property
-    def phi(self) -> Input:
+    def phi(self) -> Input[float]:
         r"""Allows to connect phi input to the operator.
 
         angle phi in degrees (default value 0.0), use if cyclic expansion is to be done.
@@ -536,13 +561,17 @@ class OutputsPretension(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(pretension._spec().outputs, op)
-        self._adjustment = Output(pretension._spec().output_pin(0), 0, op)
+        self._adjustment: Output[FieldsContainer] = Output(
+            pretension._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._adjustment)
-        self._tension_force = Output(pretension._spec().output_pin(1), 1, op)
+        self._tension_force: Output[FieldsContainer] = Output(
+            pretension._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._tension_force)
 
     @property
-    def adjustment(self) -> Output:
+    def adjustment(self) -> Output[FieldsContainer]:
         r"""Allows to get adjustment output of the operator
 
         Adjustment
@@ -562,7 +591,7 @@ class OutputsPretension(_Outputs):
         return self._adjustment
 
     @property
-    def tension_force(self) -> Output:
+    def tension_force(self) -> Output[FieldsContainer]:
         r"""Allows to get tension_force output of the operator
 
         Tension Force

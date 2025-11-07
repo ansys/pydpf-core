@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.field import Field
+
 
 class real_constants_provider(Operator):
     r"""Reads real constants from the result files contained in the streams or
@@ -180,19 +185,21 @@ class InputsRealConstantsProvider(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(real_constants_provider._spec().inputs, op)
-        self._solver_real_constants_ids = Input(
+        self._solver_real_constants_ids: Input[int] = Input(
             real_constants_provider._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._solver_real_constants_ids)
-        self._streams = Input(real_constants_provider._spec().input_pin(3), 3, op, -1)
+        self._streams: Input[StreamsContainer] = Input(
+            real_constants_provider._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._streams)
-        self._data_sources = Input(
+        self._data_sources: Input[DataSources] = Input(
             real_constants_provider._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
 
     @property
-    def solver_real_constants_ids(self) -> Input:
+    def solver_real_constants_ids(self) -> Input[int]:
         r"""Allows to connect solver_real_constants_ids input to the operator.
 
         Real Constant ids to recover used by the solver. If not set, all available real constants to be recovered.
@@ -213,7 +220,7 @@ class InputsRealConstantsProvider(_Inputs):
         return self._solver_real_constants_ids
 
     @property
-    def streams(self) -> Input:
+    def streams(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams input to the operator.
 
         Result file container allowed to be kept open to cache data.
@@ -234,7 +241,7 @@ class InputsRealConstantsProvider(_Inputs):
         return self._streams
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Result file path container, used if no streams are set.
@@ -269,13 +276,13 @@ class OutputsRealConstantsProvider(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(real_constants_provider._spec().outputs, op)
-        self._real_constants = Output(
+        self._real_constants: Output[Field] = Output(
             real_constants_provider._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._real_constants)
 
     @property
-    def real_constants(self) -> Output:
+    def real_constants(self) -> Output[Field]:
         r"""Allows to get real_constants output of the operator
 
         Returns

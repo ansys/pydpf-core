@@ -14,6 +14,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.property_field import PropertyField
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class elemental_nodal_to_nodal(Operator):
     r"""Transforms an Elemental Nodal field into a Nodal field using an
@@ -236,29 +243,33 @@ class InputsElementalNodalToNodal(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(elemental_nodal_to_nodal._spec().inputs, op)
-        self._field = Input(elemental_nodal_to_nodal._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            elemental_nodal_to_nodal._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._mesh_scoping = Input(
+        self._mesh_scoping: Input[Scoping] = Input(
             elemental_nodal_to_nodal._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_scoping)
-        self._should_average = Input(
+        self._should_average: Input[bool] = Input(
             elemental_nodal_to_nodal._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._should_average)
-        self._extend_to_mid_nodes = Input(
+        self._extend_to_mid_nodes: Input[bool] = Input(
             elemental_nodal_to_nodal._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._extend_to_mid_nodes)
-        self._extend_weights_to_mid_nodes = Input(
+        self._extend_weights_to_mid_nodes: Input[bool] = Input(
             elemental_nodal_to_nodal._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._extend_weights_to_mid_nodes)
-        self._mesh = Input(elemental_nodal_to_nodal._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            elemental_nodal_to_nodal._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -279,7 +290,7 @@ class InputsElementalNodalToNodal(_Inputs):
         return self._field
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         average only on these entities
@@ -300,7 +311,7 @@ class InputsElementalNodalToNodal(_Inputs):
         return self._mesh_scoping
 
     @property
-    def should_average(self) -> Input:
+    def should_average(self) -> Input[bool]:
         r"""Allows to connect should_average input to the operator.
 
         Each nodal value is divided by the number of elements linked to this node (default is true for discrete quantities).
@@ -321,7 +332,7 @@ class InputsElementalNodalToNodal(_Inputs):
         return self._should_average
 
     @property
-    def extend_to_mid_nodes(self) -> Input:
+    def extend_to_mid_nodes(self) -> Input[bool]:
         r"""Allows to connect extend_to_mid_nodes input to the operator.
 
         Compute mid nodes (when available) by averaging the neighbour primary nodes.
@@ -342,7 +353,7 @@ class InputsElementalNodalToNodal(_Inputs):
         return self._extend_to_mid_nodes
 
     @property
-    def extend_weights_to_mid_nodes(self) -> Input:
+    def extend_weights_to_mid_nodes(self) -> Input[bool]:
         r"""Allows to connect extend_weights_to_mid_nodes input to the operator.
 
         Extends weights to mid nodes (when available). Default is false.
@@ -363,7 +374,7 @@ class InputsElementalNodalToNodal(_Inputs):
         return self._extend_weights_to_mid_nodes
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -397,13 +408,17 @@ class OutputsElementalNodalToNodal(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(elemental_nodal_to_nodal._spec().outputs, op)
-        self._field = Output(elemental_nodal_to_nodal._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            elemental_nodal_to_nodal._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
-        self._weight = Output(elemental_nodal_to_nodal._spec().output_pin(1), 1, op)
+        self._weight: Output[PropertyField] = Output(
+            elemental_nodal_to_nodal._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._weight)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns
@@ -421,7 +436,7 @@ class OutputsElementalNodalToNodal(_Outputs):
         return self._field
 
     @property
-    def weight(self) -> Output:
+    def weight(self) -> Output[PropertyField]:
         r"""Allows to get weight output of the operator
 
         Provides the number of times it was found in the elemental nodal field, for each node. Can be used to average later.

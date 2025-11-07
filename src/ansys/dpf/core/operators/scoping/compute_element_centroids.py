@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.scoping import Scoping
+
 
 class compute_element_centroids(Operator):
     r"""Computes the element centroids of the mesh. It also outputs the element
@@ -168,15 +173,17 @@ class InputsComputeElementCentroids(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(compute_element_centroids._spec().inputs, op)
-        self._element_scoping = Input(
+        self._element_scoping: Input[Scoping] = Input(
             compute_element_centroids._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._element_scoping)
-        self._mesh = Input(compute_element_centroids._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            compute_element_centroids._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def element_scoping(self) -> Input:
+    def element_scoping(self) -> Input[Scoping]:
         r"""Allows to connect element_scoping input to the operator.
 
         If provided, only the centroids of the elements in the scoping are computed.
@@ -197,7 +204,7 @@ class InputsComputeElementCentroids(_Inputs):
         return self._element_scoping
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Mesh to compute centroids
@@ -233,13 +240,17 @@ class OutputsComputeElementCentroids(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(compute_element_centroids._spec().outputs, op)
-        self._centroids = Output(compute_element_centroids._spec().output_pin(0), 0, op)
+        self._centroids: Output[Field] = Output(
+            compute_element_centroids._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._centroids)
-        self._measure = Output(compute_element_centroids._spec().output_pin(1), 1, op)
+        self._measure: Output[Field] = Output(
+            compute_element_centroids._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._measure)
 
     @property
-    def centroids(self) -> Output:
+    def centroids(self) -> Output[Field]:
         r"""Allows to get centroids output of the operator
 
         element centroids.
@@ -259,7 +270,7 @@ class OutputsComputeElementCentroids(_Outputs):
         return self._centroids
 
     @property
-    def measure(self) -> Output:
+    def measure(self) -> Output[Field]:
         r"""Allows to get measure output of the operator
 
         element measure (length, surface or volume depending on the dimension of the element).

@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class identical_property_fields(Operator):
     r"""Takes two property fields and compares them.
@@ -164,17 +167,17 @@ class InputsIdenticalPropertyFields(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(identical_property_fields._spec().inputs, op)
-        self._property_fieldA = Input(
+        self._property_fieldA: Input[MeshedRegion] = Input(
             identical_property_fields._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._property_fieldA)
-        self._property_fieldB = Input(
+        self._property_fieldB: Input[MeshedRegion] = Input(
             identical_property_fields._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._property_fieldB)
 
     @property
-    def property_fieldA(self) -> Input:
+    def property_fieldA(self) -> Input[MeshedRegion]:
         r"""Allows to connect property_fieldA input to the operator.
 
         Returns
@@ -193,7 +196,7 @@ class InputsIdenticalPropertyFields(_Inputs):
         return self._property_fieldA
 
     @property
-    def property_fieldB(self) -> Input:
+    def property_fieldB(self) -> Input[MeshedRegion]:
         r"""Allows to connect property_fieldB input to the operator.
 
         Returns
@@ -227,17 +230,17 @@ class OutputsIdenticalPropertyFields(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(identical_property_fields._spec().outputs, op)
-        self._are_identical = Output(
+        self._are_identical: Output[bool] = Output(
             identical_property_fields._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._are_identical)
-        self._information = Output(
+        self._information: Output[str] = Output(
             identical_property_fields._spec().output_pin(1), 1, op
         )
         self._outputs.append(self._information)
 
     @property
-    def are_identical(self) -> Output:
+    def are_identical(self) -> Output[bool]:
         r"""Allows to get are_identical output of the operator
 
         Returns
@@ -255,7 +258,7 @@ class OutputsIdenticalPropertyFields(_Outputs):
         return self._are_identical
 
     @property
-    def information(self) -> Output:
+    def information(self) -> Output[str]:
         r"""Allows to get information output of the operator
 
         Returns

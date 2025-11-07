@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class min_max_by_time(Operator):
     r"""Evaluates minimum, maximum by time or frequency over all the entities of
@@ -171,15 +174,17 @@ class InputsMinMaxByTime(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(min_max_by_time._spec().inputs, op)
-        self._fields_container = Input(min_max_by_time._spec().input_pin(0), 0, op, -1)
+        self._fields_container: Input[FieldsContainer] = Input(
+            min_max_by_time._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields_container)
-        self._compute_absolute_value = Input(
+        self._compute_absolute_value: Input[bool] = Input(
             min_max_by_time._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._compute_absolute_value)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -198,7 +203,7 @@ class InputsMinMaxByTime(_Inputs):
         return self._fields_container
 
     @property
-    def compute_absolute_value(self) -> Input:
+    def compute_absolute_value(self) -> Input[bool]:
         r"""Allows to connect compute_absolute_value input to the operator.
 
         Calculate the absolute value of field entities before computing the min/max.
@@ -234,13 +239,17 @@ class OutputsMinMaxByTime(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(min_max_by_time._spec().outputs, op)
-        self._min = Output(min_max_by_time._spec().output_pin(0), 0, op)
+        self._min: Output[FieldsContainer] = Output(
+            min_max_by_time._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._min)
-        self._max = Output(min_max_by_time._spec().output_pin(1), 1, op)
+        self._max: Output[FieldsContainer] = Output(
+            min_max_by_time._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._max)
 
     @property
-    def min(self) -> Output:
+    def min(self) -> Output[FieldsContainer]:
         r"""Allows to get min output of the operator
 
         Returns
@@ -258,7 +267,7 @@ class OutputsMinMaxByTime(_Outputs):
         return self._min
 
     @property
-    def max(self) -> Output:
+    def max(self) -> Output[FieldsContainer]:
         r"""Allows to get max output of the operator
 
         Returns

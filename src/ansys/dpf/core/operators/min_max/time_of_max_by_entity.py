@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class time_of_max_by_entity(Operator):
     r"""Evaluates time/frequency of maximum.
@@ -177,19 +180,21 @@ class InputsTimeOfMaxByEntity(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(time_of_max_by_entity._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             time_of_max_by_entity._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._abs_value = Input(time_of_max_by_entity._spec().input_pin(3), 3, op, -1)
+        self._abs_value: Input[bool] = Input(
+            time_of_max_by_entity._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._abs_value)
-        self._compute_amplitude = Input(
+        self._compute_amplitude: Input[bool] = Input(
             time_of_max_by_entity._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._compute_amplitude)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -208,7 +213,7 @@ class InputsTimeOfMaxByEntity(_Inputs):
         return self._fields_container
 
     @property
-    def abs_value(self) -> Input:
+    def abs_value(self) -> Input[bool]:
         r"""Allows to connect abs_value input to the operator.
 
         Should use absolute value.
@@ -229,7 +234,7 @@ class InputsTimeOfMaxByEntity(_Inputs):
         return self._abs_value
 
     @property
-    def compute_amplitude(self) -> Input:
+    def compute_amplitude(self) -> Input[bool]:
         r"""Allows to connect compute_amplitude input to the operator.
 
         Do calculate amplitude.
@@ -264,13 +269,13 @@ class OutputsTimeOfMaxByEntity(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(time_of_max_by_entity._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             time_of_max_by_entity._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

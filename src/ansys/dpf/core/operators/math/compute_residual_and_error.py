@@ -15,6 +15,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class compute_residual_and_error(Operator):
     r"""Computes the Lp-norm of a field or a field container. When a second
@@ -263,29 +267,29 @@ class InputsComputeResidualAndError(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(compute_residual_and_error._spec().inputs, op)
-        self._field_or_fields_container1 = Input(
+        self._field_or_fields_container1: Input[Field | FieldsContainer] = Input(
             compute_residual_and_error._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._field_or_fields_container1)
-        self._normalization_type = Input(
+        self._normalization_type: Input[int] = Input(
             compute_residual_and_error._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._normalization_type)
-        self._norm_calculation_type = Input(
+        self._norm_calculation_type: Input[int] = Input(
             compute_residual_and_error._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._norm_calculation_type)
-        self._field_reference = Input(
+        self._field_reference: Input[int] = Input(
             compute_residual_and_error._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._field_reference)
-        self._field_or_fields_container2 = Input(
+        self._field_or_fields_container2: Input[Field | FieldsContainer] = Input(
             compute_residual_and_error._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._field_or_fields_container2)
 
     @property
-    def field_or_fields_container1(self) -> Input:
+    def field_or_fields_container1(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field_or_fields_container1 input to the operator.
 
         field or fields container - compulsory
@@ -306,7 +310,7 @@ class InputsComputeResidualAndError(_Inputs):
         return self._field_or_fields_container1
 
     @property
-    def normalization_type(self) -> Input:
+    def normalization_type(self) -> Input[int]:
         r"""Allows to connect normalization_type input to the operator.
 
         type of normalization applied to the residuals and norm  calculation (optional, defaut: absolute):
@@ -331,7 +335,7 @@ class InputsComputeResidualAndError(_Inputs):
         return self._normalization_type
 
     @property
-    def norm_calculation_type(self) -> Input:
+    def norm_calculation_type(self) -> Input[int]:
         r"""Allows to connect norm_calculation_type input to the operator.
 
         type for norm calculation (optional, default: L2) - It is normalized depending on Pin2 selection
@@ -354,7 +358,7 @@ class InputsComputeResidualAndError(_Inputs):
         return self._norm_calculation_type
 
     @property
-    def field_reference(self) -> Input:
+    def field_reference(self) -> Input[int]:
         r"""Allows to connect field_reference input to the operator.
 
         Field reference for the normalization step, default: 0 for entry 1, 1 for residuals - optional
@@ -375,7 +379,7 @@ class InputsComputeResidualAndError(_Inputs):
         return self._field_reference
 
     @property
-    def field_or_fields_container2(self) -> Input:
+    def field_or_fields_container2(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field_or_fields_container2 input to the operator.
 
         field or fields container of same dimensionality as entry 1 - optional

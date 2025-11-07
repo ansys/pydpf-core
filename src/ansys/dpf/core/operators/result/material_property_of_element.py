@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.field import Field
+
 
 class material_property_of_element(Operator):
     r"""Loads the appropriate operator based on the data sources and retrieves
@@ -159,17 +164,17 @@ class InputsMaterialPropertyOfElement(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(material_property_of_element._spec().inputs, op)
-        self._streams_container = Input(
+        self._streams_container: Input[StreamsContainer] = Input(
             material_property_of_element._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(
+        self._data_sources: Input[DataSources] = Input(
             material_property_of_element._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         Returns
@@ -188,7 +193,7 @@ class InputsMaterialPropertyOfElement(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Returns
@@ -221,13 +226,13 @@ class OutputsMaterialPropertyOfElement(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(material_property_of_element._spec().outputs, op)
-        self._material_properties = Output(
+        self._material_properties: Output[Field] = Output(
             material_property_of_element._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._material_properties)
 
     @property
-    def material_properties(self) -> Output:
+    def material_properties(self) -> Output[Field]:
         r"""Allows to get material_properties output of the operator
 
         material properties

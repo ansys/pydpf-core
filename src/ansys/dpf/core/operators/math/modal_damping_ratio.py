@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class modal_damping_ratio(Operator):
     r"""Computes damping ratio for each mode shape as X_i = const + ratio_i +
@@ -213,17 +216,25 @@ class InputsModalDampingRatio(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(modal_damping_ratio._spec().inputs, op)
-        self._natural_freq = Input(modal_damping_ratio._spec().input_pin(0), 0, op, -1)
+        self._natural_freq: Input = Input(
+            modal_damping_ratio._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._natural_freq)
-        self._const_ratio = Input(modal_damping_ratio._spec().input_pin(1), 1, op, -1)
+        self._const_ratio: Input[float] = Input(
+            modal_damping_ratio._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._const_ratio)
-        self._ratio_by_modes = Input(
+        self._ratio_by_modes: Input = Input(
             modal_damping_ratio._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._ratio_by_modes)
-        self._m_coefficient = Input(modal_damping_ratio._spec().input_pin(3), 3, op, -1)
+        self._m_coefficient: Input[float] = Input(
+            modal_damping_ratio._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._m_coefficient)
-        self._k_coefficient = Input(modal_damping_ratio._spec().input_pin(4), 4, op, -1)
+        self._k_coefficient: Input[float] = Input(
+            modal_damping_ratio._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._k_coefficient)
 
     @property
@@ -248,7 +259,7 @@ class InputsModalDampingRatio(_Inputs):
         return self._natural_freq
 
     @property
-    def const_ratio(self) -> Input:
+    def const_ratio(self) -> Input[float]:
         r"""Allows to connect const_ratio input to the operator.
 
         constant modal damping ratio
@@ -290,7 +301,7 @@ class InputsModalDampingRatio(_Inputs):
         return self._ratio_by_modes
 
     @property
-    def m_coefficient(self) -> Input:
+    def m_coefficient(self) -> Input[float]:
         r"""Allows to connect m_coefficient input to the operator.
 
         global mass matrix multiplier
@@ -311,7 +322,7 @@ class InputsModalDampingRatio(_Inputs):
         return self._m_coefficient
 
     @property
-    def k_coefficient(self) -> Input:
+    def k_coefficient(self) -> Input[float]:
         r"""Allows to connect k_coefficient input to the operator.
 
         global stiffness matrix multiplier
@@ -346,11 +357,13 @@ class OutputsModalDampingRatio(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(modal_damping_ratio._spec().outputs, op)
-        self._field = Output(modal_damping_ratio._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            modal_damping_ratio._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         field of modal damping ratio.

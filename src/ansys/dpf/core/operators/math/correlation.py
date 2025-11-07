@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class correlation(Operator):
     r"""Takes two fields and a weighting and computes their correlation:
@@ -217,17 +221,25 @@ class InputsCorrelation(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(correlation._spec().inputs, op)
-        self._fieldA = Input(correlation._spec().input_pin(0), 0, op, -1)
+        self._fieldA: Input[Field | float] = Input(
+            correlation._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fieldA)
-        self._fieldB = Input(correlation._spec().input_pin(1), 1, op, -1)
+        self._fieldB: Input[Field | FieldsContainer] = Input(
+            correlation._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._fieldB)
-        self._weights = Input(correlation._spec().input_pin(2), 2, op, -1)
+        self._weights: Input[Field | FieldsContainer] = Input(
+            correlation._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._weights)
-        self._absoluteValue = Input(correlation._spec().input_pin(3), 3, op, -1)
+        self._absoluteValue: Input[bool] = Input(
+            correlation._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._absoluteValue)
 
     @property
-    def fieldA(self) -> Input:
+    def fieldA(self) -> Input[Field | float]:
         r"""Allows to connect fieldA input to the operator.
 
         Field a. The reference field.
@@ -248,7 +260,7 @@ class InputsCorrelation(_Inputs):
         return self._fieldA
 
     @property
-    def fieldB(self) -> Input:
+    def fieldB(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect fieldB input to the operator.
 
         Field b. If a fields container is provided, correlation is computed for each field.
@@ -269,7 +281,7 @@ class InputsCorrelation(_Inputs):
         return self._fieldB
 
     @property
-    def weights(self) -> Input:
+    def weights(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect weights input to the operator.
 
         Field M, optional weighting for correlation computation.
@@ -290,7 +302,7 @@ class InputsCorrelation(_Inputs):
         return self._weights
 
     @property
-    def absoluteValue(self) -> Input:
+    def absoluteValue(self) -> Input[bool]:
         r"""Allows to connect absoluteValue input to the operator.
 
         If true, correlation factor is ||aMb||/(||aMa||.||bMb||)
@@ -338,13 +350,13 @@ class OutputsCorrelation(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(correlation._spec().outputs, op)
-        self._field = Output(correlation._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(correlation._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
-        self._index = Output(correlation._spec().output_pin(1), 1, op)
+        self._index: Output[int] = Output(correlation._spec().output_pin(1), 1, op)
         self._outputs.append(self._index)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Correlation factor for each input field b.
@@ -364,7 +376,7 @@ class OutputsCorrelation(_Outputs):
         return self._field
 
     @property
-    def index(self) -> Output:
+    def index(self) -> Output[int]:
         r"""Allows to get index output of the operator
 
         If several b are provided, this output contains the index of the highest correlation factor.

@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scoping import Scoping
+
 
 class accumulate(Operator):
     r"""Sums all the elementary data of a field to produce one elementary data
@@ -190,15 +195,19 @@ class InputsAccumulate(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(accumulate._spec().inputs, op)
-        self._fieldA = Input(accumulate._spec().input_pin(0), 0, op, -1)
+        self._fieldA: Input[Field | FieldsContainer] = Input(
+            accumulate._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fieldA)
-        self._weights = Input(accumulate._spec().input_pin(1), 1, op, -1)
+        self._weights: Input[Field] = Input(accumulate._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._weights)
-        self._time_scoping = Input(accumulate._spec().input_pin(2), 2, op, -1)
+        self._time_scoping: Input[Scoping] = Input(
+            accumulate._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._time_scoping)
 
     @property
-    def fieldA(self) -> Input:
+    def fieldA(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect fieldA input to the operator.
 
         field or fields container with only one field is expected
@@ -219,7 +228,7 @@ class InputsAccumulate(_Inputs):
         return self._fieldA
 
     @property
-    def weights(self) -> Input:
+    def weights(self) -> Input[Field]:
         r"""Allows to connect weights input to the operator.
 
         Field containing weights, one weight per entity
@@ -240,7 +249,7 @@ class InputsAccumulate(_Inputs):
         return self._weights
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         time_scoping
@@ -287,11 +296,11 @@ class OutputsAccumulate(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(accumulate._spec().outputs, op)
-        self._field = Output(accumulate._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(accumulate._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Field containing the (weighted) sum for each component in an elementary data

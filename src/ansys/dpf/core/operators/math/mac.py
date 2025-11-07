@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class mac(Operator):
     r"""Computes MAC Matrix between two fields container, both for real and
@@ -194,15 +198,19 @@ class InputsMac(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(mac._spec().inputs, op)
-        self._fields_containerA = Input(mac._spec().input_pin(0), 0, op, -1)
+        self._fields_containerA: Input[FieldsContainer] = Input(
+            mac._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields_containerA)
-        self._fields_containerB = Input(mac._spec().input_pin(1), 1, op, -1)
+        self._fields_containerB: Input[FieldsContainer] = Input(
+            mac._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._fields_containerB)
-        self._weights = Input(mac._spec().input_pin(2), 2, op, -1)
+        self._weights: Input[Field] = Input(mac._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._weights)
 
     @property
-    def fields_containerA(self) -> Input:
+    def fields_containerA(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerA input to the operator.
 
         Fields Container A.
@@ -223,7 +231,7 @@ class InputsMac(_Inputs):
         return self._fields_containerA
 
     @property
-    def fields_containerB(self) -> Input:
+    def fields_containerB(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerB input to the operator.
 
         Fields Container B.
@@ -244,7 +252,7 @@ class InputsMac(_Inputs):
         return self._fields_containerB
 
     @property
-    def weights(self) -> Input:
+    def weights(self) -> Input[Field]:
         r"""Allows to connect weights input to the operator.
 
         Field M, optional weighting for MAC Matrix computation.
@@ -291,11 +299,11 @@ class OutputsMac(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(mac._spec().outputs, op)
-        self._field = Output(mac._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(mac._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         MAC Matrix for all the combinations between mode fields of Field Container A and Field Container B. Results listed row by row.

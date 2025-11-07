@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class stl_export(Operator):
     r"""export a mesh into a stl file.
@@ -154,13 +158,15 @@ class InputsStlExport(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(stl_export._spec().inputs, op)
-        self._mesh = Input(stl_export._spec().input_pin(0), 0, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            stl_export._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._file_path = Input(stl_export._spec().input_pin(1), 1, op, -1)
+        self._file_path: Input[str] = Input(stl_export._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._file_path)
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -179,7 +185,7 @@ class InputsStlExport(_Inputs):
         return self._mesh
 
     @property
-    def file_path(self) -> Input:
+    def file_path(self) -> Input[str]:
         r"""Allows to connect file_path input to the operator.
 
         Returns
@@ -212,11 +218,13 @@ class OutputsStlExport(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(stl_export._spec().outputs, op)
-        self._data_sources = Output(stl_export._spec().output_pin(0), 0, op)
+        self._data_sources: Output[DataSources] = Output(
+            stl_export._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._data_sources)
 
     @property
-    def data_sources(self) -> Output:
+    def data_sources(self) -> Output[DataSources]:
         r"""Allows to get data_sources output of the operator
 
         Returns

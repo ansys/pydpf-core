@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.property_field import PropertyField
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class skin(Operator):
     r"""Extracts a skin of the mesh in a new meshed region. The material ID of
@@ -239,17 +244,17 @@ class InputsSkin(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(skin._spec().inputs, op)
-        self._mesh = Input(skin._spec().input_pin(0), 0, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(skin._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._mesh)
-        self._mesh_scoping = Input(skin._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(skin._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._mesh_scoping)
-        self._duplicate_shell = Input(skin._spec().input_pin(2), 2, op, -1)
+        self._duplicate_shell: Input[bool] = Input(skin._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._duplicate_shell)
-        self._add_beam_point = Input(skin._spec().input_pin(3), 3, op, -1)
+        self._add_beam_point: Input[bool] = Input(skin._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._add_beam_point)
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -268,7 +273,7 @@ class InputsSkin(_Inputs):
         return self._mesh
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Nodal scoping to restrict the skin extraction to a set of nodes. If provided, a skin element is added to the skin mesh if all its nodes are in the scoping.
@@ -289,7 +294,7 @@ class InputsSkin(_Inputs):
         return self._mesh_scoping
 
     @property
-    def duplicate_shell(self) -> Input:
+    def duplicate_shell(self) -> Input[bool]:
         r"""Allows to connect duplicate_shell input to the operator.
 
         If input mesh contains shell elements, output mesh shell elements (boolean = 1) are duplicated, one per each orientation, or (boolean = 0) remain unchanged.
@@ -310,7 +315,7 @@ class InputsSkin(_Inputs):
         return self._duplicate_shell
 
     @property
-    def add_beam_point(self) -> Input:
+    def add_beam_point(self) -> Input[bool]:
         r"""Allows to connect add_beam_point input to the operator.
 
         If input mesh contains beam or point elements, output mesh beam point elements (boolean = 1) are added or (boolean = 0) are ignored. Default: False
@@ -361,21 +366,27 @@ class OutputsSkin(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(skin._spec().outputs, op)
-        self._mesh = Output(skin._spec().output_pin(0), 0, op)
+        self._mesh: Output[MeshedRegion] = Output(skin._spec().output_pin(0), 0, op)
         self._outputs.append(self._mesh)
-        self._nodes_mesh_scoping = Output(skin._spec().output_pin(1), 1, op)
+        self._nodes_mesh_scoping: Output[Scoping] = Output(
+            skin._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._nodes_mesh_scoping)
-        self._map_new_elements_to_old = Output(skin._spec().output_pin(2), 2, op)
+        self._map_new_elements_to_old: Output = Output(
+            skin._spec().output_pin(2), 2, op
+        )
         self._outputs.append(self._map_new_elements_to_old)
-        self._property_field_new_elements_to_old = Output(
+        self._property_field_new_elements_to_old: Output[PropertyField] = Output(
             skin._spec().output_pin(3), 3, op
         )
         self._outputs.append(self._property_field_new_elements_to_old)
-        self._facet_indices = Output(skin._spec().output_pin(4), 4, op)
+        self._facet_indices: Output[PropertyField] = Output(
+            skin._spec().output_pin(4), 4, op
+        )
         self._outputs.append(self._facet_indices)
 
     @property
-    def mesh(self) -> Output:
+    def mesh(self) -> Output[MeshedRegion]:
         r"""Allows to get mesh output of the operator
 
         Skin meshed region with facets and facets_to_ele property fields.
@@ -395,7 +406,7 @@ class OutputsSkin(_Outputs):
         return self._mesh
 
     @property
-    def nodes_mesh_scoping(self) -> Output:
+    def nodes_mesh_scoping(self) -> Output[Scoping]:
         r"""Allows to get nodes_mesh_scoping output of the operator
 
         Returns
@@ -431,7 +442,7 @@ class OutputsSkin(_Outputs):
         return self._map_new_elements_to_old
 
     @property
-    def property_field_new_elements_to_old(self) -> Output:
+    def property_field_new_elements_to_old(self) -> Output[PropertyField]:
         r"""Allows to get property_field_new_elements_to_old output of the operator
 
         This property field provides, for each new face element ID (in the scoping), the corresponding 3D volume element index (in the data) it has been extracted from. The 3D volume element ID can be found with the element scoping of the input mesh.
@@ -451,7 +462,7 @@ class OutputsSkin(_Outputs):
         return self._property_field_new_elements_to_old
 
     @property
-    def facet_indices(self) -> Output:
+    def facet_indices(self) -> Output[PropertyField]:
         r"""Allows to get facet_indices output of the operator
 
         This property field gives, for each new face element ID (in the scoping), the corresponding face index on the source 3D volume element. The 3D volume element can be extracted from the previous output.

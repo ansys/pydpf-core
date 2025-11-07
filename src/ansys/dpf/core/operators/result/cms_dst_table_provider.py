@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.property_field import PropertyField
+from ansys.dpf.core.data_sources import DataSources
+
 
 class cms_dst_table_provider(Operator):
     r"""Read CST table from a subfile.
@@ -142,13 +146,13 @@ class InputsCmsDstTableProvider(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(cms_dst_table_provider._spec().inputs, op)
-        self._data_sources = Input(
+        self._data_sources: Input[DataSources] = Input(
             cms_dst_table_provider._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Data_sources (must contain at least one subfile).
@@ -183,11 +187,13 @@ class OutputsCmsDstTableProvider(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(cms_dst_table_provider._spec().outputs, op)
-        self._dst_table = Output(cms_dst_table_provider._spec().output_pin(0), 0, op)
+        self._dst_table: Output[PropertyField] = Output(
+            cms_dst_table_provider._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._dst_table)
 
     @property
-    def dst_table(self) -> Output:
+    def dst_table(self) -> Output[PropertyField]:
         r"""Allows to get dst_table output of the operator
 
         returns integer values of the dst table

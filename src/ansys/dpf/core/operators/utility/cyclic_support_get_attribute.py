@@ -15,6 +15,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.cyclic_support import CyclicSupport
+
 
 class cyclic_support_get_attribute(Operator):
     r"""A CyclicSupport in pin 0 and a property name (string) in pin 1 are
@@ -165,17 +168,17 @@ class InputsCyclicSupportGetAttribute(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(cyclic_support_get_attribute._spec().inputs, op)
-        self._cyclic_support = Input(
+        self._cyclic_support: Input[CyclicSupport] = Input(
             cyclic_support_get_attribute._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._cyclic_support)
-        self._property_name = Input(
+        self._property_name: Input[str] = Input(
             cyclic_support_get_attribute._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._property_name)
 
     @property
-    def cyclic_support(self) -> Input:
+    def cyclic_support(self) -> Input[CyclicSupport]:
         r"""Allows to connect cyclic_support input to the operator.
 
         Returns
@@ -194,7 +197,7 @@ class InputsCyclicSupportGetAttribute(_Inputs):
         return self._cyclic_support
 
     @property
-    def property_name(self) -> Input:
+    def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
         Accepted inputs are: 'element_duplicate_offset' and 'node_duplicate_offset' (returns int).

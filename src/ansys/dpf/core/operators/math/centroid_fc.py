@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
+
 
 class centroid_fc(Operator):
     r"""Computes the centroid of all the matching fields of a fields container
@@ -194,17 +198,23 @@ class InputsCentroidFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(centroid_fc._spec().inputs, op)
-        self._fields_container = Input(centroid_fc._spec().input_pin(0), 0, op, -1)
+        self._fields_container: Input[FieldsContainer] = Input(
+            centroid_fc._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields_container)
-        self._time_freq = Input(centroid_fc._spec().input_pin(1), 1, op, -1)
+        self._time_freq: Input[float] = Input(
+            centroid_fc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._time_freq)
-        self._step = Input(centroid_fc._spec().input_pin(2), 2, op, -1)
+        self._step: Input[int] = Input(centroid_fc._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._step)
-        self._time_freq_support = Input(centroid_fc._spec().input_pin(8), 8, op, -1)
+        self._time_freq_support: Input[TimeFreqSupport] = Input(
+            centroid_fc._spec().input_pin(8), 8, op, -1
+        )
         self._inputs.append(self._time_freq_support)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -223,7 +233,7 @@ class InputsCentroidFc(_Inputs):
         return self._fields_container
 
     @property
-    def time_freq(self) -> Input:
+    def time_freq(self) -> Input[float]:
         r"""Allows to connect time_freq input to the operator.
 
         Returns
@@ -242,7 +252,7 @@ class InputsCentroidFc(_Inputs):
         return self._time_freq
 
     @property
-    def step(self) -> Input:
+    def step(self) -> Input[int]:
         r"""Allows to connect step input to the operator.
 
         Returns
@@ -261,7 +271,7 @@ class InputsCentroidFc(_Inputs):
         return self._step
 
     @property
-    def time_freq_support(self) -> Input:
+    def time_freq_support(self) -> Input[TimeFreqSupport]:
         r"""Allows to connect time_freq_support input to the operator.
 
         Returns
@@ -294,11 +304,13 @@ class OutputsCentroidFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(centroid_fc._spec().outputs, op)
-        self._fields_container = Output(centroid_fc._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            centroid_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

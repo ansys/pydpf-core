@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class solid_to_skin(Operator):
     r"""Maps a field defined on solid elements to a field defined on skin
@@ -185,15 +190,21 @@ class InputsSolidToSkin(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(solid_to_skin._spec().inputs, op)
-        self._field = Input(solid_to_skin._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            solid_to_skin._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._mesh = Input(solid_to_skin._spec().input_pin(1), 1, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            solid_to_skin._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._solid_mesh = Input(solid_to_skin._spec().input_pin(2), 2, op, -1)
+        self._solid_mesh: Input[MeshedRegion] = Input(
+            solid_to_skin._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._solid_mesh)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -214,7 +225,7 @@ class InputsSolidToSkin(_Inputs):
         return self._field
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         skin mesh region expected
@@ -235,7 +246,7 @@ class InputsSolidToSkin(_Inputs):
         return self._mesh
 
     @property
-    def solid_mesh(self) -> Input:
+    def solid_mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect solid_mesh input to the operator.
 
         Solid mesh support (optional).
@@ -270,11 +281,11 @@ class OutputsSolidToSkin(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(solid_to_skin._spec().outputs, op)
-        self._field = Output(solid_to_skin._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(solid_to_skin._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

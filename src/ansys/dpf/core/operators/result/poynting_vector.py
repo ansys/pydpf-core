@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class poynting_vector(Operator):
     r"""Compute the Poynting Vector
@@ -222,23 +226,31 @@ class InputsPoyntingVector(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(poynting_vector._spec().inputs, op)
-        self._fields_containerA = Input(poynting_vector._spec().input_pin(0), 0, op, -1)
+        self._fields_containerA: Input[FieldsContainer] = Input(
+            poynting_vector._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields_containerA)
-        self._fields_containerB = Input(poynting_vector._spec().input_pin(1), 1, op, -1)
+        self._fields_containerB: Input[FieldsContainer] = Input(
+            poynting_vector._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._fields_containerB)
-        self._fields_containerC = Input(poynting_vector._spec().input_pin(2), 2, op, -1)
+        self._fields_containerC: Input[FieldsContainer] = Input(
+            poynting_vector._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._fields_containerC)
-        self._fields_containerD = Input(poynting_vector._spec().input_pin(3), 3, op, -1)
+        self._fields_containerD: Input[FieldsContainer] = Input(
+            poynting_vector._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._fields_containerD)
-        self._abstract_meshed_region = Input(
+        self._abstract_meshed_region: Input[MeshedRegion] = Input(
             poynting_vector._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._abstract_meshed_region)
-        self._int32 = Input(poynting_vector._spec().input_pin(5), 5, op, -1)
+        self._int32: Input[int] = Input(poynting_vector._spec().input_pin(5), 5, op, -1)
         self._inputs.append(self._int32)
 
     @property
-    def fields_containerA(self) -> Input:
+    def fields_containerA(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerA input to the operator.
 
         Returns
@@ -257,7 +269,7 @@ class InputsPoyntingVector(_Inputs):
         return self._fields_containerA
 
     @property
-    def fields_containerB(self) -> Input:
+    def fields_containerB(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerB input to the operator.
 
         Returns
@@ -276,7 +288,7 @@ class InputsPoyntingVector(_Inputs):
         return self._fields_containerB
 
     @property
-    def fields_containerC(self) -> Input:
+    def fields_containerC(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerC input to the operator.
 
         Returns
@@ -295,7 +307,7 @@ class InputsPoyntingVector(_Inputs):
         return self._fields_containerC
 
     @property
-    def fields_containerD(self) -> Input:
+    def fields_containerD(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerD input to the operator.
 
         Returns
@@ -314,7 +326,7 @@ class InputsPoyntingVector(_Inputs):
         return self._fields_containerD
 
     @property
-    def abstract_meshed_region(self) -> Input:
+    def abstract_meshed_region(self) -> Input[MeshedRegion]:
         r"""Allows to connect abstract_meshed_region input to the operator.
 
         the mesh region in this pin have to be boundary or skin mesh
@@ -335,7 +347,7 @@ class InputsPoyntingVector(_Inputs):
         return self._abstract_meshed_region
 
     @property
-    def int32(self) -> Input:
+    def int32(self) -> Input[int]:
         r"""Allows to connect int32 input to the operator.
 
         load step number, if it's specified, the Poynting Vector is computed only on the substeps of this step
@@ -370,11 +382,13 @@ class OutputsPoyntingVector(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(poynting_vector._spec().outputs, op)
-        self._fields_container = Output(poynting_vector._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            poynting_vector._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

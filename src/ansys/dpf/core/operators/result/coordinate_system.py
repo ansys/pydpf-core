@@ -15,6 +15,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.field import Field
+
 
 class coordinate_system(Operator):
     r"""Extracts the Rotation Matrix and Origin of a specific coordinate system.
@@ -183,17 +188,21 @@ class InputsCoordinateSystem(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(coordinate_system._spec().inputs, op)
-        self._cs_id = Input(coordinate_system._spec().input_pin(0), 0, op, -1)
+        self._cs_id: Input[int] = Input(
+            coordinate_system._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._cs_id)
-        self._streams_container = Input(
+        self._streams_container: Input[StreamsContainer] = Input(
             coordinate_system._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(coordinate_system._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            coordinate_system._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
 
     @property
-    def cs_id(self) -> Input:
+    def cs_id(self) -> Input[int]:
         r"""Allows to connect cs_id input to the operator.
 
         Returns
@@ -212,7 +221,7 @@ class InputsCoordinateSystem(_Inputs):
         return self._cs_id
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         Returns
@@ -231,7 +240,7 @@ class InputsCoordinateSystem(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Returns
@@ -264,11 +273,13 @@ class OutputsCoordinateSystem(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(coordinate_system._spec().outputs, op)
-        self._field = Output(coordinate_system._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            coordinate_system._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         the first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector

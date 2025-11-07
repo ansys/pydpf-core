@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.workflow import Workflow
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class prepare_mapping_workflow(Operator):
     r"""Generates a workflow that can map results from a support to another one.
@@ -191,25 +196,25 @@ class InputsPrepareMappingWorkflow(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(prepare_mapping_workflow._spec().inputs, op)
-        self._input_support = Input(
+        self._input_support: Input[Field | MeshedRegion] = Input(
             prepare_mapping_workflow._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._input_support)
-        self._output_support = Input(
+        self._output_support: Input[Field | MeshedRegion] = Input(
             prepare_mapping_workflow._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._output_support)
-        self._filter_radius = Input(
+        self._filter_radius: Input[float] = Input(
             prepare_mapping_workflow._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._filter_radius)
-        self._influence_box = Input(
+        self._influence_box: Input[float] = Input(
             prepare_mapping_workflow._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._influence_box)
 
     @property
-    def input_support(self) -> Input:
+    def input_support(self) -> Input[Field | MeshedRegion]:
         r"""Allows to connect input_support input to the operator.
 
         Returns
@@ -228,7 +233,7 @@ class InputsPrepareMappingWorkflow(_Inputs):
         return self._input_support
 
     @property
-    def output_support(self) -> Input:
+    def output_support(self) -> Input[Field | MeshedRegion]:
         r"""Allows to connect output_support input to the operator.
 
         Returns
@@ -247,7 +252,7 @@ class InputsPrepareMappingWorkflow(_Inputs):
         return self._output_support
 
     @property
-    def filter_radius(self) -> Input:
+    def filter_radius(self) -> Input[float]:
         r"""Allows to connect filter_radius input to the operator.
 
         Radius size for the RBF filter
@@ -268,7 +273,7 @@ class InputsPrepareMappingWorkflow(_Inputs):
         return self._filter_radius
 
     @property
-    def influence_box(self) -> Input:
+    def influence_box(self) -> Input[float]:
         r"""Allows to connect influence_box input to the operator.
 
         Returns
@@ -301,13 +306,13 @@ class OutputsPrepareMappingWorkflow(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(prepare_mapping_workflow._spec().outputs, op)
-        self._mapping_workflow = Output(
+        self._mapping_workflow: Output[Workflow] = Output(
             prepare_mapping_workflow._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._mapping_workflow)
 
     @property
-    def mapping_workflow(self) -> Output:
+    def mapping_workflow(self) -> Output[Workflow]:
         r"""Allows to get mapping_workflow output of the operator
 
         Returns

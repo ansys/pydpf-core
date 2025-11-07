@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.any import Any
+
 
 class serializer_to_string(Operator):
     r"""Take any input and serialize them in a string.
@@ -195,17 +198,21 @@ class InputsSerializerToString(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(serializer_to_string._spec().inputs, op)
-        self._stream_type = Input(
+        self._stream_type: Input[int] = Input(
             serializer_to_string._spec().input_pin(-1), -1, op, -1
         )
         self._inputs.append(self._stream_type)
-        self._any_input1 = Input(serializer_to_string._spec().input_pin(1), 1, op, 0)
+        self._any_input1: Input[Any] = Input(
+            serializer_to_string._spec().input_pin(1), 1, op, 0
+        )
         self._inputs.append(self._any_input1)
-        self._any_input2 = Input(serializer_to_string._spec().input_pin(2), 2, op, 1)
+        self._any_input2: Input[Any] = Input(
+            serializer_to_string._spec().input_pin(2), 2, op, 1
+        )
         self._inputs.append(self._any_input2)
 
     @property
-    def stream_type(self) -> Input:
+    def stream_type(self) -> Input[int]:
         r"""Allows to connect stream_type input to the operator.
 
         0 for string (default), 1 for binary, 2 for binary with chunked output (the output string will be returned in several chunks to prevent string memory overflows).
@@ -226,7 +233,7 @@ class InputsSerializerToString(_Inputs):
         return self._stream_type
 
     @property
-    def any_input1(self) -> Input:
+    def any_input1(self) -> Input[Any]:
         r"""Allows to connect any_input1 input to the operator.
 
         any input
@@ -247,7 +254,7 @@ class InputsSerializerToString(_Inputs):
         return self._any_input1
 
     @property
-    def any_input2(self) -> Input:
+    def any_input2(self) -> Input[Any]:
         r"""Allows to connect any_input2 input to the operator.
 
         any input
@@ -284,19 +291,21 @@ class OutputsSerializerToString(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(serializer_to_string._spec().outputs, op)
-        self._nof_chunks = Output(serializer_to_string._spec().output_pin(-1), -1, op)
+        self._nof_chunks: Output[int] = Output(
+            serializer_to_string._spec().output_pin(-1), -1, op
+        )
         self._outputs.append(self._nof_chunks)
-        self._serialized_string1 = Output(
+        self._serialized_string1: Output[str] = Output(
             serializer_to_string._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._serialized_string1)
-        self._serialized_string2 = Output(
+        self._serialized_string2: Output[str] = Output(
             serializer_to_string._spec().output_pin(1), 1, op
         )
         self._outputs.append(self._serialized_string2)
 
     @property
-    def nof_chunks(self) -> Output:
+    def nof_chunks(self) -> Output[int]:
         r"""Allows to get nof_chunks output of the operator
 
         Number of chunks when mode passed to input pin(-1) = 2.
@@ -316,7 +325,7 @@ class OutputsSerializerToString(_Outputs):
         return self._nof_chunks
 
     @property
-    def serialized_string1(self) -> Output:
+    def serialized_string1(self) -> Output[str]:
         r"""Allows to get serialized_string1 output of the operator
 
         Returns
@@ -334,7 +343,7 @@ class OutputsSerializerToString(_Outputs):
         return self._serialized_string1
 
     @property
-    def serialized_string2(self) -> Output:
+    def serialized_string2(self) -> Output[str]:
         r"""Allows to get serialized_string2 output of the operator
 
         Returns

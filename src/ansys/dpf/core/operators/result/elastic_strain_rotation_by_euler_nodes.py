@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class elastic_strain_rotation_by_euler_nodes(Operator):
     r"""read Euler angles on elements from the result file and rotate the fields
@@ -24,7 +29,7 @@ class elastic_strain_rotation_by_euler_nodes(Operator):
     ------
     fields_container: FieldsContainer, optional
     streams_container: StreamsContainer or Stream or Class
-        Dataprocessing::Crstfilewrapper, optional
+      Dataprocessing::Crstfilewrapper, optional
     data_sources: DataSources
 
     Outputs
@@ -188,21 +193,21 @@ class InputsElasticStrainRotationByEulerNodes(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(elastic_strain_rotation_by_euler_nodes._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             elastic_strain_rotation_by_euler_nodes._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._streams_container = Input(
+        self._streams_container: Input[StreamsContainer] = Input(
             elastic_strain_rotation_by_euler_nodes._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(
+        self._data_sources: Input[DataSources] = Input(
             elastic_strain_rotation_by_euler_nodes._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -221,7 +226,7 @@ class InputsElasticStrainRotationByEulerNodes(_Inputs):
         return self._fields_container
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         Returns
@@ -240,7 +245,7 @@ class InputsElasticStrainRotationByEulerNodes(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Returns
@@ -273,13 +278,13 @@ class OutputsElasticStrainRotationByEulerNodes(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(elastic_strain_rotation_by_euler_nodes._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             elastic_strain_rotation_by_euler_nodes._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

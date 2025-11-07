@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class overall_dot(Operator):
     r"""Computes a dot product between two fields (fields are seen like a single
@@ -157,13 +160,13 @@ class InputsOverallDot(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(overall_dot._spec().inputs, op)
-        self._fieldA = Input(overall_dot._spec().input_pin(0), 0, op, -1)
+        self._fieldA: Input[Field] = Input(overall_dot._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._fieldA)
-        self._fieldB = Input(overall_dot._spec().input_pin(1), 1, op, -1)
+        self._fieldB: Input[Field] = Input(overall_dot._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._fieldB)
 
     @property
-    def fieldA(self) -> Input:
+    def fieldA(self) -> Input[Field]:
         r"""Allows to connect fieldA input to the operator.
 
         Returns
@@ -182,7 +185,7 @@ class InputsOverallDot(_Inputs):
         return self._fieldA
 
     @property
-    def fieldB(self) -> Input:
+    def fieldB(self) -> Input[Field]:
         r"""Allows to connect fieldB input to the operator.
 
         Returns
@@ -215,11 +218,11 @@ class OutputsOverallDot(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(overall_dot._spec().outputs, op)
-        self._field = Output(overall_dot._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(overall_dot._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Field defined on over-all location, contains a unique scalar value

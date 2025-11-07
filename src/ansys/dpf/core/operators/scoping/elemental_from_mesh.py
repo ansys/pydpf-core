@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class elemental_from_mesh(Operator):
     r"""Retrieves the elemental scoping of a given input mesh, which contains
@@ -142,11 +146,13 @@ class InputsElementalFromMesh(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(elemental_from_mesh._spec().inputs, op)
-        self._mesh = Input(elemental_from_mesh._spec().input_pin(0), 0, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            elemental_from_mesh._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -179,11 +185,13 @@ class OutputsElementalFromMesh(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(elemental_from_mesh._spec().outputs, op)
-        self._mesh_scoping = Output(elemental_from_mesh._spec().output_pin(0), 0, op)
+        self._mesh_scoping: Output[Scoping] = Output(
+            elemental_from_mesh._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._mesh_scoping)
 
     @property
-    def mesh_scoping(self) -> Output:
+    def mesh_scoping(self) -> Output[Scoping]:
         r"""Allows to get mesh_scoping output of the operator
 
         Returns

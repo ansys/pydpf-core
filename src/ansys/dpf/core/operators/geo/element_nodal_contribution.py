@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class element_nodal_contribution(Operator):
     r"""Compute the fraction of the element measure attributed to each node of
@@ -184,19 +189,21 @@ class InputsElementNodalContribution(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(element_nodal_contribution._spec().inputs, op)
-        self._mesh = Input(element_nodal_contribution._spec().input_pin(0), 0, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            element_nodal_contribution._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._scoping = Input(
+        self._scoping: Input[Scoping] = Input(
             element_nodal_contribution._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._scoping)
-        self._volume_fraction = Input(
+        self._volume_fraction: Input[bool] = Input(
             element_nodal_contribution._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._volume_fraction)
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -215,7 +222,7 @@ class InputsElementNodalContribution(_Inputs):
         return self._mesh
 
     @property
-    def scoping(self) -> Input:
+    def scoping(self) -> Input[Scoping]:
         r"""Allows to connect scoping input to the operator.
 
         Integrate the input field over a specific scoping.
@@ -236,7 +243,7 @@ class InputsElementNodalContribution(_Inputs):
         return self._scoping
 
     @property
-    def volume_fraction(self) -> Input:
+    def volume_fraction(self) -> Input[bool]:
         r"""Allows to connect volume_fraction input to the operator.
 
         If true, returns influence volume, area or length. If false, the values are normalized with the element volume, area or length. Default: true.
@@ -271,11 +278,13 @@ class OutputsElementNodalContribution(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(element_nodal_contribution._spec().outputs, op)
-        self._field = Output(element_nodal_contribution._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            element_nodal_contribution._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

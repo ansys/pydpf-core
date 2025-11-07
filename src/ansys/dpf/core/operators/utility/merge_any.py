@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.any import Any
+
 
 class merge_any(Operator):
     r"""Merges a list of objects having the same data types. Once the data type
@@ -160,13 +163,13 @@ class InputsMergeAny(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_any._spec().inputs, op)
-        self._any1 = Input(merge_any._spec().input_pin(0), 0, op, 0)
+        self._any1: Input[Any] = Input(merge_any._spec().input_pin(0), 0, op, 0)
         self._inputs.append(self._any1)
-        self._any2 = Input(merge_any._spec().input_pin(1), 1, op, 1)
+        self._any2: Input[Any] = Input(merge_any._spec().input_pin(1), 1, op, 1)
         self._inputs.append(self._any2)
 
     @property
-    def any1(self) -> Input:
+    def any1(self) -> Input[Any]:
         r"""Allows to connect any1 input to the operator.
 
         Either a vector of objects (sharing the same data types) or objects from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
@@ -187,7 +190,7 @@ class InputsMergeAny(_Inputs):
         return self._any1
 
     @property
-    def any2(self) -> Input:
+    def any2(self) -> Input[Any]:
         r"""Allows to connect any2 input to the operator.
 
         Either a vector of objects (sharing the same data types) or objects from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
@@ -222,11 +225,11 @@ class OutputsMergeAny(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_any._spec().outputs, op)
-        self._any = Output(merge_any._spec().output_pin(0), 0, op)
+        self._any: Output[Any] = Output(merge_any._spec().output_pin(0), 0, op)
         self._outputs.append(self._any)
 
     @property
-    def any(self) -> Output:
+    def any(self) -> Output[Any]:
         r"""Allows to get any output of the operator
 
         Returns

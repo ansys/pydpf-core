@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class rigid_transformation_provider(Operator):
     r"""Extracts rigid body transformation from dsub file.
@@ -162,11 +166,11 @@ class InputsRigidTransformationProvider(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(rigid_transformation_provider._spec().inputs, op)
-        self._streams = Input(
+        self._streams: Input = Input(
             rigid_transformation_provider._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._streams)
-        self._data_sources = Input(
+        self._data_sources: Input[DataSources] = Input(
             rigid_transformation_provider._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
@@ -193,7 +197,7 @@ class InputsRigidTransformationProvider(_Inputs):
         return self._streams
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         data source of dsub file.
@@ -228,13 +232,13 @@ class OutputsRigidTransformationProvider(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(rigid_transformation_provider._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             rigid_transformation_provider._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

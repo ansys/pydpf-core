@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class on_named_selection(Operator):
     r"""provides a scoping at a given location based on a given named selection
@@ -207,25 +212,29 @@ class InputsOnNamedSelection(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(on_named_selection._spec().inputs, op)
-        self._requested_location = Input(
+        self._requested_location: Input[str] = Input(
             on_named_selection._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._requested_location)
-        self._named_selection_name = Input(
+        self._named_selection_name: Input[str] = Input(
             on_named_selection._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._named_selection_name)
-        self._int_inclusive = Input(on_named_selection._spec().input_pin(2), 2, op, -1)
+        self._int_inclusive: Input[int] = Input(
+            on_named_selection._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._int_inclusive)
-        self._streams_container = Input(
+        self._streams_container: Input[StreamsContainer] = Input(
             on_named_selection._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(on_named_selection._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            on_named_selection._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
 
     @property
-    def requested_location(self) -> Input:
+    def requested_location(self) -> Input[str]:
         r"""Allows to connect requested_location input to the operator.
 
         Returns
@@ -244,7 +253,7 @@ class InputsOnNamedSelection(_Inputs):
         return self._requested_location
 
     @property
-    def named_selection_name(self) -> Input:
+    def named_selection_name(self) -> Input[str]:
         r"""Allows to connect named_selection_name input to the operator.
 
         the string is expected to be in upper case
@@ -265,7 +274,7 @@ class InputsOnNamedSelection(_Inputs):
         return self._named_selection_name
 
     @property
-    def int_inclusive(self) -> Input:
+    def int_inclusive(self) -> Input[int]:
         r"""Allows to connect int_inclusive input to the operator.
 
         If element scoping is requested on a nodal named selection, if Inclusive == 1 then add all the elements adjacent to the nodes.If Inclusive == 0, only the elements which have all their nodes in the named selection are included
@@ -286,7 +295,7 @@ class InputsOnNamedSelection(_Inputs):
         return self._int_inclusive
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         Returns
@@ -305,7 +314,7 @@ class InputsOnNamedSelection(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Returns
@@ -338,11 +347,13 @@ class OutputsOnNamedSelection(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(on_named_selection._spec().outputs, op)
-        self._mesh_scoping = Output(on_named_selection._spec().output_pin(0), 0, op)
+        self._mesh_scoping: Output[Scoping] = Output(
+            on_named_selection._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._mesh_scoping)
 
     @property
-    def mesh_scoping(self) -> Output:
+    def mesh_scoping(self) -> Output[Scoping]:
         r"""Allows to get mesh_scoping output of the operator
 
         Returns

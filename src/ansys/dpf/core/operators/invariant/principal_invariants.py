@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class principal_invariants(Operator):
     r"""Computes the element-wise Eigen values of a tensor field.
@@ -159,11 +162,13 @@ class InputsPrincipalInvariants(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(principal_invariants._spec().inputs, op)
-        self._field = Input(principal_invariants._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field] = Input(
+            principal_invariants._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
         Returns
@@ -198,15 +203,21 @@ class OutputsPrincipalInvariants(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(principal_invariants._spec().outputs, op)
-        self._field_eig_1 = Output(principal_invariants._spec().output_pin(0), 0, op)
+        self._field_eig_1: Output[Field] = Output(
+            principal_invariants._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field_eig_1)
-        self._field_eig_2 = Output(principal_invariants._spec().output_pin(1), 1, op)
+        self._field_eig_2: Output[Field] = Output(
+            principal_invariants._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._field_eig_2)
-        self._field_eig_3 = Output(principal_invariants._spec().output_pin(2), 2, op)
+        self._field_eig_3: Output[Field] = Output(
+            principal_invariants._spec().output_pin(2), 2, op
+        )
         self._outputs.append(self._field_eig_3)
 
     @property
-    def field_eig_1(self) -> Output:
+    def field_eig_1(self) -> Output[Field]:
         r"""Allows to get field_eig_1 output of the operator
 
         first eigen value field
@@ -226,7 +237,7 @@ class OutputsPrincipalInvariants(_Outputs):
         return self._field_eig_1
 
     @property
-    def field_eig_2(self) -> Output:
+    def field_eig_2(self) -> Output[Field]:
         r"""Allows to get field_eig_2 output of the operator
 
         second eigen value field
@@ -246,7 +257,7 @@ class OutputsPrincipalInvariants(_Outputs):
         return self._field_eig_2
 
     @property
-    def field_eig_3(self) -> Output:
+    def field_eig_3(self) -> Output[Field]:
         r"""Allows to get field_eig_3 output of the operator
 
         third eigen value field

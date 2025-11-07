@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.string_field import StringField
+
 
 class identical_string_fields(Operator):
     r"""Takes two string fields and compares them.
@@ -164,17 +167,17 @@ class InputsIdenticalStringFields(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(identical_string_fields._spec().inputs, op)
-        self._string_fieldA = Input(
+        self._string_fieldA: Input[StringField] = Input(
             identical_string_fields._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._string_fieldA)
-        self._string_fieldB = Input(
+        self._string_fieldB: Input[StringField] = Input(
             identical_string_fields._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._string_fieldB)
 
     @property
-    def string_fieldA(self) -> Input:
+    def string_fieldA(self) -> Input[StringField]:
         r"""Allows to connect string_fieldA input to the operator.
 
         Returns
@@ -193,7 +196,7 @@ class InputsIdenticalStringFields(_Inputs):
         return self._string_fieldA
 
     @property
-    def string_fieldB(self) -> Input:
+    def string_fieldB(self) -> Input[StringField]:
         r"""Allows to connect string_fieldB input to the operator.
 
         Returns
@@ -227,15 +230,17 @@ class OutputsIdenticalStringFields(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(identical_string_fields._spec().outputs, op)
-        self._are_identical = Output(
+        self._are_identical: Output[bool] = Output(
             identical_string_fields._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._are_identical)
-        self._information = Output(identical_string_fields._spec().output_pin(1), 1, op)
+        self._information: Output[str] = Output(
+            identical_string_fields._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._information)
 
     @property
-    def are_identical(self) -> Output:
+    def are_identical(self) -> Output[bool]:
         r"""Allows to get are_identical output of the operator
 
         Returns
@@ -253,7 +258,7 @@ class OutputsIdenticalStringFields(_Outputs):
         return self._are_identical
 
     @property
-    def information(self) -> Output:
+    def information(self) -> Output[str]:
         r"""Allows to get information output of the operator
 
         Returns

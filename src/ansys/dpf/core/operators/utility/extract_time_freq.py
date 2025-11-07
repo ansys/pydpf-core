@@ -15,6 +15,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
+from ansys.dpf.core.scoping import Scoping
+
 
 class extract_time_freq(Operator):
     r"""Extract timefreqs with sets scoping from a time freq support
@@ -177,17 +181,21 @@ class InputsExtractTimeFreq(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(extract_time_freq._spec().inputs, op)
-        self._time_freq_support = Input(
+        self._time_freq_support: Input[TimeFreqSupport] = Input(
             extract_time_freq._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._time_freq_support)
-        self._time_scoping = Input(extract_time_freq._spec().input_pin(1), 1, op, -1)
+        self._time_scoping: Input[Scoping] = Input(
+            extract_time_freq._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._time_scoping)
-        self._real_or_complex = Input(extract_time_freq._spec().input_pin(2), 2, op, -1)
+        self._real_or_complex: Input[bool] = Input(
+            extract_time_freq._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._real_or_complex)
 
     @property
-    def time_freq_support(self) -> Input:
+    def time_freq_support(self) -> Input[TimeFreqSupport]:
         r"""Allows to connect time_freq_support input to the operator.
 
         Returns
@@ -206,7 +214,7 @@ class InputsExtractTimeFreq(_Inputs):
         return self._time_freq_support
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         Returns
@@ -225,7 +233,7 @@ class InputsExtractTimeFreq(_Inputs):
         return self._time_scoping
 
     @property
-    def real_or_complex(self) -> Input:
+    def real_or_complex(self) -> Input[bool]:
         r"""Allows to connect real_or_complex input to the operator.
 
         False for real only (default). True for complex output.

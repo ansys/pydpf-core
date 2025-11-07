@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class solid_shell_fields(Operator):
     r"""Merges shell and solid fields for each time step/frequency in the fields
@@ -142,13 +145,13 @@ class InputsSolidShellFields(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(solid_shell_fields._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             solid_shell_fields._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -181,11 +184,13 @@ class OutputsSolidShellFields(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(solid_shell_fields._spec().outputs, op)
-        self._fields_container = Output(solid_shell_fields._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            solid_shell_fields._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

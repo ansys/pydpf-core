@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.generic_data_container import GenericDataContainer
+
 
 class operator_changelog(Operator):
     r"""Return a GenericDataContainer used to instantiate the Changelog of an
@@ -144,11 +147,13 @@ class InputsOperatorChangelog(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(operator_changelog._spec().inputs, op)
-        self._operator_name = Input(operator_changelog._spec().input_pin(0), 0, op, -1)
+        self._operator_name: Input[str] = Input(
+            operator_changelog._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._operator_name)
 
     @property
-    def operator_name(self) -> Input:
+    def operator_name(self) -> Input[str]:
         r"""Allows to connect operator_name input to the operator.
 
         Operator internal name.
@@ -183,11 +188,13 @@ class OutputsOperatorChangelog(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(operator_changelog._spec().outputs, op)
-        self._changelog_gdc = Output(operator_changelog._spec().output_pin(0), 0, op)
+        self._changelog_gdc: Output[GenericDataContainer] = Output(
+            operator_changelog._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._changelog_gdc)
 
     @property
-    def changelog_gdc(self) -> Output:
+    def changelog_gdc(self) -> Output[GenericDataContainer]:
         r"""Allows to get changelog_gdc output of the operator
 
         GenericDataContainer used to instantiate a Changelog.

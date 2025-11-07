@@ -14,6 +14,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.property_field import PropertyField
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.data_sources import DataSources
+
 
 class rom_data_provider(Operator):
     r"""Set the required data for the invariant terms computation (reduced
@@ -349,35 +356,41 @@ class InputsRomDataProvider(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(rom_data_provider._spec().inputs, op)
-        self._rom_type = Input(rom_data_provider._spec().input_pin(0), 0, op, -1)
+        self._rom_type: Input[bool] = Input(
+            rom_data_provider._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._rom_type)
-        self._reduced_stiff_matrix = Input(
+        self._reduced_stiff_matrix: Input[FieldsContainer] = Input(
             rom_data_provider._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._reduced_stiff_matrix)
-        self._reduced_damping_matrix = Input(
+        self._reduced_damping_matrix: Input[FieldsContainer] = Input(
             rom_data_provider._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._reduced_damping_matrix)
-        self._reduced_mass_matrix = Input(
+        self._reduced_mass_matrix: Input[FieldsContainer] = Input(
             rom_data_provider._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._reduced_mass_matrix)
-        self._data_sources = Input(rom_data_provider._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            rom_data_provider._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
-        self._reduced_rhs_vector = Input(
+        self._reduced_rhs_vector: Input[FieldsContainer] = Input(
             rom_data_provider._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._reduced_rhs_vector)
-        self._lumped_mass_matrix = Input(
+        self._lumped_mass_matrix: Input[FieldsContainer] = Input(
             rom_data_provider._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._lumped_mass_matrix)
-        self._mode_shapes = Input(rom_data_provider._spec().input_pin(7), 7, op, -1)
+        self._mode_shapes: Input[FieldsContainer] = Input(
+            rom_data_provider._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mode_shapes)
 
     @property
-    def rom_type(self) -> Input:
+    def rom_type(self) -> Input[bool]:
         r"""Allows to connect rom_type input to the operator.
 
         If this pin is set to true, customized rom data must be given
@@ -398,7 +411,7 @@ class InputsRomDataProvider(_Inputs):
         return self._rom_type
 
     @property
-    def reduced_stiff_matrix(self) -> Input:
+    def reduced_stiff_matrix(self) -> Input[FieldsContainer]:
         r"""Allows to connect reduced_stiff_matrix input to the operator.
 
         FieldsContainers containing the reduced Stiffness matrix
@@ -419,7 +432,7 @@ class InputsRomDataProvider(_Inputs):
         return self._reduced_stiff_matrix
 
     @property
-    def reduced_damping_matrix(self) -> Input:
+    def reduced_damping_matrix(self) -> Input[FieldsContainer]:
         r"""Allows to connect reduced_damping_matrix input to the operator.
 
         FieldsContainers containing the reduced Mass matrix
@@ -440,7 +453,7 @@ class InputsRomDataProvider(_Inputs):
         return self._reduced_damping_matrix
 
     @property
-    def reduced_mass_matrix(self) -> Input:
+    def reduced_mass_matrix(self) -> Input[FieldsContainer]:
         r"""Allows to connect reduced_mass_matrix input to the operator.
 
         FieldsContainers containing the reduced Damp matrix
@@ -461,7 +474,7 @@ class InputsRomDataProvider(_Inputs):
         return self._reduced_mass_matrix
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Returns
@@ -480,7 +493,7 @@ class InputsRomDataProvider(_Inputs):
         return self._data_sources
 
     @property
-    def reduced_rhs_vector(self) -> Input:
+    def reduced_rhs_vector(self) -> Input[FieldsContainer]:
         r"""Allows to connect reduced_rhs_vector input to the operator.
 
         FieldsContainers containing the reduced RHS vector
@@ -501,7 +514,7 @@ class InputsRomDataProvider(_Inputs):
         return self._reduced_rhs_vector
 
     @property
-    def lumped_mass_matrix(self) -> Input:
+    def lumped_mass_matrix(self) -> Input[FieldsContainer]:
         r"""Allows to connect lumped_mass_matrix input to the operator.
 
         FieldsContainers containing the lumped Mass matrix
@@ -522,7 +535,7 @@ class InputsRomDataProvider(_Inputs):
         return self._lumped_mass_matrix
 
     @property
-    def mode_shapes(self) -> Input:
+    def mode_shapes(self) -> Input[FieldsContainer]:
         r"""Allows to connect mode_shapes input to the operator.
 
         FieldsContainers containing the customized mode shapes
@@ -567,33 +580,51 @@ class OutputsRomDataProvider(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(rom_data_provider._spec().outputs, op)
-        self._rom_matrices = Output(rom_data_provider._spec().output_pin(0), 0, op)
+        self._rom_matrices: Output[FieldsContainer] = Output(
+            rom_data_provider._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._rom_matrices)
-        self._mode_shapes = Output(rom_data_provider._spec().output_pin(1), 1, op)
+        self._mode_shapes: Output[FieldsContainer] = Output(
+            rom_data_provider._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._mode_shapes)
-        self._lumped_mass = Output(rom_data_provider._spec().output_pin(2), 2, op)
+        self._lumped_mass: Output[FieldsContainer] = Output(
+            rom_data_provider._spec().output_pin(2), 2, op
+        )
         self._outputs.append(self._lumped_mass)
-        self._model_data = Output(rom_data_provider._spec().output_pin(3), 3, op)
+        self._model_data: Output[PropertyField] = Output(
+            rom_data_provider._spec().output_pin(3), 3, op
+        )
         self._outputs.append(self._model_data)
-        self._center_of_mass = Output(rom_data_provider._spec().output_pin(4), 4, op)
+        self._center_of_mass: Output[PropertyField] = Output(
+            rom_data_provider._spec().output_pin(4), 4, op
+        )
         self._outputs.append(self._center_of_mass)
-        self._inertia_relief = Output(rom_data_provider._spec().output_pin(5), 5, op)
+        self._inertia_relief: Output[Field] = Output(
+            rom_data_provider._spec().output_pin(5), 5, op
+        )
         self._outputs.append(self._inertia_relief)
-        self._model_size = Output(rom_data_provider._spec().output_pin(6), 6, op)
+        self._model_size: Output[float] = Output(
+            rom_data_provider._spec().output_pin(6), 6, op
+        )
         self._outputs.append(self._model_size)
-        self._field_coordinates_and_euler_angles = Output(
+        self._field_coordinates_and_euler_angles: Output[float] = Output(
             rom_data_provider._spec().output_pin(7), 7, op
         )
         self._outputs.append(self._field_coordinates_and_euler_angles)
-        self._nod = Output(rom_data_provider._spec().output_pin(8), 8, op)
+        self._nod: Output = Output(rom_data_provider._spec().output_pin(8), 8, op)
         self._outputs.append(self._nod)
-        self._meshed_region = Output(rom_data_provider._spec().output_pin(9), 9, op)
+        self._meshed_region: Output[MeshedRegion] = Output(
+            rom_data_provider._spec().output_pin(9), 9, op
+        )
         self._outputs.append(self._meshed_region)
-        self._phi_ortho = Output(rom_data_provider._spec().output_pin(10), 10, op)
+        self._phi_ortho: Output[FieldsContainer] = Output(
+            rom_data_provider._spec().output_pin(10), 10, op
+        )
         self._outputs.append(self._phi_ortho)
 
     @property
-    def rom_matrices(self) -> Output:
+    def rom_matrices(self) -> Output[FieldsContainer]:
         r"""Allows to get rom_matrices output of the operator
 
         FieldsContainers containing the reduced matrices
@@ -613,7 +644,7 @@ class OutputsRomDataProvider(_Outputs):
         return self._rom_matrices
 
     @property
-    def mode_shapes(self) -> Output:
+    def mode_shapes(self) -> Output[FieldsContainer]:
         r"""Allows to get mode_shapes output of the operator
 
         FieldsContainers containing the mode shapes, which are CST and NOR for the cms method
@@ -633,7 +664,7 @@ class OutputsRomDataProvider(_Outputs):
         return self._mode_shapes
 
     @property
-    def lumped_mass(self) -> Output:
+    def lumped_mass(self) -> Output[FieldsContainer]:
         r"""Allows to get lumped_mass output of the operator
 
         FieldsContainers containing the lumped mass
@@ -653,7 +684,7 @@ class OutputsRomDataProvider(_Outputs):
         return self._lumped_mass
 
     @property
-    def model_data(self) -> Output:
+    def model_data(self) -> Output[PropertyField]:
         r"""Allows to get model_data output of the operator
 
         data describing the finite element model
@@ -673,7 +704,7 @@ class OutputsRomDataProvider(_Outputs):
         return self._model_data
 
     @property
-    def center_of_mass(self) -> Output:
+    def center_of_mass(self) -> Output[PropertyField]:
         r"""Allows to get center_of_mass output of the operator
 
         Returns
@@ -691,7 +722,7 @@ class OutputsRomDataProvider(_Outputs):
         return self._center_of_mass
 
     @property
-    def inertia_relief(self) -> Output:
+    def inertia_relief(self) -> Output[Field]:
         r"""Allows to get inertia_relief output of the operator
 
         inertia matrix
@@ -711,7 +742,7 @@ class OutputsRomDataProvider(_Outputs):
         return self._inertia_relief
 
     @property
-    def model_size(self) -> Output:
+    def model_size(self) -> Output[float]:
         r"""Allows to get model_size output of the operator
 
         size of the model
@@ -731,7 +762,7 @@ class OutputsRomDataProvider(_Outputs):
         return self._model_size
 
     @property
-    def field_coordinates_and_euler_angles(self) -> Output:
+    def field_coordinates_and_euler_angles(self) -> Output[float]:
         r"""Allows to get field_coordinates_and_euler_angles output of the operator
 
         coordinates and euler angles of all nodes
@@ -771,7 +802,7 @@ class OutputsRomDataProvider(_Outputs):
         return self._nod
 
     @property
-    def meshed_region(self) -> Output:
+    def meshed_region(self) -> Output[MeshedRegion]:
         r"""Allows to get meshed_region output of the operator
 
         expanded meshed region.
@@ -791,7 +822,7 @@ class OutputsRomDataProvider(_Outputs):
         return self._meshed_region
 
     @property
-    def phi_ortho(self) -> Output:
+    def phi_ortho(self) -> Output[FieldsContainer]:
         r"""Allows to get phi_ortho output of the operator
 
         Orthonormalized mode shape transformation

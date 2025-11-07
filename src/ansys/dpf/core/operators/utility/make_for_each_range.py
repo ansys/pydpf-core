@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.dpf_operator import Operator
+
 
 class make_for_each_range(Operator):
     r"""Generate a range that can be consumed by the for_each operator
@@ -252,29 +255,33 @@ class InputsMakeForEachRange(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(make_for_each_range._spec().inputs, op)
-        self._try_generate_iterable = Input(
+        self._try_generate_iterable: Input[bool] = Input(
             make_for_each_range._spec().input_pin(-1), -1, op, -1
         )
         self._inputs.append(self._try_generate_iterable)
-        self._iterable = Input(make_for_each_range._spec().input_pin(0), 0, op, -1)
+        self._iterable: Input = Input(
+            make_for_each_range._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._iterable)
-        self._operator_to_iterate = Input(
+        self._operator_to_iterate: Input[Operator] = Input(
             make_for_each_range._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._operator_to_iterate)
-        self._pin_index = Input(make_for_each_range._spec().input_pin(2), 2, op, -1)
+        self._pin_index: Input[int] = Input(
+            make_for_each_range._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._pin_index)
-        self._valueA = Input(make_for_each_range._spec().input_pin(3), 3, op, -1)
+        self._valueA: Input = Input(make_for_each_range._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._valueA)
-        self._valueB = Input(make_for_each_range._spec().input_pin(4), 4, op, -1)
+        self._valueB: Input = Input(make_for_each_range._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._valueB)
-        self._valueC1 = Input(make_for_each_range._spec().input_pin(5), 5, op, 0)
+        self._valueC1: Input = Input(make_for_each_range._spec().input_pin(5), 5, op, 0)
         self._inputs.append(self._valueC1)
-        self._valueC2 = Input(make_for_each_range._spec().input_pin(6), 6, op, 1)
+        self._valueC2: Input = Input(make_for_each_range._spec().input_pin(6), 6, op, 1)
         self._inputs.append(self._valueC2)
 
     @property
-    def try_generate_iterable(self) -> Input:
+    def try_generate_iterable(self) -> Input[bool]:
         r"""Allows to connect try_generate_iterable input to the operator.
 
         if true, already iterable values connected in pin 3 like vectors, Scoping, TimefreqSupport, Containers and DataSources are split to iterate on it (default is true)
@@ -316,7 +323,7 @@ class InputsMakeForEachRange(_Inputs):
         return self._iterable
 
     @property
-    def operator_to_iterate(self) -> Input:
+    def operator_to_iterate(self) -> Input[Operator]:
         r"""Allows to connect operator_to_iterate input to the operator.
 
         Operator that must be reconnected with the range values.
@@ -337,7 +344,7 @@ class InputsMakeForEachRange(_Inputs):
         return self._operator_to_iterate
 
     @property
-    def pin_index(self) -> Input:
+    def pin_index(self) -> Input[int]:
         r"""Allows to connect pin_index input to the operator.
 
         Returns
@@ -446,7 +453,7 @@ class OutputsMakeForEachRange(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(make_for_each_range._spec().outputs, op)
-        self._output = Output(make_for_each_range._spec().output_pin(0), 0, op)
+        self._output: Output = Output(make_for_each_range._spec().output_pin(0), 0, op)
         self._outputs.append(self._output)
 
     @property

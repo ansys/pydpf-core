@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class identical_fields(Operator):
     r"""Check if two fields are identical.
@@ -201,17 +204,25 @@ class InputsIdenticalFields(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(identical_fields._spec().inputs, op)
-        self._fieldA = Input(identical_fields._spec().input_pin(0), 0, op, -1)
+        self._fieldA: Input[Field] = Input(
+            identical_fields._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fieldA)
-        self._fieldB = Input(identical_fields._spec().input_pin(1), 1, op, -1)
+        self._fieldB: Input[Field] = Input(
+            identical_fields._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._fieldB)
-        self._double_value = Input(identical_fields._spec().input_pin(2), 2, op, -1)
+        self._double_value: Input[float] = Input(
+            identical_fields._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._double_value)
-        self._double_tolerance = Input(identical_fields._spec().input_pin(3), 3, op, -1)
+        self._double_tolerance: Input[float] = Input(
+            identical_fields._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._double_tolerance)
 
     @property
-    def fieldA(self) -> Input:
+    def fieldA(self) -> Input[Field]:
         r"""Allows to connect fieldA input to the operator.
 
         Returns
@@ -230,7 +241,7 @@ class InputsIdenticalFields(_Inputs):
         return self._fieldA
 
     @property
-    def fieldB(self) -> Input:
+    def fieldB(self) -> Input[Field]:
         r"""Allows to connect fieldB input to the operator.
 
         Returns
@@ -249,7 +260,7 @@ class InputsIdenticalFields(_Inputs):
         return self._fieldB
 
     @property
-    def double_value(self) -> Input:
+    def double_value(self) -> Input[float]:
         r"""Allows to connect double_value input to the operator.
 
         Double positive small value. Smallest value considered during the comparison step. All the absolute values in the field less than this value are considered null, (default value: 1.0e-14).
@@ -270,7 +281,7 @@ class InputsIdenticalFields(_Inputs):
         return self._double_value
 
     @property
-    def double_tolerance(self) -> Input:
+    def double_tolerance(self) -> Input[float]:
         r"""Allows to connect double_tolerance input to the operator.
 
         Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical. Formula is (v1 - v2) / v2 < relativeTol. Default is 0.001.
@@ -306,13 +317,17 @@ class OutputsIdenticalFields(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(identical_fields._spec().outputs, op)
-        self._boolean = Output(identical_fields._spec().output_pin(0), 0, op)
+        self._boolean: Output[bool] = Output(
+            identical_fields._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._boolean)
-        self._message = Output(identical_fields._spec().output_pin(1), 1, op)
+        self._message: Output[str] = Output(
+            identical_fields._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._message)
 
     @property
-    def boolean(self) -> Output:
+    def boolean(self) -> Output[bool]:
         r"""Allows to get boolean output of the operator
 
         bool (true if identical...)
@@ -332,7 +347,7 @@ class OutputsIdenticalFields(_Outputs):
         return self._boolean
 
     @property
-    def message(self) -> Output:
+    def message(self) -> Output[str]:
         r"""Allows to get message output of the operator
 
         Returns

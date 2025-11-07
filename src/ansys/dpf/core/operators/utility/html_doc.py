@@ -14,6 +14,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+
 
 class html_doc(Operator):
     r"""Create dpf’s html documentation. Only on Windows.
@@ -146,13 +148,15 @@ class InputsHtmlDoc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(html_doc._spec().inputs, op)
-        self._output_path = Input(html_doc._spec().input_pin(0), 0, op, -1)
+        self._output_path: Input[str] = Input(html_doc._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._output_path)
-        self._exposure_level = Input(html_doc._spec().input_pin(1), 1, op, -1)
+        self._exposure_level: Input[int] = Input(
+            html_doc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._exposure_level)
 
     @property
-    def output_path(self) -> Input:
+    def output_path(self) -> Input[str]:
         r"""Allows to connect output_path input to the operator.
 
         default is {working directory}/dataProcessingDoc.html
@@ -173,7 +177,7 @@ class InputsHtmlDoc(_Inputs):
         return self._output_path
 
     @property
-    def exposure_level(self) -> Input:
+    def exposure_level(self) -> Input[int]:
         r"""Allows to connect exposure_level input to the operator.
 
         Generate the documentation depending on exposure level : 0 (default) for public operators, 1 includes hidden operator, 2 includes private operator, 3 includes operator without specifications.

@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.scoping import Scoping
+
 
 class merge_scopings(Operator):
     r"""Assembles a set of scopings into a unique one.
@@ -156,13 +160,17 @@ class InputsMergeScopings(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_scopings._spec().inputs, op)
-        self._scopings1 = Input(merge_scopings._spec().input_pin(0), 0, op, 0)
+        self._scopings1: Input[Scoping | ScopingsContainer] = Input(
+            merge_scopings._spec().input_pin(0), 0, op, 0
+        )
         self._inputs.append(self._scopings1)
-        self._scopings2 = Input(merge_scopings._spec().input_pin(1), 1, op, 1)
+        self._scopings2: Input[Scoping | ScopingsContainer] = Input(
+            merge_scopings._spec().input_pin(1), 1, op, 1
+        )
         self._inputs.append(self._scopings2)
 
     @property
-    def scopings1(self) -> Input:
+    def scopings1(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect scopings1 input to the operator.
 
         Either a scopings container, a vector of scopings to merge, or scopings from pin 0 to ...
@@ -183,7 +191,7 @@ class InputsMergeScopings(_Inputs):
         return self._scopings1
 
     @property
-    def scopings2(self) -> Input:
+    def scopings2(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect scopings2 input to the operator.
 
         Either a scopings container, a vector of scopings to merge, or scopings from pin 0 to ...
@@ -218,11 +226,13 @@ class OutputsMergeScopings(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_scopings._spec().outputs, op)
-        self._merged_scoping = Output(merge_scopings._spec().output_pin(0), 0, op)
+        self._merged_scoping: Output[Scoping] = Output(
+            merge_scopings._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._merged_scoping)
 
     @property
-    def merged_scoping(self) -> Output:
+    def merged_scoping(self) -> Output[Scoping]:
         r"""Allows to get merged_scoping output of the operator
 
         Returns

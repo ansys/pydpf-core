@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.property_field import PropertyField
+from ansys.dpf.core.field import Field
+
 
 class transform_invariant_terms_rbd(Operator):
     r"""Transform invariant terms rbd based on a coordinate system (translation
@@ -698,109 +702,109 @@ class InputsTransformInvariantTermsRbd(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(transform_invariant_terms_rbd._spec().inputs, op)
-        self._rotation_matrix = Input(
+        self._rotation_matrix: Input[Field] = Input(
             transform_invariant_terms_rbd._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._rotation_matrix)
-        self._coordinate_system = Input(
+        self._coordinate_system: Input[Field] = Input(
             transform_invariant_terms_rbd._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._coordinate_system)
-        self._model_data = Input(
+        self._model_data: Input[PropertyField] = Input(
             transform_invariant_terms_rbd._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._model_data)
-        self._center_of_mass = Input(
+        self._center_of_mass: Input[Field] = Input(
             transform_invariant_terms_rbd._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._center_of_mass)
-        self._inertia_relief = Input(
+        self._inertia_relief: Input[Field] = Input(
             transform_invariant_terms_rbd._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._inertia_relief)
-        self._model_size = Input(
+        self._model_size: Input[float] = Input(
             transform_invariant_terms_rbd._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._model_size)
-        self._master_node_coordinates = Input(
+        self._master_node_coordinates: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._master_node_coordinates)
-        self._v_trsf = Input(
+        self._v_trsf: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._v_trsf)
-        self._k_mat = Input(
+        self._k_mat: Input[Field] = Input(
             transform_invariant_terms_rbd._spec().input_pin(8), 8, op, -1
         )
         self._inputs.append(self._k_mat)
-        self._mass_mat = Input(
+        self._mass_mat: Input[Field] = Input(
             transform_invariant_terms_rbd._spec().input_pin(9), 9, op, -1
         )
         self._inputs.append(self._mass_mat)
-        self._c_mat = Input(
+        self._c_mat: Input[Field] = Input(
             transform_invariant_terms_rbd._spec().input_pin(10), 10, op, -1
         )
         self._inputs.append(self._c_mat)
-        self._rhs = Input(
+        self._rhs: Input[Field] = Input(
             transform_invariant_terms_rbd._spec().input_pin(11), 11, op, -1
         )
         self._inputs.append(self._rhs)
-        self._dn = Input(
+        self._dn: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(12), 12, op, -1
         )
         self._inputs.append(self._dn)
-        self._dr_cross_n = Input(
+        self._dr_cross_n: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(13), 13, op, -1
         )
         self._inputs.append(self._dr_cross_n)
-        self._drn = Input(
+        self._drn: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(14), 14, op, -1
         )
         self._inputs.append(self._drn)
-        self._dn_cross_n = Input(
+        self._dn_cross_n: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(15), 15, op, -1
         )
         self._inputs.append(self._dn_cross_n)
-        self._dnx_y = Input(
+        self._dnx_y: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(16), 16, op, -1
         )
         self._inputs.append(self._dnx_y)
-        self._dny_y = Input(
+        self._dny_y: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(17), 17, op, -1
         )
         self._inputs.append(self._dny_y)
-        self._dnz_y = Input(
+        self._dnz_y: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(18), 18, op, -1
         )
         self._inputs.append(self._dnz_y)
-        self._dyx_n = Input(
+        self._dyx_n: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(19), 19, op, -1
         )
         self._inputs.append(self._dyx_n)
-        self._dyy_n = Input(
+        self._dyy_n: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(20), 20, op, -1
         )
         self._inputs.append(self._dyy_n)
-        self._dyz_n = Input(
+        self._dyz_n: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(21), 21, op, -1
         )
         self._inputs.append(self._dyz_n)
-        self._dnxn = Input(
+        self._dnxn: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(22), 22, op, -1
         )
         self._inputs.append(self._dnxn)
-        self._dnyn = Input(
+        self._dnyn: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(23), 23, op, -1
         )
         self._inputs.append(self._dnyn)
-        self._dnzn = Input(
+        self._dnzn: Input = Input(
             transform_invariant_terms_rbd._spec().input_pin(24), 24, op, -1
         )
         self._inputs.append(self._dnzn)
 
     @property
-    def rotation_matrix(self) -> Input:
+    def rotation_matrix(self) -> Input[Field]:
         r"""Allows to connect rotation_matrix input to the operator.
 
         3-3 rotation matrix.
@@ -821,7 +825,7 @@ class InputsTransformInvariantTermsRbd(_Inputs):
         return self._rotation_matrix
 
     @property
-    def coordinate_system(self) -> Input:
+    def coordinate_system(self) -> Input[Field]:
         r"""Allows to connect coordinate_system input to the operator.
 
         origin of the new coordinate system.
@@ -842,7 +846,7 @@ class InputsTransformInvariantTermsRbd(_Inputs):
         return self._coordinate_system
 
     @property
-    def model_data(self) -> Input:
+    def model_data(self) -> Input[PropertyField]:
         r"""Allows to connect model_data input to the operator.
 
         data describing the finite element model
@@ -863,7 +867,7 @@ class InputsTransformInvariantTermsRbd(_Inputs):
         return self._model_data
 
     @property
-    def center_of_mass(self) -> Input:
+    def center_of_mass(self) -> Input[Field]:
         r"""Allows to connect center_of_mass input to the operator.
 
         center of mass of the body
@@ -884,7 +888,7 @@ class InputsTransformInvariantTermsRbd(_Inputs):
         return self._center_of_mass
 
     @property
-    def inertia_relief(self) -> Input:
+    def inertia_relief(self) -> Input[Field]:
         r"""Allows to connect inertia_relief input to the operator.
 
         inertia matrix
@@ -905,7 +909,7 @@ class InputsTransformInvariantTermsRbd(_Inputs):
         return self._inertia_relief
 
     @property
-    def model_size(self) -> Input:
+    def model_size(self) -> Input[float]:
         r"""Allows to connect model_size input to the operator.
 
         size of the diagonal box containing the body
@@ -966,7 +970,7 @@ class InputsTransformInvariantTermsRbd(_Inputs):
         return self._v_trsf
 
     @property
-    def k_mat(self) -> Input:
+    def k_mat(self) -> Input[Field]:
         r"""Allows to connect k_mat input to the operator.
 
         Returns
@@ -985,7 +989,7 @@ class InputsTransformInvariantTermsRbd(_Inputs):
         return self._k_mat
 
     @property
-    def mass_mat(self) -> Input:
+    def mass_mat(self) -> Input[Field]:
         r"""Allows to connect mass_mat input to the operator.
 
         Returns
@@ -1004,7 +1008,7 @@ class InputsTransformInvariantTermsRbd(_Inputs):
         return self._mass_mat
 
     @property
-    def c_mat(self) -> Input:
+    def c_mat(self) -> Input[Field]:
         r"""Allows to connect c_mat input to the operator.
 
         Returns
@@ -1023,7 +1027,7 @@ class InputsTransformInvariantTermsRbd(_Inputs):
         return self._c_mat
 
     @property
-    def rhs(self) -> Input:
+    def rhs(self) -> Input[Field]:
         r"""Allows to connect rhs input to the operator.
 
         Returns
@@ -1325,91 +1329,101 @@ class OutputsTransformInvariantTermsRbd(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(transform_invariant_terms_rbd._spec().outputs, op)
-        self._model_data = Output(
+        self._model_data: Output[PropertyField] = Output(
             transform_invariant_terms_rbd._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._model_data)
-        self._center_of_mass = Output(
+        self._center_of_mass: Output[Field] = Output(
             transform_invariant_terms_rbd._spec().output_pin(1), 1, op
         )
         self._outputs.append(self._center_of_mass)
-        self._inertia_relief = Output(
+        self._inertia_relief: Output[Field] = Output(
             transform_invariant_terms_rbd._spec().output_pin(2), 2, op
         )
         self._outputs.append(self._inertia_relief)
-        self._model_size = Output(
+        self._model_size: Output[PropertyField] = Output(
             transform_invariant_terms_rbd._spec().output_pin(3), 3, op
         )
         self._outputs.append(self._model_size)
-        self._master_node_coordinates = Output(
+        self._master_node_coordinates: Output = Output(
             transform_invariant_terms_rbd._spec().output_pin(4), 4, op
         )
         self._outputs.append(self._master_node_coordinates)
-        self._v_trsf = Output(
+        self._v_trsf: Output = Output(
             transform_invariant_terms_rbd._spec().output_pin(5), 5, op
         )
         self._outputs.append(self._v_trsf)
-        self._k_mat = Output(transform_invariant_terms_rbd._spec().output_pin(6), 6, op)
+        self._k_mat: Output[Field] = Output(
+            transform_invariant_terms_rbd._spec().output_pin(6), 6, op
+        )
         self._outputs.append(self._k_mat)
-        self._mass_mat = Output(
+        self._mass_mat: Output[Field] = Output(
             transform_invariant_terms_rbd._spec().output_pin(7), 7, op
         )
         self._outputs.append(self._mass_mat)
-        self._c_mat = Output(transform_invariant_terms_rbd._spec().output_pin(8), 8, op)
+        self._c_mat: Output[Field] = Output(
+            transform_invariant_terms_rbd._spec().output_pin(8), 8, op
+        )
         self._outputs.append(self._c_mat)
-        self._rhs = Output(transform_invariant_terms_rbd._spec().output_pin(9), 9, op)
+        self._rhs: Output[Field] = Output(
+            transform_invariant_terms_rbd._spec().output_pin(9), 9, op
+        )
         self._outputs.append(self._rhs)
-        self._dn = Output(transform_invariant_terms_rbd._spec().output_pin(10), 10, op)
+        self._dn: Output = Output(
+            transform_invariant_terms_rbd._spec().output_pin(10), 10, op
+        )
         self._outputs.append(self._dn)
-        self._dr_cross_n = Output(
+        self._dr_cross_n: Output = Output(
             transform_invariant_terms_rbd._spec().output_pin(11), 11, op
         )
         self._outputs.append(self._dr_cross_n)
-        self._drn = Output(transform_invariant_terms_rbd._spec().output_pin(12), 12, op)
+        self._drn: Output = Output(
+            transform_invariant_terms_rbd._spec().output_pin(12), 12, op
+        )
         self._outputs.append(self._drn)
-        self._dn_cross_n = Output(
+        self._dn_cross_n: Output = Output(
             transform_invariant_terms_rbd._spec().output_pin(13), 13, op
         )
         self._outputs.append(self._dn_cross_n)
-        self._dnx_y = Output(
+        self._dnx_y: Output = Output(
             transform_invariant_terms_rbd._spec().output_pin(14), 14, op
         )
         self._outputs.append(self._dnx_y)
-        self._dny_y = Output(
+        self._dny_y: Output = Output(
             transform_invariant_terms_rbd._spec().output_pin(15), 15, op
         )
         self._outputs.append(self._dny_y)
-        self._dnz_y = Output(
+        self._dnz_y: Output = Output(
             transform_invariant_terms_rbd._spec().output_pin(16), 16, op
         )
         self._outputs.append(self._dnz_y)
-        self._dyx_n = Output(
+        self._dyx_n: Output = Output(
             transform_invariant_terms_rbd._spec().output_pin(17), 17, op
         )
         self._outputs.append(self._dyx_n)
-        self._dyy_n = Output(
+        self._dyy_n: Output = Output(
             transform_invariant_terms_rbd._spec().output_pin(18), 18, op
         )
         self._outputs.append(self._dyy_n)
-        self._dyz_n = Output(
+        self._dyz_n: Output = Output(
             transform_invariant_terms_rbd._spec().output_pin(19), 19, op
         )
         self._outputs.append(self._dyz_n)
-        self._dnxn = Output(
+        self._dnxn: Output = Output(
             transform_invariant_terms_rbd._spec().output_pin(20), 20, op
         )
         self._outputs.append(self._dnxn)
-        self._dnyn = Output(
+        self._dnyn: Output = Output(
             transform_invariant_terms_rbd._spec().output_pin(21), 21, op
         )
         self._outputs.append(self._dnyn)
-        self._dnzn = Output(
+        self._dnzn: Output = Output(
             transform_invariant_terms_rbd._spec().output_pin(22), 22, op
         )
         self._outputs.append(self._dnzn)
 
     @property
-    def model_data(self) -> Output:
+    def model_data(self) -> Output[PropertyField]:
         r"""Allows to get model_data output of the operator
 
         data describing the finite element model
@@ -1429,7 +1443,7 @@ class OutputsTransformInvariantTermsRbd(_Outputs):
         return self._model_data
 
     @property
-    def center_of_mass(self) -> Output:
+    def center_of_mass(self) -> Output[Field]:
         r"""Allows to get center_of_mass output of the operator
 
         center of mass of the body
@@ -1449,7 +1463,7 @@ class OutputsTransformInvariantTermsRbd(_Outputs):
         return self._center_of_mass
 
     @property
-    def inertia_relief(self) -> Output:
+    def inertia_relief(self) -> Output[Field]:
         r"""Allows to get inertia_relief output of the operator
 
         inertia matrix
@@ -1469,7 +1483,7 @@ class OutputsTransformInvariantTermsRbd(_Outputs):
         return self._inertia_relief
 
     @property
-    def model_size(self) -> Output:
+    def model_size(self) -> Output[PropertyField]:
         r"""Allows to get model_size output of the operator
 
         Returns
@@ -1525,7 +1539,7 @@ class OutputsTransformInvariantTermsRbd(_Outputs):
         return self._v_trsf
 
     @property
-    def k_mat(self) -> Output:
+    def k_mat(self) -> Output[Field]:
         r"""Allows to get k_mat output of the operator
 
         Returns
@@ -1543,7 +1557,7 @@ class OutputsTransformInvariantTermsRbd(_Outputs):
         return self._k_mat
 
     @property
-    def mass_mat(self) -> Output:
+    def mass_mat(self) -> Output[Field]:
         r"""Allows to get mass_mat output of the operator
 
         Returns
@@ -1561,7 +1575,7 @@ class OutputsTransformInvariantTermsRbd(_Outputs):
         return self._mass_mat
 
     @property
-    def c_mat(self) -> Output:
+    def c_mat(self) -> Output[Field]:
         r"""Allows to get c_mat output of the operator
 
         Returns
@@ -1579,7 +1593,7 @@ class OutputsTransformInvariantTermsRbd(_Outputs):
         return self._c_mat
 
     @property
-    def rhs(self) -> Output:
+    def rhs(self) -> Output[Field]:
         r"""Allows to get rhs output of the operator
 
         Returns

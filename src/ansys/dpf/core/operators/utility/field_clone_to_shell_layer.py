@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class field_clone_to_shell_layer(Operator):
     r"""Generates a Field from the Field in input 0 that has the same
@@ -189,19 +192,21 @@ class InputsFieldCloneToShellLayer(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(field_clone_to_shell_layer._spec().inputs, op)
-        self._field = Input(field_clone_to_shell_layer._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field] = Input(
+            field_clone_to_shell_layer._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._shell_layer = Input(
+        self._shell_layer: Input[int] = Input(
             field_clone_to_shell_layer._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._shell_layer)
-        self._duplicate_scoping = Input(
+        self._duplicate_scoping: Input[bool] = Input(
             field_clone_to_shell_layer._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._duplicate_scoping)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
         Returns
@@ -220,7 +225,7 @@ class InputsFieldCloneToShellLayer(_Inputs):
         return self._field
 
     @property
-    def shell_layer(self) -> Input:
+    def shell_layer(self) -> Input[int]:
         r"""Allows to connect shell_layer input to the operator.
 
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
@@ -241,7 +246,7 @@ class InputsFieldCloneToShellLayer(_Inputs):
         return self._shell_layer
 
     @property
-    def duplicate_scoping(self) -> Input:
+    def duplicate_scoping(self) -> Input[bool]:
         r"""Allows to connect duplicate_scoping input to the operator.
 
         If true, a new scoping is computed for the output Field. If false, the input Field scoping is used. Default is false.
@@ -276,11 +281,13 @@ class OutputsFieldCloneToShellLayer(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(field_clone_to_shell_layer._spec().outputs, op)
-        self._field = Output(field_clone_to_shell_layer._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            field_clone_to_shell_layer._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

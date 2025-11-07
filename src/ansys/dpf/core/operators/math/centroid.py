@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class centroid(Operator):
     r"""Computes centroid of field1 and field2, using fieldOut =
@@ -173,15 +177,19 @@ class InputsCentroid(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(centroid._spec().inputs, op)
-        self._fieldA = Input(centroid._spec().input_pin(0), 0, op, -1)
+        self._fieldA: Input[Field | FieldsContainer] = Input(
+            centroid._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fieldA)
-        self._fieldB = Input(centroid._spec().input_pin(1), 1, op, -1)
+        self._fieldB: Input[Field | FieldsContainer] = Input(
+            centroid._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._fieldB)
-        self._factor = Input(centroid._spec().input_pin(2), 2, op, -1)
+        self._factor: Input[float] = Input(centroid._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._factor)
 
     @property
-    def fieldA(self) -> Input:
+    def fieldA(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect fieldA input to the operator.
 
         field or fields container with only one field is expected
@@ -202,7 +210,7 @@ class InputsCentroid(_Inputs):
         return self._fieldA
 
     @property
-    def fieldB(self) -> Input:
+    def fieldB(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect fieldB input to the operator.
 
         field or fields container with only one field is expected
@@ -223,7 +231,7 @@ class InputsCentroid(_Inputs):
         return self._fieldB
 
     @property
-    def factor(self) -> Input:
+    def factor(self) -> Input[float]:
         r"""Allows to connect factor input to the operator.
 
         Scalar
@@ -258,11 +266,11 @@ class OutputsCentroid(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(centroid._spec().outputs, op)
-        self._field = Output(centroid._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(centroid._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

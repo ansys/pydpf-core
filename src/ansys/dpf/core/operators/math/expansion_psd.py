@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class expansion_psd(Operator):
     r"""Computes the PSD response for one-sigma solution.
@@ -211,25 +214,29 @@ class InputsExpansionPsd(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(expansion_psd._spec().inputs, op)
-        self._mode_shapes = Input(expansion_psd._spec().input_pin(0), 0, op, -1)
+        self._mode_shapes: Input[FieldsContainer] = Input(
+            expansion_psd._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._mode_shapes)
-        self._static_shapes = Input(expansion_psd._spec().input_pin(1), 1, op, -1)
+        self._static_shapes: Input[FieldsContainer] = Input(
+            expansion_psd._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._static_shapes)
-        self._rel_rel_covar_matrix = Input(
+        self._rel_rel_covar_matrix: Input[FieldsContainer] = Input(
             expansion_psd._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._rel_rel_covar_matrix)
-        self._stat_stat_covar_matrix = Input(
+        self._stat_stat_covar_matrix: Input[FieldsContainer] = Input(
             expansion_psd._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._stat_stat_covar_matrix)
-        self._rel_stat_covar_matrix = Input(
+        self._rel_stat_covar_matrix: Input[FieldsContainer] = Input(
             expansion_psd._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._rel_stat_covar_matrix)
 
     @property
-    def mode_shapes(self) -> Input:
+    def mode_shapes(self) -> Input[FieldsContainer]:
         r"""Allows to connect mode_shapes input to the operator.
 
         Fields container containing the mode shapes from modal analysis file: mode shapes for dynamic and pseudo-static displacements
@@ -250,7 +257,7 @@ class InputsExpansionPsd(_Inputs):
         return self._mode_shapes
 
     @property
-    def static_shapes(self) -> Input:
+    def static_shapes(self) -> Input[FieldsContainer]:
         r"""Allows to connect static_shapes input to the operator.
 
         Fields container containing the static shapes (base excitations) from spectral analysis file
@@ -271,7 +278,7 @@ class InputsExpansionPsd(_Inputs):
         return self._static_shapes
 
     @property
-    def rel_rel_covar_matrix(self) -> Input:
+    def rel_rel_covar_matrix(self) -> Input[FieldsContainer]:
         r"""Allows to connect rel_rel_covar_matrix input to the operator.
 
         Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration mode-mode shapes
@@ -292,7 +299,7 @@ class InputsExpansionPsd(_Inputs):
         return self._rel_rel_covar_matrix
 
     @property
-    def stat_stat_covar_matrix(self) -> Input:
+    def stat_stat_covar_matrix(self) -> Input[FieldsContainer]:
         r"""Allows to connect stat_stat_covar_matrix input to the operator.
 
         Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration static-static shapes
@@ -313,7 +320,7 @@ class InputsExpansionPsd(_Inputs):
         return self._stat_stat_covar_matrix
 
     @property
-    def rel_stat_covar_matrix(self) -> Input:
+    def rel_stat_covar_matrix(self) -> Input[FieldsContainer]:
         r"""Allows to connect rel_stat_covar_matrix input to the operator.
 
         Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration mode-static shapes
@@ -348,11 +355,13 @@ class OutputsExpansionPsd(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(expansion_psd._spec().outputs, op)
-        self._psd = Output(expansion_psd._spec().output_pin(0), 0, op)
+        self._psd: Output[FieldsContainer] = Output(
+            expansion_psd._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._psd)
 
     @property
-    def psd(self) -> Output:
+    def psd(self) -> Output[FieldsContainer]:
         r"""Allows to get psd output of the operator
 
         PSD solution per label

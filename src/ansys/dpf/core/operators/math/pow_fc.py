@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class pow_fc(Operator):
     r"""Computes element-wise field[i]^p.
@@ -154,13 +157,15 @@ class InputsPowFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(pow_fc._spec().inputs, op)
-        self._fields_container = Input(pow_fc._spec().input_pin(0), 0, op, -1)
+        self._fields_container: Input[FieldsContainer] = Input(
+            pow_fc._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fields_container)
-        self._factor = Input(pow_fc._spec().input_pin(1), 1, op, -1)
+        self._factor: Input[float] = Input(pow_fc._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._factor)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -179,7 +184,7 @@ class InputsPowFc(_Inputs):
         return self._fields_container
 
     @property
-    def factor(self) -> Input:
+    def factor(self) -> Input[float]:
         r"""Allows to connect factor input to the operator.
 
         Returns
@@ -212,11 +217,13 @@ class OutputsPowFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(pow_fc._spec().outputs, op)
-        self._fields_container = Output(pow_fc._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            pow_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

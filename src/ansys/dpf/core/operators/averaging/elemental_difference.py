@@ -14,6 +14,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class elemental_difference(Operator):
     r"""Transforms an Elemental Nodal or Nodal field into an Elemental field.
@@ -199,19 +205,25 @@ class InputsElementalDifference(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(elemental_difference._spec().inputs, op)
-        self._field = Input(elemental_difference._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            elemental_difference._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._mesh_scoping = Input(elemental_difference._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(
+            elemental_difference._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._mesh = Input(elemental_difference._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            elemental_difference._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._through_layers = Input(
+        self._through_layers: Input[bool] = Input(
             elemental_difference._spec().input_pin(10), 10, op, -1
         )
         self._inputs.append(self._through_layers)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -232,7 +244,7 @@ class InputsElementalDifference(_Inputs):
         return self._field
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         average only on these entities
@@ -253,7 +265,7 @@ class InputsElementalDifference(_Inputs):
         return self._mesh_scoping
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -272,7 +284,7 @@ class InputsElementalDifference(_Inputs):
         return self._mesh
 
     @property
-    def through_layers(self) -> Input:
+    def through_layers(self) -> Input[bool]:
         r"""Allows to connect through_layers input to the operator.
 
         The maximum elemental difference is taken through the different shell layers if true (default is false).
@@ -307,11 +319,13 @@ class OutputsElementalDifference(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(elemental_difference._spec().outputs, op)
-        self._field = Output(elemental_difference._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            elemental_difference._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

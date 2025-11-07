@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class faces_area(Operator):
     r"""Compute the measure of the Faces (surface for 2D faces of a 3D model or
@@ -159,13 +164,17 @@ class InputsFacesArea(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(faces_area._spec().inputs, op)
-        self._mesh = Input(faces_area._spec().input_pin(0), 0, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            faces_area._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._mesh_scoping = Input(faces_area._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(
+            faces_area._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -184,7 +193,7 @@ class InputsFacesArea(_Inputs):
         return self._mesh
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         If not provided, the measure of all Faces in the mesh is computed. If provided, the Scoping needs to have "Faces" location.
@@ -219,11 +228,11 @@ class OutputsFacesArea(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(faces_area._spec().outputs, op)
-        self._field = Output(faces_area._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(faces_area._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

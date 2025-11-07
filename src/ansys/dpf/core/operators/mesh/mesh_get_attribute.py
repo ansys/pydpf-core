@@ -15,6 +15,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class mesh_get_attribute(Operator):
     r"""Uses the MeshedRegion APIs to return a given attribute of the mesh in
@@ -187,19 +190,21 @@ class InputsMeshGetAttribute(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(mesh_get_attribute._spec().inputs, op)
-        self._abstract_meshed_region = Input(
+        self._abstract_meshed_region: Input[MeshedRegion] = Input(
             mesh_get_attribute._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._abstract_meshed_region)
-        self._property_name = Input(mesh_get_attribute._spec().input_pin(1), 1, op, -1)
+        self._property_name: Input[str] = Input(
+            mesh_get_attribute._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._property_name)
-        self._property_identifier = Input(
+        self._property_identifier: Input[int | str] = Input(
             mesh_get_attribute._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._property_identifier)
 
     @property
-    def abstract_meshed_region(self) -> Input:
+    def abstract_meshed_region(self) -> Input[MeshedRegion]:
         r"""Allows to connect abstract_meshed_region input to the operator.
 
         Returns
@@ -218,7 +223,7 @@ class InputsMeshGetAttribute(_Inputs):
         return self._abstract_meshed_region
 
     @property
-    def property_name(self) -> Input:
+    def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
         Supported property names are: "connectivity", "reverse_connectivity", "mat", "faces_nodes_connectivity", "elements_faces_connectivity" (or any mesh's property field), "coordinates", "named_selection", "num_named_selections", "named_selection_names", "named_selection_locations", "node_scoping", "element_scoping", "face_scoping"...
@@ -239,7 +244,7 @@ class InputsMeshGetAttribute(_Inputs):
         return self._property_name
 
     @property
-    def property_identifier(self) -> Input:
+    def property_identifier(self) -> Input[int | str]:
         r"""Allows to connect property_identifier input to the operator.
 
         Can be used to get a property at a given index, example: a named selection's number or by name, example: a named selection's name.

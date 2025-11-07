@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class scale(Operator):
     r"""Scales a field by a constant factor. This factor can be a scalar or a
@@ -209,17 +213,21 @@ class InputsScale(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(scale._spec().inputs, op)
-        self._field = Input(scale._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            scale._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._weights = Input(scale._spec().input_pin(1), 1, op, -1)
+        self._weights: Input[float | Field] = Input(
+            scale._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._weights)
-        self._boolean = Input(scale._spec().input_pin(2), 2, op, -1)
+        self._boolean: Input[bool] = Input(scale._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._boolean)
-        self._algorithm = Input(scale._spec().input_pin(3), 3, op, -1)
+        self._algorithm: Input[int] = Input(scale._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._algorithm)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -240,7 +248,7 @@ class InputsScale(_Inputs):
         return self._field
 
     @property
-    def weights(self) -> Input:
+    def weights(self) -> Input[float | Field]:
         r"""Allows to connect weights input to the operator.
 
         Double/Field/Vector of doubles. When scoped on overall, same value(s) applied on all the data, when scoped elsewhere, corresponding values will be multiplied due to the scoping
@@ -261,7 +269,7 @@ class InputsScale(_Inputs):
         return self._weights
 
     @property
-    def boolean(self) -> Input:
+    def boolean(self) -> Input[bool]:
         r"""Allows to connect boolean input to the operator.
 
         Default is false. If set to true, output of scale is made dimensionless
@@ -282,7 +290,7 @@ class InputsScale(_Inputs):
         return self._boolean
 
     @property
-    def algorithm(self) -> Input:
+    def algorithm(self) -> Input[int]:
         r"""Allows to connect algorithm input to the operator.
 
         Default is 0 use mkl. If set to 1, don't
@@ -329,11 +337,11 @@ class OutputsScale(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(scale._spec().outputs, op)
-        self._field = Output(scale._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(scale._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

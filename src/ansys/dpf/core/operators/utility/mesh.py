@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class mesh(Operator):
     r"""Incrementaly merge the input.
@@ -139,11 +142,11 @@ class InputsMesh(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(mesh._spec().inputs, op)
-        self._input = Input(mesh._spec().input_pin(0), 0, op, -1)
+        self._input: Input[MeshedRegion] = Input(mesh._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._input)
 
     @property
-    def input(self) -> Input:
+    def input(self) -> Input[MeshedRegion]:
         r"""Allows to connect input input to the operator.
 
         Returns
@@ -176,7 +179,7 @@ class OutputsMesh(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(mesh._spec().outputs, op)
-        self._incremented_result = Output(mesh._spec().output_pin(0), 0, op)
+        self._incremented_result: Output = Output(mesh._spec().output_pin(0), 0, op)
         self._outputs.append(self._incremented_result)
 
     @property

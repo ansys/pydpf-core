@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.dpf_operator import Operator
+
 
 class operator_id(Operator):
     r"""Return the id of an Operator.
@@ -140,11 +143,11 @@ class InputsOperatorId(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(operator_id._spec().inputs, op)
-        self._op = Input(operator_id._spec().input_pin(0), 0, op, -1)
+        self._op: Input[Operator] = Input(operator_id._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._op)
 
     @property
-    def op(self) -> Input:
+    def op(self) -> Input[Operator]:
         r"""Allows to connect op input to the operator.
 
         Returns
@@ -177,11 +180,11 @@ class OutputsOperatorId(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(operator_id._spec().outputs, op)
-        self._id = Output(operator_id._spec().output_pin(0), 0, op)
+        self._id: Output[int] = Output(operator_id._spec().output_pin(0), 0, op)
         self._outputs.append(self._id)
 
     @property
-    def id(self) -> Output:
+    def id(self) -> Output[int]:
         r"""Allows to get id output of the operator
 
         Returns

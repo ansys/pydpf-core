@@ -14,6 +14,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class nodal_to_elemental_fc(Operator):
     r"""Transforms Nodal fields into Elemental fields using an averaging
@@ -233,29 +240,33 @@ class InputsNodalToElementalFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(nodal_to_elemental_fc._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             nodal_to_elemental_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._mesh = Input(nodal_to_elemental_fc._spec().input_pin(1), 1, op, -1)
+        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
+            nodal_to_elemental_fc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._scoping = Input(nodal_to_elemental_fc._spec().input_pin(3), 3, op, -1)
+        self._scoping: Input[Scoping | ScopingsContainer] = Input(
+            nodal_to_elemental_fc._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._scoping)
-        self._collapse_shell_layers = Input(
+        self._collapse_shell_layers: Input[bool] = Input(
             nodal_to_elemental_fc._spec().input_pin(10), 10, op, -1
         )
         self._inputs.append(self._collapse_shell_layers)
-        self._merge_solid_shell = Input(
+        self._merge_solid_shell: Input[bool] = Input(
             nodal_to_elemental_fc._spec().input_pin(26), 26, op, -1
         )
         self._inputs.append(self._merge_solid_shell)
-        self._shell_layer = Input(
+        self._shell_layer: Input[int] = Input(
             nodal_to_elemental_fc._spec().input_pin(27), 27, op, -1
         )
         self._inputs.append(self._shell_layer)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -274,7 +285,7 @@ class InputsNodalToElementalFc(_Inputs):
         return self._fields_container
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
@@ -295,7 +306,7 @@ class InputsNodalToElementalFc(_Inputs):
         return self._mesh
 
     @property
-    def scoping(self) -> Input:
+    def scoping(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect scoping input to the operator.
 
         Average only on these elements. If it is a scoping container, the label must correspond to the one of the fields containers.
@@ -316,7 +327,7 @@ class InputsNodalToElementalFc(_Inputs):
         return self._scoping
 
     @property
-    def collapse_shell_layers(self) -> Input:
+    def collapse_shell_layers(self) -> Input[bool]:
         r"""Allows to connect collapse_shell_layers input to the operator.
 
         If true, the data across different shell layers is averaged as well (default is false).
@@ -337,7 +348,7 @@ class InputsNodalToElementalFc(_Inputs):
         return self._collapse_shell_layers
 
     @property
-    def merge_solid_shell(self) -> Input:
+    def merge_solid_shell(self) -> Input[bool]:
         r"""Allows to connect merge_solid_shell input to the operator.
 
         For shell/solid mixed fields, group in the same field all solids and shells (false by default). If this pin is true and collapse_shell_layers is false, a shell_layer needs to be specified.
@@ -358,7 +369,7 @@ class InputsNodalToElementalFc(_Inputs):
         return self._merge_solid_shell
 
     @property
-    def shell_layer(self) -> Input:
+    def shell_layer(self) -> Input[int]:
         r"""Allows to connect shell_layer input to the operator.
 
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. If merge_solid_shell is true, this pin needs to be specified to a value that extracts only one layer (Top, Bottom or Mid).
@@ -393,13 +404,13 @@ class OutputsNodalToElementalFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(nodal_to_elemental_fc._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             nodal_to_elemental_fc._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

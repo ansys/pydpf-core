@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.streams_container import StreamsContainer
+
 
 class split_streams(Operator):
     r"""Splits a Streams into multiple coherent streams, actual number of
@@ -177,13 +180,17 @@ class InputsSplitStreams(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(split_streams._spec().inputs, op)
-        self._streams = Input(split_streams._spec().input_pin(0), 0, op, -1)
+        self._streams: Input[StreamsContainer] = Input(
+            split_streams._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._streams)
-        self._output_count = Input(split_streams._spec().input_pin(1), 1, op, -1)
+        self._output_count: Input[int] = Input(
+            split_streams._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._output_count)
 
     @property
-    def streams(self) -> Input:
+    def streams(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams input to the operator.
 
         Streams to split.
@@ -204,7 +211,7 @@ class InputsSplitStreams(_Inputs):
         return self._streams
 
     @property
-    def output_count(self) -> Input:
+    def output_count(self) -> Input[int]:
         r"""Allows to connect output_count input to the operator.
 
         Number of desired outputs.
@@ -241,15 +248,21 @@ class OutputsSplitStreams(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(split_streams._spec().outputs, op)
-        self._output_count = Output(split_streams._spec().output_pin(-1), -1, op)
+        self._output_count: Output[int] = Output(
+            split_streams._spec().output_pin(-1), -1, op
+        )
         self._outputs.append(self._output_count)
-        self._outputs1 = Output(split_streams._spec().output_pin(0), 0, op)
+        self._outputs1: Output[StreamsContainer] = Output(
+            split_streams._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._outputs1)
-        self._outputs2 = Output(split_streams._spec().output_pin(1), 1, op)
+        self._outputs2: Output[StreamsContainer] = Output(
+            split_streams._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._outputs2)
 
     @property
-    def output_count(self) -> Output:
+    def output_count(self) -> Output[int]:
         r"""Allows to get output_count output of the operator
 
         Actual number of outputs.
@@ -269,7 +282,7 @@ class OutputsSplitStreams(_Outputs):
         return self._output_count
 
     @property
-    def outputs1(self) -> Output:
+    def outputs1(self) -> Output[StreamsContainer]:
         r"""Allows to get outputs1 output of the operator
 
         Streams outputs.
@@ -289,7 +302,7 @@ class OutputsSplitStreams(_Outputs):
         return self._outputs1
 
     @property
-    def outputs2(self) -> Output:
+    def outputs2(self) -> Output[StreamsContainer]:
         r"""Allows to get outputs2 output of the operator
 
         Streams outputs.

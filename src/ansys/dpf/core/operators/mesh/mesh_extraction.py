@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class mesh_extraction(Operator):
     r"""Take a mesh and a scoping (elemental or nodal) and create a new mesh
@@ -173,15 +177,21 @@ class InputsMeshExtraction(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(mesh_extraction._spec().inputs, op)
-        self._mesh = Input(mesh_extraction._spec().input_pin(0), 0, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            mesh_extraction._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._mesh_scoping = Input(mesh_extraction._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(
+            mesh_extraction._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._extension = Input(mesh_extraction._spec().input_pin(2), 2, op, -1)
+        self._extension: Input[int] = Input(
+            mesh_extraction._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._extension)
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -200,7 +210,7 @@ class InputsMeshExtraction(_Inputs):
         return self._mesh
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Returns
@@ -219,7 +229,7 @@ class InputsMeshExtraction(_Inputs):
         return self._mesh_scoping
 
     @property
-    def extension(self) -> Input:
+    def extension(self) -> Input[int]:
         r"""Allows to connect extension input to the operator.
 
         Number of extension layer
@@ -254,13 +264,13 @@ class OutputsMeshExtraction(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(mesh_extraction._spec().outputs, op)
-        self._abstract_meshed_region = Output(
+        self._abstract_meshed_region: Output[MeshedRegion] = Output(
             mesh_extraction._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._abstract_meshed_region)
 
     @property
-    def abstract_meshed_region(self) -> Output:
+    def abstract_meshed_region(self) -> Output[MeshedRegion]:
         r"""Allows to get abstract_meshed_region output of the operator
 
         Returns

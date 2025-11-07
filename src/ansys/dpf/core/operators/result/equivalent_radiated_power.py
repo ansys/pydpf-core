@@ -14,6 +14,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class equivalent_radiated_power(Operator):
     r"""Compute the Equivalent Radiated Power (ERP)
@@ -258,35 +264,41 @@ class InputsEquivalentRadiatedPower(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(equivalent_radiated_power._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             equivalent_radiated_power._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._mesh = Input(equivalent_radiated_power._spec().input_pin(1), 1, op, -1)
+        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
+            equivalent_radiated_power._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._time_scoping = Input(
+        self._time_scoping: Input[int | Scoping] = Input(
             equivalent_radiated_power._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._time_scoping)
-        self._mass_density = Input(
+        self._mass_density: Input[float] = Input(
             equivalent_radiated_power._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._mass_density)
-        self._speed_of_sound = Input(
+        self._speed_of_sound: Input[float] = Input(
             equivalent_radiated_power._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._speed_of_sound)
-        self._erp_type = Input(
+        self._erp_type: Input[int] = Input(
             equivalent_radiated_power._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._erp_type)
-        self._boolean = Input(equivalent_radiated_power._spec().input_pin(6), 6, op, -1)
+        self._boolean: Input[bool] = Input(
+            equivalent_radiated_power._spec().input_pin(6), 6, op, -1
+        )
         self._inputs.append(self._boolean)
-        self._factor = Input(equivalent_radiated_power._spec().input_pin(7), 7, op, -1)
+        self._factor: Input[float] = Input(
+            equivalent_radiated_power._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._factor)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         the input field container expects displacements fields
@@ -307,7 +319,7 @@ class InputsEquivalentRadiatedPower(_Inputs):
         return self._fields_container
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
         the mesh region in this pin has to be boundary or skin mesh
@@ -328,7 +340,7 @@ class InputsEquivalentRadiatedPower(_Inputs):
         return self._mesh
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[int | Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         load step number (if it's specified, the ERP is computed only on the substeps of this step) or time scoping
@@ -349,7 +361,7 @@ class InputsEquivalentRadiatedPower(_Inputs):
         return self._time_scoping
 
     @property
-    def mass_density(self) -> Input:
+    def mass_density(self) -> Input[float]:
         r"""Allows to connect mass_density input to the operator.
 
         mass density (if it's not specified, default value of the air is applied).
@@ -370,7 +382,7 @@ class InputsEquivalentRadiatedPower(_Inputs):
         return self._mass_density
 
     @property
-    def speed_of_sound(self) -> Input:
+    def speed_of_sound(self) -> Input[float]:
         r"""Allows to connect speed_of_sound input to the operator.
 
         speed of sound (if it's not specified, default value of the speed of sound in the air is applied).
@@ -391,7 +403,7 @@ class InputsEquivalentRadiatedPower(_Inputs):
         return self._speed_of_sound
 
     @property
-    def erp_type(self) -> Input:
+    def erp_type(self) -> Input[int]:
         r"""Allows to connect erp_type input to the operator.
 
         if this pin is set to 0, the classical ERP is computed, 1 the corrected ERP is computed (a mesh of one face has to be given in the pin 1) and 2 the enhanced ERP is computed. Default is 0.
@@ -412,7 +424,7 @@ class InputsEquivalentRadiatedPower(_Inputs):
         return self._erp_type
 
     @property
-    def boolean(self) -> Input:
+    def boolean(self) -> Input[bool]:
         r"""Allows to connect boolean input to the operator.
 
         if this pin is set to true, the ERP level in dB is computed
@@ -433,7 +445,7 @@ class InputsEquivalentRadiatedPower(_Inputs):
         return self._boolean
 
     @property
-    def factor(self) -> Input:
+    def factor(self) -> Input[float]:
         r"""Allows to connect factor input to the operator.
 
         erp reference value. Default is 1E-12
@@ -468,13 +480,13 @@ class OutputsEquivalentRadiatedPower(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(equivalent_radiated_power._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             equivalent_radiated_power._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

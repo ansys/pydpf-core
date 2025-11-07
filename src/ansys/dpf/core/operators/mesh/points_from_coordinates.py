@@ -14,6 +14,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class points_from_coordinates(Operator):
     r"""Extract a mesh made of points elements. This mesh is made from input
@@ -160,15 +166,17 @@ class InputsPointsFromCoordinates(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(points_from_coordinates._spec().inputs, op)
-        self._nodes_to_keep = Input(
+        self._nodes_to_keep: Input[Scoping | ScopingsContainer] = Input(
             points_from_coordinates._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._nodes_to_keep)
-        self._mesh = Input(points_from_coordinates._spec().input_pin(1), 1, op, -1)
+        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
+            points_from_coordinates._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def nodes_to_keep(self) -> Input:
+    def nodes_to_keep(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect nodes_to_keep input to the operator.
 
         Returns
@@ -187,7 +195,7 @@ class InputsPointsFromCoordinates(_Inputs):
         return self._nodes_to_keep
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -220,13 +228,13 @@ class OutputsPointsFromCoordinates(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(points_from_coordinates._spec().outputs, op)
-        self._abstract_meshed_region = Output(
+        self._abstract_meshed_region: Output[MeshedRegion] = Output(
             points_from_coordinates._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._abstract_meshed_region)
 
     @property
-    def abstract_meshed_region(self) -> Output:
+    def abstract_meshed_region(self) -> Output[MeshedRegion]:
         r"""Allows to get abstract_meshed_region output of the operator
 
         Returns

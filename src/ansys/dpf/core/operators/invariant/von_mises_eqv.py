@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class von_mises_eqv(Operator):
     r"""Computes the element-wise Von-Mises criteria on a tensor field.
@@ -156,13 +160,17 @@ class InputsVonMisesEqv(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(von_mises_eqv._spec().inputs, op)
-        self._field = Input(von_mises_eqv._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            von_mises_eqv._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
-        self._poisson_ratio = Input(von_mises_eqv._spec().input_pin(13), 13, op, -1)
+        self._poisson_ratio: Input[float | int] = Input(
+            von_mises_eqv._spec().input_pin(13), 13, op, -1
+        )
         self._inputs.append(self._poisson_ratio)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -183,7 +191,7 @@ class InputsVonMisesEqv(_Inputs):
         return self._field
 
     @property
-    def poisson_ratio(self) -> Input:
+    def poisson_ratio(self) -> Input[float | int]:
         r"""Allows to connect poisson_ratio input to the operator.
 
         Poisson ratio to be used in equivalent strain calculation.
@@ -218,11 +226,11 @@ class OutputsVonMisesEqv(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(von_mises_eqv._spec().outputs, op)
-        self._field = Output(von_mises_eqv._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(von_mises_eqv._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

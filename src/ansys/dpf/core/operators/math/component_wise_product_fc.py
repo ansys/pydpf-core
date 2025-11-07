@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class component_wise_product_fc(Operator):
     r"""Computes component-wise product between two fields of same
@@ -164,15 +168,17 @@ class InputsComponentWiseProductFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(component_wise_product_fc._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             component_wise_product_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._fieldB = Input(component_wise_product_fc._spec().input_pin(1), 1, op, -1)
+        self._fieldB: Input[Field | FieldsContainer] = Input(
+            component_wise_product_fc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._fieldB)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         field or fields container with only one field is expected
@@ -193,7 +199,7 @@ class InputsComponentWiseProductFc(_Inputs):
         return self._fields_container
 
     @property
-    def fieldB(self) -> Input:
+    def fieldB(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect fieldB input to the operator.
 
         field or fields container with only one field is expected
@@ -228,13 +234,13 @@ class OutputsComponentWiseProductFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(component_wise_product_fc._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             component_wise_product_fc._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

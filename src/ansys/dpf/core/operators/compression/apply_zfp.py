@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class apply_zfp(Operator):
     r"""Compressing input data using one of zfp compression algorithm modes.
@@ -261,23 +265,31 @@ class InputsApplyZfp(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(apply_zfp._spec().inputs, op)
-        self._dataIn = Input(apply_zfp._spec().input_pin(0), 0, op, -1)
+        self._dataIn: Input[Field | FieldsContainer] = Input(
+            apply_zfp._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._dataIn)
-        self._mode = Input(apply_zfp._spec().input_pin(1), 1, op, -1)
+        self._mode: Input[str] = Input(apply_zfp._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._mode)
-        self._mode_parameter = Input(apply_zfp._spec().input_pin(2), 2, op, -1)
+        self._mode_parameter: Input[int | float] = Input(
+            apply_zfp._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._mode_parameter)
-        self._dim = Input(apply_zfp._spec().input_pin(3), 3, op, -1)
+        self._dim: Input[int] = Input(apply_zfp._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._dim)
-        self._order = Input(apply_zfp._spec().input_pin(4), 4, op, -1)
+        self._order: Input[int] = Input(apply_zfp._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._order)
-        self._double_absthreshold = Input(apply_zfp._spec().input_pin(5), 5, op, -1)
+        self._double_absthreshold: Input[float] = Input(
+            apply_zfp._spec().input_pin(5), 5, op, -1
+        )
         self._inputs.append(self._double_absthreshold)
-        self._double_relthreshold = Input(apply_zfp._spec().input_pin(6), 6, op, -1)
+        self._double_relthreshold: Input[float] = Input(
+            apply_zfp._spec().input_pin(6), 6, op, -1
+        )
         self._inputs.append(self._double_relthreshold)
 
     @property
-    def dataIn(self) -> Input:
+    def dataIn(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect dataIn input to the operator.
 
         field or fields container to be compressed
@@ -298,7 +310,7 @@ class InputsApplyZfp(_Inputs):
         return self._dataIn
 
     @property
-    def mode(self) -> Input:
+    def mode(self) -> Input[str]:
         r"""Allows to connect mode input to the operator.
 
         zfp mode: fixed-rate ('r'), fixed-precision ('p'), fixed-accuracy ('a')
@@ -319,7 +331,7 @@ class InputsApplyZfp(_Inputs):
         return self._mode
 
     @property
-    def mode_parameter(self) -> Input:
+    def mode_parameter(self) -> Input[int | float]:
         r"""Allows to connect mode_parameter input to the operator.
 
         mode-corresponding parameter: rate (double) / precision (int) / accuracy (double)
@@ -340,7 +352,7 @@ class InputsApplyZfp(_Inputs):
         return self._mode_parameter
 
     @property
-    def dim(self) -> Input:
+    def dim(self) -> Input[int]:
         r"""Allows to connect dim input to the operator.
 
         dimension (1D/2D/3D) for data organization before the compression (int; default: 2)
@@ -361,7 +373,7 @@ class InputsApplyZfp(_Inputs):
         return self._dim
 
     @property
-    def order(self) -> Input:
+    def order(self) -> Input[int]:
         r"""Allows to connect order input to the operator.
 
         xyz dimensions order, where x (row) corresponds to number of elementary data, y (col) - number of time steps, z - number of components (applicable only for 3d data) : 0=xyz, 1=yxz (int; default: 0)
@@ -382,7 +394,7 @@ class InputsApplyZfp(_Inputs):
         return self._order
 
     @property
-    def double_absthreshold(self) -> Input:
+    def double_absthreshold(self) -> Input[float]:
         r"""Allows to connect double_absthreshold input to the operator.
 
         Double positive small value. All the values smaller than max(small value, max(vi) * relative threshold) are considered as zero values, (default value: 1.0e-18).
@@ -403,7 +415,7 @@ class InputsApplyZfp(_Inputs):
         return self._double_absthreshold
 
     @property
-    def double_relthreshold(self) -> Input:
+    def double_relthreshold(self) -> Input[float]:
         r"""Allows to connect double_relthreshold input to the operator.
 
         Double relative threshold. Values smaller than (v1 - v2) < max(small value, v1 * relativeTol) are considered identical (default value: 1.0e-10).
@@ -440,15 +452,19 @@ class OutputsApplyZfp(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(apply_zfp._spec().outputs, op)
-        self._compress_speed = Output(apply_zfp._spec().output_pin(0), 0, op)
+        self._compress_speed: Output[float] = Output(
+            apply_zfp._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._compress_speed)
-        self._compress_ratio = Output(apply_zfp._spec().output_pin(1), 1, op)
+        self._compress_ratio: Output[float] = Output(
+            apply_zfp._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._compress_ratio)
-        self._dataOut = Output(apply_zfp._spec().output_pin(2), 2, op)
+        self._dataOut: Output = Output(apply_zfp._spec().output_pin(2), 2, op)
         self._outputs.append(self._dataOut)
 
     @property
-    def compress_speed(self) -> Output:
+    def compress_speed(self) -> Output[float]:
         r"""Allows to get compress_speed output of the operator
 
         the output entity is a double, containing compression speed of the input data: for ElementalNodal location - [elements/sec], for Nodal location - [nodes/sec]
@@ -468,7 +484,7 @@ class OutputsApplyZfp(_Outputs):
         return self._compress_speed
 
     @property
-    def compress_ratio(self) -> Output:
+    def compress_ratio(self) -> Output[float]:
         r"""Allows to get compress_ratio output of the operator
 
         the output entity is a double, containing compression rate = initial/compressed

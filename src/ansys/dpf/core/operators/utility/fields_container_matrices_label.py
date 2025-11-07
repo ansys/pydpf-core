@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+
 
 class fields_container_matrices_label(Operator):
     r"""Merge fields of fields container into field matrices. The output is a
@@ -185,21 +189,21 @@ class InputsFieldsContainerMatricesLabel(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(fields_container_matrices_label._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             fields_container_matrices_label._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._label = Input(
+        self._label: Input[str] = Input(
             fields_container_matrices_label._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._label)
-        self._time_scoping = Input(
+        self._time_scoping: Input[int | Scoping] = Input(
             fields_container_matrices_label._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._time_scoping)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         fields container to be merged
@@ -220,7 +224,7 @@ class InputsFieldsContainerMatricesLabel(_Inputs):
         return self._fields_container
 
     @property
-    def label(self) -> Input:
+    def label(self) -> Input[str]:
         r"""Allows to connect label input to the operator.
 
         Label where the merge is required
@@ -241,7 +245,7 @@ class InputsFieldsContainerMatricesLabel(_Inputs):
         return self._label
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[int | Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         if it's specified, fields container of field matrices is constructed only on the specified time scoping
@@ -276,13 +280,13 @@ class OutputsFieldsContainerMatricesLabel(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(fields_container_matrices_label._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             fields_container_matrices_label._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         fields container of field matrices obtained after merging.

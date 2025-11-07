@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.property_field import PropertyField
+from ansys.dpf.core.field import Field
+
 
 class compute_invariant_terms_motion(Operator):
     r"""Set the required data for the invariant terms computation (reduced
@@ -379,37 +384,37 @@ class InputsComputeInvariantTermsMotion(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(compute_invariant_terms_motion._spec().inputs, op)
-        self._rom_matrices = Input(
+        self._rom_matrices: Input[FieldsContainer] = Input(
             compute_invariant_terms_motion._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._rom_matrices)
-        self._mode_shapes = Input(
+        self._mode_shapes: Input[FieldsContainer] = Input(
             compute_invariant_terms_motion._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mode_shapes)
-        self._lumped_mass = Input(
+        self._lumped_mass: Input[FieldsContainer] = Input(
             compute_invariant_terms_motion._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._lumped_mass)
-        self._model_data = Input(
+        self._model_data: Input[FieldsContainer] = Input(
             compute_invariant_terms_motion._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._model_data)
-        self._field_coordinates = Input(
+        self._field_coordinates: Input[Field] = Input(
             compute_invariant_terms_motion._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._field_coordinates)
-        self._nod = Input(
+        self._nod: Input = Input(
             compute_invariant_terms_motion._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._nod)
-        self._phi_ortho = Input(
+        self._phi_ortho: Input[FieldsContainer] = Input(
             compute_invariant_terms_motion._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._phi_ortho)
 
     @property
-    def rom_matrices(self) -> Input:
+    def rom_matrices(self) -> Input[FieldsContainer]:
         r"""Allows to connect rom_matrices input to the operator.
 
         FieldsContainers containing the reduced matrices
@@ -430,7 +435,7 @@ class InputsComputeInvariantTermsMotion(_Inputs):
         return self._rom_matrices
 
     @property
-    def mode_shapes(self) -> Input:
+    def mode_shapes(self) -> Input[FieldsContainer]:
         r"""Allows to connect mode_shapes input to the operator.
 
         FieldsContainers containing the mode shapes, which are CST and NOR for the cms method
@@ -451,7 +456,7 @@ class InputsComputeInvariantTermsMotion(_Inputs):
         return self._mode_shapes
 
     @property
-    def lumped_mass(self) -> Input:
+    def lumped_mass(self) -> Input[FieldsContainer]:
         r"""Allows to connect lumped_mass input to the operator.
 
         FieldsContainers containing the lumped mass
@@ -472,7 +477,7 @@ class InputsComputeInvariantTermsMotion(_Inputs):
         return self._lumped_mass
 
     @property
-    def model_data(self) -> Input:
+    def model_data(self) -> Input[FieldsContainer]:
         r"""Allows to connect model_data input to the operator.
 
         data describing the finite element model
@@ -493,7 +498,7 @@ class InputsComputeInvariantTermsMotion(_Inputs):
         return self._model_data
 
     @property
-    def field_coordinates(self) -> Input:
+    def field_coordinates(self) -> Input[Field]:
         r"""Allows to connect field_coordinates input to the operator.
 
         coordinates of all nodes
@@ -533,7 +538,7 @@ class InputsComputeInvariantTermsMotion(_Inputs):
         return self._nod
 
     @property
-    def phi_ortho(self) -> Input:
+    def phi_ortho(self) -> Input[FieldsContainer]:
         r"""Allows to connect phi_ortho input to the operator.
 
         Orthonormalizated modes transformation
@@ -584,75 +589,77 @@ class OutputsComputeInvariantTermsMotion(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(compute_invariant_terms_motion._spec().outputs, op)
-        self._model_data = Output(
+        self._model_data: Output[PropertyField] = Output(
             compute_invariant_terms_motion._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._model_data)
-        self._mode_shapes = Output(
+        self._mode_shapes: Output[FieldsContainer] = Output(
             compute_invariant_terms_motion._spec().output_pin(1), 1, op
         )
         self._outputs.append(self._mode_shapes)
-        self._lumped_mass = Output(
+        self._lumped_mass: Output[FieldsContainer] = Output(
             compute_invariant_terms_motion._spec().output_pin(2), 2, op
         )
         self._outputs.append(self._lumped_mass)
-        self._field_coordinates_and_euler_angles = Output(
+        self._field_coordinates_and_euler_angles: Output[FieldsContainer] = Output(
             compute_invariant_terms_motion._spec().output_pin(3), 3, op
         )
         self._outputs.append(self._field_coordinates_and_euler_angles)
-        self._nod = Output(compute_invariant_terms_motion._spec().output_pin(4), 4, op)
+        self._nod: Output = Output(
+            compute_invariant_terms_motion._spec().output_pin(4), 4, op
+        )
         self._outputs.append(self._nod)
-        self._used_node_index = Output(
+        self._used_node_index: Output = Output(
             compute_invariant_terms_motion._spec().output_pin(5), 5, op
         )
         self._outputs.append(self._used_node_index)
-        self._eigenvalue = Output(
+        self._eigenvalue: Output = Output(
             compute_invariant_terms_motion._spec().output_pin(6), 6, op
         )
         self._outputs.append(self._eigenvalue)
-        self._translational_mode_shape = Output(
+        self._translational_mode_shape: Output = Output(
             compute_invariant_terms_motion._spec().output_pin(7), 7, op
         )
         self._outputs.append(self._translational_mode_shape)
-        self._rotational_mode_shape = Output(
+        self._rotational_mode_shape: Output = Output(
             compute_invariant_terms_motion._spec().output_pin(8), 8, op
         )
         self._outputs.append(self._rotational_mode_shape)
-        self._invrt_1 = Output(
+        self._invrt_1: Output[float] = Output(
             compute_invariant_terms_motion._spec().output_pin(9), 9, op
         )
         self._outputs.append(self._invrt_1)
-        self._invrt_2 = Output(
+        self._invrt_2: Output = Output(
             compute_invariant_terms_motion._spec().output_pin(10), 10, op
         )
         self._outputs.append(self._invrt_2)
-        self._invrt_3 = Output(
+        self._invrt_3: Output = Output(
             compute_invariant_terms_motion._spec().output_pin(11), 11, op
         )
         self._outputs.append(self._invrt_3)
-        self._invrt_4 = Output(
+        self._invrt_4: Output = Output(
             compute_invariant_terms_motion._spec().output_pin(12), 12, op
         )
         self._outputs.append(self._invrt_4)
-        self._invrt_5 = Output(
+        self._invrt_5: Output = Output(
             compute_invariant_terms_motion._spec().output_pin(13), 13, op
         )
         self._outputs.append(self._invrt_5)
-        self._invrt_6 = Output(
+        self._invrt_6: Output = Output(
             compute_invariant_terms_motion._spec().output_pin(14), 14, op
         )
         self._outputs.append(self._invrt_6)
-        self._invrt_7 = Output(
+        self._invrt_7: Output = Output(
             compute_invariant_terms_motion._spec().output_pin(15), 15, op
         )
         self._outputs.append(self._invrt_7)
-        self._invrt_8 = Output(
+        self._invrt_8: Output = Output(
             compute_invariant_terms_motion._spec().output_pin(16), 16, op
         )
         self._outputs.append(self._invrt_8)
 
     @property
-    def model_data(self) -> Output:
+    def model_data(self) -> Output[PropertyField]:
         r"""Allows to get model_data output of the operator
 
         data describing the finite element model
@@ -672,7 +679,7 @@ class OutputsComputeInvariantTermsMotion(_Outputs):
         return self._model_data
 
     @property
-    def mode_shapes(self) -> Output:
+    def mode_shapes(self) -> Output[FieldsContainer]:
         r"""Allows to get mode_shapes output of the operator
 
         FieldsContainers containing the mode shapes, which are CST and NOR for the cms method
@@ -692,7 +699,7 @@ class OutputsComputeInvariantTermsMotion(_Outputs):
         return self._mode_shapes
 
     @property
-    def lumped_mass(self) -> Output:
+    def lumped_mass(self) -> Output[FieldsContainer]:
         r"""Allows to get lumped_mass output of the operator
 
         FieldsContainers containing the lumped mass
@@ -712,7 +719,7 @@ class OutputsComputeInvariantTermsMotion(_Outputs):
         return self._lumped_mass
 
     @property
-    def field_coordinates_and_euler_angles(self) -> Output:
+    def field_coordinates_and_euler_angles(self) -> Output[FieldsContainer]:
         r"""Allows to get field_coordinates_and_euler_angles output of the operator
 
         coordinates and euler angles of all nodes
@@ -822,7 +829,7 @@ class OutputsComputeInvariantTermsMotion(_Outputs):
         return self._rotational_mode_shape
 
     @property
-    def invrt_1(self) -> Output:
+    def invrt_1(self) -> Output[float]:
         r"""Allows to get invrt_1 output of the operator
 
         Returns

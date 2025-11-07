@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.field import Field
+
 
 class normals_provider_nl(Operator):
     r"""Computes the normals on nodes/faces/elements based on integration points
@@ -180,17 +185,21 @@ class InputsNormalsProviderNl(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(normals_provider_nl._spec().inputs, op)
-        self._mesh = Input(normals_provider_nl._spec().input_pin(0), 0, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            normals_provider_nl._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._mesh_scoping = Input(normals_provider_nl._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(
+            normals_provider_nl._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._requested_location = Input(
+        self._requested_location: Input[str] = Input(
             normals_provider_nl._spec().input_pin(9), 9, op, -1
         )
         self._inputs.append(self._requested_location)
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Skin, face, or shell mesh region.
@@ -211,7 +220,7 @@ class InputsNormalsProviderNl(_Inputs):
         return self._mesh
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Elemental, ElementalNodal, or Nodal scoping. Location derived from this.
@@ -232,7 +241,7 @@ class InputsNormalsProviderNl(_Inputs):
         return self._mesh_scoping
 
     @property
-    def requested_location(self) -> Input:
+    def requested_location(self) -> Input[str]:
         r"""Allows to connect requested_location input to the operator.
 
         If no scoping, specifies location. If scoping is Elemental or ElementalNodal this overrides scoping. Default is Elemental.
@@ -267,11 +276,13 @@ class OutputsNormalsProviderNl(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(normals_provider_nl._spec().outputs, op)
-        self._field = Output(normals_provider_nl._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            normals_provider_nl._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

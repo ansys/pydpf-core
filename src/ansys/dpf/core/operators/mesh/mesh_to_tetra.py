@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class mesh_to_tetra(Operator):
     r"""Converts 3D meshes of arbitrary 3D element types into a tetrahedral
@@ -166,11 +170,13 @@ class InputsMeshToTetra(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(mesh_to_tetra._spec().inputs, op)
-        self._mesh = Input(mesh_to_tetra._spec().input_pin(0), 0, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            mesh_to_tetra._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Mesh with arbitrary element types.
@@ -207,15 +213,21 @@ class OutputsMeshToTetra(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(mesh_to_tetra._spec().outputs, op)
-        self._mesh = Output(mesh_to_tetra._spec().output_pin(0), 0, op)
+        self._mesh: Output[MeshedRegion] = Output(
+            mesh_to_tetra._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._mesh)
-        self._node_mapping = Output(mesh_to_tetra._spec().output_pin(1), 1, op)
+        self._node_mapping: Output[Scoping] = Output(
+            mesh_to_tetra._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._node_mapping)
-        self._element_mapping = Output(mesh_to_tetra._spec().output_pin(2), 2, op)
+        self._element_mapping: Output[Scoping] = Output(
+            mesh_to_tetra._spec().output_pin(2), 2, op
+        )
         self._outputs.append(self._element_mapping)
 
     @property
-    def mesh(self) -> Output:
+    def mesh(self) -> Output[MeshedRegion]:
         r"""Allows to get mesh output of the operator
 
         Tetrahedralized mesh.
@@ -235,7 +247,7 @@ class OutputsMeshToTetra(_Outputs):
         return self._mesh
 
     @property
-    def node_mapping(self) -> Output:
+    def node_mapping(self) -> Output[Scoping]:
         r"""Allows to get node_mapping output of the operator
 
         Node mapping.
@@ -255,7 +267,7 @@ class OutputsMeshToTetra(_Outputs):
         return self._node_mapping
 
     @property
-    def element_mapping(self) -> Output:
+    def element_mapping(self) -> Output[Scoping]:
         r"""Allows to get element_mapping output of the operator
 
         Element mapping.

@@ -14,6 +14,14 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class members_in_bending_not_certified(Operator):
     r"""This operator is a non-certified example of buckling resistance
@@ -299,45 +307,45 @@ class InputsMembersInBendingNotCertified(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(members_in_bending_not_certified._spec().inputs, op)
-        self._time_scoping = Input(
+        self._time_scoping: Input[Scoping | int] = Input(
             members_in_bending_not_certified._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._time_scoping)
-        self._field_yield_strength = Input(
+        self._field_yield_strength: Input[Field] = Input(
             members_in_bending_not_certified._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._field_yield_strength)
-        self._class_cross_section = Input(
+        self._class_cross_section: Input[bool] = Input(
             members_in_bending_not_certified._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._class_cross_section)
-        self._streams = Input(
+        self._streams: Input[StreamsContainer] = Input(
             members_in_bending_not_certified._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._streams)
-        self._data_sources = Input(
+        self._data_sources: Input[DataSources] = Input(
             members_in_bending_not_certified._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
-        self._partial_factor = Input(
+        self._partial_factor: Input[float] = Input(
             members_in_bending_not_certified._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._partial_factor)
-        self._mesh = Input(
+        self._mesh: Input[MeshedRegion] = Input(
             members_in_bending_not_certified._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._mesh)
-        self._bending_moment_y = Input(
+        self._bending_moment_y: Input[FieldsContainer] = Input(
             members_in_bending_not_certified._spec().input_pin(8), 8, op, -1
         )
         self._inputs.append(self._bending_moment_y)
-        self._bending_moment_z = Input(
+        self._bending_moment_z: Input[FieldsContainer] = Input(
             members_in_bending_not_certified._spec().input_pin(9), 9, op, -1
         )
         self._inputs.append(self._bending_moment_z)
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping | int]:
         r"""Allows to connect time_scoping input to the operator.
 
         Returns
@@ -356,7 +364,7 @@ class InputsMembersInBendingNotCertified(_Inputs):
         return self._time_scoping
 
     @property
-    def field_yield_strength(self) -> Input:
+    def field_yield_strength(self) -> Input[Field]:
         r"""Allows to connect field_yield_strength input to the operator.
 
         This pin contains field of beam's Yield Strength defined by the user.
@@ -377,7 +385,7 @@ class InputsMembersInBendingNotCertified(_Inputs):
         return self._field_yield_strength
 
     @property
-    def class_cross_section(self) -> Input:
+    def class_cross_section(self) -> Input[bool]:
         r"""Allows to connect class_cross_section input to the operator.
 
         Selection for a cross-section. True: Class 1 or 2 cross-sections. False: Class 3 cross section. If the user defines the cross section as class 1 or 2, the section modulus would be plastic section modulus. If it's class 3- cross section,the section modulus would be elastic section modulus
@@ -398,7 +406,7 @@ class InputsMembersInBendingNotCertified(_Inputs):
         return self._class_cross_section
 
     @property
-    def streams(self) -> Input:
+    def streams(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams input to the operator.
 
          result file container allowed to be kept open to cache data.
@@ -419,7 +427,7 @@ class InputsMembersInBendingNotCertified(_Inputs):
         return self._streams
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         result file path container, used if no streams are set.
@@ -440,7 +448,7 @@ class InputsMembersInBendingNotCertified(_Inputs):
         return self._data_sources
 
     @property
-    def partial_factor(self) -> Input:
+    def partial_factor(self) -> Input[float]:
         r"""Allows to connect partial_factor input to the operator.
 
         partial safety factor for resistance of members to instability assessed by member checks. Default value: 1.
@@ -461,7 +469,7 @@ class InputsMembersInBendingNotCertified(_Inputs):
         return self._partial_factor
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
          Mesh containing beam's properties defined by user
@@ -482,7 +490,7 @@ class InputsMembersInBendingNotCertified(_Inputs):
         return self._mesh
 
     @property
-    def bending_moment_y(self) -> Input:
+    def bending_moment_y(self) -> Input[FieldsContainer]:
         r"""Allows to connect bending_moment_y input to the operator.
 
         Fields Container of bending moment on axis y defined by user
@@ -503,7 +511,7 @@ class InputsMembersInBendingNotCertified(_Inputs):
         return self._bending_moment_y
 
     @property
-    def bending_moment_z(self) -> Input:
+    def bending_moment_z(self) -> Input[FieldsContainer]:
         r"""Allows to connect bending_moment_z input to the operator.
 
         Fields Container of bending moment on axis z defined by user
@@ -539,17 +547,17 @@ class OutputsMembersInBendingNotCertified(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(members_in_bending_not_certified._spec().outputs, op)
-        self._buckling_resistance_bending_yy = Output(
+        self._buckling_resistance_bending_yy: Output[FieldsContainer] = Output(
             members_in_bending_not_certified._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._buckling_resistance_bending_yy)
-        self._buckling_resistance_bending_zz = Output(
+        self._buckling_resistance_bending_zz: Output[FieldsContainer] = Output(
             members_in_bending_not_certified._spec().output_pin(1), 1, op
         )
         self._outputs.append(self._buckling_resistance_bending_zz)
 
     @property
-    def buckling_resistance_bending_yy(self) -> Output:
+    def buckling_resistance_bending_yy(self) -> Output[FieldsContainer]:
         r"""Allows to get buckling_resistance_bending_yy output of the operator
 
         Fields Container of buckling resistance factor on axis y-y in case of bending(M). These factors should be less than 1 and positive.
@@ -569,7 +577,7 @@ class OutputsMembersInBendingNotCertified(_Outputs):
         return self._buckling_resistance_bending_yy
 
     @property
-    def buckling_resistance_bending_zz(self) -> Output:
+    def buckling_resistance_bending_zz(self) -> Output[FieldsContainer]:
         r"""Allows to get buckling_resistance_bending_zz output of the operator
 
         Fields Container of buckling resistance factor on axis z-z in case of bending(M). These factors should be less than 1 and positive.

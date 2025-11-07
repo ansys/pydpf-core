@@ -14,6 +14,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.property_field import PropertyField
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class mapdl_split_on_facet_indices(Operator):
     r"""Splits each Field in a FieldsContainer defined on the skin elements of a
@@ -245,33 +251,33 @@ class InputsMapdlSplitOnFacetIndices(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(mapdl_split_on_facet_indices._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             mapdl_split_on_facet_indices._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._property_field_new_elements_to_old = Input(
+        self._property_field_new_elements_to_old: Input[PropertyField] = Input(
             mapdl_split_on_facet_indices._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._property_field_new_elements_to_old)
-        self._facet_indices = Input(
+        self._facet_indices: Input[PropertyField] = Input(
             mapdl_split_on_facet_indices._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._facet_indices)
-        self._volume_mesh = Input(
+        self._volume_mesh: Input[MeshedRegion] = Input(
             mapdl_split_on_facet_indices._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._volume_mesh)
-        self._degenerated_tets = Input(
+        self._degenerated_tets: Input[Scoping] = Input(
             mapdl_split_on_facet_indices._spec().input_pin(185), 185, op, -1
         )
         self._inputs.append(self._degenerated_tets)
-        self._non_degenerated_tets = Input(
+        self._non_degenerated_tets: Input[Scoping] = Input(
             mapdl_split_on_facet_indices._spec().input_pin(285), 285, op, -1
         )
         self._inputs.append(self._non_degenerated_tets)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Fields container to split, with generic number of labels (e.g. time, zone, complex...), and the Fields of the FieldsContainer will have location Elemental and the Scoping Ids will be the Element Ids on the skin mesh.
@@ -292,7 +298,7 @@ class InputsMapdlSplitOnFacetIndices(_Inputs):
         return self._fields_container
 
     @property
-    def property_field_new_elements_to_old(self) -> Input:
+    def property_field_new_elements_to_old(self) -> Input[PropertyField]:
         r"""Allows to connect property_field_new_elements_to_old input to the operator.
 
         This property field provides, for each new face element ID (in the scoping), the corresponding 3D volume element index (in the data) it has been extracted from. The 3D volume element ID can be found with the element scoping of the input mesh.
@@ -313,7 +319,7 @@ class InputsMapdlSplitOnFacetIndices(_Inputs):
         return self._property_field_new_elements_to_old
 
     @property
-    def facet_indices(self) -> Input:
+    def facet_indices(self) -> Input[PropertyField]:
         r"""Allows to connect facet_indices input to the operator.
 
         This property field gives, for each new face element ID (in the scoping), the corresponding face index on the source 3D volume element. The 3D volume element can be extracted from the previous output.
@@ -334,7 +340,7 @@ class InputsMapdlSplitOnFacetIndices(_Inputs):
         return self._facet_indices
 
     @property
-    def volume_mesh(self) -> Input:
+    def volume_mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect volume_mesh input to the operator.
 
         The solid support.
@@ -355,7 +361,7 @@ class InputsMapdlSplitOnFacetIndices(_Inputs):
         return self._volume_mesh
 
     @property
-    def degenerated_tets(self) -> Input:
+    def degenerated_tets(self) -> Input[Scoping]:
         r"""Allows to connect degenerated_tets input to the operator.
 
         Elemental scoping of tet elements. If connected, the tets in the scoping are treated as degenerated tets (SOLID185), and the rest as non-degenerated tets (SOLID285). Pins 185 and 285 are mutually exclusionary (they cannot be connected at the same time), and if none of them is connected, all tets are treated as non-degenerated (SOLID285).
@@ -376,7 +382,7 @@ class InputsMapdlSplitOnFacetIndices(_Inputs):
         return self._degenerated_tets
 
     @property
-    def non_degenerated_tets(self) -> Input:
+    def non_degenerated_tets(self) -> Input[Scoping]:
         r"""Allows to connect non_degenerated_tets input to the operator.
 
         Elemental scoping of tet elements. If connected, the tets in the scoping are treated as non-degenerated tets (SOLID285), and the rest as degenerated tets (SOLID185). Pins 185 and 285 are mutually exclusionary (they cannot be connected at the same time), and if none of them is connected, all tets are treated as non-degenerated (SOLID285).
@@ -411,13 +417,13 @@ class OutputsMapdlSplitOnFacetIndices(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(mapdl_split_on_facet_indices._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             mapdl_split_on_facet_indices._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Output splitted fields containter

@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class sweeping_phase_fc(Operator):
     r"""Shifts the phase of all the corresponding real and imaginary fields of a
@@ -199,19 +202,25 @@ class InputsSweepingPhaseFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(sweeping_phase_fc._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             sweeping_phase_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._angle = Input(sweeping_phase_fc._spec().input_pin(2), 2, op, -1)
+        self._angle: Input[float] = Input(
+            sweeping_phase_fc._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._angle)
-        self._unit_name = Input(sweeping_phase_fc._spec().input_pin(3), 3, op, -1)
+        self._unit_name: Input[str] = Input(
+            sweeping_phase_fc._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._unit_name)
-        self._abs_value = Input(sweeping_phase_fc._spec().input_pin(4), 4, op, -1)
+        self._abs_value: Input[bool] = Input(
+            sweeping_phase_fc._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._abs_value)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -230,7 +239,7 @@ class InputsSweepingPhaseFc(_Inputs):
         return self._fields_container
 
     @property
-    def angle(self) -> Input:
+    def angle(self) -> Input[float]:
         r"""Allows to connect angle input to the operator.
 
         Returns
@@ -249,7 +258,7 @@ class InputsSweepingPhaseFc(_Inputs):
         return self._angle
 
     @property
-    def unit_name(self) -> Input:
+    def unit_name(self) -> Input[str]:
         r"""Allows to connect unit_name input to the operator.
 
         String Unit. Supported values: "deg" or "rad". Default: "rad".
@@ -270,7 +279,7 @@ class InputsSweepingPhaseFc(_Inputs):
         return self._unit_name
 
     @property
-    def abs_value(self) -> Input:
+    def abs_value(self) -> Input[bool]:
         r"""Allows to connect abs_value input to the operator.
 
         Returns
@@ -303,11 +312,13 @@ class OutputsSweepingPhaseFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(sweeping_phase_fc._spec().outputs, op)
-        self._fields_container = Output(sweeping_phase_fc._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            sweeping_phase_fc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.scoping import Scoping
+
 
 class connectivity_ids(Operator):
     r"""Returns the ordered node ids corresponding to the element ids scoping in
@@ -189,15 +193,21 @@ class InputsConnectivityIds(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(connectivity_ids._spec().inputs, op)
-        self._mesh_scoping = Input(connectivity_ids._spec().input_pin(1), 1, op, -1)
+        self._mesh_scoping: Input[Scoping] = Input(
+            connectivity_ids._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._mesh_scoping)
-        self._mesh = Input(connectivity_ids._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            connectivity_ids._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._take_mid_nodes = Input(connectivity_ids._spec().input_pin(10), 10, op, -1)
+        self._take_mid_nodes: Input[bool] = Input(
+            connectivity_ids._spec().input_pin(10), 10, op, -1
+        )
         self._inputs.append(self._take_mid_nodes)
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Elemental scoping
@@ -218,7 +228,7 @@ class InputsConnectivityIds(_Inputs):
         return self._mesh_scoping
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         the support of the scoping is expected if there is no mesh in input
@@ -239,7 +249,7 @@ class InputsConnectivityIds(_Inputs):
         return self._mesh
 
     @property
-    def take_mid_nodes(self) -> Input:
+    def take_mid_nodes(self) -> Input[bool]:
         r"""Allows to connect take_mid_nodes input to the operator.
 
         default is true
@@ -275,13 +285,17 @@ class OutputsConnectivityIds(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(connectivity_ids._spec().outputs, op)
-        self._mesh_scoping = Output(connectivity_ids._spec().output_pin(0), 0, op)
+        self._mesh_scoping: Output[Scoping] = Output(
+            connectivity_ids._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._mesh_scoping)
-        self._elemental_scoping = Output(connectivity_ids._spec().output_pin(1), 1, op)
+        self._elemental_scoping: Output[Scoping] = Output(
+            connectivity_ids._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._elemental_scoping)
 
     @property
-    def mesh_scoping(self) -> Output:
+    def mesh_scoping(self) -> Output[Scoping]:
         r"""Allows to get mesh_scoping output of the operator
 
         Returns
@@ -299,7 +313,7 @@ class OutputsConnectivityIds(_Outputs):
         return self._mesh_scoping
 
     @property
-    def elemental_scoping(self) -> Output:
+    def elemental_scoping(self) -> Output[Scoping]:
         r"""Allows to get elemental_scoping output of the operator
 
         same as the input scoping but with ids duplicated to have the same size as nodal output scoping

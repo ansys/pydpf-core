@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+
 
 class fft_gradient_eval(Operator):
     r"""Evaluate min max based on the fast fourier transform at a given field,
@@ -179,17 +183,21 @@ class InputsFftGradientEval(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(fft_gradient_eval._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             fft_gradient_eval._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._time_scoping = Input(fft_gradient_eval._spec().input_pin(1), 1, op, -1)
+        self._time_scoping: Input[Scoping] = Input(
+            fft_gradient_eval._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._time_scoping)
-        self._fs_ratio = Input(fft_gradient_eval._spec().input_pin(2), 2, op, -1)
+        self._fs_ratio: Input[int] = Input(
+            fft_gradient_eval._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._fs_ratio)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -208,7 +216,7 @@ class InputsFftGradientEval(_Inputs):
         return self._fields_container
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         if specified only the results at these set ids are used
@@ -229,7 +237,7 @@ class InputsFftGradientEval(_Inputs):
         return self._time_scoping
 
     @property
-    def fs_ratio(self) -> Input:
+    def fs_ratio(self) -> Input[int]:
         r"""Allows to connect fs_ratio input to the operator.
 
         default value = 20
@@ -264,11 +272,13 @@ class OutputsFftGradientEval(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(fft_gradient_eval._spec().outputs, op)
-        self._coefficients = Output(fft_gradient_eval._spec().output_pin(0), 0, op)
+        self._coefficients: Output[FieldsContainer] = Output(
+            fft_gradient_eval._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._coefficients)
 
     @property
-    def coefficients(self) -> Output:
+    def coefficients(self) -> Output[FieldsContainer]:
         r"""Allows to get coefficients output of the operator
 
         Returns

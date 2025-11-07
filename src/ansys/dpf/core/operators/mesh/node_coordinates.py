@@ -15,6 +15,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class node_coordinates(Operator):
     r"""Returns the node coordinates of the mesh(es) in input.
@@ -142,11 +146,13 @@ class InputsNodeCoordinates(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(node_coordinates._spec().inputs, op)
-        self._mesh = Input(node_coordinates._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
+            node_coordinates._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
         Returns

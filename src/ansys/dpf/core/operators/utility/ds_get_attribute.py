@@ -15,6 +15,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.data_sources import DataSources
+
 
 class ds_get_attribute(Operator):
     r"""A DataSources in pin 0 and a property name (string) in pin 1 are
@@ -217,21 +220,29 @@ class InputsDsGetAttribute(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(ds_get_attribute._spec().inputs, op)
-        self._data_sources = Input(ds_get_attribute._spec().input_pin(0), 0, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            ds_get_attribute._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._data_sources)
-        self._property_name = Input(ds_get_attribute._spec().input_pin(1), 1, op, -1)
+        self._property_name: Input[str] = Input(
+            ds_get_attribute._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._property_name)
-        self._property_index = Input(ds_get_attribute._spec().input_pin(2), 2, op, -1)
+        self._property_index: Input[int] = Input(
+            ds_get_attribute._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._property_index)
-        self._property_key = Input(ds_get_attribute._spec().input_pin(3), 3, op, -1)
+        self._property_key: Input[str] = Input(
+            ds_get_attribute._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._property_key)
-        self._property_result_key = Input(
+        self._property_result_key: Input[str] = Input(
             ds_get_attribute._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._property_result_key)
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Returns
@@ -250,7 +261,7 @@ class InputsDsGetAttribute(_Inputs):
         return self._data_sources
 
     @property
-    def property_name(self) -> Input:
+    def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
         Accepted inputs are: 'file_path' (returns string), 'result_file_name' (returns string), 'domain_file_path' (returns string), 'domain_result_file_name' (returns string), 'num_keys' (returns int), num_result_key (returns int), num_file_path (returns int), 'num_result_file_path' (returns int), 'key_by_index' (returns string), 'result_key_by_index' (returns string), 'path_by_index' (returns string), 'path_key_by_index' (returns string).
@@ -271,7 +282,7 @@ class InputsDsGetAttribute(_Inputs):
         return self._property_name
 
     @property
-    def property_index(self) -> Input:
+    def property_index(self) -> Input[int]:
         r"""Allows to connect property_index input to the operator.
 
         Index for the property. Must be set for 'domain_file_path', 'domain_result_file_name' 'key_by_index', 'result_key_by_index', 'path_by_index' and 'path_key_by_index' properties.
@@ -292,7 +303,7 @@ class InputsDsGetAttribute(_Inputs):
         return self._property_index
 
     @property
-    def property_key(self) -> Input:
+    def property_key(self) -> Input[str]:
         r"""Allows to connect property_key input to the operator.
 
         Key to look for. Must be set for 'file_path' and 'domain_file_path' properties.
@@ -313,7 +324,7 @@ class InputsDsGetAttribute(_Inputs):
         return self._property_key
 
     @property
-    def property_result_key(self) -> Input:
+    def property_result_key(self) -> Input[str]:
         r"""Allows to connect property_result_key input to the operator.
 
         Result key to look for. Can be used for 'file_path', 'result_file_name', 'domain_file_path' and 'domain_result_file_name'.

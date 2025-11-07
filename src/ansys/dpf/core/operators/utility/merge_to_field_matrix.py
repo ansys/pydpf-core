@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class merge_to_field_matrix(Operator):
     r"""Assembles a set of fields into a field matrix.
@@ -156,13 +160,17 @@ class InputsMergeToFieldMatrix(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_to_field_matrix._spec().inputs, op)
-        self._fields1 = Input(merge_to_field_matrix._spec().input_pin(0), 0, op, 0)
+        self._fields1: Input[Field | FieldsContainer] = Input(
+            merge_to_field_matrix._spec().input_pin(0), 0, op, 0
+        )
         self._inputs.append(self._fields1)
-        self._fields2 = Input(merge_to_field_matrix._spec().input_pin(1), 1, op, 1)
+        self._fields2: Input[Field | FieldsContainer] = Input(
+            merge_to_field_matrix._spec().input_pin(1), 1, op, 1
+        )
         self._inputs.append(self._fields2)
 
     @property
-    def fields1(self) -> Input:
+    def fields1(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect fields1 input to the operator.
 
         Either a fields container, a vector of fields to merge, or fields from pin 0 to ...
@@ -183,7 +191,7 @@ class InputsMergeToFieldMatrix(_Inputs):
         return self._fields1
 
     @property
-    def fields2(self) -> Input:
+    def fields2(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect fields2 input to the operator.
 
         Either a fields container, a vector of fields to merge, or fields from pin 0 to ...
@@ -218,13 +226,13 @@ class OutputsMergeToFieldMatrix(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_to_field_matrix._spec().outputs, op)
-        self._merged_field_matrix = Output(
+        self._merged_field_matrix: Output[Field] = Output(
             merge_to_field_matrix._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._merged_field_matrix)
 
     @property
-    def merged_field_matrix(self) -> Output:
+    def merged_field_matrix(self) -> Output[Field]:
         r"""Allows to get merged_field_matrix output of the operator
 
         Returns

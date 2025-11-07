@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class field_to_csv(Operator):
     r"""Exports a field or a fields container into a csv file
@@ -167,17 +171,21 @@ class InputsFieldToCsv(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(field_to_csv._spec().inputs, op)
-        self._field_or_fields_container = Input(
+        self._field_or_fields_container: Input[FieldsContainer | Field] = Input(
             field_to_csv._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._field_or_fields_container)
-        self._file_path = Input(field_to_csv._spec().input_pin(1), 1, op, -1)
+        self._file_path: Input[str] = Input(
+            field_to_csv._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._file_path)
-        self._storage_type = Input(field_to_csv._spec().input_pin(2), 2, op, -1)
+        self._storage_type: Input[int] = Input(
+            field_to_csv._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._storage_type)
 
     @property
-    def field_or_fields_container(self) -> Input:
+    def field_or_fields_container(self) -> Input[FieldsContainer | Field]:
         r"""Allows to connect field_or_fields_container input to the operator.
 
         field_or_fields_container
@@ -198,7 +206,7 @@ class InputsFieldToCsv(_Inputs):
         return self._field_or_fields_container
 
     @property
-    def file_path(self) -> Input:
+    def file_path(self) -> Input[str]:
         r"""Allows to connect file_path input to the operator.
 
         Returns
@@ -217,7 +225,7 @@ class InputsFieldToCsv(_Inputs):
         return self._file_path
 
     @property
-    def storage_type(self) -> Input:
+    def storage_type(self) -> Input[int]:
         r"""Allows to connect storage_type input to the operator.
 
         storage type : if matrices (without any particularity) are included in the fields container, the storage format can be chosen. 0 : flat/line format, 1 : ranked format. If 1 is chosen, the csv can not be read by "csv to field" operator anymore. Default : 0.

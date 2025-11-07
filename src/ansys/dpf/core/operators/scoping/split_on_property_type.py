@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class split_on_property_type(Operator):
     r"""Splits a given scoping or the mesh scoping (nodal or elemental) on given
@@ -233,27 +238,33 @@ class InputsSplitOnPropertyType(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(split_on_property_type._spec().inputs, op)
-        self._mesh_scoping = Input(
+        self._mesh_scoping: Input[Scoping] = Input(
             split_on_property_type._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_scoping)
-        self._mesh = Input(split_on_property_type._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            split_on_property_type._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._requested_location = Input(
+        self._requested_location: Input[str] = Input(
             split_on_property_type._spec().input_pin(9), 9, op, -1
         )
         self._inputs.append(self._requested_location)
-        self._skin_case = Input(
+        self._skin_case: Input[int] = Input(
             split_on_property_type._spec().input_pin(12), 12, op, -1
         )
         self._inputs.append(self._skin_case)
-        self._label1 = Input(split_on_property_type._spec().input_pin(13), 13, op, 0)
+        self._label1: Input[str] = Input(
+            split_on_property_type._spec().input_pin(13), 13, op, 0
+        )
         self._inputs.append(self._label1)
-        self._label2 = Input(split_on_property_type._spec().input_pin(14), 14, op, 1)
+        self._label2: Input[str] = Input(
+            split_on_property_type._spec().input_pin(14), 14, op, 1
+        )
         self._inputs.append(self._label2)
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Scoping
@@ -274,7 +285,7 @@ class InputsSplitOnPropertyType(_Inputs):
         return self._mesh_scoping
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         mesh region
@@ -295,7 +306,7 @@ class InputsSplitOnPropertyType(_Inputs):
         return self._mesh
 
     @property
-    def requested_location(self) -> Input:
+    def requested_location(self) -> Input[str]:
         r"""Allows to connect requested_location input to the operator.
 
         location (default is elemental)
@@ -316,7 +327,7 @@ class InputsSplitOnPropertyType(_Inputs):
         return self._requested_location
 
     @property
-    def skin_case(self) -> Input:
+    def skin_case(self) -> Input[int]:
         r"""Allows to connect skin_case input to the operator.
 
         set to 0: to have skin elements in their own group, 1: merge skin and solid elements, 2: merge skin and shell elements (default)
@@ -337,7 +348,7 @@ class InputsSplitOnPropertyType(_Inputs):
         return self._skin_case
 
     @property
-    def label1(self) -> Input:
+    def label1(self) -> Input[str]:
         r"""Allows to connect label1 input to the operator.
 
         properties to apply the filtering 'mat' and/or 'elshape' (since 2025R1 it supports any property name contained in the mesh property fields) (default is 'elshape')
@@ -358,7 +369,7 @@ class InputsSplitOnPropertyType(_Inputs):
         return self._label1
 
     @property
-    def label2(self) -> Input:
+    def label2(self) -> Input[str]:
         r"""Allows to connect label2 input to the operator.
 
         properties to apply the filtering 'mat' and/or 'elshape' (since 2025R1 it supports any property name contained in the mesh property fields) (default is 'elshape')
@@ -393,11 +404,13 @@ class OutputsSplitOnPropertyType(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(split_on_property_type._spec().outputs, op)
-        self._mesh_scoping = Output(split_on_property_type._spec().output_pin(0), 0, op)
+        self._mesh_scoping: Output[ScopingsContainer] = Output(
+            split_on_property_type._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._mesh_scoping)
 
     @property
-    def mesh_scoping(self) -> Output:
+    def mesh_scoping(self) -> Output[ScopingsContainer]:
         r"""Allows to get mesh_scoping output of the operator
 
         Scoping

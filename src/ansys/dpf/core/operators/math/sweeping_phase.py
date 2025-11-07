@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class sweeping_phase(Operator):
     r"""Shifts the phase of a real and an imaginary field (in 0 and 1) of a
@@ -230,23 +234,33 @@ class InputsSweepingPhase(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(sweeping_phase._spec().inputs, op)
-        self._real_field = Input(sweeping_phase._spec().input_pin(0), 0, op, -1)
+        self._real_field: Input[Field | FieldsContainer] = Input(
+            sweeping_phase._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._real_field)
-        self._imaginary_field = Input(sweeping_phase._spec().input_pin(1), 1, op, -1)
+        self._imaginary_field: Input[Field | FieldsContainer] = Input(
+            sweeping_phase._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._imaginary_field)
-        self._angle = Input(sweeping_phase._spec().input_pin(2), 2, op, -1)
+        self._angle: Input[float] = Input(
+            sweeping_phase._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._angle)
-        self._unit_name = Input(sweeping_phase._spec().input_pin(3), 3, op, -1)
+        self._unit_name: Input[str] = Input(
+            sweeping_phase._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._unit_name)
-        self._abs_value = Input(sweeping_phase._spec().input_pin(4), 4, op, -1)
+        self._abs_value: Input[bool] = Input(
+            sweeping_phase._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._abs_value)
-        self._imaginary_part_null = Input(
+        self._imaginary_part_null: Input[bool] = Input(
             sweeping_phase._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._imaginary_part_null)
 
     @property
-    def real_field(self) -> Input:
+    def real_field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect real_field input to the operator.
 
         field or fields container with only one field is expected
@@ -267,7 +281,7 @@ class InputsSweepingPhase(_Inputs):
         return self._real_field
 
     @property
-    def imaginary_field(self) -> Input:
+    def imaginary_field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect imaginary_field input to the operator.
 
         field or fields container with only one field is expected
@@ -288,7 +302,7 @@ class InputsSweepingPhase(_Inputs):
         return self._imaginary_field
 
     @property
-    def angle(self) -> Input:
+    def angle(self) -> Input[float]:
         r"""Allows to connect angle input to the operator.
 
         Returns
@@ -307,7 +321,7 @@ class InputsSweepingPhase(_Inputs):
         return self._angle
 
     @property
-    def unit_name(self) -> Input:
+    def unit_name(self) -> Input[str]:
         r"""Allows to connect unit_name input to the operator.
 
         String Unit. Supported values: "deg" or "rad". Default: "rad".
@@ -328,7 +342,7 @@ class InputsSweepingPhase(_Inputs):
         return self._unit_name
 
     @property
-    def abs_value(self) -> Input:
+    def abs_value(self) -> Input[bool]:
         r"""Allows to connect abs_value input to the operator.
 
         Returns
@@ -347,7 +361,7 @@ class InputsSweepingPhase(_Inputs):
         return self._abs_value
 
     @property
-    def imaginary_part_null(self) -> Input:
+    def imaginary_part_null(self) -> Input[bool]:
         r"""Allows to connect imaginary_part_null input to the operator.
 
         If the imaginary part field is empty and this pin is true, then the imaginary part is supposed to be 0 (default is false).
@@ -382,11 +396,11 @@ class OutputsSweepingPhase(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(sweeping_phase._spec().outputs, op)
-        self._field = Output(sweeping_phase._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(sweeping_phase._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

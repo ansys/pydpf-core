@@ -15,6 +15,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class change_shell_layers(Operator):
     r"""Extract the requested shell layers from the input fields. If the fields
@@ -206,19 +212,25 @@ class InputsChangeShellLayers(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(change_shell_layers._spec().inputs, op)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer | Field] = Input(
             change_shell_layers._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._e_shell_layer = Input(change_shell_layers._spec().input_pin(1), 1, op, -1)
+        self._e_shell_layer: Input[int] = Input(
+            change_shell_layers._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._e_shell_layer)
-        self._mesh = Input(change_shell_layers._spec().input_pin(2), 2, op, -1)
+        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
+            change_shell_layers._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._merge = Input(change_shell_layers._spec().input_pin(26), 26, op, -1)
+        self._merge: Input[bool] = Input(
+            change_shell_layers._spec().input_pin(26), 26, op, -1
+        )
         self._inputs.append(self._merge)
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer | Field]:
         r"""Allows to connect fields_container input to the operator.
 
         Returns
@@ -237,7 +249,7 @@ class InputsChangeShellLayers(_Inputs):
         return self._fields_container
 
     @property
-    def e_shell_layer(self) -> Input:
+    def e_shell_layer(self) -> Input[int]:
         r"""Allows to connect e_shell_layer input to the operator.
 
         0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
@@ -258,7 +270,7 @@ class InputsChangeShellLayers(_Inputs):
         return self._e_shell_layer
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
         Mesh support of the input fields_container, in case it does not have one defined. If the fields_container contains mixed shell/solid results, the mesh is required (either by connecting this pin or in the support).
@@ -279,7 +291,7 @@ class InputsChangeShellLayers(_Inputs):
         return self._mesh
 
     @property
-    def merge(self) -> Input:
+    def merge(self) -> Input[bool]:
         r"""Allows to connect merge input to the operator.
 
         For fields with mixed shell layers (solid/shell elements with heterogeneous shell layers), group all of them in the same field (false by default).

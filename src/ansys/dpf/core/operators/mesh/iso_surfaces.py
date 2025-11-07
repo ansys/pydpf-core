@@ -14,6 +14,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class iso_surfaces(Operator):
     r"""Extract multiple iso-contours from mesh_cut operator and set it into a
@@ -226,19 +232,27 @@ class InputsIsoSurfaces(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(iso_surfaces._spec().inputs, op)
-        self._field = Input(iso_surfaces._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field] = Input(iso_surfaces._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field)
-        self._num_surfaces = Input(iso_surfaces._spec().input_pin(1), 1, op, -1)
+        self._num_surfaces: Input[int] = Input(
+            iso_surfaces._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._num_surfaces)
-        self._mesh = Input(iso_surfaces._spec().input_pin(2), 2, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            iso_surfaces._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._mesh)
-        self._slice_surfaces = Input(iso_surfaces._spec().input_pin(3), 3, op, -1)
+        self._slice_surfaces: Input[bool] = Input(
+            iso_surfaces._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._slice_surfaces)
-        self._vector_iso_values = Input(iso_surfaces._spec().input_pin(4), 4, op, -1)
+        self._vector_iso_values: Input = Input(
+            iso_surfaces._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._vector_iso_values)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
         Field containing the values for the iso-surface computation. The mesh can be retrieved from this field's support or through pin 2.
@@ -259,7 +273,7 @@ class InputsIsoSurfaces(_Inputs):
         return self._field
 
     @property
-    def num_surfaces(self) -> Input:
+    def num_surfaces(self) -> Input[int]:
         r"""Allows to connect num_surfaces input to the operator.
 
         If provided, iso_values are linearly computed between the min and the max of the field of results. If not, iso_values must be provided by the user through pin 4
@@ -280,7 +294,7 @@ class InputsIsoSurfaces(_Inputs):
         return self._num_surfaces
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Mesh to compute the iso-surface from. Used when not given through the support of the field in pin 0.
@@ -301,7 +315,7 @@ class InputsIsoSurfaces(_Inputs):
         return self._mesh
 
     @property
-    def slice_surfaces(self) -> Input:
+    def slice_surfaces(self) -> Input[bool]:
         r"""Allows to connect slice_surfaces input to the operator.
 
         True: slicing will also take into account shell and skin elements. False: slicing will ignore shell and skin elements. The default is true.
@@ -358,13 +372,17 @@ class OutputsIsoSurfaces(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(iso_surfaces._spec().outputs, op)
-        self._meshes = Output(iso_surfaces._spec().output_pin(0), 0, op)
+        self._meshes: Output[MeshesContainer] = Output(
+            iso_surfaces._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._meshes)
-        self._fields_container = Output(iso_surfaces._spec().output_pin(1), 1, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            iso_surfaces._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def meshes(self) -> Output:
+    def meshes(self) -> Output[MeshesContainer]:
         r"""Allows to get meshes output of the operator
 
         Returns
@@ -382,7 +400,7 @@ class OutputsIsoSurfaces(_Outputs):
         return self._meshes
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

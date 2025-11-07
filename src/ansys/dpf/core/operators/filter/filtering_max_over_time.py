@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.workflow import Workflow
+
 
 class filtering_max_over_time(Operator):
     r"""Creates a filtering workflow that will filter results based on a
@@ -196,23 +199,25 @@ class InputsFilteringMaxOverTime(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(filtering_max_over_time._spec().inputs, op)
-        self._invariant_fc_operator = Input(
+        self._invariant_fc_operator: Input[str] = Input(
             filtering_max_over_time._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._invariant_fc_operator)
-        self._output_pin = Input(
+        self._output_pin: Input[int] = Input(
             filtering_max_over_time._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._output_pin)
-        self._list_of_results = Input(
+        self._list_of_results: Input[str] = Input(
             filtering_max_over_time._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._list_of_results)
-        self._threshold = Input(filtering_max_over_time._spec().input_pin(3), 3, op, -1)
+        self._threshold: Input[float] = Input(
+            filtering_max_over_time._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._threshold)
 
     @property
-    def invariant_fc_operator(self) -> Input:
+    def invariant_fc_operator(self) -> Input[str]:
         r"""Allows to connect invariant_fc_operator input to the operator.
 
         Name of the invariant operator to be used to calculate filter (available: eqv_fc, invariants_deriv_fc, invariants_fc).
@@ -233,7 +238,7 @@ class InputsFilteringMaxOverTime(_Inputs):
         return self._invariant_fc_operator
 
     @property
-    def output_pin(self) -> Input:
+    def output_pin(self) -> Input[int]:
         r"""Allows to connect output_pin input to the operator.
 
         Output pin of the invariant operator. Default = 0.
@@ -254,7 +259,7 @@ class InputsFilteringMaxOverTime(_Inputs):
         return self._output_pin
 
     @property
-    def list_of_results(self) -> Input:
+    def list_of_results(self) -> Input[str]:
         r"""Allows to connect list_of_results input to the operator.
 
         If no result is given, filter will be applied on Stresses and Strains
@@ -275,7 +280,7 @@ class InputsFilteringMaxOverTime(_Inputs):
         return self._list_of_results
 
     @property
-    def threshold(self) -> Input:
+    def threshold(self) -> Input[float]:
         r"""Allows to connect threshold input to the operator.
 
         Threshold from which the operator will filter.
@@ -310,11 +315,13 @@ class OutputsFilteringMaxOverTime(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(filtering_max_over_time._spec().outputs, op)
-        self._workflow = Output(filtering_max_over_time._spec().output_pin(0), 0, op)
+        self._workflow: Output[Workflow] = Output(
+            filtering_max_over_time._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._workflow)
 
     @property
-    def workflow(self) -> Output:
+    def workflow(self) -> Output[Workflow]:
         r"""Allows to get workflow output of the operator
 
         Returns

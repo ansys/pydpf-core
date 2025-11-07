@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class linear_combination(Operator):
     r"""Computes aXY + bZ where a,b (in 0, in 3) are scalar and X,Y,Z (in 1,2,4)
@@ -209,25 +212,29 @@ class InputsLinearCombination(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(linear_combination._spec().inputs, op)
-        self._a = Input(linear_combination._spec().input_pin(0), 0, op, -1)
+        self._a: Input[float] = Input(
+            linear_combination._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._a)
-        self._fields_containerA = Input(
+        self._fields_containerA: Input[FieldsContainer] = Input(
             linear_combination._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._fields_containerA)
-        self._fields_containerB = Input(
+        self._fields_containerB: Input[FieldsContainer] = Input(
             linear_combination._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._fields_containerB)
-        self._b = Input(linear_combination._spec().input_pin(3), 3, op, -1)
+        self._b: Input[float] = Input(
+            linear_combination._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._b)
-        self._fields_containerC = Input(
+        self._fields_containerC: Input[FieldsContainer] = Input(
             linear_combination._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._fields_containerC)
 
     @property
-    def a(self) -> Input:
+    def a(self) -> Input[float]:
         r"""Allows to connect a input to the operator.
 
         Double
@@ -248,7 +255,7 @@ class InputsLinearCombination(_Inputs):
         return self._a
 
     @property
-    def fields_containerA(self) -> Input:
+    def fields_containerA(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerA input to the operator.
 
         Returns
@@ -267,7 +274,7 @@ class InputsLinearCombination(_Inputs):
         return self._fields_containerA
 
     @property
-    def fields_containerB(self) -> Input:
+    def fields_containerB(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerB input to the operator.
 
         Returns
@@ -286,7 +293,7 @@ class InputsLinearCombination(_Inputs):
         return self._fields_containerB
 
     @property
-    def b(self) -> Input:
+    def b(self) -> Input[float]:
         r"""Allows to connect b input to the operator.
 
         Double
@@ -307,7 +314,7 @@ class InputsLinearCombination(_Inputs):
         return self._b
 
     @property
-    def fields_containerC(self) -> Input:
+    def fields_containerC(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerC input to the operator.
 
         Returns
@@ -340,11 +347,13 @@ class OutputsLinearCombination(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(linear_combination._spec().outputs, op)
-        self._fields_container = Output(linear_combination._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            linear_combination._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

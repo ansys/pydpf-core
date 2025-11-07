@@ -14,6 +14,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class euler_nodes(Operator):
     r"""Reads a field made of 3 coordinates and 3 Euler angles (6 dofs) by node
@@ -209,19 +215,29 @@ class InputsEulerNodes(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(euler_nodes._spec().inputs, op)
-        self._streams_container = Input(euler_nodes._spec().input_pin(3), 3, op, -1)
+        self._streams_container: Input[StreamsContainer] = Input(
+            euler_nodes._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(euler_nodes._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            euler_nodes._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
-        self._filter_zeros = Input(euler_nodes._spec().input_pin(5), 5, op, -1)
+        self._filter_zeros: Input[bool] = Input(
+            euler_nodes._spec().input_pin(5), 5, op, -1
+        )
         self._inputs.append(self._filter_zeros)
-        self._coord_and_euler = Input(euler_nodes._spec().input_pin(6), 6, op, -1)
+        self._coord_and_euler: Input[bool] = Input(
+            euler_nodes._spec().input_pin(6), 6, op, -1
+        )
         self._inputs.append(self._coord_and_euler)
-        self._mesh = Input(euler_nodes._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            euler_nodes._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def streams_container(self) -> Input:
+    def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
         Returns
@@ -240,7 +256,7 @@ class InputsEulerNodes(_Inputs):
         return self._streams_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Returns
@@ -259,7 +275,7 @@ class InputsEulerNodes(_Inputs):
         return self._data_sources
 
     @property
-    def filter_zeros(self) -> Input:
+    def filter_zeros(self) -> Input[bool]:
         r"""Allows to connect filter_zeros input to the operator.
 
         if true, then the field will only contain the scoping if any rotation is not zero. (default is false).
@@ -280,7 +296,7 @@ class InputsEulerNodes(_Inputs):
         return self._filter_zeros
 
     @property
-    def coord_and_euler(self) -> Input:
+    def coord_and_euler(self) -> Input[bool]:
         r"""Allows to connect coord_and_euler input to the operator.
 
         if true, then the field has ncomp=6 with 3 coordinates and 3 Euler angles, else there is only the Euler angles (default is true).
@@ -301,7 +317,7 @@ class InputsEulerNodes(_Inputs):
         return self._coord_and_euler
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -334,11 +350,13 @@ class OutputsEulerNodes(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(euler_nodes._spec().outputs, op)
-        self._fields_container = Output(euler_nodes._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            euler_nodes._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

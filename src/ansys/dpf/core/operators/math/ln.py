@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class ln(Operator):
     r"""Computes element-wise ln(field[i]).
@@ -146,11 +150,13 @@ class InputsLn(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(ln._spec().inputs, op)
-        self._field = Input(ln._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer | float] = Input(
+            ln._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer | float]:
         r"""Allows to connect field input to the operator.
 
         field or fields container with only one field is expected
@@ -185,11 +191,11 @@ class OutputsLn(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(ln._spec().outputs, op)
-        self._field = Output(ln._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(ln._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

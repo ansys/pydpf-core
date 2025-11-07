@@ -14,6 +14,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.cyclic_support import CyclicSupport
+
 
 class cyclic_analytic_usum_max(Operator):
     r"""Compute the maximum of the total deformation that can be expected on 360
@@ -210,29 +216,29 @@ class InputsCyclicAnalyticUsumMax(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(cyclic_analytic_usum_max._spec().inputs, op)
-        self._time_scoping = Input(
+        self._time_scoping: Input[Scoping] = Input(
             cyclic_analytic_usum_max._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping = Input(
+        self._mesh_scoping: Input[ScopingsContainer | Scoping] = Input(
             cyclic_analytic_usum_max._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_scoping)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             cyclic_analytic_usum_max._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._bool_rotate_to_global = Input(
+        self._bool_rotate_to_global: Input[bool] = Input(
             cyclic_analytic_usum_max._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._bool_rotate_to_global)
-        self._cyclic_support = Input(
+        self._cyclic_support: Input[CyclicSupport] = Input(
             cyclic_analytic_usum_max._spec().input_pin(16), 16, op, -1
         )
         self._inputs.append(self._cyclic_support)
 
     @property
-    def time_scoping(self) -> Input:
+    def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
         Returns
@@ -251,7 +257,7 @@ class InputsCyclicAnalyticUsumMax(_Inputs):
         return self._time_scoping
 
     @property
-    def mesh_scoping(self) -> Input:
+    def mesh_scoping(self) -> Input[ScopingsContainer | Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
         Returns
@@ -270,7 +276,7 @@ class InputsCyclicAnalyticUsumMax(_Inputs):
         return self._mesh_scoping
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         field container with the base and duplicate sectors
@@ -291,7 +297,7 @@ class InputsCyclicAnalyticUsumMax(_Inputs):
         return self._fields_container
 
     @property
-    def bool_rotate_to_global(self) -> Input:
+    def bool_rotate_to_global(self) -> Input[bool]:
         r"""Allows to connect bool_rotate_to_global input to the operator.
 
         default is true
@@ -312,7 +318,7 @@ class InputsCyclicAnalyticUsumMax(_Inputs):
         return self._bool_rotate_to_global
 
     @property
-    def cyclic_support(self) -> Input:
+    def cyclic_support(self) -> Input[CyclicSupport]:
         r"""Allows to connect cyclic_support input to the operator.
 
         Returns
@@ -345,13 +351,13 @@ class OutputsCyclicAnalyticUsumMax(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(cyclic_analytic_usum_max._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             cyclic_analytic_usum_max._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         FieldsContainer filled in

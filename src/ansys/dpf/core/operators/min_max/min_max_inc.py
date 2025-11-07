@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.scoping import Scoping
+
 
 class min_max_inc(Operator):
     r"""Compute the component-wise minimum (out 0) and maximum (out 1) over
@@ -180,13 +184,15 @@ class InputsMinMaxInc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(min_max_inc._spec().inputs, op)
-        self._field = Input(min_max_inc._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field] = Input(min_max_inc._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field)
-        self._domain_id = Input(min_max_inc._spec().input_pin(17), 17, op, -1)
+        self._domain_id: Input[int] = Input(
+            min_max_inc._spec().input_pin(17), 17, op, -1
+        )
         self._inputs.append(self._domain_id)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
         Returns
@@ -205,7 +211,7 @@ class InputsMinMaxInc(_Inputs):
         return self._field
 
     @property
-    def domain_id(self) -> Input:
+    def domain_id(self) -> Input[int]:
         r"""Allows to connect domain_id input to the operator.
 
         Returns
@@ -241,17 +247,25 @@ class OutputsMinMaxInc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(min_max_inc._spec().outputs, op)
-        self._field_min = Output(min_max_inc._spec().output_pin(0), 0, op)
+        self._field_min: Output[Field] = Output(
+            min_max_inc._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field_min)
-        self._field_max = Output(min_max_inc._spec().output_pin(1), 1, op)
+        self._field_max: Output[Field] = Output(
+            min_max_inc._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._field_max)
-        self._domain_ids_min = Output(min_max_inc._spec().output_pin(2), 2, op)
+        self._domain_ids_min: Output[Scoping] = Output(
+            min_max_inc._spec().output_pin(2), 2, op
+        )
         self._outputs.append(self._domain_ids_min)
-        self._domain_ids_max = Output(min_max_inc._spec().output_pin(3), 3, op)
+        self._domain_ids_max: Output[Scoping] = Output(
+            min_max_inc._spec().output_pin(3), 3, op
+        )
         self._outputs.append(self._domain_ids_max)
 
     @property
-    def field_min(self) -> Output:
+    def field_min(self) -> Output[Field]:
         r"""Allows to get field_min output of the operator
 
         Returns
@@ -269,7 +283,7 @@ class OutputsMinMaxInc(_Outputs):
         return self._field_min
 
     @property
-    def field_max(self) -> Output:
+    def field_max(self) -> Output[Field]:
         r"""Allows to get field_max output of the operator
 
         Returns
@@ -287,7 +301,7 @@ class OutputsMinMaxInc(_Outputs):
         return self._field_max
 
     @property
-    def domain_ids_min(self) -> Output:
+    def domain_ids_min(self) -> Output[Scoping]:
         r"""Allows to get domain_ids_min output of the operator
 
         Returns
@@ -305,7 +319,7 @@ class OutputsMinMaxInc(_Outputs):
         return self._domain_ids_min
 
     @property
-    def domain_ids_max(self) -> Output:
+    def domain_ids_max(self) -> Output[Scoping]:
         r"""Allows to get domain_ids_max output of the operator
 
         Returns

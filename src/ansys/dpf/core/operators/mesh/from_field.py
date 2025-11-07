@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class from_field(Operator):
     r"""Returns the meshed region contained in the support of the mesh.
@@ -140,11 +144,11 @@ class InputsFromField(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(from_field._spec().inputs, op)
-        self._field = Input(from_field._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field] = Input(from_field._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
         Returns
@@ -177,11 +181,13 @@ class OutputsFromField(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(from_field._spec().outputs, op)
-        self._mesh = Output(from_field._spec().output_pin(0), 0, op)
+        self._mesh: Output[MeshedRegion] = Output(
+            from_field._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._mesh)
 
     @property
-    def mesh(self) -> Output:
+    def mesh(self) -> Output[MeshedRegion]:
         r"""Allows to get mesh output of the operator
 
         Returns

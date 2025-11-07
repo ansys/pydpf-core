@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class vtk_to_fields(Operator):
     r"""Write a field based on a vtk file.
@@ -172,15 +177,21 @@ class InputsVtkToFields(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(vtk_to_fields._spec().inputs, op)
-        self._field_name = Input(vtk_to_fields._spec().input_pin(0), 0, op, -1)
+        self._field_name: Input[str] = Input(
+            vtk_to_fields._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field_name)
-        self._streams = Input(vtk_to_fields._spec().input_pin(3), 3, op, -1)
+        self._streams: Input[StreamsContainer] = Input(
+            vtk_to_fields._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._streams)
-        self._data_sources = Input(vtk_to_fields._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            vtk_to_fields._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
 
     @property
-    def field_name(self) -> Input:
+    def field_name(self) -> Input[str]:
         r"""Allows to connect field_name input to the operator.
 
         name of the field in the vtk file
@@ -201,7 +212,7 @@ class InputsVtkToFields(_Inputs):
         return self._field_name
 
     @property
-    def streams(self) -> Input:
+    def streams(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams input to the operator.
 
         Returns
@@ -220,7 +231,7 @@ class InputsVtkToFields(_Inputs):
         return self._streams
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Returns
@@ -253,11 +264,13 @@ class OutputsVtkToFields(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(vtk_to_fields._spec().outputs, op)
-        self._fields_container = Output(vtk_to_fields._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            vtk_to_fields._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         fields_container

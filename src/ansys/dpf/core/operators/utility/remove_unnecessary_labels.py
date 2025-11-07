@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class remove_unnecessary_labels(Operator):
     r"""Removes the selected label from a fields container.
@@ -178,21 +181,21 @@ class InputsRemoveUnnecessaryLabels(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(remove_unnecessary_labels._spec().inputs, op)
-        self._permissive = Input(
+        self._permissive: Input[bool] = Input(
             remove_unnecessary_labels._spec().input_pin(-1), -1, op, -1
         )
         self._inputs.append(self._permissive)
-        self._fields_container = Input(
+        self._fields_container: Input[FieldsContainer] = Input(
             remove_unnecessary_labels._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._label_to_remove = Input(
+        self._label_to_remove: Input[str] = Input(
             remove_unnecessary_labels._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._label_to_remove)
 
     @property
-    def permissive(self) -> Input:
+    def permissive(self) -> Input[bool]:
         r"""Allows to connect permissive input to the operator.
 
         If true, the operator does not throw an error if the label to be removed has more than one entry.
@@ -213,7 +216,7 @@ class InputsRemoveUnnecessaryLabels(_Inputs):
         return self._permissive
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Fields Container with the label to be removed.
@@ -234,7 +237,7 @@ class InputsRemoveUnnecessaryLabels(_Inputs):
         return self._fields_container
 
     @property
-    def label_to_remove(self) -> Input:
+    def label_to_remove(self) -> Input[str]:
         r"""Allows to connect label_to_remove input to the operator.
 
         Label to be removed from the fields container.
@@ -269,13 +272,13 @@ class OutputsRemoveUnnecessaryLabels(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(remove_unnecessary_labels._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             remove_unnecessary_labels._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

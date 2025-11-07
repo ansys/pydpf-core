@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+
 
 class compute_time_scoping(Operator):
     r"""Computes the time frequency scoping (made of set IDs) necessary to
@@ -209,23 +214,25 @@ class InputsComputeTimeScoping(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(compute_time_scoping._spec().inputs, op)
-        self._time_freq_values = Input(
+        self._time_freq_values: Input[float | Field | TimeFreqSupport] = Input(
             compute_time_scoping._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._time_freq_values)
-        self._step = Input(compute_time_scoping._spec().input_pin(2), 2, op, -1)
+        self._step: Input[int] = Input(
+            compute_time_scoping._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._step)
-        self._interpolation_type = Input(
+        self._interpolation_type: Input[int] = Input(
             compute_time_scoping._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._interpolation_type)
-        self._time_freq_support = Input(
+        self._time_freq_support: Input[TimeFreqSupport] = Input(
             compute_time_scoping._spec().input_pin(8), 8, op, -1
         )
         self._inputs.append(self._time_freq_support)
 
     @property
-    def time_freq_values(self) -> Input:
+    def time_freq_values(self) -> Input[float | Field | TimeFreqSupport]:
         r"""Allows to connect time_freq_values input to the operator.
 
         List of frequencies or times needed. To specify load steps, put a field (and not a list) in input with a scoping located on "TimeFreq_steps".
@@ -246,7 +253,7 @@ class InputsComputeTimeScoping(_Inputs):
         return self._time_freq_values
 
     @property
-    def step(self) -> Input:
+    def step(self) -> Input[int]:
         r"""Allows to connect step input to the operator.
 
         Returns
@@ -265,7 +272,7 @@ class InputsComputeTimeScoping(_Inputs):
         return self._step
 
     @property
-    def interpolation_type(self) -> Input:
+    def interpolation_type(self) -> Input[int]:
         r"""Allows to connect interpolation_type input to the operator.
 
         1:ramped' or 2:stepped', default is ramped
@@ -286,7 +293,7 @@ class InputsComputeTimeScoping(_Inputs):
         return self._interpolation_type
 
     @property
-    def time_freq_support(self) -> Input:
+    def time_freq_support(self) -> Input[TimeFreqSupport]:
         r"""Allows to connect time_freq_support input to the operator.
 
         Returns
@@ -320,13 +327,17 @@ class OutputsComputeTimeScoping(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(compute_time_scoping._spec().outputs, op)
-        self._scoping = Output(compute_time_scoping._spec().output_pin(0), 0, op)
+        self._scoping: Output[Scoping] = Output(
+            compute_time_scoping._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._scoping)
-        self._field = Output(compute_time_scoping._spec().output_pin(1), 1, op)
+        self._field: Output[Field] = Output(
+            compute_time_scoping._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def scoping(self) -> Output:
+    def scoping(self) -> Output[Scoping]:
         r"""Allows to get scoping output of the operator
 
         time_scoping
@@ -346,7 +357,7 @@ class OutputsComputeTimeScoping(_Outputs):
         return self._scoping
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         time_freq_values

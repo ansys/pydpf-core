@@ -15,6 +15,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.data_tree import DataTree
+
 
 class data_tree_to_txt(Operator):
     r"""Writes a txt file or string from a DataTree
@@ -155,13 +158,15 @@ class InputsDataTreeToTxt(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(data_tree_to_txt._spec().inputs, op)
-        self._data_tree = Input(data_tree_to_txt._spec().input_pin(0), 0, op, -1)
+        self._data_tree: Input[DataTree] = Input(
+            data_tree_to_txt._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._data_tree)
-        self._path = Input(data_tree_to_txt._spec().input_pin(1), 1, op, -1)
+        self._path: Input[str] = Input(data_tree_to_txt._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._path)
 
     @property
-    def data_tree(self) -> Input:
+    def data_tree(self) -> Input[DataTree]:
         r"""Allows to connect data_tree input to the operator.
 
         Returns
@@ -180,7 +185,7 @@ class InputsDataTreeToTxt(_Inputs):
         return self._data_tree
 
     @property
-    def path(self) -> Input:
+    def path(self) -> Input[str]:
         r"""Allows to connect path input to the operator.
 
         Returns

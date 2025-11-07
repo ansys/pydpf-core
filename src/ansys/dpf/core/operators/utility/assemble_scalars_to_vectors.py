@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class assemble_scalars_to_vectors(Operator):
     r"""Takes three scalar fields and assembles them as a 3D vector field.
@@ -172,15 +175,21 @@ class InputsAssembleScalarsToVectors(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(assemble_scalars_to_vectors._spec().inputs, op)
-        self._x = Input(assemble_scalars_to_vectors._spec().input_pin(0), 0, op, -1)
+        self._x: Input[Field] = Input(
+            assemble_scalars_to_vectors._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._x)
-        self._y = Input(assemble_scalars_to_vectors._spec().input_pin(1), 1, op, -1)
+        self._y: Input[Field] = Input(
+            assemble_scalars_to_vectors._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._y)
-        self._z = Input(assemble_scalars_to_vectors._spec().input_pin(2), 2, op, -1)
+        self._z: Input[Field] = Input(
+            assemble_scalars_to_vectors._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._z)
 
     @property
-    def x(self) -> Input:
+    def x(self) -> Input[Field]:
         r"""Allows to connect x input to the operator.
 
         Returns
@@ -199,7 +208,7 @@ class InputsAssembleScalarsToVectors(_Inputs):
         return self._x
 
     @property
-    def y(self) -> Input:
+    def y(self) -> Input[Field]:
         r"""Allows to connect y input to the operator.
 
         Returns
@@ -218,7 +227,7 @@ class InputsAssembleScalarsToVectors(_Inputs):
         return self._y
 
     @property
-    def z(self) -> Input:
+    def z(self) -> Input[Field]:
         r"""Allows to connect z input to the operator.
 
         Returns
@@ -251,11 +260,13 @@ class OutputsAssembleScalarsToVectors(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(assemble_scalars_to_vectors._spec().outputs, op)
-        self._field = Output(assemble_scalars_to_vectors._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            assemble_scalars_to_vectors._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

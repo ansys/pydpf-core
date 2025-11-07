@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.field import Field
+
 
 class scalars_to_field(Operator):
     r"""Create scalar or vector Field.
@@ -226,23 +230,31 @@ class InputsScalarsToField(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(scalars_to_field._spec().inputs, op)
-        self._double_or_vector_double = Input(
+        self._double_or_vector_double: Input[float] = Input(
             scalars_to_field._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._double_or_vector_double)
-        self._unit = Input(scalars_to_field._spec().input_pin(1), 1, op, -1)
+        self._unit: Input[str] = Input(scalars_to_field._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._unit)
-        self._location = Input(scalars_to_field._spec().input_pin(2), 2, op, -1)
+        self._location: Input[str] = Input(
+            scalars_to_field._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._location)
-        self._num_entity = Input(scalars_to_field._spec().input_pin(3), 3, op, -1)
+        self._num_entity: Input[int] = Input(
+            scalars_to_field._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._num_entity)
-        self._num_comp = Input(scalars_to_field._spec().input_pin(4), 4, op, -1)
+        self._num_comp: Input[int] = Input(
+            scalars_to_field._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._num_comp)
-        self._scoping = Input(scalars_to_field._spec().input_pin(5), 5, op, -1)
+        self._scoping: Input[Scoping] = Input(
+            scalars_to_field._spec().input_pin(5), 5, op, -1
+        )
         self._inputs.append(self._scoping)
 
     @property
-    def double_or_vector_double(self) -> Input:
+    def double_or_vector_double(self) -> Input[float]:
         r"""Allows to connect double_or_vector_double input to the operator.
 
         Data of the field, default is 0-field. Specify a double to have a field of same value or specify directly the data vector.
@@ -263,7 +275,7 @@ class InputsScalarsToField(_Inputs):
         return self._double_or_vector_double
 
     @property
-    def unit(self) -> Input:
+    def unit(self) -> Input[str]:
         r"""Allows to connect unit input to the operator.
 
         Unit symbol (m, Hz, kg, ...)
@@ -284,7 +296,7 @@ class InputsScalarsToField(_Inputs):
         return self._unit
 
     @property
-    def location(self) -> Input:
+    def location(self) -> Input[str]:
         r"""Allows to connect location input to the operator.
 
         Location of the field ex 'Nodal', 'ElementalNodal', 'Elemental'... Default is 'numeric'.
@@ -305,7 +317,7 @@ class InputsScalarsToField(_Inputs):
         return self._location
 
     @property
-    def num_entity(self) -> Input:
+    def num_entity(self) -> Input[int]:
         r"""Allows to connect num_entity input to the operator.
 
         Number of field entities. Default is 1 or the size of the scoping in input if specified.
@@ -326,7 +338,7 @@ class InputsScalarsToField(_Inputs):
         return self._num_entity
 
     @property
-    def num_comp(self) -> Input:
+    def num_comp(self) -> Input[int]:
         r"""Allows to connect num_comp input to the operator.
 
         Number of field components. Default is 1.
@@ -347,7 +359,7 @@ class InputsScalarsToField(_Inputs):
         return self._num_comp
 
     @property
-    def scoping(self) -> Input:
+    def scoping(self) -> Input[Scoping]:
         r"""Allows to connect scoping input to the operator.
 
         Scoping.
@@ -382,11 +394,13 @@ class OutputsScalarsToField(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(scalars_to_field._spec().outputs, op)
-        self._field = Output(scalars_to_field._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            scalars_to_field._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

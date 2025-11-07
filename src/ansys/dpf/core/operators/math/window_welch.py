@@ -15,6 +15,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.field import Field
+
 
 class window_welch(Operator):
     r"""Apply welch windowing on a given FieldsContainer having time label or a
@@ -145,11 +149,13 @@ class InputsWindowWelch(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(window_welch._spec().inputs, op)
-        self._field = Input(window_welch._spec().input_pin(0), 0, op, -1)
+        self._field: Input[Field | FieldsContainer] = Input(
+            window_welch._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._field)
 
     @property
-    def field(self) -> Input:
+    def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
         Returns

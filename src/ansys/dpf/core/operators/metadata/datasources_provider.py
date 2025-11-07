@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.data_sources import DataSources
+
 
 class datasources_provider(Operator):
     r"""Creates a DataSources by expanding another.
@@ -140,11 +143,13 @@ class InputsDatasourcesProvider(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(datasources_provider._spec().inputs, op)
-        self._data_sources = Input(datasources_provider._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            datasources_provider._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Returns
@@ -177,11 +182,13 @@ class OutputsDatasourcesProvider(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(datasources_provider._spec().outputs, op)
-        self._data_sources = Output(datasources_provider._spec().output_pin(0), 0, op)
+        self._data_sources: Output[DataSources] = Output(
+            datasources_provider._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._data_sources)
 
     @property
-    def data_sources(self) -> Output:
+    def data_sources(self) -> Output[DataSources]:
         r"""Allows to get data_sources output of the operator
 
         Returns

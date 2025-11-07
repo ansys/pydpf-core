@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+
 
 class assemble_scalars_to_matrices_fc(Operator):
     r"""Take nine scalar fields container and assemble them as a 3x3 matrix
@@ -288,49 +291,49 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(assemble_scalars_to_matrices_fc._spec().inputs, op)
-        self._xx = Input(
+        self._xx: Input[FieldsContainer] = Input(
             assemble_scalars_to_matrices_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._xx)
-        self._yy = Input(
+        self._yy: Input[FieldsContainer] = Input(
             assemble_scalars_to_matrices_fc._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._yy)
-        self._zz = Input(
+        self._zz: Input[FieldsContainer] = Input(
             assemble_scalars_to_matrices_fc._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._zz)
-        self._xy = Input(
+        self._xy: Input[FieldsContainer] = Input(
             assemble_scalars_to_matrices_fc._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._xy)
-        self._yz = Input(
+        self._yz: Input[FieldsContainer] = Input(
             assemble_scalars_to_matrices_fc._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._yz)
-        self._xz = Input(
+        self._xz: Input[FieldsContainer] = Input(
             assemble_scalars_to_matrices_fc._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._xz)
-        self._yx = Input(
+        self._yx: Input[FieldsContainer] = Input(
             assemble_scalars_to_matrices_fc._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._yx)
-        self._zy = Input(
+        self._zy: Input[FieldsContainer] = Input(
             assemble_scalars_to_matrices_fc._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._zy)
-        self._zx = Input(
+        self._zx: Input[FieldsContainer] = Input(
             assemble_scalars_to_matrices_fc._spec().input_pin(8), 8, op, -1
         )
         self._inputs.append(self._zx)
-        self._symmetrical = Input(
+        self._symmetrical: Input[bool] = Input(
             assemble_scalars_to_matrices_fc._spec().input_pin(60), 60, op, -1
         )
         self._inputs.append(self._symmetrical)
 
     @property
-    def xx(self) -> Input:
+    def xx(self) -> Input[FieldsContainer]:
         r"""Allows to connect xx input to the operator.
 
         Returns
@@ -349,7 +352,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
         return self._xx
 
     @property
-    def yy(self) -> Input:
+    def yy(self) -> Input[FieldsContainer]:
         r"""Allows to connect yy input to the operator.
 
         Returns
@@ -368,7 +371,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
         return self._yy
 
     @property
-    def zz(self) -> Input:
+    def zz(self) -> Input[FieldsContainer]:
         r"""Allows to connect zz input to the operator.
 
         Returns
@@ -387,7 +390,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
         return self._zz
 
     @property
-    def xy(self) -> Input:
+    def xy(self) -> Input[FieldsContainer]:
         r"""Allows to connect xy input to the operator.
 
         Returns
@@ -406,7 +409,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
         return self._xy
 
     @property
-    def yz(self) -> Input:
+    def yz(self) -> Input[FieldsContainer]:
         r"""Allows to connect yz input to the operator.
 
         Returns
@@ -425,7 +428,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
         return self._yz
 
     @property
-    def xz(self) -> Input:
+    def xz(self) -> Input[FieldsContainer]:
         r"""Allows to connect xz input to the operator.
 
         Returns
@@ -444,7 +447,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
         return self._xz
 
     @property
-    def yx(self) -> Input:
+    def yx(self) -> Input[FieldsContainer]:
         r"""Allows to connect yx input to the operator.
 
         Returns
@@ -463,7 +466,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
         return self._yx
 
     @property
-    def zy(self) -> Input:
+    def zy(self) -> Input[FieldsContainer]:
         r"""Allows to connect zy input to the operator.
 
         Returns
@@ -482,7 +485,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
         return self._zy
 
     @property
-    def zx(self) -> Input:
+    def zx(self) -> Input[FieldsContainer]:
         r"""Allows to connect zx input to the operator.
 
         Returns
@@ -501,7 +504,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
         return self._zx
 
     @property
-    def symmetrical(self) -> Input:
+    def symmetrical(self) -> Input[bool]:
         r"""Allows to connect symmetrical input to the operator.
 
         Returns
@@ -534,13 +537,13 @@ class OutputsAssembleScalarsToMatricesFc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(assemble_scalars_to_matrices_fc._spec().outputs, op)
-        self._fields_container = Output(
+        self._fields_container: Output[FieldsContainer] = Output(
             assemble_scalars_to_matrices_fc._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

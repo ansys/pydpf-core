@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.result_info import ResultInfo
+
 
 class merge_result_infos(Operator):
     r"""Assembles a set of result information into a unique one.
@@ -158,13 +161,17 @@ class InputsMergeResultInfos(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_result_infos._spec().inputs, op)
-        self._result_infos1 = Input(merge_result_infos._spec().input_pin(0), 0, op, 0)
+        self._result_infos1: Input[ResultInfo] = Input(
+            merge_result_infos._spec().input_pin(0), 0, op, 0
+        )
         self._inputs.append(self._result_infos1)
-        self._result_infos2 = Input(merge_result_infos._spec().input_pin(1), 1, op, 1)
+        self._result_infos2: Input[ResultInfo] = Input(
+            merge_result_infos._spec().input_pin(1), 1, op, 1
+        )
         self._inputs.append(self._result_infos2)
 
     @property
-    def result_infos1(self) -> Input:
+    def result_infos1(self) -> Input[ResultInfo]:
         r"""Allows to connect result_infos1 input to the operator.
 
         A vector of result info containers to merge or result infos from pin 0 to ...
@@ -185,7 +192,7 @@ class InputsMergeResultInfos(_Inputs):
         return self._result_infos1
 
     @property
-    def result_infos2(self) -> Input:
+    def result_infos2(self) -> Input[ResultInfo]:
         r"""Allows to connect result_infos2 input to the operator.
 
         A vector of result info containers to merge or result infos from pin 0 to ...
@@ -220,13 +227,13 @@ class OutputsMergeResultInfos(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_result_infos._spec().outputs, op)
-        self._merged_result_infos = Output(
+        self._merged_result_infos: Output[ResultInfo] = Output(
             merge_result_infos._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._merged_result_infos)
 
     @property
-    def merged_result_infos(self) -> Output:
+    def merged_result_infos(self) -> Output[ResultInfo]:
         r"""Allows to get merged_result_infos output of the operator
 
         Returns

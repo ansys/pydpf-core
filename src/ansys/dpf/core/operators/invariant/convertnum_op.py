@@ -14,6 +14,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.data_sources import DataSources
+
 
 class convertnum_op(Operator):
     r"""Converts a fields container from one mapdl ordering to another mapdl
@@ -196,17 +200,25 @@ class InputsConvertnumOp(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(convertnum_op._spec().inputs, op)
-        self._input_ordering = Input(convertnum_op._spec().input_pin(0), 0, op, -1)
+        self._input_ordering: Input[int] = Input(
+            convertnum_op._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._input_ordering)
-        self._output_ordering = Input(convertnum_op._spec().input_pin(1), 1, op, -1)
+        self._output_ordering: Input[int] = Input(
+            convertnum_op._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._output_ordering)
-        self._fields_container = Input(convertnum_op._spec().input_pin(2), 2, op, -1)
+        self._fields_container: Input[FieldsContainer] = Input(
+            convertnum_op._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._fields_container)
-        self._data_sources = Input(convertnum_op._spec().input_pin(4), 4, op, -1)
+        self._data_sources: Input[DataSources] = Input(
+            convertnum_op._spec().input_pin(4), 4, op, -1
+        )
         self._inputs.append(self._data_sources)
 
     @property
-    def input_ordering(self) -> Input:
+    def input_ordering(self) -> Input[int]:
         r"""Allows to connect input_ordering input to the operator.
 
         Input ordering number
@@ -227,7 +239,7 @@ class InputsConvertnumOp(_Inputs):
         return self._input_ordering
 
     @property
-    def output_ordering(self) -> Input:
+    def output_ordering(self) -> Input[int]:
         r"""Allows to connect output_ordering input to the operator.
 
         Output ordering number
@@ -248,7 +260,7 @@ class InputsConvertnumOp(_Inputs):
         return self._output_ordering
 
     @property
-    def fields_container(self) -> Input:
+    def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
         Expect fields container
@@ -269,7 +281,7 @@ class InputsConvertnumOp(_Inputs):
         return self._fields_container
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Data_sources (must contain the full file).
@@ -304,11 +316,13 @@ class OutputsConvertnumOp(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(convertnum_op._spec().outputs, op)
-        self._fields_container = Output(convertnum_op._spec().output_pin(0), 0, op)
+        self._fields_container: Output[FieldsContainer] = Output(
+            convertnum_op._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._fields_container)
 
     @property
-    def fields_container(self) -> Output:
+    def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
         Returns

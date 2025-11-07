@@ -14,6 +14,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scopings_container import ScopingsContainer
+from ansys.dpf.core.meshes_container import MeshesContainer
+from ansys.dpf.core.meshed_region import MeshedRegion
+
 
 class from_scopings(Operator):
     r"""Extracts multiple meshed region base on a scoping and saved in a
@@ -195,17 +200,25 @@ class InputsFromScopings(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(from_scopings._spec().inputs, op)
-        self._scopings_container = Input(from_scopings._spec().input_pin(1), 1, op, -1)
+        self._scopings_container: Input[ScopingsContainer] = Input(
+            from_scopings._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._scopings_container)
-        self._inclusive = Input(from_scopings._spec().input_pin(2), 2, op, -1)
+        self._inclusive: Input[int] = Input(
+            from_scopings._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._inclusive)
-        self._nodes_only = Input(from_scopings._spec().input_pin(3), 3, op, -1)
+        self._nodes_only: Input[bool] = Input(
+            from_scopings._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._nodes_only)
-        self._mesh = Input(from_scopings._spec().input_pin(7), 7, op, -1)
+        self._mesh: Input[MeshedRegion] = Input(
+            from_scopings._spec().input_pin(7), 7, op, -1
+        )
         self._inputs.append(self._mesh)
 
     @property
-    def scopings_container(self) -> Input:
+    def scopings_container(self) -> Input[ScopingsContainer]:
         r"""Allows to connect scopings_container input to the operator.
 
         if nodal scoping, then the scoping is transposed respecting the inclusive pin
@@ -226,7 +239,7 @@ class InputsFromScopings(_Inputs):
         return self._scopings_container
 
     @property
-    def inclusive(self) -> Input:
+    def inclusive(self) -> Input[int]:
         r"""Allows to connect inclusive input to the operator.
 
         if inclusive == 1 then all the elements/faces adjacent to the nodes/faces ids in input are added, if inclusive == 0, only the elements/faces which have all their nodes/faces in the scoping are included
@@ -247,7 +260,7 @@ class InputsFromScopings(_Inputs):
         return self._inclusive
 
     @property
-    def nodes_only(self) -> Input:
+    def nodes_only(self) -> Input[bool]:
         r"""Allows to connect nodes_only input to the operator.
 
         returns mesh with nodes only (without any elements). Default is false.
@@ -268,7 +281,7 @@ class InputsFromScopings(_Inputs):
         return self._nodes_only
 
     @property
-    def mesh(self) -> Input:
+    def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
         Returns
@@ -301,11 +314,13 @@ class OutputsFromScopings(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(from_scopings._spec().outputs, op)
-        self._meshes = Output(from_scopings._spec().output_pin(0), 0, op)
+        self._meshes: Output[MeshesContainer] = Output(
+            from_scopings._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._meshes)
 
     @property
-    def meshes(self) -> Output:
+    def meshes(self) -> Output[MeshesContainer]:
         r"""Allows to get meshes output of the operator
 
         Returns

@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class make_one_on_comp(Operator):
     r"""Takes the input field’s scoping and creates a field full of zeros,
@@ -156,13 +159,17 @@ class InputsMakeOneOnComp(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(make_one_on_comp._spec().inputs, op)
-        self._fieldA = Input(make_one_on_comp._spec().input_pin(0), 0, op, -1)
+        self._fieldA: Input[Field] = Input(
+            make_one_on_comp._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fieldA)
-        self._scalar_int = Input(make_one_on_comp._spec().input_pin(1), 1, op, -1)
+        self._scalar_int: Input[int] = Input(
+            make_one_on_comp._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._scalar_int)
 
     @property
-    def fieldA(self) -> Input:
+    def fieldA(self) -> Input[Field]:
         r"""Allows to connect fieldA input to the operator.
 
         Returns
@@ -181,7 +188,7 @@ class InputsMakeOneOnComp(_Inputs):
         return self._fieldA
 
     @property
-    def scalar_int(self) -> Input:
+    def scalar_int(self) -> Input[int]:
         r"""Allows to connect scalar_int input to the operator.
 
         Returns
@@ -214,11 +221,13 @@ class OutputsMakeOneOnComp(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(make_one_on_comp._spec().outputs, op)
-        self._field = Output(make_one_on_comp._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            make_one_on_comp._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

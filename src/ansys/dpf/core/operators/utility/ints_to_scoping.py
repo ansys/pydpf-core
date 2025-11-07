@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.scoping import Scoping
+
 
 class ints_to_scoping(Operator):
     r"""take a int or a vector of int and transform it in a one entity field of
@@ -179,15 +182,21 @@ class InputsIntsToScoping(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(ints_to_scoping._spec().inputs, op)
-        self._int_or_vector_int = Input(ints_to_scoping._spec().input_pin(0), 0, op, -1)
+        self._int_or_vector_int: Input[int | Scoping] = Input(
+            ints_to_scoping._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._int_or_vector_int)
-        self._location = Input(ints_to_scoping._spec().input_pin(1), 1, op, -1)
+        self._location: Input[str] = Input(
+            ints_to_scoping._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._location)
-        self._upper_bound = Input(ints_to_scoping._spec().input_pin(2), 2, op, -1)
+        self._upper_bound: Input[int | Scoping] = Input(
+            ints_to_scoping._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._upper_bound)
 
     @property
-    def int_or_vector_int(self) -> Input:
+    def int_or_vector_int(self) -> Input[int | Scoping]:
         r"""Allows to connect int_or_vector_int input to the operator.
 
         int or single value scoping or vector of int
@@ -208,7 +217,7 @@ class InputsIntsToScoping(_Inputs):
         return self._int_or_vector_int
 
     @property
-    def location(self) -> Input:
+    def location(self) -> Input[str]:
         r"""Allows to connect location input to the operator.
 
         Returns
@@ -227,7 +236,7 @@ class InputsIntsToScoping(_Inputs):
         return self._location
 
     @property
-    def upper_bound(self) -> Input:
+    def upper_bound(self) -> Input[int | Scoping]:
         r"""Allows to connect upper_bound input to the operator.
 
         Define the upper bound to create a scoping that will contain a range from the single value input in pin 0 to the upper bound defined in this pin.
@@ -262,11 +271,13 @@ class OutputsIntsToScoping(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(ints_to_scoping._spec().outputs, op)
-        self._scoping = Output(ints_to_scoping._spec().output_pin(0), 0, op)
+        self._scoping: Output[Scoping] = Output(
+            ints_to_scoping._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._scoping)
 
     @property
-    def scoping(self) -> Output:
+    def scoping(self) -> Output[Scoping]:
         r"""Allows to get scoping output of the operator
 
         Returns

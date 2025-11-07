@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.any import Any
+
 
 class delegate_to_operator(Operator):
     r"""Delegate the run to an Operator instantiated by the name in input
@@ -152,13 +155,13 @@ class InputsDelegateToOperator(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(delegate_to_operator._spec().inputs, op)
-        self._operator_name = Input(
+        self._operator_name: Input[str] = Input(
             delegate_to_operator._spec().input_pin(-1), -1, op, -1
         )
         self._inputs.append(self._operator_name)
 
     @property
-    def operator_name(self) -> Input:
+    def operator_name(self) -> Input[str]:
         r"""Allows to connect operator_name input to the operator.
 
         Returns
@@ -192,13 +195,17 @@ class OutputsDelegateToOperator(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(delegate_to_operator._spec().outputs, op)
-        self._any1 = Output(delegate_to_operator._spec().output_pin(0), 0, op)
+        self._any1: Output[Any] = Output(
+            delegate_to_operator._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._any1)
-        self._any2 = Output(delegate_to_operator._spec().output_pin(1), 1, op)
+        self._any2: Output[Any] = Output(
+            delegate_to_operator._spec().output_pin(1), 1, op
+        )
         self._outputs.append(self._any2)
 
     @property
-    def any1(self) -> Output:
+    def any1(self) -> Output[Any]:
         r"""Allows to get any1 output of the operator
 
         inputs
@@ -218,7 +225,7 @@ class OutputsDelegateToOperator(_Outputs):
         return self._any1
 
     @property
-    def any2(self) -> Output:
+    def any2(self) -> Output[Any]:
         r"""Allows to get any2 output of the operator
 
         inputs

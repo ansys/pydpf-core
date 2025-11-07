@@ -14,6 +14,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.field import Field
+
 
 class entity_extractor(Operator):
     r"""Extracts an entity from a field, based on its ID.
@@ -154,13 +157,17 @@ class InputsEntityExtractor(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(entity_extractor._spec().inputs, op)
-        self._fieldA = Input(entity_extractor._spec().input_pin(0), 0, op, -1)
+        self._fieldA: Input[Field] = Input(
+            entity_extractor._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._fieldA)
-        self._scalar_int = Input(entity_extractor._spec().input_pin(1), 1, op, -1)
+        self._scalar_int: Input[int] = Input(
+            entity_extractor._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._scalar_int)
 
     @property
-    def fieldA(self) -> Input:
+    def fieldA(self) -> Input[Field]:
         r"""Allows to connect fieldA input to the operator.
 
         Returns
@@ -179,7 +186,7 @@ class InputsEntityExtractor(_Inputs):
         return self._fieldA
 
     @property
-    def scalar_int(self) -> Input:
+    def scalar_int(self) -> Input[int]:
         r"""Allows to connect scalar_int input to the operator.
 
         Returns
@@ -212,11 +219,13 @@ class OutputsEntityExtractor(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(entity_extractor._spec().outputs, op)
-        self._field = Output(entity_extractor._spec().output_pin(0), 0, op)
+        self._field: Output[Field] = Output(
+            entity_extractor._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._field)
 
     @property
-    def field(self) -> Output:
+    def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
         Returns

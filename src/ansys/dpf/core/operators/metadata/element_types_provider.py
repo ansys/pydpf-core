@@ -15,6 +15,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
+# For type checking
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.streams_container import StreamsContainer
+
 
 class element_types_provider(Operator):
     r"""Reads element types data from the result files contained in the streams
@@ -219,23 +223,25 @@ class InputsElementTypesProvider(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(element_types_provider._spec().inputs, op)
-        self._solver_element_types_ids = Input(
+        self._solver_element_types_ids: Input[int] = Input(
             element_types_provider._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._solver_element_types_ids)
-        self._streams = Input(element_types_provider._spec().input_pin(3), 3, op, -1)
+        self._streams: Input[StreamsContainer] = Input(
+            element_types_provider._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._streams)
-        self._data_sources = Input(
+        self._data_sources: Input[DataSources] = Input(
             element_types_provider._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
-        self._output_type = Input(
+        self._output_type: Input[int] = Input(
             element_types_provider._spec().input_pin(200), 200, op, -1
         )
         self._inputs.append(self._output_type)
 
     @property
-    def solver_element_types_ids(self) -> Input:
+    def solver_element_types_ids(self) -> Input[int]:
         r"""Allows to connect solver_element_types_ids input to the operator.
 
         Element Type ids to recover used by the solver. If not set, all available element types are recovered.
@@ -256,7 +262,7 @@ class InputsElementTypesProvider(_Inputs):
         return self._solver_element_types_ids
 
     @property
-    def streams(self) -> Input:
+    def streams(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams input to the operator.
 
         Result file container allowed to be kept open to cache data.
@@ -277,7 +283,7 @@ class InputsElementTypesProvider(_Inputs):
         return self._streams
 
     @property
-    def data_sources(self) -> Input:
+    def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
         Result file path container, used if no streams are set.
@@ -298,7 +304,7 @@ class InputsElementTypesProvider(_Inputs):
         return self._data_sources
 
     @property
-    def output_type(self) -> Input:
+    def output_type(self) -> Input[int]:
         r"""Allows to connect output_type input to the operator.
 
         Get the output as a GenericDataContainer (pin value 1, default) or as a PropertyField (pin value 2).
