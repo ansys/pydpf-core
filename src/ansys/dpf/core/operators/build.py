@@ -229,7 +229,8 @@ def build_operator(
     for input_pin in input_pins:
         annotation_import_types.update(input_pin["docstring_types"])
     for output_pin in output_pins:
-        if output_pin["multiple_types"]: # pins with multiple types cannot be annotated
+        # Output pins with multiple types can't be annotated with current operators design
+        if output_pin["multiple_types"]:
             continue
         annotation_import_types.update(output_pin["docstring_types"])
     annotation_import_list = []
