@@ -146,9 +146,6 @@ def build_pin_data(pins, output=False):
             not in TYPES_WITHOUT_PYTHON_IMPLEMENTATION  # Types without python implementations can't be typechecked
         )
 
-        # if not type_list_for_annotation:
-        #     pass
-
         pin_name = specification.name
         pin_name = pin_name.replace("<", "_")
         pin_name = pin_name.replace(">", "_")
@@ -163,9 +160,6 @@ def build_pin_data(pins, output=False):
 
         document = specification.document
         document_pin_docstring = document.replace("\n", "\n        ")
-
-        # if output and multiple_types:
-        #     pass
 
         pin_data = {
             "id": id,
@@ -216,7 +210,6 @@ def build_operator(
     category,
     specification_description,
 ):
-    # global all_input_output_types, types_without_concrete_definiton
     input_pins = []
     if specification.inputs:
         input_pins = build_pin_data(specification.inputs)
@@ -250,10 +243,6 @@ def build_operator(
                 "definition_location": definition_location,
             }
         )
-        # if not definition_location:
-        #     types_without_concrete_definiton.update([annotation_type])
-
-    # all_input_output_types.update(annotation_import_types)
 
     data = {
         "operator_name": operator_name,
@@ -280,7 +269,6 @@ def build_operator(
     with open(mustache_file, "r") as f:
         cls = chevron.render(f, data)
     try:
-        # return cls
         return black.format_str(cls, mode=black.FileMode())
     except Exception as e:
         print(f"{operator_name=}")
@@ -353,11 +341,6 @@ def build_operators():
         # Convert Markdown descriptions to RST
         specification_description = translator.convert(specification.description)
 
-        # if scripting_name not in ("stress", "propertyfield_get_attribute", "mesh_support_provider"):
-        #     continue
-        # if "stress" == scripting_name:
-        #     pass
-
         # Write to operator file
         operator_file = os.path.join(category_path, scripting_name + ".py")
         with open(operator_file, "w", encoding="utf-8", newline="\u000a") as f:
@@ -416,11 +399,7 @@ def build_operators():
 
 
 if __name__ == "__main__":
-    # all_input_output_types = set()
-    # types_without_concrete_definiton = set()
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
     dpf.start_local_server(config=dpf.AvailableServerConfigs.LegacyGrpcServer)
     build_operators()
     dpf.SERVER.shutdown()
-    # print(all_input_output_types)
-    # print(types_without_concrete_definiton)
