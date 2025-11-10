@@ -16,8 +16,8 @@ from ansys.dpf.core.server_types import AnyServerType
 
 # For type checking
 from ansys.dpf.core.workflow import Workflow
-from ansys.dpf.core.field import Field
 from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.field import Field
 
 
 class prepare_mapping_workflow(Operator):

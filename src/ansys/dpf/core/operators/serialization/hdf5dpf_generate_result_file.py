@@ -15,12 +15,12 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 # For type checking
-from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.result_info import ResultInfo
 from ansys.dpf.core.any import Any
-from ansys.dpf.core.data_tree import DataTree
 from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.data_tree import DataTree
 
 
 class hdf5dpf_generate_result_file(Operator):

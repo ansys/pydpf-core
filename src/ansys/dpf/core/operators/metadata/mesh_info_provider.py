@@ -15,9 +15,9 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 # For type checking
-from ansys.dpf.core.data_sources import DataSources
-from ansys.dpf.core.streams_container import StreamsContainer
 from ansys.dpf.core.generic_data_container import GenericDataContainer
+from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
 
 
 class mesh_info_provider(Operator):

@@ -236,7 +236,7 @@ def build_operator(
     for input_pin in input_pins:
         annotation_import_types.update(input_pin["docstring_types"])
     for output_pin in output_pins:
-        if output_pin["multiple_types"]:
+        if output_pin["multiple_types"]: # pins with multiple types cannot be annotated
             continue
         annotation_import_types.update(output_pin["docstring_types"])
     annotation_import_list = []
@@ -387,24 +387,24 @@ def build_operators():
     print(f"Generated {succeeded} out of {len(available_operators)} ({hidden} hidden)")
 
     # Create __init__.py files
-    # print(f"Generating __init__.py files...")
-    # with open(
-    #     os.path.join(this_path, "__init__.py"), "w", encoding="utf-8", newline="\u000a"
-    # ) as main_init:
-    #     for category in sorted(categories):
-    #         # Add category to main init file imports
-    #         main_init.write(f"from . import {category}\n")
-    #         # Create category init file
-    #         category_operators = os.listdir(os.path.join(this_path, category.split(".")[0]))
-    #         with open(
-    #             os.path.join(this_path, category, "__init__.py"),
-    #             "w",
-    #             encoding="utf-8",
-    #             newline="\u000a",
-    #         ) as category_init:
-    #             for category_operator in sorted(category_operators):
-    #                 operator_name = category_operator.split(".")[0]
-    #                 category_init.write(f"from .{operator_name} import {operator_name}\n")
+    print(f"Generating __init__.py files...")
+    with open(
+        os.path.join(this_path, "__init__.py"), "w", encoding="utf-8", newline="\u000a"
+    ) as main_init:
+        for category in sorted(categories):
+            # Add category to main init file imports
+            main_init.write(f"from . import {category}\n")
+            # Create category init file
+            category_operators = os.listdir(os.path.join(this_path, category.split(".")[0]))
+            with open(
+                os.path.join(this_path, category, "__init__.py"),
+                "w",
+                encoding="utf-8",
+                newline="\u000a",
+            ) as category_init:
+                for category_operator in sorted(category_operators):
+                    operator_name = category_operator.split(".")[0]
+                    category_init.write(f"from .{operator_name} import {operator_name}\n")
 
     if succeeded == len(available_operators) - hidden:
         print("Success")

@@ -15,8 +15,8 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 # For type checking
-from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.data_sources import DataSources
 
 
 class migrate_file_to_vtk(Operator):

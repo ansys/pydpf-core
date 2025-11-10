@@ -16,8 +16,8 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 # For type checking
-from ansys.dpf.core.meshes_container import MeshesContainer
 from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.meshes_container import MeshesContainer
 
 
 class node_coordinates(Operator):

@@ -16,8 +16,8 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 # For type checking
-from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.custom_type_field import CustomTypeField
+from ansys.dpf.core.scoping import Scoping
 
 
 class rescope_custom_type_field(Operator):

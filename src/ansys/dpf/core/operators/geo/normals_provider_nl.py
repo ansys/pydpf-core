@@ -15,9 +15,9 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 # For type checking
-from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.meshed_region import MeshedRegion
 from ansys.dpf.core.field import Field
+from ansys.dpf.core.scoping import Scoping
 
 
 class normals_provider_nl(Operator):

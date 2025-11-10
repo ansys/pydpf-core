@@ -16,8 +16,8 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 # For type checking
-from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
+from ansys.dpf.core.scoping import Scoping
 
 
 class time_freq_support_get_attribute(Operator):

@@ -2,7 +2,6 @@ from . import averaging
 from . import compression
 from . import filter
 from . import geo
-from . import info
 from . import invariant
 from . import logic
 from . import mapping

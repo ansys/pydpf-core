@@ -189,7 +189,6 @@ from .joint_relative_displacement import joint_relative_displacement
 from .joint_relative_rotation import joint_relative_rotation
 from .joint_relative_velocity import joint_relative_velocity
 from .kinetic_energy import kinetic_energy
-from .layer_orientation_provider import layer_orientation_provider
 from .mach_number import mach_number
 from .magnetic_field import magnetic_field
 from .magnetic_field_X import magnetic_field_X
