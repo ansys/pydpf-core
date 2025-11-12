@@ -199,15 +199,15 @@ class InputsProducerConsumerForEach(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(producer_consumer_for_each._spec().inputs, op)
-        self._producer_consumer_iterableq = Input(
+        self._producer_consumer_iterableq: Input = Input(
             producer_consumer_for_each._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._producer_consumer_iterableq)
-        self._forward1 = Input(
+        self._forward1: Input = Input(
             producer_consumer_for_each._spec().input_pin(3), 3, op, 0
         )
         self._inputs.append(self._forward1)
-        self._forward2 = Input(
+        self._forward2: Input = Input(
             producer_consumer_for_each._spec().input_pin(4), 4, op, 1
         )
         self._inputs.append(self._forward2)
@@ -292,11 +292,17 @@ class OutputsProducerConsumerForEach(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(producer_consumer_for_each._spec().outputs, op)
-        self._empty = Output(producer_consumer_for_each._spec().output_pin(0), 0, op)
+        self._empty: Output = Output(
+            producer_consumer_for_each._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._empty)
-        self._output1 = Output(producer_consumer_for_each._spec().output_pin(3), 3, op)
+        self._output1: Output = Output(
+            producer_consumer_for_each._spec().output_pin(3), 3, op
+        )
         self._outputs.append(self._output1)
-        self._output2 = Output(producer_consumer_for_each._spec().output_pin(4), 4, op)
+        self._output2: Output = Output(
+            producer_consumer_for_each._spec().output_pin(4), 4, op
+        )
         self._outputs.append(self._output2)
 
     @property

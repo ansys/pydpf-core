@@ -142,11 +142,11 @@ class InputsServerPath(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(server_path._spec().inputs, op)
-        self._subpath = Input(server_path._spec().input_pin(0), 0, op, -1)
+        self._subpath: Input[int] = Input(server_path._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._subpath)
 
     @property
-    def subpath(self) -> Input:
+    def subpath(self) -> Input[int]:
         r"""Allows to connect subpath input to the operator.
 
         Subpath of the Dpf server. Supported values: 0 (default): root of the server, 1: "dpf/bin/platform", 2: "aisol/bin(dll)/platform", 3: "dpf/plugins", 4: "dpf/workflows".
@@ -181,11 +181,11 @@ class OutputsServerPath(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(server_path._spec().outputs, op)
-        self._path = Output(server_path._spec().output_pin(0), 0, op)
+        self._path: Output[str] = Output(server_path._spec().output_pin(0), 0, op)
         self._outputs.append(self._path)
 
     @property
-    def path(self) -> Output:
+    def path(self) -> Output[str]:
         r"""Allows to get path output of the operator
 
         Path to the requested folder in the Dpf server
