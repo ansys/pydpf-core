@@ -155,9 +155,11 @@ class InputsDefaultValue(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(default_value._spec().inputs, op)
-        self._forced_value = Input(default_value._spec().input_pin(0), 0, op, -1)
+        self._forced_value: Input = Input(default_value._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._forced_value)
-        self._default_value = Input(default_value._spec().input_pin(1), 1, op, -1)
+        self._default_value: Input = Input(
+            default_value._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._default_value)
 
     @property
@@ -213,7 +215,7 @@ class OutputsDefaultValue(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(default_value._spec().outputs, op)
-        self._output = Output(default_value._spec().output_pin(0), 0, op)
+        self._output: Output = Output(default_value._spec().output_pin(0), 0, op)
         self._outputs.append(self._output)
 
     @property

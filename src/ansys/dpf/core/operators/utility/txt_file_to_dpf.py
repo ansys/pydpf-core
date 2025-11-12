@@ -149,11 +149,13 @@ class InputsTxtFileToDpf(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(txt_file_to_dpf._spec().inputs, op)
-        self._input_string = Input(txt_file_to_dpf._spec().input_pin(0), 0, op, -1)
+        self._input_string: Input[str] = Input(
+            txt_file_to_dpf._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._input_string)
 
     @property
-    def input_string(self) -> Input:
+    def input_string(self) -> Input[str]:
         r"""Allows to connect input_string input to the operator.
 
         ex: 'double:1.0', 'int:1', 'vector<double>:1.0;1.0'
@@ -189,9 +191,9 @@ class OutputsTxtFileToDpf(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(txt_file_to_dpf._spec().outputs, op)
-        self._any_output1 = Output(txt_file_to_dpf._spec().output_pin(0), 0, op)
+        self._any_output1: Output = Output(txt_file_to_dpf._spec().output_pin(0), 0, op)
         self._outputs.append(self._any_output1)
-        self._any_output2 = Output(txt_file_to_dpf._spec().output_pin(1), 1, op)
+        self._any_output2: Output = Output(txt_file_to_dpf._spec().output_pin(1), 1, op)
         self._outputs.append(self._any_output2)
 
     @property

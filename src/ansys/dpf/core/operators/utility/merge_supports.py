@@ -180,17 +180,17 @@ class InputsMergeSupports(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_supports._spec().inputs, op)
-        self._should_merge_named_selections = Input(
+        self._should_merge_named_selections: Input[bool] = Input(
             merge_supports._spec().input_pin(-200), -200, op, -1
         )
         self._inputs.append(self._should_merge_named_selections)
-        self._supports1 = Input(merge_supports._spec().input_pin(0), 0, op, 0)
+        self._supports1: Input = Input(merge_supports._spec().input_pin(0), 0, op, 0)
         self._inputs.append(self._supports1)
-        self._supports2 = Input(merge_supports._spec().input_pin(1), 1, op, 1)
+        self._supports2: Input = Input(merge_supports._spec().input_pin(1), 1, op, 1)
         self._inputs.append(self._supports2)
 
     @property
-    def should_merge_named_selections(self) -> Input:
+    def should_merge_named_selections(self) -> Input[bool]:
         r"""Allows to connect should_merge_named_selections input to the operator.
 
         For some result files (such as RST), the scoping on names selection is duplicated through all the distributed files.If this pin is false, the merging process is skipped. If it is true, this scoping is merged. Default is true.
@@ -267,7 +267,9 @@ class OutputsMergeSupports(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_supports._spec().outputs, op)
-        self._merged_support = Output(merge_supports._spec().output_pin(0), 0, op)
+        self._merged_support: Output = Output(
+            merge_supports._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._merged_support)
 
     @property
