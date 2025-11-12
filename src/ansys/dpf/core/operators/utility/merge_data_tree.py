@@ -16,8 +16,8 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.data_tree import DataTree
     from ansys.dpf.core.any import Any
+    from ansys.dpf.core.data_tree import DataTree
 
 
 class merge_data_tree(Operator):

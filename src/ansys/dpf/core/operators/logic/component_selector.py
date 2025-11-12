@@ -16,8 +16,8 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.field import Field
+    from ansys.dpf.core.fields_container import FieldsContainer
 
 
 class component_selector(Operator):

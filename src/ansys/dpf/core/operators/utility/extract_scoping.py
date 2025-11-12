@@ -17,15 +17,15 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.scoping import Scoping
-    from ansys.dpf.core.string_field import StringField
     from ansys.dpf.core.custom_type_field import CustomTypeField
-    from ansys.dpf.core.scopings_container import ScopingsContainer
-    from ansys.dpf.core.property_field import PropertyField
-    from ansys.dpf.core.meshes_container import MeshesContainer
+    from ansys.dpf.core.field import Field
     from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.meshed_region import MeshedRegion
-    from ansys.dpf.core.field import Field
+    from ansys.dpf.core.meshes_container import MeshesContainer
+    from ansys.dpf.core.property_field import PropertyField
+    from ansys.dpf.core.scoping import Scoping
+    from ansys.dpf.core.scopings_container import ScopingsContainer
+    from ansys.dpf.core.string_field import StringField
 
 
 class extract_scoping(Operator):

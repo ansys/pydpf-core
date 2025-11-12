@@ -16,9 +16,9 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.property_field import PropertyField
-    from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.field import Field
+    from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.property_field import PropertyField
 
 
 class compute_invariant_terms_rbd(Operator):

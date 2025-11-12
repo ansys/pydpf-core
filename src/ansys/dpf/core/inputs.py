@@ -74,17 +74,7 @@ class Input(Generic[T]):
         self._update_doc_str(docstr, self.name)
 
     def connect(self, inpt: T):
-        """Connect any input (entity or operator output) to a specified input pin of this operator.
-
-        Parameters
-        ----------
-        inpt : str, int, float, bool, list[float], list[int], dict, Operator, PropertyField, ScopingsContainer,
-        DataSources, UnitSystem, CyclicSupport, DataTree, Workflow, StreamsContainer, FieldsContainer, Field,
-        CustomTypeField, MeshedRegion, Any, GenericDataContainer, Scoping, StringField, MeshesContainer, ResultInfo,
-        TimeFreqSupport, Output, Outputs, os.PathLike, UnitSystem, Enum # noqa: E501
-            Input of the operator.
-
-        """
+        """Connect any input (entity or operator output) to a specified input pin of this operator."""
         from pathlib import Path
 
         # always convert ranges to lists
@@ -246,15 +236,6 @@ class _Inputs:
 
         .. deprecated::
             Deprecated in favor of explicit output-to-input connections.
-
-        Parameters
-        ----------
-        inpt : str, int, float, bool, list[float], list[int], dict, Operator, PropertyField, ScopingsContainer,
-        DataSources, UnitSystem, CyclicSupport, DataTree, Workflow, StreamsContainer, FieldsContainer, Field,
-        CustomTypeField, MeshedRegion, Any, GenericDataContainer, Scoping, StringField, MeshesContainer, ResultInfo,
-        TimeFreqSupport, Output, Outputs, os.PathLike, UnitSystem, Enum # noqa: E501
-            Input of the operator.
-
         """
         warnings.warn(
             message="Use explicit output-to-input connections.", category=DeprecationWarning

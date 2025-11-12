@@ -16,8 +16,8 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.field import Field
     from ansys.dpf.core.data_sources import DataSources
+    from ansys.dpf.core.field import Field
 
 
 class euler_load_buckling(Operator):

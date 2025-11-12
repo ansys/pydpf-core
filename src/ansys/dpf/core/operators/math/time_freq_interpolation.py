@@ -16,9 +16,9 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.time_freq_support import TimeFreqSupport
-    from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.field import Field
+    from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.time_freq_support import TimeFreqSupport
 
 
 class time_freq_interpolation(Operator):

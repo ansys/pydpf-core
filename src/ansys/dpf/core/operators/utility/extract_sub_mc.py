@@ -16,8 +16,8 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.meshes_container import MeshesContainer
+    from ansys.dpf.core.scoping import Scoping
 
 
 class extract_sub_mc(Operator):

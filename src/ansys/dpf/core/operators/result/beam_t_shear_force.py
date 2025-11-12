@@ -16,13 +16,13 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.streams_container import StreamsContainer
-    from ansys.dpf.core.scoping import Scoping
-    from ansys.dpf.core.unit_system import UnitSystem
-    from ansys.dpf.core.scopings_container import ScopingsContainer
     from ansys.dpf.core.data_sources import DataSources
-    from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.field import Field
+    from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.scoping import Scoping
+    from ansys.dpf.core.scopings_container import ScopingsContainer
+    from ansys.dpf.core.streams_container import StreamsContainer
+    from ansys.dpf.core.unit_system import UnitSystem
 
 
 class beam_t_shear_force(Operator):

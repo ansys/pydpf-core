@@ -17,10 +17,10 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.data_tree import DataTree
-    from ansys.dpf.core.streams_container import StreamsContainer
-    from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.data_sources import DataSources
+    from ansys.dpf.core.data_tree import DataTree
+    from ansys.dpf.core.scoping import Scoping
+    from ansys.dpf.core.streams_container import StreamsContainer
 
 
 class hdf5dpf_custom_read(Operator):

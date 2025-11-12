@@ -16,9 +16,9 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
+    from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.scopings_container import ScopingsContainer
-    from ansys.dpf.core.meshed_region import MeshedRegion
 
 
 class split_on_property_type(Operator):

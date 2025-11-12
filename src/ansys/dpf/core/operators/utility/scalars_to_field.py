@@ -16,8 +16,8 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.field import Field
+    from ansys.dpf.core.scoping import Scoping
 
 
 class scalars_to_field(Operator):

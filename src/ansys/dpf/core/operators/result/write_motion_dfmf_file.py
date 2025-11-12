@@ -17,9 +17,9 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.data_sources import DataSources
-    from ansys.dpf.core.property_field import PropertyField
-    from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.field import Field
+    from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.property_field import PropertyField
 
 
 class write_motion_dfmf_file(Operator):

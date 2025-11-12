@@ -16,10 +16,10 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.scoping import Scoping
-    from ansys.dpf.core.property_field import PropertyField
-    from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.field import Field
+    from ansys.dpf.core.meshed_region import MeshedRegion
+    from ansys.dpf.core.property_field import PropertyField
+    from ansys.dpf.core.scoping import Scoping
 
 
 class mesh_to_graphics(Operator):

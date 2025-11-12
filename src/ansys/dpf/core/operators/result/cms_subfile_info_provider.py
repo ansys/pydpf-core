@@ -16,8 +16,8 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.property_field import PropertyField
     from ansys.dpf.core.data_sources import DataSources
+    from ansys.dpf.core.property_field import PropertyField
 
 
 class cms_subfile_info_provider(Operator):

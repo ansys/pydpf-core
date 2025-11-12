@@ -16,8 +16,8 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.data_sources import DataSources
+    from ansys.dpf.core.meshed_region import MeshedRegion
 
 
 class stl_export(Operator):

@@ -16,8 +16,8 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.data_tree import DataTree
     from ansys.dpf.core.data_sources import DataSources
+    from ansys.dpf.core.data_tree import DataTree
 
 
 class json_to_data_tree(Operator):

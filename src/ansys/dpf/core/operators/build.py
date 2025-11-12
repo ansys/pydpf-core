@@ -244,6 +244,7 @@ def build_operator(
                 "definition_location": definition_location,
             }
         )
+    annotation_import_list.sort(key= lambda x: x["class_name"].split("ansys.dpf.core.")[-1])
     non_empty_annotation_import_list = bool(annotation_import_list)
 
     data = {

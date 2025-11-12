@@ -16,8 +16,8 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.workflow import Workflow
     from ansys.dpf.core.generic_data_container import GenericDataContainer
+    from ansys.dpf.core.workflow import Workflow
 
 
 class workflow_to_workflow_topology(Operator):
