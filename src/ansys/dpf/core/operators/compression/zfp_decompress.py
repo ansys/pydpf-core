@@ -15,8 +15,6 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
-# For type checking
-
 
 class zfp_decompress(Operator):
     r"""zfp decompression using the information about compression written into

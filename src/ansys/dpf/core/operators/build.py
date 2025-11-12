@@ -244,6 +244,7 @@ def build_operator(
                 "definition_location": definition_location,
             }
         )
+    non_empty_annotation_import_list = bool(annotation_import_list)
 
     data = {
         "operator_name": operator_name,
@@ -253,6 +254,7 @@ def build_operator(
         "docstring": docstring,
         "specification_description": specification_description,
         "annotation_import_list": annotation_import_list,
+        "non_empty_annotation_import_list": non_empty_annotation_import_list,
         "input_pins": input_pins,
         "output_pins": output_pins,
         "outputs": len(output_pins) >= 1,

@@ -14,8 +14,6 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
-# For type checking
-
 
 class serialize_to_hdf5(Operator):
     r"""This operator is deprecated: use ‘hdf5::h5dpf::make_result_file’

@@ -78,8 +78,10 @@ class Input(Generic[T]):
 
         Parameters
         ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion, Enum,
-        Output, Outputs, Operator, os.PathLike
+        inpt : str, int, float, bool, list[float], list[int], dict, Operator, PropertyField, ScopingsContainer,
+        DataSources, UnitSystem, CyclicSupport, DataTree, Workflow, StreamsContainer, FieldsContainer, Field,
+        CustomTypeField, MeshedRegion, Any, GenericDataContainer, Scoping, StringField, MeshesContainer, ResultInfo,
+        TimeFreqSupport, Output, Outputs, os.PathLike, UnitSystem, Enum # noqa: E501
             Input of the operator.
 
         """
@@ -247,8 +249,10 @@ class _Inputs:
 
         Parameters
         ----------
-        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
-        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs, os.PathLike  # noqa: E501
+        inpt : str, int, float, bool, list[float], list[int], dict, Operator, PropertyField, ScopingsContainer,
+        DataSources, UnitSystem, CyclicSupport, DataTree, Workflow, StreamsContainer, FieldsContainer, Field,
+        CustomTypeField, MeshedRegion, Any, GenericDataContainer, Scoping, StringField, MeshesContainer, ResultInfo,
+        TimeFreqSupport, Output, Outputs, os.PathLike, UnitSystem, Enum # noqa: E501
             Input of the operator.
 
         """

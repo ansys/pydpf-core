@@ -14,8 +14,6 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
-# For type checking
-
 
 class for_each(Operator):
     r"""Allows to write a loop over a chunk of operators.

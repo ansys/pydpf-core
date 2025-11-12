@@ -14,8 +14,6 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
-# For type checking
-
 
 class merge_collections(Operator):
     r"""Merges a set of collections into a unique one.
