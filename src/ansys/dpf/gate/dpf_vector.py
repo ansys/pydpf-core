@@ -91,10 +91,11 @@ class DPFVectorBase:
         return self._modified and self.size > 0 # Updating is not necessary for an empty vector. Updating it can cause issue, see #2274
 
     def __del__(self):
-        try:
-            self.dpf_vector_api.dpf_vector_delete(self)
-        except:
-            pass
+        if hasattr(self, "_internal_obj"):
+            try:
+                self.dpf_vector_api.dpf_vector_delete(self)
+            except Exception as e:
+                raise e
 
 
 class DPFVectorInt(DPFVectorBase):
@@ -121,11 +122,11 @@ class DPFVectorInt(DPFVectorBase):
 
     def __del__(self):
         try:
-            if self._array:
+            if hasattr(self, "_array") and self._array:
                 self.dpf_vector_api.dpf_vector_int_free(self, self.internal_data, self.internal_size,
                                                         self.has_changed())
-        except:
-            pass
+        except Exception as e:
+            raise e
         super().__del__()
 
 
@@ -153,11 +154,11 @@ class DPFVectorDouble(DPFVectorBase):
 
     def __del__(self):
         try:
-            if self._array:
+            if hasattr(self, "_array") and self._array:
                 self.dpf_vector_api.dpf_vector_double_free(self, self.internal_data, self.internal_size,
                                                            self.has_changed())
-        except:
-            pass
+        except Exception as e:
+            raise e
         super().__del__()
 
 
@@ -221,8 +222,8 @@ class DPFVectorCustomType(DPFVectorBase):
             if self._array:
                 self.dpf_vector_api.dpf_vector_char_free(self, self.internal_data, self.size * self.type.itemsize,
                                                          self.has_changed())
-        except:
-            pass
+        except Exception as e:
+            raise e
         super().__del__()
 
 
@@ -246,8 +247,8 @@ class DPFVectorString(DPFVectorBase):
             if self._array:
                 self.dpf_vector_api.dpf_vector_char_ptr_free(self, self.internal_data, self.internal_size,
                                                              self.has_changed())
-        except:
-            pass
+        except Exception as e:
+            raise e
         super().__del__()
 
     def __len__(self):

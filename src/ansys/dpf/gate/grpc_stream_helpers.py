@@ -49,13 +49,13 @@ def _data_chunk_yielder(request, data, chunk_size=None, set_array=_set_array_to_
         try:
             if need_progress_bar:
                 bar.update(sent_length)
-        except:
-            pass
+        except Exception as e:
+            raise e
     try:
         if need_progress_bar:
             bar.finish()
-    except:
-        pass
+    except Exception as e:
+        raise e
 
 
 def dtype_to_array_type(dtype):
@@ -95,8 +95,8 @@ def _data_get_chunk_(dtype, service, np_array=True, get_array=lambda chunk: chun
             try:
                 if need_progress_bar:
                     bar.update(i)
-            except:
-                pass
+            except Exception as e:
+                raise e
 
     else:
         arr = []
@@ -106,13 +106,13 @@ def _data_get_chunk_(dtype, service, np_array=True, get_array=lambda chunk: chun
             try:
                 if need_progress_bar:
                     bar.update(len(arr))
-            except:
-                pass
+            except Exception as e:
+                raise e
     try:
         if need_progress_bar:
             bar.finish()
-    except:
-        pass
+    except Exception as e:
+        raise e
     return arr
 
 
