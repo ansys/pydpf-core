@@ -27,7 +27,7 @@ if TYPE_CHECKING:
 
 
 class element_centroids(Operator):
-    r"""Read/compute coordinate of the elemental centroids by calling the
+    r"""Read/compute coordinate of the mesh elemental centroids by calling the
     readers defined by the datasources.
 
 
@@ -125,7 +125,7 @@ class element_centroids(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Read/compute coordinate of the elemental centroids by calling the
+        description = r"""Read/compute coordinate of the mesh elemental centroids by calling the
 readers defined by the datasources.
 """
         spec = Specification(
