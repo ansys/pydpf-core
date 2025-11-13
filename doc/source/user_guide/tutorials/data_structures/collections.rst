@@ -52,7 +52,7 @@ First, we import the required modules and load a transient analysis result file 
     
     # Display basic model information
     print(f"Number of time steps: {len(model.metadata.time_freq_support.time_frequencies)}")
-    print(f"Available results: {list(model.metadata.result_info.available_results.keys())}")
+    print(f"Available results: {model.metadata.result_info.available_results}")
 
 Working with FieldsContainer
 -----------------------------
