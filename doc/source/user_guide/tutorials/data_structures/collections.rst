@@ -72,7 +72,7 @@ Let's extract displacement results for all time steps, which will automatically 
     # Display FieldsContainer information
     print(f"Type: {type(displacement_fc)}")
     print(f"Number of fields: {len(displacement_fc)}")
-    print(f"Labels: {displacement_fc.get_labels()}")
+    print(f"Labels: {displacement_fc.labels}")
     print(f"Available time sets: {list(displacement_fc.get_label_space(0).keys())}")
 
 Access Individual Fields in the Container
@@ -146,28 +146,22 @@ Let's create different node selections and organize them in a |ScopingsContainer
     
     # Create a ScopingsContainer
     scopings_container = dpf.ScopingsContainer()
-    
     # Set labels for different selections
     scopings_container.labels = ["selection_type"]
-    
-    # Create different node selections
-    
     # Selection 1: First 10 nodes
     first_nodes = dpf.Scoping(location=dpf.locations.nodal)
     first_nodes.ids = list(range(1, 11))
-    scopings_container.add_scoping({"selection_type": "first_ten"}, first_nodes)
-    
+    scopings_container.add_scoping(label_space={"selection_type": 0}, scoping=first_nodes)
     # Selection 2: Every 10th node (sample)
     all_node_ids = mesh.nodes.scoping.ids
-    every_tenth = dpf.Scoping(location=dpf.locations.nodal) 
+    every_tenth = dpf.Scoping(location=dpf.locations.nodal)
     every_tenth.ids = all_node_ids[::10]  # Every 10th node
-    scopings_container.add_scoping({"selection_type": "every_tenth"}, every_tenth)
-    
+    scopings_container.add_scoping(label_space={"selection_type": 1}, scoping=every_tenth)
     # Selection 3: Last 10 nodes
     last_nodes = dpf.Scoping(location=dpf.locations.nodal)
     last_nodes.ids = all_node_ids[-10:]
-    scopings_container.add_scoping({"selection_type": "last_ten"}, last_nodes)
-    
+    scopings_container.add_scoping(label_space={"selection_type": 2}, scoping=last_nodes)
+
     # Display ScopingsContainer information
     print(f"ScopingsContainer:")
     print(f"  Number of scopings: {len(scopings_container)}")
@@ -217,45 +211,38 @@ Let's create a |MeshesContainer| with mesh data for different analysis configura
 
     # Create a MeshesContainer
     meshes_container = dpf.MeshesContainer()
-    
+
     # Set labels for different mesh configurations
-    meshes_container.labels = ["configuration"]
-    
+    meshes_container.labels = ["variation"]
+
     # Get the original mesh
     original_mesh = model.metadata.meshed_region
-    
+
     # Add original mesh
-    meshes_container.add_mesh({"configuration": "original"}, original_mesh)
-    
+    meshes_container.add_mesh({"variation": 0}, original_mesh)
+
     # Create a modified mesh (example: subset of elements)
     # Get element scoping for first half of elements
     all_element_ids = original_mesh.elements.scoping.ids
     subset_element_ids = all_element_ids[:len(all_element_ids)//2]
-    
+
     # Create element scoping for subset
     element_scoping = dpf.Scoping(location=dpf.locations.elemental)
     element_scoping.ids = subset_element_ids
-    
+
     # Extract subset mesh using an operator
-    mesh_extract_op = dpf.operators.mesh.extract_skin()
+    mesh_extract_op = dpf.operators.mesh.from_scoping()
     mesh_extract_op.inputs.mesh(original_mesh)
-    mesh_extract_op.inputs.element_scoping(element_scoping)
+    mesh_extract_op.inputs.scoping(element_scoping)
     subset_mesh = mesh_extract_op.eval()
-    
+
     # Add subset mesh to container
-    meshes_container.add_mesh({"configuration": "subset"}, subset_mesh)
-    
+    meshes_container.add_mesh({"variation": 1}, subset_mesh)
+
     # Display MeshesContainer information
     print(f"MeshesContainer:")
     print(f"  Number of meshes: {len(meshes_container)}")
     print(f"  Labels: {meshes_container.labels}")
-    
-    # Show details of each mesh
-    for i, mesh in enumerate(meshes_container):
-        label_space = meshes_container.get_label_space(i)
-        print(f"  Mesh {i}: {label_space}")
-        print(f"    Nodes: {mesh.nodes.n_nodes}")
-        print(f"    Elements: {mesh.elements.n_elements}")
 
 Collection Operations and Iteration
 ------------------------------------
@@ -300,7 +287,7 @@ You can filter collections based on labels or criteria.
             print(f"  Location: {specific_field.location}")
     
     # Get scoping by selection criteria
-    first_ten_scoping = scopings_container.get_scoping({"selection_type": "first_ten"})
+    first_ten_scoping = scopings_container.get_scoping({"selection_type": 0})
     print(f"\nRetrieved 'first_ten' scoping:")
     print(f"  Size: {first_ten_scoping.size}")
     print(f"  First 5 IDs: {first_ten_scoping.ids[:5]}")
