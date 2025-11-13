@@ -306,7 +306,7 @@ Let's summarize the key concepts and best practices for working with DPF collect
     print(f"   - Purpose: Store multiple Field objects with labels")
     print(f"   - Common use: Results over time steps, frequencies, or load cases")
     print(f"   - Example size: {len(displacement_fc)} fields")
-    print(f"   - Labels: {displacement_fc.get_labels()}")
+    print(f"   - Labels: {displacement_fc.labels()}")
     
     print(f"\n2. ScopingsContainer:")
     print(f"   - Purpose: Store multiple Scoping objects (entity selections)")
