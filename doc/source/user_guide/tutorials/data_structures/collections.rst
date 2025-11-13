@@ -194,7 +194,7 @@ Use ScopingsContainer with Operators
     # Display information for each scoped result
     for i, field in enumerate(scoped_displacements):
         label_space = scoped_displacements.get_label_space(i)
-        max_displacement = max(field.data) if len(field.data) > 0 else 0
+        max_displacement = field.data.max()
         print(f"  Field {i}: {label_space} - {field.scoping.size} nodes, max displacement: {max_displacement:.6f}")
 
 Working with MeshesContainer
