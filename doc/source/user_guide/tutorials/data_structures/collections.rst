@@ -36,7 +36,7 @@ First, we import the required modules and load a transient analysis result file 
 .. jupyter-execute::
 
     # Import the ansys.dpf.core module
-    from ansys.dpf import core as dpf
+    import ansys.dpf.core as dpf
     
     # Import the examples module 
     from ansys.dpf.core import examples
