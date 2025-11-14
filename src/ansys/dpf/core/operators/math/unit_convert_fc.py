@@ -32,6 +32,7 @@ class unit_convert_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
+        FieldsContainer with converted units (inplace operation)
 
     Examples
     --------
@@ -93,7 +94,7 @@ class unit_convert_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""FieldsContainer with converted units (inplace operation)""",
                 ),
             },
         )
@@ -231,6 +232,8 @@ class OutputsUnitConvertFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        FieldsContainer with converted units (inplace operation)
 
         Returns
         -------

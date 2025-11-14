@@ -20,18 +20,21 @@ if TYPE_CHECKING:
 
 
 class change_location(Operator):
-    r"""change the location of a field.
+    r"""Changes the location property of a field without modifying the field
+    data.
 
 
     Inputs
     ------
     field: Field
+        Field whose location will be changed
     new_location: str
-        new location of the output field ex 'Nodal', 'ElementalNodal', 'Elemental'...
+        New location string for the field (e.g., 'Nodal', 'ElementalNodal', 'Elemental')
 
     Outputs
     -------
     field: Field
+        Field with the updated location property
 
     Examples
     --------
@@ -70,7 +73,8 @@ class change_location(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""change the location of a field.
+        description = r"""Changes the location property of a field without modifying the field
+data.
 """
         spec = Specification(
             description=description,
@@ -79,13 +83,13 @@ class change_location(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field whose location will be changed""",
                 ),
                 1: PinSpecification(
                     name="new_location",
                     type_names=["string"],
                     optional=False,
-                    document=r"""new location of the output field ex 'Nodal', 'ElementalNodal', 'Elemental'...""",
+                    document=r"""New location string for the field (e.g., 'Nodal', 'ElementalNodal', 'Elemental')""",
                 ),
             },
             map_output_pin_spec={
@@ -93,7 +97,7 @@ class change_location(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with the updated location property""",
                 ),
             },
         )
@@ -172,6 +176,8 @@ class InputsChangeLocation(_Inputs):
     def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
+        Field whose location will be changed
+
         Returns
         -------
         input:
@@ -191,7 +197,7 @@ class InputsChangeLocation(_Inputs):
     def new_location(self) -> Input[str]:
         r"""Allows to connect new_location input to the operator.
 
-        new location of the output field ex 'Nodal', 'ElementalNodal', 'Elemental'...
+        New location string for the field (e.g., 'Nodal', 'ElementalNodal', 'Elemental')
 
         Returns
         -------
@@ -231,6 +237,8 @@ class OutputsChangeLocation(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with the updated location property
 
         Returns
         -------

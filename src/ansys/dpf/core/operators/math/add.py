@@ -38,6 +38,7 @@ class add(Operator):
     Outputs
     -------
     field: Field
+        Field containing the element-wise sum of the two input fields
 
     Examples
     --------
@@ -113,7 +114,7 @@ use ‘inplace’ to reuse one of the fields.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field containing the element-wise sum of the two input fields""",
                 ),
             },
         )
@@ -251,6 +252,8 @@ class OutputsAdd(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field containing the element-wise sum of the two input fields
 
         Returns
         -------

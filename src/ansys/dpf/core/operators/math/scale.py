@@ -36,11 +36,12 @@ class scale(Operator):
     boolean: bool, optional
         Default is false. If set to true, output of scale is made dimensionless
     algorithm: int, optional
-        Default is 0 use mkl. If set to 1, don't
+        Algorithm selection: 0 (default) uses MKL for optimization, 1 uses standard loops
 
     Outputs
     -------
     field: Field
+        Field with scaled values (input_field * scale_factor)
 
     Examples
     --------
@@ -136,7 +137,7 @@ dimensionality
                     name="algorithm",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Default is 0 use mkl. If set to 1, don't""",
+                    document=r"""Algorithm selection: 0 (default) uses MKL for optimization, 1 uses standard loops""",
                 ),
             },
             map_output_pin_spec={
@@ -144,7 +145,7 @@ dimensionality
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with scaled values (input_field * scale_factor)""",
                 ),
             },
         )
@@ -294,7 +295,7 @@ class InputsScale(_Inputs):
     def algorithm(self) -> Input[int]:
         r"""Allows to connect algorithm input to the operator.
 
-        Default is 0 use mkl. If set to 1, don't
+        Algorithm selection: 0 (default) uses MKL for optimization, 1 uses standard loops
 
         Returns
         -------
@@ -344,6 +345,8 @@ class OutputsScale(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with scaled values (input_field * scale_factor)
 
         Returns
         -------

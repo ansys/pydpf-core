@@ -27,10 +27,12 @@ class forward_fields_container(Operator):
     Inputs
     ------
     fields: FieldsContainer or Field
+        FieldsContainer or field to forward
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Forwarded fields container (passthrough of input)
 
     Examples
     --------
@@ -73,7 +75,7 @@ class forward_fields_container(Operator):
                     name="fields",
                     type_names=["fields_container", "field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""FieldsContainer or field to forward""",
                 ),
             },
             map_output_pin_spec={
@@ -81,7 +83,7 @@ class forward_fields_container(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Forwarded fields container (passthrough of input)""",
                 ),
             },
         )
@@ -154,6 +156,8 @@ class InputsForwardFieldsContainer(_Inputs):
     def fields(self) -> Input[FieldsContainer | Field]:
         r"""Allows to connect fields input to the operator.
 
+        FieldsContainer or field to forward
+
         Returns
         -------
         input:
@@ -192,6 +196,8 @@ class OutputsForwardFieldsContainer(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Forwarded fields container (passthrough of input)
 
         Returns
         -------
