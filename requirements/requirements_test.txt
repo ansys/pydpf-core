@@ -4,7 +4,7 @@ graphviz==0.21
 imageio==2.37.0
 imageio-ffmpeg==0.6.0
 jinja2==3.1.6
-pypandoc_binary==1.15
+pypandoc_binary==1.16.2
 pytest==8.4.2
 pytest-cov==6.2.1
 pytest-order==1.3.0
