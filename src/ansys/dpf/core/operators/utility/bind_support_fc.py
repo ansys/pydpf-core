@@ -28,12 +28,14 @@ class bind_support_fc(Operator):
     Inputs
     ------
     fields_container: FieldsContainer
+        Fields container to which the support will be attached
     support: MeshedRegion or AbstractFieldSupport or TimeFreqSupport
-        Meshed region or a support of the field.
+        Meshed region, support, or time frequency support to attach to the fields container
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Fields container with the attached support
 
     Examples
     --------
@@ -81,7 +83,7 @@ class bind_support_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container to which the support will be attached""",
                 ),
                 1: PinSpecification(
                     name="support",
@@ -91,7 +93,7 @@ class bind_support_fc(Operator):
                         "time_freq_support",
                     ],
                     optional=False,
-                    document=r"""Meshed region or a support of the field.""",
+                    document=r"""Meshed region, support, or time frequency support to attach to the fields container""",
                 ),
             },
             map_output_pin_spec={
@@ -99,7 +101,7 @@ class bind_support_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container with the attached support""",
                 ),
             },
         )
@@ -178,6 +180,8 @@ class InputsBindSupportFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        Fields container to which the support will be attached
+
         Returns
         -------
         input:
@@ -197,7 +201,7 @@ class InputsBindSupportFc(_Inputs):
     def support(self) -> Input[MeshedRegion | TimeFreqSupport]:
         r"""Allows to connect support input to the operator.
 
-        Meshed region or a support of the field.
+        Meshed region, support, or time frequency support to attach to the fields container
 
         Returns
         -------
@@ -237,6 +241,8 @@ class OutputsBindSupportFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Fields container with the attached support
 
         Returns
         -------

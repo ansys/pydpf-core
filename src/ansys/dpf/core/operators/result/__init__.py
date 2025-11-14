@@ -4,6 +4,7 @@ from .acceleration_Y import acceleration_Y
 from .acceleration_Z import acceleration_Z
 from .accu_eqv_creep_strain import accu_eqv_creep_strain
 from .accu_eqv_plastic_strain import accu_eqv_plastic_strain
+from .acoustic_energy_density import acoustic_energy_density
 from .add_rigid_body_motion import add_rigid_body_motion
 from .add_rigid_body_motion_fc import add_rigid_body_motion_fc
 from .artificial_hourglass_energy import artificial_hourglass_energy
@@ -175,6 +176,7 @@ from .heat_flux_Z import heat_flux_Z
 from .hydrostatic_pressure import hydrostatic_pressure
 from .incremental_energy import incremental_energy
 from .initial_coordinates import initial_coordinates
+from .input_sound_power import input_sound_power
 from .interface_contact_area import interface_contact_area
 from .interface_contact_force import interface_contact_force
 from .interface_contact_mass import interface_contact_mass
@@ -243,6 +245,7 @@ from .normal_contact_force import normal_contact_force
 from .normal_contact_moment import normal_contact_moment
 from .num_surface_status_changes import num_surface_status_changes
 from .omega import omega
+from .output_sound_power import output_sound_power
 from .part_added_mass import part_added_mass
 from .part_eroded_internal_energy import part_eroded_internal_energy
 from .part_eroded_kinetic_energy import part_eroded_kinetic_energy
@@ -294,6 +297,7 @@ from .run import run
 from .smisc import smisc
 from .specific_heat import specific_heat
 from .spectrum_data import spectrum_data
+from .squared_l2norm_pressure import squared_l2norm_pressure
 from .state_variable import state_variable
 from .static_pressure import static_pressure
 from .stiffness_matrix_energy import stiffness_matrix_energy

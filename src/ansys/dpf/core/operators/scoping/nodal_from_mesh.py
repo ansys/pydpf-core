@@ -21,17 +21,18 @@ if TYPE_CHECKING:
 
 
 class nodal_from_mesh(Operator):
-    r"""Retrieves the nodal scoping of a given input mesh, which contains the
-    node IDs.
+    r"""Retrieves the nodal scoping from a mesh, containing all node IDs.
 
 
     Inputs
     ------
     mesh: MeshedRegion
+        Mesh from which to extract the nodal scoping
 
     Outputs
     -------
     mesh_scoping: Scoping
+        Scoping containing all node IDs in the mesh
 
     Examples
     --------
@@ -65,8 +66,7 @@ class nodal_from_mesh(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Retrieves the nodal scoping of a given input mesh, which contains the
-node IDs.
+        description = r"""Retrieves the nodal scoping from a mesh, containing all node IDs.
 """
         spec = Specification(
             description=description,
@@ -75,7 +75,7 @@ node IDs.
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Mesh from which to extract the nodal scoping""",
                 ),
             },
             map_output_pin_spec={
@@ -83,7 +83,7 @@ node IDs.
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Scoping containing all node IDs in the mesh""",
                 ),
             },
         )
@@ -156,6 +156,8 @@ class InputsNodalFromMesh(_Inputs):
     def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
+        Mesh from which to extract the nodal scoping
+
         Returns
         -------
         input:
@@ -194,6 +196,8 @@ class OutputsNodalFromMesh(_Outputs):
     @property
     def mesh_scoping(self) -> Output[Scoping]:
         r"""Allows to get mesh_scoping output of the operator
+
+        Scoping containing all node IDs in the mesh
 
         Returns
         -------
