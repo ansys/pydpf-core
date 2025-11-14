@@ -35,6 +35,7 @@ class norm(Operator):
     Outputs
     -------
     field: Field
+        Scalar field containing the Lp norm values for each element
 
     Examples
     --------
@@ -97,7 +98,7 @@ Lp=L2
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Scalar field containing the Lp norm values for each element""",
                 ),
             },
         )
@@ -233,6 +234,8 @@ class OutputsNorm(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Scalar field containing the Lp norm values for each element
 
         Returns
         -------
