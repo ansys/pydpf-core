@@ -21,16 +21,18 @@ if TYPE_CHECKING:
 
 
 class from_field(Operator):
-    r"""Returns the meshed region contained in the support of the mesh.
+    r"""Extracts the meshed region from the support of a field.
 
 
     Inputs
     ------
     field: Field
+        Field containing a mesh support
 
     Outputs
     -------
     mesh: MeshedRegion
+        Meshed region extracted from the field's support
 
     Examples
     --------
@@ -64,7 +66,7 @@ class from_field(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Returns the meshed region contained in the support of the mesh.
+        description = r"""Extracts the meshed region from the support of a field.
 """
         spec = Specification(
             description=description,
@@ -73,7 +75,7 @@ class from_field(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field containing a mesh support""",
                 ),
             },
             map_output_pin_spec={
@@ -81,7 +83,7 @@ class from_field(Operator):
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Meshed region extracted from the field's support""",
                 ),
             },
         )
@@ -152,6 +154,8 @@ class InputsFromField(_Inputs):
     def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
+        Field containing a mesh support
+
         Returns
         -------
         input:
@@ -190,6 +194,8 @@ class OutputsFromField(_Outputs):
     @property
     def mesh(self) -> Output[MeshedRegion]:
         r"""Allows to get mesh output of the operator
+
+        Meshed region extracted from the field's support
 
         Returns
         -------

@@ -11,6 +11,7 @@ from warnings import warn
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs
+from ansys.dpf.core.outputs import _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
@@ -22,19 +23,21 @@ if TYPE_CHECKING:
 
 class extract_field(Operator):
     r"""Extracts the fields at the indices defined in the vector (in 1) from the
-    fields container (in 0).
+    fields container (in 0). If a single index is provided, returns a field;
+    if multiple indices are provided, returns a fields container.
 
 
     Inputs
     ------
     fields_container: Field or FieldsContainer
-        if a field is in input, it is passed on as an output
+        Fields container or single field. If a field is provided, it is passed through as output
     indices: optional
-        Default is the first field
+        Indices of fields to extract. Default is [0] (first field). Single index returns a field, multiple indices return a fields container
 
     Outputs
     -------
-    field: Field
+    extracted: Field or FieldsContainer
+        Extracted field(s). Single index produces a field, multiple indices produce a fields container
 
     Examples
     --------
@@ -56,7 +59,7 @@ class extract_field(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_field = op.outputs.field()
+    >>> result_extracted = op.outputs.extracted()
     """
 
     _inputs: InputsExtractField
@@ -74,7 +77,8 @@ class extract_field(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Extracts the fields at the indices defined in the vector (in 1) from the
-fields container (in 0).
+fields container (in 0). If a single index is provided, returns a field;
+if multiple indices are provided, returns a fields container.
 """
         spec = Specification(
             description=description,
@@ -83,21 +87,22 @@ fields container (in 0).
                     name="fields_container",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""if a field is in input, it is passed on as an output""",
+                    document=r"""Fields container or single field. If a field is provided, it is passed through as output""",
                 ),
                 1: PinSpecification(
                     name="indices",
                     type_names=["vector<int32>"],
                     optional=True,
-                    document=r"""Default is the first field""",
+                    document=r"""Indices of fields to extract. Default is [0] (first field). Single index returns a field, multiple indices return a fields container""",
                 ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
-                    name="field",
-                    type_names=["field"],
+                    name="extracted",
+                    type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Extracted field(s). Single index produces a field, multiple indices produce a fields container""",
+                    aliases=["field"],
                 ),
             },
         )
@@ -174,7 +179,7 @@ class InputsExtractField(_Inputs):
     def fields_container(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        if a field is in input, it is passed on as an output
+        Fields container or single field. If a field is provided, it is passed through as output
 
         Returns
         -------
@@ -195,7 +200,7 @@ class InputsExtractField(_Inputs):
     def indices(self) -> Input:
         r"""Allows to connect indices input to the operator.
 
-        Default is the first field
+        Indices of fields to extract. Default is [0] (first field). Single index returns a field, multiple indices return a fields container
 
         Returns
         -------
@@ -222,28 +227,36 @@ class OutputsExtractField(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.extract_field()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_field = op.outputs.field()
+    >>> result_extracted = op.outputs.extracted()
     """
 
     def __init__(self, op: Operator):
         super().__init__(extract_field._spec().outputs, op)
-        self._field: Output[Field] = Output(extract_field._spec().output_pin(0), 0, op)
-        self._outputs.append(self._field)
+        self.extracted_as_field = Output(
+            _modify_output_spec_with_one_type(
+                extract_field._spec().output_pin(0), "field"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.extracted_as_field)
+        self.extracted_as_fields_container = Output(
+            _modify_output_spec_with_one_type(
+                extract_field._spec().output_pin(0), "fields_container"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.extracted_as_fields_container)
 
-    @property
-    def field(self) -> Output[Field]:
-        r"""Allows to get field output of the operator
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.extract_field()
-        >>> # Get the output from op.outputs. ...
-        >>> result_field = op.outputs.field()
-        """
-        return self._field
+    def __getattr__(self, name):
+        if name in ["field"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator extract_field: Output name "{name}" is deprecated in favor of "extracted".'
+                )
+            )
+            return self.extracted
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
