@@ -80,8 +80,6 @@ class mesh_to_graphics_edges(Operator):
             inputs_type=InputsMeshToGraphicsEdges,
             outputs_type=OutputsMeshToGraphicsEdges,
         )
-        self._inputs = InputsMeshToGraphicsEdges(self)
-        self._outputs = OutputsMeshToGraphicsEdges(self)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if include_mid_nodes is not None:

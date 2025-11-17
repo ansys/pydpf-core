@@ -81,8 +81,6 @@ class make_label_space(Operator):
             inputs_type=InputsMakeLabelSpace,
             outputs_type=OutputsMakeLabelSpace,
         )
-        self._inputs = InputsMakeLabelSpace(self)
-        self._outputs = OutputsMakeLabelSpace(self)
         if base_label is not None:
             self.inputs.base_label.connect(base_label)
         if label_name is not None:

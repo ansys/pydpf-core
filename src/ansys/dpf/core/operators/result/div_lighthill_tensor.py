@@ -115,8 +115,6 @@ class div_lighthill_tensor(Operator):
             inputs_type=InputsDivLighthillTensor,
             outputs_type=OutputsDivLighthillTensor,
         )
-        self._inputs = InputsDivLighthillTensor(self)
-        self._outputs = OutputsDivLighthillTensor(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

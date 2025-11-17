@@ -109,8 +109,6 @@ class elemental_heat_generation(Operator):
             inputs_type=InputsElementalHeatGeneration,
             outputs_type=OutputsElementalHeatGeneration,
         )
-        self._inputs = InputsElementalHeatGeneration(self)
-        self._outputs = OutputsElementalHeatGeneration(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

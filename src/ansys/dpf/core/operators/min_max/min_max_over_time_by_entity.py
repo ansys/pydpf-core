@@ -88,8 +88,6 @@ class min_max_over_time_by_entity(Operator):
             inputs_type=InputsMinMaxOverTimeByEntity,
             outputs_type=OutputsMinMaxOverTimeByEntity,
         )
-        self._inputs = InputsMinMaxOverTimeByEntity(self)
-        self._outputs = OutputsMinMaxOverTimeByEntity(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if compute_absolute_value is not None:

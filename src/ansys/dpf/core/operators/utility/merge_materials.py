@@ -61,8 +61,6 @@ class merge_materials(Operator):
             inputs_type=InputsMergeMaterials,
             outputs_type=OutputsMergeMaterials,
         )
-        self._inputs = InputsMergeMaterials(self)
-        self._outputs = OutputsMergeMaterials(self)
         if materials1 is not None:
             self.inputs.materials1.connect(materials1)
         if materials2 is not None:

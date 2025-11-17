@@ -65,8 +65,6 @@ class scoping_on_coordinates(Operator):
             inputs_type=InputsScopingOnCoordinates,
             outputs_type=OutputsScopingOnCoordinates,
         )
-        self._inputs = InputsScopingOnCoordinates(self)
-        self._outputs = OutputsScopingOnCoordinates(self)
         if coordinates is not None:
             self.inputs.coordinates.connect(coordinates)
         if mesh is not None:

@@ -76,8 +76,6 @@ class time_of_min_by_entity(Operator):
             inputs_type=InputsTimeOfMinByEntity,
             outputs_type=OutputsTimeOfMinByEntity,
         )
-        self._inputs = InputsTimeOfMinByEntity(self)
-        self._outputs = OutputsTimeOfMinByEntity(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if abs_value is not None:

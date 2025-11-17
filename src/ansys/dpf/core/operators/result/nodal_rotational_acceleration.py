@@ -109,8 +109,6 @@ class nodal_rotational_acceleration(Operator):
             inputs_type=InputsNodalRotationalAcceleration,
             outputs_type=OutputsNodalRotationalAcceleration,
         )
-        self._inputs = InputsNodalRotationalAcceleration(self)
-        self._outputs = OutputsNodalRotationalAcceleration(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

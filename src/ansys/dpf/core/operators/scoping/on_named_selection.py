@@ -88,8 +88,6 @@ class on_named_selection(Operator):
             inputs_type=InputsOnNamedSelection,
             outputs_type=OutputsOnNamedSelection,
         )
-        self._inputs = InputsOnNamedSelection(self)
-        self._outputs = OutputsOnNamedSelection(self)
         if requested_location is not None:
             self.inputs.requested_location.connect(requested_location)
         if named_selection_name is not None:

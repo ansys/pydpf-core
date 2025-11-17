@@ -114,8 +114,6 @@ class volume_fraction(Operator):
             inputs_type=InputsVolumeFraction,
             outputs_type=OutputsVolumeFraction,
         )
-        self._inputs = InputsVolumeFraction(self)
-        self._outputs = OutputsVolumeFraction(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

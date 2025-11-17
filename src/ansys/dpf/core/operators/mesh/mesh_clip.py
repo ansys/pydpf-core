@@ -91,8 +91,6 @@ class mesh_clip(Operator):
             inputs_type=InputsMeshClip,
             outputs_type=OutputsMeshClip,
         )
-        self._inputs = InputsMeshClip(self)
-        self._outputs = OutputsMeshClip(self)
         if field is not None:
             self.inputs.field.connect(field)
         if iso_value is not None:

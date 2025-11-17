@@ -88,8 +88,6 @@ class elemental_difference(Operator):
             inputs_type=InputsElementalDifference,
             outputs_type=OutputsElementalDifference,
         )
-        self._inputs = InputsElementalDifference(self)
-        self._outputs = OutputsElementalDifference(self)
         if field is not None:
             self.inputs.field.connect(field)
         if mesh_scoping is not None:

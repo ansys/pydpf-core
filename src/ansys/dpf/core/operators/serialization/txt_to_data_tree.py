@@ -60,8 +60,6 @@ class txt_to_data_tree(Operator):
             inputs_type=InputsTxtToDataTree,
             outputs_type=OutputsTxtToDataTree,
         )
-        self._inputs = InputsTxtToDataTree(self)
-        self._outputs = OutputsTxtToDataTree(self)
         if string_or_path is not None:
             self.inputs.string_or_path.connect(string_or_path)
 

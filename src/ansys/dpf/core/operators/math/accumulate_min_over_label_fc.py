@@ -69,8 +69,6 @@ class accumulate_min_over_label_fc(Operator):
             inputs_type=InputsAccumulateMinOverLabelFc,
             outputs_type=OutputsAccumulateMinOverLabelFc,
         )
-        self._inputs = InputsAccumulateMinOverLabelFc(self)
-        self._outputs = OutputsAccumulateMinOverLabelFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if label is not None:

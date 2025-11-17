@@ -72,8 +72,6 @@ class add_constant_fc(Operator):
             inputs_type=InputsAddConstantFc,
             outputs_type=OutputsAddConstantFc,
         )
-        self._inputs = InputsAddConstantFc(self)
-        self._outputs = OutputsAddConstantFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if weights is not None:

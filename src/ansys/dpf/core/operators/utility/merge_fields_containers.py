@@ -95,8 +95,6 @@ class merge_fields_containers(Operator):
             inputs_type=InputsMergeFieldsContainers,
             outputs_type=OutputsMergeFieldsContainers,
         )
-        self._inputs = InputsMergeFieldsContainers(self)
-        self._outputs = OutputsMergeFieldsContainers(self)
         if should_merge_named_selections is not None:
             self.inputs.should_merge_named_selections.connect(
                 should_merge_named_selections

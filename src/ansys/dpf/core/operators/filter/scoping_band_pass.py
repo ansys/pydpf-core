@@ -81,8 +81,6 @@ class scoping_band_pass(Operator):
             inputs_type=InputsScopingBandPass,
             outputs_type=OutputsScopingBandPass,
         )
-        self._inputs = InputsScopingBandPass(self)
-        self._outputs = OutputsScopingBandPass(self)
         if field is not None:
             self.inputs.field.connect(field)
         if min_threshold is not None:

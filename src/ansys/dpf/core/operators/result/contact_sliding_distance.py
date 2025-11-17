@@ -275,8 +275,6 @@ class contact_sliding_distance(Operator):
             inputs_type=InputsContactSlidingDistance,
             outputs_type=OutputsContactSlidingDistance,
         )
-        self._inputs = InputsContactSlidingDistance(self)
-        self._outputs = OutputsContactSlidingDistance(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

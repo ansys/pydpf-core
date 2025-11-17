@@ -81,8 +81,6 @@ class global_eroded_internal_energy(Operator):
             inputs_type=InputsGlobalErodedInternalEnergy,
             outputs_type=OutputsGlobalErodedInternalEnergy,
         )
-        self._inputs = InputsGlobalErodedInternalEnergy(self)
-        self._outputs = OutputsGlobalErodedInternalEnergy(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

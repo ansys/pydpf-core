@@ -89,8 +89,6 @@ class to_nodal_fc(Operator):
             inputs_type=InputsToNodalFc,
             outputs_type=OutputsToNodalFc,
         )
-        self._inputs = InputsToNodalFc(self)
-        self._outputs = OutputsToNodalFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

@@ -80,8 +80,6 @@ class remote_workflow_instantiate(Operator):
             inputs_type=InputsRemoteWorkflowInstantiate,
             outputs_type=OutputsRemoteWorkflowInstantiate,
         )
-        self._inputs = InputsRemoteWorkflowInstantiate(self)
-        self._outputs = OutputsRemoteWorkflowInstantiate(self)
         if workflow_to_send is not None:
             self.inputs.workflow_to_send.connect(workflow_to_send)
         if streams_to_remote is not None:

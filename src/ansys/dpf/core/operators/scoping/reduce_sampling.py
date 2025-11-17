@@ -64,8 +64,6 @@ class reduce_sampling(Operator):
             inputs_type=InputsReduceSampling,
             outputs_type=OutputsReduceSampling,
         )
-        self._inputs = InputsReduceSampling(self)
-        self._outputs = OutputsReduceSampling(self)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if denominator is not None:

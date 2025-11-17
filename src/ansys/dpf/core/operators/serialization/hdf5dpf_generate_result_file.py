@@ -131,8 +131,6 @@ class hdf5dpf_generate_result_file(Operator):
             inputs_type=InputsHdf5DpfGenerateResultFile,
             outputs_type=OutputsHdf5DpfGenerateResultFile,
         )
-        self._inputs = InputsHdf5DpfGenerateResultFile(self)
-        self._outputs = OutputsHdf5DpfGenerateResultFile(self)
         if h5_chunk_size is not None:
             self.inputs.h5_chunk_size.connect(h5_chunk_size)
         if append_mode is not None:

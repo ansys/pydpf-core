@@ -85,8 +85,6 @@ class for_each(Operator):
             inputs_type=InputsForEach,
             outputs_type=OutputsForEach,
         )
-        self._inputs = InputsForEach(self)
-        self._outputs = OutputsForEach(self)
         if iterable is not None:
             self.inputs.iterable.connect(iterable)
         if iterable_values is not None:

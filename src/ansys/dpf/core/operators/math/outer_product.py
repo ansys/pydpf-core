@@ -66,8 +66,6 @@ class outer_product(Operator):
             inputs_type=InputsOuterProduct,
             outputs_type=OutputsOuterProduct,
         )
-        self._inputs = InputsOuterProduct(self)
-        self._outputs = OutputsOuterProduct(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

@@ -78,8 +78,6 @@ class fft_gradient_eval(Operator):
             inputs_type=InputsFftGradientEval,
             outputs_type=OutputsFftGradientEval,
         )
-        self._inputs = InputsFftGradientEval(self)
-        self._outputs = OutputsFftGradientEval(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if time_scoping is not None:

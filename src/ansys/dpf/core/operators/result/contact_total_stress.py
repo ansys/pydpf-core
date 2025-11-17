@@ -275,8 +275,6 @@ class contact_total_stress(Operator):
             inputs_type=InputsContactTotalStress,
             outputs_type=OutputsContactTotalStress,
         )
-        self._inputs = InputsContactTotalStress(self)
-        self._outputs = OutputsContactTotalStress(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

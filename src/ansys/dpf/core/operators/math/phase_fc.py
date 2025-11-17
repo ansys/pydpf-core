@@ -59,8 +59,6 @@ class phase_fc(Operator):
             inputs_type=InputsPhaseFc,
             outputs_type=OutputsPhaseFc,
         )
-        self._inputs = InputsPhaseFc(self)
-        self._outputs = OutputsPhaseFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

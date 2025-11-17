@@ -77,8 +77,6 @@ class component_selector(Operator):
             inputs_type=InputsComponentSelector,
             outputs_type=OutputsComponentSelector,
         )
-        self._inputs = InputsComponentSelector(self)
-        self._outputs = OutputsComponentSelector(self)
         if field is not None:
             self.inputs.field.connect(field)
         if component_number is not None:

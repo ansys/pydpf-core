@@ -84,8 +84,6 @@ class elemental_mean(Operator):
             inputs_type=InputsElementalMean,
             outputs_type=OutputsElementalMean,
         )
-        self._inputs = InputsElementalMean(self)
-        self._outputs = OutputsElementalMean(self)
         if field is not None:
             self.inputs.field.connect(field)
         if collapse_shell_layers is not None:

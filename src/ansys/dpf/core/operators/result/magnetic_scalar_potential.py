@@ -109,8 +109,6 @@ class magnetic_scalar_potential(Operator):
             inputs_type=InputsMagneticScalarPotential,
             outputs_type=OutputsMagneticScalarPotential,
         )
-        self._inputs = InputsMagneticScalarPotential(self)
-        self._outputs = OutputsMagneticScalarPotential(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -115,8 +115,6 @@ class turbulent_kinetic_energy(Operator):
             inputs_type=InputsTurbulentKineticEnergy,
             outputs_type=OutputsTurbulentKineticEnergy,
         )
-        self._inputs = InputsTurbulentKineticEnergy(self)
-        self._outputs = OutputsTurbulentKineticEnergy(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

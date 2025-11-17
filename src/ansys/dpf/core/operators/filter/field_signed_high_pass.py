@@ -72,8 +72,6 @@ class field_signed_high_pass(Operator):
             inputs_type=InputsFieldSignedHighPass,
             outputs_type=OutputsFieldSignedHighPass,
         )
-        self._inputs = InputsFieldSignedHighPass(self)
-        self._outputs = OutputsFieldSignedHighPass(self)
         if field is not None:
             self.inputs.field.connect(field)
         if threshold is not None:

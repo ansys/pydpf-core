@@ -83,8 +83,6 @@ class elementary_data_selector(Operator):
             inputs_type=InputsElementaryDataSelector,
             outputs_type=OutputsElementaryDataSelector,
         )
-        self._inputs = InputsElementaryDataSelector(self)
-        self._outputs = OutputsElementaryDataSelector(self)
         if field is not None:
             self.inputs.field.connect(field)
         if elementary_data_index is not None:

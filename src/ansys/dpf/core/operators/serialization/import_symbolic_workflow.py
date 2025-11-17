@@ -66,8 +66,6 @@ class import_symbolic_workflow(Operator):
             inputs_type=InputsImportSymbolicWorkflow,
             outputs_type=OutputsImportSymbolicWorkflow,
         )
-        self._inputs = InputsImportSymbolicWorkflow(self)
-        self._outputs = OutputsImportSymbolicWorkflow(self)
         if string_or_path is not None:
             self.inputs.string_or_path.connect(string_or_path)
         if format is not None:

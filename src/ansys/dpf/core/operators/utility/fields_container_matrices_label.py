@@ -80,8 +80,6 @@ class fields_container_matrices_label(Operator):
             inputs_type=InputsFieldsContainerMatricesLabel,
             outputs_type=OutputsFieldsContainerMatricesLabel,
         )
-        self._inputs = InputsFieldsContainerMatricesLabel(self)
-        self._outputs = OutputsFieldsContainerMatricesLabel(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if label is not None:

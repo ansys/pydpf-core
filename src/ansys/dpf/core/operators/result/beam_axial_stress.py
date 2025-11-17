@@ -102,8 +102,6 @@ class beam_axial_stress(Operator):
             inputs_type=InputsBeamAxialStress,
             outputs_type=OutputsBeamAxialStress,
         )
-        self._inputs = InputsBeamAxialStress(self)
-        self._outputs = OutputsBeamAxialStress(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

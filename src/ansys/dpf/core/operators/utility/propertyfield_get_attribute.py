@@ -69,8 +69,6 @@ class propertyfield_get_attribute(Operator):
             inputs_type=InputsPropertyfieldGetAttribute,
             outputs_type=OutputsPropertyfieldGetAttribute,
         )
-        self._inputs = InputsPropertyfieldGetAttribute(self)
-        self._outputs = OutputsPropertyfieldGetAttribute(self)
         if property_field is not None:
             self.inputs.property_field.connect(property_field)
         if property_name is not None:

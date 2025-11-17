@@ -129,8 +129,6 @@ class magnetic_flux_density_X(Operator):
             inputs_type=InputsMagneticFluxDensityX,
             outputs_type=OutputsMagneticFluxDensityX,
         )
-        self._inputs = InputsMagneticFluxDensityX(self)
-        self._outputs = OutputsMagneticFluxDensityX(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -82,8 +82,6 @@ class accumulate_fc(Operator):
             inputs_type=InputsAccumulateFc,
             outputs_type=OutputsAccumulateFc,
         )
-        self._inputs = InputsAccumulateFc(self)
-        self._outputs = OutputsAccumulateFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if weights is not None:

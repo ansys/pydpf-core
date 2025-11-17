@@ -129,8 +129,6 @@ class stress_principal_1(Operator):
             inputs_type=InputsStressPrincipal1,
             outputs_type=OutputsStressPrincipal1,
         )
-        self._inputs = InputsStressPrincipal1(self)
-        self._outputs = OutputsStressPrincipal1(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

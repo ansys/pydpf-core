@@ -82,8 +82,6 @@ class timefreq_band_pass(Operator):
             inputs_type=InputsTimefreqBandPass,
             outputs_type=OutputsTimefreqBandPass,
         )
-        self._inputs = InputsTimefreqBandPass(self)
-        self._outputs = OutputsTimefreqBandPass(self)
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
         if min_threshold is not None:

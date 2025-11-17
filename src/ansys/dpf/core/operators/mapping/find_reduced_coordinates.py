@@ -85,8 +85,6 @@ class find_reduced_coordinates(Operator):
             inputs_type=InputsFindReducedCoordinates,
             outputs_type=OutputsFindReducedCoordinates,
         )
-        self._inputs = InputsFindReducedCoordinates(self)
-        self._outputs = OutputsFindReducedCoordinates(self)
         if coordinates is not None:
             self.inputs.coordinates.connect(coordinates)
         if mesh is not None:

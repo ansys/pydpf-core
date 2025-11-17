@@ -88,8 +88,6 @@ class part_momentum(Operator):
             inputs_type=InputsPartMomentum,
             outputs_type=OutputsPartMomentum,
         )
-        self._inputs = InputsPartMomentum(self)
-        self._outputs = OutputsPartMomentum(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

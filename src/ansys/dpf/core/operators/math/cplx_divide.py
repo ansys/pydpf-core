@@ -66,8 +66,6 @@ class cplx_divide(Operator):
             inputs_type=InputsCplxDivide,
             outputs_type=OutputsCplxDivide,
         )
-        self._inputs = InputsCplxDivide(self)
-        self._outputs = OutputsCplxDivide(self)
         if fields_containerA is not None:
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB is not None:

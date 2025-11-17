@@ -77,8 +77,6 @@ class set_attribute(Operator):
             inputs_type=InputsSetAttribute,
             outputs_type=OutputsSetAttribute,
         )
-        self._inputs = InputsSetAttribute(self)
-        self._outputs = OutputsSetAttribute(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if property_name is not None:

@@ -97,8 +97,6 @@ class hdf5dpf_workglow_provider(Operator):
             inputs_type=InputsHdf5DpfWorkglowProvider,
             outputs_type=OutputsHdf5DpfWorkglowProvider,
         )
-        self._inputs = InputsHdf5DpfWorkglowProvider(self)
-        self._outputs = OutputsHdf5DpfWorkglowProvider(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

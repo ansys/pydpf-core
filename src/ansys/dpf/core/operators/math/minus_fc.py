@@ -76,8 +76,6 @@ class minus_fc(Operator):
             inputs_type=InputsMinusFc,
             outputs_type=OutputsMinusFc,
         )
-        self._inputs = InputsMinusFc(self)
-        self._outputs = OutputsMinusFc(self)
         if field_or_fields_container_A is not None:
             self.inputs.field_or_fields_container_A.connect(field_or_fields_container_A)
         if field_or_fields_container_B is not None:

@@ -80,8 +80,6 @@ class normals_provider_nl(Operator):
             inputs_type=InputsNormalsProviderNl,
             outputs_type=OutputsNormalsProviderNl,
         )
-        self._inputs = InputsNormalsProviderNl(self)
-        self._outputs = OutputsNormalsProviderNl(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if mesh_scoping is not None:

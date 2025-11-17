@@ -70,8 +70,6 @@ class deserializer(Operator):
             inputs_type=InputsDeserializer,
             outputs_type=OutputsDeserializer,
         )
-        self._inputs = InputsDeserializer(self)
-        self._outputs = OutputsDeserializer(self)
         if stream_type is not None:
             self.inputs.stream_type.connect(stream_type)
         if file_path is not None:

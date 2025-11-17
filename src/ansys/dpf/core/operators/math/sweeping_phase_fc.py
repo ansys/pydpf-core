@@ -84,8 +84,6 @@ class sweeping_phase_fc(Operator):
             inputs_type=InputsSweepingPhaseFc,
             outputs_type=OutputsSweepingPhaseFc,
         )
-        self._inputs = InputsSweepingPhaseFc(self)
-        self._outputs = OutputsSweepingPhaseFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if angle is not None:

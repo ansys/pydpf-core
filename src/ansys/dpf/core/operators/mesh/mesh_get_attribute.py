@@ -79,8 +79,6 @@ class mesh_get_attribute(Operator):
             inputs_type=InputsMeshGetAttribute,
             outputs_type=OutputsMeshGetAttribute,
         )
-        self._inputs = InputsMeshGetAttribute(self)
-        self._outputs = OutputsMeshGetAttribute(self)
         if abstract_meshed_region is not None:
             self.inputs.abstract_meshed_region.connect(abstract_meshed_region)
         if property_name is not None:

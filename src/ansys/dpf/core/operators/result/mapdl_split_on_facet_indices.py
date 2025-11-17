@@ -105,8 +105,6 @@ class mapdl_split_on_facet_indices(Operator):
             inputs_type=InputsMapdlSplitOnFacetIndices,
             outputs_type=OutputsMapdlSplitOnFacetIndices,
         )
-        self._inputs = InputsMapdlSplitOnFacetIndices(self)
-        self._outputs = OutputsMapdlSplitOnFacetIndices(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if property_field_new_elements_to_old is not None:

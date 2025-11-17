@@ -129,8 +129,6 @@ class heat_flux_Y(Operator):
             inputs_type=InputsHeatFluxY,
             outputs_type=OutputsHeatFluxY,
         )
-        self._inputs = InputsHeatFluxY(self)
-        self._outputs = OutputsHeatFluxY(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -97,8 +97,6 @@ class sweeping_phase(Operator):
             inputs_type=InputsSweepingPhase,
             outputs_type=OutputsSweepingPhase,
         )
-        self._inputs = InputsSweepingPhase(self)
-        self._outputs = OutputsSweepingPhase(self)
         if real_field is not None:
             self.inputs.real_field.connect(real_field)
         if imaginary_field is not None:

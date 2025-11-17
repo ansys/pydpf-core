@@ -62,8 +62,6 @@ class sqrt_fc(Operator):
             inputs_type=InputsSqrtFc,
             outputs_type=OutputsSqrtFc,
         )
-        self._inputs = InputsSqrtFc(self)
-        self._outputs = OutputsSqrtFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

@@ -88,8 +88,6 @@ class property_field_provider_by_name(Operator):
             inputs_type=InputsPropertyFieldProviderByName,
             outputs_type=OutputsPropertyFieldProviderByName,
         )
-        self._inputs = InputsPropertyFieldProviderByName(self)
-        self._outputs = OutputsPropertyFieldProviderByName(self)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if streams_container is not None:

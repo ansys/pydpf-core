@@ -251,8 +251,6 @@ class thermal_strains_eqv(Operator):
             inputs_type=InputsThermalStrainsEqv,
             outputs_type=OutputsThermalStrainsEqv,
         )
-        self._inputs = InputsThermalStrainsEqv(self)
-        self._outputs = OutputsThermalStrainsEqv(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

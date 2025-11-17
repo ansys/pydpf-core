@@ -65,8 +65,6 @@ class pres_to_field(Operator):
             inputs_type=InputsPresToField,
             outputs_type=OutputsPresToField,
         )
-        self._inputs = InputsPresToField(self)
-        self._outputs = OutputsPresToField(self)
         if filepath is not None:
             self.inputs.filepath.connect(filepath)
         if columns_to_read is not None:

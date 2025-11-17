@@ -63,8 +63,6 @@ class window_welch(Operator):
             inputs_type=InputsWindowWelch,
             outputs_type=OutputsWindowWelch,
         )
-        self._inputs = InputsWindowWelch(self)
-        self._outputs = OutputsWindowWelch(self)
         if field is not None:
             self.inputs.field.connect(field)
 

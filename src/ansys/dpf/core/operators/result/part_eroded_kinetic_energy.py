@@ -88,8 +88,6 @@ class part_eroded_kinetic_energy(Operator):
             inputs_type=InputsPartErodedKineticEnergy,
             outputs_type=OutputsPartErodedKineticEnergy,
         )
-        self._inputs = InputsPartErodedKineticEnergy(self)
-        self._outputs = OutputsPartErodedKineticEnergy(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

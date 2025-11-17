@@ -97,8 +97,6 @@ class on_property(Operator):
             inputs_type=InputsOnProperty,
             outputs_type=OutputsOnProperty,
         )
-        self._inputs = InputsOnProperty(self)
-        self._outputs = OutputsOnProperty(self)
         if requested_location is not None:
             self.inputs.requested_location.connect(requested_location)
         if property_name is not None:

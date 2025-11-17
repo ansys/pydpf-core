@@ -65,8 +65,6 @@ class incremental_concatenate_as_fc(Operator):
             inputs_type=InputsIncrementalConcatenateAsFc,
             outputs_type=OutputsIncrementalConcatenateAsFc,
         )
-        self._inputs = InputsIncrementalConcatenateAsFc(self)
-        self._outputs = OutputsIncrementalConcatenateAsFc(self)
         if field is not None:
             self.inputs.field.connect(field)
         if label is not None:

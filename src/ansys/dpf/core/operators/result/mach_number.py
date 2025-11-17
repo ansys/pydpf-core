@@ -114,8 +114,6 @@ class mach_number(Operator):
             inputs_type=InputsMachNumber,
             outputs_type=OutputsMachNumber,
         )
-        self._inputs = InputsMachNumber(self)
-        self._outputs = OutputsMachNumber(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

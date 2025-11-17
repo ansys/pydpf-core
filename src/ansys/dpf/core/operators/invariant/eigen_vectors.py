@@ -61,8 +61,6 @@ class eigen_vectors(Operator):
             inputs_type=InputsEigenVectors,
             outputs_type=OutputsEigenVectors,
         )
-        self._inputs = InputsEigenVectors(self)
-        self._outputs = OutputsEigenVectors(self)
         if field is not None:
             self.inputs.field.connect(field)
 

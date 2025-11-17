@@ -86,8 +86,6 @@ class kmeans_clustering(Operator):
             inputs_type=InputsKmeansClustering,
             outputs_type=OutputsKmeansClustering,
         )
-        self._inputs = InputsKmeansClustering(self)
-        self._outputs = OutputsKmeansClustering(self)
         if clusters_number is not None:
             self.inputs.clusters_number.connect(clusters_number)
         if formula is not None:

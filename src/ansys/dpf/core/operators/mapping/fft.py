@@ -105,8 +105,6 @@ class fft(Operator):
             inputs_type=InputsFft,
             outputs_type=OutputsFft,
         )
-        self._inputs = InputsFft(self)
-        self._outputs = OutputsFft(self)
         if field is not None:
             self.inputs.field.connect(field)
         if scale_forward_transform is not None:

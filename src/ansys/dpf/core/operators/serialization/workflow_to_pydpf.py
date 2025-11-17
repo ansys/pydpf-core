@@ -65,8 +65,6 @@ class workflow_to_pydpf(Operator):
             inputs_type=InputsWorkflowToPydpf,
             outputs_type=OutputsWorkflowToPydpf,
         )
-        self._inputs = InputsWorkflowToPydpf(self)
-        self._outputs = OutputsWorkflowToPydpf(self)
         if workflow is not None:
             self.inputs.workflow.connect(workflow)
         if output_path is not None:

@@ -69,8 +69,6 @@ class boundary_condition_provider(Operator):
             inputs_type=InputsBoundaryConditionProvider,
             outputs_type=OutputsBoundaryConditionProvider,
         )
-        self._inputs = InputsBoundaryConditionProvider(self)
-        self._outputs = OutputsBoundaryConditionProvider(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

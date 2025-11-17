@@ -148,8 +148,6 @@ class members_in_linear_compression_bending_not_certified(Operator):
             inputs_type=InputsMembersInLinearCompressionBendingNotCertified,
             outputs_type=OutputsMembersInLinearCompressionBendingNotCertified,
         )
-        self._inputs = InputsMembersInLinearCompressionBendingNotCertified(self)
-        self._outputs = OutputsMembersInLinearCompressionBendingNotCertified(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if field_yield_strength is not None:

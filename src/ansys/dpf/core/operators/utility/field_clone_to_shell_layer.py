@@ -80,8 +80,6 @@ class field_clone_to_shell_layer(Operator):
             inputs_type=InputsFieldCloneToShellLayer,
             outputs_type=OutputsFieldCloneToShellLayer,
         )
-        self._inputs = InputsFieldCloneToShellLayer(self)
-        self._outputs = OutputsFieldCloneToShellLayer(self)
         if field is not None:
             self.inputs.field.connect(field)
         if shell_layer is not None:

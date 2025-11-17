@@ -66,8 +66,6 @@ class pow_fc(Operator):
             inputs_type=InputsPowFc,
             outputs_type=OutputsPowFc,
         )
-        self._inputs = InputsPowFc(self)
-        self._outputs = OutputsPowFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if factor is not None:

@@ -62,8 +62,6 @@ class exponential(Operator):
             inputs_type=InputsExponential,
             outputs_type=OutputsExponential,
         )
-        self._inputs = InputsExponential(self)
-        self._outputs = OutputsExponential(self)
         if field is not None:
             self.inputs.field.connect(field)
 

@@ -90,8 +90,6 @@ class expansion_psd(Operator):
             inputs_type=InputsExpansionPsd,
             outputs_type=OutputsExpansionPsd,
         )
-        self._inputs = InputsExpansionPsd(self)
-        self._outputs = OutputsExpansionPsd(self)
         if mode_shapes is not None:
             self.inputs.mode_shapes.connect(mode_shapes)
         if static_shapes is not None:

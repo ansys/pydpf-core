@@ -63,8 +63,6 @@ class min_max_by_entity(Operator):
             inputs_type=InputsMinMaxByEntity,
             outputs_type=OutputsMinMaxByEntity,
         )
-        self._inputs = InputsMinMaxByEntity(self)
-        self._outputs = OutputsMinMaxByEntity(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

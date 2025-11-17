@@ -100,8 +100,6 @@ class scalars_to_field(Operator):
             inputs_type=InputsScalarsToField,
             outputs_type=OutputsScalarsToField,
         )
-        self._inputs = InputsScalarsToField(self)
-        self._outputs = OutputsScalarsToField(self)
         if double_or_vector_double is not None:
             self.inputs.double_or_vector_double.connect(double_or_vector_double)
         if unit is not None:

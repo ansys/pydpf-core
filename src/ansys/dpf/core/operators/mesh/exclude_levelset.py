@@ -63,8 +63,6 @@ class exclude_levelset(Operator):
             inputs_type=InputsExcludeLevelset,
             outputs_type=OutputsExcludeLevelset,
         )
-        self._inputs = InputsExcludeLevelset(self)
-        self._outputs = OutputsExcludeLevelset(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

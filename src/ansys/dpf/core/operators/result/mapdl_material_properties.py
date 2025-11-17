@@ -94,8 +94,6 @@ class mapdl_material_properties(Operator):
             inputs_type=InputsMapdlMaterialProperties,
             outputs_type=OutputsMapdlMaterialProperties,
         )
-        self._inputs = InputsMapdlMaterialProperties(self)
-        self._outputs = OutputsMapdlMaterialProperties(self)
         if properties_name is not None:
             self.inputs.properties_name.connect(properties_name)
         if materials is not None:

@@ -108,8 +108,6 @@ class input_sound_power(Operator):
             inputs_type=InputsInputSoundPower,
             outputs_type=OutputsInputSoundPower,
         )
-        self._inputs = InputsInputSoundPower(self)
-        self._outputs = OutputsInputSoundPower(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

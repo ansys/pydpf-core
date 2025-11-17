@@ -57,8 +57,6 @@ class server_path(Operator):
             inputs_type=InputsServerPath,
             outputs_type=OutputsServerPath,
         )
-        self._inputs = InputsServerPath(self)
-        self._outputs = OutputsServerPath(self)
         if subpath is not None:
             self.inputs.subpath.connect(subpath)
 

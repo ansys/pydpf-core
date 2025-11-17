@@ -62,8 +62,6 @@ class ln(Operator):
             inputs_type=InputsLn,
             outputs_type=OutputsLn,
         )
-        self._inputs = InputsLn(self)
-        self._outputs = OutputsLn(self)
         if field is not None:
             self.inputs.field.connect(field)
 

@@ -70,8 +70,6 @@ class mesh_selection_manager_provider(Operator):
             inputs_type=InputsMeshSelectionManagerProvider,
             outputs_type=OutputsMeshSelectionManagerProvider,
         )
-        self._inputs = InputsMeshSelectionManagerProvider(self)
-        self._outputs = OutputsMeshSelectionManagerProvider(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

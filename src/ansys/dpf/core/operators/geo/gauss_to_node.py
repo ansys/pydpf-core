@@ -74,8 +74,6 @@ class gauss_to_node(Operator):
             inputs_type=InputsGaussToNode,
             outputs_type=OutputsGaussToNode,
         )
-        self._inputs = InputsGaussToNode(self)
-        self._outputs = OutputsGaussToNode(self)
         if field is not None:
             self.inputs.field.connect(field)
         if scoping is not None:

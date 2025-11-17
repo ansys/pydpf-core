@@ -73,8 +73,6 @@ class cross_product_fc(Operator):
             inputs_type=InputsCrossProductFc,
             outputs_type=OutputsCrossProductFc,
         )
-        self._inputs = InputsCrossProductFc(self)
-        self._outputs = OutputsCrossProductFc(self)
         if field_or_fields_container_A is not None:
             self.inputs.field_or_fields_container_A.connect(field_or_fields_container_A)
         if field_or_fields_container_B is not None:

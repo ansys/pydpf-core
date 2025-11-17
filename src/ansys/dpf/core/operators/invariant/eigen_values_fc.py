@@ -60,8 +60,6 @@ class eigen_values_fc(Operator):
             inputs_type=InputsEigenValuesFc,
             outputs_type=OutputsEigenValuesFc,
         )
-        self._inputs = InputsEigenValuesFc(self)
-        self._outputs = OutputsEigenValuesFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

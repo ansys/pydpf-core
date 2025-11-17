@@ -71,8 +71,6 @@ class min_max_inc(Operator):
             inputs_type=InputsMinMaxInc,
             outputs_type=OutputsMinMaxInc,
         )
-        self._inputs = InputsMinMaxInc(self)
-        self._outputs = OutputsMinMaxInc(self)
         if field is not None:
             self.inputs.field.connect(field)
         if domain_id is not None:

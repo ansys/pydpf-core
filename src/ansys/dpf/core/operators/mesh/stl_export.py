@@ -64,8 +64,6 @@ class stl_export(Operator):
             inputs_type=InputsStlExport,
             outputs_type=OutputsStlExport,
         )
-        self._inputs = InputsStlExport(self)
-        self._outputs = OutputsStlExport(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if file_path is not None:

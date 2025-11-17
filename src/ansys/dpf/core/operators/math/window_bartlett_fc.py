@@ -61,8 +61,6 @@ class window_bartlett_fc(Operator):
             inputs_type=InputsWindowBartlettFc,
             outputs_type=OutputsWindowBartlettFc,
         )
-        self._inputs = InputsWindowBartlettFc(self)
-        self._outputs = OutputsWindowBartlettFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

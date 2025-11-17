@@ -123,8 +123,6 @@ class gasket_inelastic_closure_XZ(Operator):
             inputs_type=InputsGasketInelasticClosureXz,
             outputs_type=OutputsGasketInelasticClosureXz,
         )
-        self._inputs = InputsGasketInelasticClosureXz(self)
-        self._outputs = OutputsGasketInelasticClosureXz(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

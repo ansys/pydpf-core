@@ -119,8 +119,6 @@ class force_summation(Operator):
             inputs_type=InputsForceSummation,
             outputs_type=OutputsForceSummation,
         )
-        self._inputs = InputsForceSummation(self)
-        self._outputs = OutputsForceSummation(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if nodal_scoping is not None:

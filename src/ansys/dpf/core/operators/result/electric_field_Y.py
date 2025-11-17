@@ -129,8 +129,6 @@ class electric_field_Y(Operator):
             inputs_type=InputsElectricFieldY,
             outputs_type=OutputsElectricFieldY,
         )
-        self._inputs = InputsElectricFieldY(self)
-        self._outputs = OutputsElectricFieldY(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -69,8 +69,6 @@ class accumulate_over_label_fc(Operator):
             inputs_type=InputsAccumulateOverLabelFc,
             outputs_type=OutputsAccumulateOverLabelFc,
         )
-        self._inputs = InputsAccumulateOverLabelFc(self)
-        self._outputs = OutputsAccumulateOverLabelFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if label is not None:

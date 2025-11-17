@@ -96,8 +96,6 @@ class compute_stress_Y(Operator):
             inputs_type=InputsComputeStressY,
             outputs_type=OutputsComputeStressY,
         )
-        self._inputs = InputsComputeStressY(self)
-        self._outputs = OutputsComputeStressY(self)
         if scoping is not None:
             self.inputs.scoping.connect(scoping)
         if streams_container is not None:

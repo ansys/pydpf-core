@@ -119,8 +119,6 @@ class vtu_export(Operator):
             inputs_type=InputsVtuExport,
             outputs_type=OutputsVtuExport,
         )
-        self._inputs = InputsVtuExport(self)
-        self._outputs = OutputsVtuExport(self)
         if directory is not None:
             self.inputs.directory.connect(directory)
         if base_name is not None:

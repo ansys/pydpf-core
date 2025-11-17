@@ -79,8 +79,6 @@ class tri_mesh_skin(Operator):
             inputs_type=InputsTriMeshSkin,
             outputs_type=OutputsTriMeshSkin,
         )
-        self._inputs = InputsTriMeshSkin(self)
-        self._outputs = OutputsTriMeshSkin(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if include_surfaces is not None:

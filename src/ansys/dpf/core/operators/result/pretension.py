@@ -125,8 +125,6 @@ class pretension(Operator):
             inputs_type=InputsPretension,
             outputs_type=OutputsPretension,
         )
-        self._inputs = InputsPretension(self)
-        self._outputs = OutputsPretension(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

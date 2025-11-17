@@ -76,8 +76,6 @@ class enrich_materials(Operator):
             inputs_type=InputsEnrichMaterials,
             outputs_type=OutputsEnrichMaterials,
         )
-        self._inputs = InputsEnrichMaterials(self)
-        self._outputs = OutputsEnrichMaterials(self)
         if MaterialContainer is not None:
             self.inputs.MaterialContainer.connect(MaterialContainer)
         if streams is not None:

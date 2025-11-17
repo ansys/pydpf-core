@@ -82,8 +82,6 @@ class serializer(Operator):
             inputs_type=InputsSerializer,
             outputs_type=OutputsSerializer,
         )
-        self._inputs = InputsSerializer(self)
-        self._outputs = OutputsSerializer(self)
         if stream_type is not None:
             self.inputs.stream_type.connect(stream_type)
         if file_path is not None:

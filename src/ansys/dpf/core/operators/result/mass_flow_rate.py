@@ -114,8 +114,6 @@ class mass_flow_rate(Operator):
             inputs_type=InputsMassFlowRate,
             outputs_type=OutputsMassFlowRate,
         )
-        self._inputs = InputsMassFlowRate(self)
-        self._outputs = OutputsMassFlowRate(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

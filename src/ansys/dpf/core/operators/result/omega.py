@@ -115,8 +115,6 @@ class omega(Operator):
             inputs_type=InputsOmega,
             outputs_type=OutputsOmega,
         )
-        self._inputs = InputsOmega(self)
-        self._outputs = OutputsOmega(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

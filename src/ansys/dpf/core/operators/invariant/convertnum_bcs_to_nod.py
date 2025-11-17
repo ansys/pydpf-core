@@ -68,8 +68,6 @@ class convertnum_bcs_to_nod(Operator):
             inputs_type=InputsConvertnumBcsToNod,
             outputs_type=OutputsConvertnumBcsToNod,
         )
-        self._inputs = InputsConvertnumBcsToNod(self)
-        self._outputs = OutputsConvertnumBcsToNod(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if data_sources is not None:

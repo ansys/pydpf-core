@@ -85,8 +85,6 @@ class to_nodal(Operator):
             inputs_type=InputsToNodal,
             outputs_type=OutputsToNodal,
         )
-        self._inputs = InputsToNodal(self)
-        self._outputs = OutputsToNodal(self)
         if field is not None:
             self.inputs.field.connect(field)
         if mesh_scoping is not None:

@@ -67,8 +67,6 @@ class cross_product(Operator):
             inputs_type=InputsCrossProduct,
             outputs_type=OutputsCrossProduct,
         )
-        self._inputs = InputsCrossProduct(self)
-        self._outputs = OutputsCrossProduct(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

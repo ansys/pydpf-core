@@ -70,8 +70,6 @@ class time_freq_provider(Operator):
             inputs_type=InputsTimeFreqProvider,
             outputs_type=OutputsTimeFreqProvider,
         )
-        self._inputs = InputsTimeFreqProvider(self)
-        self._outputs = OutputsTimeFreqProvider(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

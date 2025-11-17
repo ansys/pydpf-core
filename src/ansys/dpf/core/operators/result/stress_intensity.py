@@ -128,8 +128,6 @@ class stress_intensity(Operator):
             inputs_type=InputsStressIntensity,
             outputs_type=OutputsStressIntensity,
         )
-        self._inputs = InputsStressIntensity(self)
-        self._outputs = OutputsStressIntensity(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

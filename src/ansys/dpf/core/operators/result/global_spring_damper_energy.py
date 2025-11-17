@@ -81,8 +81,6 @@ class global_spring_damper_energy(Operator):
             inputs_type=InputsGlobalSpringDamperEnergy,
             outputs_type=OutputsGlobalSpringDamperEnergy,
         )
-        self._inputs = InputsGlobalSpringDamperEnergy(self)
-        self._outputs = OutputsGlobalSpringDamperEnergy(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

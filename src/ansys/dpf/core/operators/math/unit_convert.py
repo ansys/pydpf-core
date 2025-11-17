@@ -72,8 +72,6 @@ class unit_convert(Operator):
             inputs_type=InputsUnitConvert,
             outputs_type=OutputsUnitConvert,
         )
-        self._inputs = InputsUnitConvert(self)
-        self._outputs = OutputsUnitConvert(self)
         if entity_to_convert is not None:
             self.inputs.entity_to_convert.connect(entity_to_convert)
         if unit_name is not None:

@@ -84,8 +84,6 @@ class identical_fc(Operator):
             inputs_type=InputsIdenticalFc,
             outputs_type=OutputsIdenticalFc,
         )
-        self._inputs = InputsIdenticalFc(self)
-        self._outputs = OutputsIdenticalFc(self)
         if fields_containerA is not None:
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB is not None:

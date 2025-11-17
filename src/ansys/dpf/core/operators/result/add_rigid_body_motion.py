@@ -88,8 +88,6 @@ class add_rigid_body_motion(Operator):
             inputs_type=InputsAddRigidBodyMotion,
             outputs_type=OutputsAddRigidBodyMotion,
         )
-        self._inputs = InputsAddRigidBodyMotion(self)
-        self._outputs = OutputsAddRigidBodyMotion(self)
         if displacement_field is not None:
             self.inputs.displacement_field.connect(displacement_field)
         if translation_field is not None:

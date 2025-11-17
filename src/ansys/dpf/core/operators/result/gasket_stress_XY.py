@@ -123,8 +123,6 @@ class gasket_stress_XY(Operator):
             inputs_type=InputsGasketStressXy,
             outputs_type=OutputsGasketStressXy,
         )
-        self._inputs = InputsGasketStressXy(self)
-        self._outputs = OutputsGasketStressXy(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

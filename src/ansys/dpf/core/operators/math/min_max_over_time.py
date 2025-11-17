@@ -66,8 +66,6 @@ class min_max_over_time(Operator):
             inputs_type=InputsMinMaxOverTime,
             outputs_type=OutputsMinMaxOverTime,
         )
-        self._inputs = InputsMinMaxOverTime(self)
-        self._outputs = OutputsMinMaxOverTime(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if int32 is not None:

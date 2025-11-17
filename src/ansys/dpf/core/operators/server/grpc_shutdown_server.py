@@ -57,8 +57,6 @@ class grpc_shutdown_server(Operator):
             inputs_type=InputsGrpcShutdownServer,
             outputs_type=OutputsGrpcShutdownServer,
         )
-        self._inputs = InputsGrpcShutdownServer(self)
-        self._outputs = OutputsGrpcShutdownServer(self)
         if grpc_stream is not None:
             self.inputs.grpc_stream.connect(grpc_stream)
 

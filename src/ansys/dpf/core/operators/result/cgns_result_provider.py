@@ -100,8 +100,6 @@ class cgns_result_provider(Operator):
             inputs_type=InputsCgnsResultProvider,
             outputs_type=OutputsCgnsResultProvider,
         )
-        self._inputs = InputsCgnsResultProvider(self)
-        self._outputs = OutputsCgnsResultProvider(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

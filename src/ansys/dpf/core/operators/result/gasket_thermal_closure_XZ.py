@@ -123,8 +123,6 @@ class gasket_thermal_closure_XZ(Operator):
             inputs_type=InputsGasketThermalClosureXz,
             outputs_type=OutputsGasketThermalClosureXz,
         )
-        self._inputs = InputsGasketThermalClosureXz(self)
-        self._outputs = OutputsGasketThermalClosureXz(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

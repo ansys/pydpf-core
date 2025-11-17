@@ -88,8 +88,6 @@ class part_internal_energy(Operator):
             inputs_type=InputsPartInternalEnergy,
             outputs_type=OutputsPartInternalEnergy,
         )
-        self._inputs = InputsPartInternalEnergy(self)
-        self._outputs = OutputsPartInternalEnergy(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

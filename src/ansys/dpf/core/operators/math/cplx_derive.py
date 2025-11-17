@@ -59,8 +59,6 @@ class cplx_derive(Operator):
             inputs_type=InputsCplxDerive,
             outputs_type=OutputsCplxDerive,
         )
-        self._inputs = InputsCplxDerive(self)
-        self._outputs = OutputsCplxDerive(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

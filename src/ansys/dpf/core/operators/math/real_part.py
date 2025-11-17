@@ -60,8 +60,6 @@ class real_part(Operator):
             inputs_type=InputsRealPart,
             outputs_type=OutputsRealPart,
         )
-        self._inputs = InputsRealPart(self)
-        self._outputs = OutputsRealPart(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

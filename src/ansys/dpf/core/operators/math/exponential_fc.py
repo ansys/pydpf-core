@@ -61,8 +61,6 @@ class exponential_fc(Operator):
             inputs_type=InputsExponentialFc,
             outputs_type=OutputsExponentialFc,
         )
-        self._inputs = InputsExponentialFc(self)
-        self._outputs = OutputsExponentialFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

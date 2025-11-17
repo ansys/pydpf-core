@@ -69,8 +69,6 @@ class add_fc(Operator):
             inputs_type=InputsAddFc,
             outputs_type=OutputsAddFc,
         )
-        self._inputs = InputsAddFc(self)
-        self._outputs = OutputsAddFc(self)
         if fields_container1 is not None:
             self.inputs.fields_container1.connect(fields_container1)
         if fields_container2 is not None:

@@ -89,8 +89,6 @@ class scale(Operator):
             inputs_type=InputsScale,
             outputs_type=OutputsScale,
         )
-        self._inputs = InputsScale(self)
-        self._outputs = OutputsScale(self)
         if field is not None:
             self.inputs.field.connect(field)
         if weights is not None:

@@ -63,8 +63,6 @@ class sqrt(Operator):
             inputs_type=InputsSqrt,
             outputs_type=OutputsSqrt,
         )
-        self._inputs = InputsSqrt(self)
-        self._outputs = OutputsSqrt(self)
         if field is not None:
             self.inputs.field.connect(field)
 

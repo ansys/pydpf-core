@@ -67,8 +67,6 @@ class dot_tensor(Operator):
             inputs_type=InputsDotTensor,
             outputs_type=OutputsDotTensor,
         )
-        self._inputs = InputsDotTensor(self)
-        self._outputs = OutputsDotTensor(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

@@ -69,8 +69,6 @@ class rigid_transformation(Operator):
             inputs_type=InputsRigidTransformation,
             outputs_type=OutputsRigidTransformation,
         )
-        self._inputs = InputsRigidTransformation(self)
-        self._outputs = OutputsRigidTransformation(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

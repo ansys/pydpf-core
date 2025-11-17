@@ -67,8 +67,6 @@ class extend_to_mid_nodes(Operator):
             inputs_type=InputsExtendToMidNodes,
             outputs_type=OutputsExtendToMidNodes,
         )
-        self._inputs = InputsExtendToMidNodes(self)
-        self._outputs = OutputsExtendToMidNodes(self)
         if field is not None:
             self.inputs.field.connect(field)
         if mesh is not None:

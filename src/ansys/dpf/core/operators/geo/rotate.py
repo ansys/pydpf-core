@@ -68,8 +68,6 @@ class rotate(Operator):
             inputs_type=InputsRotate,
             outputs_type=OutputsRotate,
         )
-        self._inputs = InputsRotate(self)
-        self._outputs = OutputsRotate(self)
         if field is not None:
             self.inputs.field.connect(field)
         if field_rotation_matrix is not None:

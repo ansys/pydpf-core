@@ -109,8 +109,6 @@ class magnetic_vector_potential(Operator):
             inputs_type=InputsMagneticVectorPotential,
             outputs_type=OutputsMagneticVectorPotential,
         )
-        self._inputs = InputsMagneticVectorPotential(self)
-        self._outputs = OutputsMagneticVectorPotential(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

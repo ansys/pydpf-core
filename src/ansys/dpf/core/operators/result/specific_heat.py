@@ -114,8 +114,6 @@ class specific_heat(Operator):
             inputs_type=InputsSpecificHeat,
             outputs_type=OutputsSpecificHeat,
         )
-        self._inputs = InputsSpecificHeat(self)
-        self._outputs = OutputsSpecificHeat(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -88,8 +88,6 @@ class transpose(Operator):
             inputs_type=InputsTranspose,
             outputs_type=OutputsTranspose,
         )
-        self._inputs = InputsTranspose(self)
-        self._outputs = OutputsTranspose(self)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if meshed_region is not None:

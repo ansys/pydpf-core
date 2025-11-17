@@ -69,8 +69,6 @@ class material_property_of_element(Operator):
             inputs_type=InputsMaterialPropertyOfElement,
             outputs_type=OutputsMaterialPropertyOfElement,
         )
-        self._inputs = InputsMaterialPropertyOfElement(self)
-        self._outputs = OutputsMaterialPropertyOfElement(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

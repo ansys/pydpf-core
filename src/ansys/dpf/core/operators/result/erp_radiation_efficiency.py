@@ -92,8 +92,6 @@ class erp_radiation_efficiency(Operator):
             inputs_type=InputsErpRadiationEfficiency,
             outputs_type=OutputsErpRadiationEfficiency,
         )
-        self._inputs = InputsErpRadiationEfficiency(self)
-        self._outputs = OutputsErpRadiationEfficiency(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

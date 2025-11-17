@@ -109,8 +109,6 @@ class joint_relative_angular_velocity(Operator):
             inputs_type=InputsJointRelativeAngularVelocity,
             outputs_type=OutputsJointRelativeAngularVelocity,
         )
-        self._inputs = InputsJointRelativeAngularVelocity(self)
-        self._outputs = OutputsJointRelativeAngularVelocity(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

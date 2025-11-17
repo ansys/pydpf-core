@@ -68,8 +68,6 @@ class cms_matrices_provider(Operator):
             inputs_type=InputsCmsMatricesProvider,
             outputs_type=OutputsCmsMatricesProvider,
         )
-        self._inputs = InputsCmsMatricesProvider(self)
-        self._outputs = OutputsCmsMatricesProvider(self)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
         if matrix_form is not None:

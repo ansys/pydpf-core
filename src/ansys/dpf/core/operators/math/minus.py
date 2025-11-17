@@ -70,8 +70,6 @@ class minus(Operator):
             inputs_type=InputsMinus,
             outputs_type=OutputsMinus,
         )
-        self._inputs = InputsMinus(self)
-        self._outputs = OutputsMinus(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

@@ -90,8 +90,6 @@ class mesh_cut(Operator):
             inputs_type=InputsMeshCut,
             outputs_type=OutputsMeshCut,
         )
-        self._inputs = InputsMeshCut(self)
-        self._outputs = OutputsMeshCut(self)
         if field is not None:
             self.inputs.field.connect(field)
         if iso_value is not None:

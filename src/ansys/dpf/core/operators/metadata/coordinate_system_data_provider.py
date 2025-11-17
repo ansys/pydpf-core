@@ -82,8 +82,6 @@ class coordinate_system_data_provider(Operator):
             inputs_type=InputsCoordinateSystemDataProvider,
             outputs_type=OutputsCoordinateSystemDataProvider,
         )
-        self._inputs = InputsCoordinateSystemDataProvider(self)
-        self._outputs = OutputsCoordinateSystemDataProvider(self)
         if solver_coordinate_system_ids is not None:
             self.inputs.solver_coordinate_system_ids.connect(
                 solver_coordinate_system_ids

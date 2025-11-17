@@ -77,8 +77,6 @@ class remove_unnecessary_labels(Operator):
             inputs_type=InputsRemoveUnnecessaryLabels,
             outputs_type=OutputsRemoveUnnecessaryLabels,
         )
-        self._inputs = InputsRemoveUnnecessaryLabels(self)
-        self._outputs = OutputsRemoveUnnecessaryLabels(self)
         if permissive is not None:
             self.inputs.permissive.connect(permissive)
         if fields_container is not None:

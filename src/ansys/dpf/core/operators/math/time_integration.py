@@ -89,8 +89,6 @@ class time_integration(Operator):
             inputs_type=InputsTimeIntegration,
             outputs_type=OutputsTimeIntegration,
         )
-        self._inputs = InputsTimeIntegration(self)
-        self._outputs = OutputsTimeIntegration(self)
         if field is not None:
             self.inputs.field.connect(field)
         if resample_output is not None:

@@ -67,8 +67,6 @@ class identical_string_fields(Operator):
             inputs_type=InputsIdenticalStringFields,
             outputs_type=OutputsIdenticalStringFields,
         )
-        self._inputs = InputsIdenticalStringFields(self)
-        self._outputs = OutputsIdenticalStringFields(self)
         if string_fieldA is not None:
             self.inputs.string_fieldA.connect(string_fieldA)
         if string_fieldB is not None:

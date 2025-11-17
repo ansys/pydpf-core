@@ -62,8 +62,6 @@ class operator_changelog(Operator):
             inputs_type=InputsOperatorChangelog,
             outputs_type=OutputsOperatorChangelog,
         )
-        self._inputs = InputsOperatorChangelog(self)
-        self._outputs = OutputsOperatorChangelog(self)
         if operator_name is not None:
             self.inputs.operator_name.connect(operator_name)
 

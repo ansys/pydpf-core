@@ -62,8 +62,6 @@ class cos(Operator):
             inputs_type=InputsCos,
             outputs_type=OutputsCos,
         )
-        self._inputs = InputsCos(self)
-        self._outputs = OutputsCos(self)
         if field is not None:
             self.inputs.field.connect(field)
 

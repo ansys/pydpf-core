@@ -102,8 +102,6 @@ class mesh_provider(Operator):
             inputs_type=InputsMeshProvider,
             outputs_type=OutputsMeshProvider,
         )
-        self._inputs = InputsMeshProvider(self)
-        self._outputs = OutputsMeshProvider(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if streams_container is not None:

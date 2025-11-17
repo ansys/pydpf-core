@@ -81,8 +81,6 @@ class global_sliding_interface_energy(Operator):
             inputs_type=InputsGlobalSlidingInterfaceEnergy,
             outputs_type=OutputsGlobalSlidingInterfaceEnergy,
         )
-        self._inputs = InputsGlobalSlidingInterfaceEnergy(self)
-        self._outputs = OutputsGlobalSlidingInterfaceEnergy(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

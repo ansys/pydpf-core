@@ -97,8 +97,6 @@ class element_types_provider(Operator):
             inputs_type=InputsElementTypesProvider,
             outputs_type=OutputsElementTypesProvider,
         )
-        self._inputs = InputsElementTypesProvider(self)
-        self._outputs = OutputsElementTypesProvider(self)
         if solver_element_types_ids is not None:
             self.inputs.solver_element_types_ids.connect(solver_element_types_ids)
         if streams is not None:

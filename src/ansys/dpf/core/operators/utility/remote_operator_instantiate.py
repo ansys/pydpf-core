@@ -92,8 +92,6 @@ class remote_operator_instantiate(Operator):
             inputs_type=InputsRemoteOperatorInstantiate,
             outputs_type=OutputsRemoteOperatorInstantiate,
         )
-        self._inputs = InputsRemoteOperatorInstantiate(self)
-        self._outputs = OutputsRemoteOperatorInstantiate(self)
         if operator_to_send is not None:
             self.inputs.operator_to_send.connect(operator_to_send)
         if output_pin is not None:

@@ -63,8 +63,6 @@ class entity_extractor(Operator):
             inputs_type=InputsEntityExtractor,
             outputs_type=OutputsEntityExtractor,
         )
-        self._inputs = InputsEntityExtractor(self)
-        self._outputs = OutputsEntityExtractor(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if scalar_int is not None:

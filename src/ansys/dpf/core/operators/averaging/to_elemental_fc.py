@@ -101,8 +101,6 @@ class to_elemental_fc(Operator):
             inputs_type=InputsToElementalFc,
             outputs_type=OutputsToElementalFc,
         )
-        self._inputs = InputsToElementalFc(self)
-        self._outputs = OutputsToElementalFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

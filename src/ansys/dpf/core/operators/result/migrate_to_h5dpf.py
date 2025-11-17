@@ -133,8 +133,6 @@ class migrate_to_h5dpf(Operator):
             inputs_type=InputsMigrateToH5Dpf,
             outputs_type=OutputsMigrateToH5Dpf,
         )
-        self._inputs = InputsMigrateToH5Dpf(self)
-        self._outputs = OutputsMigrateToH5Dpf(self)
         if h5_chunk_size is not None:
             self.inputs.h5_chunk_size.connect(h5_chunk_size)
         if dataset_size_compression_threshold is not None:

@@ -68,8 +68,6 @@ class fft_eval(Operator):
             inputs_type=InputsFftEval,
             outputs_type=OutputsFftEval,
         )
-        self._inputs = InputsFftEval(self)
-        self._outputs = OutputsFftEval(self)
         if field_t is not None:
             self.inputs.field_t.connect(field_t)
         if time_scoping is not None:

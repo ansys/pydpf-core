@@ -74,8 +74,6 @@ class field_to_csv(Operator):
             inputs_type=InputsFieldToCsv,
             outputs_type=OutputsFieldToCsv,
         )
-        self._inputs = InputsFieldToCsv(self)
-        self._outputs = OutputsFieldToCsv(self)
         if field_or_fields_container is not None:
             self.inputs.field_or_fields_container.connect(field_or_fields_container)
         if file_path is not None:

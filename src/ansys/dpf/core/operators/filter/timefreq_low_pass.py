@@ -81,8 +81,6 @@ class timefreq_low_pass(Operator):
             inputs_type=InputsTimefreqLowPass,
             outputs_type=OutputsTimefreqLowPass,
         )
-        self._inputs = InputsTimefreqLowPass(self)
-        self._outputs = OutputsTimefreqLowPass(self)
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
         if threshold is not None:

@@ -115,8 +115,6 @@ class thermal_conductivity(Operator):
             inputs_type=InputsThermalConductivity,
             outputs_type=OutputsThermalConductivity,
         )
-        self._inputs = InputsThermalConductivity(self)
-        self._outputs = OutputsThermalConductivity(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

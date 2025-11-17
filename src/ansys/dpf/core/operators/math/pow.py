@@ -66,8 +66,6 @@ class pow(Operator):
             inputs_type=InputsPow,
             outputs_type=OutputsPow,
         )
-        self._inputs = InputsPow(self)
-        self._outputs = OutputsPow(self)
         if field is not None:
             self.inputs.field.connect(field)
         if factor is not None:

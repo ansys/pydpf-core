@@ -62,8 +62,6 @@ class sqr(Operator):
             inputs_type=InputsSqr,
             outputs_type=OutputsSqr,
         )
-        self._inputs = InputsSqr(self)
-        self._outputs = OutputsSqr(self)
         if field is not None:
             self.inputs.field.connect(field)
 

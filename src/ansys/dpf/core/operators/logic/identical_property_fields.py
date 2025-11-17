@@ -67,8 +67,6 @@ class identical_property_fields(Operator):
             inputs_type=InputsIdenticalPropertyFields,
             outputs_type=OutputsIdenticalPropertyFields,
         )
-        self._inputs = InputsIdenticalPropertyFields(self)
-        self._outputs = OutputsIdenticalPropertyFields(self)
         if property_fieldA is not None:
             self.inputs.property_fieldA.connect(property_fieldA)
         if property_fieldB is not None:

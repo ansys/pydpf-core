@@ -89,8 +89,6 @@ class identical_meshes(Operator):
             inputs_type=InputsIdenticalMeshes,
             outputs_type=OutputsIdenticalMeshes,
         )
-        self._inputs = InputsIdenticalMeshes(self)
-        self._outputs = OutputsIdenticalMeshes(self)
         if meshA is not None:
             self.inputs.meshA.connect(meshA)
         if meshB is not None:

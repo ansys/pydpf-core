@@ -275,8 +275,6 @@ class elastic_strain(Operator):
             inputs_type=InputsElasticStrain,
             outputs_type=OutputsElasticStrain,
         )
-        self._inputs = InputsElasticStrain(self)
-        self._outputs = OutputsElasticStrain(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

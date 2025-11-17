@@ -96,8 +96,6 @@ class beam_t_shear_force(Operator):
             inputs_type=InputsBeamTShearForce,
             outputs_type=OutputsBeamTShearForce,
         )
-        self._inputs = InputsBeamTShearForce(self)
-        self._outputs = OutputsBeamTShearForce(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

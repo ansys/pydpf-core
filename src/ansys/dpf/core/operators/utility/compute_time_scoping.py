@@ -88,8 +88,6 @@ class compute_time_scoping(Operator):
             inputs_type=InputsComputeTimeScoping,
             outputs_type=OutputsComputeTimeScoping,
         )
-        self._inputs = InputsComputeTimeScoping(self)
-        self._outputs = OutputsComputeTimeScoping(self)
         if time_freq_values is not None:
             self.inputs.time_freq_values.connect(time_freq_values)
         if step is not None:

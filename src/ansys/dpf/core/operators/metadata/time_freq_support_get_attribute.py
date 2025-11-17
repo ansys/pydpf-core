@@ -86,8 +86,6 @@ class time_freq_support_get_attribute(Operator):
             inputs_type=InputsTimeFreqSupportGetAttribute,
             outputs_type=OutputsTimeFreqSupportGetAttribute,
         )
-        self._inputs = InputsTimeFreqSupportGetAttribute(self)
-        self._outputs = OutputsTimeFreqSupportGetAttribute(self)
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
         if property_name is not None:

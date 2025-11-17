@@ -61,8 +61,6 @@ class eigen_values(Operator):
             inputs_type=InputsEigenValues,
             outputs_type=OutputsEigenValues,
         )
-        self._inputs = InputsEigenValues(self)
-        self._outputs = OutputsEigenValues(self)
         if field is not None:
             self.inputs.field.connect(field)
 

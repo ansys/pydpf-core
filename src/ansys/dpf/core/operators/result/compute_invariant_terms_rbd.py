@@ -168,8 +168,6 @@ class compute_invariant_terms_rbd(Operator):
             inputs_type=InputsComputeInvariantTermsRbd,
             outputs_type=OutputsComputeInvariantTermsRbd,
         )
-        self._inputs = InputsComputeInvariantTermsRbd(self)
-        self._outputs = OutputsComputeInvariantTermsRbd(self)
         if rom_matrices is not None:
             self.inputs.rom_matrices.connect(rom_matrices)
         if mode_shapes is not None:

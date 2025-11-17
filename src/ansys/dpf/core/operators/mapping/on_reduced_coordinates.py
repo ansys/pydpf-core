@@ -93,8 +93,6 @@ class on_reduced_coordinates(Operator):
             inputs_type=InputsOnReducedCoordinates,
             outputs_type=OutputsOnReducedCoordinates,
         )
-        self._inputs = InputsOnReducedCoordinates(self)
-        self._outputs = OutputsOnReducedCoordinates(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if reduced_coordinates is not None:

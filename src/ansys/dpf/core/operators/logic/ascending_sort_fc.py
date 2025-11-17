@@ -79,8 +79,6 @@ class ascending_sort_fc(Operator):
             inputs_type=InputsAscendingSortFc,
             outputs_type=OutputsAscendingSortFc,
         )
-        self._inputs = InputsAscendingSortFc(self)
-        self._outputs = OutputsAscendingSortFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if component_priority_table is not None:

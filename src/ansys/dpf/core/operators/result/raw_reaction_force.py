@@ -109,8 +109,6 @@ class raw_reaction_force(Operator):
             inputs_type=InputsRawReactionForce,
             outputs_type=OutputsRawReactionForce,
         )
-        self._inputs = InputsRawReactionForce(self)
-        self._outputs = OutputsRawReactionForce(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

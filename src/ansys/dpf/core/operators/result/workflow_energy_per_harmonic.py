@@ -91,8 +91,6 @@ class workflow_energy_per_harmonic(Operator):
             inputs_type=InputsWorkflowEnergyPerHarmonic,
             outputs_type=OutputsWorkflowEnergyPerHarmonic,
         )
-        self._inputs = InputsWorkflowEnergyPerHarmonic(self)
-        self._outputs = OutputsWorkflowEnergyPerHarmonic(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -95,8 +95,6 @@ class mesh_property_provider(Operator):
             inputs_type=InputsMeshPropertyProvider,
             outputs_type=OutputsMeshPropertyProvider,
         )
-        self._inputs = InputsMeshPropertyProvider(self)
-        self._outputs = OutputsMeshPropertyProvider(self)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if streams_container is not None:

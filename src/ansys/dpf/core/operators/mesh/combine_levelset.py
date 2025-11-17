@@ -63,8 +63,6 @@ class combine_levelset(Operator):
             inputs_type=InputsCombineLevelset,
             outputs_type=OutputsCombineLevelset,
         )
-        self._inputs = InputsCombineLevelset(self)
-        self._outputs = OutputsCombineLevelset(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

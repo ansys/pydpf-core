@@ -65,8 +65,6 @@ class wireframe(Operator):
             inputs_type=InputsWireframe,
             outputs_type=OutputsWireframe,
         )
-        self._inputs = InputsWireframe(self)
-        self._outputs = OutputsWireframe(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if threshold is not None:

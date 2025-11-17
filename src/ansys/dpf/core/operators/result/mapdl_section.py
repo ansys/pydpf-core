@@ -102,8 +102,6 @@ class mapdl_section(Operator):
             inputs_type=InputsMapdlSection,
             outputs_type=OutputsMapdlSection,
         )
-        self._inputs = InputsMapdlSection(self)
-        self._outputs = OutputsMapdlSection(self)
         if properties_name is not None:
             self.inputs.properties_name.connect(properties_name)
         if section is not None:

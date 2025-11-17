@@ -61,8 +61,6 @@ class matrix_inverse(Operator):
             inputs_type=InputsMatrixInverse,
             outputs_type=OutputsMatrixInverse,
         )
-        self._inputs = InputsMatrixInverse(self)
-        self._outputs = OutputsMatrixInverse(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

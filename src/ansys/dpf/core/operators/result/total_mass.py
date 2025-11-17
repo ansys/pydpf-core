@@ -61,8 +61,6 @@ class total_mass(Operator):
             inputs_type=InputsTotalMass,
             outputs_type=OutputsTotalMass,
         )
-        self._inputs = InputsTotalMass(self)
-        self._outputs = OutputsTotalMass(self)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
 

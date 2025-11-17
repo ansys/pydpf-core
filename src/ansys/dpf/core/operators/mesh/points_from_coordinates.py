@@ -67,8 +67,6 @@ class points_from_coordinates(Operator):
             inputs_type=InputsPointsFromCoordinates,
             outputs_type=OutputsPointsFromCoordinates,
         )
-        self._inputs = InputsPointsFromCoordinates(self)
-        self._outputs = OutputsPointsFromCoordinates(self)
         if nodes_to_keep is not None:
             self.inputs.nodes_to_keep.connect(nodes_to_keep)
         if mesh is not None:

@@ -88,8 +88,6 @@ class part_added_mass(Operator):
             inputs_type=InputsPartAddedMass,
             outputs_type=OutputsPartAddedMass,
         )
-        self._inputs = InputsPartAddedMass(self)
-        self._outputs = OutputsPartAddedMass(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

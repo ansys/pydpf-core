@@ -81,8 +81,6 @@ class global_energy_ratio(Operator):
             inputs_type=InputsGlobalEnergyRatio,
             outputs_type=OutputsGlobalEnergyRatio,
         )
-        self._inputs = InputsGlobalEnergyRatio(self)
-        self._outputs = OutputsGlobalEnergyRatio(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

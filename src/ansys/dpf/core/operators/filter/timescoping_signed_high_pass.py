@@ -79,8 +79,6 @@ class timescoping_signed_high_pass(Operator):
             inputs_type=InputsTimescopingSignedHighPass,
             outputs_type=OutputsTimescopingSignedHighPass,
         )
-        self._inputs = InputsTimescopingSignedHighPass(self)
-        self._outputs = OutputsTimescopingSignedHighPass(self)
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
         if threshold is not None:

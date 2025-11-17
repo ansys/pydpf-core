@@ -81,8 +81,6 @@ class global_energy_ratio_wo_eroded(Operator):
             inputs_type=InputsGlobalEnergyRatioWoEroded,
             outputs_type=OutputsGlobalEnergyRatioWoEroded,
         )
-        self._inputs = InputsGlobalEnergyRatioWoEroded(self)
-        self._outputs = OutputsGlobalEnergyRatioWoEroded(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

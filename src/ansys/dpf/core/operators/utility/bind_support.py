@@ -68,8 +68,6 @@ class bind_support(Operator):
             inputs_type=InputsBindSupport,
             outputs_type=OutputsBindSupport,
         )
-        self._inputs = InputsBindSupport(self)
-        self._outputs = OutputsBindSupport(self)
         if field is not None:
             self.inputs.field.connect(field)
         if support is not None:

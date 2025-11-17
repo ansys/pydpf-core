@@ -109,8 +109,6 @@ class thermal_dissipation_energy(Operator):
             inputs_type=InputsThermalDissipationEnergy,
             outputs_type=OutputsThermalDissipationEnergy,
         )
-        self._inputs = InputsThermalDissipationEnergy(self)
-        self._outputs = OutputsThermalDissipationEnergy(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

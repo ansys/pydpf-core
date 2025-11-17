@@ -69,8 +69,6 @@ class norm_fc(Operator):
             inputs_type=InputsNormFc,
             outputs_type=OutputsNormFc,
         )
-        self._inputs = InputsNormFc(self)
-        self._outputs = OutputsNormFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if scalar_int is not None:

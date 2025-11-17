@@ -81,8 +81,6 @@ class global_total_mass(Operator):
             inputs_type=InputsGlobalTotalMass,
             outputs_type=OutputsGlobalTotalMass,
         )
-        self._inputs = InputsGlobalTotalMass(self)
-        self._outputs = OutputsGlobalTotalMass(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

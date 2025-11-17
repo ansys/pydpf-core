@@ -115,8 +115,6 @@ class displacement_Y(Operator):
             inputs_type=InputsDisplacementY,
             outputs_type=OutputsDisplacementY,
         )
-        self._inputs = InputsDisplacementY(self)
-        self._outputs = OutputsDisplacementY(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -163,8 +163,6 @@ class write_motion_dfmf_file(Operator):
             inputs_type=InputsWriteMotionDfmfFile,
             outputs_type=OutputsWriteMotionDfmfFile,
         )
-        self._inputs = InputsWriteMotionDfmfFile(self)
-        self._outputs = OutputsWriteMotionDfmfFile(self)
         if model_data is not None:
             self.inputs.model_data.connect(model_data)
         if mode_shapes is not None:

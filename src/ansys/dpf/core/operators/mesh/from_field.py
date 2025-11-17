@@ -62,8 +62,6 @@ class from_field(Operator):
             inputs_type=InputsFromField,
             outputs_type=OutputsFromField,
         )
-        self._inputs = InputsFromField(self)
-        self._outputs = OutputsFromField(self)
         if field is not None:
             self.inputs.field.connect(field)
 

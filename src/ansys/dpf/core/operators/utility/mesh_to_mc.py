@@ -66,8 +66,6 @@ class mesh_to_mc(Operator):
             inputs_type=InputsMeshToMc,
             outputs_type=OutputsMeshToMc,
         )
-        self._inputs = InputsMeshToMc(self)
-        self._outputs = OutputsMeshToMc(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if label is not None:

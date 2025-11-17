@@ -83,8 +83,6 @@ class serialize_to_hdf5(Operator):
             inputs_type=InputsSerializeToHdf5,
             outputs_type=OutputsSerializeToHdf5,
         )
-        self._inputs = InputsSerializeToHdf5(self)
-        self._outputs = OutputsSerializeToHdf5(self)
         if file_path is not None:
             self.inputs.file_path.connect(file_path)
         if export_floats is not None:

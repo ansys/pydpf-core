@@ -131,8 +131,6 @@ class elastic_strain_principal_2(Operator):
             inputs_type=InputsElasticStrainPrincipal2,
             outputs_type=OutputsElasticStrainPrincipal2,
         )
-        self._inputs = InputsElasticStrainPrincipal2(self)
-        self._outputs = OutputsElasticStrainPrincipal2(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -79,8 +79,6 @@ class elements_facets_surfaces_over_time(Operator):
             inputs_type=InputsElementsFacetsSurfacesOverTime,
             outputs_type=OutputsElementsFacetsSurfacesOverTime,
         )
-        self._inputs = InputsElementsFacetsSurfacesOverTime(self)
-        self._outputs = OutputsElementsFacetsSurfacesOverTime(self)
         if scoping is not None:
             self.inputs.scoping.connect(scoping)
         if displacement is not None:

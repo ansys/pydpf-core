@@ -67,8 +67,6 @@ class merge_data_tree(Operator):
             inputs_type=InputsMergeDataTree,
             outputs_type=OutputsMergeDataTree,
         )
-        self._inputs = InputsMergeDataTree(self)
-        self._outputs = OutputsMergeDataTree(self)
         if data_tree1 is not None:
             self.inputs.data_tree1.connect(data_tree1)
         if data_tree2 is not None:

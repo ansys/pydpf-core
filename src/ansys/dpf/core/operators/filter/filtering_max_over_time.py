@@ -84,8 +84,6 @@ class filtering_max_over_time(Operator):
             inputs_type=InputsFilteringMaxOverTime,
             outputs_type=OutputsFilteringMaxOverTime,
         )
-        self._inputs = InputsFilteringMaxOverTime(self)
-        self._outputs = OutputsFilteringMaxOverTime(self)
         if invariant_fc_operator is not None:
             self.inputs.invariant_fc_operator.connect(invariant_fc_operator)
         if output_pin is not None:

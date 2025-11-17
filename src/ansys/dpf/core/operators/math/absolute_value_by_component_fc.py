@@ -62,8 +62,6 @@ class absolute_value_by_component_fc(Operator):
             inputs_type=InputsAbsoluteValueByComponentFc,
             outputs_type=OutputsAbsoluteValueByComponentFc,
         )
-        self._inputs = InputsAbsoluteValueByComponentFc(self)
-        self._outputs = OutputsAbsoluteValueByComponentFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

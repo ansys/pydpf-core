@@ -76,8 +76,6 @@ class max_over_time_by_entity(Operator):
             inputs_type=InputsMaxOverTimeByEntity,
             outputs_type=OutputsMaxOverTimeByEntity,
         )
-        self._inputs = InputsMaxOverTimeByEntity(self)
-        self._outputs = OutputsMaxOverTimeByEntity(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if abs_value is not None:

@@ -83,8 +83,6 @@ class cyclic_mesh_expansion(Operator):
             inputs_type=InputsCyclicMeshExpansion,
             outputs_type=OutputsCyclicMeshExpansion,
         )
-        self._inputs = InputsCyclicMeshExpansion(self)
-        self._outputs = OutputsCyclicMeshExpansion(self)
         if sector_meshed_region is not None:
             self.inputs.sector_meshed_region.connect(sector_meshed_region)
         if cyclic_support is not None:

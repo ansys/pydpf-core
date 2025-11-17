@@ -72,8 +72,6 @@ class mesh_extraction(Operator):
             inputs_type=InputsMeshExtraction,
             outputs_type=OutputsMeshExtraction,
         )
-        self._inputs = InputsMeshExtraction(self)
-        self._outputs = OutputsMeshExtraction(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if mesh_scoping is not None:

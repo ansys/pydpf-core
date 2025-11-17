@@ -64,8 +64,6 @@ class make_overall(Operator):
             inputs_type=InputsMakeOverall,
             outputs_type=OutputsMakeOverall,
         )
-        self._inputs = InputsMakeOverall(self)
-        self._outputs = OutputsMakeOverall(self)
         if field is not None:
             self.inputs.field.connect(field)
         if id is not None:

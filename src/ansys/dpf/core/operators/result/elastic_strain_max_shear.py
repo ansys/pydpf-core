@@ -129,8 +129,6 @@ class elastic_strain_max_shear(Operator):
             inputs_type=InputsElasticStrainMaxShear,
             outputs_type=OutputsElasticStrainMaxShear,
         )
-        self._inputs = InputsElasticStrainMaxShear(self)
-        self._outputs = OutputsElasticStrainMaxShear(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

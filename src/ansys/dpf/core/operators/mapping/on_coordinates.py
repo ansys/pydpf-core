@@ -103,8 +103,6 @@ class on_coordinates(Operator):
             inputs_type=InputsOnCoordinates,
             outputs_type=OutputsOnCoordinates,
         )
-        self._inputs = InputsOnCoordinates(self)
-        self._outputs = OutputsOnCoordinates(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if coordinates is not None:

@@ -88,8 +88,6 @@ class interface_contact_moment(Operator):
             inputs_type=InputsInterfaceContactMoment,
             outputs_type=OutputsInterfaceContactMoment,
         )
-        self._inputs = InputsInterfaceContactMoment(self)
-        self._outputs = OutputsInterfaceContactMoment(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

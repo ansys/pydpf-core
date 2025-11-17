@@ -115,8 +115,6 @@ class surface_heat_rate(Operator):
             inputs_type=InputsSurfaceHeatRate,
             outputs_type=OutputsSurfaceHeatRate,
         )
-        self._inputs = InputsSurfaceHeatRate(self)
-        self._outputs = OutputsSurfaceHeatRate(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -133,8 +133,6 @@ class acceleration(Operator):
             inputs_type=InputsAcceleration,
             outputs_type=OutputsAcceleration,
         )
-        self._inputs = InputsAcceleration(self)
-        self._outputs = OutputsAcceleration(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

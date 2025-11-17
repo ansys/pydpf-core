@@ -110,8 +110,6 @@ class equivalent_radiated_power(Operator):
             inputs_type=InputsEquivalentRadiatedPower,
             outputs_type=OutputsEquivalentRadiatedPower,
         )
-        self._inputs = InputsEquivalentRadiatedPower(self)
-        self._outputs = OutputsEquivalentRadiatedPower(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

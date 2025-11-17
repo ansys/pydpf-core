@@ -112,8 +112,6 @@ class migrate_to_vtu(Operator):
             inputs_type=InputsMigrateToVtu,
             outputs_type=OutputsMigrateToVtu,
         )
-        self._inputs = InputsMigrateToVtu(self)
-        self._outputs = OutputsMigrateToVtu(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if streams_container is not None:

@@ -69,8 +69,6 @@ class split_fields(Operator):
             inputs_type=InputsSplitFields,
             outputs_type=OutputsSplitFields,
         )
-        self._inputs = InputsSplitFields(self)
-        self._outputs = OutputsSplitFields(self)
         if field_or_fields_container is not None:
             self.inputs.field_or_fields_container.connect(field_or_fields_container)
         if meshes is not None:

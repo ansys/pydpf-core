@@ -61,8 +61,6 @@ class window_hamming_fc(Operator):
             inputs_type=InputsWindowHammingFc,
             outputs_type=OutputsWindowHammingFc,
         )
-        self._inputs = InputsWindowHammingFc(self)
-        self._outputs = OutputsWindowHammingFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

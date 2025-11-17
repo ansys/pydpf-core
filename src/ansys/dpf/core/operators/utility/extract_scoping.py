@@ -83,8 +83,6 @@ class extract_scoping(Operator):
             inputs_type=InputsExtractScoping,
             outputs_type=OutputsExtractScoping,
         )
-        self._inputs = InputsExtractScoping(self)
-        self._outputs = OutputsExtractScoping(self)
         if field_or_fields_container is not None:
             self.inputs.field_or_fields_container.connect(field_or_fields_container)
         if requested_location is not None:

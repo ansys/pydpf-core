@@ -109,8 +109,6 @@ class joint_relative_displacement(Operator):
             inputs_type=InputsJointRelativeDisplacement,
             outputs_type=OutputsJointRelativeDisplacement,
         )
-        self._inputs = InputsJointRelativeDisplacement(self)
-        self._outputs = OutputsJointRelativeDisplacement(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

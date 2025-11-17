@@ -58,8 +58,6 @@ class html_doc(Operator):
             inputs_type=InputsHtmlDoc,
             outputs_type=OutputsHtmlDoc,
         )
-        self._inputs = InputsHtmlDoc(self)
-        self._outputs = OutputsHtmlDoc(self)
         if output_path is not None:
             self.inputs.output_path.connect(output_path)
         if exposure_level is not None:

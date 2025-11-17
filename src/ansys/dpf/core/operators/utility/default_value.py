@@ -64,8 +64,6 @@ class default_value(Operator):
             inputs_type=InputsDefaultValue,
             outputs_type=OutputsDefaultValue,
         )
-        self._inputs = InputsDefaultValue(self)
-        self._outputs = OutputsDefaultValue(self)
         if forced_value is not None:
             self.inputs.forced_value.connect(forced_value)
         if default_value is not None:

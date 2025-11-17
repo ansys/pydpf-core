@@ -119,8 +119,6 @@ class fft_multi_harmonic_minmax(Operator):
             inputs_type=InputsFftMultiHarmonicMinmax,
             outputs_type=OutputsFftMultiHarmonicMinmax,
         )
-        self._inputs = InputsFftMultiHarmonicMinmax(self)
-        self._outputs = OutputsFftMultiHarmonicMinmax(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if rpm_scoping is not None:

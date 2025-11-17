@@ -68,8 +68,6 @@ class norm(Operator):
             inputs_type=InputsNorm,
             outputs_type=OutputsNorm,
         )
-        self._inputs = InputsNorm(self)
-        self._outputs = OutputsNorm(self)
         if field is not None:
             self.inputs.field.connect(field)
         if scalar_int is not None:

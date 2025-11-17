@@ -81,8 +81,6 @@ class global_rigid_body_stopper_energy(Operator):
             inputs_type=InputsGlobalRigidBodyStopperEnergy,
             outputs_type=OutputsGlobalRigidBodyStopperEnergy,
         )
-        self._inputs = InputsGlobalRigidBodyStopperEnergy(self)
-        self._outputs = OutputsGlobalRigidBodyStopperEnergy(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

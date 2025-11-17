@@ -62,8 +62,6 @@ class forward_field(Operator):
             inputs_type=InputsForwardField,
             outputs_type=OutputsForwardField,
         )
-        self._inputs = InputsForwardField(self)
-        self._outputs = OutputsForwardField(self)
         if field is not None:
             self.inputs.field.connect(field)
 

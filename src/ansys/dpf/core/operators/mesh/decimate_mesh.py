@@ -78,8 +78,6 @@ class decimate_mesh(Operator):
             inputs_type=InputsDecimateMesh,
             outputs_type=OutputsDecimateMesh,
         )
-        self._inputs = InputsDecimateMesh(self)
-        self._outputs = OutputsDecimateMesh(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if preservation_ratio is not None:

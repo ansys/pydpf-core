@@ -84,8 +84,6 @@ class merge_fields(Operator):
             inputs_type=InputsMergeFields,
             outputs_type=OutputsMergeFields,
         )
-        self._inputs = InputsMergeFields(self)
-        self._outputs = OutputsMergeFields(self)
         if sum_merge is not None:
             self.inputs.sum_merge.connect(sum_merge)
         if merged_support is not None:

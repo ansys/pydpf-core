@@ -61,8 +61,6 @@ class window_hanning_fc(Operator):
             inputs_type=InputsWindowHanningFc,
             outputs_type=OutputsWindowHanningFc,
         )
-        self._inputs = InputsWindowHanningFc(self)
-        self._outputs = OutputsWindowHanningFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

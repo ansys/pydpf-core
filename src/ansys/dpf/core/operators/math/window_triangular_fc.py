@@ -61,8 +61,6 @@ class window_triangular_fc(Operator):
             inputs_type=InputsWindowTriangularFc,
             outputs_type=OutputsWindowTriangularFc,
         )
-        self._inputs = InputsWindowTriangularFc(self)
-        self._outputs = OutputsWindowTriangularFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

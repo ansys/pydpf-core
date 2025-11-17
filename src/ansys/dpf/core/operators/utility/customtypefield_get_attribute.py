@@ -69,8 +69,6 @@ class customtypefield_get_attribute(Operator):
             inputs_type=InputsCustomtypefieldGetAttribute,
             outputs_type=OutputsCustomtypefieldGetAttribute,
         )
-        self._inputs = InputsCustomtypefieldGetAttribute(self)
-        self._outputs = OutputsCustomtypefieldGetAttribute(self)
         if custom_type_field is not None:
             self.inputs.custom_type_field.connect(custom_type_field)
         if property_name is not None:

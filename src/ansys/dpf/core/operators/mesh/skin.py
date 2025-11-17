@@ -97,8 +97,6 @@ class skin(Operator):
             inputs_type=InputsSkin,
             outputs_type=OutputsSkin,
         )
-        self._inputs = InputsSkin(self)
-        self._outputs = OutputsSkin(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if mesh_scoping is not None:

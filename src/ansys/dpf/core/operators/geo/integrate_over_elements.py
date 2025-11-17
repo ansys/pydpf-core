@@ -71,8 +71,6 @@ class integrate_over_elements(Operator):
             inputs_type=InputsIntegrateOverElements,
             outputs_type=OutputsIntegrateOverElements,
         )
-        self._inputs = InputsIntegrateOverElements(self)
-        self._outputs = OutputsIntegrateOverElements(self)
         if field is not None:
             self.inputs.field.connect(field)
         if scoping is not None:

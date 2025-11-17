@@ -62,8 +62,6 @@ class zfp_decompress(Operator):
             inputs_type=InputsZfpDecompress,
             outputs_type=OutputsZfpDecompress,
         )
-        self._inputs = InputsZfpDecompress(self)
-        self._outputs = OutputsZfpDecompress(self)
         if dataIn is not None:
             self.inputs.dataIn.connect(dataIn)
 

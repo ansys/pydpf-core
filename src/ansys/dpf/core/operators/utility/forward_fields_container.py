@@ -62,8 +62,6 @@ class forward_fields_container(Operator):
             inputs_type=InputsForwardFieldsContainer,
             outputs_type=OutputsForwardFieldsContainer,
         )
-        self._inputs = InputsForwardFieldsContainer(self)
-        self._outputs = OutputsForwardFieldsContainer(self)
         if fields is not None:
             self.inputs.fields.connect(fields)
 

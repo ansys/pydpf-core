@@ -117,8 +117,6 @@ class workflow_energy_per_component(Operator):
             inputs_type=InputsWorkflowEnergyPerComponent,
             outputs_type=OutputsWorkflowEnergyPerComponent,
         )
-        self._inputs = InputsWorkflowEnergyPerComponent(self)
-        self._outputs = OutputsWorkflowEnergyPerComponent(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

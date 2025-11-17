@@ -65,8 +65,6 @@ class overall_dot(Operator):
             inputs_type=InputsOverallDot,
             outputs_type=OutputsOverallDot,
         )
-        self._inputs = InputsOverallDot(self)
-        self._outputs = OutputsOverallDot(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

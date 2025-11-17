@@ -88,8 +88,6 @@ class interface_contact_force(Operator):
             inputs_type=InputsInterfaceContactForce,
             outputs_type=OutputsInterfaceContactForce,
         )
-        self._inputs = InputsInterfaceContactForce(self)
-        self._outputs = OutputsInterfaceContactForce(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

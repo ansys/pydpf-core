@@ -72,8 +72,6 @@ class identical_sc(Operator):
             inputs_type=InputsIdenticalSc,
             outputs_type=OutputsIdenticalSc,
         )
-        self._inputs = InputsIdenticalSc(self)
-        self._outputs = OutputsIdenticalSc(self)
         if scopings_containerA is not None:
             self.inputs.scopings_containerA.connect(scopings_containerA)
         if scopings_containerB is not None:

@@ -70,8 +70,6 @@ class result_info_provider(Operator):
             inputs_type=InputsResultInfoProvider,
             outputs_type=OutputsResultInfoProvider,
         )
-        self._inputs = InputsResultInfoProvider(self)
-        self._outputs = OutputsResultInfoProvider(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

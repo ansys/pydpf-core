@@ -76,8 +76,6 @@ class time_of_max_by_entity(Operator):
             inputs_type=InputsTimeOfMaxByEntity,
             outputs_type=OutputsTimeOfMaxByEntity,
         )
-        self._inputs = InputsTimeOfMaxByEntity(self)
-        self._outputs = OutputsTimeOfMaxByEntity(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if abs_value is not None:

@@ -62,8 +62,6 @@ class workflow_to_workflow_topology(Operator):
             inputs_type=InputsWorkflowToWorkflowTopology,
             outputs_type=OutputsWorkflowToWorkflowTopology,
         )
-        self._inputs = InputsWorkflowToWorkflowTopology(self)
-        self._outputs = OutputsWorkflowToWorkflowTopology(self)
         if workflow is not None:
             self.inputs.workflow.connect(workflow)
 

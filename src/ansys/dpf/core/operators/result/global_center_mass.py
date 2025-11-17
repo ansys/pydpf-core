@@ -81,8 +81,6 @@ class global_center_mass(Operator):
             inputs_type=InputsGlobalCenterMass,
             outputs_type=OutputsGlobalCenterMass,
         )
-        self._inputs = InputsGlobalCenterMass(self)
-        self._outputs = OutputsGlobalCenterMass(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

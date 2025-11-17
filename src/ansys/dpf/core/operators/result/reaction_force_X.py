@@ -115,8 +115,6 @@ class reaction_force_X(Operator):
             inputs_type=InputsReactionForceX,
             outputs_type=OutputsReactionForceX,
         )
-        self._inputs = InputsReactionForceX(self)
-        self._outputs = OutputsReactionForceX(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -68,8 +68,6 @@ class layer_orientation_provider(Operator):
             inputs_type=InputsLayerOrientationProvider,
             outputs_type=OutputsLayerOrientationProvider,
         )
-        self._inputs = InputsLayerOrientationProvider(self)
-        self._outputs = OutputsLayerOrientationProvider(self)
         if streams is not None:
             self.inputs.streams.connect(streams)
         if data_sources is not None:

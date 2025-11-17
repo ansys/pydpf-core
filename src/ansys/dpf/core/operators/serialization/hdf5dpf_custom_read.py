@@ -98,8 +98,6 @@ class hdf5dpf_custom_read(Operator):
             inputs_type=InputsHdf5DpfCustomRead,
             outputs_type=OutputsHdf5DpfCustomRead,
         )
-        self._inputs = InputsHdf5DpfCustomRead(self)
-        self._outputs = OutputsHdf5DpfCustomRead(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

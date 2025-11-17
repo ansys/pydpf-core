@@ -123,8 +123,6 @@ class strain_eqv_as_mechanical(Operator):
             inputs_type=InputsStrainEqvAsMechanical,
             outputs_type=OutputsStrainEqvAsMechanical,
         )
-        self._inputs = InputsStrainEqvAsMechanical(self)
-        self._outputs = OutputsStrainEqvAsMechanical(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -62,8 +62,6 @@ class nodal_from_mesh(Operator):
             inputs_type=InputsNodalFromMesh,
             outputs_type=OutputsNodalFromMesh,
         )
-        self._inputs = InputsNodalFromMesh(self)
-        self._outputs = OutputsNodalFromMesh(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
 

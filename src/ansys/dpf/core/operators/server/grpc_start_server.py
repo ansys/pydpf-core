@@ -98,8 +98,6 @@ class grpc_start_server(Operator):
             inputs_type=InputsGrpcStartServer,
             outputs_type=OutputsGrpcStartServer,
         )
-        self._inputs = InputsGrpcStartServer(self)
-        self._outputs = OutputsGrpcStartServer(self)
         if ip is not None:
             self.inputs.ip.connect(ip)
         if port is not None:

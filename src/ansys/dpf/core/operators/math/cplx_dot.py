@@ -65,8 +65,6 @@ class cplx_dot(Operator):
             inputs_type=InputsCplxDot,
             outputs_type=OutputsCplxDot,
         )
-        self._inputs = InputsCplxDot(self)
-        self._outputs = OutputsCplxDot(self)
         if fields_containerA is not None:
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB is not None:

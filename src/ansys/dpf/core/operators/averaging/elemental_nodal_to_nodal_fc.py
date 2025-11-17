@@ -118,8 +118,6 @@ class elemental_nodal_to_nodal_fc(Operator):
             inputs_type=InputsElementalNodalToNodalFc,
             outputs_type=OutputsElementalNodalToNodalFc,
         )
-        self._inputs = InputsElementalNodalToNodalFc(self)
-        self._outputs = OutputsElementalNodalToNodalFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

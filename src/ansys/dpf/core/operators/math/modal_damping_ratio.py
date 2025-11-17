@@ -91,8 +91,6 @@ class modal_damping_ratio(Operator):
             inputs_type=InputsModalDampingRatio,
             outputs_type=OutputsModalDampingRatio,
         )
-        self._inputs = InputsModalDampingRatio(self)
-        self._outputs = OutputsModalDampingRatio(self)
         if natural_freq is not None:
             self.inputs.natural_freq.connect(natural_freq)
         if const_ratio is not None:

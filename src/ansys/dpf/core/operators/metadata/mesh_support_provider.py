@@ -68,8 +68,6 @@ class mesh_support_provider(Operator):
             inputs_type=InputsMeshSupportProvider,
             outputs_type=OutputsMeshSupportProvider,
         )
-        self._inputs = InputsMeshSupportProvider(self)
-        self._outputs = OutputsMeshSupportProvider(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

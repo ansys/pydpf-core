@@ -68,8 +68,6 @@ class svd(Operator):
             inputs_type=InputsSvd,
             outputs_type=OutputsSvd,
         )
-        self._inputs = InputsSvd(self)
-        self._outputs = OutputsSvd(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

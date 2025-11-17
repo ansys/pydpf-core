@@ -84,8 +84,6 @@ class spectrum_data(Operator):
             inputs_type=InputsSpectrumData,
             outputs_type=OutputsSpectrumData,
         )
-        self._inputs = InputsSpectrumData(self)
-        self._outputs = OutputsSpectrumData(self)
         if streams is not None:
             self.inputs.streams.connect(streams)
         if data_sources is not None:

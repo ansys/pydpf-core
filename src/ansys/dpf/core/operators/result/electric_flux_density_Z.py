@@ -129,8 +129,6 @@ class electric_flux_density_Z(Operator):
             inputs_type=InputsElectricFluxDensityZ,
             outputs_type=OutputsElectricFluxDensityZ,
         )
-        self._inputs = InputsElectricFluxDensityZ(self)
-        self._outputs = OutputsElectricFluxDensityZ(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

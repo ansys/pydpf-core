@@ -64,8 +64,6 @@ class data_tree_to_json(Operator):
             inputs_type=InputsDataTreeToJson,
             outputs_type=OutputsDataTreeToJson,
         )
-        self._inputs = InputsDataTreeToJson(self)
-        self._outputs = OutputsDataTreeToJson(self)
         if data_tree is not None:
             self.inputs.data_tree.connect(data_tree)
         if path is not None:

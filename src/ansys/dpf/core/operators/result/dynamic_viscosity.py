@@ -115,8 +115,6 @@ class dynamic_viscosity(Operator):
             inputs_type=InputsDynamicViscosity,
             outputs_type=OutputsDynamicViscosity,
         )
-        self._inputs = InputsDynamicViscosity(self)
-        self._outputs = OutputsDynamicViscosity(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

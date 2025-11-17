@@ -74,8 +74,6 @@ class split_data_sources(Operator):
             inputs_type=InputsSplitDataSources,
             outputs_type=OutputsSplitDataSources,
         )
-        self._inputs = InputsSplitDataSources(self)
-        self._outputs = OutputsSplitDataSources(self)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
         if output_count is not None:

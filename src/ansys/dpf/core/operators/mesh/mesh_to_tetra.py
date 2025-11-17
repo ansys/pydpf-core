@@ -71,8 +71,6 @@ class mesh_to_tetra(Operator):
             inputs_type=InputsMeshToTetra,
             outputs_type=OutputsMeshToTetra,
         )
-        self._inputs = InputsMeshToTetra(self)
-        self._outputs = OutputsMeshToTetra(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
 

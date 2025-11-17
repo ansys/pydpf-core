@@ -100,8 +100,6 @@ class mesh_to_pyvista(Operator):
             inputs_type=InputsMeshToPyvista,
             outputs_type=OutputsMeshToPyvista,
         )
-        self._inputs = InputsMeshToPyvista(self)
-        self._outputs = OutputsMeshToPyvista(self)
         if coordinates is not None:
             self.inputs.coordinates.connect(coordinates)
         if as_linear is not None:

@@ -124,8 +124,6 @@ class cyclic_expansion(Operator):
             inputs_type=InputsCyclicExpansion,
             outputs_type=OutputsCyclicExpansion,
         )
-        self._inputs = InputsCyclicExpansion(self)
-        self._outputs = OutputsCyclicExpansion(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

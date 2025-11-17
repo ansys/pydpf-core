@@ -68,8 +68,6 @@ class rotate_fc(Operator):
             inputs_type=InputsRotateFc,
             outputs_type=OutputsRotateFc,
         )
-        self._inputs = InputsRotateFc(self)
-        self._outputs = OutputsRotateFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if coordinate_system is not None:

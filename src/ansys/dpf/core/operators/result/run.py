@@ -101,8 +101,6 @@ class run(Operator):
             inputs_type=InputsRun,
             outputs_type=OutputsRun,
         )
-        self._inputs = InputsRun(self)
-        self._outputs = OutputsRun(self)
         if mapdl_exe_path is not None:
             self.inputs.mapdl_exe_path.connect(mapdl_exe_path)
         if working_dir is not None:

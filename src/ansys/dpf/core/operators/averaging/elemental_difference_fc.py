@@ -92,8 +92,6 @@ class elemental_difference_fc(Operator):
             inputs_type=InputsElementalDifferenceFc,
             outputs_type=OutputsElementalDifferenceFc,
         )
-        self._inputs = InputsElementalDifferenceFc(self)
-        self._outputs = OutputsElementalDifferenceFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

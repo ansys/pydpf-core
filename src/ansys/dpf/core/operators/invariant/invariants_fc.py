@@ -67,8 +67,6 @@ class invariants_fc(Operator):
             inputs_type=InputsInvariantsFc,
             outputs_type=OutputsInvariantsFc,
         )
-        self._inputs = InputsInvariantsFc(self)
-        self._outputs = OutputsInvariantsFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

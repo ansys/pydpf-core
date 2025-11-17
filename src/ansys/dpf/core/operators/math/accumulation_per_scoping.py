@@ -93,8 +93,6 @@ class accumulation_per_scoping(Operator):
             inputs_type=InputsAccumulationPerScoping,
             outputs_type=OutputsAccumulationPerScoping,
         )
-        self._inputs = InputsAccumulationPerScoping(self)
-        self._outputs = OutputsAccumulationPerScoping(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh_scoping is not None:

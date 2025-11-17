@@ -74,8 +74,6 @@ class field_signed_high_pass_fc(Operator):
             inputs_type=InputsFieldSignedHighPassFc,
             outputs_type=OutputsFieldSignedHighPassFc,
         )
-        self._inputs = InputsFieldSignedHighPassFc(self)
-        self._outputs = OutputsFieldSignedHighPassFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if threshold is not None:

@@ -251,8 +251,6 @@ class elastic_strain_energy_density(Operator):
             inputs_type=InputsElasticStrainEnergyDensity,
             outputs_type=OutputsElasticStrainEnergyDensity,
         )
-        self._inputs = InputsElasticStrainEnergyDensity(self)
-        self._outputs = OutputsElasticStrainEnergyDensity(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

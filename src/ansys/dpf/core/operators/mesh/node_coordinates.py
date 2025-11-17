@@ -62,8 +62,6 @@ class node_coordinates(Operator):
             inputs_type=InputsNodeCoordinates,
             outputs_type=OutputsNodeCoordinates,
         )
-        self._inputs = InputsNodeCoordinates(self)
-        self._outputs = OutputsNodeCoordinates(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
 

@@ -75,8 +75,6 @@ class mapdl_split_to_acmo_facet_indices(Operator):
             inputs_type=InputsMapdlSplitToAcmoFacetIndices,
             outputs_type=OutputsMapdlSplitToAcmoFacetIndices,
         )
-        self._inputs = InputsMapdlSplitToAcmoFacetIndices(self)
-        self._outputs = OutputsMapdlSplitToAcmoFacetIndices(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if property_fields_container_element_types is not None:

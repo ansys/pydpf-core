@@ -66,8 +66,6 @@ class identical_scopings(Operator):
             inputs_type=InputsIdenticalScopings,
             outputs_type=OutputsIdenticalScopings,
         )
-        self._inputs = InputsIdenticalScopings(self)
-        self._outputs = OutputsIdenticalScopings(self)
         if scopingA is not None:
             self.inputs.scopingA.connect(scopingA)
         if scopingB is not None:

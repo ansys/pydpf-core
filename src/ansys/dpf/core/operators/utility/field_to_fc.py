@@ -66,8 +66,6 @@ class field_to_fc(Operator):
             inputs_type=InputsFieldToFc,
             outputs_type=OutputsFieldToFc,
         )
-        self._inputs = InputsFieldToFc(self)
-        self._outputs = OutputsFieldToFc(self)
         if field is not None:
             self.inputs.field.connect(field)
         if label is not None:

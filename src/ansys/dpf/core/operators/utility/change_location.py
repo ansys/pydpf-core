@@ -67,8 +67,6 @@ class change_location(Operator):
             inputs_type=InputsChangeLocation,
             outputs_type=OutputsChangeLocation,
         )
-        self._inputs = InputsChangeLocation(self)
-        self._outputs = OutputsChangeLocation(self)
         if field is not None:
             self.inputs.field.connect(field)
         if new_location is not None:

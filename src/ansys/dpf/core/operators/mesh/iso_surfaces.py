@@ -98,8 +98,6 @@ class iso_surfaces(Operator):
             inputs_type=InputsIsoSurfaces,
             outputs_type=OutputsIsoSurfaces,
         )
-        self._inputs = InputsIsoSurfaces(self)
-        self._outputs = OutputsIsoSurfaces(self)
         if field is not None:
             self.inputs.field.connect(field)
         if num_surfaces is not None:

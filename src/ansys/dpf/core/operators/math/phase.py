@@ -66,8 +66,6 @@ class phase(Operator):
             inputs_type=InputsPhase,
             outputs_type=OutputsPhase,
         )
-        self._inputs = InputsPhase(self)
-        self._outputs = OutputsPhase(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

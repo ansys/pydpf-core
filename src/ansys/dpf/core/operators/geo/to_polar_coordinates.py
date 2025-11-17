@@ -68,8 +68,6 @@ class to_polar_coordinates(Operator):
             inputs_type=InputsToPolarCoordinates,
             outputs_type=OutputsToPolarCoordinates,
         )
-        self._inputs = InputsToPolarCoordinates(self)
-        self._outputs = OutputsToPolarCoordinates(self)
         if field is not None:
             self.inputs.field.connect(field)
         if coordinate_system is not None:

@@ -81,8 +81,6 @@ class extract_sub_fc(Operator):
             inputs_type=InputsExtractSubFc,
             outputs_type=OutputsExtractSubFc,
         )
-        self._inputs = InputsExtractSubFc(self)
-        self._outputs = OutputsExtractSubFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if label_space is not None:

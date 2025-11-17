@@ -71,8 +71,6 @@ class merge_time_freq_supports(Operator):
             inputs_type=InputsMergeTimeFreqSupports,
             outputs_type=OutputsMergeTimeFreqSupports,
         )
-        self._inputs = InputsMergeTimeFreqSupports(self)
-        self._outputs = OutputsMergeTimeFreqSupports(self)
         if time_freq_supports1 is not None:
             self.inputs.time_freq_supports1.connect(time_freq_supports1)
         if time_freq_supports2 is not None:

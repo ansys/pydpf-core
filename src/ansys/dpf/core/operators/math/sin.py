@@ -61,8 +61,6 @@ class sin(Operator):
             inputs_type=InputsSin,
             outputs_type=OutputsSin,
         )
-        self._inputs = InputsSin(self)
-        self._outputs = OutputsSin(self)
         if field is not None:
             self.inputs.field.connect(field)
 

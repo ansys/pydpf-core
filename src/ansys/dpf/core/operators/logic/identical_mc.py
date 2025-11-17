@@ -90,8 +90,6 @@ class identical_mc(Operator):
             inputs_type=InputsIdenticalMc,
             outputs_type=OutputsIdenticalMc,
         )
-        self._inputs = InputsIdenticalMc(self)
-        self._outputs = OutputsIdenticalMc(self)
         if meshes_containerA is not None:
             self.inputs.meshes_containerA.connect(meshes_containerA)
         if meshes_containerB is not None:

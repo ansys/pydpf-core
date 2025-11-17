@@ -66,8 +66,6 @@ class merge_scopings(Operator):
             inputs_type=InputsMergeScopings,
             outputs_type=OutputsMergeScopings,
         )
-        self._inputs = InputsMergeScopings(self)
-        self._outputs = OutputsMergeScopings(self)
         if scopings1 is not None:
             self.inputs.scopings1.connect(scopings1)
         if scopings2 is not None:

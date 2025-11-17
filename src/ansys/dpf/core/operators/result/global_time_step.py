@@ -81,8 +81,6 @@ class global_time_step(Operator):
             inputs_type=InputsGlobalTimeStep,
             outputs_type=OutputsGlobalTimeStep,
         )
-        self._inputs = InputsGlobalTimeStep(self)
-        self._outputs = OutputsGlobalTimeStep(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

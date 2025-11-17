@@ -129,8 +129,6 @@ class plastic_strain_intensity(Operator):
             inputs_type=InputsPlasticStrainIntensity,
             outputs_type=OutputsPlasticStrainIntensity,
         )
-        self._inputs = InputsPlasticStrainIntensity(self)
-        self._outputs = OutputsPlasticStrainIntensity(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

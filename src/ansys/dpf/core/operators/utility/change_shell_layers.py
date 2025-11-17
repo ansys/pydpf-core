@@ -92,8 +92,6 @@ class change_shell_layers(Operator):
             inputs_type=InputsChangeShellLayers,
             outputs_type=OutputsChangeShellLayers,
         )
-        self._inputs = InputsChangeShellLayers(self)
-        self._outputs = OutputsChangeShellLayers(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if e_shell_layer is not None:

@@ -131,8 +131,6 @@ class thermal_strain_principal_2(Operator):
             inputs_type=InputsThermalStrainPrincipal2,
             outputs_type=OutputsThermalStrainPrincipal2,
         )
-        self._inputs = InputsThermalStrainPrincipal2(self)
-        self._outputs = OutputsThermalStrainPrincipal2(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

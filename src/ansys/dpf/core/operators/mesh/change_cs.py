@@ -68,8 +68,6 @@ class change_cs(Operator):
             inputs_type=InputsChangeCs,
             outputs_type=OutputsChangeCs,
         )
-        self._inputs = InputsChangeCs(self)
-        self._outputs = OutputsChangeCs(self)
         if meshes is not None:
             self.inputs.meshes.connect(meshes)
         if coordinate_system is not None:

@@ -65,8 +65,6 @@ class qr_solve(Operator):
             inputs_type=InputsQrSolve,
             outputs_type=OutputsQrSolve,
         )
-        self._inputs = InputsQrSolve(self)
-        self._outputs = OutputsQrSolve(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if rhs is not None:

@@ -73,8 +73,6 @@ class scoping_low_pass(Operator):
             inputs_type=InputsScopingLowPass,
             outputs_type=OutputsScopingLowPass,
         )
-        self._inputs = InputsScopingLowPass(self)
-        self._outputs = OutputsScopingLowPass(self)
         if field is not None:
             self.inputs.field.connect(field)
         if threshold is not None:

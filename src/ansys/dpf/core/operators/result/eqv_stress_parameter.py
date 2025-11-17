@@ -251,8 +251,6 @@ class eqv_stress_parameter(Operator):
             inputs_type=InputsEqvStressParameter,
             outputs_type=OutputsEqvStressParameter,
         )
-        self._inputs = InputsEqvStressParameter(self)
-        self._outputs = OutputsEqvStressParameter(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

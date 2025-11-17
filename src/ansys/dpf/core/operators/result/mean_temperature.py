@@ -114,8 +114,6 @@ class mean_temperature(Operator):
             inputs_type=InputsMeanTemperature,
             outputs_type=OutputsMeanTemperature,
         )
-        self._inputs = InputsMeanTemperature(self)
-        self._outputs = OutputsMeanTemperature(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

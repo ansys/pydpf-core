@@ -72,8 +72,6 @@ class python_generator(Operator):
             inputs_type=InputsPythonGenerator,
             outputs_type=OutputsPythonGenerator,
         )
-        self._inputs = InputsPythonGenerator(self)
-        self._outputs = OutputsPythonGenerator(self)
         if dll_source_path is not None:
             self.inputs.dll_source_path.connect(dll_source_path)
         if output_path is not None:

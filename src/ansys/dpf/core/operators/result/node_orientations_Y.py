@@ -115,8 +115,6 @@ class node_orientations_Y(Operator):
             inputs_type=InputsNodeOrientationsY,
             outputs_type=OutputsNodeOrientationsY,
         )
-        self._inputs = InputsNodeOrientationsY(self)
-        self._outputs = OutputsNodeOrientationsY(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

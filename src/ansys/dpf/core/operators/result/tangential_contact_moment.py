@@ -109,8 +109,6 @@ class tangential_contact_moment(Operator):
             inputs_type=InputsTangentialContactMoment,
             outputs_type=OutputsTangentialContactMoment,
         )
-        self._inputs = InputsTangentialContactMoment(self)
-        self._outputs = OutputsTangentialContactMoment(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

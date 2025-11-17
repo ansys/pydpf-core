@@ -241,8 +241,6 @@ class transform_invariant_terms_rbd(Operator):
             inputs_type=InputsTransformInvariantTermsRbd,
             outputs_type=OutputsTransformInvariantTermsRbd,
         )
-        self._inputs = InputsTransformInvariantTermsRbd(self)
-        self._outputs = OutputsTransformInvariantTermsRbd(self)
         if rotation_matrix is not None:
             self.inputs.rotation_matrix.connect(rotation_matrix)
         if coordinate_system is not None:

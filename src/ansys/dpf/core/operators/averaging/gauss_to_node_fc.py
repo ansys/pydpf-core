@@ -77,8 +77,6 @@ class gauss_to_node_fc(Operator):
             inputs_type=InputsGaussToNodeFc,
             outputs_type=OutputsGaussToNodeFc,
         )
-        self._inputs = InputsGaussToNodeFc(self)
-        self._outputs = OutputsGaussToNodeFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

@@ -85,8 +85,6 @@ class min_max_over_label_fc(Operator):
             inputs_type=InputsMinMaxOverLabelFc,
             outputs_type=OutputsMinMaxOverLabelFc,
         )
-        self._inputs = InputsMinMaxOverLabelFc(self)
-        self._outputs = OutputsMinMaxOverLabelFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if label is not None:

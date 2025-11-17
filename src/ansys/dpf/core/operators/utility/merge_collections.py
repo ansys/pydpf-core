@@ -61,8 +61,6 @@ class merge_collections(Operator):
             inputs_type=InputsMergeCollections,
             outputs_type=OutputsMergeCollections,
         )
-        self._inputs = InputsMergeCollections(self)
-        self._outputs = OutputsMergeCollections(self)
         if collections1 is not None:
             self.inputs.collections1.connect(collections1)
         if collections2 is not None:
