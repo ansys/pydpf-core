@@ -20,18 +20,19 @@ if TYPE_CHECKING:
 
 
 class absolute_value_by_component_fc(Operator):
-    r"""Compute the absolute value of each data value of the input field, no
-    norm performed.
+    r"""Computes the absolute value of each data value in the input field
+    component-wise, without performing vector norm operations.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        field or fields container with only one field is expected
+        Field, fields container, or numeric data for which to compute absolute values
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Field with absolute values applied to each component
 
     Examples
     --------
@@ -68,8 +69,8 @@ class absolute_value_by_component_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Compute the absolute value of each data value of the input field, no
-norm performed.
+        description = r"""Computes the absolute value of each data value in the input field
+component-wise, without performing vector norm operations.
 """
         spec = Specification(
             description=description,
@@ -78,7 +79,7 @@ norm performed.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""field or fields container with only one field is expected""",
+                    document=r"""Field, fields container, or numeric data for which to compute absolute values""",
                 ),
             },
             map_output_pin_spec={
@@ -86,7 +87,7 @@ norm performed.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with absolute values applied to each component""",
                 ),
             },
         )
@@ -161,7 +162,7 @@ class InputsAbsoluteValueByComponentFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        field or fields container with only one field is expected
+        Field, fields container, or numeric data for which to compute absolute values
 
         Returns
         -------
@@ -201,6 +202,8 @@ class OutputsAbsoluteValueByComponentFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Field with absolute values applied to each component
 
         Returns
         -------

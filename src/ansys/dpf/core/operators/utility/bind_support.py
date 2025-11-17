@@ -30,11 +30,12 @@ class bind_support(Operator):
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     support: MeshedRegion or AbstractFieldSupport
-        meshed region or a support of the field
+        Meshed region or a support of the field
 
     Outputs
     -------
     field: Field
+        Field with the attached support
 
     Examples
     --------
@@ -91,7 +92,7 @@ class bind_support(Operator):
                     name="support",
                     type_names=["abstract_meshed_region", "abstract_field_support"],
                     optional=False,
-                    document=r"""meshed region or a support of the field""",
+                    document=r"""Meshed region or a support of the field""",
                 ),
             },
             map_output_pin_spec={
@@ -99,7 +100,7 @@ class bind_support(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with the attached support""",
                 ),
             },
         )
@@ -199,7 +200,7 @@ class InputsBindSupport(_Inputs):
     def support(self) -> Input[MeshedRegion]:
         r"""Allows to connect support input to the operator.
 
-        meshed region or a support of the field
+        Meshed region or a support of the field
 
         Returns
         -------
@@ -237,6 +238,8 @@ class OutputsBindSupport(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with the attached support
 
         Returns
         -------

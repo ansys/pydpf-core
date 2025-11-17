@@ -32,6 +32,7 @@ class forward_field(Operator):
     Outputs
     -------
     field: Field
+        Forwarded field (passthrough of input)
 
     Examples
     --------
@@ -85,7 +86,7 @@ class forward_field(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Forwarded field (passthrough of input)""",
                 ),
             },
         )
@@ -196,6 +197,8 @@ class OutputsForwardField(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Forwarded field (passthrough of input)
 
         Returns
         -------

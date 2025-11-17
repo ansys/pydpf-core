@@ -31,6 +31,7 @@ class ln_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
+        Field with natural logarithm values applied element-wise
 
     Examples
     --------
@@ -84,7 +85,7 @@ class ln_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with natural logarithm values applied element-wise""",
                 ),
             },
         )
@@ -197,6 +198,8 @@ class OutputsLnFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Field with natural logarithm values applied element-wise
 
         Returns
         -------

@@ -33,6 +33,7 @@ class invert(Operator):
     Outputs
     -------
     field: Field
+        Field with inverse values (1/x) applied element-wise to input data
 
     Examples
     --------
@@ -87,7 +88,7 @@ component-wise inverse of a field (1./x).
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with inverse values (1/x) applied element-wise to input data""",
                 ),
             },
         )
@@ -198,6 +199,8 @@ class OutputsInvert(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with inverse values (1/x) applied element-wise to input data
 
         Returns
         -------

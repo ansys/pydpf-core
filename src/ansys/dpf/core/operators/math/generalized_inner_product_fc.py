@@ -35,6 +35,7 @@ class generalized_inner_product_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
+        Field containing the generalized inner product result
 
     Examples
     --------
@@ -116,7 +117,7 @@ possibly different dimensionality.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field containing the generalized inner product result""",
                 ),
             },
         )
@@ -258,6 +259,8 @@ class OutputsGeneralizedInnerProductFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Field containing the generalized inner product result
 
         Returns
         -------

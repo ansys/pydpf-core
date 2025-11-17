@@ -20,17 +20,18 @@ if TYPE_CHECKING:
 
 
 class cos_fc(Operator):
-    r"""Computes element-wise cos(field[i]).
+    r"""Computes element-wise cosine function on field data: cos(field[i]).
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        field or fields container with only one field is expected
+        Field or fields container containing numeric data for cosine calculation
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Field with cosine values applied element-wise to input data
 
     Examples
     --------
@@ -67,7 +68,7 @@ class cos_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes element-wise cos(field[i]).
+        description = r"""Computes element-wise cosine function on field data: cos(field[i]).
 """
         spec = Specification(
             description=description,
@@ -76,7 +77,7 @@ class cos_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""field or fields container with only one field is expected""",
+                    document=r"""Field or fields container containing numeric data for cosine calculation""",
                 ),
             },
             map_output_pin_spec={
@@ -84,7 +85,7 @@ class cos_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with cosine values applied element-wise to input data""",
                 ),
             },
         )
@@ -157,7 +158,7 @@ class InputsCosFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        field or fields container with only one field is expected
+        Field or fields container containing numeric data for cosine calculation
 
         Returns
         -------
@@ -197,6 +198,8 @@ class OutputsCosFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Field with cosine values applied element-wise to input data
 
         Returns
         -------

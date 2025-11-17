@@ -32,6 +32,7 @@ class ln(Operator):
     Outputs
     -------
     field: Field
+        Field with natural logarithm values applied element-wise
 
     Examples
     --------
@@ -90,7 +91,7 @@ class ln(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with natural logarithm values applied element-wise""",
                 ),
             },
         )
@@ -201,6 +202,8 @@ class OutputsLn(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with natural logarithm values applied element-wise
 
         Returns
         -------

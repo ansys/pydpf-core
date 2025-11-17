@@ -29,11 +29,14 @@ class change_fc(Operator):
     Inputs
     ------
     field_or_fields_container: FieldsContainer or Field
+        Field or fields container to rescope
     scopings_container: ScopingsContainer
+        Scopings container for rescoping operation
 
     Outputs
     -------
     fields_container: FieldsContainer
+        FieldsContainer rescoped according to scopings container (DEPRECATED - use adapt with scopings container)
 
     Examples
     --------
@@ -91,13 +94,13 @@ fields container to correspond to a scopings container.
                     name="field_or_fields_container",
                     type_names=["fields_container", "field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field or fields container to rescope""",
                 ),
                 1: PinSpecification(
                     name="scopings_container",
                     type_names=["scopings_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Scopings container for rescoping operation""",
                 ),
             },
             map_output_pin_spec={
@@ -105,7 +108,7 @@ fields container to correspond to a scopings container.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""FieldsContainer rescoped according to scopings container (DEPRECATED - use adapt with scopings container)""",
                 ),
             },
         )
@@ -184,6 +187,8 @@ class InputsChangeFc(_Inputs):
     def field_or_fields_container(self) -> Input[FieldsContainer | Field]:
         r"""Allows to connect field_or_fields_container input to the operator.
 
+        Field or fields container to rescope
+
         Returns
         -------
         input:
@@ -202,6 +207,8 @@ class InputsChangeFc(_Inputs):
     @property
     def scopings_container(self) -> Input[ScopingsContainer]:
         r"""Allows to connect scopings_container input to the operator.
+
+        Scopings container for rescoping operation
 
         Returns
         -------
@@ -241,6 +248,8 @@ class OutputsChangeFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        FieldsContainer rescoped according to scopings container (DEPRECATED - use adapt with scopings container)
 
         Returns
         -------

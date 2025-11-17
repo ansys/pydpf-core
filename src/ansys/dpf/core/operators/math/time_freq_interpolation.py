@@ -46,6 +46,7 @@ class time_freq_interpolation(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
+        FieldsContainer with interpolated fields at specified time/frequency values
 
     Examples
     --------
@@ -169,7 +170,7 @@ fields container
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""FieldsContainer with interpolated fields at specified time/frequency values""",
                 ),
             },
         )
@@ -413,6 +414,8 @@ class OutputsTimeFreqInterpolation(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        FieldsContainer with interpolated fields at specified time/frequency values
 
         Returns
         -------

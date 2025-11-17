@@ -26,11 +26,14 @@ class pow(Operator):
     Inputs
     ------
     field: Field
+        Field for which to compute power operation
     factor: float
+        Power exponent value
 
     Outputs
     -------
     field: Field
+        Field with power operation applied element-wise
 
     Examples
     --------
@@ -81,13 +84,13 @@ class pow(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field for which to compute power operation""",
                 ),
                 1: PinSpecification(
                     name="factor",
                     type_names=["double"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Power exponent value""",
                 ),
             },
             map_output_pin_spec={
@@ -95,7 +98,7 @@ class pow(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with power operation applied element-wise""",
                 ),
             },
         )
@@ -170,6 +173,8 @@ class InputsPow(_Inputs):
     def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
+        Field for which to compute power operation
+
         Returns
         -------
         input:
@@ -188,6 +193,8 @@ class InputsPow(_Inputs):
     @property
     def factor(self) -> Input[float]:
         r"""Allows to connect factor input to the operator.
+
+        Power exponent value
 
         Returns
         -------
@@ -225,6 +232,8 @@ class OutputsPow(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with power operation applied element-wise
 
         Returns
         -------
