@@ -16,18 +16,22 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class default_value(Operator):
-    r"""Default return value from input pin 1 to output pin 0 if there is
-    nothing on input pin 0.
+    r"""Returns the value from pin 0 if provided, otherwise returns the default
+    value from pin 1. This operator acts as a fallback mechanism for
+    optional inputs.
 
 
     Inputs
     ------
     forced_value: optional
+        Primary value to return if provided. Can be any type
     default_value:
+        Default value to return if pin 0 is not connected. Must be the same type as pin 0
 
     Outputs
     -------
     output:
+        Returns primary_value if provided, otherwise default_value
 
     Examples
     --------
@@ -66,8 +70,9 @@ class default_value(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Default return value from input pin 1 to output pin 0 if there is
-nothing on input pin 0.
+        description = r"""Returns the value from pin 0 if provided, otherwise returns the default
+value from pin 1. This operator acts as a fallback mechanism for
+optional inputs.
 """
         spec = Specification(
             description=description,
@@ -76,20 +81,20 @@ nothing on input pin 0.
                     name="forced_value",
                     type_names=["any"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Primary value to return if provided. Can be any type""",
                 ),
                 1: PinSpecification(
                     name="default_value",
                     type_names=["any"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Default value to return if pin 0 is not connected. Must be the same type as pin 0""",
                 ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
                     name="output",
                     optional=False,
-                    document=r"""""",
+                    document=r"""Returns primary_value if provided, otherwise default_value""",
                 ),
             },
         )
@@ -166,6 +171,8 @@ class InputsDefaultValue(_Inputs):
     def forced_value(self) -> Input:
         r"""Allows to connect forced_value input to the operator.
 
+        Primary value to return if provided. Can be any type
+
         Returns
         -------
         input:
@@ -184,6 +191,8 @@ class InputsDefaultValue(_Inputs):
     @property
     def default_value(self) -> Input:
         r"""Allows to connect default_value input to the operator.
+
+        Default value to return if pin 0 is not connected. Must be the same type as pin 0
 
         Returns
         -------
@@ -221,6 +230,8 @@ class OutputsDefaultValue(_Outputs):
     @property
     def output(self) -> Output:
         r"""Allows to get output output of the operator
+
+        Returns primary_value if provided, otherwise default_value
 
         Returns
         -------
