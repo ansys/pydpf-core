@@ -79,9 +79,6 @@ class sweeping_phase(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsSweepingPhase
-    _outputs: OutputsSweepingPhase
-
     def __init__(
         self,
         real_field=None,
@@ -93,7 +90,13 @@ class sweeping_phase(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="sweeping_phase", config=config, server=server)
+        super().__init__(
+            name="sweeping_phase",
+            config=config,
+            server=server,
+            inputs_type=InputsSweepingPhase,
+            outputs_type=OutputsSweepingPhase,
+        )
         self._inputs = InputsSweepingPhase(self)
         self._outputs = OutputsSweepingPhase(self)
         if real_field is not None:

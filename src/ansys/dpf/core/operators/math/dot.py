@@ -63,11 +63,14 @@ class dot(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsDot
-    _outputs: OutputsDot
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="dot", config=config, server=server)
+        super().__init__(
+            name="dot",
+            config=config,
+            server=server,
+            inputs_type=InputsDot,
+            outputs_type=OutputsDot,
+        )
         self._inputs = InputsDot(self)
         self._outputs = OutputsDot(self)
         if fieldA is not None:

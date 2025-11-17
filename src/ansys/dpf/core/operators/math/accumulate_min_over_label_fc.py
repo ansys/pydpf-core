@@ -61,12 +61,13 @@ class accumulate_min_over_label_fc(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAccumulateMinOverLabelFc
-    _outputs: OutputsAccumulateMinOverLabelFc
-
     def __init__(self, fields_container=None, label=None, config=None, server=None):
         super().__init__(
-            name="accumulate_min_over_label_fc", config=config, server=server
+            name="accumulate_min_over_label_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAccumulateMinOverLabelFc,
+            outputs_type=OutputsAccumulateMinOverLabelFc,
         )
         self._inputs = InputsAccumulateMinOverLabelFc(self)
         self._outputs = OutputsAccumulateMinOverLabelFc(self)

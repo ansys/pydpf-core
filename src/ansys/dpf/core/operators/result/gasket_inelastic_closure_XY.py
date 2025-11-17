@@ -102,9 +102,6 @@ class gasket_inelastic_closure_XY(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGasketInelasticClosureXy
-    _outputs: OutputsGasketInelasticClosureXy
-
     def __init__(
         self,
         time_scoping=None,
@@ -119,7 +116,13 @@ class gasket_inelastic_closure_XY(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GKDIXY", config=config, server=server)
+        super().__init__(
+            name="GKDIXY",
+            config=config,
+            server=server,
+            inputs_type=InputsGasketInelasticClosureXy,
+            outputs_type=OutputsGasketInelasticClosureXy,
+        )
         self._inputs = InputsGasketInelasticClosureXy(self)
         self._outputs = OutputsGasketInelasticClosureXy(self)
         if time_scoping is not None:

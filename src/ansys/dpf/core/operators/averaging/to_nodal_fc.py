@@ -72,9 +72,6 @@ class to_nodal_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsToNodalFc
-    _outputs: OutputsToNodalFc
-
     def __init__(
         self,
         fields_container=None,
@@ -85,7 +82,13 @@ class to_nodal_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="to_nodal_fc", config=config, server=server)
+        super().__init__(
+            name="to_nodal_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsToNodalFc,
+            outputs_type=OutputsToNodalFc,
+        )
         self._inputs = InputsToNodalFc(self)
         self._outputs = OutputsToNodalFc(self)
         if fields_container is not None:

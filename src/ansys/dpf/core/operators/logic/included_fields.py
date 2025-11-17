@@ -68,9 +68,6 @@ class included_fields(Operator):
     >>> result_message = op.outputs.message()
     """
 
-    _inputs: InputsIncludedFields
-    _outputs: OutputsIncludedFields
-
     def __init__(
         self,
         fieldA=None,
@@ -80,7 +77,13 @@ class included_fields(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="Are_fields_included", config=config, server=server)
+        super().__init__(
+            name="Are_fields_included",
+            config=config,
+            server=server,
+            inputs_type=InputsIncludedFields,
+            outputs_type=OutputsIncludedFields,
+        )
         self._inputs = InputsIncludedFields(self)
         self._outputs = OutputsIncludedFields(self)
         if fieldA is not None:

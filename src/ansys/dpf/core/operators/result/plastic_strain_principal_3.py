@@ -109,9 +109,6 @@ class plastic_strain_principal_3(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPlasticStrainPrincipal3
-    _outputs: OutputsPlasticStrainPrincipal3
-
     def __init__(
         self,
         time_scoping=None,
@@ -127,7 +124,13 @@ class plastic_strain_principal_3(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPPL3", config=config, server=server)
+        super().__init__(
+            name="EPPL3",
+            config=config,
+            server=server,
+            inputs_type=InputsPlasticStrainPrincipal3,
+            outputs_type=OutputsPlasticStrainPrincipal3,
+        )
         self._inputs = InputsPlasticStrainPrincipal3(self)
         self._outputs = OutputsPlasticStrainPrincipal3(self)
         if time_scoping is not None:

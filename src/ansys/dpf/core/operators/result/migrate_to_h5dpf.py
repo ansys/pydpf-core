@@ -110,9 +110,6 @@ class migrate_to_h5dpf(Operator):
     >>> result_migrated_file = op.outputs.migrated_file()
     """
 
-    _inputs: InputsMigrateToH5Dpf
-    _outputs: OutputsMigrateToH5Dpf
-
     def __init__(
         self,
         h5_chunk_size=None,
@@ -129,7 +126,13 @@ class migrate_to_h5dpf(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="hdf5::h5dpf::migrate_file", config=config, server=server)
+        super().__init__(
+            name="hdf5::h5dpf::migrate_file",
+            config=config,
+            server=server,
+            inputs_type=InputsMigrateToH5Dpf,
+            outputs_type=OutputsMigrateToH5Dpf,
+        )
         self._inputs = InputsMigrateToH5Dpf(self)
         self._outputs = OutputsMigrateToH5Dpf(self)
         if h5_chunk_size is not None:

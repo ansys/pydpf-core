@@ -51,11 +51,14 @@ class spherical_to_cartesian_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsSphericalToCartesianFc
-    _outputs: OutputsSphericalToCartesianFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="spherical_to_cartesian_fc", config=config, server=server)
+        super().__init__(
+            name="spherical_to_cartesian_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsSphericalToCartesianFc,
+            outputs_type=OutputsSphericalToCartesianFc,
+        )
         self._inputs = InputsSphericalToCartesianFc(self)
         self._outputs = OutputsSphericalToCartesianFc(self)
         if fields_container is not None:

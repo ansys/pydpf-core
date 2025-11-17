@@ -74,9 +74,6 @@ class workflow_energy_per_harmonic(Operator):
     >>> result_harmonic_energy_percentage = op.outputs.harmonic_energy_percentage()
     """
 
-    _inputs: InputsWorkflowEnergyPerHarmonic
-    _outputs: OutputsWorkflowEnergyPerHarmonic
-
     def __init__(
         self,
         time_scoping=None,
@@ -88,7 +85,11 @@ class workflow_energy_per_harmonic(Operator):
         server=None,
     ):
         super().__init__(
-            name="workflow_energy_per_harmonic", config=config, server=server
+            name="workflow_energy_per_harmonic",
+            config=config,
+            server=server,
+            inputs_type=InputsWorkflowEnergyPerHarmonic,
+            outputs_type=OutputsWorkflowEnergyPerHarmonic,
         )
         self._inputs = InputsWorkflowEnergyPerHarmonic(self)
         self._outputs = OutputsWorkflowEnergyPerHarmonic(self)

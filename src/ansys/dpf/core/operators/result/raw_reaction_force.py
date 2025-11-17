@@ -90,9 +90,6 @@ class raw_reaction_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRawReactionForce
-    _outputs: OutputsRawReactionForce
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class raw_reaction_force(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="RFTOT", config=config, server=server)
+        super().__init__(
+            name="RFTOT",
+            config=config,
+            server=server,
+            inputs_type=InputsRawReactionForce,
+            outputs_type=OutputsRawReactionForce,
+        )
         self._inputs = InputsRawReactionForce(self)
         self._outputs = OutputsRawReactionForce(self)
         if time_scoping is not None:

@@ -78,9 +78,6 @@ class identical_anys(Operator):
     >>> result_message = op.outputs.message()
     """
 
-    _inputs: InputsIdenticalAnys
-    _outputs: OutputsIdenticalAnys
-
     def __init__(
         self,
         anyA=None,
@@ -91,7 +88,13 @@ class identical_anys(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="compare::any", config=config, server=server)
+        super().__init__(
+            name="compare::any",
+            config=config,
+            server=server,
+            inputs_type=InputsIdenticalAnys,
+            outputs_type=OutputsIdenticalAnys,
+        )
         self._inputs = InputsIdenticalAnys(self)
         self._outputs = OutputsIdenticalAnys(self)
         if anyA is not None:

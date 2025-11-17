@@ -107,9 +107,6 @@ class creep_strain_Y(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCreepStrainY
-    _outputs: OutputsCreepStrainY
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,7 +122,13 @@ class creep_strain_Y(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPCRY", config=config, server=server)
+        super().__init__(
+            name="EPCRY",
+            config=config,
+            server=server,
+            inputs_type=InputsCreepStrainY,
+            outputs_type=OutputsCreepStrainY,
+        )
         self._inputs = InputsCreepStrainY(self)
         self._outputs = OutputsCreepStrainY(self)
         if time_scoping is not None:

@@ -56,11 +56,14 @@ class min_max(Operator):
     >>> result_field_max = op.outputs.field_max()
     """
 
-    _inputs: InputsMinMax
-    _outputs: OutputsMinMax
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="min_max", config=config, server=server)
+        super().__init__(
+            name="min_max",
+            config=config,
+            server=server,
+            inputs_type=InputsMinMax,
+            outputs_type=OutputsMinMax,
+        )
         self._inputs = InputsMinMax(self)
         self._outputs = OutputsMinMax(self)
         if field is not None:

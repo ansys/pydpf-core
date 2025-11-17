@@ -58,13 +58,16 @@ class rotate_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRotateFc
-    _outputs: OutputsRotateFc
-
     def __init__(
         self, fields_container=None, coordinate_system=None, config=None, server=None
     ):
-        super().__init__(name="rotate_fc", config=config, server=server)
+        super().__init__(
+            name="rotate_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsRotateFc,
+            outputs_type=OutputsRotateFc,
+        )
         self._inputs = InputsRotateFc(self)
         self._outputs = OutputsRotateFc(self)
         if fields_container is not None:

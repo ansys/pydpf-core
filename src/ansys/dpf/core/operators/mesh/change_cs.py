@@ -60,11 +60,14 @@ class change_cs(Operator):
     >>> result_meshed_region = op.outputs.meshed_region()
     """
 
-    _inputs: InputsChangeCs
-    _outputs: OutputsChangeCs
-
     def __init__(self, meshes=None, coordinate_system=None, config=None, server=None):
-        super().__init__(name="mesh::change_cs", config=config, server=server)
+        super().__init__(
+            name="mesh::change_cs",
+            config=config,
+            server=server,
+            inputs_type=InputsChangeCs,
+            outputs_type=OutputsChangeCs,
+        )
         self._inputs = InputsChangeCs(self)
         self._outputs = OutputsChangeCs(self)
         if meshes is not None:

@@ -83,9 +83,6 @@ class split_on_property_type(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
-    _inputs: InputsSplitOnPropertyType
-    _outputs: OutputsSplitOnPropertyType
-
     def __init__(
         self,
         mesh_scoping=None,
@@ -97,7 +94,13 @@ class split_on_property_type(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="scoping::by_property", config=config, server=server)
+        super().__init__(
+            name="scoping::by_property",
+            config=config,
+            server=server,
+            inputs_type=InputsSplitOnPropertyType,
+            outputs_type=OutputsSplitOnPropertyType,
+        )
         self._inputs = InputsSplitOnPropertyType(self)
         self._outputs = OutputsSplitOnPropertyType(self)
         if mesh_scoping is not None:

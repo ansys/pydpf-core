@@ -62,9 +62,6 @@ class ints_to_scoping(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
-    _inputs: InputsIntsToScoping
-    _outputs: OutputsIntsToScoping
-
     def __init__(
         self,
         int_or_vector_int=None,
@@ -73,7 +70,13 @@ class ints_to_scoping(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="scopingify", config=config, server=server)
+        super().__init__(
+            name="scopingify",
+            config=config,
+            server=server,
+            inputs_type=InputsIntsToScoping,
+            outputs_type=OutputsIntsToScoping,
+        )
         self._inputs = InputsIntsToScoping(self)
         self._outputs = OutputsIntsToScoping(self)
         if int_or_vector_int is not None:

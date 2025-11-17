@@ -121,9 +121,6 @@ class rom_data_provider(Operator):
     >>> result_phi_ortho = op.outputs.phi_ortho()
     """
 
-    _inputs: InputsRomDataProvider
-    _outputs: OutputsRomDataProvider
-
     def __init__(
         self,
         rom_type=None,
@@ -137,7 +134,13 @@ class rom_data_provider(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="rom_data_provider", config=config, server=server)
+        super().__init__(
+            name="rom_data_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsRomDataProvider,
+            outputs_type=OutputsRomDataProvider,
+        )
         self._inputs = InputsRomDataProvider(self)
         self._outputs = OutputsRomDataProvider(self)
         if rom_type is not None:

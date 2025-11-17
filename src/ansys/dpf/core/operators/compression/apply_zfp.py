@@ -90,9 +90,6 @@ class apply_zfp(Operator):
     >>> result_dataOut = op.outputs.dataOut()
     """
 
-    _inputs: InputsApplyZfp
-    _outputs: OutputsApplyZfp
-
     def __init__(
         self,
         dataIn=None,
@@ -105,7 +102,13 @@ class apply_zfp(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="zfp", config=config, server=server)
+        super().__init__(
+            name="zfp",
+            config=config,
+            server=server,
+            inputs_type=InputsApplyZfp,
+            outputs_type=OutputsApplyZfp,
+        )
         self._inputs = InputsApplyZfp(self)
         self._outputs = OutputsApplyZfp(self)
         if dataIn is not None:

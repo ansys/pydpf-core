@@ -90,9 +90,6 @@ class nodal_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNodalForce
-    _outputs: OutputsNodalForce
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class nodal_force(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="F", config=config, server=server)
+        super().__init__(
+            name="F",
+            config=config,
+            server=server,
+            inputs_type=InputsNodalForce,
+            outputs_type=OutputsNodalForce,
+        )
         self._inputs = InputsNodalForce(self)
         self._outputs = OutputsNodalForce(self)
         if time_scoping is not None:

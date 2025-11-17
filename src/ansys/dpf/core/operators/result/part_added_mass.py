@@ -72,9 +72,6 @@ class part_added_mass(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPartAddedMass
-    _outputs: OutputsPartAddedMass
-
     def __init__(
         self,
         streams_container=None,
@@ -84,7 +81,13 @@ class part_added_mass(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="M_ENG_AM", config=config, server=server)
+        super().__init__(
+            name="M_ENG_AM",
+            config=config,
+            server=server,
+            inputs_type=InputsPartAddedMass,
+            outputs_type=OutputsPartAddedMass,
+        )
         self._inputs = InputsPartAddedMass(self)
         self._outputs = OutputsPartAddedMass(self)
         if streams_container is not None:

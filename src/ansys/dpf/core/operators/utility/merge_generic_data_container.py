@@ -59,9 +59,6 @@ class merge_generic_data_container(Operator):
     >>> result_generic_data_container = op.outputs.generic_data_container()
     """
 
-    _inputs: InputsMergeGenericDataContainer
-    _outputs: OutputsMergeGenericDataContainer
-
     def __init__(
         self,
         generic_data_container1=None,
@@ -70,7 +67,11 @@ class merge_generic_data_container(Operator):
         server=None,
     ):
         super().__init__(
-            name="merge::generic_data_container", config=config, server=server
+            name="merge::generic_data_container",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeGenericDataContainer,
+            outputs_type=OutputsMergeGenericDataContainer,
         )
         self._inputs = InputsMergeGenericDataContainer(self)
         self._outputs = OutputsMergeGenericDataContainer(self)

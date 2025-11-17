@@ -77,11 +77,14 @@ class min_max_over_label_fc(Operator):
     >>> result_scoping_ids_max = op.outputs.scoping_ids_max()
     """
 
-    _inputs: InputsMinMaxOverLabelFc
-    _outputs: OutputsMinMaxOverLabelFc
-
     def __init__(self, fields_container=None, label=None, config=None, server=None):
-        super().__init__(name="min_max_over_label_fc", config=config, server=server)
+        super().__init__(
+            name="min_max_over_label_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsMinMaxOverLabelFc,
+            outputs_type=OutputsMinMaxOverLabelFc,
+        )
         self._inputs = InputsMinMaxOverLabelFc(self)
         self._outputs = OutputsMinMaxOverLabelFc(self)
         if fields_container is not None:

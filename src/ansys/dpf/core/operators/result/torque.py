@@ -58,9 +58,6 @@ class torque(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsTorque
-    _outputs: OutputsTorque
-
     def __init__(
         self,
         fields_container=None,
@@ -69,7 +66,13 @@ class torque(Operator):
         server=None,
         field=None,
     ):
-        super().__init__(name="torque", config=config, server=server)
+        super().__init__(
+            name="torque",
+            config=config,
+            server=server,
+            inputs_type=InputsTorque,
+            outputs_type=OutputsTorque,
+        )
         self._inputs = InputsTorque(self)
         self._outputs = OutputsTorque(self)
         if fields_container is not None:

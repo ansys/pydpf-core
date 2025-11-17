@@ -51,11 +51,14 @@ class operator_id(Operator):
     >>> result_id = op.outputs.id()
     """
 
-    _inputs: InputsOperatorId
-    _outputs: OutputsOperatorId
-
     def __init__(self, op=None, config=None, server=None):
-        super().__init__(name="operator_id", config=config, server=server)
+        super().__init__(
+            name="operator_id",
+            config=config,
+            server=server,
+            inputs_type=InputsOperatorId,
+            outputs_type=OutputsOperatorId,
+        )
         self._inputs = InputsOperatorId(self)
         self._outputs = OutputsOperatorId(self)
         if op is not None:

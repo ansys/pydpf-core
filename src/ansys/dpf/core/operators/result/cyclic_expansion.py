@@ -101,9 +101,6 @@ class cyclic_expansion(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCyclicExpansion
-    _outputs: OutputsCyclicExpansion
-
     def __init__(
         self,
         time_scoping=None,
@@ -120,7 +117,13 @@ class cyclic_expansion(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="cyclic_expansion", config=config, server=server)
+        super().__init__(
+            name="cyclic_expansion",
+            config=config,
+            server=server,
+            inputs_type=InputsCyclicExpansion,
+            outputs_type=OutputsCyclicExpansion,
+        )
         self._inputs = InputsCyclicExpansion(self)
         self._outputs = OutputsCyclicExpansion(self)
         if time_scoping is not None:

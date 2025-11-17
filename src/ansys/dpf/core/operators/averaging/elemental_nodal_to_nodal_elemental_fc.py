@@ -57,14 +57,15 @@ class elemental_nodal_to_nodal_elemental_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElementalNodalToNodalElementalFc
-    _outputs: OutputsElementalNodalToNodalElementalFc
-
     def __init__(
         self, fields_container=None, mesh_scoping=None, config=None, server=None
     ):
         super().__init__(
-            name="ElementalNodal_To_NodalElemental_fc", config=config, server=server
+            name="ElementalNodal_To_NodalElemental_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalNodalToNodalElementalFc,
+            outputs_type=OutputsElementalNodalToNodalElementalFc,
         )
         self._inputs = InputsElementalNodalToNodalElementalFc(self)
         self._outputs = OutputsElementalNodalToNodalElementalFc(self)

@@ -67,9 +67,6 @@ class serializer_to_string(Operator):
     >>> result_serialized_string2 = op.outputs.serialized_string2()
     """
 
-    _inputs: InputsSerializerToString
-    _outputs: OutputsSerializerToString
-
     def __init__(
         self,
         stream_type=None,
@@ -78,7 +75,13 @@ class serializer_to_string(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="serializer_to_string", config=config, server=server)
+        super().__init__(
+            name="serializer_to_string",
+            config=config,
+            server=server,
+            inputs_type=InputsSerializerToString,
+            outputs_type=OutputsSerializerToString,
+        )
         self._inputs = InputsSerializerToString(self)
         self._outputs = OutputsSerializerToString(self)
         if stream_type is not None:

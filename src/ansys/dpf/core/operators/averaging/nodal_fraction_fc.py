@@ -70,9 +70,6 @@ class nodal_fraction_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNodalFractionFc
-    _outputs: OutputsNodalFractionFc
-
     def __init__(
         self,
         fields_container=None,
@@ -82,7 +79,13 @@ class nodal_fraction_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="nodal_fraction_fc", config=config, server=server)
+        super().__init__(
+            name="nodal_fraction_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsNodalFractionFc,
+            outputs_type=OutputsNodalFractionFc,
+        )
         self._inputs = InputsNodalFractionFc(self)
         self._outputs = OutputsNodalFractionFc(self)
         if fields_container is not None:

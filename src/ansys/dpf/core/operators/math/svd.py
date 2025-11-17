@@ -60,11 +60,14 @@ class svd(Operator):
     >>> result_vt_svd = op.outputs.vt_svd()
     """
 
-    _inputs: InputsSvd
-    _outputs: OutputsSvd
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="svdOp", config=config, server=server)
+        super().__init__(
+            name="svdOp",
+            config=config,
+            server=server,
+            inputs_type=InputsSvd,
+            outputs_type=OutputsSvd,
+        )
         self._inputs = InputsSvd(self)
         self._outputs = OutputsSvd(self)
         if fields_container is not None:

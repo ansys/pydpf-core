@@ -59,11 +59,14 @@ class dot_tensor(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsDotTensor
-    _outputs: OutputsDotTensor
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="dot_tensor", config=config, server=server)
+        super().__init__(
+            name="dot_tensor",
+            config=config,
+            server=server,
+            inputs_type=InputsDotTensor,
+            outputs_type=OutputsDotTensor,
+        )
         self._inputs = InputsDotTensor(self)
         self._outputs = OutputsDotTensor(self)
         if fieldA is not None:

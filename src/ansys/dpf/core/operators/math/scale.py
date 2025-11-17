@@ -71,9 +71,6 @@ class scale(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsScale
-    _outputs: OutputsScale
-
     def __init__(
         self,
         field=None,
@@ -84,7 +81,13 @@ class scale(Operator):
         server=None,
         ponderation=None,
     ):
-        super().__init__(name="scale", config=config, server=server)
+        super().__init__(
+            name="scale",
+            config=config,
+            server=server,
+            inputs_type=InputsScale,
+            outputs_type=OutputsScale,
+        )
         self._inputs = InputsScale(self)
         self._outputs = OutputsScale(self)
         if field is not None:

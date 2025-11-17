@@ -53,11 +53,14 @@ class eigen_values(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsEigenValues
-    _outputs: OutputsEigenValues
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="eig_values", config=config, server=server)
+        super().__init__(
+            name="eig_values",
+            config=config,
+            server=server,
+            inputs_type=InputsEigenValues,
+            outputs_type=OutputsEigenValues,
+        )
         self._inputs = InputsEigenValues(self)
         self._outputs = OutputsEigenValues(self)
         if field is not None:

@@ -51,11 +51,14 @@ class phase_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPhaseFc
-    _outputs: OutputsPhaseFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="phase_fc", config=config, server=server)
+        super().__init__(
+            name="phase_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsPhaseFc,
+            outputs_type=OutputsPhaseFc,
+        )
         self._inputs = InputsPhaseFc(self)
         self._outputs = OutputsPhaseFc(self)
         if fields_container is not None:

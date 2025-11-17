@@ -61,9 +61,6 @@ class min_over_time_by_entity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsMinOverTimeByEntity
-    _outputs: OutputsMinOverTimeByEntity
-
     def __init__(
         self,
         fields_container=None,
@@ -72,7 +69,13 @@ class min_over_time_by_entity(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="min_over_time_by_entity", config=config, server=server)
+        super().__init__(
+            name="min_over_time_by_entity",
+            config=config,
+            server=server,
+            inputs_type=InputsMinOverTimeByEntity,
+            outputs_type=OutputsMinOverTimeByEntity,
+        )
         self._inputs = InputsMinOverTimeByEntity(self)
         self._outputs = OutputsMinOverTimeByEntity(self)
         if fields_container is not None:

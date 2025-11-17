@@ -68,14 +68,15 @@ class rotate_in_cylindrical_cs_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRotateInCylindricalCsFc
-    _outputs: OutputsRotateInCylindricalCsFc
-
     def __init__(
         self, field=None, coordinate_system=None, mesh=None, config=None, server=None
     ):
         super().__init__(
-            name="transform_cylindrical_cs_fc", config=config, server=server
+            name="transform_cylindrical_cs_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsRotateInCylindricalCsFc,
+            outputs_type=OutputsRotateInCylindricalCsFc,
         )
         self._inputs = InputsRotateInCylindricalCsFc(self)
         self._outputs = OutputsRotateInCylindricalCsFc(self)

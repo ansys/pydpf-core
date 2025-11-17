@@ -90,9 +90,6 @@ class magnetic_vector_potential(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsMagneticVectorPotential
-    _outputs: OutputsMagneticVectorPotential
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class magnetic_vector_potential(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="MVP", config=config, server=server)
+        super().__init__(
+            name="MVP",
+            config=config,
+            server=server,
+            inputs_type=InputsMagneticVectorPotential,
+            outputs_type=OutputsMagneticVectorPotential,
+        )
         self._inputs = InputsMagneticVectorPotential(self)
         self._outputs = OutputsMagneticVectorPotential(self)
         if time_scoping is not None:

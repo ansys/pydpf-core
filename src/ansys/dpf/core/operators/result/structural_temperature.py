@@ -227,9 +227,6 @@ class structural_temperature(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsStructuralTemperature
-    _outputs: OutputsStructuralTemperature
-
     def __init__(
         self,
         time_scoping=None,
@@ -247,7 +244,13 @@ class structural_temperature(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="BFE", config=config, server=server)
+        super().__init__(
+            name="BFE",
+            config=config,
+            server=server,
+            inputs_type=InputsStructuralTemperature,
+            outputs_type=OutputsStructuralTemperature,
+        )
         self._inputs = InputsStructuralTemperature(self)
         self._outputs = OutputsStructuralTemperature(self)
         if time_scoping is not None:

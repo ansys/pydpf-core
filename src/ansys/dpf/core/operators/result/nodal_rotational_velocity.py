@@ -90,9 +90,6 @@ class nodal_rotational_velocity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNodalRotationalVelocity
-    _outputs: OutputsNodalRotationalVelocity
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class nodal_rotational_velocity(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="OMG", config=config, server=server)
+        super().__init__(
+            name="OMG",
+            config=config,
+            server=server,
+            inputs_type=InputsNodalRotationalVelocity,
+            outputs_type=OutputsNodalRotationalVelocity,
+        )
         self._inputs = InputsNodalRotationalVelocity(self)
         self._outputs = OutputsNodalRotationalVelocity(self)
         if time_scoping is not None:

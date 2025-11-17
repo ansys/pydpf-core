@@ -82,9 +82,6 @@ class cyclic_support_provider(Operator):
     >>> result_sector_meshes = op.outputs.sector_meshes()
     """
 
-    _inputs: InputsCyclicSupportProvider
-    _outputs: OutputsCyclicSupportProvider
-
     def __init__(
         self,
         streams_container=None,

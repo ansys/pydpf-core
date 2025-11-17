@@ -94,9 +94,6 @@ class rms_velocity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRmsVelocity
-    _outputs: OutputsRmsVelocity
-
     def __init__(
         self,
         time_scoping=None,
@@ -110,7 +107,13 @@ class rms_velocity(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="V_RMS", config=config, server=server)
+        super().__init__(
+            name="V_RMS",
+            config=config,
+            server=server,
+            inputs_type=InputsRmsVelocity,
+            outputs_type=OutputsRmsVelocity,
+        )
         self._inputs = InputsRmsVelocity(self)
         self._outputs = OutputsRmsVelocity(self)
         if time_scoping is not None:

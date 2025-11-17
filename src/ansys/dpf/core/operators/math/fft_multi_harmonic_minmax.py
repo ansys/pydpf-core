@@ -98,9 +98,6 @@ class fft_multi_harmonic_minmax(Operator):
     >>> result_all_fields = op.outputs.all_fields()
     """
 
-    _inputs: InputsFftMultiHarmonicMinmax
-    _outputs: OutputsFftMultiHarmonicMinmax
-
     def __init__(
         self,
         fields_container=None,
@@ -115,7 +112,13 @@ class fft_multi_harmonic_minmax(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="fft_multi_harmonic_minmax", config=config, server=server)
+        super().__init__(
+            name="fft_multi_harmonic_minmax",
+            config=config,
+            server=server,
+            inputs_type=InputsFftMultiHarmonicMinmax,
+            outputs_type=OutputsFftMultiHarmonicMinmax,
+        )
         self._inputs = InputsFftMultiHarmonicMinmax(self)
         self._outputs = OutputsFftMultiHarmonicMinmax(self)
         if fields_container is not None:

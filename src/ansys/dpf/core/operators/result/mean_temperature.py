@@ -94,9 +94,6 @@ class mean_temperature(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsMeanTemperature
-    _outputs: OutputsMeanTemperature
-
     def __init__(
         self,
         time_scoping=None,
@@ -110,7 +107,13 @@ class mean_temperature(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="TEMP_A", config=config, server=server)
+        super().__init__(
+            name="TEMP_A",
+            config=config,
+            server=server,
+            inputs_type=InputsMeanTemperature,
+            outputs_type=OutputsMeanTemperature,
+        )
         self._inputs = InputsMeanTemperature(self)
         self._outputs = OutputsMeanTemperature(self)
         if time_scoping is not None:

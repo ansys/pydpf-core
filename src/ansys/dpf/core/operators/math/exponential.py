@@ -53,11 +53,14 @@ class exponential(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsExponential
-    _outputs: OutputsExponential
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="exponential", config=config, server=server)
+        super().__init__(
+            name="exponential",
+            config=config,
+            server=server,
+            inputs_type=InputsExponential,
+            outputs_type=OutputsExponential,
+        )
         self._inputs = InputsExponential(self)
         self._outputs = OutputsExponential(self)
         if field is not None:

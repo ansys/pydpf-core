@@ -53,11 +53,14 @@ class total_mass(Operator):
     >>> result_mass = op.outputs.mass()
     """
 
-    _inputs: InputsTotalMass
-    _outputs: OutputsTotalMass
-
     def __init__(self, data_sources=None, config=None, server=None):
-        super().__init__(name="mapdl::mode::total_mass", config=config, server=server)
+        super().__init__(
+            name="mapdl::mode::total_mass",
+            config=config,
+            server=server,
+            inputs_type=InputsTotalMass,
+            outputs_type=OutputsTotalMass,
+        )
         self._inputs = InputsTotalMass(self)
         self._outputs = OutputsTotalMass(self)
         if data_sources is not None:

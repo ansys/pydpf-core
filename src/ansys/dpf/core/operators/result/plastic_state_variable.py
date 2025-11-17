@@ -227,9 +227,6 @@ class plastic_state_variable(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPlasticStateVariable
-    _outputs: OutputsPlasticStateVariable
-
     def __init__(
         self,
         time_scoping=None,
@@ -247,7 +244,13 @@ class plastic_state_variable(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ENL_PSV", config=config, server=server)
+        super().__init__(
+            name="ENL_PSV",
+            config=config,
+            server=server,
+            inputs_type=InputsPlasticStateVariable,
+            outputs_type=OutputsPlasticStateVariable,
+        )
         self._inputs = InputsPlasticStateVariable(self)
         self._outputs = OutputsPlasticStateVariable(self)
         if time_scoping is not None:

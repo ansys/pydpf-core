@@ -107,9 +107,6 @@ class element_orientations_Z(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElementOrientationsZ
-    _outputs: OutputsElementOrientationsZ
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,7 +122,13 @@ class element_orientations_Z(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EULZ", config=config, server=server)
+        super().__init__(
+            name="EULZ",
+            config=config,
+            server=server,
+            inputs_type=InputsElementOrientationsZ,
+            outputs_type=OutputsElementOrientationsZ,
+        )
         self._inputs = InputsElementOrientationsZ(self)
         self._outputs = OutputsElementOrientationsZ(self)
         if time_scoping is not None:

@@ -67,9 +67,6 @@ class connectivity_ids(Operator):
     >>> result_elemental_scoping = op.outputs.elemental_scoping()
     """
 
-    _inputs: InputsConnectivityIds
-    _outputs: OutputsConnectivityIds
-
     def __init__(
         self,
         mesh_scoping=None,
@@ -78,7 +75,13 @@ class connectivity_ids(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="scoping::connectivity_ids", config=config, server=server)
+        super().__init__(
+            name="scoping::connectivity_ids",
+            config=config,
+            server=server,
+            inputs_type=InputsConnectivityIds,
+            outputs_type=OutputsConnectivityIds,
+        )
         self._inputs = InputsConnectivityIds(self)
         self._outputs = OutputsConnectivityIds(self)
         if mesh_scoping is not None:

@@ -65,9 +65,6 @@ class mesh_to_graphics_edges(Operator):
     >>> result_connectivity = op.outputs.connectivity()
     """
 
-    _inputs: InputsMeshToGraphicsEdges
-    _outputs: OutputsMeshToGraphicsEdges
-
     def __init__(
         self,
         mesh_scoping=None,
@@ -76,7 +73,13 @@ class mesh_to_graphics_edges(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mesh_to_graphics_edges", config=config, server=server)
+        super().__init__(
+            name="mesh_to_graphics_edges",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshToGraphicsEdges,
+            outputs_type=OutputsMeshToGraphicsEdges,
+        )
         self._inputs = InputsMeshToGraphicsEdges(self)
         self._outputs = OutputsMeshToGraphicsEdges(self)
         if mesh_scoping is not None:

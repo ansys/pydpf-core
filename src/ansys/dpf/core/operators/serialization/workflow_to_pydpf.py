@@ -57,11 +57,14 @@ class workflow_to_pydpf(Operator):
     >>> result_pydpf_code = op.outputs.pydpf_code()
     """
 
-    _inputs: InputsWorkflowToPydpf
-    _outputs: OutputsWorkflowToPydpf
-
     def __init__(self, workflow=None, output_path=None, config=None, server=None):
-        super().__init__(name="workflow_to_pydpf", config=config, server=server)
+        super().__init__(
+            name="workflow_to_pydpf",
+            config=config,
+            server=server,
+            inputs_type=InputsWorkflowToPydpf,
+            outputs_type=OutputsWorkflowToPydpf,
+        )
         self._inputs = InputsWorkflowToPydpf(self)
         self._outputs = OutputsWorkflowToPydpf(self)
         if workflow is not None:

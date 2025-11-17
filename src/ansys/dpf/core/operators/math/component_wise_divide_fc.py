@@ -59,13 +59,16 @@ class component_wise_divide_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsComponentWiseDivideFc
-    _outputs: OutputsComponentWiseDivideFc
-
     def __init__(
         self, fields_containerA=None, fields_containerB=None, config=None, server=None
     ):
-        super().__init__(name="component_wise_divide_fc", config=config, server=server)
+        super().__init__(
+            name="component_wise_divide_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsComponentWiseDivideFc,
+            outputs_type=OutputsComponentWiseDivideFc,
+        )
         self._inputs = InputsComponentWiseDivideFc(self)
         self._outputs = OutputsComponentWiseDivideFc(self)
         if fields_containerA is not None:

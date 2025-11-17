@@ -72,9 +72,6 @@ class interface_contact_mass(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsInterfaceContactMass
-    _outputs: OutputsInterfaceContactMass
-
     def __init__(
         self,
         streams_container=None,
@@ -84,7 +81,13 @@ class interface_contact_mass(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="R_CMass", config=config, server=server)
+        super().__init__(
+            name="R_CMass",
+            config=config,
+            server=server,
+            inputs_type=InputsInterfaceContactMass,
+            outputs_type=OutputsInterfaceContactMass,
+        )
         self._inputs = InputsInterfaceContactMass(self)
         self._outputs = OutputsInterfaceContactMass(self)
         if streams_container is not None:

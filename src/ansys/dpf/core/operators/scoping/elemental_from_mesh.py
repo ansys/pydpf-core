@@ -53,11 +53,14 @@ class elemental_from_mesh(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
-    _inputs: InputsElementalFromMesh
-    _outputs: OutputsElementalFromMesh
-
     def __init__(self, mesh=None, config=None, server=None):
-        super().__init__(name="GetElementScopingFromMesh", config=config, server=server)
+        super().__init__(
+            name="GetElementScopingFromMesh",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalFromMesh,
+            outputs_type=OutputsElementalFromMesh,
+        )
         self._inputs = InputsElementalFromMesh(self)
         self._outputs = OutputsElementalFromMesh(self)
         if mesh is not None:

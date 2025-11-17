@@ -58,11 +58,14 @@ class outer_product(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsOuterProduct
-    _outputs: OutputsOuterProduct
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="outer_product", config=config, server=server)
+        super().__init__(
+            name="outer_product",
+            config=config,
+            server=server,
+            inputs_type=InputsOuterProduct,
+            outputs_type=OutputsOuterProduct,
+        )
         self._inputs = InputsOuterProduct(self)
         self._outputs = OutputsOuterProduct(self)
         if fieldA is not None:

@@ -59,13 +59,16 @@ class split_fields(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsSplitFields
-    _outputs: OutputsSplitFields
-
     def __init__(
         self, field_or_fields_container=None, meshes=None, config=None, server=None
     ):
-        super().__init__(name="split_fields", config=config, server=server)
+        super().__init__(
+            name="split_fields",
+            config=config,
+            server=server,
+            inputs_type=InputsSplitFields,
+            outputs_type=OutputsSplitFields,
+        )
         self._inputs = InputsSplitFields(self)
         self._outputs = OutputsSplitFields(self)
         if field_or_fields_container is not None:

@@ -56,13 +56,16 @@ class cplx_multiply(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCplxMultiply
-    _outputs: OutputsCplxMultiply
-
     def __init__(
         self, fields_containerA=None, fields_containerB=None, config=None, server=None
     ):
-        super().__init__(name="cplx_multiply", config=config, server=server)
+        super().__init__(
+            name="cplx_multiply",
+            config=config,
+            server=server,
+            inputs_type=InputsCplxMultiply,
+            outputs_type=OutputsCplxMultiply,
+        )
         self._inputs = InputsCplxMultiply(self)
         self._outputs = OutputsCplxMultiply(self)
         if fields_containerA is not None:

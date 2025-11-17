@@ -58,11 +58,14 @@ class identical_scopings(Operator):
     >>> result_message = op.outputs.message()
     """
 
-    _inputs: InputsIdenticalScopings
-    _outputs: OutputsIdenticalScopings
-
     def __init__(self, scopingA=None, scopingB=None, config=None, server=None):
-        super().__init__(name="compare::scoping", config=config, server=server)
+        super().__init__(
+            name="compare::scoping",
+            config=config,
+            server=server,
+            inputs_type=InputsIdenticalScopings,
+            outputs_type=OutputsIdenticalScopings,
+        )
         self._inputs = InputsIdenticalScopings(self)
         self._outputs = OutputsIdenticalScopings(self)
         if scopingA is not None:

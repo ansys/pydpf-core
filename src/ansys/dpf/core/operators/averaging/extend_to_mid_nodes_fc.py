@@ -58,11 +58,14 @@ class extend_to_mid_nodes_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsExtendToMidNodesFc
-    _outputs: OutputsExtendToMidNodesFc
-
     def __init__(self, fields_container=None, mesh=None, config=None, server=None):
-        super().__init__(name="extend_to_mid_nodes_fc", config=config, server=server)
+        super().__init__(
+            name="extend_to_mid_nodes_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsExtendToMidNodesFc,
+            outputs_type=OutputsExtendToMidNodesFc,
+        )
         self._inputs = InputsExtendToMidNodesFc(self)
         self._outputs = OutputsExtendToMidNodesFc(self)
         if fields_container is not None:

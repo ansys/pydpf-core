@@ -52,11 +52,14 @@ class img_part(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsImgPart
-    _outputs: OutputsImgPart
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="img_part", config=config, server=server)
+        super().__init__(
+            name="img_part",
+            config=config,
+            server=server,
+            inputs_type=InputsImgPart,
+            outputs_type=OutputsImgPart,
+        )
         self._inputs = InputsImgPart(self)
         self._outputs = OutputsImgPart(self)
         if fields_container is not None:

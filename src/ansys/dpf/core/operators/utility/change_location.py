@@ -56,11 +56,14 @@ class change_location(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsChangeLocation
-    _outputs: OutputsChangeLocation
-
     def __init__(self, field=None, new_location=None, config=None, server=None):
-        super().__init__(name="change_location", config=config, server=server)
+        super().__init__(
+            name="change_location",
+            config=config,
+            server=server,
+            inputs_type=InputsChangeLocation,
+            outputs_type=OutputsChangeLocation,
+        )
         self._inputs = InputsChangeLocation(self)
         self._outputs = OutputsChangeLocation(self)
         if field is not None:

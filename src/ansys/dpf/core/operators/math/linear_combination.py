@@ -70,9 +70,6 @@ class linear_combination(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsLinearCombination
-    _outputs: OutputsLinearCombination
-
     def __init__(
         self,
         a=None,
@@ -83,7 +80,13 @@ class linear_combination(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="CplxOp", config=config, server=server)
+        super().__init__(
+            name="CplxOp",
+            config=config,
+            server=server,
+            inputs_type=InputsLinearCombination,
+            outputs_type=OutputsLinearCombination,
+        )
         self._inputs = InputsLinearCombination(self)
         self._outputs = OutputsLinearCombination(self)
         if a is not None:

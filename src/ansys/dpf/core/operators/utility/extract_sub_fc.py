@@ -66,9 +66,6 @@ class extract_sub_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsExtractSubFc
-    _outputs: OutputsExtractSubFc
-
     def __init__(
         self,
         fields_container=None,
@@ -77,7 +74,13 @@ class extract_sub_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="extract_sub_fc", config=config, server=server)
+        super().__init__(
+            name="extract_sub_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsExtractSubFc,
+            outputs_type=OutputsExtractSubFc,
+        )
         self._inputs = InputsExtractSubFc(self)
         self._outputs = OutputsExtractSubFc(self)
         if fields_container is not None:

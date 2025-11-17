@@ -84,9 +84,6 @@ class mesh_provider(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
-    _inputs: InputsMeshProvider
-    _outputs: OutputsMeshProvider
-
     def __init__(
         self,
         time_scoping=None,
@@ -98,7 +95,13 @@ class mesh_provider(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mesh_provider", config=config, server=server)
+        super().__init__(
+            name="mesh_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshProvider,
+            outputs_type=OutputsMeshProvider,
+        )
         self._inputs = InputsMeshProvider(self)
         self._outputs = OutputsMeshProvider(self)
         if time_scoping is not None:

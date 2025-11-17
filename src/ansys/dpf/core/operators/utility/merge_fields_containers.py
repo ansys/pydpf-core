@@ -77,9 +77,6 @@ class merge_fields_containers(Operator):
     >>> result_merged_fields_container = op.outputs.merged_fields_container()
     """
 
-    _inputs: InputsMergeFieldsContainers
-    _outputs: OutputsMergeFieldsContainers
-
     def __init__(
         self,
         should_merge_named_selections=None,
@@ -91,7 +88,13 @@ class merge_fields_containers(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="merge::fields_container", config=config, server=server)
+        super().__init__(
+            name="merge::fields_container",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeFieldsContainers,
+            outputs_type=OutputsMergeFieldsContainers,
+        )
         self._inputs = InputsMergeFieldsContainers(self)
         self._outputs = OutputsMergeFieldsContainers(self)
         if should_merge_named_selections is not None:

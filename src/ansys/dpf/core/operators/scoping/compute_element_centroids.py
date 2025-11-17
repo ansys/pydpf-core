@@ -64,11 +64,14 @@ class compute_element_centroids(Operator):
     >>> result_measure = op.outputs.measure()
     """
 
-    _inputs: InputsComputeElementCentroids
-    _outputs: OutputsComputeElementCentroids
-
     def __init__(self, element_scoping=None, mesh=None, config=None, server=None):
-        super().__init__(name="compute_element_centroids", config=config, server=server)
+        super().__init__(
+            name="compute_element_centroids",
+            config=config,
+            server=server,
+            inputs_type=InputsComputeElementCentroids,
+            outputs_type=OutputsComputeElementCentroids,
+        )
         self._inputs = InputsComputeElementCentroids(self)
         self._outputs = OutputsComputeElementCentroids(self)
         if element_scoping is not None:

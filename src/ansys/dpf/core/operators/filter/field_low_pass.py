@@ -64,11 +64,14 @@ class field_low_pass(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsFieldLowPass
-    _outputs: OutputsFieldLowPass
-
     def __init__(self, field=None, threshold=None, both=None, config=None, server=None):
-        super().__init__(name="core::field::low_pass", config=config, server=server)
+        super().__init__(
+            name="core::field::low_pass",
+            config=config,
+            server=server,
+            inputs_type=InputsFieldLowPass,
+            outputs_type=OutputsFieldLowPass,
+        )
         self._inputs = InputsFieldLowPass(self)
         self._outputs = OutputsFieldLowPass(self)
         if field is not None:

@@ -76,9 +76,6 @@ class modal_superposition(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsModalSuperposition
-    _outputs: OutputsModalSuperposition
-
     def __init__(
         self,
         modal_basis=None,
@@ -90,7 +87,11 @@ class modal_superposition(Operator):
         server=None,
     ):
         super().__init__(
-            name="expansion::modal_superposition", config=config, server=server
+            name="expansion::modal_superposition",
+            config=config,
+            server=server,
+            inputs_type=InputsModalSuperposition,
+            outputs_type=OutputsModalSuperposition,
         )
         self._inputs = InputsModalSuperposition(self)
         self._outputs = OutputsModalSuperposition(self)

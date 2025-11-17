@@ -97,9 +97,6 @@ class stress_eqv_as_mechanical(Operator):
     >>> result_meshes_container = op.outputs.meshes_container()
     """
 
-    _inputs: InputsStressEqvAsMechanical
-    _outputs: OutputsStressEqvAsMechanical
-
     def __init__(
         self,
         time_scoping=None,
@@ -113,7 +110,13 @@ class stress_eqv_as_mechanical(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="stress_eqv_as_mechanical", config=config, server=server)
+        super().__init__(
+            name="stress_eqv_as_mechanical",
+            config=config,
+            server=server,
+            inputs_type=InputsStressEqvAsMechanical,
+            outputs_type=OutputsStressEqvAsMechanical,
+        )
         self._inputs = InputsStressEqvAsMechanical(self)
         self._outputs = OutputsStressEqvAsMechanical(self)
         if time_scoping is not None:

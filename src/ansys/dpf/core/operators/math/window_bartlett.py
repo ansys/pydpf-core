@@ -55,11 +55,14 @@ class window_bartlett(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsWindowBartlett
-    _outputs: OutputsWindowBartlett
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="window::bartlett", config=config, server=server)
+        super().__init__(
+            name="window::bartlett",
+            config=config,
+            server=server,
+            inputs_type=InputsWindowBartlett,
+            outputs_type=OutputsWindowBartlett,
+        )
         self._inputs = InputsWindowBartlett(self)
         self._outputs = OutputsWindowBartlett(self)
         if field is not None:

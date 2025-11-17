@@ -70,13 +70,16 @@ class solid_to_skin(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsSolidToSkin
-    _outputs: OutputsSolidToSkin
-
     def __init__(
         self, field=None, mesh=None, solid_mesh=None, config=None, server=None
     ):
-        super().__init__(name="solid_to_skin", config=config, server=server)
+        super().__init__(
+            name="solid_to_skin",
+            config=config,
+            server=server,
+            inputs_type=InputsSolidToSkin,
+            outputs_type=OutputsSolidToSkin,
+        )
         self._inputs = InputsSolidToSkin(self)
         self._outputs = OutputsSolidToSkin(self)
         if field is not None:

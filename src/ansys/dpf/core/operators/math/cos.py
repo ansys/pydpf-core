@@ -53,11 +53,14 @@ class cos(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsCos
-    _outputs: OutputsCos
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="cos", config=config, server=server)
+        super().__init__(
+            name="cos",
+            config=config,
+            server=server,
+            inputs_type=InputsCos,
+            outputs_type=OutputsCos,
+        )
         self._inputs = InputsCos(self)
         self._outputs = OutputsCos(self)
         if field is not None:

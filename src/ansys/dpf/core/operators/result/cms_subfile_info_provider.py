@@ -67,9 +67,6 @@ class cms_subfile_info_provider(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsCmsSubfileInfoProvider
-    _outputs: OutputsCmsSubfileInfoProvider
-
     def __init__(
         self,
         data_sources=None,
@@ -78,7 +75,13 @@ class cms_subfile_info_provider(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="cms_subfile_info_provider", config=config, server=server)
+        super().__init__(
+            name="cms_subfile_info_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsCmsSubfileInfoProvider,
+            outputs_type=OutputsCmsSubfileInfoProvider,
+        )
         self._inputs = InputsCmsSubfileInfoProvider(self)
         self._outputs = OutputsCmsSubfileInfoProvider(self)
         if data_sources is not None:

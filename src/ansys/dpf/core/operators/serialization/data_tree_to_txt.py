@@ -56,11 +56,14 @@ class data_tree_to_txt(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
-    _inputs: InputsDataTreeToTxt
-    _outputs: OutputsDataTreeToTxt
-
     def __init__(self, data_tree=None, path=None, config=None, server=None):
-        super().__init__(name="data_tree_to_txt", config=config, server=server)
+        super().__init__(
+            name="data_tree_to_txt",
+            config=config,
+            server=server,
+            inputs_type=InputsDataTreeToTxt,
+            outputs_type=OutputsDataTreeToTxt,
+        )
         self._inputs = InputsDataTreeToTxt(self)
         self._outputs = OutputsDataTreeToTxt(self)
         if data_tree is not None:

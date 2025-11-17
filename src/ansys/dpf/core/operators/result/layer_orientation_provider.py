@@ -60,12 +60,13 @@ class layer_orientation_provider(Operator):
     >>> result_layer_orientation_data = op.outputs.layer_orientation_data()
     """
 
-    _inputs: InputsLayerOrientationProvider
-    _outputs: OutputsLayerOrientationProvider
-
     def __init__(self, streams=None, data_sources=None, config=None, server=None):
         super().__init__(
-            name="layer_orientation_provider", config=config, server=server
+            name="layer_orientation_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsLayerOrientationProvider,
+            outputs_type=OutputsLayerOrientationProvider,
         )
         self._inputs = InputsLayerOrientationProvider(self)
         self._outputs = OutputsLayerOrientationProvider(self)

@@ -68,9 +68,6 @@ class elemental_mean(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsElementalMean
-    _outputs: OutputsElementalMean
-
     def __init__(
         self,
         field=None,
@@ -80,7 +77,13 @@ class elemental_mean(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="entity_average", config=config, server=server)
+        super().__init__(
+            name="entity_average",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalMean,
+            outputs_type=OutputsElementalMean,
+        )
         self._inputs = InputsElementalMean(self)
         self._outputs = OutputsElementalMean(self)
         if field is not None:

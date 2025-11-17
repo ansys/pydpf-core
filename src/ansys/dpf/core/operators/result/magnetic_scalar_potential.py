@@ -90,9 +90,6 @@ class magnetic_scalar_potential(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsMagneticScalarPotential
-    _outputs: OutputsMagneticScalarPotential
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class magnetic_scalar_potential(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="MAG", config=config, server=server)
+        super().__init__(
+            name="MAG",
+            config=config,
+            server=server,
+            inputs_type=InputsMagneticScalarPotential,
+            outputs_type=OutputsMagneticScalarPotential,
+        )
         self._inputs = InputsMagneticScalarPotential(self)
         self._outputs = OutputsMagneticScalarPotential(self)
         if time_scoping is not None:

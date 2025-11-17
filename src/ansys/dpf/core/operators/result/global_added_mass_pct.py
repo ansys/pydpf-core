@@ -66,9 +66,6 @@ class global_added_mass_pct(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGlobalAddedMassPct
-    _outputs: OutputsGlobalAddedMassPct
-
     def __init__(
         self,
         streams_container=None,
@@ -77,7 +74,13 @@ class global_added_mass_pct(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GLOB_AMP", config=config, server=server)
+        super().__init__(
+            name="GLOB_AMP",
+            config=config,
+            server=server,
+            inputs_type=InputsGlobalAddedMassPct,
+            outputs_type=OutputsGlobalAddedMassPct,
+        )
         self._inputs = InputsGlobalAddedMassPct(self)
         self._outputs = OutputsGlobalAddedMassPct(self)
         if streams_container is not None:

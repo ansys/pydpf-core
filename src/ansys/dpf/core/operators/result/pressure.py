@@ -89,9 +89,6 @@ class pressure(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPressure
-    _outputs: OutputsPressure
-
     def __init__(
         self,
         time_scoping=None,
@@ -104,7 +101,13 @@ class pressure(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="Pressure", config=config, server=server)
+        super().__init__(
+            name="Pressure",
+            config=config,
+            server=server,
+            inputs_type=InputsPressure,
+            outputs_type=OutputsPressure,
+        )
         self._inputs = InputsPressure(self)
         self._outputs = OutputsPressure(self)
         if time_scoping is not None:

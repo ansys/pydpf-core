@@ -232,9 +232,6 @@ class state_variable(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsStateVariable
-    _outputs: OutputsStateVariable
-
     def __init__(
         self,
         time_scoping=None,
@@ -253,7 +250,13 @@ class state_variable(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ESV", config=config, server=server)
+        super().__init__(
+            name="ESV",
+            config=config,
+            server=server,
+            inputs_type=InputsStateVariable,
+            outputs_type=OutputsStateVariable,
+        )
         self._inputs = InputsStateVariable(self)
         self._outputs = OutputsStateVariable(self)
         if time_scoping is not None:

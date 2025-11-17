@@ -55,11 +55,14 @@ class exclude_levelset(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsExcludeLevelset
-    _outputs: OutputsExcludeLevelset
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="levelset::exclude", config=config, server=server)
+        super().__init__(
+            name="levelset::exclude",
+            config=config,
+            server=server,
+            inputs_type=InputsExcludeLevelset,
+            outputs_type=OutputsExcludeLevelset,
+        )
         self._inputs = InputsExcludeLevelset(self)
         self._outputs = OutputsExcludeLevelset(self)
         if fieldA is not None:

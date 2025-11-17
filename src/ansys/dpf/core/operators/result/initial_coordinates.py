@@ -90,9 +90,6 @@ class initial_coordinates(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsInitialCoordinates
-    _outputs: OutputsInitialCoordinates
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class initial_coordinates(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="XI", config=config, server=server)
+        super().__init__(
+            name="XI",
+            config=config,
+            server=server,
+            inputs_type=InputsInitialCoordinates,
+            outputs_type=OutputsInitialCoordinates,
+        )
         self._inputs = InputsInitialCoordinates(self)
         self._outputs = OutputsInitialCoordinates(self)
         if time_scoping is not None:

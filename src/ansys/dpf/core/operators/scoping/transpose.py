@@ -72,9 +72,6 @@ class transpose(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
-    _inputs: InputsTranspose
-    _outputs: OutputsTranspose
-
     def __init__(
         self,
         mesh_scoping=None,
@@ -84,7 +81,13 @@ class transpose(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="transpose_scoping", config=config, server=server)
+        super().__init__(
+            name="transpose_scoping",
+            config=config,
+            server=server,
+            inputs_type=InputsTranspose,
+            outputs_type=OutputsTranspose,
+        )
         self._inputs = InputsTranspose(self)
         self._outputs = OutputsTranspose(self)
         if mesh_scoping is not None:

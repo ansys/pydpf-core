@@ -90,9 +90,6 @@ class reaction_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsReactionForce
-    _outputs: OutputsReactionForce
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class reaction_force(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="RF", config=config, server=server)
+        super().__init__(
+            name="RF",
+            config=config,
+            server=server,
+            inputs_type=InputsReactionForce,
+            outputs_type=OutputsReactionForce,
+        )
         self._inputs = InputsReactionForce(self)
         self._outputs = OutputsReactionForce(self)
         if time_scoping is not None:

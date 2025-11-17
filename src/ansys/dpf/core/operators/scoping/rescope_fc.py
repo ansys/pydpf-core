@@ -62,9 +62,6 @@ class rescope_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRescopeFc
-    _outputs: OutputsRescopeFc
-
     def __init__(
         self,
         fields_container=None,
@@ -73,7 +70,13 @@ class rescope_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="Rescope_fc", config=config, server=server)
+        super().__init__(
+            name="Rescope_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsRescopeFc,
+            outputs_type=OutputsRescopeFc,
+        )
         self._inputs = InputsRescopeFc(self)
         self._outputs = OutputsRescopeFc(self)
         if fields_container is not None:

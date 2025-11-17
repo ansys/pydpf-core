@@ -62,11 +62,14 @@ class deserializer(Operator):
     >>> result_any_output2 = op.outputs.any_output2()
     """
 
-    _inputs: InputsDeserializer
-    _outputs: OutputsDeserializer
-
     def __init__(self, stream_type=None, file_path=None, config=None, server=None):
-        super().__init__(name="deserializer", config=config, server=server)
+        super().__init__(
+            name="deserializer",
+            config=config,
+            server=server,
+            inputs_type=InputsDeserializer,
+            outputs_type=OutputsDeserializer,
+        )
         self._inputs = InputsDeserializer(self)
         self._outputs = OutputsDeserializer(self)
         if stream_type is not None:

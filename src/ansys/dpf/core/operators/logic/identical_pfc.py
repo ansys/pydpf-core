@@ -54,9 +54,6 @@ class identical_pfc(Operator):
     >>> result_message = op.outputs.message()
     """
 
-    _inputs: InputsIdenticalPfc
-    _outputs: OutputsIdenticalPfc
-
     def __init__(
         self,
         property_fields_containerA=None,
@@ -65,7 +62,11 @@ class identical_pfc(Operator):
         server=None,
     ):
         super().__init__(
-            name="compare::property_fields_container", config=config, server=server
+            name="compare::property_fields_container",
+            config=config,
+            server=server,
+            inputs_type=InputsIdenticalPfc,
+            outputs_type=OutputsIdenticalPfc,
         )
         self._inputs = InputsIdenticalPfc(self)
         self._outputs = OutputsIdenticalPfc(self)

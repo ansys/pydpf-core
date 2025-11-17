@@ -70,9 +70,6 @@ class kmeans_clustering(Operator):
     >>> result_scoping_clusters = op.outputs.scoping_clusters()
     """
 
-    _inputs: InputsKmeansClustering
-    _outputs: OutputsKmeansClustering
-
     def __init__(
         self,
         clusters_number=None,
@@ -82,7 +79,13 @@ class kmeans_clustering(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="kmeans_operator", config=config, server=server)
+        super().__init__(
+            name="kmeans_operator",
+            config=config,
+            server=server,
+            inputs_type=InputsKmeansClustering,
+            outputs_type=OutputsKmeansClustering,
+        )
         self._inputs = InputsKmeansClustering(self)
         self._outputs = OutputsKmeansClustering(self)
         if clusters_number is not None:

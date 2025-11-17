@@ -78,9 +78,6 @@ class mesh_property_provider(Operator):
     >>> result_property = op.outputs.property()
     """
 
-    _inputs: InputsMeshPropertyProvider
-    _outputs: OutputsMeshPropertyProvider
-
     def __init__(
         self,
         mesh_scoping=None,
@@ -91,7 +88,13 @@ class mesh_property_provider(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mesh_property_provider", config=config, server=server)
+        super().__init__(
+            name="mesh_property_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshPropertyProvider,
+            outputs_type=OutputsMeshPropertyProvider,
+        )
         self._inputs = InputsMeshPropertyProvider(self)
         self._outputs = OutputsMeshPropertyProvider(self)
         if mesh_scoping is not None:

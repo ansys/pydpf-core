@@ -90,9 +90,6 @@ class incremental_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsIncrementalEnergy
-    _outputs: OutputsIncrementalEnergy
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class incremental_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ENG_INC", config=config, server=server)
+        super().__init__(
+            name="ENG_INC",
+            config=config,
+            server=server,
+            inputs_type=InputsIncrementalEnergy,
+            outputs_type=OutputsIncrementalEnergy,
+        )
         self._inputs = InputsIncrementalEnergy(self)
         self._outputs = OutputsIncrementalEnergy(self)
         if time_scoping is not None:

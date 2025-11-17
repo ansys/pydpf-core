@@ -52,11 +52,14 @@ class real_part(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRealPart
-    _outputs: OutputsRealPart
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="realP_part", config=config, server=server)
+        super().__init__(
+            name="realP_part",
+            config=config,
+            server=server,
+            inputs_type=InputsRealPart,
+            outputs_type=OutputsRealPart,
+        )
         self._inputs = InputsRealPart(self)
         self._outputs = OutputsRealPart(self)
         if fields_container is not None:

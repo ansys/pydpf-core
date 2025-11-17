@@ -107,9 +107,6 @@ class plastic_strain_max_shear(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPlasticStrainMaxShear
-    _outputs: OutputsPlasticStrainMaxShear
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,7 +122,13 @@ class plastic_strain_max_shear(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPPL_max_shear", config=config, server=server)
+        super().__init__(
+            name="EPPL_max_shear",
+            config=config,
+            server=server,
+            inputs_type=InputsPlasticStrainMaxShear,
+            outputs_type=OutputsPlasticStrainMaxShear,
+        )
         self._inputs = InputsPlasticStrainMaxShear(self)
         self._outputs = OutputsPlasticStrainMaxShear(self)
         if time_scoping is not None:

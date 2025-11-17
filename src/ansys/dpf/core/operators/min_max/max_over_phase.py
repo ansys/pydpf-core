@@ -67,9 +67,6 @@ class max_over_phase(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsMaxOverPhase
-    _outputs: OutputsMaxOverPhase
-
     def __init__(
         self,
         real_field=None,
@@ -79,7 +76,13 @@ class max_over_phase(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="max_over_phase", config=config, server=server)
+        super().__init__(
+            name="max_over_phase",
+            config=config,
+            server=server,
+            inputs_type=InputsMaxOverPhase,
+            outputs_type=OutputsMaxOverPhase,
+        )
         self._inputs = InputsMaxOverPhase(self)
         self._outputs = OutputsMaxOverPhase(self)
         if real_field is not None:

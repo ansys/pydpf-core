@@ -86,9 +86,6 @@ class elemental_to_nodal(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsElementalToNodal
-    _outputs: OutputsElementalToNodal
-
     def __init__(
         self,
         field=None,
@@ -98,7 +95,13 @@ class elemental_to_nodal(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="elemental_to_nodal", config=config, server=server)
+        super().__init__(
+            name="elemental_to_nodal",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalToNodal,
+            outputs_type=OutputsElementalToNodal,
+        )
         self._inputs = InputsElementalToNodal(self)
         self._outputs = OutputsElementalToNodal(self)
         if field is not None:

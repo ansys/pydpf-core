@@ -95,9 +95,6 @@ class rms_static_pressure(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRmsStaticPressure
-    _outputs: OutputsRmsStaticPressure
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,7 +108,13 @@ class rms_static_pressure(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="P_SRMS", config=config, server=server)
+        super().__init__(
+            name="P_SRMS",
+            config=config,
+            server=server,
+            inputs_type=InputsRmsStaticPressure,
+            outputs_type=OutputsRmsStaticPressure,
+        )
         self._inputs = InputsRmsStaticPressure(self)
         self._outputs = OutputsRmsStaticPressure(self)
         if time_scoping is not None:

@@ -52,11 +52,14 @@ class from_field(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
-    _inputs: InputsFromField
-    _outputs: OutputsFromField
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="GetSupportFromField", config=config, server=server)
+        super().__init__(
+            name="GetSupportFromField",
+            config=config,
+            server=server,
+            inputs_type=InputsFromField,
+            outputs_type=OutputsFromField,
+        )
         self._inputs = InputsFromField(self)
         self._outputs = OutputsFromField(self)
         if field is not None:

@@ -64,9 +64,6 @@ class ascending_sort_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsAscendingSortFc
-    _outputs: OutputsAscendingSortFc
-
     def __init__(
         self,
         fields_container=None,
@@ -75,7 +72,13 @@ class ascending_sort_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ascending_sort_fc", config=config, server=server)
+        super().__init__(
+            name="ascending_sort_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAscendingSortFc,
+            outputs_type=OutputsAscendingSortFc,
+        )
         self._inputs = InputsAscendingSortFc(self)
         self._outputs = OutputsAscendingSortFc(self)
         if fields_container is not None:

@@ -53,11 +53,14 @@ class matrix_inverse(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsMatrixInverse
-    _outputs: OutputsMatrixInverse
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="inverseOp", config=config, server=server)
+        super().__init__(
+            name="inverseOp",
+            config=config,
+            server=server,
+            inputs_type=InputsMatrixInverse,
+            outputs_type=OutputsMatrixInverse,
+        )
         self._inputs = InputsMatrixInverse(self)
         self._outputs = OutputsMatrixInverse(self)
         if fields_container is not None:

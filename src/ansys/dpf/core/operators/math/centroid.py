@@ -64,11 +64,14 @@ class centroid(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsCentroid
-    _outputs: OutputsCentroid
-
     def __init__(self, fieldA=None, fieldB=None, factor=None, config=None, server=None):
-        super().__init__(name="centroid", config=config, server=server)
+        super().__init__(
+            name="centroid",
+            config=config,
+            server=server,
+            inputs_type=InputsCentroid,
+            outputs_type=OutputsCentroid,
+        )
         self._inputs = InputsCentroid(self)
         self._outputs = OutputsCentroid(self)
         if fieldA is not None:

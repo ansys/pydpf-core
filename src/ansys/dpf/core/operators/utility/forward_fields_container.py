@@ -52,11 +52,14 @@ class forward_fields_container(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsForwardFieldsContainer
-    _outputs: OutputsForwardFieldsContainer
-
     def __init__(self, fields=None, config=None, server=None):
-        super().__init__(name="forward_fc", config=config, server=server)
+        super().__init__(
+            name="forward_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsForwardFieldsContainer,
+            outputs_type=OutputsForwardFieldsContainer,
+        )
         self._inputs = InputsForwardFieldsContainer(self)
         self._outputs = OutputsForwardFieldsContainer(self)
         if fields is not None:

@@ -227,9 +227,6 @@ class elastic_strain_eqv(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElasticStrainEqv
-    _outputs: OutputsElasticStrainEqv
-
     def __init__(
         self,
         time_scoping=None,
@@ -247,7 +244,13 @@ class elastic_strain_eqv(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPEL_EQV", config=config, server=server)
+        super().__init__(
+            name="EPEL_EQV",
+            config=config,
+            server=server,
+            inputs_type=InputsElasticStrainEqv,
+            outputs_type=OutputsElasticStrainEqv,
+        )
         self._inputs = InputsElasticStrainEqv(self)
         self._outputs = OutputsElasticStrainEqv(self)
         if time_scoping is not None:

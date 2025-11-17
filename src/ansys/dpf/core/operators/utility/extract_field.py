@@ -59,11 +59,14 @@ class extract_field(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsExtractField
-    _outputs: OutputsExtractField
-
     def __init__(self, fields_container=None, indices=None, config=None, server=None):
-        super().__init__(name="ExtractFromFC", config=config, server=server)
+        super().__init__(
+            name="ExtractFromFC",
+            config=config,
+            server=server,
+            inputs_type=InputsExtractField,
+            outputs_type=OutputsExtractField,
+        )
         self._inputs = InputsExtractField(self)
         self._outputs = OutputsExtractField(self)
         if fields_container is not None:

@@ -68,9 +68,6 @@ class identical_fc(Operator):
     >>> result_message = op.outputs.message()
     """
 
-    _inputs: InputsIdenticalFc
-    _outputs: OutputsIdenticalFc
-
     def __init__(
         self,
         fields_containerA=None,
@@ -80,7 +77,13 @@ class identical_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="AreFieldsIdentical_fc", config=config, server=server)
+        super().__init__(
+            name="AreFieldsIdentical_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsIdenticalFc,
+            outputs_type=OutputsIdenticalFc,
+        )
         self._inputs = InputsIdenticalFc(self)
         self._outputs = OutputsIdenticalFc(self)
         if fields_containerA is not None:

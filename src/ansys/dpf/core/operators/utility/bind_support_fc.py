@@ -58,11 +58,14 @@ class bind_support_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsBindSupportFc
-    _outputs: OutputsBindSupportFc
-
     def __init__(self, fields_container=None, support=None, config=None, server=None):
-        super().__init__(name="BindSupportFC", config=config, server=server)
+        super().__init__(
+            name="BindSupportFC",
+            config=config,
+            server=server,
+            inputs_type=InputsBindSupportFc,
+            outputs_type=OutputsBindSupportFc,
+        )
         self._inputs = InputsBindSupportFc(self)
         self._outputs = OutputsBindSupportFc(self)
         if fields_container is not None:

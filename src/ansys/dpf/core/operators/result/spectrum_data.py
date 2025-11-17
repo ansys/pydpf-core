@@ -76,11 +76,14 @@ class spectrum_data(Operator):
     >>> result_rigid_response = op.outputs.rigid_response()
     """
 
-    _inputs: InputsSpectrumData
-    _outputs: OutputsSpectrumData
-
     def __init__(self, streams=None, data_sources=None, config=None, server=None):
-        super().__init__(name="spectrum_data", config=config, server=server)
+        super().__init__(
+            name="spectrum_data",
+            config=config,
+            server=server,
+            inputs_type=InputsSpectrumData,
+            outputs_type=OutputsSpectrumData,
+        )
         self._inputs = InputsSpectrumData(self)
         self._outputs = OutputsSpectrumData(self)
         if streams is not None:

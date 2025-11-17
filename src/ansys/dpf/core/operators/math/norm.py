@@ -59,11 +59,14 @@ class norm(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsNorm
-    _outputs: OutputsNorm
-
     def __init__(self, field=None, scalar_int=None, config=None, server=None):
-        super().__init__(name="norm", config=config, server=server)
+        super().__init__(
+            name="norm",
+            config=config,
+            server=server,
+            inputs_type=InputsNorm,
+            outputs_type=OutputsNorm,
+        )
         self._inputs = InputsNorm(self)
         self._outputs = OutputsNorm(self)
         if field is not None:

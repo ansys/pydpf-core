@@ -55,11 +55,14 @@ class window_blackman(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsWindowBlackman
-    _outputs: OutputsWindowBlackman
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="window::blackman", config=config, server=server)
+        super().__init__(
+            name="window::blackman",
+            config=config,
+            server=server,
+            inputs_type=InputsWindowBlackman,
+            outputs_type=OutputsWindowBlackman,
+        )
         self._inputs = InputsWindowBlackman(self)
         self._outputs = OutputsWindowBlackman(self)
         if field is not None:

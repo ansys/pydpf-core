@@ -52,11 +52,14 @@ class default_value(Operator):
     >>> result_output = op.outputs.output()
     """
 
-    _inputs: InputsDefaultValue
-    _outputs: OutputsDefaultValue
-
     def __init__(self, forced_value=None, default_value=None, config=None, server=None):
-        super().__init__(name="default_value", config=config, server=server)
+        super().__init__(
+            name="default_value",
+            config=config,
+            server=server,
+            inputs_type=InputsDefaultValue,
+            outputs_type=OutputsDefaultValue,
+        )
         self._inputs = InputsDefaultValue(self)
         self._outputs = OutputsDefaultValue(self)
         if forced_value is not None:

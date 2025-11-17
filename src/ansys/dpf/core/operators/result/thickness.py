@@ -90,9 +90,6 @@ class thickness(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsThickness
-    _outputs: OutputsThickness
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class thickness(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="thickness", config=config, server=server)
+        super().__init__(
+            name="thickness",
+            config=config,
+            server=server,
+            inputs_type=InputsThickness,
+            outputs_type=OutputsThickness,
+        )
         self._inputs = InputsThickness(self)
         self._outputs = OutputsThickness(self)
         if time_scoping is not None:

@@ -52,11 +52,14 @@ class cos_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCosFc
-    _outputs: OutputsCosFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="cos_fc", config=config, server=server)
+        super().__init__(
+            name="cos_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsCosFc,
+            outputs_type=OutputsCosFc,
+        )
         self._inputs = InputsCosFc(self)
         self._outputs = OutputsCosFc(self)
         if fields_container is not None:

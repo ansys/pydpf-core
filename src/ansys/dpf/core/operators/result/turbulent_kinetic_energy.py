@@ -95,9 +95,6 @@ class turbulent_kinetic_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsTurbulentKineticEnergy
-    _outputs: OutputsTurbulentKineticEnergy
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,7 +108,13 @@ class turbulent_kinetic_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="K", config=config, server=server)
+        super().__init__(
+            name="K",
+            config=config,
+            server=server,
+            inputs_type=InputsTurbulentKineticEnergy,
+            outputs_type=OutputsTurbulentKineticEnergy,
+        )
         self._inputs = InputsTurbulentKineticEnergy(self)
         self._outputs = OutputsTurbulentKineticEnergy(self)
         if time_scoping is not None:

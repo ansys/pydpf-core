@@ -72,9 +72,6 @@ class property_field_provider_by_name(Operator):
     >>> result_property_field = op.outputs.property_field()
     """
 
-    _inputs: InputsPropertyFieldProviderByName
-    _outputs: OutputsPropertyFieldProviderByName
-
     def __init__(
         self,
         mesh_scoping=None,
@@ -85,7 +82,11 @@ class property_field_provider_by_name(Operator):
         server=None,
     ):
         super().__init__(
-            name="property_field_provider_by_name", config=config, server=server
+            name="property_field_provider_by_name",
+            config=config,
+            server=server,
+            inputs_type=InputsPropertyFieldProviderByName,
+            outputs_type=OutputsPropertyFieldProviderByName,
         )
         self._inputs = InputsPropertyFieldProviderByName(self)
         self._outputs = OutputsPropertyFieldProviderByName(self)

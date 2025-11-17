@@ -95,9 +95,6 @@ class epsilon(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsEpsilon
-    _outputs: OutputsEpsilon
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,7 +108,13 @@ class epsilon(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPS", config=config, server=server)
+        super().__init__(
+            name="EPS",
+            config=config,
+            server=server,
+            inputs_type=InputsEpsilon,
+            outputs_type=OutputsEpsilon,
+        )
         self._inputs = InputsEpsilon(self)
         self._outputs = OutputsEpsilon(self)
         if time_scoping is not None:

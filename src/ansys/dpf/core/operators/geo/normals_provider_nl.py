@@ -65,9 +65,6 @@ class normals_provider_nl(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsNormalsProviderNl
-    _outputs: OutputsNormalsProviderNl
-
     def __init__(
         self,
         mesh=None,
@@ -76,7 +73,13 @@ class normals_provider_nl(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="normals_provider_nl", config=config, server=server)
+        super().__init__(
+            name="normals_provider_nl",
+            config=config,
+            server=server,
+            inputs_type=InputsNormalsProviderNl,
+            outputs_type=OutputsNormalsProviderNl,
+        )
         self._inputs = InputsNormalsProviderNl(self)
         self._outputs = OutputsNormalsProviderNl(self)
         if mesh is not None:

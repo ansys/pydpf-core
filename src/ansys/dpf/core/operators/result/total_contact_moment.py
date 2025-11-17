@@ -90,9 +90,6 @@ class total_contact_moment(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsTotalContactMoment
-    _outputs: OutputsTotalContactMoment
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class total_contact_moment(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="CFTTOT", config=config, server=server)
+        super().__init__(
+            name="CFTTOT",
+            config=config,
+            server=server,
+            inputs_type=InputsTotalContactMoment,
+            outputs_type=OutputsTotalContactMoment,
+        )
         self._inputs = InputsTotalContactMoment(self)
         self._outputs = OutputsTotalContactMoment(self)
         if time_scoping is not None:

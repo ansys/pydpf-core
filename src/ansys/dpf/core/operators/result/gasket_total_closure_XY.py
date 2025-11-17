@@ -102,9 +102,6 @@ class gasket_total_closure_XY(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGasketTotalClosureXy
-    _outputs: OutputsGasketTotalClosureXy
-
     def __init__(
         self,
         time_scoping=None,
@@ -119,7 +116,13 @@ class gasket_total_closure_XY(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GKDXY", config=config, server=server)
+        super().__init__(
+            name="GKDXY",
+            config=config,
+            server=server,
+            inputs_type=InputsGasketTotalClosureXy,
+            outputs_type=OutputsGasketTotalClosureXy,
+        )
         self._inputs = InputsGasketTotalClosureXy(self)
         self._outputs = OutputsGasketTotalClosureXy(self)
         if time_scoping is not None:

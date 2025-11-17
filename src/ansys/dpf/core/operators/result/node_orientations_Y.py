@@ -95,9 +95,6 @@ class node_orientations_Y(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNodeOrientationsY
-    _outputs: OutputsNodeOrientationsY
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,7 +108,13 @@ class node_orientations_Y(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EUL_NODY", config=config, server=server)
+        super().__init__(
+            name="EUL_NODY",
+            config=config,
+            server=server,
+            inputs_type=InputsNodeOrientationsY,
+            outputs_type=OutputsNodeOrientationsY,
+        )
         self._inputs = InputsNodeOrientationsY(self)
         self._outputs = OutputsNodeOrientationsY(self)
         if time_scoping is not None:

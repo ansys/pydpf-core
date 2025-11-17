@@ -61,11 +61,14 @@ class average_over_label_fc(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAverageOverLabelFc
-    _outputs: OutputsAverageOverLabelFc
-
     def __init__(self, fields_container=None, label=None, config=None, server=None):
-        super().__init__(name="average_over_label_fc", config=config, server=server)
+        super().__init__(
+            name="average_over_label_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAverageOverLabelFc,
+            outputs_type=OutputsAverageOverLabelFc,
+        )
         self._inputs = InputsAverageOverLabelFc(self)
         self._outputs = OutputsAverageOverLabelFc(self)
         if fields_container is not None:

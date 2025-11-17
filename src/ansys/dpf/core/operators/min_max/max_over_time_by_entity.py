@@ -61,9 +61,6 @@ class max_over_time_by_entity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsMaxOverTimeByEntity
-    _outputs: OutputsMaxOverTimeByEntity
-
     def __init__(
         self,
         fields_container=None,
@@ -72,7 +69,13 @@ class max_over_time_by_entity(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="max_over_time_by_entity", config=config, server=server)
+        super().__init__(
+            name="max_over_time_by_entity",
+            config=config,
+            server=server,
+            inputs_type=InputsMaxOverTimeByEntity,
+            outputs_type=OutputsMaxOverTimeByEntity,
+        )
         self._inputs = InputsMaxOverTimeByEntity(self)
         self._outputs = OutputsMaxOverTimeByEntity(self)
         if fields_container is not None:

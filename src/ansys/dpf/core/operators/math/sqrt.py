@@ -53,11 +53,14 @@ class sqrt(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsSqrt
-    _outputs: OutputsSqrt
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="sqrt", config=config, server=server)
+        super().__init__(
+            name="sqrt",
+            config=config,
+            server=server,
+            inputs_type=InputsSqrt,
+            outputs_type=OutputsSqrt,
+        )
         self._inputs = InputsSqrt(self)
         self._outputs = OutputsSqrt(self)
         if field is not None:

@@ -51,11 +51,14 @@ class field(Operator):
     >>> result_incremented_result = op.outputs.incremented_result()
     """
 
-    _inputs: InputsField
-    _outputs: OutputsField
-
     def __init__(self, input=None, config=None, server=None):
-        super().__init__(name="incremental::merge::field", config=config, server=server)
+        super().__init__(
+            name="incremental::merge::field",
+            config=config,
+            server=server,
+            inputs_type=InputsField,
+            outputs_type=OutputsField,
+        )
         self._inputs = InputsField(self)
         self._outputs = OutputsField(self)
         if input is not None:

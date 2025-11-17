@@ -62,13 +62,16 @@ class mesh_extraction(Operator):
     >>> result_abstract_meshed_region = op.outputs.abstract_meshed_region()
     """
 
-    _inputs: InputsMeshExtraction
-    _outputs: OutputsMeshExtraction
-
     def __init__(
         self, mesh=None, mesh_scoping=None, extension=None, config=None, server=None
     ):
-        super().__init__(name="mesh_extraction", config=config, server=server)
+        super().__init__(
+            name="mesh_extraction",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshExtraction,
+            outputs_type=OutputsMeshExtraction,
+        )
         self._inputs = InputsMeshExtraction(self)
         self._outputs = OutputsMeshExtraction(self)
         if mesh is not None:

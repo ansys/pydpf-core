@@ -63,9 +63,6 @@ class elastic_strain_rotation_by_euler_nodes(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElasticStrainRotationByEulerNodes
-    _outputs: OutputsElasticStrainRotationByEulerNodes
-
     def __init__(
         self,
         fields_container=None,
@@ -78,6 +75,8 @@ class elastic_strain_rotation_by_euler_nodes(Operator):
             name="mapdl::rst::EPEL_rotation_by_euler_nodes",
             config=config,
             server=server,
+            inputs_type=InputsElasticStrainRotationByEulerNodes,
+            outputs_type=OutputsElasticStrainRotationByEulerNodes,
         )
         self._inputs = InputsElasticStrainRotationByEulerNodes(self)
         self._outputs = OutputsElasticStrainRotationByEulerNodes(self)

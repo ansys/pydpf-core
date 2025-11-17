@@ -83,9 +83,6 @@ class mesh_to_pyvista(Operator):
     >>> result_offsets = op.outputs.offsets()
     """
 
-    _inputs: InputsMeshToPyvista
-    _outputs: OutputsMeshToPyvista
-
     def __init__(
         self,
         coordinates=None,
@@ -96,7 +93,13 @@ class mesh_to_pyvista(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mesh_to_pyvista", config=config, server=server)
+        super().__init__(
+            name="mesh_to_pyvista",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshToPyvista,
+            outputs_type=OutputsMeshToPyvista,
+        )
         self._inputs = InputsMeshToPyvista(self)
         self._outputs = OutputsMeshToPyvista(self)
         if coordinates is not None:

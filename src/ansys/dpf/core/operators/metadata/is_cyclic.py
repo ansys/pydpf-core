@@ -59,13 +59,16 @@ class is_cyclic(Operator):
     >>> result_file_path = op.outputs.file_path()
     """
 
-    _inputs: InputsIsCyclic
-    _outputs: OutputsIsCyclic
-
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
-        super().__init__(name="is_cyclic", config=config, server=server)
+        super().__init__(
+            name="is_cyclic",
+            config=config,
+            server=server,
+            inputs_type=InputsIsCyclic,
+            outputs_type=OutputsIsCyclic,
+        )
         self._inputs = InputsIsCyclic(self)
         self._outputs = OutputsIsCyclic(self)
         if streams_container is not None:

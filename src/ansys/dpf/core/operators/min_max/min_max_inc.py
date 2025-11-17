@@ -63,11 +63,14 @@ class min_max_inc(Operator):
     >>> result_domain_ids_max = op.outputs.domain_ids_max()
     """
 
-    _inputs: InputsMinMaxInc
-    _outputs: OutputsMinMaxInc
-
     def __init__(self, field=None, domain_id=None, config=None, server=None):
-        super().__init__(name="min_max_inc", config=config, server=server)
+        super().__init__(
+            name="min_max_inc",
+            config=config,
+            server=server,
+            inputs_type=InputsMinMaxInc,
+            outputs_type=OutputsMinMaxInc,
+        )
         self._inputs = InputsMinMaxInc(self)
         self._outputs = OutputsMinMaxInc(self)
         if field is not None:

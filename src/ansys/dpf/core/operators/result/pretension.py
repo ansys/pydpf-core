@@ -103,9 +103,6 @@ class pretension(Operator):
     >>> result_tension_force = op.outputs.tension_force()
     """
 
-    _inputs: InputsPretension
-    _outputs: OutputsPretension
-
     def __init__(
         self,
         time_scoping=None,
@@ -121,7 +118,13 @@ class pretension(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mapdl::pretension", config=config, server=server)
+        super().__init__(
+            name="mapdl::pretension",
+            config=config,
+            server=server,
+            inputs_type=InputsPretension,
+            outputs_type=OutputsPretension,
+        )
         self._inputs = InputsPretension(self)
         self._outputs = OutputsPretension(self)
         if time_scoping is not None:

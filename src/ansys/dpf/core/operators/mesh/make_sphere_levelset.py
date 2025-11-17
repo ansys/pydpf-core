@@ -62,13 +62,16 @@ class make_sphere_levelset(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsMakeSphereLevelset
-    _outputs: OutputsMakeSphereLevelset
-
     def __init__(
         self, coordinates=None, origin=None, radius=None, config=None, server=None
     ):
-        super().__init__(name="levelset::make_sphere", config=config, server=server)
+        super().__init__(
+            name="levelset::make_sphere",
+            config=config,
+            server=server,
+            inputs_type=InputsMakeSphereLevelset,
+            outputs_type=OutputsMakeSphereLevelset,
+        )
         self._inputs = InputsMakeSphereLevelset(self)
         self._outputs = OutputsMakeSphereLevelset(self)
         if coordinates is not None:

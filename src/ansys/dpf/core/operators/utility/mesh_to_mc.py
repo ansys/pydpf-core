@@ -58,11 +58,14 @@ class mesh_to_mc(Operator):
     >>> result_meshes_container = op.outputs.meshes_container()
     """
 
-    _inputs: InputsMeshToMc
-    _outputs: OutputsMeshToMc
-
     def __init__(self, mesh=None, label=None, config=None, server=None):
-        super().__init__(name="InjectToMeshesContainer", config=config, server=server)
+        super().__init__(
+            name="InjectToMeshesContainer",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshToMc,
+            outputs_type=OutputsMeshToMc,
+        )
         self._inputs = InputsMeshToMc(self)
         self._outputs = OutputsMeshToMc(self)
         if mesh is not None:

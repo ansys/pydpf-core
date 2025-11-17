@@ -84,9 +84,6 @@ class beam_axial_stress(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsBeamAxialStress
-    _outputs: OutputsBeamAxialStress
-
     def __init__(
         self,
         time_scoping=None,
@@ -98,7 +95,13 @@ class beam_axial_stress(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="B_SN", config=config, server=server)
+        super().__init__(
+            name="B_SN",
+            config=config,
+            server=server,
+            inputs_type=InputsBeamAxialStress,
+            outputs_type=OutputsBeamAxialStress,
+        )
         self._inputs = InputsBeamAxialStress(self)
         self._outputs = OutputsBeamAxialStress(self)
         if time_scoping is not None:

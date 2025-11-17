@@ -53,11 +53,14 @@ class strain_from_voigt(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsStrainFromVoigt
-    _outputs: OutputsStrainFromVoigt
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="strain_from_voigt", config=config, server=server)
+        super().__init__(
+            name="strain_from_voigt",
+            config=config,
+            server=server,
+            inputs_type=InputsStrainFromVoigt,
+            outputs_type=OutputsStrainFromVoigt,
+        )
         self._inputs = InputsStrainFromVoigt(self)
         self._outputs = OutputsStrainFromVoigt(self)
         if field is not None:

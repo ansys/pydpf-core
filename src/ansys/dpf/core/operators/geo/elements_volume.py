@@ -60,11 +60,14 @@ class elements_volume(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsElementsVolume
-    _outputs: OutputsElementsVolume
-
     def __init__(self, mesh=None, mesh_scoping=None, config=None, server=None):
-        super().__init__(name="element::volume", config=config, server=server)
+        super().__init__(
+            name="element::volume",
+            config=config,
+            server=server,
+            inputs_type=InputsElementsVolume,
+            outputs_type=OutputsElementsVolume,
+        )
         self._inputs = InputsElementsVolume(self)
         self._outputs = OutputsElementsVolume(self)
         if mesh is not None:

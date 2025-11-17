@@ -53,11 +53,14 @@ class eigen_vectors(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsEigenVectors
-    _outputs: OutputsEigenVectors
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="eig_vectors", config=config, server=server)
+        super().__init__(
+            name="eig_vectors",
+            config=config,
+            server=server,
+            inputs_type=InputsEigenVectors,
+            outputs_type=OutputsEigenVectors,
+        )
         self._inputs = InputsEigenVectors(self)
         self._outputs = OutputsEigenVectors(self)
         if field is not None:

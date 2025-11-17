@@ -146,9 +146,6 @@ class compute_invariant_terms_rbd(Operator):
     >>> result_dnzn = op.outputs.dnzn()
     """
 
-    _inputs: InputsComputeInvariantTermsRbd
-    _outputs: OutputsComputeInvariantTermsRbd
-
     def __init__(
         self,
         rom_matrices=None,
@@ -165,7 +162,11 @@ class compute_invariant_terms_rbd(Operator):
         server=None,
     ):
         super().__init__(
-            name="compute_invariant_terms_rbd", config=config, server=server
+            name="compute_invariant_terms_rbd",
+            config=config,
+            server=server,
+            inputs_type=InputsComputeInvariantTermsRbd,
+            outputs_type=OutputsComputeInvariantTermsRbd,
         )
         self._inputs = InputsComputeInvariantTermsRbd(self)
         self._outputs = OutputsComputeInvariantTermsRbd(self)

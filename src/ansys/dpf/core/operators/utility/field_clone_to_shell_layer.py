@@ -65,9 +65,6 @@ class field_clone_to_shell_layer(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsFieldCloneToShellLayer
-    _outputs: OutputsFieldCloneToShellLayer
-
     def __init__(
         self,
         field=None,
@@ -77,7 +74,11 @@ class field_clone_to_shell_layer(Operator):
         server=None,
     ):
         super().__init__(
-            name="field::clone_to_shell_layer", config=config, server=server
+            name="field::clone_to_shell_layer",
+            config=config,
+            server=server,
+            inputs_type=InputsFieldCloneToShellLayer,
+            outputs_type=OutputsFieldCloneToShellLayer,
         )
         self._inputs = InputsFieldCloneToShellLayer(self)
         self._outputs = OutputsFieldCloneToShellLayer(self)

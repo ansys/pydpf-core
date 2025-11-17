@@ -58,13 +58,16 @@ class mesh_support_provider(Operator):
     >>> result_abstract_field_support = op.outputs.abstract_field_support()
     """
 
-    _inputs: InputsMeshSupportProvider
-    _outputs: OutputsMeshSupportProvider
-
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
-        super().__init__(name="mesh_support_provider", config=config, server=server)
+        super().__init__(
+            name="mesh_support_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshSupportProvider,
+            outputs_type=OutputsMeshSupportProvider,
+        )
         self._inputs = InputsMeshSupportProvider(self)
         self._outputs = OutputsMeshSupportProvider(self)
         if streams_container is not None:

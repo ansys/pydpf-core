@@ -60,11 +60,14 @@ class fft_eval(Operator):
     >>> result_offset = op.outputs.offset()
     """
 
-    _inputs: InputsFftEval
-    _outputs: OutputsFftEval
-
     def __init__(self, field_t=None, time_scoping=None, config=None, server=None):
-        super().__init__(name="fft_eval", config=config, server=server)
+        super().__init__(
+            name="fft_eval",
+            config=config,
+            server=server,
+            inputs_type=InputsFftEval,
+            outputs_type=OutputsFftEval,
+        )
         self._inputs = InputsFftEval(self)
         self._outputs = OutputsFftEval(self)
         if field_t is not None:

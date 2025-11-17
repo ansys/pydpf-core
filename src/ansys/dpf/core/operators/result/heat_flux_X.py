@@ -107,9 +107,6 @@ class heat_flux_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsHeatFluxX
-    _outputs: OutputsHeatFluxX
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,7 +122,13 @@ class heat_flux_X(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="TFX", config=config, server=server)
+        super().__init__(
+            name="TFX",
+            config=config,
+            server=server,
+            inputs_type=InputsHeatFluxX,
+            outputs_type=OutputsHeatFluxX,
+        )
         self._inputs = InputsHeatFluxX(self)
         self._outputs = OutputsHeatFluxX(self)
         if time_scoping is not None:

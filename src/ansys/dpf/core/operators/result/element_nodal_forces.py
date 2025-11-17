@@ -252,9 +252,6 @@ class element_nodal_forces(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElementNodalForces
-    _outputs: OutputsElementNodalForces
-
     def __init__(
         self,
         time_scoping=None,
@@ -277,7 +274,13 @@ class element_nodal_forces(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ENF", config=config, server=server)
+        super().__init__(
+            name="ENF",
+            config=config,
+            server=server,
+            inputs_type=InputsElementNodalForces,
+            outputs_type=OutputsElementNodalForces,
+        )
         self._inputs = InputsElementNodalForces(self)
         self._outputs = OutputsElementNodalForces(self)
         if time_scoping is not None:

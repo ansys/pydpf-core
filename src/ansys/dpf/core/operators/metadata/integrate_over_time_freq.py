@@ -63,13 +63,16 @@ class integrate_over_time_freq(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsIntegrateOverTimeFreq
-    _outputs: OutputsIntegrateOverTimeFreq
-
     def __init__(
         self, field=None, scoping=None, time_freq_support=None, config=None, server=None
     ):
-        super().__init__(name="timefreq::integrate", config=config, server=server)
+        super().__init__(
+            name="timefreq::integrate",
+            config=config,
+            server=server,
+            inputs_type=InputsIntegrateOverTimeFreq,
+            outputs_type=OutputsIntegrateOverTimeFreq,
+        )
         self._inputs = InputsIntegrateOverTimeFreq(self)
         self._outputs = OutputsIntegrateOverTimeFreq(self)
         if field is not None:

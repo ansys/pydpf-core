@@ -247,9 +247,6 @@ class contact_surface_heat_flux(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsContactSurfaceHeatFlux
-    _outputs: OutputsContactSurfaceHeatFlux
-
     def __init__(
         self,
         time_scoping=None,
@@ -271,7 +268,13 @@ class contact_surface_heat_flux(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ECT_FLUX", config=config, server=server)
+        super().__init__(
+            name="ECT_FLUX",
+            config=config,
+            server=server,
+            inputs_type=InputsContactSurfaceHeatFlux,
+            outputs_type=OutputsContactSurfaceHeatFlux,
+        )
         self._inputs = InputsContactSurfaceHeatFlux(self)
         self._outputs = OutputsContactSurfaceHeatFlux(self)
         if time_scoping is not None:

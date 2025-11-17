@@ -65,9 +65,6 @@ class phase_of_max(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsPhaseOfMax
-    _outputs: OutputsPhaseOfMax
-
     def __init__(
         self,
         real_field=None,
@@ -77,7 +74,13 @@ class phase_of_max(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="phase_of_max", config=config, server=server)
+        super().__init__(
+            name="phase_of_max",
+            config=config,
+            server=server,
+            inputs_type=InputsPhaseOfMax,
+            outputs_type=OutputsPhaseOfMax,
+        )
         self._inputs = InputsPhaseOfMax(self)
         self._outputs = OutputsPhaseOfMax(self)
         if real_field is not None:

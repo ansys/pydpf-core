@@ -123,9 +123,6 @@ class nmisc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNmisc
-    _outputs: OutputsNmisc
-
     def __init__(
         self,
         time_scoping=None,

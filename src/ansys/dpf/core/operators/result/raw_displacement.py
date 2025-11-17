@@ -90,9 +90,6 @@ class raw_displacement(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRawDisplacement
-    _outputs: OutputsRawDisplacement
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class raw_displacement(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="UTOT", config=config, server=server)
+        super().__init__(
+            name="UTOT",
+            config=config,
+            server=server,
+            inputs_type=InputsRawDisplacement,
+            outputs_type=OutputsRawDisplacement,
+        )
         self._inputs = InputsRawDisplacement(self)
         self._outputs = OutputsRawDisplacement(self)
         if time_scoping is not None:

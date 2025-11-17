@@ -57,9 +57,6 @@ class add_constant_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsAddConstantFc
-    _outputs: OutputsAddConstantFc
-
     def __init__(
         self,
         fields_container=None,
@@ -68,7 +65,13 @@ class add_constant_fc(Operator):
         server=None,
         ponderation=None,
     ):
-        super().__init__(name="add_constant_fc", config=config, server=server)
+        super().__init__(
+            name="add_constant_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAddConstantFc,
+            outputs_type=OutputsAddConstantFc,
+        )
         self._inputs = InputsAddConstantFc(self)
         self._outputs = OutputsAddConstantFc(self)
         if fields_container is not None:

@@ -65,11 +65,14 @@ class split_streams(Operator):
     >>> result_outputs2 = op.outputs.outputs2()
     """
 
-    _inputs: InputsSplitStreams
-    _outputs: OutputsSplitStreams
-
     def __init__(self, streams=None, output_count=None, config=None, server=None):
-        super().__init__(name="splitter::streams", config=config, server=server)
+        super().__init__(
+            name="splitter::streams",
+            config=config,
+            server=server,
+            inputs_type=InputsSplitStreams,
+            outputs_type=OutputsSplitStreams,
+        )
         self._inputs = InputsSplitStreams(self)
         self._outputs = OutputsSplitStreams(self)
         if streams is not None:

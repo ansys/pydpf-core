@@ -95,9 +95,6 @@ class dynamic_viscosity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsDynamicViscosity
-    _outputs: OutputsDynamicViscosity
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,7 +108,13 @@ class dynamic_viscosity(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="MU", config=config, server=server)
+        super().__init__(
+            name="MU",
+            config=config,
+            server=server,
+            inputs_type=InputsDynamicViscosity,
+            outputs_type=OutputsDynamicViscosity,
+        )
         self._inputs = InputsDynamicViscosity(self)
         self._outputs = OutputsDynamicViscosity(self)
         if time_scoping is not None:

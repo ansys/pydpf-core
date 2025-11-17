@@ -67,14 +67,15 @@ class element_nodal_contribution(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsElementNodalContribution
-    _outputs: OutputsElementNodalContribution
-
     def __init__(
         self, mesh=None, scoping=None, volume_fraction=None, config=None, server=None
     ):
         super().__init__(
-            name="element::nodal_contribution", config=config, server=server
+            name="element::nodal_contribution",
+            config=config,
+            server=server,
+            inputs_type=InputsElementNodalContribution,
+            outputs_type=OutputsElementNodalContribution,
         )
         self._inputs = InputsElementNodalContribution(self)
         self._outputs = OutputsElementNodalContribution(self)

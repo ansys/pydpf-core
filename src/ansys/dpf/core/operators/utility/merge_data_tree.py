@@ -59,11 +59,14 @@ class merge_data_tree(Operator):
     >>> result_any = op.outputs.any()
     """
 
-    _inputs: InputsMergeDataTree
-    _outputs: OutputsMergeDataTree
-
     def __init__(self, data_tree1=None, data_tree2=None, config=None, server=None):
-        super().__init__(name="merge::data_tree", config=config, server=server)
+        super().__init__(
+            name="merge::data_tree",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeDataTree,
+            outputs_type=OutputsMergeDataTree,
+        )
         self._inputs = InputsMergeDataTree(self)
         self._outputs = OutputsMergeDataTree(self)
         if data_tree1 is not None:

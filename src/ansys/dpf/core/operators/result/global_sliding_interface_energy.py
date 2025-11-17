@@ -66,9 +66,6 @@ class global_sliding_interface_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGlobalSlidingInterfaceEnergy
-    _outputs: OutputsGlobalSlidingInterfaceEnergy
-
     def __init__(
         self,
         streams_container=None,
@@ -77,7 +74,13 @@ class global_sliding_interface_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GLOB_SIE", config=config, server=server)
+        super().__init__(
+            name="GLOB_SIE",
+            config=config,
+            server=server,
+            inputs_type=InputsGlobalSlidingInterfaceEnergy,
+            outputs_type=OutputsGlobalSlidingInterfaceEnergy,
+        )
         self._inputs = InputsGlobalSlidingInterfaceEnergy(self)
         self._outputs = OutputsGlobalSlidingInterfaceEnergy(self)
         if streams_container is not None:

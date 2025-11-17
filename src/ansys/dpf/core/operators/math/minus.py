@@ -61,11 +61,14 @@ class minus(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsMinus
-    _outputs: OutputsMinus
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="minus", config=config, server=server)
+        super().__init__(
+            name="minus",
+            config=config,
+            server=server,
+            inputs_type=InputsMinus,
+            outputs_type=OutputsMinus,
+        )
         self._inputs = InputsMinus(self)
         self._outputs = OutputsMinus(self)
         if fieldA is not None:

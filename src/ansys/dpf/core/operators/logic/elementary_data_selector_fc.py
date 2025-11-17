@@ -63,9 +63,6 @@ class elementary_data_selector_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElementaryDataSelectorFc
-    _outputs: OutputsElementaryDataSelectorFc
-
     def __init__(
         self,
         fields_container=None,
@@ -75,7 +72,11 @@ class elementary_data_selector_fc(Operator):
         server=None,
     ):
         super().__init__(
-            name="elementary_data_selector_fc", config=config, server=server
+            name="elementary_data_selector_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsElementaryDataSelectorFc,
+            outputs_type=OutputsElementaryDataSelectorFc,
         )
         self._inputs = InputsElementaryDataSelectorFc(self)
         self._outputs = OutputsElementaryDataSelectorFc(self)

@@ -95,9 +95,6 @@ class nodal_rotational_acceleration_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNodalRotationalAccelerationX
-    _outputs: OutputsNodalRotationalAccelerationX
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,7 +108,13 @@ class nodal_rotational_acceleration_X(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="DMGX", config=config, server=server)
+        super().__init__(
+            name="DMGX",
+            config=config,
+            server=server,
+            inputs_type=InputsNodalRotationalAccelerationX,
+            outputs_type=OutputsNodalRotationalAccelerationX,
+        )
         self._inputs = InputsNodalRotationalAccelerationX(self)
         self._outputs = OutputsNodalRotationalAccelerationX(self)
         if time_scoping is not None:

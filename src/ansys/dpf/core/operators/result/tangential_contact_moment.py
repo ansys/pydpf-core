@@ -90,9 +90,6 @@ class tangential_contact_moment(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsTangentialContactMoment
-    _outputs: OutputsTangentialContactMoment
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class tangential_contact_moment(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="CFTTAN", config=config, server=server)
+        super().__init__(
+            name="CFTTAN",
+            config=config,
+            server=server,
+            inputs_type=InputsTangentialContactMoment,
+            outputs_type=OutputsTangentialContactMoment,
+        )
         self._inputs = InputsTangentialContactMoment(self)
         self._outputs = OutputsTangentialContactMoment(self)
         if time_scoping is not None:

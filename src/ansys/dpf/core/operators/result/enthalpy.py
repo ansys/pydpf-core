@@ -94,9 +94,6 @@ class enthalpy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsEnthalpy
-    _outputs: OutputsEnthalpy
-
     def __init__(
         self,
         time_scoping=None,
@@ -110,7 +107,13 @@ class enthalpy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="H_S", config=config, server=server)
+        super().__init__(
+            name="H_S",
+            config=config,
+            server=server,
+            inputs_type=InputsEnthalpy,
+            outputs_type=OutputsEnthalpy,
+        )
         self._inputs = InputsEnthalpy(self)
         self._outputs = OutputsEnthalpy(self)
         if time_scoping is not None:

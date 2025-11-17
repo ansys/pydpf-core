@@ -75,9 +75,6 @@ class erp_radiation_efficiency(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsErpRadiationEfficiency
-    _outputs: OutputsErpRadiationEfficiency
-
     def __init__(
         self,
         fields_container=None,
@@ -88,7 +85,13 @@ class erp_radiation_efficiency(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="erp_radiation_efficiency", config=config, server=server)
+        super().__init__(
+            name="erp_radiation_efficiency",
+            config=config,
+            server=server,
+            inputs_type=InputsErpRadiationEfficiency,
+            outputs_type=OutputsErpRadiationEfficiency,
+        )
         self._inputs = InputsErpRadiationEfficiency(self)
         self._outputs = OutputsErpRadiationEfficiency(self)
         if fields_container is not None:

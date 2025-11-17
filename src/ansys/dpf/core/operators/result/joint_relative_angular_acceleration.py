@@ -90,9 +90,6 @@ class joint_relative_angular_acceleration(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsJointRelativeAngularAcceleration
-    _outputs: OutputsJointRelativeAngularAcceleration
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class joint_relative_angular_acceleration(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="JDOMG", config=config, server=server)
+        super().__init__(
+            name="JDOMG",
+            config=config,
+            server=server,
+            inputs_type=InputsJointRelativeAngularAcceleration,
+            outputs_type=OutputsJointRelativeAngularAcceleration,
+        )
         self._inputs = InputsJointRelativeAngularAcceleration(self)
         self._outputs = OutputsJointRelativeAngularAcceleration(self)
         if time_scoping is not None:

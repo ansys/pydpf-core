@@ -65,9 +65,6 @@ class descending_sort(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsDescendingSort
-    _outputs: OutputsDescendingSort
-
     def __init__(
         self,
         field=None,
@@ -76,7 +73,13 @@ class descending_sort(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="descending_sort", config=config, server=server)
+        super().__init__(
+            name="descending_sort",
+            config=config,
+            server=server,
+            inputs_type=InputsDescendingSort,
+            outputs_type=OutputsDescendingSort,
+        )
         self._inputs = InputsDescendingSort(self)
         self._outputs = OutputsDescendingSort(self)
         if field is not None:

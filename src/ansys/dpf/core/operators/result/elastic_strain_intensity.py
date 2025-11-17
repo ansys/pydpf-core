@@ -107,9 +107,6 @@ class elastic_strain_intensity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElasticStrainIntensity
-    _outputs: OutputsElasticStrainIntensity
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,7 +122,13 @@ class elastic_strain_intensity(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPEL_intensity", config=config, server=server)
+        super().__init__(
+            name="EPEL_intensity",
+            config=config,
+            server=server,
+            inputs_type=InputsElasticStrainIntensity,
+            outputs_type=OutputsElasticStrainIntensity,
+        )
         self._inputs = InputsElasticStrainIntensity(self)
         self._outputs = OutputsElasticStrainIntensity(self)
         if time_scoping is not None:

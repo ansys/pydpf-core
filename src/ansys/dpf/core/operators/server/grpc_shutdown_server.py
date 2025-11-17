@@ -49,11 +49,14 @@ class grpc_shutdown_server(Operator):
 
     """
 
-    _inputs: InputsGrpcShutdownServer
-    _outputs: OutputsGrpcShutdownServer
-
     def __init__(self, grpc_stream=None, config=None, server=None):
-        super().__init__(name="grpc_server_shutdown", config=config, server=server)
+        super().__init__(
+            name="grpc_server_shutdown",
+            config=config,
+            server=server,
+            inputs_type=InputsGrpcShutdownServer,
+            outputs_type=OutputsGrpcShutdownServer,
+        )
         self._inputs = InputsGrpcShutdownServer(self)
         self._outputs = OutputsGrpcShutdownServer(self)
         if grpc_stream is not None:

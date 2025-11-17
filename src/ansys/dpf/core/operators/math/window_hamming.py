@@ -55,11 +55,14 @@ class window_hamming(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsWindowHamming
-    _outputs: OutputsWindowHamming
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="window::hamming", config=config, server=server)
+        super().__init__(
+            name="window::hamming",
+            config=config,
+            server=server,
+            inputs_type=InputsWindowHamming,
+            outputs_type=OutputsWindowHamming,
+        )
         self._inputs = InputsWindowHamming(self)
         self._outputs = OutputsWindowHamming(self)
         if field is not None:

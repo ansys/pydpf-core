@@ -66,9 +66,6 @@ class prepare_mapping_workflow(Operator):
     >>> result_mapping_workflow = op.outputs.mapping_workflow()
     """
 
-    _inputs: InputsPrepareMappingWorkflow
-    _outputs: OutputsPrepareMappingWorkflow
-
     def __init__(
         self,
         input_support=None,
@@ -78,7 +75,13 @@ class prepare_mapping_workflow(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="prepare_mapping_workflow", config=config, server=server)
+        super().__init__(
+            name="prepare_mapping_workflow",
+            config=config,
+            server=server,
+            inputs_type=InputsPrepareMappingWorkflow,
+            outputs_type=OutputsPrepareMappingWorkflow,
+        )
         self._inputs = InputsPrepareMappingWorkflow(self)
         self._outputs = OutputsPrepareMappingWorkflow(self)
         if input_support is not None:

@@ -52,11 +52,14 @@ class ln_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsLnFc
-    _outputs: OutputsLnFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="ln_fc", config=config, server=server)
+        super().__init__(
+            name="ln_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsLnFc,
+            outputs_type=OutputsLnFc,
+        )
         self._inputs = InputsLnFc(self)
         self._outputs = OutputsLnFc(self)
         if fields_container is not None:

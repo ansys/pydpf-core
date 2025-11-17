@@ -56,11 +56,14 @@ class delegate_to_operator(Operator):
     >>> result_any2 = op.outputs.any2()
     """
 
-    _inputs: InputsDelegateToOperator
-    _outputs: OutputsDelegateToOperator
-
     def __init__(self, operator_name=None, config=None, server=None):
-        super().__init__(name="delegate_to_operator", config=config, server=server)
+        super().__init__(
+            name="delegate_to_operator",
+            config=config,
+            server=server,
+            inputs_type=InputsDelegateToOperator,
+            outputs_type=OutputsDelegateToOperator,
+        )
         self._inputs = InputsDelegateToOperator(self)
         self._outputs = OutputsDelegateToOperator(self)
         if operator_name is not None:

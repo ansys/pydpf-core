@@ -90,9 +90,6 @@ class joint_relative_acceleration(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsJointRelativeAcceleration
-    _outputs: OutputsJointRelativeAcceleration
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class joint_relative_acceleration(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="JA", config=config, server=server)
+        super().__init__(
+            name="JA",
+            config=config,
+            server=server,
+            inputs_type=InputsJointRelativeAcceleration,
+            outputs_type=OutputsJointRelativeAcceleration,
+        )
         self._inputs = InputsJointRelativeAcceleration(self)
         self._outputs = OutputsJointRelativeAcceleration(self)
         if time_scoping is not None:
