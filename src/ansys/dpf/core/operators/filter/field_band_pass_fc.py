@@ -80,8 +80,6 @@ class field_band_pass_fc(Operator):
             inputs_type=InputsFieldBandPassFc,
             outputs_type=OutputsFieldBandPassFc,
         )
-        self._inputs = InputsFieldBandPassFc(self)
-        self._outputs = OutputsFieldBandPassFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if min_threshold is not None:

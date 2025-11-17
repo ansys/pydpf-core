@@ -81,8 +81,6 @@ class global_total_energy(Operator):
             inputs_type=InputsGlobalTotalEnergy,
             outputs_type=OutputsGlobalTotalEnergy,
         )
-        self._inputs = InputsGlobalTotalEnergy(self)
-        self._outputs = OutputsGlobalTotalEnergy(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

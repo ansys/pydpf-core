@@ -129,8 +129,6 @@ class element_orientations_X(Operator):
             inputs_type=InputsElementOrientationsX,
             outputs_type=OutputsElementOrientationsX,
         )
-        self._inputs = InputsElementOrientationsX(self)
-        self._outputs = OutputsElementOrientationsX(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

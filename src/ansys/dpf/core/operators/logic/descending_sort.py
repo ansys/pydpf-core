@@ -80,8 +80,6 @@ class descending_sort(Operator):
             inputs_type=InputsDescendingSort,
             outputs_type=OutputsDescendingSort,
         )
-        self._inputs = InputsDescendingSort(self)
-        self._outputs = OutputsDescendingSort(self)
         if field is not None:
             self.inputs.field.connect(field)
         if component_priority_table is not None:

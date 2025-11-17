@@ -72,8 +72,6 @@ class make_sphere_levelset(Operator):
             inputs_type=InputsMakeSphereLevelset,
             outputs_type=OutputsMakeSphereLevelset,
         )
-        self._inputs = InputsMakeSphereLevelset(self)
-        self._outputs = OutputsMakeSphereLevelset(self)
         if coordinates is not None:
             self.inputs.coordinates.connect(coordinates)
         if origin is not None:

@@ -74,8 +74,6 @@ class mesh_plan_clip(Operator):
             inputs_type=InputsMeshPlanClip,
             outputs_type=OutputsMeshPlanClip,
         )
-        self._inputs = InputsMeshPlanClip(self)
-        self._outputs = OutputsMeshPlanClip(self)
         if mesh_or_field is not None:
             self.inputs.mesh_or_field.connect(mesh_or_field)
         if normal is not None:

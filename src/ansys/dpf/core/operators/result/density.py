@@ -114,8 +114,6 @@ class density(Operator):
             inputs_type=InputsDensity,
             outputs_type=OutputsDensity,
         )
-        self._inputs = InputsDensity(self)
-        self._outputs = OutputsDensity(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

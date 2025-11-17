@@ -65,8 +65,6 @@ class forward_meshes_container(Operator):
             inputs_type=InputsForwardMeshesContainer,
             outputs_type=OutputsForwardMeshesContainer,
         )
-        self._inputs = InputsForwardMeshesContainer(self)
-        self._outputs = OutputsForwardMeshesContainer(self)
         if meshes is not None:
             self.inputs.meshes.connect(meshes)
         if default_label is not None:

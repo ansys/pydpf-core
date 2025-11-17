@@ -109,8 +109,6 @@ class apply_zfp(Operator):
             inputs_type=InputsApplyZfp,
             outputs_type=OutputsApplyZfp,
         )
-        self._inputs = InputsApplyZfp(self)
-        self._outputs = OutputsApplyZfp(self)
         if dataIn is not None:
             self.inputs.dataIn.connect(dataIn)
         if mode is not None:

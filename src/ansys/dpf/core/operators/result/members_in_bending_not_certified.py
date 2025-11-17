@@ -127,8 +127,6 @@ class members_in_bending_not_certified(Operator):
             inputs_type=InputsMembersInBendingNotCertified,
             outputs_type=OutputsMembersInBendingNotCertified,
         )
-        self._inputs = InputsMembersInBendingNotCertified(self)
-        self._outputs = OutputsMembersInBendingNotCertified(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if field_yield_strength is not None:

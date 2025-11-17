@@ -88,8 +88,6 @@ class split_in_for_each_range(Operator):
             inputs_type=InputsSplitInForEachRange,
             outputs_type=OutputsSplitInForEachRange,
         )
-        self._inputs = InputsSplitInForEachRange(self)
-        self._outputs = OutputsSplitInForEachRange(self)
         if iterable is not None:
             self.inputs.iterable.connect(iterable)
         if operator_to_iterate is not None:

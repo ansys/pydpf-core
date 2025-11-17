@@ -78,8 +78,6 @@ class max_by_component(Operator):
             inputs_type=InputsMaxByComponent,
             outputs_type=OutputsMaxByComponent,
         )
-        self._inputs = InputsMaxByComponent(self)
-        self._outputs = OutputsMaxByComponent(self)
         if use_absolute_value is not None:
             self.inputs.use_absolute_value.connect(use_absolute_value)
         if field1 is not None:

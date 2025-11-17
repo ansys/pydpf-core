@@ -74,8 +74,6 @@ class generalized_inner_product_fc(Operator):
             inputs_type=InputsGeneralizedInnerProductFc,
             outputs_type=OutputsGeneralizedInnerProductFc,
         )
-        self._inputs = InputsGeneralizedInnerProductFc(self)
-        self._outputs = OutputsGeneralizedInnerProductFc(self)
         if field_or_fields_container_A is not None:
             self.inputs.field_or_fields_container_A.connect(field_or_fields_container_A)
         if field_or_fields_container_B is not None:

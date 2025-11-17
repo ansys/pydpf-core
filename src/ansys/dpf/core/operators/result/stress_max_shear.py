@@ -128,8 +128,6 @@ class stress_max_shear(Operator):
             inputs_type=InputsStressMaxShear,
             outputs_type=OutputsStressMaxShear,
         )
-        self._inputs = InputsStressMaxShear(self)
-        self._outputs = OutputsStressMaxShear(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

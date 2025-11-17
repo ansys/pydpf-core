@@ -129,8 +129,6 @@ class creep_strain_XZ(Operator):
             inputs_type=InputsCreepStrainXz,
             outputs_type=OutputsCreepStrainXz,
         )
-        self._inputs = InputsCreepStrainXz(self)
-        self._outputs = OutputsCreepStrainXz(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -62,8 +62,6 @@ class cms_dst_table_provider(Operator):
             inputs_type=InputsCmsDstTableProvider,
             outputs_type=OutputsCmsDstTableProvider,
         )
-        self._inputs = InputsCmsDstTableProvider(self)
-        self._outputs = OutputsCmsDstTableProvider(self)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
 

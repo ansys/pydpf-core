@@ -68,8 +68,6 @@ class component_selector_fc(Operator):
             inputs_type=InputsComponentSelectorFc,
             outputs_type=OutputsComponentSelectorFc,
         )
-        self._inputs = InputsComponentSelectorFc(self)
-        self._outputs = OutputsComponentSelectorFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if component_number is not None:

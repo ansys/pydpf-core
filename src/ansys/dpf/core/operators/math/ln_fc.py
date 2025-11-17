@@ -61,8 +61,6 @@ class ln_fc(Operator):
             inputs_type=InputsLnFc,
             outputs_type=OutputsLnFc,
         )
-        self._inputs = InputsLnFc(self)
-        self._outputs = OutputsLnFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

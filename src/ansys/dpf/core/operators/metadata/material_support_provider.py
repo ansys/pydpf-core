@@ -68,8 +68,6 @@ class material_support_provider(Operator):
             inputs_type=InputsMaterialSupportProvider,
             outputs_type=OutputsMaterialSupportProvider,
         )
-        self._inputs = InputsMaterialSupportProvider(self)
-        self._outputs = OutputsMaterialSupportProvider(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

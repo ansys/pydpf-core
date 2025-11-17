@@ -83,8 +83,6 @@ class max_over_phase(Operator):
             inputs_type=InputsMaxOverPhase,
             outputs_type=OutputsMaxOverPhase,
         )
-        self._inputs = InputsMaxOverPhase(self)
-        self._outputs = OutputsMaxOverPhase(self)
         if real_field is not None:
             self.inputs.real_field.connect(real_field)
         if imaginary_field is not None:

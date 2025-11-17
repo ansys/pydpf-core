@@ -66,8 +66,6 @@ class global_to_nodal(Operator):
             inputs_type=InputsGlobalToNodal,
             outputs_type=OutputsGlobalToNodal,
         )
-        self._inputs = InputsGlobalToNodal(self)
-        self._outputs = OutputsGlobalToNodal(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

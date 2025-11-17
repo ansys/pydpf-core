@@ -73,8 +73,6 @@ class torque(Operator):
             inputs_type=InputsTorque,
             outputs_type=OutputsTorque,
         )
-        self._inputs = InputsTorque(self)
-        self._outputs = OutputsTorque(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if spoint is not None:

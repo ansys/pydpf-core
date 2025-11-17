@@ -72,8 +72,6 @@ class quantization_fc(Operator):
             inputs_type=InputsQuantizationFc,
             outputs_type=OutputsQuantizationFc,
         )
-        self._inputs = InputsQuantizationFc(self)
-        self._outputs = OutputsQuantizationFc(self)
         if input_fc is not None:
             self.inputs.input_fc.connect(input_fc)
         if threshold is not None:

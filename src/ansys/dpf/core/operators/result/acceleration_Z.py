@@ -115,8 +115,6 @@ class acceleration_Z(Operator):
             inputs_type=InputsAccelerationZ,
             outputs_type=OutputsAccelerationZ,
         )
-        self._inputs = InputsAccelerationZ(self)
-        self._outputs = OutputsAccelerationZ(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

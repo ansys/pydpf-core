@@ -102,8 +102,6 @@ class make_for_each_range(Operator):
             inputs_type=InputsMakeForEachRange,
             outputs_type=OutputsMakeForEachRange,
         )
-        self._inputs = InputsMakeForEachRange(self)
-        self._outputs = OutputsMakeForEachRange(self)
         if try_generate_iterable is not None:
             self.inputs.try_generate_iterable.connect(try_generate_iterable)
         if iterable is not None:

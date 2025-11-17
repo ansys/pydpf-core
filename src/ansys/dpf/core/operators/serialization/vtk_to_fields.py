@@ -73,8 +73,6 @@ class vtk_to_fields(Operator):
             inputs_type=InputsVtkToFields,
             outputs_type=OutputsVtkToFields,
         )
-        self._inputs = InputsVtkToFields(self)
-        self._outputs = OutputsVtkToFields(self)
         if field_name is not None:
             self.inputs.field_name.connect(field_name)
         if streams is not None:

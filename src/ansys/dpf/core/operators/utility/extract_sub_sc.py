@@ -81,8 +81,6 @@ class extract_sub_sc(Operator):
             inputs_type=InputsExtractSubSc,
             outputs_type=OutputsExtractSubSc,
         )
-        self._inputs = InputsExtractSubSc(self)
-        self._outputs = OutputsExtractSubSc(self)
         if scopings_container is not None:
             self.inputs.scopings_container.connect(scopings_container)
         if label_space is not None:

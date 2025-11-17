@@ -71,8 +71,6 @@ class add(Operator):
             inputs_type=InputsAdd,
             outputs_type=OutputsAdd,
         )
-        self._inputs = InputsAdd(self)
-        self._outputs = OutputsAdd(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

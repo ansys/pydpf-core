@@ -83,8 +83,6 @@ class mac(Operator):
             inputs_type=InputsMac,
             outputs_type=OutputsMac,
         )
-        self._inputs = InputsMac(self)
-        self._outputs = OutputsMac(self)
         if fields_containerA is not None:
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB is not None:

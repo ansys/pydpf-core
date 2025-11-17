@@ -82,8 +82,6 @@ class connectivity_ids(Operator):
             inputs_type=InputsConnectivityIds,
             outputs_type=OutputsConnectivityIds,
         )
-        self._inputs = InputsConnectivityIds(self)
-        self._outputs = OutputsConnectivityIds(self)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if mesh is not None:

@@ -83,8 +83,6 @@ class adapt_with_scopings_container(Operator):
             inputs_type=InputsAdaptWithScopingsContainer,
             outputs_type=OutputsAdaptWithScopingsContainer,
         )
-        self._inputs = InputsAdaptWithScopingsContainer(self)
-        self._outputs = OutputsAdaptWithScopingsContainer(self)
         if field_or_fields_container is not None:
             self.inputs.field_or_fields_container.connect(field_or_fields_container)
         if scopings_container is not None:

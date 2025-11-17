@@ -114,8 +114,6 @@ class rms_velocity(Operator):
             inputs_type=InputsRmsVelocity,
             outputs_type=OutputsRmsVelocity,
         )
-        self._inputs = InputsRmsVelocity(self)
-        self._outputs = OutputsRmsVelocity(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -65,8 +65,6 @@ class prns_to_field(Operator):
             inputs_type=InputsPrnsToField,
             outputs_type=OutputsPrnsToField,
         )
-        self._inputs = InputsPrnsToField(self)
-        self._outputs = OutputsPrnsToField(self)
         if filepath is not None:
             self.inputs.filepath.connect(filepath)
         if columns_to_read is not None:

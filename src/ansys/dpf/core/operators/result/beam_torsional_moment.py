@@ -96,8 +96,6 @@ class beam_torsional_moment(Operator):
             inputs_type=InputsBeamTorsionalMoment,
             outputs_type=OutputsBeamTorsionalMoment,
         )
-        self._inputs = InputsBeamTorsionalMoment(self)
-        self._outputs = OutputsBeamTorsionalMoment(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

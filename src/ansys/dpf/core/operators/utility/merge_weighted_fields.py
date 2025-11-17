@@ -98,8 +98,6 @@ class merge_weighted_fields(Operator):
             inputs_type=InputsMergeWeightedFields,
             outputs_type=OutputsMergeWeightedFields,
         )
-        self._inputs = InputsMergeWeightedFields(self)
-        self._outputs = OutputsMergeWeightedFields(self)
         if sum_merge is not None:
             self.inputs.sum_merge.connect(sum_merge)
         if merged_support is not None:

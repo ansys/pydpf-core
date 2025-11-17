@@ -61,8 +61,6 @@ class segalman_von_mises_eqv(Operator):
             inputs_type=InputsSegalmanVonMisesEqv,
             outputs_type=OutputsSegalmanVonMisesEqv,
         )
-        self._inputs = InputsSegalmanVonMisesEqv(self)
-        self._outputs = OutputsSegalmanVonMisesEqv(self)
         if field is not None:
             self.inputs.field.connect(field)
 

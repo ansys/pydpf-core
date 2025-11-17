@@ -63,8 +63,6 @@ class window_bartlett(Operator):
             inputs_type=InputsWindowBartlett,
             outputs_type=OutputsWindowBartlett,
         )
-        self._inputs = InputsWindowBartlett(self)
-        self._outputs = OutputsWindowBartlett(self)
         if field is not None:
             self.inputs.field.connect(field)
 

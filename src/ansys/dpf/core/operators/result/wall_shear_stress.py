@@ -115,8 +115,6 @@ class wall_shear_stress(Operator):
             inputs_type=InputsWallShearStress,
             outputs_type=OutputsWallShearStress,
         )
-        self._inputs = InputsWallShearStress(self)
-        self._outputs = OutputsWallShearStress(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

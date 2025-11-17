@@ -59,8 +59,6 @@ class operator_id(Operator):
             inputs_type=InputsOperatorId,
             outputs_type=OutputsOperatorId,
         )
-        self._inputs = InputsOperatorId(self)
-        self._outputs = OutputsOperatorId(self)
         if op is not None:
             self.inputs.op.connect(op)
 

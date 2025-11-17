@@ -77,8 +77,6 @@ class nodal_difference(Operator):
             inputs_type=InputsNodalDifference,
             outputs_type=OutputsNodalDifference,
         )
-        self._inputs = InputsNodalDifference(self)
-        self._outputs = OutputsNodalDifference(self)
         if field is not None:
             self.inputs.field.connect(field)
         if mesh_scoping is not None:

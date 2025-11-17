@@ -129,8 +129,6 @@ class magnetic_field_Z(Operator):
             inputs_type=InputsMagneticFieldZ,
             outputs_type=OutputsMagneticFieldZ,
         )
-        self._inputs = InputsMagneticFieldZ(self)
-        self._outputs = OutputsMagneticFieldZ(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

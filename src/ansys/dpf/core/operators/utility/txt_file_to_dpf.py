@@ -60,8 +60,6 @@ class txt_file_to_dpf(Operator):
             inputs_type=InputsTxtFileToDpf,
             outputs_type=OutputsTxtFileToDpf,
         )
-        self._inputs = InputsTxtFileToDpf(self)
-        self._outputs = OutputsTxtFileToDpf(self)
         if input_string is not None:
             self.inputs.input_string.connect(input_string)
 

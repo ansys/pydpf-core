@@ -60,8 +60,6 @@ class modulus(Operator):
             inputs_type=InputsModulus,
             outputs_type=OutputsModulus,
         )
-        self._inputs = InputsModulus(self)
-        self._outputs = OutputsModulus(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

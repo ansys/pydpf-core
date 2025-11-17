@@ -82,8 +82,6 @@ class prepare_mapping_workflow(Operator):
             inputs_type=InputsPrepareMappingWorkflow,
             outputs_type=OutputsPrepareMappingWorkflow,
         )
-        self._inputs = InputsPrepareMappingWorkflow(self)
-        self._outputs = OutputsPrepareMappingWorkflow(self)
         if input_support is not None:
             self.inputs.input_support.connect(input_support)
         if output_support is not None:

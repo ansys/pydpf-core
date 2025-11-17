@@ -251,8 +251,6 @@ class plastic_state_variable(Operator):
             inputs_type=InputsPlasticStateVariable,
             outputs_type=OutputsPlasticStateVariable,
         )
-        self._inputs = InputsPlasticStateVariable(self)
-        self._outputs = OutputsPlasticStateVariable(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

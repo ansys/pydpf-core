@@ -59,8 +59,6 @@ class fields_container(Operator):
             inputs_type=InputsFieldsContainer,
             outputs_type=OutputsFieldsContainer,
         )
-        self._inputs = InputsFieldsContainer(self)
-        self._outputs = OutputsFieldsContainer(self)
         if input is not None:
             self.inputs.input.connect(input)
 

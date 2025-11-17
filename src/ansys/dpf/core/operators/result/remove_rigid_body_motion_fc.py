@@ -90,8 +90,6 @@ class remove_rigid_body_motion_fc(Operator):
             inputs_type=InputsRemoveRigidBodyMotionFc,
             outputs_type=OutputsRemoveRigidBodyMotionFc,
         )
-        self._inputs = InputsRemoveRigidBodyMotionFc(self)
-        self._outputs = OutputsRemoveRigidBodyMotionFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if reference_node_id is not None:

@@ -67,8 +67,6 @@ class scoping_get_attribute(Operator):
             inputs_type=InputsScopingGetAttribute,
             outputs_type=OutputsScopingGetAttribute,
         )
-        self._inputs = InputsScopingGetAttribute(self)
-        self._outputs = OutputsScopingGetAttribute(self)
         if scoping is not None:
             self.inputs.scoping.connect(scoping)
         if property_name is not None:

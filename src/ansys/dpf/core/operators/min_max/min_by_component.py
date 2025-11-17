@@ -78,8 +78,6 @@ class min_by_component(Operator):
             inputs_type=InputsMinByComponent,
             outputs_type=OutputsMinByComponent,
         )
-        self._inputs = InputsMinByComponent(self)
-        self._outputs = OutputsMinByComponent(self)
         if use_absolute_value is not None:
             self.inputs.use_absolute_value.connect(use_absolute_value)
         if field1 is not None:

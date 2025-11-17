@@ -59,8 +59,6 @@ class amplitude_fc(Operator):
             inputs_type=InputsAmplitudeFc,
             outputs_type=OutputsAmplitudeFc,
         )
-        self._inputs = InputsAmplitudeFc(self)
-        self._outputs = OutputsAmplitudeFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

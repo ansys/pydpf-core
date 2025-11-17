@@ -73,8 +73,6 @@ class merge_generic_data_container(Operator):
             inputs_type=InputsMergeGenericDataContainer,
             outputs_type=OutputsMergeGenericDataContainer,
         )
-        self._inputs = InputsMergeGenericDataContainer(self)
-        self._outputs = OutputsMergeGenericDataContainer(self)
         if generic_data_container1 is not None:
             self.inputs.generic_data_container1.connect(generic_data_container1)
         if generic_data_container2 is not None:

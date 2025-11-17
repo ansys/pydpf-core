@@ -73,8 +73,6 @@ class add_constant(Operator):
             inputs_type=InputsAddConstant,
             outputs_type=OutputsAddConstant,
         )
-        self._inputs = InputsAddConstant(self)
-        self._outputs = OutputsAddConstant(self)
         if field is not None:
             self.inputs.field.connect(field)
         if weights is not None:

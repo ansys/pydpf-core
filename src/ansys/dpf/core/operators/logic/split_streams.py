@@ -73,8 +73,6 @@ class split_streams(Operator):
             inputs_type=InputsSplitStreams,
             outputs_type=OutputsSplitStreams,
         )
-        self._inputs = InputsSplitStreams(self)
-        self._outputs = OutputsSplitStreams(self)
         if streams is not None:
             self.inputs.streams.connect(streams)
         if output_count is not None:

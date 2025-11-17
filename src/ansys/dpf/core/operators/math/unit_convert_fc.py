@@ -65,8 +65,6 @@ class unit_convert_fc(Operator):
             inputs_type=InputsUnitConvertFc,
             outputs_type=OutputsUnitConvertFc,
         )
-        self._inputs = InputsUnitConvertFc(self)
-        self._outputs = OutputsUnitConvertFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if unit_name is not None:

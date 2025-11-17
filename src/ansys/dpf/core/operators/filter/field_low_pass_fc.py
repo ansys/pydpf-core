@@ -74,8 +74,6 @@ class field_low_pass_fc(Operator):
             inputs_type=InputsFieldLowPassFc,
             outputs_type=OutputsFieldLowPassFc,
         )
-        self._inputs = InputsFieldLowPassFc(self)
-        self._outputs = OutputsFieldLowPassFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if threshold is not None:

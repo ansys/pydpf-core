@@ -66,8 +66,6 @@ class kronecker_prod(Operator):
             inputs_type=InputsKroneckerProd,
             outputs_type=OutputsKroneckerProd,
         )
-        self._inputs = InputsKroneckerProd(self)
-        self._outputs = OutputsKroneckerProd(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

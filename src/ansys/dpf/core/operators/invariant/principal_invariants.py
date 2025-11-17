@@ -66,8 +66,6 @@ class principal_invariants(Operator):
             inputs_type=InputsPrincipalInvariants,
             outputs_type=OutputsPrincipalInvariants,
         )
-        self._inputs = InputsPrincipalInvariants(self)
-        self._outputs = OutputsPrincipalInvariants(self)
         if field is not None:
             self.inputs.field.connect(field)
 

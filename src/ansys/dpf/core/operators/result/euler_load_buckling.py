@@ -92,8 +92,6 @@ class euler_load_buckling(Operator):
             inputs_type=InputsEulerLoadBuckling,
             outputs_type=OutputsEulerLoadBuckling,
         )
-        self._inputs = InputsEulerLoadBuckling(self)
-        self._outputs = OutputsEulerLoadBuckling(self)
         if field_beam_end_condition is not None:
             self.inputs.field_beam_end_condition.connect(field_beam_end_condition)
         if field_beam_moment_inertia is not None:

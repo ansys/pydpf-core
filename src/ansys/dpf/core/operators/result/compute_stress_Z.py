@@ -96,8 +96,6 @@ class compute_stress_Z(Operator):
             inputs_type=InputsComputeStressZ,
             outputs_type=OutputsComputeStressZ,
         )
-        self._inputs = InputsComputeStressZ(self)
-        self._outputs = OutputsComputeStressZ(self)
         if scoping is not None:
             self.inputs.scoping.connect(scoping)
         if streams_container is not None:

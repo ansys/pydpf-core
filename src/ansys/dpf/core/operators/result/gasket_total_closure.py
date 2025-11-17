@@ -121,8 +121,6 @@ class gasket_total_closure(Operator):
             inputs_type=InputsGasketTotalClosure,
             outputs_type=OutputsGasketTotalClosure,
         )
-        self._inputs = InputsGasketTotalClosure(self)
-        self._outputs = OutputsGasketTotalClosure(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

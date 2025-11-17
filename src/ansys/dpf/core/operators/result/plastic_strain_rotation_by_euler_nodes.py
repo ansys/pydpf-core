@@ -78,8 +78,6 @@ class plastic_strain_rotation_by_euler_nodes(Operator):
             inputs_type=InputsPlasticStrainRotationByEulerNodes,
             outputs_type=OutputsPlasticStrainRotationByEulerNodes,
         )
-        self._inputs = InputsPlasticStrainRotationByEulerNodes(self)
-        self._outputs = OutputsPlasticStrainRotationByEulerNodes(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if streams_container is not None:

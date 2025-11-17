@@ -67,8 +67,6 @@ class merge_result_infos(Operator):
             inputs_type=InputsMergeResultInfos,
             outputs_type=OutputsMergeResultInfos,
         )
-        self._inputs = InputsMergeResultInfos(self)
-        self._outputs = OutputsMergeResultInfos(self)
         if result_infos1 is not None:
             self.inputs.result_infos1.connect(result_infos1)
         if result_infos2 is not None:

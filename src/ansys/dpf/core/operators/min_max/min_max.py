@@ -64,8 +64,6 @@ class min_max(Operator):
             inputs_type=InputsMinMax,
             outputs_type=OutputsMinMax,
         )
-        self._inputs = InputsMinMax(self)
-        self._outputs = OutputsMinMax(self)
         if field is not None:
             self.inputs.field.connect(field)
 

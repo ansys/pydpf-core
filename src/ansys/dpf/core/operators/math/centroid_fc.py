@@ -87,8 +87,6 @@ class centroid_fc(Operator):
             inputs_type=InputsCentroidFc,
             outputs_type=OutputsCentroidFc,
         )
-        self._inputs = InputsCentroidFc(self)
-        self._outputs = OutputsCentroidFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if time_freq is not None:

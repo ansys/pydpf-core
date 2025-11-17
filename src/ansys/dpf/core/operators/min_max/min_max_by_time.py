@@ -73,8 +73,6 @@ class min_max_by_time(Operator):
             inputs_type=InputsMinMaxByTime,
             outputs_type=OutputsMinMaxByTime,
         )
-        self._inputs = InputsMinMaxByTime(self)
-        self._outputs = OutputsMinMaxByTime(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if compute_absolute_value is not None:

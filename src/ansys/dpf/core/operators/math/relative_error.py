@@ -74,8 +74,6 @@ class relative_error(Operator):
             inputs_type=InputsRelativeError,
             outputs_type=OutputsRelativeError,
         )
-        self._inputs = InputsRelativeError(self)
-        self._outputs = OutputsRelativeError(self)
         if value is not None:
             self.inputs.value.connect(value)
         if reference is not None:

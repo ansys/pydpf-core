@@ -69,8 +69,6 @@ class component_wise_divide_fc(Operator):
             inputs_type=InputsComponentWiseDivideFc,
             outputs_type=OutputsComponentWiseDivideFc,
         )
-        self._inputs = InputsComponentWiseDivideFc(self)
-        self._outputs = OutputsComponentWiseDivideFc(self)
         if fields_containerA is not None:
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB is not None:

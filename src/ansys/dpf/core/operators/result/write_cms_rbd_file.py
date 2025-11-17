@@ -188,8 +188,6 @@ class write_cms_rbd_file(Operator):
             inputs_type=InputsWriteCmsRbdFile,
             outputs_type=OutputsWriteCmsRbdFile,
         )
-        self._inputs = InputsWriteCmsRbdFile(self)
-        self._outputs = OutputsWriteCmsRbdFile(self)
         if model_data is not None:
             self.inputs.model_data.connect(model_data)
         if center_of_mass is not None:

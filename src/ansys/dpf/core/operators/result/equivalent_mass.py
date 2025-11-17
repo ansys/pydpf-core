@@ -139,8 +139,6 @@ class equivalent_mass(Operator):
             inputs_type=InputsEquivalentMass,
             outputs_type=OutputsEquivalentMass,
         )
-        self._inputs = InputsEquivalentMass(self)
-        self._outputs = OutputsEquivalentMass(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -87,8 +87,6 @@ class linear_combination(Operator):
             inputs_type=InputsLinearCombination,
             outputs_type=OutputsLinearCombination,
         )
-        self._inputs = InputsLinearCombination(self)
-        self._outputs = OutputsLinearCombination(self)
         if a is not None:
             self.inputs.a.connect(a)
         if fields_containerA is not None:

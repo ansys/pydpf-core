@@ -141,8 +141,6 @@ class rom_data_provider(Operator):
             inputs_type=InputsRomDataProvider,
             outputs_type=OutputsRomDataProvider,
         )
-        self._inputs = InputsRomDataProvider(self)
-        self._outputs = OutputsRomDataProvider(self)
         if rom_type is not None:
             self.inputs.rom_type.connect(rom_type)
         if reduced_stiff_matrix is not None:

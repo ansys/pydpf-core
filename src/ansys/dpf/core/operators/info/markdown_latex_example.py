@@ -343,8 +343,6 @@ class markdown_latex_example(Operator):
             inputs_type=InputsMarkdownLatexExample,
             outputs_type=OutputsMarkdownLatexExample,
         )
-        self._inputs = InputsMarkdownLatexExample(self)
-        self._outputs = OutputsMarkdownLatexExample(self)
         if bogus_input is not None:
             self.inputs.bogus_input.connect(bogus_input)
 

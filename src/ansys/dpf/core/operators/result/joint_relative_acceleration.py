@@ -109,8 +109,6 @@ class joint_relative_acceleration(Operator):
             inputs_type=InputsJointRelativeAcceleration,
             outputs_type=OutputsJointRelativeAcceleration,
         )
-        self._inputs = InputsJointRelativeAcceleration(self)
-        self._outputs = OutputsJointRelativeAcceleration(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -91,8 +91,6 @@ class apply_svd(Operator):
             inputs_type=InputsApplySvd,
             outputs_type=OutputsApplySvd,
         )
-        self._inputs = InputsApplySvd(self)
-        self._outputs = OutputsApplySvd(self)
         if field_contaner_to_compress is not None:
             self.inputs.field_contaner_to_compress.connect(field_contaner_to_compress)
         if scalar_int is not None:

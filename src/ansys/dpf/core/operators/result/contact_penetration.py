@@ -275,8 +275,6 @@ class contact_penetration(Operator):
             inputs_type=InputsContactPenetration,
             outputs_type=OutputsContactPenetration,
         )
-        self._inputs = InputsContactPenetration(self)
-        self._outputs = OutputsContactPenetration(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

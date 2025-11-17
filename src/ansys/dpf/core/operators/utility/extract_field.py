@@ -69,8 +69,6 @@ class extract_field(Operator):
             inputs_type=InputsExtractField,
             outputs_type=OutputsExtractField,
         )
-        self._inputs = InputsExtractField(self)
-        self._outputs = OutputsExtractField(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if indices is not None:

@@ -67,8 +67,6 @@ class recombine_harmonic_indeces_cyclic(Operator):
             inputs_type=InputsRecombineHarmonicIndecesCyclic,
             outputs_type=OutputsRecombineHarmonicIndecesCyclic,
         )
-        self._inputs = InputsRecombineHarmonicIndecesCyclic(self)
-        self._outputs = OutputsRecombineHarmonicIndecesCyclic(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if is_constant is not None:

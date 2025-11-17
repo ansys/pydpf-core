@@ -115,8 +115,6 @@ class rms_static_pressure(Operator):
             inputs_type=InputsRmsStaticPressure,
             outputs_type=OutputsRmsStaticPressure,
         )
-        self._inputs = InputsRmsStaticPressure(self)
-        self._outputs = OutputsRmsStaticPressure(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

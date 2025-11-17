@@ -92,8 +92,6 @@ class poynting_vector_surface(Operator):
             inputs_type=InputsPoyntingVectorSurface,
             outputs_type=OutputsPoyntingVectorSurface,
         )
-        self._inputs = InputsPoyntingVectorSurface(self)
-        self._outputs = OutputsPoyntingVectorSurface(self)
         if fields_containerA is not None:
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB is not None:

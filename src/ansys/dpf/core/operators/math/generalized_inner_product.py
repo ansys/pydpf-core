@@ -68,8 +68,6 @@ class generalized_inner_product(Operator):
             inputs_type=InputsGeneralizedInnerProduct,
             outputs_type=OutputsGeneralizedInnerProduct,
         )
-        self._inputs = InputsGeneralizedInnerProduct(self)
-        self._outputs = OutputsGeneralizedInnerProduct(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

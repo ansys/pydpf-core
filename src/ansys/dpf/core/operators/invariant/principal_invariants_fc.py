@@ -67,8 +67,6 @@ class principal_invariants_fc(Operator):
             inputs_type=InputsPrincipalInvariantsFc,
             outputs_type=OutputsPrincipalInvariantsFc,
         )
-        self._inputs = InputsPrincipalInvariantsFc(self)
-        self._outputs = OutputsPrincipalInvariantsFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

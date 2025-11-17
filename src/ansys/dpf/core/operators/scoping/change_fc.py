@@ -75,8 +75,6 @@ class change_fc(Operator):
             inputs_type=InputsChangeFc,
             outputs_type=OutputsChangeFc,
         )
-        self._inputs = InputsChangeFc(self)
-        self._outputs = OutputsChangeFc(self)
         if field_or_fields_container is not None:
             self.inputs.field_or_fields_container.connect(field_or_fields_container)
         if scopings_container is not None:

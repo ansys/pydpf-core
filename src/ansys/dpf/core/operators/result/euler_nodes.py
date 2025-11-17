@@ -90,8 +90,6 @@ class euler_nodes(Operator):
             inputs_type=InputsEulerNodes,
             outputs_type=OutputsEulerNodes,
         )
-        self._inputs = InputsEulerNodes(self)
-        self._outputs = OutputsEulerNodes(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

@@ -109,8 +109,6 @@ class modal_basis(Operator):
             inputs_type=InputsModalBasis,
             outputs_type=OutputsModalBasis,
         )
-        self._inputs = InputsModalBasis(self)
-        self._outputs = OutputsModalBasis(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

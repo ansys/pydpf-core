@@ -112,8 +112,6 @@ class elemental_mean_fc(Operator):
             inputs_type=InputsElementalMeanFc,
             outputs_type=OutputsElementalMeanFc,
         )
-        self._inputs = InputsElementalMeanFc(self)
-        self._outputs = OutputsElementalMeanFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if collapse_shell_layers is not None:

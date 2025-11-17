@@ -66,8 +66,6 @@ class von_mises_eqv(Operator):
             inputs_type=InputsVonMisesEqv,
             outputs_type=OutputsVonMisesEqv,
         )
-        self._inputs = InputsVonMisesEqv(self)
-        self._outputs = OutputsVonMisesEqv(self)
         if field is not None:
             self.inputs.field.connect(field)
         if poisson_ratio is not None:

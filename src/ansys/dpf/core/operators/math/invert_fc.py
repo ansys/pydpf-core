@@ -62,8 +62,6 @@ class invert_fc(Operator):
             inputs_type=InputsInvertFc,
             outputs_type=OutputsInvertFc,
         )
-        self._inputs = InputsInvertFc(self)
-        self._outputs = OutputsInvertFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

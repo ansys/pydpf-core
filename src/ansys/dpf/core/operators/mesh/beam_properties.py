@@ -109,8 +109,6 @@ class beam_properties(Operator):
             inputs_type=InputsBeamProperties,
             outputs_type=OutputsBeamProperties,
         )
-        self._inputs = InputsBeamProperties(self)
-        self._outputs = OutputsBeamProperties(self)
         if streams is not None:
             self.inputs.streams.connect(streams)
         if data_sources is not None:

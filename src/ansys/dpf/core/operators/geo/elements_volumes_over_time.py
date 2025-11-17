@@ -74,8 +74,6 @@ class elements_volumes_over_time(Operator):
             inputs_type=InputsElementsVolumesOverTime,
             outputs_type=OutputsElementsVolumesOverTime,
         )
-        self._inputs = InputsElementsVolumesOverTime(self)
-        self._outputs = OutputsElementsVolumesOverTime(self)
         if scoping is not None:
             self.inputs.scoping.connect(scoping)
         if displacement is not None:

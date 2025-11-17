@@ -89,8 +89,6 @@ class add_rigid_body_motion_fc(Operator):
             inputs_type=InputsAddRigidBodyMotionFc,
             outputs_type=OutputsAddRigidBodyMotionFc,
         )
-        self._inputs = InputsAddRigidBodyMotionFc(self)
-        self._outputs = OutputsAddRigidBodyMotionFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if translation_field is not None:

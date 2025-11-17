@@ -59,8 +59,6 @@ class polar_to_cplx(Operator):
             inputs_type=InputsPolarToCplx,
             outputs_type=OutputsPolarToCplx,
         )
-        self._inputs = InputsPolarToCplx(self)
-        self._outputs = OutputsPolarToCplx(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

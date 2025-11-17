@@ -102,8 +102,6 @@ class beam_axial_total_strain(Operator):
             inputs_type=InputsBeamAxialTotalStrain,
             outputs_type=OutputsBeamAxialTotalStrain,
         )
-        self._inputs = InputsBeamAxialTotalStrain(self)
-        self._outputs = OutputsBeamAxialTotalStrain(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

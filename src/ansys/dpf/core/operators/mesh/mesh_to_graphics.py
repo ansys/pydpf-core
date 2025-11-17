@@ -79,8 +79,6 @@ class mesh_to_graphics(Operator):
             inputs_type=InputsMeshToGraphics,
             outputs_type=OutputsMeshToGraphics,
         )
-        self._inputs = InputsMeshToGraphics(self)
-        self._outputs = OutputsMeshToGraphics(self)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if node_normals is not None:

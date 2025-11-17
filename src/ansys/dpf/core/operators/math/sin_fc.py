@@ -61,8 +61,6 @@ class sin_fc(Operator):
             inputs_type=InputsSinFc,
             outputs_type=OutputsSinFc,
         )
-        self._inputs = InputsSinFc(self)
-        self._outputs = OutputsSinFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

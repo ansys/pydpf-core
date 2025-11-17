@@ -72,8 +72,6 @@ class dot(Operator):
             inputs_type=InputsDot,
             outputs_type=OutputsDot,
         )
-        self._inputs = InputsDot(self)
-        self._outputs = OutputsDot(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

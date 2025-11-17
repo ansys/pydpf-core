@@ -63,8 +63,6 @@ class window_hanning(Operator):
             inputs_type=InputsWindowHanning,
             outputs_type=OutputsWindowHanning,
         )
-        self._inputs = InputsWindowHanning(self)
-        self._outputs = OutputsWindowHanning(self)
         if field is not None:
             self.inputs.field.connect(field)
 

@@ -66,8 +66,6 @@ class overlap_fields(Operator):
             inputs_type=InputsOverlapFields,
             outputs_type=OutputsOverlapFields,
         )
-        self._inputs = InputsOverlapFields(self)
-        self._outputs = OutputsOverlapFields(self)
         if base_field is not None:
             self.inputs.base_field.connect(base_field)
         if overlapping_field is not None:

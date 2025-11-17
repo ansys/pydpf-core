@@ -109,8 +109,6 @@ class elemental_mass(Operator):
             inputs_type=InputsElementalMass,
             outputs_type=OutputsElementalMass,
         )
-        self._inputs = InputsElementalMass(self)
-        self._outputs = OutputsElementalMass(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -63,8 +63,6 @@ class window_hamming(Operator):
             inputs_type=InputsWindowHamming,
             outputs_type=OutputsWindowHamming,
         )
-        self._inputs = InputsWindowHamming(self)
-        self._outputs = OutputsWindowHamming(self)
         if field is not None:
             self.inputs.field.connect(field)
 

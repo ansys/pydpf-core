@@ -91,8 +91,6 @@ class cyclic_analytic_seqv_max(Operator):
             inputs_type=InputsCyclicAnalyticSeqvMax,
             outputs_type=OutputsCyclicAnalyticSeqvMax,
         )
-        self._inputs = InputsCyclicAnalyticSeqvMax(self)
-        self._outputs = OutputsCyclicAnalyticSeqvMax(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

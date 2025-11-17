@@ -72,8 +72,6 @@ class compute_element_centroids(Operator):
             inputs_type=InputsComputeElementCentroids,
             outputs_type=OutputsComputeElementCentroids,
         )
-        self._inputs = InputsComputeElementCentroids(self)
-        self._outputs = OutputsComputeElementCentroids(self)
         if element_scoping is not None:
             self.inputs.element_scoping.connect(element_scoping)
         if mesh is not None:

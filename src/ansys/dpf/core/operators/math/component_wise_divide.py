@@ -70,8 +70,6 @@ class component_wise_divide(Operator):
             inputs_type=InputsComponentWiseDivide,
             outputs_type=OutputsComponentWiseDivide,
         )
-        self._inputs = InputsComponentWiseDivide(self)
-        self._outputs = OutputsComponentWiseDivide(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

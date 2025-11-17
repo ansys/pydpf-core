@@ -69,8 +69,6 @@ class is_cyclic(Operator):
             inputs_type=InputsIsCyclic,
             outputs_type=OutputsIsCyclic,
         )
-        self._inputs = InputsIsCyclic(self)
-        self._outputs = OutputsIsCyclic(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

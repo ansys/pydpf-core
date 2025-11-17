@@ -68,8 +68,6 @@ class elements_volume(Operator):
             inputs_type=InputsElementsVolume,
             outputs_type=OutputsElementsVolume,
         )
-        self._inputs = InputsElementsVolume(self)
-        self._outputs = OutputsElementsVolume(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if mesh_scoping is not None:

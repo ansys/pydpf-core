@@ -82,8 +82,6 @@ class prep_sampling_fft(Operator):
             inputs_type=InputsPrepSamplingFft,
             outputs_type=OutputsPrepSamplingFft,
         )
-        self._inputs = InputsPrepSamplingFft(self)
-        self._outputs = OutputsPrepSamplingFft(self)
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
         if cutoff_frequency is not None:

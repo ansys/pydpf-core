@@ -66,8 +66,6 @@ class csv_to_field(Operator):
             inputs_type=InputsCsvToField,
             outputs_type=OutputsCsvToField,
         )
-        self._inputs = InputsCsvToField(self)
-        self._outputs = OutputsCsvToField(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if data_sources is not None:

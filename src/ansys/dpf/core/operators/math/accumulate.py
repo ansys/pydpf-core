@@ -82,8 +82,6 @@ class accumulate(Operator):
             inputs_type=InputsAccumulate,
             outputs_type=OutputsAccumulate,
         )
-        self._inputs = InputsAccumulate(self)
-        self._outputs = OutputsAccumulate(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if weights is not None:

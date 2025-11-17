@@ -78,8 +78,6 @@ class rotate_in_cylindrical_cs_fc(Operator):
             inputs_type=InputsRotateInCylindricalCsFc,
             outputs_type=OutputsRotateInCylindricalCsFc,
         )
-        self._inputs = InputsRotateInCylindricalCsFc(self)
-        self._outputs = OutputsRotateInCylindricalCsFc(self)
         if field is not None:
             self.inputs.field.connect(field)
         if coordinate_system is not None:

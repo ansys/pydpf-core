@@ -93,8 +93,6 @@ class modal_superposition(Operator):
             inputs_type=InputsModalSuperposition,
             outputs_type=OutputsModalSuperposition,
         )
-        self._inputs = InputsModalSuperposition(self)
-        self._outputs = OutputsModalSuperposition(self)
         if modal_basis is not None:
             self.inputs.modal_basis.connect(modal_basis)
         if solution_in_modal_space is not None:

@@ -129,8 +129,6 @@ class plastic_strain_Z(Operator):
             inputs_type=InputsPlasticStrainZ,
             outputs_type=OutputsPlasticStrainZ,
         )
-        self._inputs = InputsPlasticStrainZ(self)
-        self._outputs = OutputsPlasticStrainZ(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

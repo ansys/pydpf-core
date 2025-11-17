@@ -92,8 +92,6 @@ class elemental_fraction_fc(Operator):
             inputs_type=InputsElementalFractionFc,
             outputs_type=OutputsElementalFractionFc,
         )
-        self._inputs = InputsElementalFractionFc(self)
-        self._outputs = OutputsElementalFractionFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

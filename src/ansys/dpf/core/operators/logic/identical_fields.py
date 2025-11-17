@@ -84,8 +84,6 @@ class identical_fields(Operator):
             inputs_type=InputsIdenticalFields,
             outputs_type=OutputsIdenticalFields,
         )
-        self._inputs = InputsIdenticalFields(self)
-        self._outputs = OutputsIdenticalFields(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

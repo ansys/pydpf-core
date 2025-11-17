@@ -81,8 +81,6 @@ class global_kinetic_energy(Operator):
             inputs_type=InputsGlobalKineticEnergy,
             outputs_type=OutputsGlobalKineticEnergy,
         )
-        self._inputs = InputsGlobalKineticEnergy(self)
-        self._outputs = OutputsGlobalKineticEnergy(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

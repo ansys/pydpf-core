@@ -61,8 +61,6 @@ class cos_fc(Operator):
             inputs_type=InputsCosFc,
             outputs_type=OutputsCosFc,
         )
-        self._inputs = InputsCosFc(self)
-        self._outputs = OutputsCosFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

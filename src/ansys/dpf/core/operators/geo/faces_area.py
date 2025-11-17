@@ -68,8 +68,6 @@ class faces_area(Operator):
             inputs_type=InputsFacesArea,
             outputs_type=OutputsFacesArea,
         )
-        self._inputs = InputsFacesArea(self)
-        self._outputs = OutputsFacesArea(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if mesh_scoping is not None:

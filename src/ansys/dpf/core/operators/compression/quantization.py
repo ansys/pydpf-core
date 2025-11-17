@@ -72,8 +72,6 @@ class quantization(Operator):
             inputs_type=InputsQuantization,
             outputs_type=OutputsQuantization,
         )
-        self._inputs = InputsQuantization(self)
-        self._outputs = OutputsQuantization(self)
         if input_field is not None:
             self.inputs.input_field.connect(input_field)
         if threshold is not None:

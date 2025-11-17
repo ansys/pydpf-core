@@ -83,8 +83,6 @@ class export_symbolic_workflow(Operator):
             inputs_type=InputsExportSymbolicWorkflow,
             outputs_type=OutputsExportSymbolicWorkflow,
         )
-        self._inputs = InputsExportSymbolicWorkflow(self)
-        self._outputs = OutputsExportSymbolicWorkflow(self)
         if workflow is not None:
             self.inputs.workflow.connect(workflow)
         if path is not None:

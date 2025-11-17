@@ -115,8 +115,6 @@ class nodal_rotational_velocity_Y(Operator):
             inputs_type=InputsNodalRotationalVelocityY,
             outputs_type=OutputsNodalRotationalVelocityY,
         )
-        self._inputs = InputsNodalRotationalVelocityY(self)
-        self._outputs = OutputsNodalRotationalVelocityY(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

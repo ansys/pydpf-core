@@ -92,8 +92,6 @@ class ds_get_attribute(Operator):
             inputs_type=InputsDsGetAttribute,
             outputs_type=OutputsDsGetAttribute,
         )
-        self._inputs = InputsDsGetAttribute(self)
-        self._outputs = OutputsDsGetAttribute(self)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
         if property_name is not None:

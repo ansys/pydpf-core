@@ -73,8 +73,6 @@ class split_mesh(Operator):
             inputs_type=InputsSplitMesh,
             outputs_type=OutputsSplitMesh,
         )
-        self._inputs = InputsSplitMesh(self)
-        self._outputs = OutputsSplitMesh(self)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if mesh is not None:

@@ -92,8 +92,6 @@ class poynting_vector(Operator):
             inputs_type=InputsPoyntingVector,
             outputs_type=OutputsPoyntingVector,
         )
-        self._inputs = InputsPoyntingVector(self)
-        self._outputs = OutputsPoyntingVector(self)
         if fields_containerA is not None:
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB is not None:

@@ -88,8 +88,6 @@ class vtk_export(Operator):
             inputs_type=InputsVtkExport,
             outputs_type=OutputsVtkExport,
         )
-        self._inputs = InputsVtkExport(self)
-        self._outputs = OutputsVtkExport(self)
         if export_type is not None:
             self.inputs.export_type.connect(export_type)
         if file_path is not None:

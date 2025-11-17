@@ -73,8 +73,6 @@ class normals(Operator):
             inputs_type=InputsNormals,
             outputs_type=OutputsNormals,
         )
-        self._inputs = InputsNormals(self)
-        self._outputs = OutputsNormals(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if mesh_scoping is not None:

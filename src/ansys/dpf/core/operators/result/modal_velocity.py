@@ -109,8 +109,6 @@ class modal_velocity(Operator):
             inputs_type=InputsModalVelocity,
             outputs_type=OutputsModalVelocity,
         )
-        self._inputs = InputsModalVelocity(self)
-        self._outputs = OutputsModalVelocity(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

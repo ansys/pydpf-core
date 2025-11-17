@@ -79,8 +79,6 @@ class rescope_property_field(Operator):
             inputs_type=InputsRescopePropertyField,
             outputs_type=OutputsRescopePropertyField,
         )
-        self._inputs = InputsRescopePropertyField(self)
-        self._outputs = OutputsRescopePropertyField(self)
         if fields is not None:
             self.inputs.fields.connect(fields)
         if mesh_scoping is not None:

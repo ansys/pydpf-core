@@ -64,8 +64,6 @@ class delegate_to_operator(Operator):
             inputs_type=InputsDelegateToOperator,
             outputs_type=OutputsDelegateToOperator,
         )
-        self._inputs = InputsDelegateToOperator(self)
-        self._outputs = OutputsDelegateToOperator(self)
         if operator_name is not None:
             self.inputs.operator_name.connect(operator_name)
 

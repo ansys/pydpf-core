@@ -88,8 +88,6 @@ class interface_contact_area(Operator):
             inputs_type=InputsInterfaceContactArea,
             outputs_type=OutputsInterfaceContactArea,
         )
-        self._inputs = InputsInterfaceContactArea(self)
-        self._outputs = OutputsInterfaceContactArea(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

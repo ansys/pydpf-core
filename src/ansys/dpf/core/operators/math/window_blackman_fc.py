@@ -61,8 +61,6 @@ class window_blackman_fc(Operator):
             inputs_type=InputsWindowBlackmanFc,
             outputs_type=OutputsWindowBlackmanFc,
         )
-        self._inputs = InputsWindowBlackmanFc(self)
-        self._outputs = OutputsWindowBlackmanFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

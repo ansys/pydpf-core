@@ -117,8 +117,6 @@ class current_density(Operator):
             inputs_type=InputsCurrentDensity,
             outputs_type=OutputsCurrentDensity,
         )
-        self._inputs = InputsCurrentDensity(self)
-        self._outputs = OutputsCurrentDensity(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

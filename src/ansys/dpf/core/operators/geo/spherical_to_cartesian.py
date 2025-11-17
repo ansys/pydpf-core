@@ -60,8 +60,6 @@ class spherical_to_cartesian(Operator):
             inputs_type=InputsSphericalToCartesian,
             outputs_type=OutputsSphericalToCartesian,
         )
-        self._inputs = InputsSphericalToCartesian(self)
-        self._outputs = OutputsSphericalToCartesian(self)
         if field is not None:
             self.inputs.field.connect(field)
 

@@ -80,8 +80,6 @@ class solid_to_skin(Operator):
             inputs_type=InputsSolidToSkin,
             outputs_type=OutputsSolidToSkin,
         )
-        self._inputs = InputsSolidToSkin(self)
-        self._outputs = OutputsSolidToSkin(self)
         if field is not None:
             self.inputs.field.connect(field)
         if mesh is not None:

@@ -85,8 +85,6 @@ class from_scopings(Operator):
             inputs_type=InputsFromScopings,
             outputs_type=OutputsFromScopings,
         )
-        self._inputs = InputsFromScopings(self)
-        self._outputs = OutputsFromScopings(self)
         if scopings_container is not None:
             self.inputs.scopings_container.connect(scopings_container)
         if inclusive is not None:

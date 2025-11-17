@@ -88,8 +88,6 @@ class from_scoping(Operator):
             inputs_type=InputsFromScoping,
             outputs_type=OutputsFromScoping,
         )
-        self._inputs = InputsFromScoping(self)
-        self._outputs = OutputsFromScoping(self)
         if scoping is not None:
             self.inputs.scoping.connect(scoping)
         if inclusive is not None:

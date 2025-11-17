@@ -80,8 +80,6 @@ class ints_to_scoping(Operator):
             inputs_type=InputsIntsToScoping,
             outputs_type=OutputsIntsToScoping,
         )
-        self._inputs = InputsIntsToScoping(self)
-        self._outputs = OutputsIntsToScoping(self)
         if ids is not None:
             self.inputs.ids.connect(ids)
         elif int_or_vector_int is not None:

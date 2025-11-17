@@ -275,8 +275,6 @@ class contact_status(Operator):
             inputs_type=InputsContactStatus,
             outputs_type=OutputsContactStatus,
         )
-        self._inputs = InputsContactStatus(self)
-        self._outputs = OutputsContactStatus(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

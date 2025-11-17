@@ -73,8 +73,6 @@ class centroid(Operator):
             inputs_type=InputsCentroid,
             outputs_type=OutputsCentroid,
         )
-        self._inputs = InputsCentroid(self)
-        self._outputs = OutputsCentroid(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

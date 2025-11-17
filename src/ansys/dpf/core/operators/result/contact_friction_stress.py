@@ -275,8 +275,6 @@ class contact_friction_stress(Operator):
             inputs_type=InputsContactFrictionStress,
             outputs_type=OutputsContactFrictionStress,
         )
-        self._inputs = InputsContactFrictionStress(self)
-        self._outputs = OutputsContactFrictionStress(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

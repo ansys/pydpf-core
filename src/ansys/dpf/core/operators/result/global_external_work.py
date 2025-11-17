@@ -81,8 +81,6 @@ class global_external_work(Operator):
             inputs_type=InputsGlobalExternalWork,
             outputs_type=OutputsGlobalExternalWork,
         )
-        self._inputs = InputsGlobalExternalWork(self)
-        self._outputs = OutputsGlobalExternalWork(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

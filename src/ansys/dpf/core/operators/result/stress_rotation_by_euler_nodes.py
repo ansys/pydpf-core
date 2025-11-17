@@ -78,8 +78,6 @@ class stress_rotation_by_euler_nodes(Operator):
             inputs_type=InputsStressRotationByEulerNodes,
             outputs_type=OutputsStressRotationByEulerNodes,
         )
-        self._inputs = InputsStressRotationByEulerNodes(self)
-        self._outputs = OutputsStressRotationByEulerNodes(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if streams_container is not None:

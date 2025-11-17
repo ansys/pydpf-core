@@ -68,8 +68,6 @@ class scale_by_field(Operator):
             inputs_type=InputsScaleByField,
             outputs_type=OutputsScaleByField,
         )
-        self._inputs = InputsScaleByField(self)
-        self._outputs = OutputsScaleByField(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

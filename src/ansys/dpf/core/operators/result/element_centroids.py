@@ -109,8 +109,6 @@ class element_centroids(Operator):
             inputs_type=InputsElementCentroids,
             outputs_type=OutputsElementCentroids,
         )
-        self._inputs = InputsElementCentroids(self)
-        self._outputs = OutputsElementCentroids(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

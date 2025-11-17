@@ -109,8 +109,6 @@ class normal_contact_moment(Operator):
             inputs_type=InputsNormalContactMoment,
             outputs_type=OutputsNormalContactMoment,
         )
-        self._inputs = InputsNormalContactMoment(self)
-        self._outputs = OutputsNormalContactMoment(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

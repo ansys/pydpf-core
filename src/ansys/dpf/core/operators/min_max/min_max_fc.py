@@ -63,8 +63,6 @@ class min_max_fc(Operator):
             inputs_type=InputsMinMaxFc,
             outputs_type=OutputsMinMaxFc,
         )
-        self._inputs = InputsMinMaxFc(self)
-        self._outputs = OutputsMinMaxFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

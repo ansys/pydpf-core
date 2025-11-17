@@ -59,8 +59,6 @@ class property_field(Operator):
             inputs_type=InputsPropertyField,
             outputs_type=OutputsPropertyField,
         )
-        self._inputs = InputsPropertyField(self)
-        self._outputs = OutputsPropertyField(self)
         if input is not None:
             self.inputs.input.connect(input)
 

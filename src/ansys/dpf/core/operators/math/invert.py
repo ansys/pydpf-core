@@ -63,8 +63,6 @@ class invert(Operator):
             inputs_type=InputsInvert,
             outputs_type=OutputsInvert,
         )
-        self._inputs = InputsInvert(self)
-        self._outputs = OutputsInvert(self)
         if field is not None:
             self.inputs.field.connect(field)
 

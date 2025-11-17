@@ -133,8 +133,6 @@ class stiffness_matrix_energy(Operator):
             inputs_type=InputsStiffnessMatrixEnergy,
             outputs_type=OutputsStiffnessMatrixEnergy,
         )
-        self._inputs = InputsStiffnessMatrixEnergy(self)
-        self._outputs = OutputsStiffnessMatrixEnergy(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

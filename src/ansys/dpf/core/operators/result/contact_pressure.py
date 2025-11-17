@@ -275,8 +275,6 @@ class contact_pressure(Operator):
             inputs_type=InputsContactPressure,
             outputs_type=OutputsContactPressure,
         )
-        self._inputs = InputsContactPressure(self)
-        self._outputs = OutputsContactPressure(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

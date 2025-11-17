@@ -117,8 +117,6 @@ class stress_eqv_as_mechanical(Operator):
             inputs_type=InputsStressEqvAsMechanical,
             outputs_type=OutputsStressEqvAsMechanical,
         )
-        self._inputs = InputsStressEqvAsMechanical(self)
-        self._outputs = OutputsStressEqvAsMechanical(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -60,8 +60,6 @@ class img_part(Operator):
             inputs_type=InputsImgPart,
             outputs_type=OutputsImgPart,
         )
-        self._inputs = InputsImgPart(self)
-        self._outputs = OutputsImgPart(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

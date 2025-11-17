@@ -88,8 +88,6 @@ class interface_contact_mass(Operator):
             inputs_type=InputsInterfaceContactMass,
             outputs_type=OutputsInterfaceContactMass,
         )
-        self._inputs = InputsInterfaceContactMass(self)
-        self._outputs = OutputsInterfaceContactMass(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

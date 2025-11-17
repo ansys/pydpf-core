@@ -70,8 +70,6 @@ class component_wise_product(Operator):
             inputs_type=InputsComponentWiseProduct,
             outputs_type=OutputsComponentWiseProduct,
         )
-        self._inputs = InputsComponentWiseProduct(self)
-        self._outputs = OutputsComponentWiseProduct(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

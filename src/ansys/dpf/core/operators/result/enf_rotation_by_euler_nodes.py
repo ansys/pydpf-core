@@ -78,8 +78,6 @@ class enf_rotation_by_euler_nodes(Operator):
             inputs_type=InputsEnfRotationByEulerNodes,
             outputs_type=OutputsEnfRotationByEulerNodes,
         )
-        self._inputs = InputsEnfRotationByEulerNodes(self)
-        self._outputs = OutputsEnfRotationByEulerNodes(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if streams_container is not None:

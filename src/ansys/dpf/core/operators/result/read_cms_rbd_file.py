@@ -109,8 +109,6 @@ class read_cms_rbd_file(Operator):
             inputs_type=InputsReadCmsRbdFile,
             outputs_type=OutputsReadCmsRbdFile,
         )
-        self._inputs = InputsReadCmsRbdFile(self)
-        self._outputs = OutputsReadCmsRbdFile(self)
         if in_cms_rbd_file_path is not None:
             self.inputs.in_cms_rbd_file_path.connect(in_cms_rbd_file_path)
 

@@ -113,8 +113,6 @@ class compute_residual_and_error(Operator):
             inputs_type=InputsComputeResidualAndError,
             outputs_type=OutputsComputeResidualAndError,
         )
-        self._inputs = InputsComputeResidualAndError(self)
-        self._outputs = OutputsComputeResidualAndError(self)
         if field_or_fields_container1 is not None:
             self.inputs.field_or_fields_container1.connect(field_or_fields_container1)
         if normalization_type is not None:

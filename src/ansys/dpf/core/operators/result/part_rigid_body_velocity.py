@@ -88,8 +88,6 @@ class part_rigid_body_velocity(Operator):
             inputs_type=InputsPartRigidBodyVelocity,
             outputs_type=OutputsPartRigidBodyVelocity,
         )
-        self._inputs = InputsPartRigidBodyVelocity(self)
-        self._outputs = OutputsPartRigidBodyVelocity(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

@@ -63,8 +63,6 @@ class elemental_from_mesh(Operator):
             inputs_type=InputsElementalFromMesh,
             outputs_type=OutputsElementalFromMesh,
         )
-        self._inputs = InputsElementalFromMesh(self)
-        self._outputs = OutputsElementalFromMesh(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
 

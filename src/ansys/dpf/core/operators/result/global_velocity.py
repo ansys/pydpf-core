@@ -81,8 +81,6 @@ class global_velocity(Operator):
             inputs_type=InputsGlobalVelocity,
             outputs_type=OutputsGlobalVelocity,
         )
-        self._inputs = InputsGlobalVelocity(self)
-        self._outputs = OutputsGlobalVelocity(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

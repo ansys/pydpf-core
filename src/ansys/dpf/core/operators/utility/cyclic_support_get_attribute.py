@@ -69,8 +69,6 @@ class cyclic_support_get_attribute(Operator):
             inputs_type=InputsCyclicSupportGetAttribute,
             outputs_type=OutputsCyclicSupportGetAttribute,
         )
-        self._inputs = InputsCyclicSupportGetAttribute(self)
-        self._outputs = OutputsCyclicSupportGetAttribute(self)
         if cyclic_support is not None:
             self.inputs.cyclic_support.connect(cyclic_support)
         if property_name is not None:

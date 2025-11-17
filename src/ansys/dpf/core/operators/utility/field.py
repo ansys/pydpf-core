@@ -59,8 +59,6 @@ class field(Operator):
             inputs_type=InputsField,
             outputs_type=OutputsField,
         )
-        self._inputs = InputsField(self)
-        self._outputs = OutputsField(self)
         if input is not None:
             self.inputs.input.connect(input)
 

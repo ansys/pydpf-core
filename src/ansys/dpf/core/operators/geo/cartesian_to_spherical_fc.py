@@ -59,8 +59,6 @@ class cartesian_to_spherical_fc(Operator):
             inputs_type=InputsCartesianToSphericalFc,
             outputs_type=OutputsCartesianToSphericalFc,
         )
-        self._inputs = InputsCartesianToSphericalFc(self)
-        self._outputs = OutputsCartesianToSphericalFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

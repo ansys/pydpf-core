@@ -83,8 +83,6 @@ class solid_to_skin_fc(Operator):
             inputs_type=InputsSolidToSkinFc,
             outputs_type=OutputsSolidToSkinFc,
         )
-        self._inputs = InputsSolidToSkinFc(self)
-        self._outputs = OutputsSolidToSkinFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

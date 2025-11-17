@@ -74,8 +74,6 @@ class field_high_pass_fc(Operator):
             inputs_type=InputsFieldHighPassFc,
             outputs_type=OutputsFieldHighPassFc,
         )
-        self._inputs = InputsFieldHighPassFc(self)
-        self._outputs = OutputsFieldHighPassFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if threshold is not None:

@@ -80,8 +80,6 @@ class producer_consumer_for_each(Operator):
             inputs_type=InputsProducerConsumerForEach,
             outputs_type=OutputsProducerConsumerForEach,
         )
-        self._inputs = InputsProducerConsumerForEach(self)
-        self._outputs = OutputsProducerConsumerForEach(self)
         if producer_consumer_iterableq is not None:
             self.inputs.producer_consumer_iterableq.connect(producer_consumer_iterableq)
         if forward1 is not None:

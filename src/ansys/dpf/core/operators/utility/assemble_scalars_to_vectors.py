@@ -67,8 +67,6 @@ class assemble_scalars_to_vectors(Operator):
             inputs_type=InputsAssembleScalarsToVectors,
             outputs_type=OutputsAssembleScalarsToVectors,
         )
-        self._inputs = InputsAssembleScalarsToVectors(self)
-        self._outputs = OutputsAssembleScalarsToVectors(self)
         if x is not None:
             self.inputs.x.connect(x)
         if y is not None:

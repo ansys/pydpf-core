@@ -84,8 +84,6 @@ class included_fields(Operator):
             inputs_type=InputsIncludedFields,
             outputs_type=OutputsIncludedFields,
         )
-        self._inputs = InputsIncludedFields(self)
-        self._outputs = OutputsIncludedFields(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

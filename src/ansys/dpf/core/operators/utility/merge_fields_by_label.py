@@ -84,8 +84,6 @@ class merge_fields_by_label(Operator):
             inputs_type=InputsMergeFieldsByLabel,
             outputs_type=OutputsMergeFieldsByLabel,
         )
-        self._inputs = InputsMergeFieldsByLabel(self)
-        self._outputs = OutputsMergeFieldsByLabel(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if label is not None:

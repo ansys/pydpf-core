@@ -66,8 +66,6 @@ class amplitude(Operator):
             inputs_type=InputsAmplitude,
             outputs_type=OutputsAmplitude,
         )
-        self._inputs = InputsAmplitude(self)
-        self._outputs = OutputsAmplitude(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

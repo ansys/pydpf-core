@@ -114,8 +114,6 @@ class mass_fraction(Operator):
             inputs_type=InputsMassFraction,
             outputs_type=OutputsMassFraction,
         )
-        self._inputs = InputsMassFraction(self)
-        self._outputs = OutputsMassFraction(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

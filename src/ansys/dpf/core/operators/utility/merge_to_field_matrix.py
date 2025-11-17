@@ -66,8 +66,6 @@ class merge_to_field_matrix(Operator):
             inputs_type=InputsMergeToFieldMatrix,
             outputs_type=OutputsMergeToFieldMatrix,
         )
-        self._inputs = InputsMergeToFieldMatrix(self)
-        self._outputs = OutputsMergeToFieldMatrix(self)
         if fields1 is not None:
             self.inputs.fields1.connect(fields1)
         if fields2 is not None:

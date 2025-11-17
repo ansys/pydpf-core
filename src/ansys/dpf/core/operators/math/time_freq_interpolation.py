@@ -101,8 +101,6 @@ class time_freq_interpolation(Operator):
             inputs_type=InputsTimeFreqInterpolation,
             outputs_type=OutputsTimeFreqInterpolation,
         )
-        self._inputs = InputsTimeFreqInterpolation(self)
-        self._outputs = OutputsTimeFreqInterpolation(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if time_freq_values is not None:

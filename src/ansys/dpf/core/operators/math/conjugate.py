@@ -60,8 +60,6 @@ class conjugate(Operator):
             inputs_type=InputsConjugate,
             outputs_type=OutputsConjugate,
         )
-        self._inputs = InputsConjugate(self)
-        self._outputs = OutputsConjugate(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

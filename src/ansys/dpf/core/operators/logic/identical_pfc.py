@@ -68,8 +68,6 @@ class identical_pfc(Operator):
             inputs_type=InputsIdenticalPfc,
             outputs_type=OutputsIdenticalPfc,
         )
-        self._inputs = InputsIdenticalPfc(self)
-        self._outputs = OutputsIdenticalPfc(self)
         if property_fields_containerA is not None:
             self.inputs.property_fields_containerA.connect(property_fields_containerA)
         if property_fields_containerB is not None:

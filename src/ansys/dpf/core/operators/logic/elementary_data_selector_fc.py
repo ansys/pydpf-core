@@ -78,8 +78,6 @@ class elementary_data_selector_fc(Operator):
             inputs_type=InputsElementaryDataSelectorFc,
             outputs_type=OutputsElementaryDataSelectorFc,
         )
-        self._inputs = InputsElementaryDataSelectorFc(self)
-        self._outputs = OutputsElementaryDataSelectorFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if elementary_data_index is not None:

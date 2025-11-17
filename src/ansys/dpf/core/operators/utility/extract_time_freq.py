@@ -77,8 +77,6 @@ class extract_time_freq(Operator):
             inputs_type=InputsExtractTimeFreq,
             outputs_type=OutputsExtractTimeFreq,
         )
-        self._inputs = InputsExtractTimeFreq(self)
-        self._outputs = OutputsExtractTimeFreq(self)
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
         if time_scoping is not None:

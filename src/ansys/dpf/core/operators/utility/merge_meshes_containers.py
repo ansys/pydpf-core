@@ -67,8 +67,6 @@ class merge_meshes_containers(Operator):
             inputs_type=InputsMergeMeshesContainers,
             outputs_type=OutputsMergeMeshesContainers,
         )
-        self._inputs = InputsMergeMeshesContainers(self)
-        self._outputs = OutputsMergeMeshesContainers(self)
         if meshes_containers1 is not None:
             self.inputs.meshes_containers1.connect(meshes_containers1)
         if meshes_containers2 is not None:

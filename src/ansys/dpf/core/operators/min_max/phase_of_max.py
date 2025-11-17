@@ -81,8 +81,6 @@ class phase_of_max(Operator):
             inputs_type=InputsPhaseOfMax,
             outputs_type=OutputsPhaseOfMax,
         )
-        self._inputs = InputsPhaseOfMax(self)
-        self._outputs = OutputsPhaseOfMax(self)
         if real_field is not None:
             self.inputs.real_field.connect(real_field)
         if imaginary_field is not None:

@@ -281,8 +281,6 @@ class element_nodal_forces(Operator):
             inputs_type=InputsElementNodalForces,
             outputs_type=OutputsElementNodalForces,
         )
-        self._inputs = InputsElementNodalForces(self)
-        self._outputs = OutputsElementNodalForces(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

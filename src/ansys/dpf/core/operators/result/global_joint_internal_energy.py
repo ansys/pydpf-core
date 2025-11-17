@@ -81,8 +81,6 @@ class global_joint_internal_energy(Operator):
             inputs_type=InputsGlobalJointInternalEnergy,
             outputs_type=OutputsGlobalJointInternalEnergy,
         )
-        self._inputs = InputsGlobalJointInternalEnergy(self)
-        self._outputs = OutputsGlobalJointInternalEnergy(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

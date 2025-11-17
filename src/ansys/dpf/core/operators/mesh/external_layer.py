@@ -65,8 +65,6 @@ class external_layer(Operator):
             inputs_type=InputsExternalLayer,
             outputs_type=OutputsExternalLayer,
         )
-        self._inputs = InputsExternalLayer(self)
-        self._outputs = OutputsExternalLayer(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
 

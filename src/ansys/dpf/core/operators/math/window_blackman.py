@@ -63,8 +63,6 @@ class window_blackman(Operator):
             inputs_type=InputsWindowBlackman,
             outputs_type=OutputsWindowBlackman,
         )
-        self._inputs = InputsWindowBlackman(self)
-        self._outputs = OutputsWindowBlackman(self)
         if field is not None:
             self.inputs.field.connect(field)
 

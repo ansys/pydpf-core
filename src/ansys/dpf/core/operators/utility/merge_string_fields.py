@@ -67,8 +67,6 @@ class merge_string_fields(Operator):
             inputs_type=InputsMergeStringFields,
             outputs_type=OutputsMergeStringFields,
         )
-        self._inputs = InputsMergeStringFields(self)
-        self._outputs = OutputsMergeStringFields(self)
         if string_fields1 is not None:
             self.inputs.string_fields1.connect(string_fields1)
         if string_fields2 is not None:

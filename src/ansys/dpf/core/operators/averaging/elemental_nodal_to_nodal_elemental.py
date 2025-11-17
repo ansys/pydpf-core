@@ -67,8 +67,6 @@ class elemental_nodal_to_nodal_elemental(Operator):
             inputs_type=InputsElementalNodalToNodalElemental,
             outputs_type=OutputsElementalNodalToNodalElemental,
         )
-        self._inputs = InputsElementalNodalToNodalElemental(self)
-        self._outputs = OutputsElementalNodalToNodalElemental(self)
         if field is not None:
             self.inputs.field.connect(field)
         if mesh_scoping is not None:

@@ -109,8 +109,6 @@ class joint_moment_reaction(Operator):
             inputs_type=InputsJointMomentReaction,
             outputs_type=OutputsJointMomentReaction,
         )
-        self._inputs = InputsJointMomentReaction(self)
-        self._outputs = OutputsJointMomentReaction(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

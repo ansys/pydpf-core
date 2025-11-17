@@ -80,8 +80,6 @@ class nodal_difference_fc(Operator):
             inputs_type=InputsNodalDifferenceFc,
             outputs_type=OutputsNodalDifferenceFc,
         )
-        self._inputs = InputsNodalDifferenceFc(self)
-        self._outputs = OutputsNodalDifferenceFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

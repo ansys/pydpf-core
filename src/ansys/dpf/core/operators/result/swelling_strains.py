@@ -251,8 +251,6 @@ class swelling_strains(Operator):
             inputs_type=InputsSwellingStrains,
             outputs_type=OutputsSwellingStrains,
         )
-        self._inputs = InputsSwellingStrains(self)
-        self._outputs = OutputsSwellingStrains(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

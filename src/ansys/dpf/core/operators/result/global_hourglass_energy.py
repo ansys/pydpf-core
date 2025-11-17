@@ -81,8 +81,6 @@ class global_hourglass_energy(Operator):
             inputs_type=InputsGlobalHourglassEnergy,
             outputs_type=OutputsGlobalHourglassEnergy,
         )
-        self._inputs = InputsGlobalHourglassEnergy(self)
-        self._outputs = OutputsGlobalHourglassEnergy(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

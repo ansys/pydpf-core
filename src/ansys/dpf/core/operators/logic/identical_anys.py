@@ -95,8 +95,6 @@ class identical_anys(Operator):
             inputs_type=InputsIdenticalAnys,
             outputs_type=OutputsIdenticalAnys,
         )
-        self._inputs = InputsIdenticalAnys(self)
-        self._outputs = OutputsIdenticalAnys(self)
         if anyA is not None:
             self.inputs.anyA.connect(anyA)
         if anyB is not None:

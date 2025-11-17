@@ -68,8 +68,6 @@ class field_get_attribute(Operator):
             inputs_type=InputsFieldGetAttribute,
             outputs_type=OutputsFieldGetAttribute,
         )
-        self._inputs = InputsFieldGetAttribute(self)
-        self._outputs = OutputsFieldGetAttribute(self)
         if field is not None:
             self.inputs.field.connect(field)
         if property_name is not None:

@@ -69,8 +69,6 @@ class strain_from_voigt(Operator):
             inputs_type=InputsStrainFromVoigt,
             outputs_type=OutputsStrainFromVoigt,
         )
-        self._inputs = InputsStrainFromVoigt(self)
-        self._outputs = OutputsStrainFromVoigt(self)
         if strain_field is not None:
             self.inputs.strain_field.connect(strain_field)
         elif field is not None:

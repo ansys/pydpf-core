@@ -74,8 +74,6 @@ class scale_by_field_fc(Operator):
             inputs_type=InputsScaleByFieldFc,
             outputs_type=OutputsScaleByFieldFc,
         )
-        self._inputs = InputsScaleByFieldFc(self)
-        self._outputs = OutputsScaleByFieldFc(self)
         if field_or_fields_container_A is not None:
             self.inputs.field_or_fields_container_A.connect(field_or_fields_container_A)
         if field_or_fields_container_B is not None:

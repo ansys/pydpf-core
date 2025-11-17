@@ -77,8 +77,6 @@ class rescope_fc(Operator):
             inputs_type=InputsRescopeFc,
             outputs_type=OutputsRescopeFc,
         )
-        self._inputs = InputsRescopeFc(self)
-        self._outputs = OutputsRescopeFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh_scoping is not None:

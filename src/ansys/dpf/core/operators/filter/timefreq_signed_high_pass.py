@@ -81,8 +81,6 @@ class timefreq_signed_high_pass(Operator):
             inputs_type=InputsTimefreqSignedHighPass,
             outputs_type=OutputsTimefreqSignedHighPass,
         )
-        self._inputs = InputsTimefreqSignedHighPass(self)
-        self._outputs = OutputsTimefreqSignedHighPass(self)
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
         if threshold is not None:

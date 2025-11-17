@@ -77,8 +77,6 @@ class element_nodal_contribution(Operator):
             inputs_type=InputsElementNodalContribution,
             outputs_type=OutputsElementNodalContribution,
         )
-        self._inputs = InputsElementNodalContribution(self)
-        self._outputs = OutputsElementNodalContribution(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if scoping is not None:

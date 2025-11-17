@@ -86,8 +86,6 @@ class nodal_fraction_fc(Operator):
             inputs_type=InputsNodalFractionFc,
             outputs_type=OutputsNodalFractionFc,
         )
-        self._inputs = InputsNodalFractionFc(self)
-        self._outputs = OutputsNodalFractionFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

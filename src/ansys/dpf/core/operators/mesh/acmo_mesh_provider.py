@@ -63,8 +63,6 @@ class acmo_mesh_provider(Operator):
             inputs_type=InputsAcmoMeshProvider,
             outputs_type=OutputsAcmoMeshProvider,
         )
-        self._inputs = InputsAcmoMeshProvider(self)
-        self._outputs = OutputsAcmoMeshProvider(self)
         if assembly_mesh is not None:
             self.inputs.assembly_mesh.connect(assembly_mesh)
         if unit is not None:

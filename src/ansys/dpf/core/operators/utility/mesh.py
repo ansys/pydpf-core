@@ -59,8 +59,6 @@ class mesh(Operator):
             inputs_type=InputsMesh,
             outputs_type=OutputsMesh,
         )
-        self._inputs = InputsMesh(self)
-        self._outputs = OutputsMesh(self)
         if input is not None:
             self.inputs.input.connect(input)
 

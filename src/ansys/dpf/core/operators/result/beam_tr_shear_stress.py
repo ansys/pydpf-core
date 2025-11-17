@@ -102,8 +102,6 @@ class beam_tr_shear_stress(Operator):
             inputs_type=InputsBeamTrShearStress,
             outputs_type=OutputsBeamTrShearStress,
         )
-        self._inputs = InputsBeamTrShearStress(self)
-        self._outputs = OutputsBeamTrShearStress(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

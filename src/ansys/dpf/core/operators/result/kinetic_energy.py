@@ -133,8 +133,6 @@ class kinetic_energy(Operator):
             inputs_type=InputsKineticEnergy,
             outputs_type=OutputsKineticEnergy,
         )
-        self._inputs = InputsKineticEnergy(self)
-        self._outputs = OutputsKineticEnergy(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

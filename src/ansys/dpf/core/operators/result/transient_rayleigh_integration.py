@@ -105,8 +105,6 @@ class transient_rayleigh_integration(Operator):
             inputs_type=InputsTransientRayleighIntegration,
             outputs_type=OutputsTransientRayleighIntegration,
         )
-        self._inputs = InputsTransientRayleighIntegration(self)
-        self._outputs = OutputsTransientRayleighIntegration(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

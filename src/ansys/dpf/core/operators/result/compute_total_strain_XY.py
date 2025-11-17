@@ -127,8 +127,6 @@ class compute_total_strain_XY(Operator):
             inputs_type=InputsComputeTotalStrainXy,
             outputs_type=OutputsComputeTotalStrainXy,
         )
-        self._inputs = InputsComputeTotalStrainXy(self)
-        self._outputs = OutputsComputeTotalStrainXy(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if scoping is not None:

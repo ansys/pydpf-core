@@ -80,8 +80,6 @@ class set_property(Operator):
             inputs_type=InputsSetProperty,
             outputs_type=OutputsSetProperty,
         )
-        self._inputs = InputsSetProperty(self)
-        self._outputs = OutputsSetProperty(self)
         if field is not None:
             self.inputs.field.connect(field)
         if property_name is not None:

@@ -77,8 +77,6 @@ class merge_property_fields(Operator):
             inputs_type=InputsMergePropertyFields,
             outputs_type=OutputsMergePropertyFields,
         )
-        self._inputs = InputsMergePropertyFields(self)
-        self._outputs = OutputsMergePropertyFields(self)
         if naive_merge is not None:
             self.inputs.naive_merge.connect(naive_merge)
         if property_fields1 is not None:

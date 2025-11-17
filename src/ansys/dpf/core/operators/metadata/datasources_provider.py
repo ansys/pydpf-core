@@ -59,8 +59,6 @@ class datasources_provider(Operator):
             inputs_type=InputsDatasourcesProvider,
             outputs_type=OutputsDatasourcesProvider,
         )
-        self._inputs = InputsDatasourcesProvider(self)
-        self._outputs = OutputsDatasourcesProvider(self)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
 

@@ -146,8 +146,6 @@ class make_producer_consumer_for_each_iterator(Operator):
             inputs_type=InputsMakeProducerConsumerForEachIterator,
             outputs_type=OutputsMakeProducerConsumerForEachIterator,
         )
-        self._inputs = InputsMakeProducerConsumerForEachIterator(self)
-        self._outputs = OutputsMakeProducerConsumerForEachIterator(self)
         if try_generate_iterable is not None:
             self.inputs.try_generate_iterable.connect(try_generate_iterable)
         if iterable is not None:

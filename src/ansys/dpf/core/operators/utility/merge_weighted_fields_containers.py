@@ -104,8 +104,6 @@ class merge_weighted_fields_containers(Operator):
             inputs_type=InputsMergeWeightedFieldsContainers,
             outputs_type=OutputsMergeWeightedFieldsContainers,
         )
-        self._inputs = InputsMergeWeightedFieldsContainers(self)
-        self._outputs = OutputsMergeWeightedFieldsContainers(self)
         if sum_merge is not None:
             self.inputs.sum_merge.connect(sum_merge)
         if merged_fields_support is not None:

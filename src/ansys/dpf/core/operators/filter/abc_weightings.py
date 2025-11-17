@@ -78,8 +78,6 @@ class abc_weightings(Operator):
             inputs_type=InputsAbcWeightings,
             outputs_type=OutputsAbcWeightings,
         )
-        self._inputs = InputsAbcWeightings(self)
-        self._outputs = OutputsAbcWeightings(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if weighting_type is not None:

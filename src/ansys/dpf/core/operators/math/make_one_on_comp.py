@@ -64,8 +64,6 @@ class make_one_on_comp(Operator):
             inputs_type=InputsMakeOneOnComp,
             outputs_type=OutputsMakeOneOnComp,
         )
-        self._inputs = InputsMakeOneOnComp(self)
-        self._outputs = OutputsMakeOneOnComp(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if scalar_int is not None:

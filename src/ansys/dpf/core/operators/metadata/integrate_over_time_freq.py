@@ -73,8 +73,6 @@ class integrate_over_time_freq(Operator):
             inputs_type=InputsIntegrateOverTimeFreq,
             outputs_type=OutputsIntegrateOverTimeFreq,
         )
-        self._inputs = InputsIntegrateOverTimeFreq(self)
-        self._outputs = OutputsIntegrateOverTimeFreq(self)
         if field is not None:
             self.inputs.field.connect(field)
         if scoping is not None:

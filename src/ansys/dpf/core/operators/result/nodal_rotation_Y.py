@@ -115,8 +115,6 @@ class nodal_rotation_Y(Operator):
             inputs_type=InputsNodalRotationY,
             outputs_type=OutputsNodalRotationY,
         )
-        self._inputs = InputsNodalRotationY(self)
-        self._outputs = OutputsNodalRotationY(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

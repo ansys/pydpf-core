@@ -73,8 +73,6 @@ class scoping_signed_high_pass(Operator):
             inputs_type=InputsScopingSignedHighPass,
             outputs_type=OutputsScopingSignedHighPass,
         )
-        self._inputs = InputsScopingSignedHighPass(self)
-        self._outputs = OutputsScopingSignedHighPass(self)
         if field is not None:
             self.inputs.field.connect(field)
         if threshold is not None:

@@ -114,8 +114,6 @@ class rms_temperature(Operator):
             inputs_type=InputsRmsTemperature,
             outputs_type=OutputsRmsTemperature,
         )
-        self._inputs = InputsRmsTemperature(self)
-        self._outputs = OutputsRmsTemperature(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -91,8 +91,6 @@ class correlation(Operator):
             inputs_type=InputsCorrelation,
             outputs_type=OutputsCorrelation,
         )
-        self._inputs = InputsCorrelation(self)
-        self._outputs = OutputsCorrelation(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

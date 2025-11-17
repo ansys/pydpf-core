@@ -91,8 +91,6 @@ class cyclic_analytic_usum_max(Operator):
             inputs_type=InputsCyclicAnalyticUsumMax,
             outputs_type=OutputsCyclicAnalyticUsumMax,
         )
-        self._inputs = InputsCyclicAnalyticUsumMax(self)
-        self._outputs = OutputsCyclicAnalyticUsumMax(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -69,8 +69,6 @@ class average_over_label_fc(Operator):
             inputs_type=InputsAverageOverLabelFc,
             outputs_type=OutputsAverageOverLabelFc,
         )
-        self._inputs = InputsAverageOverLabelFc(self)
-        self._outputs = OutputsAverageOverLabelFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if label is not None:

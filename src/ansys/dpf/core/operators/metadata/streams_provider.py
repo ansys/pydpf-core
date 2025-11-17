@@ -60,8 +60,6 @@ class streams_provider(Operator):
             inputs_type=InputsStreamsProvider,
             outputs_type=OutputsStreamsProvider,
         )
-        self._inputs = InputsStreamsProvider(self)
-        self._outputs = OutputsStreamsProvider(self)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
 

@@ -68,8 +68,6 @@ class strain_from_voigt_fc(Operator):
             inputs_type=InputsStrainFromVoigtFc,
             outputs_type=OutputsStrainFromVoigtFc,
         )
-        self._inputs = InputsStrainFromVoigtFc(self)
-        self._outputs = OutputsStrainFromVoigtFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         elif field is not None:

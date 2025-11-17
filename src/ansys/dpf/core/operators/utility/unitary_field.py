@@ -62,8 +62,6 @@ class unitary_field(Operator):
             inputs_type=InputsUnitaryField,
             outputs_type=OutputsUnitaryField,
         )
-        self._inputs = InputsUnitaryField(self)
-        self._outputs = OutputsUnitaryField(self)
         if field is not None:
             self.inputs.field.connect(field)
 

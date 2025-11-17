@@ -82,8 +82,6 @@ class cms_subfile_info_provider(Operator):
             inputs_type=InputsCmsSubfileInfoProvider,
             outputs_type=OutputsCmsSubfileInfoProvider,
         )
-        self._inputs = InputsCmsSubfileInfoProvider(self)
-        self._outputs = OutputsCmsSubfileInfoProvider(self)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
         if cms_subfile_data is not None:

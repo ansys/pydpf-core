@@ -66,8 +66,6 @@ class intersect(Operator):
             inputs_type=InputsIntersect,
             outputs_type=OutputsIntersect,
         )
-        self._inputs = InputsIntersect(self)
-        self._outputs = OutputsIntersect(self)
         if scopingA is not None:
             self.inputs.scopingA.connect(scopingA)
         if scopingB is not None:

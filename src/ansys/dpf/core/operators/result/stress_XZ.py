@@ -129,8 +129,6 @@ class stress_XZ(Operator):
             inputs_type=InputsStressXz,
             outputs_type=OutputsStressXz,
         )
-        self._inputs = InputsStressXz(self)
-        self._outputs = OutputsStressXz(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

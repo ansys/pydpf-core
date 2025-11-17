@@ -67,8 +67,6 @@ class merge_any(Operator):
             inputs_type=InputsMergeAny,
             outputs_type=OutputsMergeAny,
         )
-        self._inputs = InputsMergeAny(self)
-        self._outputs = OutputsMergeAny(self)
         if any1 is not None:
             self.inputs.any1.connect(any1)
         if any2 is not None:

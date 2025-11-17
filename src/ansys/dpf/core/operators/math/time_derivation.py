@@ -65,8 +65,6 @@ class time_derivation(Operator):
             inputs_type=InputsTimeDerivation,
             outputs_type=OutputsTimeDerivation,
         )
-        self._inputs = InputsTimeDerivation(self)
-        self._outputs = OutputsTimeDerivation(self)
         if field is not None:
             self.inputs.field.connect(field)
         if spline_fitting is not None:

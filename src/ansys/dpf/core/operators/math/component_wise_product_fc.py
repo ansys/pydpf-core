@@ -70,8 +70,6 @@ class component_wise_product_fc(Operator):
             inputs_type=InputsComponentWiseProductFc,
             outputs_type=OutputsComponentWiseProductFc,
         )
-        self._inputs = InputsComponentWiseProductFc(self)
-        self._outputs = OutputsComponentWiseProductFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if fieldB is not None:

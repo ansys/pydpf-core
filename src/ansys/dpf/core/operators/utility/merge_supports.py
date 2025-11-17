@@ -73,8 +73,6 @@ class merge_supports(Operator):
             inputs_type=InputsMergeSupports,
             outputs_type=OutputsMergeSupports,
         )
-        self._inputs = InputsMergeSupports(self)
-        self._outputs = OutputsMergeSupports(self)
         if should_merge_named_selections is not None:
             self.inputs.should_merge_named_selections.connect(
                 should_merge_named_selections

@@ -89,8 +89,6 @@ class on_mesh_property(Operator):
             inputs_type=InputsOnMeshProperty,
             outputs_type=OutputsOnMeshProperty,
         )
-        self._inputs = InputsOnMeshProperty(self)
-        self._outputs = OutputsOnMeshProperty(self)
         if requested_location is not None:
             self.inputs.requested_location.connect(requested_location)
         if property_name is not None:

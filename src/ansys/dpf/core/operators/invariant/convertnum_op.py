@@ -85,8 +85,6 @@ class convertnum_op(Operator):
             inputs_type=InputsConvertnumOp,
             outputs_type=OutputsConvertnumOp,
         )
-        self._inputs = InputsConvertnumOp(self)
-        self._outputs = OutputsConvertnumOp(self)
         if input_ordering is not None:
             self.inputs.input_ordering.connect(input_ordering)
         if output_ordering is not None:

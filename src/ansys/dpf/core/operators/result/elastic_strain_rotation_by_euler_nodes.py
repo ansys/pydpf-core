@@ -78,8 +78,6 @@ class elastic_strain_rotation_by_euler_nodes(Operator):
             inputs_type=InputsElasticStrainRotationByEulerNodes,
             outputs_type=OutputsElasticStrainRotationByEulerNodes,
         )
-        self._inputs = InputsElasticStrainRotationByEulerNodes(self)
-        self._outputs = OutputsElasticStrainRotationByEulerNodes(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if streams_container is not None:

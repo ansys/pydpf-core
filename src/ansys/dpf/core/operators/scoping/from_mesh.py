@@ -65,8 +65,6 @@ class from_mesh(Operator):
             inputs_type=InputsFromMesh,
             outputs_type=OutputsFromMesh,
         )
-        self._inputs = InputsFromMesh(self)
-        self._outputs = OutputsFromMesh(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if requested_location is not None:

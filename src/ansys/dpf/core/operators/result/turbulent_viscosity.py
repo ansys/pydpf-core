@@ -115,8 +115,6 @@ class turbulent_viscosity(Operator):
             inputs_type=InputsTurbulentViscosity,
             outputs_type=OutputsTurbulentViscosity,
         )
-        self._inputs = InputsTurbulentViscosity(self)
-        self._outputs = OutputsTurbulentViscosity(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

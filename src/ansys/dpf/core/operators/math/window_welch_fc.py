@@ -61,8 +61,6 @@ class window_welch_fc(Operator):
             inputs_type=InputsWindowWelchFc,
             outputs_type=OutputsWindowWelchFc,
         )
-        self._inputs = InputsWindowWelchFc(self)
-        self._outputs = OutputsWindowWelchFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

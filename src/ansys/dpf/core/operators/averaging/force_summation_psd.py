@@ -118,8 +118,6 @@ class force_summation_psd(Operator):
             inputs_type=InputsForceSummationPsd,
             outputs_type=OutputsForceSummationPsd,
         )
-        self._inputs = InputsForceSummationPsd(self)
-        self._outputs = OutputsForceSummationPsd(self)
         if nodal_scoping is not None:
             self.inputs.nodal_scoping.connect(nodal_scoping)
         if elemental_scoping is not None:

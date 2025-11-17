@@ -79,8 +79,6 @@ class rescope(Operator):
             inputs_type=InputsRescope,
             outputs_type=OutputsRescope,
         )
-        self._inputs = InputsRescope(self)
-        self._outputs = OutputsRescope(self)
         if fields is not None:
             self.inputs.fields.connect(fields)
         if mesh_scoping is not None:

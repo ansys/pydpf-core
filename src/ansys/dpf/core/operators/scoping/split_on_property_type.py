@@ -101,8 +101,6 @@ class split_on_property_type(Operator):
             inputs_type=InputsSplitOnPropertyType,
             outputs_type=OutputsSplitOnPropertyType,
         )
-        self._inputs = InputsSplitOnPropertyType(self)
-        self._outputs = OutputsSplitOnPropertyType(self)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if mesh is not None:

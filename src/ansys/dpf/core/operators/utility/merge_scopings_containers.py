@@ -71,8 +71,6 @@ class merge_scopings_containers(Operator):
             inputs_type=InputsMergeScopingsContainers,
             outputs_type=OutputsMergeScopingsContainers,
         )
-        self._inputs = InputsMergeScopingsContainers(self)
-        self._outputs = OutputsMergeScopingsContainers(self)
         if scopings_containers1 is not None:
             self.inputs.scopings_containers1.connect(scopings_containers1)
         if scopings_containers2 is not None:

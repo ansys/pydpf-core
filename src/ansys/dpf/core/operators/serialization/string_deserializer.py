@@ -80,8 +80,6 @@ class string_deserializer(Operator):
             inputs_type=InputsStringDeserializer,
             outputs_type=OutputsStringDeserializer,
         )
-        self._inputs = InputsStringDeserializer(self)
-        self._outputs = OutputsStringDeserializer(self)
         if stream_type is not None:
             self.inputs.stream_type.connect(stream_type)
         if serialized_string1 is not None:

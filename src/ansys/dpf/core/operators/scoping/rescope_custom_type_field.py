@@ -79,8 +79,6 @@ class rescope_custom_type_field(Operator):
             inputs_type=InputsRescopeCustomTypeField,
             outputs_type=OutputsRescopeCustomTypeField,
         )
-        self._inputs = InputsRescopeCustomTypeField(self)
-        self._outputs = OutputsRescopeCustomTypeField(self)
         if fields is not None:
             self.inputs.fields.connect(fields)
         if mesh_scoping is not None:

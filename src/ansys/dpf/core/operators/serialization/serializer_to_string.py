@@ -82,8 +82,6 @@ class serializer_to_string(Operator):
             inputs_type=InputsSerializerToString,
             outputs_type=OutputsSerializerToString,
         )
-        self._inputs = InputsSerializerToString(self)
-        self._outputs = OutputsSerializerToString(self)
         if stream_type is not None:
             self.inputs.stream_type.connect(stream_type)
         if any_input1 is not None:

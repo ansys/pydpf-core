@@ -60,8 +60,6 @@ class solid_shell_fields(Operator):
             inputs_type=InputsSolidShellFields,
             outputs_type=OutputsSolidShellFields,
         )
-        self._inputs = InputsSolidShellFields(self)
-        self._outputs = OutputsSolidShellFields(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

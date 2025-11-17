@@ -108,8 +108,6 @@ class acoustic_energy_density(Operator):
             inputs_type=InputsAcousticEnergyDensity,
             outputs_type=OutputsAcousticEnergyDensity,
         )
-        self._inputs = InputsAcousticEnergyDensity(self)
-        self._outputs = OutputsAcousticEnergyDensity(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -108,8 +108,6 @@ class pressure(Operator):
             inputs_type=InputsPressure,
             outputs_type=OutputsPressure,
         )
-        self._inputs = InputsPressure(self)
-        self._outputs = OutputsPressure(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

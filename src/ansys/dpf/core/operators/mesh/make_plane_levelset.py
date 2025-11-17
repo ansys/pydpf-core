@@ -72,8 +72,6 @@ class make_plane_levelset(Operator):
             inputs_type=InputsMakePlaneLevelset,
             outputs_type=OutputsMakePlaneLevelset,
         )
-        self._inputs = InputsMakePlaneLevelset(self)
-        self._outputs = OutputsMakePlaneLevelset(self)
         if coordinates is not None:
             self.inputs.coordinates.connect(coordinates)
         if normal is not None:

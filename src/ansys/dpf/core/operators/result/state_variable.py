@@ -257,8 +257,6 @@ class state_variable(Operator):
             inputs_type=InputsStateVariable,
             outputs_type=OutputsStateVariable,
         )
-        self._inputs = InputsStateVariable(self)
-        self._outputs = OutputsStateVariable(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -115,8 +115,6 @@ class superficial_velocity(Operator):
             inputs_type=InputsSuperficialVelocity,
             outputs_type=OutputsSuperficialVelocity,
         )
-        self._inputs = InputsSuperficialVelocity(self)
-        self._outputs = OutputsSuperficialVelocity(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

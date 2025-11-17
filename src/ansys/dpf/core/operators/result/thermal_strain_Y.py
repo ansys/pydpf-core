@@ -129,8 +129,6 @@ class thermal_strain_Y(Operator):
             inputs_type=InputsThermalStrainY,
             outputs_type=OutputsThermalStrainY,
         )
-        self._inputs = InputsThermalStrainY(self)
-        self._outputs = OutputsThermalStrainY(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

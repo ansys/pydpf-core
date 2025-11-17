@@ -81,8 +81,6 @@ class global_system_damping_energy(Operator):
             inputs_type=InputsGlobalSystemDampingEnergy,
             outputs_type=OutputsGlobalSystemDampingEnergy,
         )
-        self._inputs = InputsGlobalSystemDampingEnergy(self)
-        self._outputs = OutputsGlobalSystemDampingEnergy(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

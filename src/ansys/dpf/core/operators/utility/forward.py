@@ -61,8 +61,6 @@ class forward(Operator):
             inputs_type=InputsForward,
             outputs_type=OutputsForward,
         )
-        self._inputs = InputsForward(self)
-        self._outputs = OutputsForward(self)
         if any is not None:
             self.inputs.any.connect(any)
 

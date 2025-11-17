@@ -251,8 +251,6 @@ class structural_temperature(Operator):
             inputs_type=InputsStructuralTemperature,
             outputs_type=OutputsStructuralTemperature,
         )
-        self._inputs = InputsStructuralTemperature(self)
-        self._outputs = OutputsStructuralTemperature(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -95,8 +95,6 @@ class identical_generic_data_containers(Operator):
             inputs_type=InputsIdenticalGenericDataContainers,
             outputs_type=OutputsIdenticalGenericDataContainers,
         )
-        self._inputs = InputsIdenticalGenericDataContainers(self)
-        self._outputs = OutputsIdenticalGenericDataContainers(self)
         if generic_data_containerA is not None:
             self.inputs.generic_data_containerA.connect(generic_data_containerA)
         if generic_data_containerB is not None:

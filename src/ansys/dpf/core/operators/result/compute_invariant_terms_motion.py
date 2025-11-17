@@ -139,8 +139,6 @@ class compute_invariant_terms_motion(Operator):
             inputs_type=InputsComputeInvariantTermsMotion,
             outputs_type=OutputsComputeInvariantTermsMotion,
         )
-        self._inputs = InputsComputeInvariantTermsMotion(self)
-        self._outputs = OutputsComputeInvariantTermsMotion(self)
         if rom_matrices is not None:
             self.inputs.rom_matrices.connect(rom_matrices)
         if mode_shapes is not None:

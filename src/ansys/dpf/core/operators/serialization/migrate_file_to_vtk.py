@@ -77,8 +77,6 @@ class migrate_file_to_vtk(Operator):
             inputs_type=InputsMigrateFileToVtk,
             outputs_type=OutputsMigrateFileToVtk,
         )
-        self._inputs = InputsMigrateFileToVtk(self)
-        self._outputs = OutputsMigrateFileToVtk(self)
         if output_filename is not None:
             self.inputs.output_filename.connect(output_filename)
         if streams_container is not None:

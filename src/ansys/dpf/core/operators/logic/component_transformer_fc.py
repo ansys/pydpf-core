@@ -77,8 +77,6 @@ class component_transformer_fc(Operator):
             inputs_type=InputsComponentTransformerFc,
             outputs_type=OutputsComponentTransformerFc,
         )
-        self._inputs = InputsComponentTransformerFc(self)
-        self._outputs = OutputsComponentTransformerFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if component_number is not None:

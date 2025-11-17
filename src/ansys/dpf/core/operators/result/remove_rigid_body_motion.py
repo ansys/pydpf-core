@@ -85,8 +85,6 @@ class remove_rigid_body_motion(Operator):
             inputs_type=InputsRemoveRigidBodyMotion,
             outputs_type=OutputsRemoveRigidBodyMotion,
         )
-        self._inputs = InputsRemoveRigidBodyMotion(self)
-        self._outputs = OutputsRemoveRigidBodyMotion(self)
         if field is not None:
             self.inputs.field.connect(field)
         if reference_node_id is not None:

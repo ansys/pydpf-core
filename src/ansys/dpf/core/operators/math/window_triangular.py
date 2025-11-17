@@ -63,8 +63,6 @@ class window_triangular(Operator):
             inputs_type=InputsWindowTriangular,
             outputs_type=OutputsWindowTriangular,
         )
-        self._inputs = InputsWindowTriangular(self)
-        self._outputs = OutputsWindowTriangular(self)
         if field is not None:
             self.inputs.field.connect(field)
 

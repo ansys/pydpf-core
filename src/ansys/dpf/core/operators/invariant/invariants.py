@@ -66,8 +66,6 @@ class invariants(Operator):
             inputs_type=InputsInvariants,
             outputs_type=OutputsInvariants,
         )
-        self._inputs = InputsInvariants(self)
-        self._outputs = OutputsInvariants(self)
         if field is not None:
             self.inputs.field.connect(field)
 

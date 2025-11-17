@@ -64,8 +64,6 @@ class data_tree_to_txt(Operator):
             inputs_type=InputsDataTreeToTxt,
             outputs_type=OutputsDataTreeToTxt,
         )
-        self._inputs = InputsDataTreeToTxt(self)
-        self._outputs = OutputsDataTreeToTxt(self)
         if data_tree is not None:
             self.inputs.data_tree.connect(data_tree)
         if path is not None:

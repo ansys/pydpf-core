@@ -66,8 +66,6 @@ class cplx_multiply(Operator):
             inputs_type=InputsCplxMultiply,
             outputs_type=OutputsCplxMultiply,
         )
-        self._inputs = InputsCplxMultiply(self)
-        self._outputs = OutputsCplxMultiply(self)
         if fields_containerA is not None:
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB is not None:

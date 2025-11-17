@@ -111,8 +111,6 @@ class assemble_scalars_to_matrices_fc(Operator):
             inputs_type=InputsAssembleScalarsToMatricesFc,
             outputs_type=OutputsAssembleScalarsToMatricesFc,
         )
-        self._inputs = InputsAssembleScalarsToMatricesFc(self)
-        self._outputs = OutputsAssembleScalarsToMatricesFc(self)
         if xx is not None:
             self.inputs.xx.connect(xx)
         if yy is not None:

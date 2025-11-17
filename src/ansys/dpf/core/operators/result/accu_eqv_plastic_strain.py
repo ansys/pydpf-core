@@ -251,8 +251,6 @@ class accu_eqv_plastic_strain(Operator):
             inputs_type=InputsAccuEqvPlasticStrain,
             outputs_type=OutputsAccuEqvPlasticStrain,
         )
-        self._inputs = InputsAccuEqvPlasticStrain(self)
-        self._outputs = OutputsAccuEqvPlasticStrain(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

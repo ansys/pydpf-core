@@ -96,8 +96,6 @@ class weighted_merge_fields_by_label(Operator):
             inputs_type=InputsWeightedMergeFieldsByLabel,
             outputs_type=OutputsWeightedMergeFieldsByLabel,
         )
-        self._inputs = InputsWeightedMergeFieldsByLabel(self)
-        self._outputs = OutputsWeightedMergeFieldsByLabel(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if label is not None:

@@ -89,8 +89,6 @@ class scale_fc(Operator):
             inputs_type=InputsScaleFc,
             outputs_type=OutputsScaleFc,
         )
-        self._inputs = InputsScaleFc(self)
-        self._outputs = OutputsScaleFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if weights is not None:

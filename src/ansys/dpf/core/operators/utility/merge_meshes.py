@@ -102,8 +102,6 @@ class merge_meshes(Operator):
             inputs_type=InputsMergeMeshes,
             outputs_type=OutputsMergeMeshes,
         )
-        self._inputs = InputsMergeMeshes(self)
-        self._outputs = OutputsMergeMeshes(self)
         if naive_merge_elements is not None:
             self.inputs.naive_merge_elements.connect(naive_merge_elements)
         if should_merge_named_selections is not None:

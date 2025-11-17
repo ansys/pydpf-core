@@ -109,8 +109,6 @@ class electric_potential(Operator):
             inputs_type=InputsElectricPotential,
             outputs_type=OutputsElectricPotential,
         )
-        self._inputs = InputsElectricPotential(self)
-        self._outputs = OutputsElectricPotential(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

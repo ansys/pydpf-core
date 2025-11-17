@@ -129,8 +129,6 @@ class temperature_grad_Y(Operator):
             inputs_type=InputsTemperatureGradY,
             outputs_type=OutputsTemperatureGradY,
         )
-        self._inputs = InputsTemperatureGradY(self)
-        self._outputs = OutputsTemperatureGradY(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

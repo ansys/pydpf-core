@@ -81,8 +81,6 @@ class extract_sub_mc(Operator):
             inputs_type=InputsExtractSubMc,
             outputs_type=OutputsExtractSubMc,
         )
-        self._inputs = InputsExtractSubMc(self)
-        self._outputs = OutputsExtractSubMc(self)
         if meshes is not None:
             self.inputs.meshes.connect(meshes)
         if label_space is not None:

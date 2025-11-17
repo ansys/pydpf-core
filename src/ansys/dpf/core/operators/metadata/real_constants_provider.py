@@ -80,8 +80,6 @@ class real_constants_provider(Operator):
             inputs_type=InputsRealConstantsProvider,
             outputs_type=OutputsRealConstantsProvider,
         )
-        self._inputs = InputsRealConstantsProvider(self)
-        self._outputs = OutputsRealConstantsProvider(self)
         if solver_real_constants_ids is not None:
             self.inputs.solver_real_constants_ids.connect(solver_real_constants_ids)
         if streams is not None:
