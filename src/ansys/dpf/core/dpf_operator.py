@@ -198,10 +198,13 @@ class Operator:
 
         self._spec = Specification(operator_name=self.name, server=self._server)
         # add dynamic inputs if no specific Inputs subclass is used
-        if len(self._spec.inputs) > 0 and self._inputs_class == Inputs:
-            self._inputs = self._inputs_class(self._spec.inputs, self)
+        if len(self._spec.inputs) > 0:
+            if self._inputs_class == Inputs:
+                self._inputs = self._inputs_class(self._spec.inputs, self)
+            else:
+                self._inputs = self._inputs_class(self)
         else:
-            self._inputs = self._inputs_class(self)
+            self._inputs = None
 
         # step4: if object exists: take instance (config)
         if config:
