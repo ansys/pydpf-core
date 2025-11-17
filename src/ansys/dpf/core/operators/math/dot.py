@@ -39,6 +39,7 @@ class dot(Operator):
     Outputs
     -------
     field: Field
+        Scalar field containing the dot product values between corresponding vectors
 
     Examples
     --------
@@ -108,7 +109,7 @@ fields are scalar.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Scalar field containing the dot product values between corresponding vectors""",
                 ),
             },
         )
@@ -246,6 +247,8 @@ class OutputsDot(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Scalar field containing the dot product values between corresponding vectors
 
         Returns
         -------

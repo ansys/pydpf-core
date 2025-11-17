@@ -23,19 +23,24 @@ if TYPE_CHECKING:
 
 class adapt_with_scopings_container(Operator):
     r"""Rescopes/splits a fields container to correspond to a scopings
-    container.
+    container. Each field from the input container is rescoped using each
+    scoping from the scopings container, creating a cartesian product of
+    rescoped fields.
 
 
     Inputs
     ------
     field_or_fields_container: FieldsContainer or Field
+        Fields container to rescope, or a single field (which will be converted to a container)
     scopings_container: ScopingsContainer
+        Container with target scopings for rescoping operations
     keep_empty_fields: bool, optional
-        Default false.
+        Whether to keep fields that become empty after rescoping. Default is false.
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Fields container with rescoped fields, combining labels from input fields and scopings
 
     Examples
     --------
@@ -90,7 +95,9 @@ class adapt_with_scopings_container(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Rescopes/splits a fields container to correspond to a scopings
-container.
+container. Each field from the input container is rescoped using each
+scoping from the scopings container, creating a cartesian product of
+rescoped fields.
 """
         spec = Specification(
             description=description,
@@ -99,19 +106,19 @@ container.
                     name="field_or_fields_container",
                     type_names=["fields_container", "field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container to rescope, or a single field (which will be converted to a container)""",
                 ),
                 1: PinSpecification(
                     name="scopings_container",
                     type_names=["scopings_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Container with target scopings for rescoping operations""",
                 ),
                 2: PinSpecification(
                     name="keep_empty_fields",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""Default false.""",
+                    document=r"""Whether to keep fields that become empty after rescoping. Default is false.""",
                 ),
             },
             map_output_pin_spec={
@@ -119,7 +126,7 @@ container.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container with rescoped fields, combining labels from input fields and scopings""",
                 ),
             },
         )
@@ -204,6 +211,8 @@ class InputsAdaptWithScopingsContainer(_Inputs):
     def field_or_fields_container(self) -> Input[FieldsContainer | Field]:
         r"""Allows to connect field_or_fields_container input to the operator.
 
+        Fields container to rescope, or a single field (which will be converted to a container)
+
         Returns
         -------
         input:
@@ -222,6 +231,8 @@ class InputsAdaptWithScopingsContainer(_Inputs):
     @property
     def scopings_container(self) -> Input[ScopingsContainer]:
         r"""Allows to connect scopings_container input to the operator.
+
+        Container with target scopings for rescoping operations
 
         Returns
         -------
@@ -242,7 +253,7 @@ class InputsAdaptWithScopingsContainer(_Inputs):
     def keep_empty_fields(self) -> Input[bool]:
         r"""Allows to connect keep_empty_fields input to the operator.
 
-        Default false.
+        Whether to keep fields that become empty after rescoping. Default is false.
 
         Returns
         -------
@@ -282,6 +293,8 @@ class OutputsAdaptWithScopingsContainer(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Fields container with rescoped fields, combining labels from input fields and scopings
 
         Returns
         -------

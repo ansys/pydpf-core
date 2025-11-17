@@ -37,6 +37,7 @@ class minus_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
+        Field containing the element-wise difference (fieldA - fieldB)
 
     Examples
     --------
@@ -120,7 +121,7 @@ field entirely. When using a constant or ‘work_by_index’, you can use
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field containing the element-wise difference (fieldA - fieldB)""",
                 ),
             },
         )
@@ -260,6 +261,8 @@ class OutputsMinusFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Field containing the element-wise difference (fieldA - fieldB)
 
         Returns
         -------

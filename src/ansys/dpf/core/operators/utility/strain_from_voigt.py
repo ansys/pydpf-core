@@ -21,17 +21,19 @@ if TYPE_CHECKING:
 
 
 class strain_from_voigt(Operator):
-    r"""Converts the strain field from Voigt notation into standard format.
+    r"""Converts strain field data from Voigt notation (6-component vector) to
+    standard symmetric matrix format (3x3 tensor).
 
 
     Inputs
     ------
-    field: Field or FieldsContainer
-        field or fields container with only one field is expected
+    strain_field: Field or FieldsContainer
+        Field with strain data in Voigt notation, or fields container containing such a field
 
     Outputs
     -------
     field: Field
+        Field with strain data converted to standard 3x3 symmetric matrix format
 
     Examples
     --------
@@ -41,19 +43,25 @@ class strain_from_voigt(Operator):
     >>> op = dpf.operators.utility.strain_from_voigt()
 
     >>> # Make input connections
-    >>> my_field = dpf.Field()
-    >>> op.inputs.field.connect(my_field)
+    >>> my_strain_field = dpf.Field()
+    >>> op.inputs.strain_field.connect(my_strain_field)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.strain_from_voigt(
-    ...     field=my_field,
+    ...     strain_field=my_strain_field,
     ... )
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, field=None, config=None, server=None):
+    def __init__(
+        self,
+        strain_field=None,
+        config=None,
+        server=None,
+        field=None,
+    ):
         super().__init__(
             name="strain_from_voigt",
             config=config,
@@ -63,21 +71,30 @@ class strain_from_voigt(Operator):
         )
         self._inputs = InputsStrainFromVoigt(self)
         self._outputs = OutputsStrainFromVoigt(self)
-        if field is not None:
-            self.inputs.field.connect(field)
+        if strain_field is not None:
+            self.inputs.strain_field.connect(strain_field)
+        elif field is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator strain_from_voigt: Input name "field" is deprecated in favor of "strain_field".'
+                )
+            )
+            self.inputs.strain_field.connect(field)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Converts the strain field from Voigt notation into standard format.
+        description = r"""Converts strain field data from Voigt notation (6-component vector) to
+standard symmetric matrix format (3x3 tensor).
 """
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="field",
+                    name="strain_field",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""field or fields container with only one field is expected""",
+                    document=r"""Field with strain data in Voigt notation, or fields container containing such a field""",
+                    aliases=["field"],
                 ),
             },
             map_output_pin_spec={
@@ -85,7 +102,7 @@ class strain_from_voigt(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with strain data converted to standard 3x3 symmetric matrix format""",
                 ),
             },
         )
@@ -143,22 +160,22 @@ class InputsStrainFromVoigt(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.strain_from_voigt()
-    >>> my_field = dpf.Field()
-    >>> op.inputs.field.connect(my_field)
+    >>> my_strain_field = dpf.Field()
+    >>> op.inputs.strain_field.connect(my_strain_field)
     """
 
     def __init__(self, op: Operator):
         super().__init__(strain_from_voigt._spec().inputs, op)
-        self._field: Input[Field | FieldsContainer] = Input(
+        self._strain_field: Input[Field | FieldsContainer] = Input(
             strain_from_voigt._spec().input_pin(0), 0, op, -1
         )
-        self._inputs.append(self._field)
+        self._inputs.append(self._strain_field)
 
     @property
-    def field(self) -> Input[Field | FieldsContainer]:
-        r"""Allows to connect field input to the operator.
+    def strain_field(self) -> Input[Field | FieldsContainer]:
+        r"""Allows to connect strain_field input to the operator.
 
-        field or fields container with only one field is expected
+        Field with strain data in Voigt notation, or fields container containing such a field
 
         Returns
         -------
@@ -169,11 +186,23 @@ class InputsStrainFromVoigt(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.strain_from_voigt()
-        >>> op.inputs.field.connect(my_field)
+        >>> op.inputs.strain_field.connect(my_strain_field)
         >>> # or
-        >>> op.inputs.field(my_field)
+        >>> op.inputs.strain_field(my_strain_field)
         """
-        return self._field
+        return self._strain_field
+
+    def __getattr__(self, name):
+        if name in ["field"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator strain_from_voigt: Input name "{name}" is deprecated in favor of "strain_field".'
+                )
+            )
+            return self.strain_field
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsStrainFromVoigt(_Outputs):
@@ -198,6 +227,8 @@ class OutputsStrainFromVoigt(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with strain data converted to standard 3x3 symmetric matrix format
 
         Returns
         -------

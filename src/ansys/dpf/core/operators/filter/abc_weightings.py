@@ -26,7 +26,7 @@ class abc_weightings(Operator):
     Inputs
     ------
     fields_container: FieldsContainer
-        data to be weighted in dB units.
+        data to be weighted in dB units equipped with cumulative ids in the scoping.
     weighting_type: int
         if this pin is set to 0, the A-weighting is computed, 1 the B-weigting is computed and 2 the C-weightings is computed.
     shape_by_tf_scoping: bool
@@ -98,7 +98,7 @@ class abc_weightings(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""data to be weighted in dB units.""",
+                    document=r"""data to be weighted in dB units equipped with cumulative ids in the scoping.""",
                 ),
                 1: PinSpecification(
                     name="weighting_type",
@@ -203,7 +203,7 @@ class InputsAbcWeightings(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        data to be weighted in dB units.
+        data to be weighted in dB units equipped with cumulative ids in the scoping.
 
         Returns
         -------

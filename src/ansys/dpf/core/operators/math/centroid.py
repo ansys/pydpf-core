@@ -37,6 +37,7 @@ class centroid(Operator):
     Outputs
     -------
     field: Field
+        Field with centroid calculation: fieldA*(1-factor) + fieldB*factor
 
     Examples
     --------
@@ -113,7 +114,7 @@ field1\ *(1.-fact)+field2*\ (fact). Only works by index.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with centroid calculation: fieldA*(1-factor) + fieldB*factor""",
                 ),
             },
         )
@@ -276,6 +277,8 @@ class OutputsCentroid(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with centroid calculation: fieldA*(1-factor) + fieldB*factor
 
         Returns
         -------

@@ -21,17 +21,18 @@ if TYPE_CHECKING:
 
 
 class exponential(Operator):
-    r"""Computes element-wise exp(field[i]).
+    r"""Computes element-wise exponential function on field data: exp(field[i]).
 
 
     Inputs
     ------
     field: Field or FieldsContainer or float
-        field or fields container with only one field is expected
+        Field, fields container, or numeric data for exponential calculation
 
     Outputs
     -------
     field: Field
+        Field with exponential values applied element-wise to input data
 
     Examples
     --------
@@ -68,7 +69,7 @@ class exponential(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes element-wise exp(field[i]).
+        description = r"""Computes element-wise exponential function on field data: exp(field[i]).
 """
         spec = Specification(
             description=description,
@@ -82,7 +83,7 @@ class exponential(Operator):
                         "vector<double>",
                     ],
                     optional=False,
-                    document=r"""field or fields container with only one field is expected""",
+                    document=r"""Field, fields container, or numeric data for exponential calculation""",
                 ),
             },
             map_output_pin_spec={
@@ -90,7 +91,7 @@ class exponential(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with exponential values applied element-wise to input data""",
                 ),
             },
         )
@@ -163,7 +164,7 @@ class InputsExponential(_Inputs):
     def field(self) -> Input[Field | FieldsContainer | float]:
         r"""Allows to connect field input to the operator.
 
-        field or fields container with only one field is expected
+        Field, fields container, or numeric data for exponential calculation
 
         Returns
         -------
@@ -201,6 +202,8 @@ class OutputsExponential(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with exponential values applied element-wise to input data
 
         Returns
         -------
