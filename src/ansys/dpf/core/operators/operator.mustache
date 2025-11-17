@@ -113,8 +113,6 @@ class {{class_name}}(Operator):
             else:
                 raise e
         {{/has_internal_name_alias}}
-        self._inputs = Inputs{{capital_class_name}}(self)
-        self._outputs = Outputs{{capital_class_name}}(self)
         {{#input_pins}}
         if {{name}} is not None:
             self.inputs.{{name}}.connect({{name}})
