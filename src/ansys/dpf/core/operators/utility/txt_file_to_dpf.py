@@ -19,12 +19,12 @@ class txt_file_to_dpf(Operator):
     r"""Take an input string and parse it into dataProcessing type
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     input_string: str
         ex: 'double:1.0', 'int:1', 'vector<double>:1.0;1.0'
 
-    Returns
+    Outputs
     -------
     any_output1:
         any output
@@ -51,6 +51,9 @@ class txt_file_to_dpf(Operator):
     >>> result_any_output1 = op.outputs.any_output1()
     >>> result_any_output2 = op.outputs.any_output2()
     """
+
+    _inputs: InputsTxtFileToDpf
+    _outputs: OutputsTxtFileToDpf
 
     def __init__(self, input_string=None, config=None, server=None):
         super().__init__(name="text_parser", config=config, server=server)
@@ -118,7 +121,7 @@ class txt_file_to_dpf(Operator):
         inputs:
             An instance of InputsTxtFileToDpf.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsTxtFileToDpf:
@@ -129,7 +132,7 @@ class txt_file_to_dpf(Operator):
         outputs:
             An instance of OutputsTxtFileToDpf.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsTxtFileToDpf(_Inputs):
@@ -146,11 +149,13 @@ class InputsTxtFileToDpf(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(txt_file_to_dpf._spec().inputs, op)
-        self._input_string = Input(txt_file_to_dpf._spec().input_pin(0), 0, op, -1)
+        self._input_string: Input[str] = Input(
+            txt_file_to_dpf._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._input_string)
 
     @property
-    def input_string(self) -> Input:
+    def input_string(self) -> Input[str]:
         r"""Allows to connect input_string input to the operator.
 
         ex: 'double:1.0', 'int:1', 'vector<double>:1.0;1.0'
@@ -186,9 +191,9 @@ class OutputsTxtFileToDpf(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(txt_file_to_dpf._spec().outputs, op)
-        self._any_output1 = Output(txt_file_to_dpf._spec().output_pin(0), 0, op)
+        self._any_output1: Output = Output(txt_file_to_dpf._spec().output_pin(0), 0, op)
         self._outputs.append(self._any_output1)
-        self._any_output2 = Output(txt_file_to_dpf._spec().output_pin(1), 1, op)
+        self._any_output2: Output = Output(txt_file_to_dpf._spec().output_pin(1), 1, op)
         self._outputs.append(self._any_output2)
 
     @property

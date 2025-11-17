@@ -20,12 +20,12 @@ class default_value(Operator):
     nothing on input pin 0.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     forced_value: optional
     default_value:
 
-    Returns
+    Outputs
     -------
     output:
 
@@ -51,6 +51,9 @@ class default_value(Operator):
     >>> # Get output data
     >>> result_output = op.outputs.output()
     """
+
+    _inputs: InputsDefaultValue
+    _outputs: OutputsDefaultValue
 
     def __init__(self, forced_value=None, default_value=None, config=None, server=None):
         super().__init__(name="default_value", config=config, server=server)
@@ -122,7 +125,7 @@ nothing on input pin 0.
         inputs:
             An instance of InputsDefaultValue.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDefaultValue:
@@ -133,7 +136,7 @@ nothing on input pin 0.
         outputs:
             An instance of OutputsDefaultValue.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDefaultValue(_Inputs):
@@ -152,9 +155,11 @@ class InputsDefaultValue(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(default_value._spec().inputs, op)
-        self._forced_value = Input(default_value._spec().input_pin(0), 0, op, -1)
+        self._forced_value: Input = Input(default_value._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._forced_value)
-        self._default_value = Input(default_value._spec().input_pin(1), 1, op, -1)
+        self._default_value: Input = Input(
+            default_value._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._default_value)
 
     @property
@@ -210,7 +215,7 @@ class OutputsDefaultValue(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(default_value._spec().outputs, op)
-        self._output = Output(default_value._spec().output_pin(0), 0, op)
+        self._output: Output = Output(default_value._spec().output_pin(0), 0, op)
         self._outputs.append(self._output)
 
     @property

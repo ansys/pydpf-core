@@ -27,6 +27,7 @@ import argparse
 import os
 from pathlib import Path
 import re
+import warnings
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core.changelog import Changelog
@@ -90,17 +91,27 @@ def initialize_server(
             binary_name = "composite_operators.dll"
         else:
             binary_name = "libcomposite_operators.so"
-        load_library(
-            filename=Path(server.ansys_path) / "dpf" / "plugins" / "dpf_composites" / binary_name,
-            name="composites",
-        )
+        try:
+            load_library(
+                filename=Path(server.ansys_path)
+                / "dpf"
+                / "plugins"
+                / "dpf_composites"
+                / binary_name,
+                name="composites",
+            )
+        except Exception as e:
+            warnings.warn("Could not load Composites plugin:" f"{e}")
     if include_sound and server.os == "nt":  # pragma: nocover
         if verbose:
             print("Loading Acoustics Plugin")
-        load_library(
-            filename=Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll",
-            name="sound",
-        )
+        try:
+            load_library(
+                filename=Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll",
+                name="sound",
+            )
+        except Exception as e:
+            warnings.warn("Could not load Acoustics plugin:" f"{e}")
     if verbose:  # pragma: nocover
         print(f"Loaded plugins: {list(server.plugins.keys())}")
     return server
@@ -120,7 +131,9 @@ def extract_operator_description_update(content: str) -> str:
             The updated description to use for the operator.
     """
     match = re.search(r"## Description\s*(.*?)\s*(?=## |\Z)", content, re.DOTALL)
-    return match.group(0) + os.linesep if match else None
+    description = match.group(0) + os.linesep if match else None
+    # Handle unicode characters
+    return description.encode("unicode-escape").decode()
 
 
 def replace_operator_description(original_documentation: str, new_description: str):
@@ -293,15 +306,30 @@ def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:
         "changelog": changelog_entries,  # Include all changelog entries
     }
 
+    op_description = latex_to_dollars(spec.description)
+
     return {
         "operator_name": op_friendly_name,
-        "operator_description": spec.description,
+        "operator_description": op_description,
         "inputs": input_info,
         "outputs": output_info,
         "configurations": configurations_info,
         "scripting_info": scripting_info,
         "exposure": exposure,
     }
+
+
+def latex_to_dollars(text: str) -> str:
+    r"""Convert LaTeX math delimiters from \\[.\\] to $$.$$ and from \\(.\\) to $.$ in a given text.
+
+    Parameters
+    ----------
+    text:
+        The input text containing LaTeX math delimiters.
+    """
+    return (
+        text.replace(r"\\[", "$$").replace(r"\\]", "$$").replace(r"\\(", "$").replace(r"\\)", "$")
+    )
 
 
 def get_plugin_operators(server: dpf.AnyServerType, plugin_name: str) -> list[str]:
@@ -330,7 +358,11 @@ def get_plugin_operators(server: dpf.AnyServerType, plugin_name: str) -> list[st
 
 
 def generate_operator_doc(
-    server: dpf.AnyServerType, operator_name: str, include_private: bool, output_path: Path
+    server: dpf.AnyServerType,
+    operator_name: str,
+    include_private: bool,
+    output_path: Path,
+    router_info: dict = None,
 ):
     """Write the Markdown documentation page for a given operator on a given DPF server.
 
@@ -344,11 +376,30 @@ def generate_operator_doc(
         Whether to generate the documentation if the operator is private.
     output_path:
         Path to write the operator documentation at.
+    router_info:
+        Information about router operators.
 
     """
     operator_info = fetch_doc_info(server, operator_name)
+    supported_file_types = {}
+    if router_info is not None:
+        operator_info["is_router"] = operator_name in router_info["router_map"].keys()
+        if operator_info["is_router"]:
+            supported_keys = router_info["router_map"].get(operator_name, []).split(";")
+            for key in supported_keys:
+                if key in router_info["namespace_ext_map"]:
+                    namespace = router_info["namespace_ext_map"][key]
+                    if namespace not in supported_file_types:
+                        supported_file_types[namespace] = [key]
+                    else:
+                        supported_file_types[namespace].append(key)
+        for namespace, supported_keys in supported_file_types.items():
+            supported_file_types[namespace] = ", ".join(sorted(supported_keys))
+    else:
+        operator_info["is_router"] = False
+    operator_info["supported_file_types"] = supported_file_types
     scripting_name = operator_info["scripting_info"]["scripting_name"]
-    category = operator_info["scripting_info"]["category"]
+    category: str = operator_info["scripting_info"]["category"]
     if scripting_name:
         file_name = scripting_name
     else:
@@ -357,7 +408,7 @@ def generate_operator_doc(
         file_name = file_name.replace("::", "_")
     if not include_private and operator_info["exposure"] == "private":
         return
-    template_path = Path(__file__).parent / "operator_doc_template.md"
+    template_path = Path(__file__).parent / "operator_doc_template.j2"
     spec_folder = output_path / Path("operator-specifications")
     category_dir = spec_folder / category
     spec_folder.mkdir(parents=True, exist_ok=True)
@@ -391,7 +442,10 @@ def update_toc_tree(docs_path: Path):
             operators = []  # Reset operators for each category
             for file in folder.iterdir():
                 if (
-                    file.is_file() and file.suffix == ".md" and not file.name.endswith("_upd.md")
+                    file.is_file()
+                    and file.suffix == ".md"
+                    and not file.name.endswith("_upd.md")
+                    and not file.name.endswith("_category.md")
                 ):  # Ensure 'file' is a file with .md extension
                     file_name = file.name
                     file_path = f"{category}/{file_name}"
@@ -417,6 +471,84 @@ def update_toc_tree(docs_path: Path):
     )
     with toc_path.open(mode="w") as file:
         file.write(new_toc)
+
+
+def update_categories(docs_path: Path):
+    """Update the category index files for the operator specifications.
+
+    Parameters
+    ----------
+    docs_path:
+        Path to the root of the DPF documentation sources.
+
+    """
+    specs_path = docs_path / Path("operator-specifications")
+    for folder in specs_path.iterdir():
+        if folder.is_dir():  # Ensure 'folder' is a directory
+            category = folder.name
+            operators = []  # Reset operators for each category
+            for file in folder.iterdir():
+                if (
+                    file.is_file()
+                    and file.suffix == ".md"
+                    and not file.name.endswith("_upd.md")
+                    and not file.name.endswith("_category.md")
+                ):  # Ensure 'file' is a file with .md extension
+                    file_name = file.name
+                    operator_name = file_name.replace("_", " ").replace(".md", "")
+                    operators.append({"operator_name": operator_name, "file_path": file_name})
+            # Update category index file
+            category_file_path = folder / f"{category}_category.md"
+            with category_file_path.open(mode="w") as cat_file:
+                cat_file.write(f"# {category.capitalize()} operators\n\n")
+                for operator in operators:
+                    cat_file.write(f"- [{operator['operator_name']}]({operator['file_path']})\n")
+
+
+def update_operator_index(docs_path: Path):
+    """Update the main index file for all operator specifications.
+
+    Parameters
+    ----------
+    docs_path:
+        Path to the root of the DPF documentation sources.
+
+    """
+    specs_path = docs_path / Path("operator-specifications")
+    index_file_path = specs_path / "operator-specifications.md"
+    with index_file_path.open(mode="w") as index_file:
+        index_file.write("# Operator Specifications\n\n")
+        for folder in specs_path.iterdir():
+            if folder.is_dir():  # Ensure 'folder' is a directory
+                category = folder.name
+                index_file.write(
+                    f"- [{category.capitalize()} operators]({category}/{category}_category.md)\n\n"
+                )
+                index_file.write("\n")
+
+
+def get_operator_routing_info(server: dpf.AnyServerType) -> dict:
+    """Get information about router operators.
+
+    Parameters
+    ----------
+    server:
+        DPF server to query for the operator routing map.
+
+    Returns
+    -------
+    routing_map:
+        A dictionary with three main keys: "aliases", "namespace_ext_map", and "router_map".
+        "aliases" is a dictionary of operator aliases.
+        "namespace_ext_map" is a dictionary mapping keys to namespaces.
+        "router_map" is a dictionary mapping operator names to lists of supported keys.
+    """
+    dt_root: dpf.DataTree = dpf.dpf_operator.Operator(
+        name="info::router_discovery",
+        server=server,
+    ).eval()
+    router_info: dict = dt_root.to_dict()
+    return router_info
 
 
 def generate_operators_doc(
@@ -457,10 +589,18 @@ def generate_operators_doc(
         operators = available_operator_names(server)
     else:
         operators = get_plugin_operators(server, desired_plugin)
+    if server.meet_version(required_version="11.0"):
+        router_info = get_operator_routing_info(server)
+    else:
+        router_info = None
     for operator_name in operators:
-        generate_operator_doc(server, operator_name, include_private, output_path)
+        generate_operator_doc(server, operator_name, include_private, output_path, router_info)
     # Generate the toc tree
     update_toc_tree(output_path)
+    # Generate the category index files
+    update_categories(output_path)
+    # Generate the main index file for all categories
+    update_operator_index(output_path)
     # Use update files in output_path
     update_operator_descriptions(output_path)
 
@@ -473,9 +613,7 @@ def run_with_args():  # pragma: nocover
     parser.add_argument(
         "--ansys_path", default=None, help="Path to Ansys DPF Server installation directory"
     )
-    parser.add_argument(
-        "--output_path", default=None, help="Path to output directory", required=True
-    )
+    parser.add_argument("--output_path", default=".", help="Path to output directory")
     parser.add_argument("--include_private", action="store_true", help="Include private operators")
     parser.add_argument(
         "--include_composites", action="store_true", help="Include Composites operators"

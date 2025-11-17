@@ -185,3 +185,10 @@ def test_namespace(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(cas_h5_file)
     assert data_sources.namespace(data_sources.result_key) == "cff"
+
+
+def test_as_stream(allkindofcomplexity, server_in_process):
+    ds = dpf.core.DataSources(allkindofcomplexity, server=server_in_process)
+    stream = ds.streams_container
+    assert isinstance(stream, dpf.core.StreamsContainer)
+    assert stream.datasources.result_files == ds.result_files

@@ -19,14 +19,14 @@ class merge_collections(Operator):
     r"""Merges a set of collections into a unique one.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     collections1: AnyCollection
         a vector of collections to merge or collections from pin 0 to ...
     collections2: AnyCollection
         a vector of collections to merge or collections from pin 0 to ...
 
-    Returns
+    Outputs
     -------
     merged_collections: AnyCollection
 
@@ -52,6 +52,9 @@ class merge_collections(Operator):
     >>> # Get output data
     >>> result_merged_collections = op.outputs.merged_collections()
     """
+
+    _inputs: InputsMergeCollections
+    _outputs: OutputsMergeCollections
 
     def __init__(self, collections1=None, collections2=None, config=None, server=None):
         super().__init__(name="merge::any_collection", config=config, server=server)
@@ -123,7 +126,7 @@ class merge_collections(Operator):
         inputs:
             An instance of InputsMergeCollections.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsMergeCollections:
@@ -134,7 +137,7 @@ class merge_collections(Operator):
         outputs:
             An instance of OutputsMergeCollections.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsMergeCollections(_Inputs):
@@ -153,9 +156,13 @@ class InputsMergeCollections(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_collections._spec().inputs, op)
-        self._collections1 = Input(merge_collections._spec().input_pin(0), 0, op, 0)
+        self._collections1: Input = Input(
+            merge_collections._spec().input_pin(0), 0, op, 0
+        )
         self._inputs.append(self._collections1)
-        self._collections2 = Input(merge_collections._spec().input_pin(1), 1, op, 1)
+        self._collections2: Input = Input(
+            merge_collections._spec().input_pin(1), 1, op, 1
+        )
         self._inputs.append(self._collections2)
 
     @property
@@ -215,7 +222,7 @@ class OutputsMergeCollections(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_collections._spec().outputs, op)
-        self._merged_collections = Output(
+        self._merged_collections: Output = Output(
             merge_collections._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._merged_collections)
