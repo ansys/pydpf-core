@@ -44,7 +44,7 @@ def test_cff_model(server_type, fluent_multi_species):
     reason="CFF source operators where not supported before 7.0,",
 )
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_EQUAL_TO_10_0,
+    conftest.SERVERS_VERSION_EQUAL_TO_10_0,
     reason="This feature is not available for sever version 10.0",
 )
 def test_cff_model_flprj(server_type, fluent_axial_comp_flprj):
