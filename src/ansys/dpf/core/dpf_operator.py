@@ -22,10 +22,13 @@
 
 """Operator."""
 
+from __future__ import annotations
+
 from enum import Enum
 import logging
 import os
 import traceback
+from typing import TYPE_CHECKING
 import warnings
 
 import numpy
@@ -57,6 +60,10 @@ from ansys.dpf.gate import (
     operator_capi,
     operator_grpcapi,
 )
+
+if TYPE_CHECKING:  # pragma: no cover
+    from ansys.dpf.core.inputs import _Inputs
+    from ansys.dpf.core.server import AnyServerType
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -90,18 +97,30 @@ class Operator:
 
     Parameters
     ----------
-    name : str
+    name:
         Name of the operator. For example, ``"U"``. You can use the
         ``"html_doc"`` operator to retrieve a list of existing operators.
 
-    config : Config, optional
+    config:
         The Configuration allows to customize how the operation
         will be processed by the operator. The default is ``None``.
 
-    server : server.DPFServer, optional
+    server:
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
         server.
+
+    operator:
+        An existing operator reference to wrap. If an operator reference is provided,
+        the name, server, inputs_type, and outputs_type parameters are ignored.
+
+    inputs_type:
+        The class to use for the inputs of the operator. If not specified,
+        the default Inputs class is used.
+
+    outputs_type:
+        The class to use for the outputs of the operator. If not specified,
+        the default Outputs class is used.
 
     Examples
     --------
@@ -119,12 +138,22 @@ class Operator:
 
     """
 
-    def __init__(self, name=None, config=None, server=None, operator=None):
+    def __init__(
+        self,
+        name: str = None,
+        config: Config = None,
+        server: AnyServerType = None,
+        operator: Operator | int = None,
+        inputs_type: type[_Inputs] = Inputs,
+        outputs_type: type[_Outputs] = Outputs,
+    ):
         """Initialize the operator with its name by connecting to a stub."""
         self.name = name
         self._internal_obj = None
         self._description = None
         self._inputs = None
+        self._inputs_class = inputs_type
+        self._outputs_class = outputs_type
         self._id = None
 
         # step 1: get server
@@ -168,9 +197,11 @@ class Operator:
             )
 
         self._spec = Specification(operator_name=self.name, server=self._server)
-        # add dynamic inputs
-        if len(self._spec.inputs) > 0 and self._inputs is None:
-            self._inputs = Inputs(self._spec.inputs, self)
+        # add dynamic inputs if no specific Inputs subclass is used
+        if len(self._spec.inputs) > 0 and self._inputs_class == Inputs:
+            self._inputs = self._inputs_class(self._spec.inputs, self)
+        else:
+            self._inputs = self._inputs_class(self)
 
         # step4: if object exists: take instance (config)
         if config:
@@ -219,8 +250,13 @@ class Operator:
 
     @property
     def _outputs(self):
-        if self._spec and len(self._spec.outputs) != 0:
-            return Outputs(self._spec.outputs, self)
+        if self._outputs_class == Outputs:
+            if self._spec and len(self._spec.outputs) != 0:
+                return self._outputs_class(self._spec.outputs, self)
+            else:
+                return None
+        else:
+            return self._outputs_class(self)
 
     @_outputs.setter
     def _outputs(self, value):

@@ -94,12 +94,15 @@ class {{class_name}}(Operator):
     {{/outputs}}
     """
 
-    _inputs: Inputs{{capital_class_name}}
-    _outputs: Outputs{{capital_class_name}}
-
     def __init__(self, {{#input_pins}}{{name}}=None, {{/input_pins}}config=None, server=None{{#has_input_aliases}}, {{#input_pins}}{{#aliases_list}}{{alias}}=None, {{/aliases_list}}{{/input_pins}}{{/has_input_aliases}}):
         {{^has_internal_name_alias}}
-        super().__init__(name="{{operator_name}}", config=config, server=server)
+        super().__init__(
+            name="{{operator_name}}",
+            config=config,
+            server=server,
+            inputs_type=Inputs{{capital_class_name}},
+            outputs_type=Outputs{{capital_class_name}}
+        )
         {{/has_internal_name_alias}}
         {{#has_internal_name_alias}}
         try:
