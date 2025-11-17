@@ -64,13 +64,16 @@ class mesh_plan_clip(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
-    _inputs: InputsMeshPlanClip
-    _outputs: OutputsMeshPlanClip
-
     def __init__(
         self, mesh_or_field=None, normal=None, origin=None, config=None, server=None
     ):
-        super().__init__(name="mesh_plan_clip", config=config, server=server)
+        super().__init__(
+            name="mesh_plan_clip",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshPlanClip,
+            outputs_type=OutputsMeshPlanClip,
+        )
         self._inputs = InputsMeshPlanClip(self)
         self._outputs = OutputsMeshPlanClip(self)
         if mesh_or_field is not None:

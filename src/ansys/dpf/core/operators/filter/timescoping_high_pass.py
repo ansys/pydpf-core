@@ -64,9 +64,6 @@ class timescoping_high_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
-    _inputs: InputsTimescopingHighPass
-    _outputs: OutputsTimescopingHighPass
-
     def __init__(
         self,
         time_freq_support=None,
@@ -76,7 +73,11 @@ class timescoping_high_pass(Operator):
         server=None,
     ):
         super().__init__(
-            name="core::timescoping::high_pass", config=config, server=server
+            name="core::timescoping::high_pass",
+            config=config,
+            server=server,
+            inputs_type=InputsTimescopingHighPass,
+            outputs_type=OutputsTimescopingHighPass,
         )
         self._inputs = InputsTimescopingHighPass(self)
         self._outputs = OutputsTimescopingHighPass(self)

@@ -227,9 +227,6 @@ class creep_strain_eqv(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCreepStrainEqv
-    _outputs: OutputsCreepStrainEqv
-
     def __init__(
         self,
         time_scoping=None,
@@ -247,7 +244,13 @@ class creep_strain_eqv(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPCR_EQV", config=config, server=server)
+        super().__init__(
+            name="EPCR_EQV",
+            config=config,
+            server=server,
+            inputs_type=InputsCreepStrainEqv,
+            outputs_type=OutputsCreepStrainEqv,
+        )
         self._inputs = InputsCreepStrainEqv(self)
         self._outputs = OutputsCreepStrainEqv(self)
         if time_scoping is not None:

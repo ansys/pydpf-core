@@ -67,13 +67,16 @@ class nodal_difference(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsNodalDifference
-    _outputs: OutputsNodalDifference
-
     def __init__(
         self, field=None, mesh_scoping=None, mesh=None, config=None, server=None
     ):
-        super().__init__(name="nodal_difference", config=config, server=server)
+        super().__init__(
+            name="nodal_difference",
+            config=config,
+            server=server,
+            inputs_type=InputsNodalDifference,
+            outputs_type=OutputsNodalDifference,
+        )
         self._inputs = InputsNodalDifference(self)
         self._outputs = OutputsNodalDifference(self)
         if field is not None:

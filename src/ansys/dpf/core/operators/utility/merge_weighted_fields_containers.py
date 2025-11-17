@@ -85,9 +85,6 @@ class merge_weighted_fields_containers(Operator):
     >>> result_merged_fields_container = op.outputs.merged_fields_container()
     """
 
-    _inputs: InputsMergeWeightedFieldsContainers
-    _outputs: OutputsMergeWeightedFieldsContainers
-
     def __init__(
         self,
         sum_merge=None,
@@ -101,7 +98,11 @@ class merge_weighted_fields_containers(Operator):
         server=None,
     ):
         super().__init__(
-            name="merge::weighted_fields_container", config=config, server=server
+            name="merge::weighted_fields_container",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeWeightedFieldsContainers,
+            outputs_type=OutputsMergeWeightedFieldsContainers,
         )
         self._inputs = InputsMergeWeightedFieldsContainers(self)
         self._outputs = OutputsMergeWeightedFieldsContainers(self)

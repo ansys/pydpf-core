@@ -107,9 +107,6 @@ class stress_XZ(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsStressXz
-    _outputs: OutputsStressXz
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,7 +122,13 @@ class stress_XZ(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="SXZ", config=config, server=server)
+        super().__init__(
+            name="SXZ",
+            config=config,
+            server=server,
+            inputs_type=InputsStressXz,
+            outputs_type=OutputsStressXz,
+        )
         self._inputs = InputsStressXz(self)
         self._outputs = OutputsStressXz(self)
         if time_scoping is not None:

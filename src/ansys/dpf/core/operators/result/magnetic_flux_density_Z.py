@@ -107,9 +107,6 @@ class magnetic_flux_density_Z(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsMagneticFluxDensityZ
-    _outputs: OutputsMagneticFluxDensityZ
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,7 +122,13 @@ class magnetic_flux_density_Z(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="MFDZ", config=config, server=server)
+        super().__init__(
+            name="MFDZ",
+            config=config,
+            server=server,
+            inputs_type=InputsMagneticFluxDensityZ,
+            outputs_type=OutputsMagneticFluxDensityZ,
+        )
         self._inputs = InputsMagneticFluxDensityZ(self)
         self._outputs = OutputsMagneticFluxDensityZ(self)
         if time_scoping is not None:

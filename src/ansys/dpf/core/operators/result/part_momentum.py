@@ -72,9 +72,6 @@ class part_momentum(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPartMomentum
-    _outputs: OutputsPartMomentum
-
     def __init__(
         self,
         streams_container=None,
@@ -84,7 +81,13 @@ class part_momentum(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="M_MV", config=config, server=server)
+        super().__init__(
+            name="M_MV",
+            config=config,
+            server=server,
+            inputs_type=InputsPartMomentum,
+            outputs_type=OutputsPartMomentum,
+        )
         self._inputs = InputsPartMomentum(self)
         self._outputs = OutputsPartMomentum(self)
         if streams_container is not None:

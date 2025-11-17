@@ -84,9 +84,6 @@ class beam_axial_plastic_strain(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsBeamAxialPlasticStrain
-    _outputs: OutputsBeamAxialPlasticStrain
-
     def __init__(
         self,
         time_scoping=None,
@@ -98,7 +95,13 @@ class beam_axial_plastic_strain(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="B_EPPL", config=config, server=server)
+        super().__init__(
+            name="B_EPPL",
+            config=config,
+            server=server,
+            inputs_type=InputsBeamAxialPlasticStrain,
+            outputs_type=OutputsBeamAxialPlasticStrain,
+        )
         self._inputs = InputsBeamAxialPlasticStrain(self)
         self._outputs = OutputsBeamAxialPlasticStrain(self)
         if time_scoping is not None:

@@ -70,13 +70,16 @@ class set_property(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsSetProperty
-    _outputs: OutputsSetProperty
-
     def __init__(
         self, field=None, property_name=None, property=None, config=None, server=None
     ):
-        super().__init__(name="field::set_property", config=config, server=server)
+        super().__init__(
+            name="field::set_property",
+            config=config,
+            server=server,
+            inputs_type=InputsSetProperty,
+            outputs_type=OutputsSetProperty,
+        )
         self._inputs = InputsSetProperty(self)
         self._outputs = OutputsSetProperty(self)
         if field is not None:

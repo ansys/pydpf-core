@@ -94,9 +94,6 @@ class density(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsDensity
-    _outputs: OutputsDensity
-
     def __init__(
         self,
         time_scoping=None,
@@ -110,7 +107,13 @@ class density(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="RHO", config=config, server=server)
+        super().__init__(
+            name="RHO",
+            config=config,
+            server=server,
+            inputs_type=InputsDensity,
+            outputs_type=OutputsDensity,
+        )
         self._inputs = InputsDensity(self)
         self._outputs = OutputsDensity(self)
         if time_scoping is not None:

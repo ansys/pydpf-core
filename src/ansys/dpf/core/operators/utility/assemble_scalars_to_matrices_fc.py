@@ -89,9 +89,6 @@ class assemble_scalars_to_matrices_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsAssembleScalarsToMatricesFc
-    _outputs: OutputsAssembleScalarsToMatricesFc
-
     def __init__(
         self,
         xx=None,
@@ -108,7 +105,11 @@ class assemble_scalars_to_matrices_fc(Operator):
         server=None,
     ):
         super().__init__(
-            name="assemble_scalars_to_matrices_fc", config=config, server=server
+            name="assemble_scalars_to_matrices_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAssembleScalarsToMatricesFc,
+            outputs_type=OutputsAssembleScalarsToMatricesFc,
         )
         self._inputs = InputsAssembleScalarsToMatricesFc(self)
         self._outputs = OutputsAssembleScalarsToMatricesFc(self)

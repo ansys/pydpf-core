@@ -65,9 +65,6 @@ class make_label_space(Operator):
     >>> result_label = op.outputs.label()
     """
 
-    _inputs: InputsMakeLabelSpace
-    _outputs: OutputsMakeLabelSpace
-
     def __init__(
         self,
         base_label=None,
@@ -77,7 +74,13 @@ class make_label_space(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="make_label_space", config=config, server=server)
+        super().__init__(
+            name="make_label_space",
+            config=config,
+            server=server,
+            inputs_type=InputsMakeLabelSpace,
+            outputs_type=OutputsMakeLabelSpace,
+        )
         self._inputs = InputsMakeLabelSpace(self)
         self._outputs = OutputsMakeLabelSpace(self)
         if base_label is not None:

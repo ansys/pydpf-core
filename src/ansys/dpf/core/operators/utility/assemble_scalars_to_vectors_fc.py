@@ -60,12 +60,13 @@ class assemble_scalars_to_vectors_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsAssembleScalarsToVectorsFc
-    _outputs: OutputsAssembleScalarsToVectorsFc
-
     def __init__(self, x=None, y=None, z=None, config=None, server=None):
         super().__init__(
-            name="assemble_scalars_to_vectors_fc", config=config, server=server
+            name="assemble_scalars_to_vectors_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAssembleScalarsToVectorsFc,
+            outputs_type=OutputsAssembleScalarsToVectorsFc,
         )
         self._inputs = InputsAssembleScalarsToVectorsFc(self)
         self._outputs = OutputsAssembleScalarsToVectorsFc(self)

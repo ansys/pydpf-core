@@ -222,9 +222,6 @@ class gasket_thermal_closure(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGasketThermalClosure
-    _outputs: OutputsGasketThermalClosure
-
     def __init__(
         self,
         time_scoping=None,
@@ -241,7 +238,13 @@ class gasket_thermal_closure(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GKTH", config=config, server=server)
+        super().__init__(
+            name="GKTH",
+            config=config,
+            server=server,
+            inputs_type=InputsGasketThermalClosure,
+            outputs_type=OutputsGasketThermalClosure,
+        )
         self._inputs = InputsGasketThermalClosure(self)
         self._outputs = OutputsGasketThermalClosure(self)
         if time_scoping is not None:

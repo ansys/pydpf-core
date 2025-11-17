@@ -94,9 +94,6 @@ class mach_number(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsMachNumber
-    _outputs: OutputsMachNumber
-
     def __init__(
         self,
         time_scoping=None,
@@ -110,7 +107,13 @@ class mach_number(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="MACH", config=config, server=server)
+        super().__init__(
+            name="MACH",
+            config=config,
+            server=server,
+            inputs_type=InputsMachNumber,
+            outputs_type=OutputsMachNumber,
+        )
         self._inputs = InputsMachNumber(self)
         self._outputs = OutputsMachNumber(self)
         if time_scoping is not None:

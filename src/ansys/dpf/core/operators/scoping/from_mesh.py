@@ -57,11 +57,14 @@ class from_mesh(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
-    _inputs: InputsFromMesh
-    _outputs: OutputsFromMesh
-
     def __init__(self, mesh=None, requested_location=None, config=None, server=None):
-        super().__init__(name="MeshScopingProvider", config=config, server=server)
+        super().__init__(
+            name="MeshScopingProvider",
+            config=config,
+            server=server,
+            inputs_type=InputsFromMesh,
+            outputs_type=OutputsFromMesh,
+        )
         self._inputs = InputsFromMesh(self)
         self._outputs = OutputsFromMesh(self)
         if mesh is not None:

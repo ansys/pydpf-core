@@ -52,11 +52,14 @@ class sqrt_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsSqrtFc
-    _outputs: OutputsSqrtFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="sqrt_fc", config=config, server=server)
+        super().__init__(
+            name="sqrt_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsSqrtFc,
+            outputs_type=OutputsSqrtFc,
+        )
         self._inputs = InputsSqrtFc(self)
         self._outputs = OutputsSqrtFc(self)
         if fields_container is not None:

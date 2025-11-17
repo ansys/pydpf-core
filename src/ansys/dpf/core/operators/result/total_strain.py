@@ -90,9 +90,6 @@ class total_strain(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsTotalStrain
-    _outputs: OutputsTotalStrain
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class total_strain(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EL", config=config, server=server)
+        super().__init__(
+            name="EL",
+            config=config,
+            server=server,
+            inputs_type=InputsTotalStrain,
+            outputs_type=OutputsTotalStrain,
+        )
         self._inputs = InputsTotalStrain(self)
         self._outputs = OutputsTotalStrain(self)
         if time_scoping is not None:

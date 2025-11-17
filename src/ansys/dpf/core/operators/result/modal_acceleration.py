@@ -90,9 +90,6 @@ class modal_acceleration(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsModalAcceleration
-    _outputs: OutputsModalAcceleration
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class modal_acceleration(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="MAF", config=config, server=server)
+        super().__init__(
+            name="MAF",
+            config=config,
+            server=server,
+            inputs_type=InputsModalAcceleration,
+            outputs_type=OutputsModalAcceleration,
+        )
         self._inputs = InputsModalAcceleration(self)
         self._outputs = OutputsModalAcceleration(self)
         if time_scoping is not None:

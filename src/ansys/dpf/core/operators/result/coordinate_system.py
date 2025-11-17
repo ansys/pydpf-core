@@ -63,9 +63,6 @@ class coordinate_system(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsCoordinateSystem
-    _outputs: OutputsCoordinateSystem
-
     def __init__(
         self,
         cs_id=None,

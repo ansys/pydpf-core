@@ -74,9 +74,6 @@ class mesh_clip(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
-    _inputs: InputsMeshClip
-    _outputs: OutputsMeshClip
-
     def __init__(
         self,
         field=None,
@@ -87,7 +84,13 @@ class mesh_clip(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mesh_clip", config=config, server=server)
+        super().__init__(
+            name="mesh_clip",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshClip,
+            outputs_type=OutputsMeshClip,
+        )
         self._inputs = InputsMeshClip(self)
         self._outputs = OutputsMeshClip(self)
         if field is not None:

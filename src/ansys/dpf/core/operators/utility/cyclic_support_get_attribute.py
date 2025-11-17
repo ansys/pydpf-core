@@ -59,14 +59,15 @@ class cyclic_support_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
-    _inputs: InputsCyclicSupportGetAttribute
-    _outputs: OutputsCyclicSupportGetAttribute
-
     def __init__(
         self, cyclic_support=None, property_name=None, config=None, server=None
     ):
         super().__init__(
-            name="cyclic_support::get_attribute", config=config, server=server
+            name="cyclic_support::get_attribute",
+            config=config,
+            server=server,
+            inputs_type=InputsCyclicSupportGetAttribute,
+            outputs_type=OutputsCyclicSupportGetAttribute,
         )
         self._inputs = InputsCyclicSupportGetAttribute(self)
         self._outputs = OutputsCyclicSupportGetAttribute(self)

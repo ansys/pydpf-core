@@ -72,9 +72,6 @@ class interface_contact_moment(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsInterfaceContactMoment
-    _outputs: OutputsInterfaceContactMoment
-
     def __init__(
         self,
         streams_container=None,
@@ -84,7 +81,13 @@ class interface_contact_moment(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="R_CM", config=config, server=server)
+        super().__init__(
+            name="R_CM",
+            config=config,
+            server=server,
+            inputs_type=InputsInterfaceContactMoment,
+            outputs_type=OutputsInterfaceContactMoment,
+        )
         self._inputs = InputsInterfaceContactMoment(self)
         self._outputs = OutputsInterfaceContactMoment(self)
         if streams_container is not None:

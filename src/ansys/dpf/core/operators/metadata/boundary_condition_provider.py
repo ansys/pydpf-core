@@ -59,13 +59,16 @@ class boundary_condition_provider(Operator):
     >>> result_results_info = op.outputs.results_info()
     """
 
-    _inputs: InputsBoundaryConditionProvider
-    _outputs: OutputsBoundaryConditionProvider
-
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
-        super().__init__(name="boundary_conditions", config=config, server=server)
+        super().__init__(
+            name="boundary_conditions",
+            config=config,
+            server=server,
+            inputs_type=InputsBoundaryConditionProvider,
+            outputs_type=OutputsBoundaryConditionProvider,
+        )
         self._inputs = InputsBoundaryConditionProvider(self)
         self._outputs = OutputsBoundaryConditionProvider(self)
         if streams_container is not None:

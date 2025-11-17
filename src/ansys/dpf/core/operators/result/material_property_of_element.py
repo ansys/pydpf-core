@@ -59,13 +59,16 @@ class material_property_of_element(Operator):
     >>> result_material_properties = op.outputs.material_properties()
     """
 
-    _inputs: InputsMaterialPropertyOfElement
-    _outputs: OutputsMaterialPropertyOfElement
-
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
-        super().__init__(name="MaterialPropertyOfElement", config=config, server=server)
+        super().__init__(
+            name="MaterialPropertyOfElement",
+            config=config,
+            server=server,
+            inputs_type=InputsMaterialPropertyOfElement,
+            outputs_type=OutputsMaterialPropertyOfElement,
+        )
         self._inputs = InputsMaterialPropertyOfElement(self)
         self._outputs = OutputsMaterialPropertyOfElement(self)
         if streams_container is not None:

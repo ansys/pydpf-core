@@ -62,9 +62,6 @@ class remove_unnecessary_labels(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRemoveUnnecessaryLabels
-    _outputs: OutputsRemoveUnnecessaryLabels
-
     def __init__(
         self,
         permissive=None,
@@ -73,7 +70,13 @@ class remove_unnecessary_labels(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="remove_unnecessary_label", config=config, server=server)
+        super().__init__(
+            name="remove_unnecessary_label",
+            config=config,
+            server=server,
+            inputs_type=InputsRemoveUnnecessaryLabels,
+            outputs_type=OutputsRemoveUnnecessaryLabels,
+        )
         self._inputs = InputsRemoveUnnecessaryLabels(self)
         self._outputs = OutputsRemoveUnnecessaryLabels(self)
         if permissive is not None:

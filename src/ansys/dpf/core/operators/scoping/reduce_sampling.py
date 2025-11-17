@@ -56,11 +56,14 @@ class reduce_sampling(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
-    _inputs: InputsReduceSampling
-    _outputs: OutputsReduceSampling
-
     def __init__(self, mesh_scoping=None, denominator=None, config=None, server=None):
-        super().__init__(name="scoping::reduce_sampling", config=config, server=server)
+        super().__init__(
+            name="scoping::reduce_sampling",
+            config=config,
+            server=server,
+            inputs_type=InputsReduceSampling,
+            outputs_type=OutputsReduceSampling,
+        )
         self._inputs = InputsReduceSampling(self)
         self._outputs = OutputsReduceSampling(self)
         if mesh_scoping is not None:

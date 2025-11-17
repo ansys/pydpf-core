@@ -54,11 +54,14 @@ class zfp_decompress(Operator):
     >>> result_decompress_speed = op.outputs.decompress_speed()
     """
 
-    _inputs: InputsZfpDecompress
-    _outputs: OutputsZfpDecompress
-
     def __init__(self, dataIn=None, config=None, server=None):
-        super().__init__(name="zfp_decompress", config=config, server=server)
+        super().__init__(
+            name="zfp_decompress",
+            config=config,
+            server=server,
+            inputs_type=InputsZfpDecompress,
+            outputs_type=OutputsZfpDecompress,
+        )
         self._inputs = InputsZfpDecompress(self)
         self._outputs = OutputsZfpDecompress(self)
         if dataIn is not None:

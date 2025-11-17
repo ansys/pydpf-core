@@ -78,9 +78,6 @@ class scalars_to_field(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsScalarsToField
-    _outputs: OutputsScalarsToField
-
     def __init__(
         self,
         double_or_vector_double=None,
@@ -92,7 +89,13 @@ class scalars_to_field(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="fieldify", config=config, server=server)
+        super().__init__(
+            name="fieldify",
+            config=config,
+            server=server,
+            inputs_type=InputsScalarsToField,
+            outputs_type=OutputsScalarsToField,
+        )
         self._inputs = InputsScalarsToField(self)
         self._outputs = OutputsScalarsToField(self)
         if double_or_vector_double is not None:

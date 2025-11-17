@@ -120,9 +120,6 @@ class compute_invariant_terms_motion(Operator):
     >>> result_invrt_8 = op.outputs.invrt_8()
     """
 
-    _inputs: InputsComputeInvariantTermsMotion
-    _outputs: OutputsComputeInvariantTermsMotion
-
     def __init__(
         self,
         rom_matrices=None,
@@ -136,7 +133,11 @@ class compute_invariant_terms_motion(Operator):
         server=None,
     ):
         super().__init__(
-            name="compute_invariant_terms_motion", config=config, server=server
+            name="compute_invariant_terms_motion",
+            config=config,
+            server=server,
+            inputs_type=InputsComputeInvariantTermsMotion,
+            outputs_type=OutputsComputeInvariantTermsMotion,
         )
         self._inputs = InputsComputeInvariantTermsMotion(self)
         self._outputs = OutputsComputeInvariantTermsMotion(self)

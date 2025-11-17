@@ -90,9 +90,6 @@ class joint_moment_reaction(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsJointMomentReaction
-    _outputs: OutputsJointMomentReaction
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class joint_moment_reaction(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="JML", config=config, server=server)
+        super().__init__(
+            name="JML",
+            config=config,
+            server=server,
+            inputs_type=InputsJointMomentReaction,
+            outputs_type=OutputsJointMomentReaction,
+        )
         self._inputs = InputsJointMomentReaction(self)
         self._outputs = OutputsJointMomentReaction(self)
         if time_scoping is not None:

@@ -67,9 +67,6 @@ class timefreq_band_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
-    _inputs: InputsTimefreqBandPass
-    _outputs: OutputsTimefreqBandPass
-
     def __init__(
         self,
         time_freq_support=None,
@@ -78,7 +75,13 @@ class timefreq_band_pass(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="core::timefreq::band_pass", config=config, server=server)
+        super().__init__(
+            name="core::timefreq::band_pass",
+            config=config,
+            server=server,
+            inputs_type=InputsTimefreqBandPass,
+            outputs_type=OutputsTimefreqBandPass,
+        )
         self._inputs = InputsTimefreqBandPass(self)
         self._outputs = OutputsTimefreqBandPass(self)
         if time_freq_support is not None:

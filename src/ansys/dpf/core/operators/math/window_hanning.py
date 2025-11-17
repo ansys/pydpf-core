@@ -55,11 +55,14 @@ class window_hanning(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsWindowHanning
-    _outputs: OutputsWindowHanning
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="window::hanning", config=config, server=server)
+        super().__init__(
+            name="window::hanning",
+            config=config,
+            server=server,
+            inputs_type=InputsWindowHanning,
+            outputs_type=OutputsWindowHanning,
+        )
         self._inputs = InputsWindowHanning(self)
         self._outputs = OutputsWindowHanning(self)
         if field is not None:

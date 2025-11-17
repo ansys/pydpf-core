@@ -57,11 +57,14 @@ class qr_solve(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsQrSolve
-    _outputs: OutputsQrSolve
-
     def __init__(self, fields_container=None, rhs=None, config=None, server=None):
-        super().__init__(name="qrsolveOp", config=config, server=server)
+        super().__init__(
+            name="qrsolveOp",
+            config=config,
+            server=server,
+            inputs_type=InputsQrSolve,
+            outputs_type=OutputsQrSolve,
+        )
         self._inputs = InputsQrSolve(self)
         self._outputs = OutputsQrSolve(self)
         if fields_container is not None:

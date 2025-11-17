@@ -66,9 +66,6 @@ class global_kinetic_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGlobalKineticEnergy
-    _outputs: OutputsGlobalKineticEnergy
-
     def __init__(
         self,
         streams_container=None,
@@ -77,7 +74,13 @@ class global_kinetic_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GLOB_ENG_KE", config=config, server=server)
+        super().__init__(
+            name="GLOB_ENG_KE",
+            config=config,
+            server=server,
+            inputs_type=InputsGlobalKineticEnergy,
+            outputs_type=OutputsGlobalKineticEnergy,
+        )
         self._inputs = InputsGlobalKineticEnergy(self)
         self._outputs = OutputsGlobalKineticEnergy(self)
         if streams_container is not None:

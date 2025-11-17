@@ -52,11 +52,14 @@ class strain_from_voigt_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsStrainFromVoigtFc
-    _outputs: OutputsStrainFromVoigtFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="strain_from_voigt_fc", config=config, server=server)
+        super().__init__(
+            name="strain_from_voigt_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsStrainFromVoigtFc,
+            outputs_type=OutputsStrainFromVoigtFc,
+        )
         self._inputs = InputsStrainFromVoigtFc(self)
         self._outputs = OutputsStrainFromVoigtFc(self)
         if fields_container is not None:

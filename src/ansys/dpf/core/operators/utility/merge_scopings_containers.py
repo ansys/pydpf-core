@@ -57,9 +57,6 @@ class merge_scopings_containers(Operator):
     >>> result_merged_scopings_container = op.outputs.merged_scopings_container()
     """
 
-    _inputs: InputsMergeScopingsContainers
-    _outputs: OutputsMergeScopingsContainers
-
     def __init__(
         self,
         scopings_containers1=None,
@@ -67,7 +64,13 @@ class merge_scopings_containers(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="merge::scopings_container", config=config, server=server)
+        super().__init__(
+            name="merge::scopings_container",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeScopingsContainers,
+            outputs_type=OutputsMergeScopingsContainers,
+        )
         self._inputs = InputsMergeScopingsContainers(self)
         self._outputs = OutputsMergeScopingsContainers(self)
         if scopings_containers1 is not None:

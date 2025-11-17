@@ -52,11 +52,14 @@ class segalman_von_mises_eqv_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsSegalmanVonMisesEqvFc
-    _outputs: OutputsSegalmanVonMisesEqvFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="segalmaneqv_fc", config=config, server=server)
+        super().__init__(
+            name="segalmaneqv_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsSegalmanVonMisesEqvFc,
+            outputs_type=OutputsSegalmanVonMisesEqvFc,
+        )
         self._inputs = InputsSegalmanVonMisesEqvFc(self)
         self._outputs = OutputsSegalmanVonMisesEqvFc(self)
         if fields_container is not None:

@@ -54,11 +54,14 @@ class node_coordinates(Operator):
     >>> result_coordinates = op.outputs.coordinates()
     """
 
-    _inputs: InputsNodeCoordinates
-    _outputs: OutputsNodeCoordinates
-
     def __init__(self, mesh=None, config=None, server=None):
-        super().__init__(name="mesh::node_coordinates", config=config, server=server)
+        super().__init__(
+            name="mesh::node_coordinates",
+            config=config,
+            server=server,
+            inputs_type=InputsNodeCoordinates,
+            outputs_type=OutputsNodeCoordinates,
+        )
         self._inputs = InputsNodeCoordinates(self)
         self._outputs = OutputsNodeCoordinates(self)
         if mesh is not None:

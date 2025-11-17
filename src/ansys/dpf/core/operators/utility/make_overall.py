@@ -56,11 +56,14 @@ class make_overall(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsMakeOverall
-    _outputs: OutputsMakeOverall
-
     def __init__(self, field=None, id=None, config=None, server=None):
-        super().__init__(name="make_overall", config=config, server=server)
+        super().__init__(
+            name="make_overall",
+            config=config,
+            server=server,
+            inputs_type=InputsMakeOverall,
+            outputs_type=OutputsMakeOverall,
+        )
         self._inputs = InputsMakeOverall(self)
         self._outputs = OutputsMakeOverall(self)
         if field is not None:

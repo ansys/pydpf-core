@@ -90,9 +90,6 @@ class joint_relative_rotation(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsJointRelativeRotation
-    _outputs: OutputsJointRelativeRotation
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class joint_relative_rotation(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="JR", config=config, server=server)
+        super().__init__(
+            name="JR",
+            config=config,
+            server=server,
+            inputs_type=InputsJointRelativeRotation,
+            outputs_type=OutputsJointRelativeRotation,
+        )
         self._inputs = InputsJointRelativeRotation(self)
         self._outputs = OutputsJointRelativeRotation(self)
         if time_scoping is not None:

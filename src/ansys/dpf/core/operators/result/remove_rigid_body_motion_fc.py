@@ -75,9 +75,6 @@ class remove_rigid_body_motion_fc(Operator):
     >>> result_center_field = op.outputs.center_field()
     """
 
-    _inputs: InputsRemoveRigidBodyMotionFc
-    _outputs: OutputsRemoveRigidBodyMotionFc
-
     def __init__(
         self,
         fields_container=None,
@@ -86,7 +83,13 @@ class remove_rigid_body_motion_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ExtractRigidBodyMotion_fc", config=config, server=server)
+        super().__init__(
+            name="ExtractRigidBodyMotion_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsRemoveRigidBodyMotionFc,
+            outputs_type=OutputsRemoveRigidBodyMotionFc,
+        )
         self._inputs = InputsRemoveRigidBodyMotionFc(self)
         self._outputs = OutputsRemoveRigidBodyMotionFc(self)
         if fields_container is not None:

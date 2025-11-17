@@ -95,9 +95,6 @@ class velocity_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsVelocityX
-    _outputs: OutputsVelocityX
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,7 +108,13 @@ class velocity_X(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="VX", config=config, server=server)
+        super().__init__(
+            name="VX",
+            config=config,
+            server=server,
+            inputs_type=InputsVelocityX,
+            outputs_type=OutputsVelocityX,
+        )
         self._inputs = InputsVelocityX(self)
         self._outputs = OutputsVelocityX(self)
         if time_scoping is not None:

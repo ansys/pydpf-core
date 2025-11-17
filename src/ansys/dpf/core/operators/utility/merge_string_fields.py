@@ -57,13 +57,16 @@ class merge_string_fields(Operator):
     >>> result_string_field = op.outputs.string_field()
     """
 
-    _inputs: InputsMergeStringFields
-    _outputs: OutputsMergeStringFields
-
     def __init__(
         self, string_fields1=None, string_fields2=None, config=None, server=None
     ):
-        super().__init__(name="merge::string_field", config=config, server=server)
+        super().__init__(
+            name="merge::string_field",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeStringFields,
+            outputs_type=OutputsMergeStringFields,
+        )
         self._inputs = InputsMergeStringFields(self)
         self._outputs = OutputsMergeStringFields(self)
         if string_fields1 is not None:

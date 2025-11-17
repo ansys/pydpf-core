@@ -79,9 +79,6 @@ class beam_t_shear_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsBeamTShearForce
-    _outputs: OutputsBeamTShearForce
-
     def __init__(
         self,
         time_scoping=None,
@@ -92,7 +89,13 @@ class beam_t_shear_force(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="B_T2", config=config, server=server)
+        super().__init__(
+            name="B_T2",
+            config=config,
+            server=server,
+            inputs_type=InputsBeamTShearForce,
+            outputs_type=OutputsBeamTShearForce,
+        )
         self._inputs = InputsBeamTShearForce(self)
         self._outputs = OutputsBeamTShearForce(self)
         if time_scoping is not None:

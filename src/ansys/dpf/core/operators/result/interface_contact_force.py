@@ -72,9 +72,6 @@ class interface_contact_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsInterfaceContactForce
-    _outputs: OutputsInterfaceContactForce
-
     def __init__(
         self,
         streams_container=None,
@@ -84,7 +81,13 @@ class interface_contact_force(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="R_CF", config=config, server=server)
+        super().__init__(
+            name="R_CF",
+            config=config,
+            server=server,
+            inputs_type=InputsInterfaceContactForce,
+            outputs_type=OutputsInterfaceContactForce,
+        )
         self._inputs = InputsInterfaceContactForce(self)
         self._outputs = OutputsInterfaceContactForce(self)
         if streams_container is not None:

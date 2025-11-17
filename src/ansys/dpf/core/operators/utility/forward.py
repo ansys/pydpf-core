@@ -53,11 +53,14 @@ class forward(Operator):
     >>> result_any = op.outputs.any()
     """
 
-    _inputs: InputsForward
-    _outputs: OutputsForward
-
     def __init__(self, any=None, config=None, server=None):
-        super().__init__(name="forward", config=config, server=server)
+        super().__init__(
+            name="forward",
+            config=config,
+            server=server,
+            inputs_type=InputsForward,
+            outputs_type=OutputsForward,
+        )
         self._inputs = InputsForward(self)
         self._outputs = OutputsForward(self)
         if any is not None:

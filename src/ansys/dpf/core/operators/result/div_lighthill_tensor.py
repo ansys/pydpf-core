@@ -95,9 +95,6 @@ class div_lighthill_tensor(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsDivLighthillTensor
-    _outputs: OutputsDivLighthillTensor
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,7 +108,13 @@ class div_lighthill_tensor(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="SV_RTDFT", config=config, server=server)
+        super().__init__(
+            name="SV_RTDFT",
+            config=config,
+            server=server,
+            inputs_type=InputsDivLighthillTensor,
+            outputs_type=OutputsDivLighthillTensor,
+        )
         self._inputs = InputsDivLighthillTensor(self)
         self._outputs = OutputsDivLighthillTensor(self)
         if time_scoping is not None:

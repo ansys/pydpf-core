@@ -82,9 +82,6 @@ class to_elemental_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsToElementalFc
-    _outputs: OutputsToElementalFc
-
     def __init__(
         self,
         fields_container=None,
@@ -97,7 +94,13 @@ class to_elemental_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="to_elemental_fc", config=config, server=server)
+        super().__init__(
+            name="to_elemental_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsToElementalFc,
+            outputs_type=OutputsToElementalFc,
+        )
         self._inputs = InputsToElementalFc(self)
         self._outputs = OutputsToElementalFc(self)
         if fields_container is not None:

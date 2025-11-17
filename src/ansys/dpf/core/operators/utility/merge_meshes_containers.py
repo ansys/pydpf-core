@@ -57,13 +57,16 @@ class merge_meshes_containers(Operator):
     >>> result_merged_meshes_container = op.outputs.merged_meshes_container()
     """
 
-    _inputs: InputsMergeMeshesContainers
-    _outputs: OutputsMergeMeshesContainers
-
     def __init__(
         self, meshes_containers1=None, meshes_containers2=None, config=None, server=None
     ):
-        super().__init__(name="merge::meshes_container", config=config, server=server)
+        super().__init__(
+            name="merge::meshes_container",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeMeshesContainers,
+            outputs_type=OutputsMergeMeshesContainers,
+        )
         self._inputs = InputsMergeMeshesContainers(self)
         self._outputs = OutputsMergeMeshesContainers(self)
         if meshes_containers1 is not None:

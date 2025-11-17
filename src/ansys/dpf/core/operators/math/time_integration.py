@@ -72,9 +72,6 @@ class time_integration(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsTimeIntegration
-    _outputs: OutputsTimeIntegration
-
     def __init__(
         self,
         field=None,
@@ -85,7 +82,13 @@ class time_integration(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="TimeIntegration", config=config, server=server)
+        super().__init__(
+            name="TimeIntegration",
+            config=config,
+            server=server,
+            inputs_type=InputsTimeIntegration,
+            outputs_type=OutputsTimeIntegration,
+        )
         self._inputs = InputsTimeIntegration(self)
         self._outputs = OutputsTimeIntegration(self)
         if field is not None:

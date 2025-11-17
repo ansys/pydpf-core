@@ -66,9 +66,6 @@ class global_system_damping_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGlobalSystemDampingEnergy
-    _outputs: OutputsGlobalSystemDampingEnergy
-
     def __init__(
         self,
         streams_container=None,
@@ -77,7 +74,13 @@ class global_system_damping_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GLOB_DE", config=config, server=server)
+        super().__init__(
+            name="GLOB_DE",
+            config=config,
+            server=server,
+            inputs_type=InputsGlobalSystemDampingEnergy,
+            outputs_type=OutputsGlobalSystemDampingEnergy,
+        )
         self._inputs = InputsGlobalSystemDampingEnergy(self)
         self._outputs = OutputsGlobalSystemDampingEnergy(self)
         if streams_container is not None:

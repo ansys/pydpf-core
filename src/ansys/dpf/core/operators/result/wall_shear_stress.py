@@ -95,9 +95,6 @@ class wall_shear_stress(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsWallShearStress
-    _outputs: OutputsWallShearStress
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,7 +108,13 @@ class wall_shear_stress(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="TAU", config=config, server=server)
+        super().__init__(
+            name="TAU",
+            config=config,
+            server=server,
+            inputs_type=InputsWallShearStress,
+            outputs_type=OutputsWallShearStress,
+        )
         self._inputs = InputsWallShearStress(self)
         self._outputs = OutputsWallShearStress(self)
         if time_scoping is not None:

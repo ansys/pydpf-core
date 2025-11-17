@@ -64,9 +64,6 @@ class mesh_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
-    _inputs: InputsMeshGetAttribute
-    _outputs: OutputsMeshGetAttribute
-
     def __init__(
         self,
         abstract_meshed_region=None,
@@ -75,7 +72,13 @@ class mesh_get_attribute(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mesh::get_attribute", config=config, server=server)
+        super().__init__(
+            name="mesh::get_attribute",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshGetAttribute,
+            outputs_type=OutputsMeshGetAttribute,
+        )
         self._inputs = InputsMeshGetAttribute(self)
         self._outputs = OutputsMeshGetAttribute(self)
         if abstract_meshed_region is not None:

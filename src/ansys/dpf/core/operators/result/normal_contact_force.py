@@ -90,9 +90,6 @@ class normal_contact_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNormalContactForce
-    _outputs: OutputsNormalContactForce
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,7 +102,13 @@ class normal_contact_force(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="CFFNOR", config=config, server=server)
+        super().__init__(
+            name="CFFNOR",
+            config=config,
+            server=server,
+            inputs_type=InputsNormalContactForce,
+            outputs_type=OutputsNormalContactForce,
+        )
         self._inputs = InputsNormalContactForce(self)
         self._outputs = OutputsNormalContactForce(self)
         if time_scoping is not None:

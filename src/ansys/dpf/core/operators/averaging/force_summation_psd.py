@@ -99,9 +99,6 @@ class force_summation_psd(Operator):
     >>> result_moments_on_nodes = op.outputs.moments_on_nodes()
     """
 
-    _inputs: InputsForceSummationPsd
-    _outputs: OutputsForceSummationPsd
-
     def __init__(
         self,
         nodal_scoping=None,
@@ -114,7 +111,13 @@ class force_summation_psd(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="force_summation_psd", config=config, server=server)
+        super().__init__(
+            name="force_summation_psd",
+            config=config,
+            server=server,
+            inputs_type=InputsForceSummationPsd,
+            outputs_type=OutputsForceSummationPsd,
+        )
         self._inputs = InputsForceSummationPsd(self)
         self._outputs = OutputsForceSummationPsd(self)
         if nodal_scoping is not None:

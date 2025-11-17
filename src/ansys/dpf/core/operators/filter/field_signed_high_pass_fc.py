@@ -64,14 +64,15 @@ class field_signed_high_pass_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsFieldSignedHighPassFc
-    _outputs: OutputsFieldSignedHighPassFc
-
     def __init__(
         self, fields_container=None, threshold=None, both=None, config=None, server=None
     ):
         super().__init__(
-            name="core::field::signed_high_pass_fc", config=config, server=server
+            name="core::field::signed_high_pass_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsFieldSignedHighPassFc,
+            outputs_type=OutputsFieldSignedHighPassFc,
         )
         self._inputs = InputsFieldSignedHighPassFc(self)
         self._outputs = OutputsFieldSignedHighPassFc(self)

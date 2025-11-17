@@ -66,9 +66,6 @@ class global_energy_ratio(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGlobalEnergyRatio
-    _outputs: OutputsGlobalEnergyRatio
-
     def __init__(
         self,
         streams_container=None,
@@ -77,7 +74,13 @@ class global_energy_ratio(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GLOB_ER", config=config, server=server)
+        super().__init__(
+            name="GLOB_ER",
+            config=config,
+            server=server,
+            inputs_type=InputsGlobalEnergyRatio,
+            outputs_type=OutputsGlobalEnergyRatio,
+        )
         self._inputs = InputsGlobalEnergyRatio(self)
         self._outputs = OutputsGlobalEnergyRatio(self)
         if streams_container is not None:

@@ -63,9 +63,6 @@ class stress_rotation_by_euler_nodes(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsStressRotationByEulerNodes
-    _outputs: OutputsStressRotationByEulerNodes
-
     def __init__(
         self,
         fields_container=None,
@@ -75,7 +72,11 @@ class stress_rotation_by_euler_nodes(Operator):
         server=None,
     ):
         super().__init__(
-            name="mapdl::rst::S_rotation_by_euler_nodes", config=config, server=server
+            name="mapdl::rst::S_rotation_by_euler_nodes",
+            config=config,
+            server=server,
+            inputs_type=InputsStressRotationByEulerNodes,
+            outputs_type=OutputsStressRotationByEulerNodes,
         )
         self._inputs = InputsStressRotationByEulerNodes(self)
         self._outputs = OutputsStressRotationByEulerNodes(self)

@@ -69,9 +69,6 @@ class convertnum_op(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsConvertnumOp
-    _outputs: OutputsConvertnumOp
-
     def __init__(
         self,
         input_ordering=None,
@@ -81,7 +78,13 @@ class convertnum_op(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="convertnum_op", config=config, server=server)
+        super().__init__(
+            name="convertnum_op",
+            config=config,
+            server=server,
+            inputs_type=InputsConvertnumOp,
+            outputs_type=OutputsConvertnumOp,
+        )
         self._inputs = InputsConvertnumOp(self)
         self._outputs = OutputsConvertnumOp(self)
         if input_ordering is not None:

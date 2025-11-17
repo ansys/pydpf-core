@@ -58,12 +58,13 @@ class min_max_over_time(Operator):
     >>> result_field_container_2 = op.outputs.field_container_2()
     """
 
-    _inputs: InputsMinMaxOverTime
-    _outputs: OutputsMinMaxOverTime
-
     def __init__(self, fields_container=None, int32=None, config=None, server=None):
         super().__init__(
-            name="mechanical::min_max_over_time", config=config, server=server
+            name="mechanical::min_max_over_time",
+            config=config,
+            server=server,
+            inputs_type=InputsMinMaxOverTime,
+            outputs_type=OutputsMinMaxOverTime,
         )
         self._inputs = InputsMinMaxOverTime(self)
         self._outputs = OutputsMinMaxOverTime(self)

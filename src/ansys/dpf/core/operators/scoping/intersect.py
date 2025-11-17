@@ -58,11 +58,14 @@ class intersect(Operator):
     >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()
     """
 
-    _inputs: InputsIntersect
-    _outputs: OutputsIntersect
-
     def __init__(self, scopingA=None, scopingB=None, config=None, server=None):
-        super().__init__(name="scoping::intersect", config=config, server=server)
+        super().__init__(
+            name="scoping::intersect",
+            config=config,
+            server=server,
+            inputs_type=InputsIntersect,
+            outputs_type=OutputsIntersect,
+        )
         self._inputs = InputsIntersect(self)
         self._outputs = OutputsIntersect(self)
         if scopingA is not None:

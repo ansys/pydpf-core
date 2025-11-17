@@ -51,11 +51,14 @@ class datasources_provider(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
-    _inputs: InputsDatasourcesProvider
-    _outputs: OutputsDatasourcesProvider
-
     def __init__(self, data_sources=None, config=None, server=None):
-        super().__init__(name="datasources_provider", config=config, server=server)
+        super().__init__(
+            name="datasources_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsDatasourcesProvider,
+            outputs_type=OutputsDatasourcesProvider,
+        )
         self._inputs = InputsDatasourcesProvider(self)
         self._outputs = OutputsDatasourcesProvider(self)
         if data_sources is not None:

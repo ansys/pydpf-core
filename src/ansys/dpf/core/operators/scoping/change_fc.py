@@ -58,9 +58,6 @@ class change_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsChangeFc
-    _outputs: OutputsChangeFc
-
     def __init__(
         self,
         field_or_fields_container=None,
@@ -68,7 +65,13 @@ class change_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="change_fc", config=config, server=server)
+        super().__init__(
+            name="change_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsChangeFc,
+            outputs_type=OutputsChangeFc,
+        )
         self._inputs = InputsChangeFc(self)
         self._outputs = OutputsChangeFc(self)
         if field_or_fields_container is not None:

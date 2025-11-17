@@ -93,9 +93,6 @@ class elemental_mean_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElementalMeanFc
-    _outputs: OutputsElementalMeanFc
-
     def __init__(
         self,
         fields_container=None,
@@ -108,7 +105,13 @@ class elemental_mean_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="entity_average_fc", config=config, server=server)
+        super().__init__(
+            name="entity_average_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalMeanFc,
+            outputs_type=OutputsElementalMeanFc,
+        )
         self._inputs = InputsElementalMeanFc(self)
         self._outputs = OutputsElementalMeanFc(self)
         if fields_container is not None:

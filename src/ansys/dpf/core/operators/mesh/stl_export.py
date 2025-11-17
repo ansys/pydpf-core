@@ -56,11 +56,14 @@ class stl_export(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
-    _inputs: InputsStlExport
-    _outputs: OutputsStlExport
-
     def __init__(self, mesh=None, file_path=None, config=None, server=None):
-        super().__init__(name="stl_export", config=config, server=server)
+        super().__init__(
+            name="stl_export",
+            config=config,
+            server=server,
+            inputs_type=InputsStlExport,
+            outputs_type=OutputsStlExport,
+        )
         self._inputs = InputsStlExport(self)
         self._outputs = OutputsStlExport(self)
         if mesh is not None:

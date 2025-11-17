@@ -57,13 +57,16 @@ class identical_property_fields(Operator):
     >>> result_information = op.outputs.information()
     """
 
-    _inputs: InputsIdenticalPropertyFields
-    _outputs: OutputsIdenticalPropertyFields
-
     def __init__(
         self, property_fieldA=None, property_fieldB=None, config=None, server=None
     ):
-        super().__init__(name="compare::property_field", config=config, server=server)
+        super().__init__(
+            name="compare::property_field",
+            config=config,
+            server=server,
+            inputs_type=InputsIdenticalPropertyFields,
+            outputs_type=OutputsIdenticalPropertyFields,
+        )
         self._inputs = InputsIdenticalPropertyFields(self)
         self._outputs = OutputsIdenticalPropertyFields(self)
         if property_fieldA is not None:

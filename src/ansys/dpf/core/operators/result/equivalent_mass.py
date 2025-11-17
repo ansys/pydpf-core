@@ -115,9 +115,6 @@ class equivalent_mass(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsEquivalentMass
-    _outputs: OutputsEquivalentMass
-
     def __init__(
         self,
         time_scoping=None,
@@ -135,7 +132,13 @@ class equivalent_mass(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="equivalent_mass", config=config, server=server)
+        super().__init__(
+            name="equivalent_mass",
+            config=config,
+            server=server,
+            inputs_type=InputsEquivalentMass,
+            outputs_type=OutputsEquivalentMass,
+        )
         self._inputs = InputsEquivalentMass(self)
         self._outputs = OutputsEquivalentMass(self)
         if time_scoping is not None:

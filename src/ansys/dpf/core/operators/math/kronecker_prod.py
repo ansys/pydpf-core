@@ -58,11 +58,14 @@ class kronecker_prod(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsKroneckerProd
-    _outputs: OutputsKroneckerProd
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="kronecker_prod", config=config, server=server)
+        super().__init__(
+            name="kronecker_prod",
+            config=config,
+            server=server,
+            inputs_type=InputsKroneckerProd,
+            outputs_type=OutputsKroneckerProd,
+        )
         self._inputs = InputsKroneckerProd(self)
         self._outputs = OutputsKroneckerProd(self)
         if fieldA is not None:

@@ -66,9 +66,6 @@ class accumulate_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsAccumulateFc
-    _outputs: OutputsAccumulateFc
-
     def __init__(
         self,
         fields_container=None,
@@ -78,7 +75,13 @@ class accumulate_fc(Operator):
         server=None,
         ponderation=None,
     ):
-        super().__init__(name="accumulate_fc", config=config, server=server)
+        super().__init__(
+            name="accumulate_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAccumulateFc,
+            outputs_type=OutputsAccumulateFc,
+        )
         self._inputs = InputsAccumulateFc(self)
         self._outputs = OutputsAccumulateFc(self)
         if fields_container is not None:

@@ -63,11 +63,14 @@ class mesh_to_tetra(Operator):
     >>> result_element_mapping = op.outputs.element_mapping()
     """
 
-    _inputs: InputsMeshToTetra
-    _outputs: OutputsMeshToTetra
-
     def __init__(self, mesh=None, config=None, server=None):
-        super().__init__(name="mesh_to_tetra", config=config, server=server)
+        super().__init__(
+            name="mesh_to_tetra",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshToTetra,
+            outputs_type=OutputsMeshToTetra,
+        )
         self._inputs = InputsMeshToTetra(self)
         self._outputs = OutputsMeshToTetra(self)
         if mesh is not None:

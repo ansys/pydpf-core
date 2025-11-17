@@ -68,9 +68,6 @@ class solid_to_skin_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsSolidToSkinFc
-    _outputs: OutputsSolidToSkinFc
-
     def __init__(
         self,
         fields_container=None,
@@ -79,7 +76,13 @@ class solid_to_skin_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="solid_to_skin_fc", config=config, server=server)
+        super().__init__(
+            name="solid_to_skin_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsSolidToSkinFc,
+            outputs_type=OutputsSolidToSkinFc,
+        )
         self._inputs = InputsSolidToSkinFc(self)
         self._outputs = OutputsSolidToSkinFc(self)
         if fields_container is not None:

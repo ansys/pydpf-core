@@ -227,9 +227,6 @@ class plastic_strain_energy_density(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPlasticStrainEnergyDensity
-    _outputs: OutputsPlasticStrainEnergyDensity
-
     def __init__(
         self,
         time_scoping=None,
@@ -247,7 +244,13 @@ class plastic_strain_energy_density(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ENL_PLWK", config=config, server=server)
+        super().__init__(
+            name="ENL_PLWK",
+            config=config,
+            server=server,
+            inputs_type=InputsPlasticStrainEnergyDensity,
+            outputs_type=OutputsPlasticStrainEnergyDensity,
+        )
         self._inputs = InputsPlasticStrainEnergyDensity(self)
         self._outputs = OutputsPlasticStrainEnergyDensity(self)
         if time_scoping is not None:

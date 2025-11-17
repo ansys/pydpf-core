@@ -68,9 +68,6 @@ class merge_fields(Operator):
     >>> result_merged_field = op.outputs.merged_field()
     """
 
-    _inputs: InputsMergeFields
-    _outputs: OutputsMergeFields
-
     def __init__(
         self,
         sum_merge=None,
@@ -80,7 +77,13 @@ class merge_fields(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="merge::field", config=config, server=server)
+        super().__init__(
+            name="merge::field",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeFields,
+            outputs_type=OutputsMergeFields,
+        )
         self._inputs = InputsMergeFields(self)
         self._outputs = OutputsMergeFields(self)
         if sum_merge is not None:

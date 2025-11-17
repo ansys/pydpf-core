@@ -63,9 +63,6 @@ class fft_gradient_eval(Operator):
     >>> result_coefficients = op.outputs.coefficients()
     """
 
-    _inputs: InputsFftGradientEval
-    _outputs: OutputsFftGradientEval
-
     def __init__(
         self,
         fields_container=None,
@@ -74,7 +71,13 @@ class fft_gradient_eval(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="fft_eval_gr", config=config, server=server)
+        super().__init__(
+            name="fft_eval_gr",
+            config=config,
+            server=server,
+            inputs_type=InputsFftGradientEval,
+            outputs_type=OutputsFftGradientEval,
+        )
         self._inputs = InputsFftGradientEval(self)
         self._outputs = OutputsFftGradientEval(self)
         if fields_container is not None:

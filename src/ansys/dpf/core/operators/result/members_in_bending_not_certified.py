@@ -106,9 +106,6 @@ class members_in_bending_not_certified(Operator):
     >>> result_buckling_resistance_bending_zz = op.outputs.buckling_resistance_bending_zz()
     """
 
-    _inputs: InputsMembersInBendingNotCertified
-    _outputs: OutputsMembersInBendingNotCertified
-
     def __init__(
         self,
         time_scoping=None,
@@ -124,7 +121,11 @@ class members_in_bending_not_certified(Operator):
         server=None,
     ):
         super().__init__(
-            name="members_in_bending_not_certified", config=config, server=server
+            name="members_in_bending_not_certified",
+            config=config,
+            server=server,
+            inputs_type=InputsMembersInBendingNotCertified,
+            outputs_type=OutputsMembersInBendingNotCertified,
         )
         self._inputs = InputsMembersInBendingNotCertified(self)
         self._outputs = OutputsMembersInBendingNotCertified(self)

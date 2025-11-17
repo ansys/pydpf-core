@@ -74,9 +74,6 @@ class correlation(Operator):
     >>> result_index = op.outputs.index()
     """
 
-    _inputs: InputsCorrelation
-    _outputs: OutputsCorrelation
-
     def __init__(
         self,
         fieldA=None,
@@ -87,7 +84,13 @@ class correlation(Operator):
         server=None,
         ponderation=None,
     ):
-        super().__init__(name="correlation", config=config, server=server)
+        super().__init__(
+            name="correlation",
+            config=config,
+            server=server,
+            inputs_type=InputsCorrelation,
+            outputs_type=OutputsCorrelation,
+        )
         self._inputs = InputsCorrelation(self)
         self._outputs = OutputsCorrelation(self)
         if fieldA is not None:

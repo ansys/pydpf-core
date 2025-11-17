@@ -123,9 +123,6 @@ class members_in_linear_compression_bending_not_certified(Operator):
     >>> result_buckling_resistance_linear_summation_utilization_ratios = op.outputs.buckling_resistance_linear_summation_utilization_ratios()
     """
 
-    _inputs: InputsMembersInLinearCompressionBendingNotCertified
-    _outputs: OutputsMembersInLinearCompressionBendingNotCertified
-
     def __init__(
         self,
         time_scoping=None,
@@ -148,6 +145,8 @@ class members_in_linear_compression_bending_not_certified(Operator):
             name="members_in_linear_compression_bending_not_certified",
             config=config,
             server=server,
+            inputs_type=InputsMembersInLinearCompressionBendingNotCertified,
+            outputs_type=OutputsMembersInLinearCompressionBendingNotCertified,
         )
         self._inputs = InputsMembersInLinearCompressionBendingNotCertified(self)
         self._outputs = OutputsMembersInLinearCompressionBendingNotCertified(self)

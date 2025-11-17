@@ -96,9 +96,6 @@ class strain_eqv_as_mechanical_workflow(Operator):
     >>> result_workflow = op.outputs.workflow()
     """
 
-    _inputs: InputsStrainEqvAsMechanicalWorkflow
-    _outputs: OutputsStrainEqvAsMechanicalWorkflow
-
     def __init__(
         self,
         time_scoping=None,
@@ -113,7 +110,11 @@ class strain_eqv_as_mechanical_workflow(Operator):
         server=None,
     ):
         super().__init__(
-            name="strain_eqv_as_mechanical_workflow", config=config, server=server
+            name="strain_eqv_as_mechanical_workflow",
+            config=config,
+            server=server,
+            inputs_type=InputsStrainEqvAsMechanicalWorkflow,
+            outputs_type=OutputsStrainEqvAsMechanicalWorkflow,
         )
         self._inputs = InputsStrainEqvAsMechanicalWorkflow(self)
         self._outputs = OutputsStrainEqvAsMechanicalWorkflow(self)

@@ -94,9 +94,6 @@ class entropy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsEntropy
-    _outputs: OutputsEntropy
-
     def __init__(
         self,
         time_scoping=None,
@@ -110,7 +107,13 @@ class entropy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="S_S", config=config, server=server)
+        super().__init__(
+            name="S_S",
+            config=config,
+            server=server,
+            inputs_type=InputsEntropy,
+            outputs_type=OutputsEntropy,
+        )
         self._inputs = InputsEntropy(self)
         self._outputs = OutputsEntropy(self)
         if time_scoping is not None:

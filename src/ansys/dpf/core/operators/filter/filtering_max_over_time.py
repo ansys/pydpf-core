@@ -68,9 +68,6 @@ class filtering_max_over_time(Operator):
     >>> result_workflow = op.outputs.workflow()
     """
 
-    _inputs: InputsFilteringMaxOverTime
-    _outputs: OutputsFilteringMaxOverTime
-
     def __init__(
         self,
         invariant_fc_operator=None,
@@ -80,7 +77,13 @@ class filtering_max_over_time(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="filtering_max_over_time", config=config, server=server)
+        super().__init__(
+            name="filtering_max_over_time",
+            config=config,
+            server=server,
+            inputs_type=InputsFilteringMaxOverTime,
+            outputs_type=OutputsFilteringMaxOverTime,
+        )
         self._inputs = InputsFilteringMaxOverTime(self)
         self._outputs = OutputsFilteringMaxOverTime(self)
         if invariant_fc_operator is not None:

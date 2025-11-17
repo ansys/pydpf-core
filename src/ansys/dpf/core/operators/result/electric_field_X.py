@@ -107,9 +107,6 @@ class electric_field_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElectricFieldX
-    _outputs: OutputsElectricFieldX
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,7 +122,13 @@ class electric_field_X(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EFX", config=config, server=server)
+        super().__init__(
+            name="EFX",
+            config=config,
+            server=server,
+            inputs_type=InputsElectricFieldX,
+            outputs_type=OutputsElectricFieldX,
+        )
         self._inputs = InputsElectricFieldX(self)
         self._outputs = OutputsElectricFieldX(self)
         if time_scoping is not None:

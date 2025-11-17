@@ -84,9 +84,6 @@ class mapdl_section(Operator):
     >>> result_layers_per_section = op.outputs.layers_per_section()
     """
 
-    _inputs: InputsMapdlSection
-    _outputs: OutputsMapdlSection
-
     def __init__(
         self,
         properties_name=None,
@@ -98,7 +95,13 @@ class mapdl_section(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mapdl_section_properties", config=config, server=server)
+        super().__init__(
+            name="mapdl_section_properties",
+            config=config,
+            server=server,
+            inputs_type=InputsMapdlSection,
+            outputs_type=OutputsMapdlSection,
+        )
         self._inputs = InputsMapdlSection(self)
         self._outputs = OutputsMapdlSection(self)
         if properties_name is not None:

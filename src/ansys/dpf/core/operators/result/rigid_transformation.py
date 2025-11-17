@@ -59,14 +59,15 @@ class rigid_transformation(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRigidTransformation
-    _outputs: OutputsRigidTransformation
-
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
         super().__init__(
-            name="rigid_transformation_provider", config=config, server=server
+            name="rigid_transformation_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsRigidTransformation,
+            outputs_type=OutputsRigidTransformation,
         )
         self._inputs = InputsRigidTransformation(self)
         self._outputs = OutputsRigidTransformation(self)

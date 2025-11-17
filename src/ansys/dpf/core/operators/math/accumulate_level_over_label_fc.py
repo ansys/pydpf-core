@@ -62,12 +62,13 @@ class accumulate_level_over_label_fc(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAccumulateLevelOverLabelFc
-    _outputs: OutputsAccumulateLevelOverLabelFc
-
     def __init__(self, fields_container=None, label=None, config=None, server=None):
         super().__init__(
-            name="accumulate_level_over_label_fc", config=config, server=server
+            name="accumulate_level_over_label_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAccumulateLevelOverLabelFc,
+            outputs_type=OutputsAccumulateLevelOverLabelFc,
         )
         self._inputs = InputsAccumulateLevelOverLabelFc(self)
         self._outputs = OutputsAccumulateLevelOverLabelFc(self)

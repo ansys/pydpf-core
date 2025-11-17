@@ -95,9 +95,6 @@ class displacement_Y(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsDisplacementY
-    _outputs: OutputsDisplacementY
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,7 +108,13 @@ class displacement_Y(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="UY", config=config, server=server)
+        super().__init__(
+            name="UY",
+            config=config,
+            server=server,
+            inputs_type=InputsDisplacementY,
+            outputs_type=OutputsDisplacementY,
+        )
         self._inputs = InputsDisplacementY(self)
         self._outputs = OutputsDisplacementY(self)
         if time_scoping is not None:

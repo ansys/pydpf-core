@@ -58,11 +58,14 @@ class amplitude(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAmplitude
-    _outputs: OutputsAmplitude
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="amplitude", config=config, server=server)
+        super().__init__(
+            name="amplitude",
+            config=config,
+            server=server,
+            inputs_type=InputsAmplitude,
+            outputs_type=OutputsAmplitude,
+        )
         self._inputs = InputsAmplitude(self)
         self._outputs = OutputsAmplitude(self)
         if fieldA is not None:

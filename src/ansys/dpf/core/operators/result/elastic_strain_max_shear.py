@@ -107,9 +107,6 @@ class elastic_strain_max_shear(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElasticStrainMaxShear
-    _outputs: OutputsElasticStrainMaxShear
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,7 +122,13 @@ class elastic_strain_max_shear(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPEL_max_shear", config=config, server=server)
+        super().__init__(
+            name="EPEL_max_shear",
+            config=config,
+            server=server,
+            inputs_type=InputsElasticStrainMaxShear,
+            outputs_type=OutputsElasticStrainMaxShear,
+        )
         self._inputs = InputsElasticStrainMaxShear(self)
         self._outputs = OutputsElasticStrainMaxShear(self)
         if time_scoping is not None:

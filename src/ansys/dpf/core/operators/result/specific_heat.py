@@ -94,9 +94,6 @@ class specific_heat(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsSpecificHeat
-    _outputs: OutputsSpecificHeat
-
     def __init__(
         self,
         time_scoping=None,
@@ -110,7 +107,13 @@ class specific_heat(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="CP", config=config, server=server)
+        super().__init__(
+            name="CP",
+            config=config,
+            server=server,
+            inputs_type=InputsSpecificHeat,
+            outputs_type=OutputsSpecificHeat,
+        )
         self._inputs = InputsSpecificHeat(self)
         self._outputs = OutputsSpecificHeat(self)
         if time_scoping is not None:

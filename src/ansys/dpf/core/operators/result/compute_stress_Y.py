@@ -79,9 +79,6 @@ class compute_stress_Y(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsComputeStressY
-    _outputs: OutputsComputeStressY
-
     def __init__(
         self,
         scoping=None,
@@ -92,7 +89,13 @@ class compute_stress_Y(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="compute_stress_Y", config=config, server=server)
+        super().__init__(
+            name="compute_stress_Y",
+            config=config,
+            server=server,
+            inputs_type=InputsComputeStressY,
+            outputs_type=OutputsComputeStressY,
+        )
         self._inputs = InputsComputeStressY(self)
         self._outputs = OutputsComputeStressY(self)
         if scoping is not None:

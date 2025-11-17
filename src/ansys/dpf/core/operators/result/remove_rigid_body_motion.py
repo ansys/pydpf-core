@@ -75,13 +75,16 @@ class remove_rigid_body_motion(Operator):
     >>> result_center_field = op.outputs.center_field()
     """
 
-    _inputs: InputsRemoveRigidBodyMotion
-    _outputs: OutputsRemoveRigidBodyMotion
-
     def __init__(
         self, field=None, reference_node_id=None, mesh=None, config=None, server=None
     ):
-        super().__init__(name="ExtractRigidBodyMotion", config=config, server=server)
+        super().__init__(
+            name="ExtractRigidBodyMotion",
+            config=config,
+            server=server,
+            inputs_type=InputsRemoveRigidBodyMotion,
+            outputs_type=OutputsRemoveRigidBodyMotion,
+        )
         self._inputs = InputsRemoveRigidBodyMotion(self)
         self._outputs = OutputsRemoveRigidBodyMotion(self)
         if field is not None:

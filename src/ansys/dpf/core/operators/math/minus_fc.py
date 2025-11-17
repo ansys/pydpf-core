@@ -61,9 +61,6 @@ class minus_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsMinusFc
-    _outputs: OutputsMinusFc
-
     def __init__(
         self,
         field_or_fields_container_A=None,
@@ -71,7 +68,13 @@ class minus_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="minus_fc", config=config, server=server)
+        super().__init__(
+            name="minus_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsMinusFc,
+            outputs_type=OutputsMinusFc,
+        )
         self._inputs = InputsMinusFc(self)
         self._outputs = OutputsMinusFc(self)
         if field_or_fields_container_A is not None:

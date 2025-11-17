@@ -60,11 +60,14 @@ class field_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
-    _inputs: InputsFieldGetAttribute
-    _outputs: OutputsFieldGetAttribute
-
     def __init__(self, field=None, property_name=None, config=None, server=None):
-        super().__init__(name="field::get_attribute", config=config, server=server)
+        super().__init__(
+            name="field::get_attribute",
+            config=config,
+            server=server,
+            inputs_type=InputsFieldGetAttribute,
+            outputs_type=OutputsFieldGetAttribute,
+        )
         self._inputs = InputsFieldGetAttribute(self)
         self._outputs = OutputsFieldGetAttribute(self)
         if field is not None:

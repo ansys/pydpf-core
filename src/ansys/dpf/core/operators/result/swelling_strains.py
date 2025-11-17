@@ -227,9 +227,6 @@ class swelling_strains(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsSwellingStrains
-    _outputs: OutputsSwellingStrains
-
     def __init__(
         self,
         time_scoping=None,
@@ -247,7 +244,13 @@ class swelling_strains(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ETH_SWL", config=config, server=server)
+        super().__init__(
+            name="ETH_SWL",
+            config=config,
+            server=server,
+            inputs_type=InputsSwellingStrains,
+            outputs_type=OutputsSwellingStrains,
+        )
         self._inputs = InputsSwellingStrains(self)
         self._outputs = OutputsSwellingStrains(self)
         if time_scoping is not None:

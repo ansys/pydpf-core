@@ -72,9 +72,6 @@ class add_rigid_body_motion_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsAddRigidBodyMotionFc
-    _outputs: OutputsAddRigidBodyMotionFc
-
     def __init__(
         self,
         fields_container=None,
@@ -85,7 +82,13 @@ class add_rigid_body_motion_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="RigidBodyAddition_fc", config=config, server=server)
+        super().__init__(
+            name="RigidBodyAddition_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAddRigidBodyMotionFc,
+            outputs_type=OutputsAddRigidBodyMotionFc,
+        )
         self._inputs = InputsAddRigidBodyMotionFc(self)
         self._outputs = OutputsAddRigidBodyMotionFc(self)
         if fields_container is not None:

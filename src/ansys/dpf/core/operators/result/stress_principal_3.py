@@ -107,9 +107,6 @@ class stress_principal_3(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsStressPrincipal3
-    _outputs: OutputsStressPrincipal3
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,7 +122,13 @@ class stress_principal_3(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="S3", config=config, server=server)
+        super().__init__(
+            name="S3",
+            config=config,
+            server=server,
+            inputs_type=InputsStressPrincipal3,
+            outputs_type=OutputsStressPrincipal3,
+        )
         self._inputs = InputsStressPrincipal3(self)
         self._outputs = OutputsStressPrincipal3(self)
         if time_scoping is not None:

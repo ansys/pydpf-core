@@ -65,9 +65,6 @@ class fields_container_matrices_label(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsFieldsContainerMatricesLabel
-    _outputs: OutputsFieldsContainerMatricesLabel
-
     def __init__(
         self,
         fields_container=None,
@@ -77,7 +74,11 @@ class fields_container_matrices_label(Operator):
         server=None,
     ):
         super().__init__(
-            name="merge::fields_container_matrices_label", config=config, server=server
+            name="merge::fields_container_matrices_label",
+            config=config,
+            server=server,
+            inputs_type=InputsFieldsContainerMatricesLabel,
+            outputs_type=OutputsFieldsContainerMatricesLabel,
         )
         self._inputs = InputsFieldsContainerMatricesLabel(self)
         self._outputs = OutputsFieldsContainerMatricesLabel(self)

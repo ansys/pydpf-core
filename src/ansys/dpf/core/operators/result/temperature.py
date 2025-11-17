@@ -125,9 +125,6 @@ class temperature(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsTemperature
-    _outputs: OutputsTemperature
-
     def __init__(
         self,
         time_scoping=None,
@@ -147,7 +144,13 @@ class temperature(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="TEMP", config=config, server=server)
+        super().__init__(
+            name="TEMP",
+            config=config,
+            server=server,
+            inputs_type=InputsTemperature,
+            outputs_type=OutputsTemperature,
+        )
         self._inputs = InputsTemperature(self)
         self._outputs = OutputsTemperature(self)
         if time_scoping is not None:

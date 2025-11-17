@@ -52,11 +52,14 @@ class streams_provider(Operator):
     >>> result_streams_container = op.outputs.streams_container()
     """
 
-    _inputs: InputsStreamsProvider
-    _outputs: OutputsStreamsProvider
-
     def __init__(self, data_sources=None, config=None, server=None):
-        super().__init__(name="stream_provider", config=config, server=server)
+        super().__init__(
+            name="stream_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsStreamsProvider,
+            outputs_type=OutputsStreamsProvider,
+        )
         self._inputs = InputsStreamsProvider(self)
         self._outputs = OutputsStreamsProvider(self)
         if data_sources is not None:

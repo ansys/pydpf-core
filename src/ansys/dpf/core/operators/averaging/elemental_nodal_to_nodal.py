@@ -84,9 +84,6 @@ class elemental_nodal_to_nodal(Operator):
     >>> result_weight = op.outputs.weight()
     """
 
-    _inputs: InputsElementalNodalToNodal
-    _outputs: OutputsElementalNodalToNodal
-
     def __init__(
         self,
         field=None,
@@ -98,7 +95,13 @@ class elemental_nodal_to_nodal(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="elemental_nodal_To_nodal", config=config, server=server)
+        super().__init__(
+            name="elemental_nodal_To_nodal",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalNodalToNodal,
+            outputs_type=OutputsElementalNodalToNodal,
+        )
         self._inputs = InputsElementalNodalToNodal(self)
         self._outputs = OutputsElementalNodalToNodal(self)
         if field is not None:

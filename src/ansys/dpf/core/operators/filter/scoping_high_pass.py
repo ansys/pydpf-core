@@ -65,11 +65,14 @@ class scoping_high_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
-    _inputs: InputsScopingHighPass
-    _outputs: OutputsScopingHighPass
-
     def __init__(self, field=None, threshold=None, both=None, config=None, server=None):
-        super().__init__(name="core::scoping::high_pass", config=config, server=server)
+        super().__init__(
+            name="core::scoping::high_pass",
+            config=config,
+            server=server,
+            inputs_type=InputsScopingHighPass,
+            outputs_type=OutputsScopingHighPass,
+        )
         self._inputs = InputsScopingHighPass(self)
         self._outputs = OutputsScopingHighPass(self)
         if field is not None:

@@ -57,11 +57,14 @@ class time_derivation(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsTimeDerivation
-    _outputs: OutputsTimeDerivation
-
     def __init__(self, field=None, spline_fitting=None, config=None, server=None):
-        super().__init__(name="TimeDerivation", config=config, server=server)
+        super().__init__(
+            name="TimeDerivation",
+            config=config,
+            server=server,
+            inputs_type=InputsTimeDerivation,
+            outputs_type=OutputsTimeDerivation,
+        )
         self._inputs = InputsTimeDerivation(self)
         self._outputs = OutputsTimeDerivation(self)
         if field is not None:

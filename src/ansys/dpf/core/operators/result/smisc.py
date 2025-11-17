@@ -125,9 +125,6 @@ class smisc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsSmisc
-    _outputs: OutputsSmisc
-
     def __init__(
         self,
         time_scoping=None,

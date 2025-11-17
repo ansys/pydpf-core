@@ -66,9 +66,6 @@ class serialize_to_hdf5(Operator):
 
     """
 
-    _inputs: InputsSerializeToHdf5
-    _outputs: OutputsSerializeToHdf5
-
     def __init__(
         self,
         file_path=None,
@@ -79,7 +76,13 @@ class serialize_to_hdf5(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="serialize_to_hdf5", config=config, server=server)
+        super().__init__(
+            name="serialize_to_hdf5",
+            config=config,
+            server=server,
+            inputs_type=InputsSerializeToHdf5,
+            outputs_type=OutputsSerializeToHdf5,
+        )
         self._inputs = InputsSerializeToHdf5(self)
         self._outputs = OutputsSerializeToHdf5(self)
         if file_path is not None:

@@ -57,11 +57,14 @@ class scoping_on_coordinates(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
-    _inputs: InputsScopingOnCoordinates
-    _outputs: OutputsScopingOnCoordinates
-
     def __init__(self, coordinates=None, mesh=None, config=None, server=None):
-        super().__init__(name="scoping::on_coordinates", config=config, server=server)
+        super().__init__(
+            name="scoping::on_coordinates",
+            config=config,
+            server=server,
+            inputs_type=InputsScopingOnCoordinates,
+            outputs_type=OutputsScopingOnCoordinates,
+        )
         self._inputs = InputsScopingOnCoordinates(self)
         self._outputs = OutputsScopingOnCoordinates(self)
         if coordinates is not None:

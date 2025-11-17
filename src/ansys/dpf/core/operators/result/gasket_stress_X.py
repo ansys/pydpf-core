@@ -102,9 +102,6 @@ class gasket_stress_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGasketStressX
-    _outputs: OutputsGasketStressX
-
     def __init__(
         self,
         time_scoping=None,
@@ -119,7 +116,13 @@ class gasket_stress_X(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GKSX", config=config, server=server)
+        super().__init__(
+            name="GKSX",
+            config=config,
+            server=server,
+            inputs_type=InputsGasketStressX,
+            outputs_type=OutputsGasketStressX,
+        )
         self._inputs = InputsGasketStressX(self)
         self._outputs = OutputsGasketStressX(self)
         if time_scoping is not None:

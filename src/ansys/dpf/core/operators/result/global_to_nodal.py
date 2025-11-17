@@ -58,11 +58,14 @@ class global_to_nodal(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsGlobalToNodal
-    _outputs: OutputsGlobalToNodal
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="GlobalToNodal", config=config, server=server)
+        super().__init__(
+            name="GlobalToNodal",
+            config=config,
+            server=server,
+            inputs_type=InputsGlobalToNodal,
+            outputs_type=OutputsGlobalToNodal,
+        )
         self._inputs = InputsGlobalToNodal(self)
         self._outputs = OutputsGlobalToNodal(self)
         if fieldA is not None:

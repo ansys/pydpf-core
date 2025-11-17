@@ -59,14 +59,15 @@ class customtypefield_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
-    _inputs: InputsCustomtypefieldGetAttribute
-    _outputs: OutputsCustomtypefieldGetAttribute
-
     def __init__(
         self, custom_type_field=None, property_name=None, config=None, server=None
     ):
         super().__init__(
-            name="customtypefield::get_attribute", config=config, server=server
+            name="customtypefield::get_attribute",
+            config=config,
+            server=server,
+            inputs_type=InputsCustomtypefieldGetAttribute,
+            outputs_type=OutputsCustomtypefieldGetAttribute,
         )
         self._inputs = InputsCustomtypefieldGetAttribute(self)
         self._outputs = OutputsCustomtypefieldGetAttribute(self)

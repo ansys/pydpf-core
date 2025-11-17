@@ -53,11 +53,14 @@ class nodal_from_mesh(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
-    _inputs: InputsNodalFromMesh
-    _outputs: OutputsNodalFromMesh
-
     def __init__(self, mesh=None, config=None, server=None):
-        super().__init__(name="GetNodeScopingFromMesh", config=config, server=server)
+        super().__init__(
+            name="GetNodeScopingFromMesh",
+            config=config,
+            server=server,
+            inputs_type=InputsNodalFromMesh,
+            outputs_type=OutputsNodalFromMesh,
+        )
         self._inputs = InputsNodalFromMesh(self)
         self._outputs = OutputsNodalFromMesh(self)
         if mesh is not None:

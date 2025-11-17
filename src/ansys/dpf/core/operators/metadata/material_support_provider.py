@@ -58,13 +58,16 @@ class material_support_provider(Operator):
     >>> result_abstract_field_support = op.outputs.abstract_field_support()
     """
 
-    _inputs: InputsMaterialSupportProvider
-    _outputs: OutputsMaterialSupportProvider
-
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
-        super().__init__(name="mat_support_provider", config=config, server=server)
+        super().__init__(
+            name="mat_support_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsMaterialSupportProvider,
+            outputs_type=OutputsMaterialSupportProvider,
+        )
         self._inputs = InputsMaterialSupportProvider(self)
         self._outputs = OutputsMaterialSupportProvider(self)
         if streams_container is not None:

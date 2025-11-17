@@ -66,11 +66,14 @@ class relative_error(Operator):
     >>> result_no_ref_scoping = op.outputs.no_ref_scoping()
     """
 
-    _inputs: InputsRelativeError
-    _outputs: OutputsRelativeError
-
     def __init__(self, value=None, reference=None, config=None, server=None):
-        super().__init__(name="relative_error", config=config, server=server)
+        super().__init__(
+            name="relative_error",
+            config=config,
+            server=server,
+            inputs_type=InputsRelativeError,
+            outputs_type=OutputsRelativeError,
+        )
         self._inputs = InputsRelativeError(self)
         self._outputs = OutputsRelativeError(self)
         if value is not None:

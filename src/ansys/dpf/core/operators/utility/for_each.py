@@ -68,9 +68,6 @@ class for_each(Operator):
     >>> result_output2 = op.outputs.output2()
     """
 
-    _inputs: InputsForEach
-    _outputs: OutputsForEach
-
     def __init__(
         self,
         iterable=None,
@@ -81,7 +78,13 @@ class for_each(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="for_each", config=config, server=server)
+        super().__init__(
+            name="for_each",
+            config=config,
+            server=server,
+            inputs_type=InputsForEach,
+            outputs_type=OutputsForEach,
+        )
         self._inputs = InputsForEach(self)
         self._outputs = OutputsForEach(self)
         if iterable is not None:

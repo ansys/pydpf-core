@@ -58,13 +58,16 @@ class add_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsAddFc
-    _outputs: OutputsAddFc
-
     def __init__(
         self, fields_container1=None, fields_container2=None, config=None, server=None
     ):
-        super().__init__(name="add_fc", config=config, server=server)
+        super().__init__(
+            name="add_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAddFc,
+            outputs_type=OutputsAddFc,
+        )
         self._inputs = InputsAddFc(self)
         self._outputs = OutputsAddFc(self)
         if fields_container1 is not None:

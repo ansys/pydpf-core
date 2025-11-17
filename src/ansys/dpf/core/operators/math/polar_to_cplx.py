@@ -51,11 +51,14 @@ class polar_to_cplx(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPolarToCplx
-    _outputs: OutputsPolarToCplx
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="polar_to_cplx", config=config, server=server)
+        super().__init__(
+            name="polar_to_cplx",
+            config=config,
+            server=server,
+            inputs_type=InputsPolarToCplx,
+            outputs_type=OutputsPolarToCplx,
+        )
         self._inputs = InputsPolarToCplx(self)
         self._outputs = OutputsPolarToCplx(self)
         if fields_container is not None:

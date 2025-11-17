@@ -62,9 +62,6 @@ class migrate_file_to_vtk(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
-    _inputs: InputsMigrateFileToVtk
-    _outputs: OutputsMigrateFileToVtk
-
     def __init__(
         self,
         output_filename=None,
@@ -73,7 +70,13 @@ class migrate_file_to_vtk(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="vtk::migrate_file", config=config, server=server)
+        super().__init__(
+            name="vtk::migrate_file",
+            config=config,
+            server=server,
+            inputs_type=InputsMigrateFileToVtk,
+            outputs_type=OutputsMigrateFileToVtk,
+        )
         self._inputs = InputsMigrateFileToVtk(self)
         self._outputs = OutputsMigrateFileToVtk(self)
         if output_filename is not None:

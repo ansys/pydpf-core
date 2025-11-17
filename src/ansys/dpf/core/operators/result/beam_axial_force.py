@@ -79,9 +79,6 @@ class beam_axial_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsBeamAxialForce
-    _outputs: OutputsBeamAxialForce
-
     def __init__(
         self,
         time_scoping=None,
@@ -92,7 +89,13 @@ class beam_axial_force(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="B_N", config=config, server=server)
+        super().__init__(
+            name="B_N",
+            config=config,
+            server=server,
+            inputs_type=InputsBeamAxialForce,
+            outputs_type=OutputsBeamAxialForce,
+        )
         self._inputs = InputsBeamAxialForce(self)
         self._outputs = OutputsBeamAxialForce(self)
         if time_scoping is not None:

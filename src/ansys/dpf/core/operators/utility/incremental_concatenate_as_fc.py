@@ -57,12 +57,13 @@ class incremental_concatenate_as_fc(Operator):
     >>> result_output = op.outputs.output()
     """
 
-    _inputs: InputsIncrementalConcatenateAsFc
-    _outputs: OutputsIncrementalConcatenateAsFc
-
     def __init__(self, field=None, label=None, config=None, server=None):
         super().__init__(
-            name="incremental::concatenate_as_fc", config=config, server=server
+            name="incremental::concatenate_as_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsIncrementalConcatenateAsFc,
+            outputs_type=OutputsIncrementalConcatenateAsFc,
         )
         self._inputs = InputsIncrementalConcatenateAsFc(self)
         self._outputs = OutputsIncrementalConcatenateAsFc(self)

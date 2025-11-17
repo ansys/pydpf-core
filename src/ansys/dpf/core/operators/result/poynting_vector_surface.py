@@ -74,9 +74,6 @@ class poynting_vector_surface(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPoyntingVectorSurface
-    _outputs: OutputsPoyntingVectorSurface
-
     def __init__(
         self,
         fields_containerA=None,
@@ -88,7 +85,13 @@ class poynting_vector_surface(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="PoyntingVectorSurface", config=config, server=server)
+        super().__init__(
+            name="PoyntingVectorSurface",
+            config=config,
+            server=server,
+            inputs_type=InputsPoyntingVectorSurface,
+            outputs_type=OutputsPoyntingVectorSurface,
+        )
         self._inputs = InputsPoyntingVectorSurface(self)
         self._outputs = OutputsPoyntingVectorSurface(self)
         if fields_containerA is not None:

@@ -73,9 +73,6 @@ class expansion_psd(Operator):
     >>> result_psd = op.outputs.psd()
     """
 
-    _inputs: InputsExpansionPsd
-    _outputs: OutputsExpansionPsd
-
     def __init__(
         self,
         mode_shapes=None,
@@ -86,7 +83,13 @@ class expansion_psd(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="expansion::psd", config=config, server=server)
+        super().__init__(
+            name="expansion::psd",
+            config=config,
+            server=server,
+            inputs_type=InputsExpansionPsd,
+            outputs_type=OutputsExpansionPsd,
+        )
         self._inputs = InputsExpansionPsd(self)
         self._outputs = OutputsExpansionPsd(self)
         if mode_shapes is not None:

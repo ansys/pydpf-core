@@ -94,9 +94,6 @@ class mass_fraction(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsMassFraction
-    _outputs: OutputsMassFraction
-
     def __init__(
         self,
         time_scoping=None,
@@ -110,7 +107,13 @@ class mass_fraction(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="Y", config=config, server=server)
+        super().__init__(
+            name="Y",
+            config=config,
+            server=server,
+            inputs_type=InputsMassFraction,
+            outputs_type=OutputsMassFraction,
+        )
         self._inputs = InputsMassFraction(self)
         self._outputs = OutputsMassFraction(self)
         if time_scoping is not None:

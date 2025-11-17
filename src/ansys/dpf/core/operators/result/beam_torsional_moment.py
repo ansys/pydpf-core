@@ -79,9 +79,6 @@ class beam_torsional_moment(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsBeamTorsionalMoment
-    _outputs: OutputsBeamTorsionalMoment
-
     def __init__(
         self,
         time_scoping=None,
@@ -92,7 +89,13 @@ class beam_torsional_moment(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="B_MT", config=config, server=server)
+        super().__init__(
+            name="B_MT",
+            config=config,
+            server=server,
+            inputs_type=InputsBeamTorsionalMoment,
+            outputs_type=OutputsBeamTorsionalMoment,
+        )
         self._inputs = InputsBeamTorsionalMoment(self)
         self._outputs = OutputsBeamTorsionalMoment(self)
         if time_scoping is not None:

@@ -66,9 +66,6 @@ class global_eroded_internal_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGlobalErodedInternalEnergy
-    _outputs: OutputsGlobalErodedInternalEnergy
-
     def __init__(
         self,
         streams_container=None,
@@ -77,7 +74,13 @@ class global_eroded_internal_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GLOB_ERIE", config=config, server=server)
+        super().__init__(
+            name="GLOB_ERIE",
+            config=config,
+            server=server,
+            inputs_type=InputsGlobalErodedInternalEnergy,
+            outputs_type=OutputsGlobalErodedInternalEnergy,
+        )
         self._inputs = InputsGlobalErodedInternalEnergy(self)
         self._outputs = OutputsGlobalErodedInternalEnergy(self)
         if streams_container is not None:

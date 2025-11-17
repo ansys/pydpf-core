@@ -63,13 +63,16 @@ class normals(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsNormals
-    _outputs: OutputsNormals
-
     def __init__(
         self, mesh=None, mesh_scoping=None, field=None, config=None, server=None
     ):
-        super().__init__(name="normals_provider", config=config, server=server)
+        super().__init__(
+            name="normals_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsNormals,
+            outputs_type=OutputsNormals,
+        )
         self._inputs = InputsNormals(self)
         self._outputs = OutputsNormals(self)
         if mesh is not None:

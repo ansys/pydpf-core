@@ -56,11 +56,14 @@ class unit_convert_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsUnitConvertFc
-    _outputs: OutputsUnitConvertFc
-
     def __init__(self, fields_container=None, unit_name=None, config=None, server=None):
-        super().__init__(name="unit_convert_fc", config=config, server=server)
+        super().__init__(
+            name="unit_convert_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsUnitConvertFc,
+            outputs_type=OutputsUnitConvertFc,
+        )
         self._inputs = InputsUnitConvertFc(self)
         self._outputs = OutputsUnitConvertFc(self)
         if fields_container is not None:

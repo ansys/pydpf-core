@@ -101,11 +101,14 @@ class beam_properties(Operator):
     >>> result_field_offset_z = op.outputs.field_offset_z()
     """
 
-    _inputs: InputsBeamProperties
-    _outputs: OutputsBeamProperties
-
     def __init__(self, streams=None, data_sources=None, config=None, server=None):
-        super().__init__(name="beam_properties", config=config, server=server)
+        super().__init__(
+            name="beam_properties",
+            config=config,
+            server=server,
+            inputs_type=InputsBeamProperties,
+            outputs_type=OutputsBeamProperties,
+        )
         self._inputs = InputsBeamProperties(self)
         self._outputs = OutputsBeamProperties(self)
         if streams is not None:

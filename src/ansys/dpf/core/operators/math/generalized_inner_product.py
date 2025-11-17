@@ -59,11 +59,14 @@ class generalized_inner_product(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsGeneralizedInnerProduct
-    _outputs: OutputsGeneralizedInnerProduct
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="generalized_inner_product", config=config, server=server)
+        super().__init__(
+            name="generalized_inner_product",
+            config=config,
+            server=server,
+            inputs_type=InputsGeneralizedInnerProduct,
+            outputs_type=OutputsGeneralizedInnerProduct,
+        )
         self._inputs = InputsGeneralizedInnerProduct(self)
         self._outputs = OutputsGeneralizedInnerProduct(self)
         if fieldA is not None:

@@ -58,9 +58,6 @@ class add_constant(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAddConstant
-    _outputs: OutputsAddConstant
-
     def __init__(
         self,
         field=None,
@@ -69,7 +66,13 @@ class add_constant(Operator):
         server=None,
         ponderation=None,
     ):
-        super().__init__(name="add_constant", config=config, server=server)
+        super().__init__(
+            name="add_constant",
+            config=config,
+            server=server,
+            inputs_type=InputsAddConstant,
+            outputs_type=OutputsAddConstant,
+        )
         self._inputs = InputsAddConstant(self)
         self._outputs = OutputsAddConstant(self)
         if field is not None:

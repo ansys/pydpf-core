@@ -64,9 +64,6 @@ class rescope_custom_type_field(Operator):
     >>> result_fields = op.outputs.fields()
     """
 
-    _inputs: InputsRescopeCustomTypeField
-    _outputs: OutputsRescopeCustomTypeField
-
     def __init__(
         self,
         fields=None,
@@ -75,7 +72,13 @@ class rescope_custom_type_field(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="Rescope_ctf", config=config, server=server)
+        super().__init__(
+            name="Rescope_ctf",
+            config=config,
+            server=server,
+            inputs_type=InputsRescopeCustomTypeField,
+            outputs_type=OutputsRescopeCustomTypeField,
+        )
         self._inputs = InputsRescopeCustomTypeField(self)
         self._outputs = OutputsRescopeCustomTypeField(self)
         if fields is not None:

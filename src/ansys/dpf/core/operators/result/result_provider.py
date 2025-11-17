@@ -101,9 +101,6 @@ class result_provider(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsResultProvider
-    _outputs: OutputsResultProvider
-
     def __init__(
         self,
         time_scoping=None,

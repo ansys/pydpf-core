@@ -95,9 +95,6 @@ class nodal_rotation_Z(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNodalRotationZ
-    _outputs: OutputsNodalRotationZ
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,7 +108,13 @@ class nodal_rotation_Z(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ROTZ", config=config, server=server)
+        super().__init__(
+            name="ROTZ",
+            config=config,
+            server=server,
+            inputs_type=InputsNodalRotationZ,
+            outputs_type=OutputsNodalRotationZ,
+        )
         self._inputs = InputsNodalRotationZ(self)
         self._outputs = OutputsNodalRotationZ(self)
         if time_scoping is not None:

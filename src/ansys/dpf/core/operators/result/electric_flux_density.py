@@ -227,9 +227,6 @@ class electric_flux_density(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElectricFluxDensity
-    _outputs: OutputsElectricFluxDensity
-
     def __init__(
         self,
         time_scoping=None,
@@ -247,7 +244,13 @@ class electric_flux_density(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EFD", config=config, server=server)
+        super().__init__(
+            name="EFD",
+            config=config,
+            server=server,
+            inputs_type=InputsElectricFluxDensity,
+            outputs_type=OutputsElectricFluxDensity,
+        )
         self._inputs = InputsElectricFluxDensity(self)
         self._outputs = OutputsElectricFluxDensity(self)
         if time_scoping is not None:

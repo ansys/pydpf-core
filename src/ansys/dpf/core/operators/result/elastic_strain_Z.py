@@ -107,9 +107,6 @@ class elastic_strain_Z(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElasticStrainZ
-    _outputs: OutputsElasticStrainZ
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,7 +122,13 @@ class elastic_strain_Z(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPELZ", config=config, server=server)
+        super().__init__(
+            name="EPELZ",
+            config=config,
+            server=server,
+            inputs_type=InputsElasticStrainZ,
+            outputs_type=OutputsElasticStrainZ,
+        )
         self._inputs = InputsElasticStrainZ(self)
         self._outputs = OutputsElasticStrainZ(self)
         if time_scoping is not None:

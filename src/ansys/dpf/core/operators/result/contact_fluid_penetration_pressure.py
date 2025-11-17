@@ -247,9 +247,6 @@ class contact_fluid_penetration_pressure(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsContactFluidPenetrationPressure
-    _outputs: OutputsContactFluidPenetrationPressure
-
     def __init__(
         self,
         time_scoping=None,
@@ -271,7 +268,13 @@ class contact_fluid_penetration_pressure(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ECT_FRES", config=config, server=server)
+        super().__init__(
+            name="ECT_FRES",
+            config=config,
+            server=server,
+            inputs_type=InputsContactFluidPenetrationPressure,
+            outputs_type=OutputsContactFluidPenetrationPressure,
+        )
         self._inputs = InputsContactFluidPenetrationPressure(self)
         self._outputs = OutputsContactFluidPenetrationPressure(self)
         if time_scoping is not None:

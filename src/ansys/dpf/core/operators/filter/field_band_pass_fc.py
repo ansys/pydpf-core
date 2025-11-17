@@ -65,9 +65,6 @@ class field_band_pass_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsFieldBandPassFc
-    _outputs: OutputsFieldBandPassFc
-
     def __init__(
         self,
         fields_container=None,
@@ -76,7 +73,13 @@ class field_band_pass_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="core::field::band_pass_fc", config=config, server=server)
+        super().__init__(
+            name="core::field::band_pass_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsFieldBandPassFc,
+            outputs_type=OutputsFieldBandPassFc,
+        )
         self._inputs = InputsFieldBandPassFc(self)
         self._outputs = OutputsFieldBandPassFc(self)
         if fields_container is not None:

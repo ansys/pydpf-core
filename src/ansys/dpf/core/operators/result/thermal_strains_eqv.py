@@ -227,9 +227,6 @@ class thermal_strains_eqv(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsThermalStrainsEqv
-    _outputs: OutputsThermalStrainsEqv
-
     def __init__(
         self,
         time_scoping=None,
@@ -247,7 +244,13 @@ class thermal_strains_eqv(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ETH_EQV", config=config, server=server)
+        super().__init__(
+            name="ETH_EQV",
+            config=config,
+            server=server,
+            inputs_type=InputsThermalStrainsEqv,
+            outputs_type=OutputsThermalStrainsEqv,
+        )
         self._inputs = InputsThermalStrainsEqv(self)
         self._outputs = OutputsThermalStrainsEqv(self)
         if time_scoping is not None:

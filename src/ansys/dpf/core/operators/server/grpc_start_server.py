@@ -80,9 +80,6 @@ class grpc_start_server(Operator):
     >>> result_grpc_streams = op.outputs.grpc_streams()
     """
 
-    _inputs: InputsGrpcStartServer
-    _outputs: OutputsGrpcStartServer
-
     def __init__(
         self,
         ip=None,
@@ -94,7 +91,13 @@ class grpc_start_server(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="grpc::stream_provider", config=config, server=server)
+        super().__init__(
+            name="grpc::stream_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsGrpcStartServer,
+            outputs_type=OutputsGrpcStartServer,
+        )
         self._inputs = InputsGrpcStartServer(self)
         self._outputs = OutputsGrpcStartServer(self)
         if ip is not None:

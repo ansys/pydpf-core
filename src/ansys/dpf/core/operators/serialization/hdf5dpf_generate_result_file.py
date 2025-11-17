@@ -108,9 +108,6 @@ class hdf5dpf_generate_result_file(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
-    _inputs: InputsHdf5DpfGenerateResultFile
-    _outputs: OutputsHdf5DpfGenerateResultFile
-
     def __init__(
         self,
         h5_chunk_size=None,
@@ -128,7 +125,11 @@ class hdf5dpf_generate_result_file(Operator):
         server=None,
     ):
         super().__init__(
-            name="hdf5::h5dpf::make_result_file", config=config, server=server
+            name="hdf5::h5dpf::make_result_file",
+            config=config,
+            server=server,
+            inputs_type=InputsHdf5DpfGenerateResultFile,
+            outputs_type=OutputsHdf5DpfGenerateResultFile,
         )
         self._inputs = InputsHdf5DpfGenerateResultFile(self)
         self._outputs = OutputsHdf5DpfGenerateResultFile(self)

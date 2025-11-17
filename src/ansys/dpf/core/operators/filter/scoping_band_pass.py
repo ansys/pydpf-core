@@ -66,9 +66,6 @@ class scoping_band_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
-    _inputs: InputsScopingBandPass
-    _outputs: OutputsScopingBandPass
-
     def __init__(
         self,
         field=None,
@@ -77,7 +74,13 @@ class scoping_band_pass(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="core::scoping::band_pass", config=config, server=server)
+        super().__init__(
+            name="core::scoping::band_pass",
+            config=config,
+            server=server,
+            inputs_type=InputsScopingBandPass,
+            outputs_type=OutputsScopingBandPass,
+        )
         self._inputs = InputsScopingBandPass(self)
         self._outputs = OutputsScopingBandPass(self)
         if field is not None:

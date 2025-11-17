@@ -60,11 +60,14 @@ class faces_area(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsFacesArea
-    _outputs: OutputsFacesArea
-
     def __init__(self, mesh=None, mesh_scoping=None, config=None, server=None):
-        super().__init__(name="face::area", config=config, server=server)
+        super().__init__(
+            name="face::area",
+            config=config,
+            server=server,
+            inputs_type=InputsFacesArea,
+            outputs_type=OutputsFacesArea,
+        )
         self._inputs = InputsFacesArea(self)
         self._outputs = OutputsFacesArea(self)
         if mesh is not None:

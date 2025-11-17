@@ -72,9 +72,6 @@ class interface_contact_area(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsInterfaceContactArea
-    _outputs: OutputsInterfaceContactArea
-
     def __init__(
         self,
         streams_container=None,
@@ -84,7 +81,13 @@ class interface_contact_area(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="R_CA", config=config, server=server)
+        super().__init__(
+            name="R_CA",
+            config=config,
+            server=server,
+            inputs_type=InputsInterfaceContactArea,
+            outputs_type=OutputsInterfaceContactArea,
+        )
         self._inputs = InputsInterfaceContactArea(self)
         self._outputs = OutputsInterfaceContactArea(self)
         if streams_container is not None:

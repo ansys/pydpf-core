@@ -56,9 +56,6 @@ class python_generator(Operator):
 
     """
 
-    _inputs: InputsPythonGenerator
-    _outputs: OutputsPythonGenerator
-
     def __init__(
         self,
         dll_source_path=None,
@@ -68,7 +65,13 @@ class python_generator(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="python_generator", config=config, server=server)
+        super().__init__(
+            name="python_generator",
+            config=config,
+            server=server,
+            inputs_type=InputsPythonGenerator,
+            outputs_type=OutputsPythonGenerator,
+        )
         self._inputs = InputsPythonGenerator(self)
         self._outputs = OutputsPythonGenerator(self)
         if dll_source_path is not None:

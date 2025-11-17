@@ -63,9 +63,6 @@ class min_by_component(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsMinByComponent
-    _outputs: OutputsMinByComponent
-
     def __init__(
         self,
         use_absolute_value=None,
@@ -74,7 +71,13 @@ class min_by_component(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="min_by_component", config=config, server=server)
+        super().__init__(
+            name="min_by_component",
+            config=config,
+            server=server,
+            inputs_type=InputsMinByComponent,
+            outputs_type=OutputsMinByComponent,
+        )
         self._inputs = InputsMinByComponent(self)
         self._outputs = OutputsMinByComponent(self)
         if use_absolute_value is not None:

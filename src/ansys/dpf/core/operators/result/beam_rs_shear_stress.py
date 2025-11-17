@@ -84,9 +84,6 @@ class beam_rs_shear_stress(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsBeamRsShearStress
-    _outputs: OutputsBeamRsShearStress
-
     def __init__(
         self,
         time_scoping=None,
@@ -98,7 +95,13 @@ class beam_rs_shear_stress(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="B_ST1", config=config, server=server)
+        super().__init__(
+            name="B_ST1",
+            config=config,
+            server=server,
+            inputs_type=InputsBeamRsShearStress,
+            outputs_type=OutputsBeamRsShearStress,
+        )
         self._inputs = InputsBeamRsShearStress(self)
         self._outputs = OutputsBeamRsShearStress(self)
         if time_scoping is not None:

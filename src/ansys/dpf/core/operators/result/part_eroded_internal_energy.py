@@ -72,9 +72,6 @@ class part_eroded_internal_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPartErodedInternalEnergy
-    _outputs: OutputsPartErodedInternalEnergy
-
     def __init__(
         self,
         streams_container=None,
@@ -84,7 +81,13 @@ class part_eroded_internal_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="M_ERIE", config=config, server=server)
+        super().__init__(
+            name="M_ERIE",
+            config=config,
+            server=server,
+            inputs_type=InputsPartErodedInternalEnergy,
+            outputs_type=OutputsPartErodedInternalEnergy,
+        )
         self._inputs = InputsPartErodedInternalEnergy(self)
         self._outputs = OutputsPartErodedInternalEnergy(self)
         if streams_container is not None:

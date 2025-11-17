@@ -76,9 +76,6 @@ class euler_load_buckling(Operator):
     >>> result_field_euler_critical_load_zz = op.outputs.field_euler_critical_load_zz()
     """
 
-    _inputs: InputsEulerLoadBuckling
-    _outputs: OutputsEulerLoadBuckling
-
     def __init__(
         self,
         field_beam_end_condition=None,
@@ -88,7 +85,13 @@ class euler_load_buckling(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="euler_load_buckling", config=config, server=server)
+        super().__init__(
+            name="euler_load_buckling",
+            config=config,
+            server=server,
+            inputs_type=InputsEulerLoadBuckling,
+            outputs_type=OutputsEulerLoadBuckling,
+        )
         self._inputs = InputsEulerLoadBuckling(self)
         self._outputs = OutputsEulerLoadBuckling(self)
         if field_beam_end_condition is not None:

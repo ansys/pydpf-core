@@ -68,9 +68,6 @@ class sweeping_phase_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsSweepingPhaseFc
-    _outputs: OutputsSweepingPhaseFc
-
     def __init__(
         self,
         fields_container=None,
@@ -80,7 +77,13 @@ class sweeping_phase_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="sweeping_phase_fc", config=config, server=server)
+        super().__init__(
+            name="sweeping_phase_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsSweepingPhaseFc,
+            outputs_type=OutputsSweepingPhaseFc,
+        )
         self._inputs = InputsSweepingPhaseFc(self)
         self._outputs = OutputsSweepingPhaseFc(self)
         if fields_container is not None:

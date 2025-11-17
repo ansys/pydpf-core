@@ -83,9 +83,6 @@ class merge_meshes(Operator):
     >>> result_merges_mesh = op.outputs.merges_mesh()
     """
 
-    _inputs: InputsMergeMeshes
-    _outputs: OutputsMergeMeshes
-
     def __init__(
         self,
         naive_merge_elements=None,
@@ -98,7 +95,13 @@ class merge_meshes(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="merge::mesh", config=config, server=server)
+        super().__init__(
+            name="merge::mesh",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeMeshes,
+            outputs_type=OutputsMergeMeshes,
+        )
         self._inputs = InputsMergeMeshes(self)
         self._outputs = OutputsMergeMeshes(self)
         if naive_merge_elements is not None:

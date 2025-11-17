@@ -94,9 +94,6 @@ class volume_fraction(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsVolumeFraction
-    _outputs: OutputsVolumeFraction
-
     def __init__(
         self,
         time_scoping=None,
@@ -110,7 +107,13 @@ class volume_fraction(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="VOF", config=config, server=server)
+        super().__init__(
+            name="VOF",
+            config=config,
+            server=server,
+            inputs_type=InputsVolumeFraction,
+            outputs_type=OutputsVolumeFraction,
+        )
         self._inputs = InputsVolumeFraction(self)
         self._outputs = OutputsVolumeFraction(self)
         if time_scoping is not None:

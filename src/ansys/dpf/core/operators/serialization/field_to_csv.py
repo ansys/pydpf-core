@@ -59,9 +59,6 @@ class field_to_csv(Operator):
 
     """
 
-    _inputs: InputsFieldToCsv
-    _outputs: OutputsFieldToCsv
-
     def __init__(
         self,
         field_or_fields_container=None,
@@ -70,7 +67,13 @@ class field_to_csv(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="field_to_csv", config=config, server=server)
+        super().__init__(
+            name="field_to_csv",
+            config=config,
+            server=server,
+            inputs_type=InputsFieldToCsv,
+            outputs_type=OutputsFieldToCsv,
+        )
         self._inputs = InputsFieldToCsv(self)
         self._outputs = OutputsFieldToCsv(self)
         if field_or_fields_container is not None:

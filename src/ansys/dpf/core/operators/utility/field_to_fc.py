@@ -58,11 +58,14 @@ class field_to_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsFieldToFc
-    _outputs: OutputsFieldToFc
-
     def __init__(self, field=None, label=None, config=None, server=None):
-        super().__init__(name="InjectToFieldContainer", config=config, server=server)
+        super().__init__(
+            name="InjectToFieldContainer",
+            config=config,
+            server=server,
+            inputs_type=InputsFieldToFc,
+            outputs_type=OutputsFieldToFc,
+        )
         self._inputs = InputsFieldToFc(self)
         self._outputs = OutputsFieldToFc(self)
         if field is not None:

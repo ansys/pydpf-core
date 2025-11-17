@@ -94,9 +94,6 @@ class mass_flow_rate(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsMassFlowRate
-    _outputs: OutputsMassFlowRate
-
     def __init__(
         self,
         time_scoping=None,
@@ -110,7 +107,13 @@ class mass_flow_rate(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="MDOT", config=config, server=server)
+        super().__init__(
+            name="MDOT",
+            config=config,
+            server=server,
+            inputs_type=InputsMassFlowRate,
+            outputs_type=OutputsMassFlowRate,
+        )
         self._inputs = InputsMassFlowRate(self)
         self._outputs = OutputsMassFlowRate(self)
         if time_scoping is not None:

@@ -51,11 +51,14 @@ class mesh(Operator):
     >>> result_incremented_result = op.outputs.incremented_result()
     """
 
-    _inputs: InputsMesh
-    _outputs: OutputsMesh
-
     def __init__(self, input=None, config=None, server=None):
-        super().__init__(name="incremental::merge::mesh", config=config, server=server)
+        super().__init__(
+            name="incremental::merge::mesh",
+            config=config,
+            server=server,
+            inputs_type=InputsMesh,
+            outputs_type=OutputsMesh,
+        )
         self._inputs = InputsMesh(self)
         self._outputs = OutputsMesh(self)
         if input is not None:

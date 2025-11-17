@@ -62,9 +62,6 @@ class set_attribute(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsSetAttribute
-    _outputs: OutputsSetAttribute
-
     def __init__(
         self,
         fields_container=None,
@@ -74,7 +71,11 @@ class set_attribute(Operator):
         server=None,
     ):
         super().__init__(
-            name="fieldscontainer::set_attribute", config=config, server=server
+            name="fieldscontainer::set_attribute",
+            config=config,
+            server=server,
+            inputs_type=InputsSetAttribute,
+            outputs_type=OutputsSetAttribute,
         )
         self._inputs = InputsSetAttribute(self)
         self._outputs = OutputsSetAttribute(self)

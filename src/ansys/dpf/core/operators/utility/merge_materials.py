@@ -53,11 +53,14 @@ class merge_materials(Operator):
     >>> result_merged_materials = op.outputs.merged_materials()
     """
 
-    _inputs: InputsMergeMaterials
-    _outputs: OutputsMergeMaterials
-
     def __init__(self, materials1=None, materials2=None, config=None, server=None):
-        super().__init__(name="merge::materials", config=config, server=server)
+        super().__init__(
+            name="merge::materials",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeMaterials,
+            outputs_type=OutputsMergeMaterials,
+        )
         self._inputs = InputsMergeMaterials(self)
         self._outputs = OutputsMergeMaterials(self)
         if materials1 is not None:
