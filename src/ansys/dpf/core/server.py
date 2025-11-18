@@ -56,6 +56,13 @@ from ansys.dpf.core.server_types import (  # noqa: F401  # pylint: disable=unuse
     AnyServerType,
     BaseServer,
 )
+from ansys.dpf.core.server_types import (  # noqa: F401  # pylint: disable=unused-import
+    DPF_DEFAULT_PORT,
+    LOCALHOST,
+    RUNNING_DOCKER,
+    AnyServerType,
+    BaseServer,
+)
 
 
 def shutdown_global_server():

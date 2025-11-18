@@ -20,17 +20,19 @@ if TYPE_CHECKING:
 
 
 class strain_from_voigt_fc(Operator):
-    r"""Converts the strain field from Voigt notation into standard format.
+    r"""Converts strain field data from Voigt notation (6-component vector) to
+    standard symmetric matrix format (3x3 tensor).
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        field or fields container with only one field is expected
+        Field with strain data in Voigt notation, or fields container containing such a field
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Field with strain data converted to standard 3x3 symmetric matrix format
 
     Examples
     --------
@@ -55,16 +57,30 @@ class strain_from_voigt_fc(Operator):
     _inputs: InputsStrainFromVoigtFc
     _outputs: OutputsStrainFromVoigtFc
 
-    def __init__(self, fields_container=None, config=None, server=None):
+    def __init__(
+        self,
+        fields_container=None,
+        config=None,
+        server=None,
+        field=None,
+    ):
         super().__init__(name="strain_from_voigt_fc", config=config, server=server)
         self._inputs = InputsStrainFromVoigtFc(self)
         self._outputs = OutputsStrainFromVoigtFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
+        elif field is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator strain_from_voigt_fc: Input name "field" is deprecated in favor of "fields_container".'
+                )
+            )
+            self.inputs.fields_container.connect(field)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Converts the strain field from Voigt notation into standard format.
+        description = r"""Converts strain field data from Voigt notation (6-component vector) to
+standard symmetric matrix format (3x3 tensor).
 """
         spec = Specification(
             description=description,
@@ -73,7 +89,8 @@ class strain_from_voigt_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""field or fields container with only one field is expected""",
+                    document=r"""Field with strain data in Voigt notation, or fields container containing such a field""",
+                    aliases=["field"],
                 ),
             },
             map_output_pin_spec={
@@ -81,7 +98,7 @@ class strain_from_voigt_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with strain data converted to standard 3x3 symmetric matrix format""",
                 ),
             },
         )
@@ -154,7 +171,7 @@ class InputsStrainFromVoigtFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        field or fields container with only one field is expected
+        Field with strain data in Voigt notation, or fields container containing such a field
 
         Returns
         -------
@@ -170,6 +187,18 @@ class InputsStrainFromVoigtFc(_Inputs):
         >>> op.inputs.fields_container(my_fields_container)
         """
         return self._fields_container
+
+    def __getattr__(self, name):
+        if name in ["field"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator strain_from_voigt_fc: Input name "{name}" is deprecated in favor of "fields_container".'
+                )
+            )
+            return self.fields_container
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsStrainFromVoigtFc(_Outputs):
@@ -194,6 +223,8 @@ class OutputsStrainFromVoigtFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Field with strain data converted to standard 3x3 symmetric matrix format
 
         Returns
         -------
