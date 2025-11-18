@@ -24,7 +24,7 @@
 
 from enum import Enum
 from textwrap import wrap
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, Union
 import warnings
 import weakref
 
@@ -73,7 +73,7 @@ class Input(Generic[T]):
             self.name += str(self._count_ellipsis + 1)
         self._update_doc_str(docstr, self.name)
 
-    def connect(self, inpt: T):
+    def connect(self, inpt: Union[T, Output[T]]):
         """Connect any input (entity or operator output) to a specified input pin of this operator."""
         from pathlib import Path
 
