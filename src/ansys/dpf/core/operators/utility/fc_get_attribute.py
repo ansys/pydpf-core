@@ -64,9 +64,6 @@ class fc_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
-    _inputs: InputsFcGetAttribute
-    _outputs: OutputsFcGetAttribute
-
     def __init__(
         self,
         fields_container=None,
@@ -76,10 +73,12 @@ class fc_get_attribute(Operator):
         server=None,
     ):
         super().__init__(
-            name="fieldscontainer::get_attribute", config=config, server=server
+            name="fieldscontainer::get_attribute",
+            config=config,
+            server=server,
+            inputs_type=InputsFcGetAttribute,
+            outputs_type=OutputsFcGetAttribute,
         )
-        self._inputs = InputsFcGetAttribute(self)
-        self._outputs = OutputsFcGetAttribute(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if property_name is not None:

@@ -227,9 +227,6 @@ class stress_ratio(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsStressRatio
-    _outputs: OutputsStressRatio
-
     def __init__(
         self,
         time_scoping=None,
@@ -247,9 +244,13 @@ class stress_ratio(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ENL_SRAT", config=config, server=server)
-        self._inputs = InputsStressRatio(self)
-        self._outputs = OutputsStressRatio(self)
+        super().__init__(
+            name="ENL_SRAT",
+            config=config,
+            server=server,
+            inputs_type=InputsStressRatio,
+            outputs_type=OutputsStressRatio,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

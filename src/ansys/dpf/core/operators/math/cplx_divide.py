@@ -56,15 +56,16 @@ class cplx_divide(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCplxDivide
-    _outputs: OutputsCplxDivide
-
     def __init__(
         self, fields_containerA=None, fields_containerB=None, config=None, server=None
     ):
-        super().__init__(name="cplx_divide", config=config, server=server)
-        self._inputs = InputsCplxDivide(self)
-        self._outputs = OutputsCplxDivide(self)
+        super().__init__(
+            name="cplx_divide",
+            config=config,
+            server=server,
+            inputs_type=InputsCplxDivide,
+            outputs_type=OutputsCplxDivide,
+        )
         if fields_containerA is not None:
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB is not None:

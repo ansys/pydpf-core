@@ -59,15 +59,14 @@ class assemble_scalars_to_vectors(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAssembleScalarsToVectors
-    _outputs: OutputsAssembleScalarsToVectors
-
     def __init__(self, x=None, y=None, z=None, config=None, server=None):
         super().__init__(
-            name="assemble_scalars_to_vectors", config=config, server=server
+            name="assemble_scalars_to_vectors",
+            config=config,
+            server=server,
+            inputs_type=InputsAssembleScalarsToVectors,
+            outputs_type=OutputsAssembleScalarsToVectors,
         )
-        self._inputs = InputsAssembleScalarsToVectors(self)
-        self._outputs = OutputsAssembleScalarsToVectors(self)
         if x is not None:
             self.inputs.x.connect(x)
         if y is not None:

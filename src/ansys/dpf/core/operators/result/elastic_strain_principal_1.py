@@ -109,9 +109,6 @@ class elastic_strain_principal_1(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElasticStrainPrincipal1
-    _outputs: OutputsElasticStrainPrincipal1
-
     def __init__(
         self,
         time_scoping=None,
@@ -127,9 +124,13 @@ class elastic_strain_principal_1(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPEL1", config=config, server=server)
-        self._inputs = InputsElasticStrainPrincipal1(self)
-        self._outputs = OutputsElasticStrainPrincipal1(self)
+        super().__init__(
+            name="EPEL1",
+            config=config,
+            server=server,
+            inputs_type=InputsElasticStrainPrincipal1,
+            outputs_type=OutputsElasticStrainPrincipal1,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

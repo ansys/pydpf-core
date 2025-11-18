@@ -61,13 +61,14 @@ class accumulate_over_label_fc(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAccumulateOverLabelFc
-    _outputs: OutputsAccumulateOverLabelFc
-
     def __init__(self, fields_container=None, label=None, config=None, server=None):
-        super().__init__(name="accumulate_over_label_fc", config=config, server=server)
-        self._inputs = InputsAccumulateOverLabelFc(self)
-        self._outputs = OutputsAccumulateOverLabelFc(self)
+        super().__init__(
+            name="accumulate_over_label_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAccumulateOverLabelFc,
+            outputs_type=OutputsAccumulateOverLabelFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if label is not None:

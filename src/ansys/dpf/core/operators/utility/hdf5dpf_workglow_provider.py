@@ -79,9 +79,6 @@ class hdf5dpf_workglow_provider(Operator):
     >>> result_field_or_fields_container = op.outputs.field_or_fields_container()
     """
 
-    _inputs: InputsHdf5DpfWorkglowProvider
-    _outputs: OutputsHdf5DpfWorkglowProvider
-
     def __init__(
         self,
         time_scoping=None,
@@ -94,10 +91,12 @@ class hdf5dpf_workglow_provider(Operator):
         server=None,
     ):
         super().__init__(
-            name="hdf5::h5dpf::workflow_provider", config=config, server=server
+            name="hdf5::h5dpf::workflow_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsHdf5DpfWorkglowProvider,
+            outputs_type=OutputsHdf5DpfWorkglowProvider,
         )
-        self._inputs = InputsHdf5DpfWorkglowProvider(self)
-        self._outputs = OutputsHdf5DpfWorkglowProvider(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

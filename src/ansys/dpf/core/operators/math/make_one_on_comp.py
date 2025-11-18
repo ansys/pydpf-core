@@ -56,13 +56,14 @@ class make_one_on_comp(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsMakeOneOnComp
-    _outputs: OutputsMakeOneOnComp
-
     def __init__(self, fieldA=None, scalar_int=None, config=None, server=None):
-        super().__init__(name="make_one_on_comp", config=config, server=server)
-        self._inputs = InputsMakeOneOnComp(self)
-        self._outputs = OutputsMakeOneOnComp(self)
+        super().__init__(
+            name="make_one_on_comp",
+            config=config,
+            server=server,
+            inputs_type=InputsMakeOneOnComp,
+            outputs_type=OutputsMakeOneOnComp,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if scalar_int is not None:

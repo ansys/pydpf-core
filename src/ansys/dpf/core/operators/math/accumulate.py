@@ -66,9 +66,6 @@ class accumulate(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAccumulate
-    _outputs: OutputsAccumulate
-
     def __init__(
         self,
         fieldA=None,
@@ -78,9 +75,13 @@ class accumulate(Operator):
         server=None,
         ponderation=None,
     ):
-        super().__init__(name="accumulate", config=config, server=server)
-        self._inputs = InputsAccumulate(self)
-        self._outputs = OutputsAccumulate(self)
+        super().__init__(
+            name="accumulate",
+            config=config,
+            server=server,
+            inputs_type=InputsAccumulate,
+            outputs_type=OutputsAccumulate,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if weights is not None:

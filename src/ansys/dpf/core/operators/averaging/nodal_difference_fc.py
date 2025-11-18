@@ -70,15 +70,16 @@ class nodal_difference_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNodalDifferenceFc
-    _outputs: OutputsNodalDifferenceFc
-
     def __init__(
         self, fields_container=None, mesh=None, scoping=None, config=None, server=None
     ):
-        super().__init__(name="nodal_difference_fc", config=config, server=server)
-        self._inputs = InputsNodalDifferenceFc(self)
-        self._outputs = OutputsNodalDifferenceFc(self)
+        super().__init__(
+            name="nodal_difference_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsNodalDifferenceFc,
+            outputs_type=OutputsNodalDifferenceFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

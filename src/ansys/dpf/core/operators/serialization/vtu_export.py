@@ -98,9 +98,6 @@ class vtu_export(Operator):
     >>> result_path = op.outputs.path()
     """
 
-    _inputs: InputsVtuExport
-    _outputs: OutputsVtuExport
-
     def __init__(
         self,
         directory=None,
@@ -115,9 +112,13 @@ class vtu_export(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="vtu_export", config=config, server=server)
-        self._inputs = InputsVtuExport(self)
-        self._outputs = OutputsVtuExport(self)
+        super().__init__(
+            name="vtu_export",
+            config=config,
+            server=server,
+            inputs_type=InputsVtuExport,
+            outputs_type=OutputsVtuExport,
+        )
         if directory is not None:
             self.inputs.directory.connect(directory)
         if base_name is not None:

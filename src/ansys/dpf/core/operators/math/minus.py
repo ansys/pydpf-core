@@ -37,6 +37,7 @@ class minus(Operator):
     Outputs
     -------
     field: Field
+        Field containing the element-wise difference (fieldA - fieldB)
 
     Examples
     --------
@@ -61,13 +62,14 @@ class minus(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsMinus
-    _outputs: OutputsMinus
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="minus", config=config, server=server)
-        self._inputs = InputsMinus(self)
-        self._outputs = OutputsMinus(self)
+        super().__init__(
+            name="minus",
+            config=config,
+            server=server,
+            inputs_type=InputsMinus,
+            outputs_type=OutputsMinus,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:
@@ -111,7 +113,7 @@ field entirely. When using a constant or ‘work_by_index’, you can use
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field containing the element-wise difference (fieldA - fieldB)""",
                 ),
             },
         )
@@ -249,6 +251,8 @@ class OutputsMinus(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field containing the element-wise difference (fieldA - fieldB)
 
         Returns
         -------

@@ -64,9 +64,6 @@ class tri_mesh_skin(Operator):
     >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
     """
 
-    _inputs: InputsTriMeshSkin
-    _outputs: OutputsTriMeshSkin
-
     def __init__(
         self,
         mesh=None,
@@ -76,10 +73,12 @@ class tri_mesh_skin(Operator):
         server=None,
     ):
         super().__init__(
-            name="meshed_skin_sector_triangle", config=config, server=server
+            name="meshed_skin_sector_triangle",
+            config=config,
+            server=server,
+            inputs_type=InputsTriMeshSkin,
+            outputs_type=OutputsTriMeshSkin,
         )
-        self._inputs = InputsTriMeshSkin(self)
-        self._outputs = OutputsTriMeshSkin(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if include_surfaces is not None:

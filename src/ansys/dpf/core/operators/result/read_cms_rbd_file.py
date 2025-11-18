@@ -101,13 +101,14 @@ class read_cms_rbd_file(Operator):
     >>> result_dnzn = op.outputs.dnzn()
     """
 
-    _inputs: InputsReadCmsRbdFile
-    _outputs: OutputsReadCmsRbdFile
-
     def __init__(self, in_cms_rbd_file_path=None, config=None, server=None):
-        super().__init__(name="read_cms_rbd_file", config=config, server=server)
-        self._inputs = InputsReadCmsRbdFile(self)
-        self._outputs = OutputsReadCmsRbdFile(self)
+        super().__init__(
+            name="read_cms_rbd_file",
+            config=config,
+            server=server,
+            inputs_type=InputsReadCmsRbdFile,
+            outputs_type=OutputsReadCmsRbdFile,
+        )
         if in_cms_rbd_file_path is not None:
             self.inputs.in_cms_rbd_file_path.connect(in_cms_rbd_file_path)
 

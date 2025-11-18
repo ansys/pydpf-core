@@ -31,7 +31,7 @@ class on_property(Operator):
     requested_location: str
         Nodal or Elemental location are expected
     property_name: str
-        ex "mapdl_element_type", "mapdl_element_type_id", "apdl_type_index", "mapdl_type_id", "material", "apdl_section_id", "apdl_real_id", "apdl_esys_id", "shell_axi", "volume_axi"...
+        ex "mapdl_element_type", "mapdl_element_type_id", "apdl_type_index", "mapdl_type_id", "material", "apdl_section_id", "apdl_real_id", "apdl_esys_id", "apdl_tshape", "shell_axi", "volume_axi"...
     property_id: int
         property_id or vector of property ids
     streams_container: StreamsContainer, optional
@@ -79,9 +79,6 @@ class on_property(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
-    _inputs: InputsOnProperty
-    _outputs: OutputsOnProperty
-
     def __init__(
         self,
         requested_location=None,
@@ -93,9 +90,13 @@ class on_property(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="scoping_provider_by_prop", config=config, server=server)
-        self._inputs = InputsOnProperty(self)
-        self._outputs = OutputsOnProperty(self)
+        super().__init__(
+            name="scoping_provider_by_prop",
+            config=config,
+            server=server,
+            inputs_type=InputsOnProperty,
+            outputs_type=OutputsOnProperty,
+        )
         if requested_location is not None:
             self.inputs.requested_location.connect(requested_location)
         if property_name is not None:
@@ -127,7 +128,7 @@ and a property number.
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document=r"""ex "mapdl_element_type", "mapdl_element_type_id", "apdl_type_index", "mapdl_type_id", "material", "apdl_section_id", "apdl_real_id", "apdl_esys_id", "shell_axi", "volume_axi"...""",
+                    document=r"""ex "mapdl_element_type", "mapdl_element_type_id", "apdl_type_index", "mapdl_type_id", "material", "apdl_section_id", "apdl_real_id", "apdl_esys_id", "apdl_tshape", "shell_axi", "volume_axi"...""",
                 ),
                 2: PinSpecification(
                     name="property_id",
@@ -281,7 +282,7 @@ class InputsOnProperty(_Inputs):
     def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
-        ex "mapdl_element_type", "mapdl_element_type_id", "apdl_type_index", "mapdl_type_id", "material", "apdl_section_id", "apdl_real_id", "apdl_esys_id", "shell_axi", "volume_axi"...
+        ex "mapdl_element_type", "mapdl_element_type_id", "apdl_type_index", "mapdl_type_id", "material", "apdl_section_id", "apdl_real_id", "apdl_esys_id", "apdl_tshape", "shell_axi", "volume_axi"...
 
         Returns
         -------

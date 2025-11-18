@@ -247,9 +247,6 @@ class contact_penetration(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsContactPenetration
-    _outputs: OutputsContactPenetration
-
     def __init__(
         self,
         time_scoping=None,
@@ -271,9 +268,13 @@ class contact_penetration(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ECT_PENE", config=config, server=server)
-        self._inputs = InputsContactPenetration(self)
-        self._outputs = OutputsContactPenetration(self)
+        super().__init__(
+            name="ECT_PENE",
+            config=config,
+            server=server,
+            inputs_type=InputsContactPenetration,
+            outputs_type=OutputsContactPenetration,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

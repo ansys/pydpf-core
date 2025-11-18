@@ -227,9 +227,6 @@ class accu_eqv_plastic_strain(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsAccuEqvPlasticStrain
-    _outputs: OutputsAccuEqvPlasticStrain
-
     def __init__(
         self,
         time_scoping=None,
@@ -247,9 +244,13 @@ class accu_eqv_plastic_strain(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ENL_EPEQ", config=config, server=server)
-        self._inputs = InputsAccuEqvPlasticStrain(self)
-        self._outputs = OutputsAccuEqvPlasticStrain(self)
+        super().__init__(
+            name="ENL_EPEQ",
+            config=config,
+            server=server,
+            inputs_type=InputsAccuEqvPlasticStrain,
+            outputs_type=OutputsAccuEqvPlasticStrain,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

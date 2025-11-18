@@ -82,9 +82,6 @@ class make_for_each_range(Operator):
     >>> result_output = op.outputs.output()
     """
 
-    _inputs: InputsMakeForEachRange
-    _outputs: OutputsMakeForEachRange
-
     def __init__(
         self,
         try_generate_iterable=None,
@@ -98,9 +95,13 @@ class make_for_each_range(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="make_for_each_range", config=config, server=server)
-        self._inputs = InputsMakeForEachRange(self)
-        self._outputs = OutputsMakeForEachRange(self)
+        super().__init__(
+            name="make_for_each_range",
+            config=config,
+            server=server,
+            inputs_type=InputsMakeForEachRange,
+            outputs_type=OutputsMakeForEachRange,
+        )
         if try_generate_iterable is not None:
             self.inputs.try_generate_iterable.connect(try_generate_iterable)
         if iterable is not None:

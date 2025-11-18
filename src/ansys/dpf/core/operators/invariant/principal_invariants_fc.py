@@ -59,13 +59,14 @@ class principal_invariants_fc(Operator):
     >>> result_fields_eig_3 = op.outputs.fields_eig_3()
     """
 
-    _inputs: InputsPrincipalInvariantsFc
-    _outputs: OutputsPrincipalInvariantsFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="invariants_fc", config=config, server=server)
-        self._inputs = InputsPrincipalInvariantsFc(self)
-        self._outputs = OutputsPrincipalInvariantsFc(self)
+        super().__init__(
+            name="invariants_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsPrincipalInvariantsFc,
+            outputs_type=OutputsPrincipalInvariantsFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

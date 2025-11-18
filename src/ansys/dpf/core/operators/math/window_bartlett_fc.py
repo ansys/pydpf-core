@@ -53,13 +53,14 @@ class window_bartlett_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsWindowBartlettFc
-    _outputs: OutputsWindowBartlettFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="window::bartlett_fc", config=config, server=server)
-        self._inputs = InputsWindowBartlettFc(self)
-        self._outputs = OutputsWindowBartlettFc(self)
+        super().__init__(
+            name="window::bartlett_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsWindowBartlettFc,
+            outputs_type=OutputsWindowBartlettFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

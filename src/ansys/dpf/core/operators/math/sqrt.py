@@ -21,17 +21,19 @@ if TYPE_CHECKING:
 
 
 class sqrt(Operator):
-    r"""Computes element-wise sqrt(field1).
+    r"""Computes element-wise square root function on field data:
+    sqrt(field[i]).
 
 
     Inputs
     ------
     field: Field or FieldsContainer
-        field or fields container with only one field is expected
+        Field or fields container containing numeric data for square root calculation
 
     Outputs
     -------
     field: Field
+        Field with square root values applied element-wise to input data
 
     Examples
     --------
@@ -53,19 +55,21 @@ class sqrt(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsSqrt
-    _outputs: OutputsSqrt
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="sqrt", config=config, server=server)
-        self._inputs = InputsSqrt(self)
-        self._outputs = OutputsSqrt(self)
+        super().__init__(
+            name="sqrt",
+            config=config,
+            server=server,
+            inputs_type=InputsSqrt,
+            outputs_type=OutputsSqrt,
+        )
         if field is not None:
             self.inputs.field.connect(field)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes element-wise sqrt(field1).
+        description = r"""Computes element-wise square root function on field data:
+sqrt(field[i]).
 """
         spec = Specification(
             description=description,
@@ -74,7 +78,7 @@ class sqrt(Operator):
                     name="field",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""field or fields container with only one field is expected""",
+                    document=r"""Field or fields container containing numeric data for square root calculation""",
                 ),
             },
             map_output_pin_spec={
@@ -82,7 +86,7 @@ class sqrt(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with square root values applied element-wise to input data""",
                 ),
             },
         )
@@ -155,7 +159,7 @@ class InputsSqrt(_Inputs):
     def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
-        field or fields container with only one field is expected
+        Field or fields container containing numeric data for square root calculation
 
         Returns
         -------
@@ -193,6 +197,8 @@ class OutputsSqrt(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with square root values applied element-wise to input data
 
         Returns
         -------

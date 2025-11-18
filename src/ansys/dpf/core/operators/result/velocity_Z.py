@@ -95,9 +95,6 @@ class velocity_Z(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsVelocityZ
-    _outputs: OutputsVelocityZ
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,9 +108,13 @@ class velocity_Z(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="VZ", config=config, server=server)
-        self._inputs = InputsVelocityZ(self)
-        self._outputs = OutputsVelocityZ(self)
+        super().__init__(
+            name="VZ",
+            config=config,
+            server=server,
+            inputs_type=InputsVelocityZ,
+            outputs_type=OutputsVelocityZ,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

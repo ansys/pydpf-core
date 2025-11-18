@@ -66,9 +66,6 @@ class global_external_work(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGlobalExternalWork
-    _outputs: OutputsGlobalExternalWork
-
     def __init__(
         self,
         streams_container=None,
@@ -77,9 +74,13 @@ class global_external_work(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GLOB_EW", config=config, server=server)
-        self._inputs = InputsGlobalExternalWork(self)
-        self._outputs = OutputsGlobalExternalWork(self)
+        super().__init__(
+            name="GLOB_EW",
+            config=config,
+            server=server,
+            inputs_type=InputsGlobalExternalWork,
+            outputs_type=OutputsGlobalExternalWork,
+        )
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

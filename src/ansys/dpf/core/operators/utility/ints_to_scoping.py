@@ -20,21 +20,23 @@ if TYPE_CHECKING:
 
 
 class ints_to_scoping(Operator):
-    r"""take a int or a vector of int and transform it in a one entity field of
-    location “numeric”.
+    r"""Creates a scoping from integer data. Converts single integers, integer
+    vectors, or existing scopings into a properly formatted DPF scoping.
 
 
     Inputs
     ------
-    int_or_vector_int: int or Scoping
-        int or single value scoping or vector of int
+    ids: int or Scoping
+        Integer ID(s) for the scoping: single int, vector of ints, or existing scoping
     location: str, optional
+        Location string for the scoping (e.g., 'Nodal', 'Elemental'). Default is empty
     upper_bound: int or Scoping, optional
-        Define the upper bound to create a scoping that will contain a range from the single value input in pin 0 to the upper bound defined in this pin.
+        Upper bound for creating a range scoping. Creates IDs from pin 0 value to this upper bound (inclusive)
 
     Outputs
     -------
     scoping: Scoping
+        Generated scoping with the specified IDs and location
 
     Examples
     --------
@@ -44,8 +46,8 @@ class ints_to_scoping(Operator):
     >>> op = dpf.operators.utility.ints_to_scoping()
 
     >>> # Make input connections
-    >>> my_int_or_vector_int = int()
-    >>> op.inputs.int_or_vector_int.connect(my_int_or_vector_int)
+    >>> my_ids = int()
+    >>> op.inputs.ids.connect(my_ids)
     >>> my_location = str()
     >>> op.inputs.location.connect(my_location)
     >>> my_upper_bound = int()
@@ -53,7 +55,7 @@ class ints_to_scoping(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.ints_to_scoping(
-    ...     int_or_vector_int=my_int_or_vector_int,
+    ...     ids=my_ids,
     ...     location=my_location,
     ...     upper_bound=my_upper_bound,
     ... )
@@ -62,22 +64,31 @@ class ints_to_scoping(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
-    _inputs: InputsIntsToScoping
-    _outputs: OutputsIntsToScoping
-
     def __init__(
         self,
-        int_or_vector_int=None,
+        ids=None,
         location=None,
         upper_bound=None,
         config=None,
         server=None,
+        int_or_vector_int=None,
     ):
-        super().__init__(name="scopingify", config=config, server=server)
-        self._inputs = InputsIntsToScoping(self)
-        self._outputs = OutputsIntsToScoping(self)
-        if int_or_vector_int is not None:
-            self.inputs.int_or_vector_int.connect(int_or_vector_int)
+        super().__init__(
+            name="scopingify",
+            config=config,
+            server=server,
+            inputs_type=InputsIntsToScoping,
+            outputs_type=OutputsIntsToScoping,
+        )
+        if ids is not None:
+            self.inputs.ids.connect(ids)
+        elif int_or_vector_int is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator ints_to_scoping: Input name "int_or_vector_int" is deprecated in favor of "ids".'
+                )
+            )
+            self.inputs.ids.connect(int_or_vector_int)
         if location is not None:
             self.inputs.location.connect(location)
         if upper_bound is not None:
@@ -85,29 +96,30 @@ class ints_to_scoping(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""take a int or a vector of int and transform it in a one entity field of
-location “numeric”.
+        description = r"""Creates a scoping from integer data. Converts single integers, integer
+vectors, or existing scopings into a properly formatted DPF scoping.
 """
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="int_or_vector_int",
+                    name="ids",
                     type_names=["int32", "vector<int32>", "scoping"],
                     optional=False,
-                    document=r"""int or single value scoping or vector of int""",
+                    document=r"""Integer ID(s) for the scoping: single int, vector of ints, or existing scoping""",
+                    aliases=["int_or_vector_int"],
                 ),
                 1: PinSpecification(
                     name="location",
                     type_names=["string"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Location string for the scoping (e.g., 'Nodal', 'Elemental'). Default is empty""",
                 ),
                 2: PinSpecification(
                     name="upper_bound",
                     type_names=["int32", "scoping"],
                     optional=True,
-                    document=r"""Define the upper bound to create a scoping that will contain a range from the single value input in pin 0 to the upper bound defined in this pin.""",
+                    document=r"""Upper bound for creating a range scoping. Creates IDs from pin 0 value to this upper bound (inclusive)""",
                 ),
             },
             map_output_pin_spec={
@@ -115,7 +127,7 @@ location “numeric”.
                     name="scoping",
                     type_names=["scoping"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Generated scoping with the specified IDs and location""",
                 ),
             },
         )
@@ -173,8 +185,8 @@ class InputsIntsToScoping(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.ints_to_scoping()
-    >>> my_int_or_vector_int = int()
-    >>> op.inputs.int_or_vector_int.connect(my_int_or_vector_int)
+    >>> my_ids = int()
+    >>> op.inputs.ids.connect(my_ids)
     >>> my_location = str()
     >>> op.inputs.location.connect(my_location)
     >>> my_upper_bound = int()
@@ -183,10 +195,10 @@ class InputsIntsToScoping(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(ints_to_scoping._spec().inputs, op)
-        self._int_or_vector_int: Input[int | Scoping] = Input(
+        self._ids: Input[int | Scoping] = Input(
             ints_to_scoping._spec().input_pin(0), 0, op, -1
         )
-        self._inputs.append(self._int_or_vector_int)
+        self._inputs.append(self._ids)
         self._location: Input[str] = Input(
             ints_to_scoping._spec().input_pin(1), 1, op, -1
         )
@@ -197,10 +209,10 @@ class InputsIntsToScoping(_Inputs):
         self._inputs.append(self._upper_bound)
 
     @property
-    def int_or_vector_int(self) -> Input[int | Scoping]:
-        r"""Allows to connect int_or_vector_int input to the operator.
+    def ids(self) -> Input[int | Scoping]:
+        r"""Allows to connect ids input to the operator.
 
-        int or single value scoping or vector of int
+        Integer ID(s) for the scoping: single int, vector of ints, or existing scoping
 
         Returns
         -------
@@ -211,15 +223,17 @@ class InputsIntsToScoping(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.ints_to_scoping()
-        >>> op.inputs.int_or_vector_int.connect(my_int_or_vector_int)
+        >>> op.inputs.ids.connect(my_ids)
         >>> # or
-        >>> op.inputs.int_or_vector_int(my_int_or_vector_int)
+        >>> op.inputs.ids(my_ids)
         """
-        return self._int_or_vector_int
+        return self._ids
 
     @property
     def location(self) -> Input[str]:
         r"""Allows to connect location input to the operator.
+
+        Location string for the scoping (e.g., 'Nodal', 'Elemental'). Default is empty
 
         Returns
         -------
@@ -240,7 +254,7 @@ class InputsIntsToScoping(_Inputs):
     def upper_bound(self) -> Input[int | Scoping]:
         r"""Allows to connect upper_bound input to the operator.
 
-        Define the upper bound to create a scoping that will contain a range from the single value input in pin 0 to the upper bound defined in this pin.
+        Upper bound for creating a range scoping. Creates IDs from pin 0 value to this upper bound (inclusive)
 
         Returns
         -------
@@ -256,6 +270,18 @@ class InputsIntsToScoping(_Inputs):
         >>> op.inputs.upper_bound(my_upper_bound)
         """
         return self._upper_bound
+
+    def __getattr__(self, name):
+        if name in ["int_or_vector_int"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator ints_to_scoping: Input name "{name}" is deprecated in favor of "ids".'
+                )
+            )
+            return self.ids
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsIntsToScoping(_Outputs):
@@ -280,6 +306,8 @@ class OutputsIntsToScoping(_Outputs):
     @property
     def scoping(self) -> Output[Scoping]:
         r"""Allows to get scoping output of the operator
+
+        Generated scoping with the specified IDs and location
 
         Returns
         -------

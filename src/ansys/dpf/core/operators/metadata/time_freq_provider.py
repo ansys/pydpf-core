@@ -60,17 +60,16 @@ class time_freq_provider(Operator):
     >>> result_time_freq_support = op.outputs.time_freq_support()
     """
 
-    _inputs: InputsTimeFreqProvider
-    _outputs: OutputsTimeFreqProvider
-
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
         super().__init__(
-            name="time_freq_support_provider", config=config, server=server
+            name="time_freq_support_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsTimeFreqProvider,
+            outputs_type=OutputsTimeFreqProvider,
         )
-        self._inputs = InputsTimeFreqProvider(self)
-        self._outputs = OutputsTimeFreqProvider(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

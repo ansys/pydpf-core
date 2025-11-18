@@ -35,6 +35,7 @@ class norm(Operator):
     Outputs
     -------
     field: Field
+        Scalar field containing the Lp norm values for each element
 
     Examples
     --------
@@ -59,13 +60,14 @@ class norm(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsNorm
-    _outputs: OutputsNorm
-
     def __init__(self, field=None, scalar_int=None, config=None, server=None):
-        super().__init__(name="norm", config=config, server=server)
-        self._inputs = InputsNorm(self)
-        self._outputs = OutputsNorm(self)
+        super().__init__(
+            name="norm",
+            config=config,
+            server=server,
+            inputs_type=InputsNorm,
+            outputs_type=OutputsNorm,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if scalar_int is not None:
@@ -97,7 +99,7 @@ Lp=L2
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Scalar field containing the Lp norm values for each element""",
                 ),
             },
         )
@@ -233,6 +235,8 @@ class OutputsNorm(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Scalar field containing the Lp norm values for each element
 
         Returns
         -------

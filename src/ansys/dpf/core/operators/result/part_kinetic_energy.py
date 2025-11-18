@@ -72,9 +72,6 @@ class part_kinetic_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPartKineticEnergy
-    _outputs: OutputsPartKineticEnergy
-
     def __init__(
         self,
         streams_container=None,
@@ -84,9 +81,13 @@ class part_kinetic_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="M_KE", config=config, server=server)
-        self._inputs = InputsPartKineticEnergy(self)
-        self._outputs = OutputsPartKineticEnergy(self)
+        super().__init__(
+            name="M_KE",
+            config=config,
+            server=server,
+            inputs_type=InputsPartKineticEnergy,
+            outputs_type=OutputsPartKineticEnergy,
+        )
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

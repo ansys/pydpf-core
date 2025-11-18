@@ -94,9 +94,6 @@ class y_plus(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsYPlus
-    _outputs: OutputsYPlus
-
     def __init__(
         self,
         time_scoping=None,
@@ -110,9 +107,13 @@ class y_plus(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="YPLUS", config=config, server=server)
-        self._inputs = InputsYPlus(self)
-        self._outputs = OutputsYPlus(self)
+        super().__init__(
+            name="YPLUS",
+            config=config,
+            server=server,
+            inputs_type=InputsYPlus,
+            outputs_type=OutputsYPlus,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

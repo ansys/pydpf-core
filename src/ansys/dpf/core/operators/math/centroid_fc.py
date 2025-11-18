@@ -29,13 +29,18 @@ class centroid_fc(Operator):
     Inputs
     ------
     fields_container: FieldsContainer
+        FieldsContainer with fields for centroid calculation
     time_freq: float
+        Time or frequency value for field selection
     step: int, optional
+        Optional step specification
     time_freq_support: TimeFreqSupport, optional
+        Optional TimeFreqSupport for field resolution
 
     Outputs
     -------
     fields_container: FieldsContainer
+        FieldsContainer with centroid calculation results at specified time/frequency
 
     Examples
     --------
@@ -66,9 +71,6 @@ class centroid_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCentroidFc
-    _outputs: OutputsCentroidFc
-
     def __init__(
         self,
         fields_container=None,
@@ -78,9 +80,13 @@ class centroid_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="centroid_fc", config=config, server=server)
-        self._inputs = InputsCentroidFc(self)
-        self._outputs = OutputsCentroidFc(self)
+        super().__init__(
+            name="centroid_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsCentroidFc,
+            outputs_type=OutputsCentroidFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if time_freq is not None:
@@ -103,25 +109,25 @@ field1\ *(1.-fact)+field2*\ (fact).
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""FieldsContainer with fields for centroid calculation""",
                 ),
                 1: PinSpecification(
                     name="time_freq",
                     type_names=["double"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Time or frequency value for field selection""",
                 ),
                 2: PinSpecification(
                     name="step",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Optional step specification""",
                 ),
                 8: PinSpecification(
                     name="time_freq_support",
                     type_names=["time_freq_support"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Optional TimeFreqSupport for field resolution""",
                 ),
             },
             map_output_pin_spec={
@@ -129,7 +135,7 @@ field1\ *(1.-fact)+field2*\ (fact).
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""FieldsContainer with centroid calculation results at specified time/frequency""",
                 ),
             },
         )
@@ -218,6 +224,8 @@ class InputsCentroidFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        FieldsContainer with fields for centroid calculation
+
         Returns
         -------
         input:
@@ -236,6 +244,8 @@ class InputsCentroidFc(_Inputs):
     @property
     def time_freq(self) -> Input[float]:
         r"""Allows to connect time_freq input to the operator.
+
+        Time or frequency value for field selection
 
         Returns
         -------
@@ -256,6 +266,8 @@ class InputsCentroidFc(_Inputs):
     def step(self) -> Input[int]:
         r"""Allows to connect step input to the operator.
 
+        Optional step specification
+
         Returns
         -------
         input:
@@ -274,6 +286,8 @@ class InputsCentroidFc(_Inputs):
     @property
     def time_freq_support(self) -> Input[TimeFreqSupport]:
         r"""Allows to connect time_freq_support input to the operator.
+
+        Optional TimeFreqSupport for field resolution
 
         Returns
         -------
@@ -313,6 +327,8 @@ class OutputsCentroidFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        FieldsContainer with centroid calculation results at specified time/frequency
 
         Returns
         -------

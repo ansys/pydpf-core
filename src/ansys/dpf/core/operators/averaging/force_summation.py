@@ -100,9 +100,6 @@ class force_summation(Operator):
     >>> result_heats_on_nodes = op.outputs.heats_on_nodes()
     """
 
-    _inputs: InputsForceSummation
-    _outputs: OutputsForceSummation
-
     def __init__(
         self,
         time_scoping=None,
@@ -115,9 +112,13 @@ class force_summation(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="force_summation", config=config, server=server)
-        self._inputs = InputsForceSummation(self)
-        self._outputs = OutputsForceSummation(self)
+        super().__init__(
+            name="force_summation",
+            config=config,
+            server=server,
+            inputs_type=InputsForceSummation,
+            outputs_type=OutputsForceSummation,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if nodal_scoping is not None:

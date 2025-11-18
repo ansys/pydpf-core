@@ -61,9 +61,6 @@ class enrich_materials(Operator):
     >>> result_MaterialContainer = op.outputs.MaterialContainer()
     """
 
-    _inputs: InputsEnrichMaterials
-    _outputs: OutputsEnrichMaterials
-
     def __init__(
         self,
         MaterialContainer=None,
@@ -72,9 +69,13 @@ class enrich_materials(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="enrich_materials", config=config, server=server)
-        self._inputs = InputsEnrichMaterials(self)
-        self._outputs = OutputsEnrichMaterials(self)
+        super().__init__(
+            name="enrich_materials",
+            config=config,
+            server=server,
+            inputs_type=InputsEnrichMaterials,
+            outputs_type=OutputsEnrichMaterials,
+        )
         if MaterialContainer is not None:
             self.inputs.MaterialContainer.connect(MaterialContainer)
         if streams is not None:

@@ -72,9 +72,6 @@ class part_internal_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPartInternalEnergy
-    _outputs: OutputsPartInternalEnergy
-
     def __init__(
         self,
         streams_container=None,
@@ -84,9 +81,13 @@ class part_internal_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="M_IE", config=config, server=server)
-        self._inputs = InputsPartInternalEnergy(self)
-        self._outputs = OutputsPartInternalEnergy(self)
+        super().__init__(
+            name="M_IE",
+            config=config,
+            server=server,
+            inputs_type=InputsPartInternalEnergy,
+            outputs_type=OutputsPartInternalEnergy,
+        )
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

@@ -66,9 +66,6 @@ class global_center_mass(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGlobalCenterMass
-    _outputs: OutputsGlobalCenterMass
-
     def __init__(
         self,
         streams_container=None,
@@ -77,9 +74,13 @@ class global_center_mass(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GLOB_XCM", config=config, server=server)
-        self._inputs = InputsGlobalCenterMass(self)
-        self._outputs = OutputsGlobalCenterMass(self)
+        super().__init__(
+            name="GLOB_XCM",
+            config=config,
+            server=server,
+            inputs_type=InputsGlobalCenterMass,
+            outputs_type=OutputsGlobalCenterMass,
+        )
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

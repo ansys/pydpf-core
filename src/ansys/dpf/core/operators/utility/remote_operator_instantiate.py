@@ -75,9 +75,6 @@ class remote_operator_instantiate(Operator):
     >>> result_remote_workflow = op.outputs.remote_workflow()
     """
 
-    _inputs: InputsRemoteOperatorInstantiate
-    _outputs: OutputsRemoteOperatorInstantiate
-
     def __init__(
         self,
         operator_to_send=None,
@@ -89,10 +86,12 @@ class remote_operator_instantiate(Operator):
         server=None,
     ):
         super().__init__(
-            name="remote_operator_instantiate", config=config, server=server
+            name="remote_operator_instantiate",
+            config=config,
+            server=server,
+            inputs_type=InputsRemoteOperatorInstantiate,
+            outputs_type=OutputsRemoteOperatorInstantiate,
         )
-        self._inputs = InputsRemoteOperatorInstantiate(self)
-        self._outputs = OutputsRemoteOperatorInstantiate(self)
         if operator_to_send is not None:
             self.inputs.operator_to_send.connect(operator_to_send)
         if output_pin is not None:

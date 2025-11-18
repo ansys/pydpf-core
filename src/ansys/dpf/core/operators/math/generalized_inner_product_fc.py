@@ -35,6 +35,7 @@ class generalized_inner_product_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
+        Field containing the generalized inner product result
 
     Examples
     --------
@@ -59,9 +60,6 @@ class generalized_inner_product_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGeneralizedInnerProductFc
-    _outputs: OutputsGeneralizedInnerProductFc
-
     def __init__(
         self,
         field_or_fields_container_A=None,
@@ -70,10 +68,12 @@ class generalized_inner_product_fc(Operator):
         server=None,
     ):
         super().__init__(
-            name="generalized_inner_product_fc", config=config, server=server
+            name="generalized_inner_product_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsGeneralizedInnerProductFc,
+            outputs_type=OutputsGeneralizedInnerProductFc,
         )
-        self._inputs = InputsGeneralizedInnerProductFc(self)
-        self._outputs = OutputsGeneralizedInnerProductFc(self)
         if field_or_fields_container_A is not None:
             self.inputs.field_or_fields_container_A.connect(field_or_fields_container_A)
         if field_or_fields_container_B is not None:
@@ -115,7 +115,7 @@ possibly different dimensionality.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field containing the generalized inner product result""",
                 ),
             },
         )
@@ -257,6 +257,8 @@ class OutputsGeneralizedInnerProductFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Field containing the generalized inner product result
 
         Returns
         -------

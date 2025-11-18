@@ -63,9 +63,6 @@ class plastic_strain_rotation_by_euler_nodes(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPlasticStrainRotationByEulerNodes
-    _outputs: OutputsPlasticStrainRotationByEulerNodes
-
     def __init__(
         self,
         fields_container=None,
@@ -78,9 +75,9 @@ class plastic_strain_rotation_by_euler_nodes(Operator):
             name="mapdl::rst::EPPL_rotation_by_euler_nodes",
             config=config,
             server=server,
+            inputs_type=InputsPlasticStrainRotationByEulerNodes,
+            outputs_type=OutputsPlasticStrainRotationByEulerNodes,
         )
-        self._inputs = InputsPlasticStrainRotationByEulerNodes(self)
-        self._outputs = OutputsPlasticStrainRotationByEulerNodes(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if streams_container is not None:

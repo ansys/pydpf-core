@@ -73,9 +73,6 @@ class identical_mc(Operator):
     >>> result_message = op.outputs.message()
     """
 
-    _inputs: InputsIdenticalMc
-    _outputs: OutputsIdenticalMc
-
     def __init__(
         self,
         meshes_containerA=None,
@@ -86,9 +83,13 @@ class identical_mc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="compare::meshes_container", config=config, server=server)
-        self._inputs = InputsIdenticalMc(self)
-        self._outputs = OutputsIdenticalMc(self)
+        super().__init__(
+            name="compare::meshes_container",
+            config=config,
+            server=server,
+            inputs_type=InputsIdenticalMc,
+            outputs_type=OutputsIdenticalMc,
+        )
         if meshes_containerA is not None:
             self.inputs.meshes_containerA.connect(meshes_containerA)
         if meshes_containerB is not None:

@@ -63,9 +63,6 @@ class decimate_mesh(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
-    _inputs: InputsDecimateMesh
-    _outputs: OutputsDecimateMesh
-
     def __init__(
         self,
         mesh=None,
@@ -74,9 +71,13 @@ class decimate_mesh(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="decimate_mesh", config=config, server=server)
-        self._inputs = InputsDecimateMesh(self)
-        self._outputs = OutputsDecimateMesh(self)
+        super().__init__(
+            name="decimate_mesh",
+            config=config,
+            server=server,
+            inputs_type=InputsDecimateMesh,
+            outputs_type=OutputsDecimateMesh,
+        )
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if preservation_ratio is not None:

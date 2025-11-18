@@ -52,13 +52,14 @@ class eigen_values_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsEigenValuesFc
-    _outputs: OutputsEigenValuesFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="eig_values_fc", config=config, server=server)
-        self._inputs = InputsEigenValuesFc(self)
-        self._outputs = OutputsEigenValuesFc(self)
+        super().__init__(
+            name="eig_values_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsEigenValuesFc,
+            outputs_type=OutputsEigenValuesFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

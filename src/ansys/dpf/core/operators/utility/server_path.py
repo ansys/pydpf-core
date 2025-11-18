@@ -49,13 +49,14 @@ class server_path(Operator):
     >>> result_path = op.outputs.path()
     """
 
-    _inputs: InputsServerPath
-    _outputs: OutputsServerPath
-
     def __init__(self, subpath=None, config=None, server=None):
-        super().__init__(name="server_path", config=config, server=server)
-        self._inputs = InputsServerPath(self)
-        self._outputs = OutputsServerPath(self)
+        super().__init__(
+            name="server_path",
+            config=config,
+            server=server,
+            inputs_type=InputsServerPath,
+            outputs_type=OutputsServerPath,
+        )
         if subpath is not None:
             self.inputs.subpath.connect(subpath)
 
