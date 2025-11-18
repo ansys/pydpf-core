@@ -251,7 +251,7 @@ You can iterate through collections using different methods.
     for i in range(min(3, len(displacement_fc))):  # Show first 3 fields
         field = displacement_fc[i]
         label_space = displacement_fc.get_label_space(i)
-        max_value = max(field.data)
+        max_value = field.data.max()
         print(f"  Field {i}: {label_space}, max value: {max_value:.6f}")
     
     print("\nIterating through ScopingsContainer:")
