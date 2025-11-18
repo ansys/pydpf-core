@@ -107,9 +107,6 @@ class electric_flux_density_Y(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElectricFluxDensityY
-    _outputs: OutputsElectricFluxDensityY
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,9 +122,13 @@ class electric_flux_density_Y(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EFDY", config=config, server=server)
-        self._inputs = InputsElectricFluxDensityY(self)
-        self._outputs = OutputsElectricFluxDensityY(self)
+        super().__init__(
+            name="EFDY",
+            config=config,
+            server=server,
+            inputs_type=InputsElectricFluxDensityY,
+            outputs_type=OutputsElectricFluxDensityY,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

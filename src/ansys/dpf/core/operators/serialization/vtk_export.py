@@ -71,9 +71,6 @@ class vtk_export(Operator):
 
     """
 
-    _inputs: InputsVtkExport
-    _outputs: OutputsVtkExport
-
     def __init__(
         self,
         export_type=None,
@@ -84,9 +81,13 @@ class vtk_export(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="vtk_export", config=config, server=server)
-        self._inputs = InputsVtkExport(self)
-        self._outputs = OutputsVtkExport(self)
+        super().__init__(
+            name="vtk_export",
+            config=config,
+            server=server,
+            inputs_type=InputsVtkExport,
+            outputs_type=OutputsVtkExport,
+        )
         if export_type is not None:
             self.inputs.export_type.connect(export_type)
         if file_path is not None:

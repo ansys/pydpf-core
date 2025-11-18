@@ -66,13 +66,14 @@ class split_data_sources(Operator):
     >>> result_outputs2 = op.outputs.outputs2()
     """
 
-    _inputs: InputsSplitDataSources
-    _outputs: OutputsSplitDataSources
-
     def __init__(self, data_sources=None, output_count=None, config=None, server=None):
-        super().__init__(name="splitter::data_sources", config=config, server=server)
-        self._inputs = InputsSplitDataSources(self)
-        self._outputs = OutputsSplitDataSources(self)
+        super().__init__(
+            name="splitter::data_sources",
+            config=config,
+            server=server,
+            inputs_type=InputsSplitDataSources,
+            outputs_type=OutputsSplitDataSources,
+        )
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
         if output_count is not None:

@@ -65,9 +65,6 @@ class producer_consumer_for_each(Operator):
     >>> result_output2 = op.outputs.output2()
     """
 
-    _inputs: InputsProducerConsumerForEach
-    _outputs: OutputsProducerConsumerForEach
-
     def __init__(
         self,
         producer_consumer_iterableq=None,
@@ -77,10 +74,12 @@ class producer_consumer_for_each(Operator):
         server=None,
     ):
         super().__init__(
-            name="producer_consumer_for_each", config=config, server=server
+            name="producer_consumer_for_each",
+            config=config,
+            server=server,
+            inputs_type=InputsProducerConsumerForEach,
+            outputs_type=OutputsProducerConsumerForEach,
         )
-        self._inputs = InputsProducerConsumerForEach(self)
-        self._outputs = OutputsProducerConsumerForEach(self)
         if producer_consumer_iterableq is not None:
             self.inputs.producer_consumer_iterableq.connect(producer_consumer_iterableq)
         if forward1 is not None:

@@ -95,9 +95,6 @@ class stress_eqv_as_mechanical_workflow(Operator):
     >>> result_workflow = op.outputs.workflow()
     """
 
-    _inputs: InputsStressEqvAsMechanicalWorkflow
-    _outputs: OutputsStressEqvAsMechanicalWorkflow
-
     def __init__(
         self,
         time_scoping=None,
@@ -112,10 +109,12 @@ class stress_eqv_as_mechanical_workflow(Operator):
         server=None,
     ):
         super().__init__(
-            name="stress_eqv_as_mechanical_workflow", config=config, server=server
+            name="stress_eqv_as_mechanical_workflow",
+            config=config,
+            server=server,
+            inputs_type=InputsStressEqvAsMechanicalWorkflow,
+            outputs_type=OutputsStressEqvAsMechanicalWorkflow,
         )
-        self._inputs = InputsStressEqvAsMechanicalWorkflow(self)
-        self._outputs = OutputsStressEqvAsMechanicalWorkflow(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

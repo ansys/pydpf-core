@@ -74,9 +74,6 @@ class poynting_vector(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPoyntingVector
-    _outputs: OutputsPoyntingVector
-
     def __init__(
         self,
         fields_containerA=None,
@@ -88,9 +85,13 @@ class poynting_vector(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="PoyntingVector", config=config, server=server)
-        self._inputs = InputsPoyntingVector(self)
-        self._outputs = OutputsPoyntingVector(self)
+        super().__init__(
+            name="PoyntingVector",
+            config=config,
+            server=server,
+            inputs_type=InputsPoyntingVector,
+            outputs_type=OutputsPoyntingVector,
+        )
         if fields_containerA is not None:
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB is not None:

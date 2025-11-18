@@ -66,9 +66,6 @@ class mesh_info_provider(Operator):
     >>> result_mesh_info = op.outputs.mesh_info()
     """
 
-    _inputs: InputsMeshInfoProvider
-    _outputs: OutputsMeshInfoProvider
-
     def __init__(
         self,
         time_scoping=None,
@@ -77,9 +74,13 @@ class mesh_info_provider(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mesh_info_provider", config=config, server=server)
-        self._inputs = InputsMeshInfoProvider(self)
-        self._outputs = OutputsMeshInfoProvider(self)
+        super().__init__(
+            name="mesh_info_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshInfoProvider,
+            outputs_type=OutputsMeshInfoProvider,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if streams_container is not None:

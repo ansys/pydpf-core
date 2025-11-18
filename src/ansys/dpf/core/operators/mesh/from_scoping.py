@@ -72,9 +72,6 @@ class from_scoping(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
-    _inputs: InputsFromScoping
-    _outputs: OutputsFromScoping
-
     def __init__(
         self,
         scoping=None,
@@ -84,9 +81,13 @@ class from_scoping(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mesh::by_scoping", config=config, server=server)
-        self._inputs = InputsFromScoping(self)
-        self._outputs = OutputsFromScoping(self)
+        super().__init__(
+            name="mesh::by_scoping",
+            config=config,
+            server=server,
+            inputs_type=InputsFromScoping,
+            outputs_type=OutputsFromScoping,
+        )
         if scoping is not None:
             self.inputs.scoping.connect(scoping)
         if inclusive is not None:

@@ -247,9 +247,6 @@ class contact_sliding_distance(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsContactSlidingDistance
-    _outputs: OutputsContactSlidingDistance
-
     def __init__(
         self,
         time_scoping=None,
@@ -271,9 +268,13 @@ class contact_sliding_distance(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ECT_SLIDE", config=config, server=server)
-        self._inputs = InputsContactSlidingDistance(self)
-        self._outputs = OutputsContactSlidingDistance(self)
+        super().__init__(
+            name="ECT_SLIDE",
+            config=config,
+            server=server,
+            inputs_type=InputsContactSlidingDistance,
+            outputs_type=OutputsContactSlidingDistance,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -69,15 +69,16 @@ class mesh_to_graphics(Operator):
     >>> result_connectivity = op.outputs.connectivity()
     """
 
-    _inputs: InputsMeshToGraphics
-    _outputs: OutputsMeshToGraphics
-
     def __init__(
         self, mesh_scoping=None, node_normals=None, mesh=None, config=None, server=None
     ):
-        super().__init__(name="mesh_to_graphics", config=config, server=server)
-        self._inputs = InputsMeshToGraphics(self)
-        self._outputs = OutputsMeshToGraphics(self)
+        super().__init__(
+            name="mesh_to_graphics",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshToGraphics,
+            outputs_type=OutputsMeshToGraphics,
+        )
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if node_normals is not None:

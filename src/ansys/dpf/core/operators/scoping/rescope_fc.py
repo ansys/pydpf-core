@@ -62,9 +62,6 @@ class rescope_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRescopeFc
-    _outputs: OutputsRescopeFc
-
     def __init__(
         self,
         fields_container=None,
@@ -73,9 +70,13 @@ class rescope_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="Rescope_fc", config=config, server=server)
-        self._inputs = InputsRescopeFc(self)
-        self._outputs = OutputsRescopeFc(self)
+        super().__init__(
+            name="Rescope_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsRescopeFc,
+            outputs_type=OutputsRescopeFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh_scoping is not None:

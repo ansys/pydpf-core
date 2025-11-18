@@ -71,9 +71,6 @@ class on_named_selection(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
-    _inputs: InputsOnNamedSelection
-    _outputs: OutputsOnNamedSelection
-
     def __init__(
         self,
         requested_location=None,
@@ -84,9 +81,13 @@ class on_named_selection(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="scoping_provider_by_ns", config=config, server=server)
-        self._inputs = InputsOnNamedSelection(self)
-        self._outputs = OutputsOnNamedSelection(self)
+        super().__init__(
+            name="scoping_provider_by_ns",
+            config=config,
+            server=server,
+            inputs_type=InputsOnNamedSelection,
+            outputs_type=OutputsOnNamedSelection,
+        )
         if requested_location is not None:
             self.inputs.requested_location.connect(requested_location)
         if named_selection_name is not None:

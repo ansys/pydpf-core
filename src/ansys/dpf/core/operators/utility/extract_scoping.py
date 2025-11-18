@@ -69,9 +69,6 @@ class extract_scoping(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
-    _inputs: InputsExtractScoping
-    _outputs: OutputsExtractScoping
-
     def __init__(
         self,
         field_or_fields_container=None,
@@ -79,9 +76,13 @@ class extract_scoping(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="extract_scoping", config=config, server=server)
-        self._inputs = InputsExtractScoping(self)
-        self._outputs = OutputsExtractScoping(self)
+        super().__init__(
+            name="extract_scoping",
+            config=config,
+            server=server,
+            inputs_type=InputsExtractScoping,
+            outputs_type=OutputsExtractScoping,
+        )
         if field_or_fields_container is not None:
             self.inputs.field_or_fields_container.connect(field_or_fields_container)
         if requested_location is not None:

@@ -62,15 +62,16 @@ class make_plane_levelset(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsMakePlaneLevelset
-    _outputs: OutputsMakePlaneLevelset
-
     def __init__(
         self, coordinates=None, normal=None, origin=None, config=None, server=None
     ):
-        super().__init__(name="levelset::make_plane", config=config, server=server)
-        self._inputs = InputsMakePlaneLevelset(self)
-        self._outputs = OutputsMakePlaneLevelset(self)
+        super().__init__(
+            name="levelset::make_plane",
+            config=config,
+            server=server,
+            inputs_type=InputsMakePlaneLevelset,
+            outputs_type=OutputsMakePlaneLevelset,
+        )
         if coordinates is not None:
             self.inputs.coordinates.connect(coordinates)
         if normal is not None:

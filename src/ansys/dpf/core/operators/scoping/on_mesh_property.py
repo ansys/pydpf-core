@@ -72,9 +72,6 @@ class on_mesh_property(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
-    _inputs: InputsOnMeshProperty
-    _outputs: OutputsOnMeshProperty
-
     def __init__(
         self,
         requested_location=None,
@@ -86,10 +83,12 @@ class on_mesh_property(Operator):
         server=None,
     ):
         super().__init__(
-            name="meshscoping_provider_by_prop", config=config, server=server
+            name="meshscoping_provider_by_prop",
+            config=config,
+            server=server,
+            inputs_type=InputsOnMeshProperty,
+            outputs_type=OutputsOnMeshProperty,
         )
-        self._inputs = InputsOnMeshProperty(self)
-        self._outputs = OutputsOnMeshProperty(self)
         if requested_location is not None:
             self.inputs.requested_location.connect(requested_location)
         if property_name is not None:

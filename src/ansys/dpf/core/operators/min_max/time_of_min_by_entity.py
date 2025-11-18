@@ -61,9 +61,6 @@ class time_of_min_by_entity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsTimeOfMinByEntity
-    _outputs: OutputsTimeOfMinByEntity
-
     def __init__(
         self,
         fields_container=None,
@@ -72,9 +69,13 @@ class time_of_min_by_entity(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="time_of_min_by_entity", config=config, server=server)
-        self._inputs = InputsTimeOfMinByEntity(self)
-        self._outputs = OutputsTimeOfMinByEntity(self)
+        super().__init__(
+            name="time_of_min_by_entity",
+            config=config,
+            server=server,
+            inputs_type=InputsTimeOfMinByEntity,
+            outputs_type=OutputsTimeOfMinByEntity,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if abs_value is not None:

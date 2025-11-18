@@ -60,13 +60,14 @@ class scale_by_field(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsScaleByField
-    _outputs: OutputsScaleByField
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="scale_by_field", config=config, server=server)
-        self._inputs = InputsScaleByField(self)
-        self._outputs = OutputsScaleByField(self)
+        super().__init__(
+            name="scale_by_field",
+            config=config,
+            server=server,
+            inputs_type=InputsScaleByField,
+            outputs_type=OutputsScaleByField,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

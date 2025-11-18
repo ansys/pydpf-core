@@ -94,9 +94,6 @@ class rms_temperature(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRmsTemperature
-    _outputs: OutputsRmsTemperature
-
     def __init__(
         self,
         time_scoping=None,
@@ -110,9 +107,13 @@ class rms_temperature(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="TEMP_RMS", config=config, server=server)
-        self._inputs = InputsRmsTemperature(self)
-        self._outputs = OutputsRmsTemperature(self)
+        super().__init__(
+            name="TEMP_RMS",
+            config=config,
+            server=server,
+            inputs_type=InputsRmsTemperature,
+            outputs_type=OutputsRmsTemperature,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

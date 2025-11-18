@@ -64,9 +64,6 @@ class timescoping_signed_high_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
-    _inputs: InputsTimescopingSignedHighPass
-    _outputs: OutputsTimescopingSignedHighPass
-
     def __init__(
         self,
         time_freq_support=None,
@@ -76,10 +73,12 @@ class timescoping_signed_high_pass(Operator):
         server=None,
     ):
         super().__init__(
-            name="core::timescoping::signed_high_pass", config=config, server=server
+            name="core::timescoping::signed_high_pass",
+            config=config,
+            server=server,
+            inputs_type=InputsTimescopingSignedHighPass,
+            outputs_type=OutputsTimescopingSignedHighPass,
         )
-        self._inputs = InputsTimescopingSignedHighPass(self)
-        self._outputs = OutputsTimescopingSignedHighPass(self)
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
         if threshold is not None:

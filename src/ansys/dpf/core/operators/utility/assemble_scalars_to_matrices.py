@@ -89,9 +89,6 @@ class assemble_scalars_to_matrices(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAssembleScalarsToMatrices
-    _outputs: OutputsAssembleScalarsToMatrices
-
     def __init__(
         self,
         xx=None,
@@ -108,10 +105,12 @@ class assemble_scalars_to_matrices(Operator):
         server=None,
     ):
         super().__init__(
-            name="assemble_scalars_to_matrices", config=config, server=server
+            name="assemble_scalars_to_matrices",
+            config=config,
+            server=server,
+            inputs_type=InputsAssembleScalarsToMatrices,
+            outputs_type=OutputsAssembleScalarsToMatrices,
         )
-        self._inputs = InputsAssembleScalarsToMatrices(self)
-        self._outputs = OutputsAssembleScalarsToMatrices(self)
         if xx is not None:
             self.inputs.xx.connect(xx)
         if yy is not None:

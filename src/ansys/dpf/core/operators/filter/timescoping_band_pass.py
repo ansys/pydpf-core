@@ -65,9 +65,6 @@ class timescoping_band_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
-    _inputs: InputsTimescopingBandPass
-    _outputs: OutputsTimescopingBandPass
-
     def __init__(
         self,
         time_freq_support=None,
@@ -77,10 +74,12 @@ class timescoping_band_pass(Operator):
         server=None,
     ):
         super().__init__(
-            name="core::timescoping::band_pass", config=config, server=server
+            name="core::timescoping::band_pass",
+            config=config,
+            server=server,
+            inputs_type=InputsTimescopingBandPass,
+            outputs_type=OutputsTimescopingBandPass,
         )
-        self._inputs = InputsTimescopingBandPass(self)
-        self._outputs = OutputsTimescopingBandPass(self)
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
         if min_threshold is not None:

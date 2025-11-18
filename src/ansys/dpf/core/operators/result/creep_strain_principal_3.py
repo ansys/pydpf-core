@@ -109,9 +109,6 @@ class creep_strain_principal_3(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCreepStrainPrincipal3
-    _outputs: OutputsCreepStrainPrincipal3
-
     def __init__(
         self,
         time_scoping=None,
@@ -127,9 +124,13 @@ class creep_strain_principal_3(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPCR3", config=config, server=server)
-        self._inputs = InputsCreepStrainPrincipal3(self)
-        self._outputs = OutputsCreepStrainPrincipal3(self)
+        super().__init__(
+            name="EPCR3",
+            config=config,
+            server=server,
+            inputs_type=InputsCreepStrainPrincipal3,
+            outputs_type=OutputsCreepStrainPrincipal3,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

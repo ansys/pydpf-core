@@ -58,13 +58,14 @@ class phase(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsPhase
-    _outputs: OutputsPhase
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="phase", config=config, server=server)
-        self._inputs = InputsPhase(self)
-        self._outputs = OutputsPhase(self)
+        super().__init__(
+            name="phase",
+            config=config,
+            server=server,
+            inputs_type=InputsPhase,
+            outputs_type=OutputsPhase,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

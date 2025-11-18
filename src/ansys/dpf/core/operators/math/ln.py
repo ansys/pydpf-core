@@ -54,13 +54,14 @@ class ln(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsLn
-    _outputs: OutputsLn
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="ln", config=config, server=server)
-        self._inputs = InputsLn(self)
-        self._outputs = OutputsLn(self)
+        super().__init__(
+            name="ln",
+            config=config,
+            server=server,
+            inputs_type=InputsLn,
+            outputs_type=OutputsLn,
+        )
         if field is not None:
             self.inputs.field.connect(field)
 

@@ -54,13 +54,14 @@ class cms_dst_table_provider(Operator):
     >>> result_dst_table = op.outputs.dst_table()
     """
 
-    _inputs: InputsCmsDstTableProvider
-    _outputs: OutputsCmsDstTableProvider
-
     def __init__(self, data_sources=None, config=None, server=None):
-        super().__init__(name="cms_dst_table_provider", config=config, server=server)
-        self._inputs = InputsCmsDstTableProvider(self)
-        self._outputs = OutputsCmsDstTableProvider(self)
+        super().__init__(
+            name="cms_dst_table_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsCmsDstTableProvider,
+            outputs_type=OutputsCmsDstTableProvider,
+        )
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
 

@@ -79,9 +79,6 @@ class beam_t_bending_moment(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsBeamTBendingMoment
-    _outputs: OutputsBeamTBendingMoment
-
     def __init__(
         self,
         time_scoping=None,
@@ -92,9 +89,13 @@ class beam_t_bending_moment(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="B_M2", config=config, server=server)
-        self._inputs = InputsBeamTBendingMoment(self)
-        self._outputs = OutputsBeamTBendingMoment(self)
+        super().__init__(
+            name="B_M2",
+            config=config,
+            server=server,
+            inputs_type=InputsBeamTBendingMoment,
+            outputs_type=OutputsBeamTBendingMoment,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

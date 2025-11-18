@@ -58,13 +58,14 @@ class csv_to_field(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCsvToField
-    _outputs: OutputsCsvToField
-
     def __init__(self, time_scoping=None, data_sources=None, config=None, server=None):
-        super().__init__(name="csv_to_field", config=config, server=server)
-        self._inputs = InputsCsvToField(self)
-        self._outputs = OutputsCsvToField(self)
+        super().__init__(
+            name="csv_to_field",
+            config=config,
+            server=server,
+            inputs_type=InputsCsvToField,
+            outputs_type=OutputsCsvToField,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if data_sources is not None:

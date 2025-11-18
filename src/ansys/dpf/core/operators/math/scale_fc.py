@@ -72,9 +72,6 @@ class scale_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsScaleFc
-    _outputs: OutputsScaleFc
-
     def __init__(
         self,
         fields_container=None,
@@ -85,9 +82,13 @@ class scale_fc(Operator):
         server=None,
         ponderation=None,
     ):
-        super().__init__(name="scale_fc", config=config, server=server)
-        self._inputs = InputsScaleFc(self)
-        self._outputs = OutputsScaleFc(self)
+        super().__init__(
+            name="scale_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsScaleFc,
+            outputs_type=OutputsScaleFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if weights is not None:

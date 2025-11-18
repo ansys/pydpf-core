@@ -121,9 +121,6 @@ class rom_data_provider(Operator):
     >>> result_phi_ortho = op.outputs.phi_ortho()
     """
 
-    _inputs: InputsRomDataProvider
-    _outputs: OutputsRomDataProvider
-
     def __init__(
         self,
         rom_type=None,
@@ -137,9 +134,13 @@ class rom_data_provider(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="rom_data_provider", config=config, server=server)
-        self._inputs = InputsRomDataProvider(self)
-        self._outputs = OutputsRomDataProvider(self)
+        super().__init__(
+            name="rom_data_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsRomDataProvider,
+            outputs_type=OutputsRomDataProvider,
+        )
         if rom_type is not None:
             self.inputs.rom_type.connect(rom_type)
         if reduced_stiff_matrix is not None:
