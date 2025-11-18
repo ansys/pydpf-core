@@ -59,15 +59,16 @@ class norm_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNormFc
-    _outputs: OutputsNormFc
-
     def __init__(
         self, fields_container=None, scalar_int=None, config=None, server=None
     ):
-        super().__init__(name="norm_fc", config=config, server=server)
-        self._inputs = InputsNormFc(self)
-        self._outputs = OutputsNormFc(self)
+        super().__init__(
+            name="norm_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsNormFc,
+            outputs_type=OutputsNormFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if scalar_int is not None:

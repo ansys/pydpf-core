@@ -59,17 +59,16 @@ class propertyfield_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
-    _inputs: InputsPropertyfieldGetAttribute
-    _outputs: OutputsPropertyfieldGetAttribute
-
     def __init__(
         self, property_field=None, property_name=None, config=None, server=None
     ):
         super().__init__(
-            name="propertyfield::get_attribute", config=config, server=server
+            name="propertyfield::get_attribute",
+            config=config,
+            server=server,
+            inputs_type=InputsPropertyfieldGetAttribute,
+            outputs_type=OutputsPropertyfieldGetAttribute,
         )
-        self._inputs = InputsPropertyfieldGetAttribute(self)
-        self._outputs = OutputsPropertyfieldGetAttribute(self)
         if property_field is not None:
             self.inputs.property_field.connect(property_field)
         if property_name is not None:

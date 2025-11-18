@@ -55,15 +55,16 @@ class cplx_dot(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCplxDot
-    _outputs: OutputsCplxDot
-
     def __init__(
         self, fields_containerA=None, fields_containerB=None, config=None, server=None
     ):
-        super().__init__(name="cplx_dot", config=config, server=server)
-        self._inputs = InputsCplxDot(self)
-        self._outputs = OutputsCplxDot(self)
+        super().__init__(
+            name="cplx_dot",
+            config=config,
+            server=server,
+            inputs_type=InputsCplxDot,
+            outputs_type=OutputsCplxDot,
+        )
         if fields_containerA is not None:
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB is not None:

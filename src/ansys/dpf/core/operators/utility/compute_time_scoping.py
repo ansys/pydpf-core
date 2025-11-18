@@ -72,9 +72,6 @@ class compute_time_scoping(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsComputeTimeScoping
-    _outputs: OutputsComputeTimeScoping
-
     def __init__(
         self,
         time_freq_values=None,
@@ -84,9 +81,13 @@ class compute_time_scoping(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="compute_time_scoping", config=config, server=server)
-        self._inputs = InputsComputeTimeScoping(self)
-        self._outputs = OutputsComputeTimeScoping(self)
+        super().__init__(
+            name="compute_time_scoping",
+            config=config,
+            server=server,
+            inputs_type=InputsComputeTimeScoping,
+            outputs_type=OutputsComputeTimeScoping,
+        )
         if time_freq_values is not None:
             self.inputs.time_freq_values.connect(time_freq_values)
         if step is not None:

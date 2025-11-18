@@ -52,13 +52,14 @@ class txt_to_data_tree(Operator):
     >>> result_data_tree = op.outputs.data_tree()
     """
 
-    _inputs: InputsTxtToDataTree
-    _outputs: OutputsTxtToDataTree
-
     def __init__(self, string_or_path=None, config=None, server=None):
-        super().__init__(name="txt_to_data_tree", config=config, server=server)
-        self._inputs = InputsTxtToDataTree(self)
-        self._outputs = OutputsTxtToDataTree(self)
+        super().__init__(
+            name="txt_to_data_tree",
+            config=config,
+            server=server,
+            inputs_type=InputsTxtToDataTree,
+            outputs_type=OutputsTxtToDataTree,
+        )
         if string_or_path is not None:
             self.inputs.string_or_path.connect(string_or_path)
 

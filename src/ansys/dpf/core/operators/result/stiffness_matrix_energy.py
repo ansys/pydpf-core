@@ -110,9 +110,6 @@ class stiffness_matrix_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsStiffnessMatrixEnergy
-    _outputs: OutputsStiffnessMatrixEnergy
-
     def __init__(
         self,
         time_scoping=None,
@@ -129,9 +126,13 @@ class stiffness_matrix_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ENG_SE", config=config, server=server)
-        self._inputs = InputsStiffnessMatrixEnergy(self)
-        self._outputs = OutputsStiffnessMatrixEnergy(self)
+        super().__init__(
+            name="ENG_SE",
+            config=config,
+            server=server,
+            inputs_type=InputsStiffnessMatrixEnergy,
+            outputs_type=OutputsStiffnessMatrixEnergy,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

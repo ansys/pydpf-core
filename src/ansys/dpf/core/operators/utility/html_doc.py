@@ -50,13 +50,14 @@ class html_doc(Operator):
 
     """
 
-    _inputs: InputsHtmlDoc
-    _outputs: OutputsHtmlDoc
-
     def __init__(self, output_path=None, exposure_level=None, config=None, server=None):
-        super().__init__(name="html_doc", config=config, server=server)
-        self._inputs = InputsHtmlDoc(self)
-        self._outputs = OutputsHtmlDoc(self)
+        super().__init__(
+            name="html_doc",
+            config=config,
+            server=server,
+            inputs_type=InputsHtmlDoc,
+            outputs_type=OutputsHtmlDoc,
+        )
         if output_path is not None:
             self.inputs.output_path.connect(output_path)
         if exposure_level is not None:

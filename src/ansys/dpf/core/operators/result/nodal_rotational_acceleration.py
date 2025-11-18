@@ -90,9 +90,6 @@ class nodal_rotational_acceleration(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNodalRotationalAcceleration
-    _outputs: OutputsNodalRotationalAcceleration
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,9 +102,13 @@ class nodal_rotational_acceleration(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="DMG", config=config, server=server)
-        self._inputs = InputsNodalRotationalAcceleration(self)
-        self._outputs = OutputsNodalRotationalAcceleration(self)
+        super().__init__(
+            name="DMG",
+            config=config,
+            server=server,
+            inputs_type=InputsNodalRotationalAcceleration,
+            outputs_type=OutputsNodalRotationalAcceleration,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -63,9 +63,6 @@ class coordinate_system(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsCoordinateSystem
-    _outputs: OutputsCoordinateSystem
-
     def __init__(
         self,
         cs_id=None,
@@ -81,8 +78,6 @@ class coordinate_system(Operator):
                 super().__init__(name="mapdl::rst::CS", config=config, server=server)
             else:
                 raise e
-        self._inputs = InputsCoordinateSystem(self)
-        self._outputs = OutputsCoordinateSystem(self)
         if cs_id is not None:
             self.inputs.cs_id.connect(cs_id)
         if streams_container is not None:

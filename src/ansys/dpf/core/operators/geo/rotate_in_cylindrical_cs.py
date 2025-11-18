@@ -67,15 +67,16 @@ class rotate_in_cylindrical_cs(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsRotateInCylindricalCs
-    _outputs: OutputsRotateInCylindricalCs
-
     def __init__(
         self, field=None, coordinate_system=None, mesh=None, config=None, server=None
     ):
-        super().__init__(name="transform_cylindricalCS", config=config, server=server)
-        self._inputs = InputsRotateInCylindricalCs(self)
-        self._outputs = OutputsRotateInCylindricalCs(self)
+        super().__init__(
+            name="transform_cylindricalCS",
+            config=config,
+            server=server,
+            inputs_type=InputsRotateInCylindricalCs,
+            outputs_type=OutputsRotateInCylindricalCs,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if coordinate_system is not None:

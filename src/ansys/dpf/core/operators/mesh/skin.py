@@ -80,9 +80,6 @@ class skin(Operator):
     >>> result_facet_indices = op.outputs.facet_indices()
     """
 
-    _inputs: InputsSkin
-    _outputs: OutputsSkin
-
     def __init__(
         self,
         mesh=None,
@@ -93,9 +90,13 @@ class skin(Operator):
         server=None,
         add_beam=None,
     ):
-        super().__init__(name="meshed_skin_sector", config=config, server=server)
-        self._inputs = InputsSkin(self)
-        self._outputs = OutputsSkin(self)
+        super().__init__(
+            name="meshed_skin_sector",
+            config=config,
+            server=server,
+            inputs_type=InputsSkin,
+            outputs_type=OutputsSkin,
+        )
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if mesh_scoping is not None:

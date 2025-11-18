@@ -62,9 +62,6 @@ class merge_property_fields(Operator):
     >>> result_property_field = op.outputs.property_field()
     """
 
-    _inputs: InputsMergePropertyFields
-    _outputs: OutputsMergePropertyFields
-
     def __init__(
         self,
         naive_merge=None,
@@ -73,9 +70,13 @@ class merge_property_fields(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="merge::property_field", config=config, server=server)
-        self._inputs = InputsMergePropertyFields(self)
-        self._outputs = OutputsMergePropertyFields(self)
+        super().__init__(
+            name="merge::property_field",
+            config=config,
+            server=server,
+            inputs_type=InputsMergePropertyFields,
+            outputs_type=OutputsMergePropertyFields,
+        )
         if naive_merge is not None:
             self.inputs.naive_merge.connect(naive_merge)
         if property_fields1 is not None:

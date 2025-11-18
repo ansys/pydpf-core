@@ -74,9 +74,6 @@ class cyclic_analytic_usum_max(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCyclicAnalyticUsumMax
-    _outputs: OutputsCyclicAnalyticUsumMax
-
     def __init__(
         self,
         time_scoping=None,
@@ -87,9 +84,13 @@ class cyclic_analytic_usum_max(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="cyclic_analytic_usum_max", config=config, server=server)
-        self._inputs = InputsCyclicAnalyticUsumMax(self)
-        self._outputs = OutputsCyclicAnalyticUsumMax(self)
+        super().__init__(
+            name="cyclic_analytic_usum_max",
+            config=config,
+            server=server,
+            inputs_type=InputsCyclicAnalyticUsumMax,
+            outputs_type=OutputsCyclicAnalyticUsumMax,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

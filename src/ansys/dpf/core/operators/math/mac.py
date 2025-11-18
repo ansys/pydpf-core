@@ -67,9 +67,6 @@ class mac(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsMac
-    _outputs: OutputsMac
-
     def __init__(
         self,
         fields_containerA=None,
@@ -79,9 +76,13 @@ class mac(Operator):
         server=None,
         ponderation=None,
     ):
-        super().__init__(name="mac", config=config, server=server)
-        self._inputs = InputsMac(self)
-        self._outputs = OutputsMac(self)
+        super().__init__(
+            name="mac",
+            config=config,
+            server=server,
+            inputs_type=InputsMac,
+            outputs_type=OutputsMac,
+        )
         if fields_containerA is not None:
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB is not None:

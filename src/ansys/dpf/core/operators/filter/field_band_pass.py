@@ -65,9 +65,6 @@ class field_band_pass(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsFieldBandPass
-    _outputs: OutputsFieldBandPass
-
     def __init__(
         self,
         field=None,
@@ -76,9 +73,13 @@ class field_band_pass(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="core::field::band_pass", config=config, server=server)
-        self._inputs = InputsFieldBandPass(self)
-        self._outputs = OutputsFieldBandPass(self)
+        super().__init__(
+            name="core::field::band_pass",
+            config=config,
+            server=server,
+            inputs_type=InputsFieldBandPass,
+            outputs_type=OutputsFieldBandPass,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if min_threshold is not None:

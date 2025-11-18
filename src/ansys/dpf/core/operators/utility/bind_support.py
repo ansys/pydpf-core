@@ -60,13 +60,14 @@ class bind_support(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsBindSupport
-    _outputs: OutputsBindSupport
-
     def __init__(self, field=None, support=None, config=None, server=None):
-        super().__init__(name="BindSupport", config=config, server=server)
-        self._inputs = InputsBindSupport(self)
-        self._outputs = OutputsBindSupport(self)
+        super().__init__(
+            name="BindSupport",
+            config=config,
+            server=server,
+            inputs_type=InputsBindSupport,
+            outputs_type=OutputsBindSupport,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if support is not None:

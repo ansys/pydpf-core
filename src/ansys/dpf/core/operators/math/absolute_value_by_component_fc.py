@@ -54,15 +54,14 @@ class absolute_value_by_component_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsAbsoluteValueByComponentFc
-    _outputs: OutputsAbsoluteValueByComponentFc
-
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(
-            name="absolute_value_by_component_fc", config=config, server=server
+            name="absolute_value_by_component_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAbsoluteValueByComponentFc,
+            outputs_type=OutputsAbsoluteValueByComponentFc,
         )
-        self._inputs = InputsAbsoluteValueByComponentFc(self)
-        self._outputs = OutputsAbsoluteValueByComponentFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

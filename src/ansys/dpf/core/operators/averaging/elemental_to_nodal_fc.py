@@ -89,9 +89,6 @@ class elemental_to_nodal_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElementalToNodalFc
-    _outputs: OutputsElementalToNodalFc
-
     def __init__(
         self,
         fields_container=None,
@@ -102,9 +99,13 @@ class elemental_to_nodal_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="elemental_to_nodal_fc", config=config, server=server)
-        self._inputs = InputsElementalToNodalFc(self)
-        self._outputs = OutputsElementalToNodalFc(self)
+        super().__init__(
+            name="elemental_to_nodal_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalToNodalFc,
+            outputs_type=OutputsElementalToNodalFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

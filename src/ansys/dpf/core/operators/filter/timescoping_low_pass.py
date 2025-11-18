@@ -64,9 +64,6 @@ class timescoping_low_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
-    _inputs: InputsTimescopingLowPass
-    _outputs: OutputsTimescopingLowPass
-
     def __init__(
         self,
         time_freq_support=None,
@@ -76,10 +73,12 @@ class timescoping_low_pass(Operator):
         server=None,
     ):
         super().__init__(
-            name="core::timescoping::low_pass", config=config, server=server
+            name="core::timescoping::low_pass",
+            config=config,
+            server=server,
+            inputs_type=InputsTimescopingLowPass,
+            outputs_type=OutputsTimescopingLowPass,
         )
-        self._inputs = InputsTimescopingLowPass(self)
-        self._outputs = OutputsTimescopingLowPass(self)
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
         if threshold is not None:

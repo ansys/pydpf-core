@@ -58,17 +58,14 @@ class rigid_transformation_provider(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRigidTransformationProvider
-    _outputs: OutputsRigidTransformationProvider
-
     def __init__(self, streams=None, data_sources=None, config=None, server=None):
         super().__init__(
             name="mapdl::dsub::rigid_transformation_provider",
             config=config,
             server=server,
+            inputs_type=InputsRigidTransformationProvider,
+            outputs_type=OutputsRigidTransformationProvider,
         )
-        self._inputs = InputsRigidTransformationProvider(self)
-        self._outputs = OutputsRigidTransformationProvider(self)
         if streams is not None:
             self.inputs.streams.connect(streams)
         if data_sources is not None:

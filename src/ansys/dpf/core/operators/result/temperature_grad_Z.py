@@ -107,9 +107,6 @@ class temperature_grad_Z(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsTemperatureGradZ
-    _outputs: OutputsTemperatureGradZ
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,9 +122,13 @@ class temperature_grad_Z(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="TGZ", config=config, server=server)
-        self._inputs = InputsTemperatureGradZ(self)
-        self._outputs = OutputsTemperatureGradZ(self)
+        super().__init__(
+            name="TGZ",
+            config=config,
+            server=server,
+            inputs_type=InputsTemperatureGradZ,
+            outputs_type=OutputsTemperatureGradZ,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

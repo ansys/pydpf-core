@@ -69,9 +69,6 @@ class from_scopings(Operator):
     >>> result_meshes = op.outputs.meshes()
     """
 
-    _inputs: InputsFromScopings
-    _outputs: OutputsFromScopings
-
     def __init__(
         self,
         scopings_container=None,
@@ -81,9 +78,13 @@ class from_scopings(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="meshes::by_scopings", config=config, server=server)
-        self._inputs = InputsFromScopings(self)
-        self._outputs = OutputsFromScopings(self)
+        super().__init__(
+            name="meshes::by_scopings",
+            config=config,
+            server=server,
+            inputs_type=InputsFromScopings,
+            outputs_type=OutputsFromScopings,
+        )
         if scopings_container is not None:
             self.inputs.scopings_container.connect(scopings_container)
         if inclusive is not None:

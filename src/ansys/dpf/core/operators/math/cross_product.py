@@ -59,13 +59,14 @@ class cross_product(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsCrossProduct
-    _outputs: OutputsCrossProduct
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="cross_product", config=config, server=server)
-        self._inputs = InputsCrossProduct(self)
-        self._outputs = OutputsCrossProduct(self)
+        super().__init__(
+            name="cross_product",
+            config=config,
+            server=server,
+            inputs_type=InputsCrossProduct,
+            outputs_type=OutputsCrossProduct,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

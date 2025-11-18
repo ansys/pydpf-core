@@ -68,9 +68,6 @@ class elemental_mean(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsElementalMean
-    _outputs: OutputsElementalMean
-
     def __init__(
         self,
         field=None,
@@ -80,9 +77,13 @@ class elemental_mean(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="entity_average", config=config, server=server)
-        self._inputs = InputsElementalMean(self)
-        self._outputs = OutputsElementalMean(self)
+        super().__init__(
+            name="entity_average",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalMean,
+            outputs_type=OutputsElementalMean,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if collapse_shell_layers is not None:

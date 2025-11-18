@@ -53,13 +53,14 @@ class window_triangular_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsWindowTriangularFc
-    _outputs: OutputsWindowTriangularFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="window::triangular_fc", config=config, server=server)
-        self._inputs = InputsWindowTriangularFc(self)
-        self._outputs = OutputsWindowTriangularFc(self)
+        super().__init__(
+            name="window::triangular_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsWindowTriangularFc,
+            outputs_type=OutputsWindowTriangularFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

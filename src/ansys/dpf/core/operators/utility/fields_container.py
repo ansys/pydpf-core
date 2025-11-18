@@ -51,15 +51,14 @@ class fields_container(Operator):
     >>> result_incremented_result = op.outputs.incremented_result()
     """
 
-    _inputs: InputsFieldsContainer
-    _outputs: OutputsFieldsContainer
-
     def __init__(self, input=None, config=None, server=None):
         super().__init__(
-            name="incremental::merge::fields_container", config=config, server=server
+            name="incremental::merge::fields_container",
+            config=config,
+            server=server,
+            inputs_type=InputsFieldsContainer,
+            outputs_type=OutputsFieldsContainer,
         )
-        self._inputs = InputsFieldsContainer(self)
-        self._outputs = OutputsFieldsContainer(self)
         if input is not None:
             self.inputs.input.connect(input)
 

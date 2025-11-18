@@ -107,9 +107,6 @@ class creep_strain_max_shear(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCreepStrainMaxShear
-    _outputs: OutputsCreepStrainMaxShear
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,9 +122,13 @@ class creep_strain_max_shear(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPCR_max_shear", config=config, server=server)
-        self._inputs = InputsCreepStrainMaxShear(self)
-        self._outputs = OutputsCreepStrainMaxShear(self)
+        super().__init__(
+            name="EPCR_max_shear",
+            config=config,
+            server=server,
+            inputs_type=InputsCreepStrainMaxShear,
+            outputs_type=OutputsCreepStrainMaxShear,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -152,9 +152,6 @@ class write_cms_rbd_file(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
-    _inputs: InputsWriteCmsRbdFile
-    _outputs: OutputsWriteCmsRbdFile
-
     def __init__(
         self,
         model_data=None,
@@ -184,9 +181,13 @@ class write_cms_rbd_file(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="write_cms_rbd_file", config=config, server=server)
-        self._inputs = InputsWriteCmsRbdFile(self)
-        self._outputs = OutputsWriteCmsRbdFile(self)
+        super().__init__(
+            name="write_cms_rbd_file",
+            config=config,
+            server=server,
+            inputs_type=InputsWriteCmsRbdFile,
+            outputs_type=OutputsWriteCmsRbdFile,
+        )
         if model_data is not None:
             self.inputs.model_data.connect(model_data)
         if center_of_mass is not None:
