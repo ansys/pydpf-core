@@ -64,15 +64,16 @@ class elements_volumes_over_time(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElementsVolumesOverTime
-    _outputs: OutputsElementsVolumesOverTime
-
     def __init__(
         self, scoping=None, displacement=None, mesh=None, config=None, server=None
     ):
-        super().__init__(name="volumes_provider", config=config, server=server)
-        self._inputs = InputsElementsVolumesOverTime(self)
-        self._outputs = OutputsElementsVolumesOverTime(self)
+        super().__init__(
+            name="volumes_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsElementsVolumesOverTime,
+            outputs_type=OutputsElementsVolumesOverTime,
+        )
         if scoping is not None:
             self.inputs.scoping.connect(scoping)
         if displacement is not None:

@@ -75,9 +75,6 @@ class elemental_fraction_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElementalFractionFc
-    _outputs: OutputsElementalFractionFc
-
     def __init__(
         self,
         fields_container=None,
@@ -88,9 +85,13 @@ class elemental_fraction_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="elemental_fraction_fc", config=config, server=server)
-        self._inputs = InputsElementalFractionFc(self)
-        self._outputs = OutputsElementalFractionFc(self)
+        super().__init__(
+            name="elemental_fraction_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalFractionFc,
+            outputs_type=OutputsElementalFractionFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

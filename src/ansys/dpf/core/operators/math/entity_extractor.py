@@ -55,13 +55,14 @@ class entity_extractor(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsEntityExtractor
-    _outputs: OutputsEntityExtractor
-
     def __init__(self, fieldA=None, scalar_int=None, config=None, server=None):
-        super().__init__(name="entity_extractor", config=config, server=server)
-        self._inputs = InputsEntityExtractor(self)
-        self._outputs = OutputsEntityExtractor(self)
+        super().__init__(
+            name="entity_extractor",
+            config=config,
+            server=server,
+            inputs_type=InputsEntityExtractor,
+            outputs_type=OutputsEntityExtractor,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if scalar_int is not None:

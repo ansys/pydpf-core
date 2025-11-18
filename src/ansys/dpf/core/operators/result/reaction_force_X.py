@@ -95,9 +95,6 @@ class reaction_force_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsReactionForceX
-    _outputs: OutputsReactionForceX
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,9 +108,13 @@ class reaction_force_X(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="RFX", config=config, server=server)
-        self._inputs = InputsReactionForceX(self)
-        self._outputs = OutputsReactionForceX(self)
+        super().__init__(
+            name="RFX",
+            config=config,
+            server=server,
+            inputs_type=InputsReactionForceX,
+            outputs_type=OutputsReactionForceX,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -107,9 +107,6 @@ class thermal_strain_Y(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsThermalStrainY
-    _outputs: OutputsThermalStrainY
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,9 +122,13 @@ class thermal_strain_Y(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ETHY", config=config, server=server)
-        self._inputs = InputsThermalStrainY(self)
-        self._outputs = OutputsThermalStrainY(self)
+        super().__init__(
+            name="ETHY",
+            config=config,
+            server=server,
+            inputs_type=InputsThermalStrainY,
+            outputs_type=OutputsThermalStrainY,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

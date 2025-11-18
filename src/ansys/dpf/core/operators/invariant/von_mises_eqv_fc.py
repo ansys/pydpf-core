@@ -57,15 +57,16 @@ class von_mises_eqv_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsVonMisesEqvFc
-    _outputs: OutputsVonMisesEqvFc
-
     def __init__(
         self, fields_container=None, poisson_ratio=None, config=None, server=None
     ):
-        super().__init__(name="eqv_fc", config=config, server=server)
-        self._inputs = InputsVonMisesEqvFc(self)
-        self._outputs = OutputsVonMisesEqvFc(self)
+        super().__init__(
+            name="eqv_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsVonMisesEqvFc,
+            outputs_type=OutputsVonMisesEqvFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if poisson_ratio is not None:

@@ -80,9 +80,6 @@ class merge_weighted_fields(Operator):
     >>> result_merged_field = op.outputs.merged_field()
     """
 
-    _inputs: InputsMergeWeightedFields
-    _outputs: OutputsMergeWeightedFields
-
     def __init__(
         self,
         sum_merge=None,
@@ -94,9 +91,13 @@ class merge_weighted_fields(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="merge::weighted_field", config=config, server=server)
-        self._inputs = InputsMergeWeightedFields(self)
-        self._outputs = OutputsMergeWeightedFields(self)
+        super().__init__(
+            name="merge::weighted_field",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeWeightedFields,
+            outputs_type=OutputsMergeWeightedFields,
+        )
         if sum_merge is not None:
             self.inputs.sum_merge.connect(sum_merge)
         if merged_support is not None:

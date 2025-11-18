@@ -84,9 +84,6 @@ class on_coordinates(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsOnCoordinates
-    _outputs: OutputsOnCoordinates
-
     def __init__(
         self,
         fields_container=None,
@@ -99,9 +96,13 @@ class on_coordinates(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mapping", config=config, server=server)
-        self._inputs = InputsOnCoordinates(self)
-        self._outputs = OutputsOnCoordinates(self)
+        super().__init__(
+            name="mapping",
+            config=config,
+            server=server,
+            inputs_type=InputsOnCoordinates,
+            outputs_type=OutputsOnCoordinates,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if coordinates is not None:

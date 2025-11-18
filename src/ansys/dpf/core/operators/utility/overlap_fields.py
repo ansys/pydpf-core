@@ -56,15 +56,16 @@ class overlap_fields(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsOverlapFields
-    _outputs: OutputsOverlapFields
-
     def __init__(
         self, base_field=None, overlapping_field=None, config=None, server=None
     ):
-        super().__init__(name="overlap_fields", config=config, server=server)
-        self._inputs = InputsOverlapFields(self)
-        self._outputs = OutputsOverlapFields(self)
+        super().__init__(
+            name="overlap_fields",
+            config=config,
+            server=server,
+            inputs_type=InputsOverlapFields,
+            outputs_type=OutputsOverlapFields,
+        )
         if base_field is not None:
             self.inputs.base_field.connect(base_field)
         if overlapping_field is not None:

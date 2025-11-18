@@ -58,13 +58,14 @@ class von_mises_eqv(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsVonMisesEqv
-    _outputs: OutputsVonMisesEqv
-
     def __init__(self, field=None, poisson_ratio=None, config=None, server=None):
-        super().__init__(name="eqv", config=config, server=server)
-        self._inputs = InputsVonMisesEqv(self)
-        self._outputs = OutputsVonMisesEqv(self)
+        super().__init__(
+            name="eqv",
+            config=config,
+            server=server,
+            inputs_type=InputsVonMisesEqv,
+            outputs_type=OutputsVonMisesEqv,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if poisson_ratio is not None:

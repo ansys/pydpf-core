@@ -64,13 +64,14 @@ class quantization(Operator):
     >>> result_output_field = op.outputs.output_field()
     """
 
-    _inputs: InputsQuantization
-    _outputs: OutputsQuantization
-
     def __init__(self, input_field=None, threshold=None, config=None, server=None):
-        super().__init__(name="quantization", config=config, server=server)
-        self._inputs = InputsQuantization(self)
-        self._outputs = OutputsQuantization(self)
+        super().__init__(
+            name="quantization",
+            config=config,
+            server=server,
+            inputs_type=InputsQuantization,
+            outputs_type=OutputsQuantization,
+        )
         if input_field is not None:
             self.inputs.input_field.connect(input_field)
         if threshold is not None:

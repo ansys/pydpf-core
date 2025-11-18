@@ -256,6 +256,14 @@ def test_connect_output_to_inputs(plate_msup):
     assert len(fields) == 1
 
 
+def test_generated_operator_inputs_outputs_type():
+    uc = op.min_max.min_max()
+    from ansys.dpf.core.operators.min_max.min_max import InputsMinMax, OutputsMinMax
+
+    assert isinstance(uc.inputs, InputsMinMax)
+    assert isinstance(uc.outputs, OutputsMinMax)
+
+
 def test_generated_operator_several_output_types(plate_msup):
     inpt = core.Field(nentities=3)
     inpt.data = [1, 2, 3, 4, 5, 6, 7, 8, 9]

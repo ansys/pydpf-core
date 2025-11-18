@@ -54,13 +54,14 @@ class forward_field(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsForwardField
-    _outputs: OutputsForwardField
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="forward_field", config=config, server=server)
-        self._inputs = InputsForwardField(self)
-        self._outputs = OutputsForwardField(self)
+        super().__init__(
+            name="forward_field",
+            config=config,
+            server=server,
+            inputs_type=InputsForwardField,
+            outputs_type=OutputsForwardField,
+        )
         if field is not None:
             self.inputs.field.connect(field)
 

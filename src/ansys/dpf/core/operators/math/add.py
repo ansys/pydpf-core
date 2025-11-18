@@ -63,13 +63,14 @@ class add(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAdd
-    _outputs: OutputsAdd
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="add", config=config, server=server)
-        self._inputs = InputsAdd(self)
-        self._outputs = OutputsAdd(self)
+        super().__init__(
+            name="add",
+            config=config,
+            server=server,
+            inputs_type=InputsAdd,
+            outputs_type=OutputsAdd,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

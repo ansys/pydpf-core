@@ -96,9 +96,6 @@ class compute_residual_and_error(Operator):
     >>> result_error_normalization_factor = op.outputs.error_normalization_factor()
     """
 
-    _inputs: InputsComputeResidualAndError
-    _outputs: OutputsComputeResidualAndError
-
     def __init__(
         self,
         field_or_fields_container1=None,
@@ -109,9 +106,13 @@ class compute_residual_and_error(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="error_norm_calc", config=config, server=server)
-        self._inputs = InputsComputeResidualAndError(self)
-        self._outputs = OutputsComputeResidualAndError(self)
+        super().__init__(
+            name="error_norm_calc",
+            config=config,
+            server=server,
+            inputs_type=InputsComputeResidualAndError,
+            outputs_type=OutputsComputeResidualAndError,
+        )
         if field_or_fields_container1 is not None:
             self.inputs.field_or_fields_container1.connect(field_or_fields_container1)
         if normalization_type is not None:

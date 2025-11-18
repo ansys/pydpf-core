@@ -81,9 +81,6 @@ class element_types_provider(Operator):
     >>> result_element_types_data = op.outputs.element_types_data()
     """
 
-    _inputs: InputsElementTypesProvider
-    _outputs: OutputsElementTypesProvider
-
     def __init__(
         self,
         solver_element_types_ids=None,
@@ -93,9 +90,13 @@ class element_types_provider(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="element_types_provider", config=config, server=server)
-        self._inputs = InputsElementTypesProvider(self)
-        self._outputs = OutputsElementTypesProvider(self)
+        super().__init__(
+            name="element_types_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsElementTypesProvider,
+            outputs_type=OutputsElementTypesProvider,
+        )
         if solver_element_types_ids is not None:
             self.inputs.solver_element_types_ids.connect(solver_element_types_ids)
         if streams is not None:

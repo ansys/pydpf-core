@@ -53,13 +53,14 @@ class window_hanning_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsWindowHanningFc
-    _outputs: OutputsWindowHanningFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="window::hanning_fc", config=config, server=server)
-        self._inputs = InputsWindowHanningFc(self)
-        self._outputs = OutputsWindowHanningFc(self)
+        super().__init__(
+            name="window::hanning_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsWindowHanningFc,
+            outputs_type=OutputsWindowHanningFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

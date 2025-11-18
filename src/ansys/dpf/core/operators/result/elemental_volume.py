@@ -110,9 +110,6 @@ class elemental_volume(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElementalVolume
-    _outputs: OutputsElementalVolume
-
     def __init__(
         self,
         time_scoping=None,
@@ -129,9 +126,13 @@ class elemental_volume(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ENG_VOL", config=config, server=server)
-        self._inputs = InputsElementalVolume(self)
-        self._outputs = OutputsElementalVolume(self)
+        super().__init__(
+            name="ENG_VOL",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalVolume,
+            outputs_type=OutputsElementalVolume,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

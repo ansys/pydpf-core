@@ -123,9 +123,6 @@ class nmisc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNmisc
-    _outputs: OutputsNmisc
-
     def __init__(
         self,
         time_scoping=None,
@@ -151,8 +148,6 @@ class nmisc(Operator):
                 super().__init__(name="mapdl::nmisc", config=config, server=server)
             else:
                 raise e
-        self._inputs = InputsNmisc(self)
-        self._outputs = OutputsNmisc(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

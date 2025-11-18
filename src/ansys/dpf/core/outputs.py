@@ -85,6 +85,8 @@ class Output(Generic[T]):
         output = self._operator.get_output(self._pin, type_output)
 
         type_output_derive_class = self._spec.name_derived_class
+        if isinstance(type_output_derive_class, list):
+            type_output_derive_class = type_output_derive_class[0]
         if type_output_derive_class == "":
             return output
 

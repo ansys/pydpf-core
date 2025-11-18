@@ -71,9 +71,6 @@ class split_in_for_each_range(Operator):
     >>> result_output = op.outputs.output()
     """
 
-    _inputs: InputsSplitInForEachRange
-    _outputs: OutputsSplitInForEachRange
-
     def __init__(
         self,
         iterable=None,
@@ -84,9 +81,13 @@ class split_in_for_each_range(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="chunk_in_for_each_range", config=config, server=server)
-        self._inputs = InputsSplitInForEachRange(self)
-        self._outputs = OutputsSplitInForEachRange(self)
+        super().__init__(
+            name="chunk_in_for_each_range",
+            config=config,
+            server=server,
+            inputs_type=InputsSplitInForEachRange,
+            outputs_type=OutputsSplitInForEachRange,
+        )
         if iterable is not None:
             self.inputs.iterable.connect(iterable)
         if operator_to_iterate is not None:

@@ -55,13 +55,14 @@ class acmo_mesh_provider(Operator):
     >>> result_meshes_container = op.outputs.meshes_container()
     """
 
-    _inputs: InputsAcmoMeshProvider
-    _outputs: OutputsAcmoMeshProvider
-
     def __init__(self, assembly_mesh=None, unit=None, config=None, server=None):
-        super().__init__(name="acmo_mesh_provider", config=config, server=server)
-        self._inputs = InputsAcmoMeshProvider(self)
-        self._outputs = OutputsAcmoMeshProvider(self)
+        super().__init__(
+            name="acmo_mesh_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsAcmoMeshProvider,
+            outputs_type=OutputsAcmoMeshProvider,
+        )
         if assembly_mesh is not None:
             self.inputs.assembly_mesh.connect(assembly_mesh)
         if unit is not None:

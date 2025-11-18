@@ -55,13 +55,14 @@ class window_triangular(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsWindowTriangular
-    _outputs: OutputsWindowTriangular
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="window::triangular", config=config, server=server)
-        self._inputs = InputsWindowTriangular(self)
-        self._outputs = OutputsWindowTriangular(self)
+        super().__init__(
+            name="window::triangular",
+            config=config,
+            server=server,
+            inputs_type=InputsWindowTriangular,
+            outputs_type=OutputsWindowTriangular,
+        )
         if field is not None:
             self.inputs.field.connect(field)
 

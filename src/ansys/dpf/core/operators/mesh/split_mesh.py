@@ -63,15 +63,16 @@ class split_mesh(Operator):
     >>> result_meshes = op.outputs.meshes()
     """
 
-    _inputs: InputsSplitMesh
-    _outputs: OutputsSplitMesh
-
     def __init__(
         self, mesh_scoping=None, mesh=None, property=None, config=None, server=None
     ):
-        super().__init__(name="split_mesh", config=config, server=server)
-        self._inputs = InputsSplitMesh(self)
-        self._outputs = OutputsSplitMesh(self)
+        super().__init__(
+            name="split_mesh",
+            config=config,
+            server=server,
+            inputs_type=InputsSplitMesh,
+            outputs_type=OutputsSplitMesh,
+        )
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if mesh is not None:

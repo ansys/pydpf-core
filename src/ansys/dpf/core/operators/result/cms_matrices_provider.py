@@ -60,13 +60,14 @@ class cms_matrices_provider(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCmsMatricesProvider
-    _outputs: OutputsCmsMatricesProvider
-
     def __init__(self, data_sources=None, matrix_form=None, config=None, server=None):
-        super().__init__(name="cms_matrices_provider", config=config, server=server)
-        self._inputs = InputsCmsMatricesProvider(self)
-        self._outputs = OutputsCmsMatricesProvider(self)
+        super().__init__(
+            name="cms_matrices_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsCmsMatricesProvider,
+            outputs_type=OutputsCmsMatricesProvider,
+        )
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
         if matrix_form is not None:

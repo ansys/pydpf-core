@@ -74,9 +74,6 @@ class modal_damping_ratio(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsModalDampingRatio
-    _outputs: OutputsModalDampingRatio
-
     def __init__(
         self,
         natural_freq=None,
@@ -87,9 +84,13 @@ class modal_damping_ratio(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="modal_damping_ratio", config=config, server=server)
-        self._inputs = InputsModalDampingRatio(self)
-        self._outputs = OutputsModalDampingRatio(self)
+        super().__init__(
+            name="modal_damping_ratio",
+            config=config,
+            server=server,
+            inputs_type=InputsModalDampingRatio,
+            outputs_type=OutputsModalDampingRatio,
+        )
         if natural_freq is not None:
             self.inputs.natural_freq.connect(natural_freq)
         if const_ratio is not None:

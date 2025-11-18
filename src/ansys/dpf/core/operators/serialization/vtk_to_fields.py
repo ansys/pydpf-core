@@ -63,15 +63,16 @@ class vtk_to_fields(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsVtkToFields
-    _outputs: OutputsVtkToFields
-
     def __init__(
         self, field_name=None, streams=None, data_sources=None, config=None, server=None
     ):
-        super().__init__(name="vtk::vtk::FieldProvider", config=config, server=server)
-        self._inputs = InputsVtkToFields(self)
-        self._outputs = OutputsVtkToFields(self)
+        super().__init__(
+            name="vtk::vtk::FieldProvider",
+            config=config,
+            server=server,
+            inputs_type=InputsVtkToFields,
+            outputs_type=OutputsVtkToFields,
+        )
         if field_name is not None:
             self.inputs.field_name.connect(field_name)
         if streams is not None:

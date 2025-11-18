@@ -52,13 +52,14 @@ class modulus(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsModulus
-    _outputs: OutputsModulus
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="modulus", config=config, server=server)
-        self._inputs = InputsModulus(self)
-        self._outputs = OutputsModulus(self)
+        super().__init__(
+            name="modulus",
+            config=config,
+            server=server,
+            inputs_type=InputsModulus,
+            outputs_type=OutputsModulus,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 
