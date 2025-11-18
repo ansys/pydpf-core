@@ -70,10 +70,7 @@ Let's extract displacement results for all time steps, which will automatically 
     displacement_fc = model.results.displacement.eval()
     
     # Display FieldsContainer information
-    print(f"Type: {type(displacement_fc)}")
-    print(f"Number of fields: {len(displacement_fc)}")
-    print(f"Labels: {displacement_fc.labels}")
-    print(f"Available time sets: {list(displacement_fc.get_label_space(0).keys())}")
+    print(displacement_fc)
 
 Access Individual Fields in the Container
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -124,10 +121,7 @@ You can create your own |FieldsContainer| and add fields with custom labels.
             custom_fc.add_field({"time": time_step, "zone": zone}, field)
     
     # Display the custom FieldsContainer
-    print(f"Custom FieldsContainer:")
-    print(f"  Number of fields: {len(custom_fc)}")
-    print(f"  Labels: {custom_fc.labels}")
-    print(f"  Label space: {custom_fc.get_label_space()}")
+    print(custom_fc)
 
 Working with ScopingsContainer
 ------------------------------
@@ -163,9 +157,7 @@ Let's create different node selections and organize them in a |ScopingsContainer
     scopings_container.add_scoping(label_space={"selection_type": 2}, scoping=last_nodes)
 
     # Display ScopingsContainer information
-    print(f"ScopingsContainer:")
-    print(f"  Number of scopings: {len(scopings_container)}")
-    print(f"  Labels: {scopings_container.labels}")
+    print(scopings_container)
     
     # Show details of each scoping
     for i, scoping in enumerate(scopings_container):
@@ -240,9 +232,7 @@ Let's create a |MeshesContainer| with mesh data for different analysis configura
     meshes_container.add_mesh({"variation": 1}, subset_mesh)
 
     # Display MeshesContainer information
-    print(f"MeshesContainer:")
-    print(f"  Number of meshes: {len(meshes_container)}")
-    print(f"  Labels: {meshes_container.labels}")
+    print(meshes_container)
 
 Collection Operations and Iteration
 ------------------------------------
@@ -305,20 +295,14 @@ Let's summarize the key concepts and best practices for working with DPF collect
     print(f"\n1. FieldsContainer:")
     print(f"   - Purpose: Store multiple Field objects with labels")
     print(f"   - Common use: Results over time steps, frequencies, or load cases")
-    print(f"   - Example size: {len(displacement_fc)} fields")
-    print(f"   - Labels: {displacement_fc.labels()}")
     
     print(f"\n2. ScopingsContainer:")
     print(f"   - Purpose: Store multiple Scoping objects (entity selections)")
     print(f"   - Common use: Different node/element selections for analysis")
-    print(f"   - Example size: {len(scopings_container)} scopings")
-    print(f"   - Labels: {scopings_container.labels}")
     
     print(f"\n3. MeshesContainer:")
     print(f"   - Purpose: Store multiple MeshedRegion objects")
     print(f"   - Common use: Different mesh configurations or time-dependent meshes")
-    print(f"   - Example size: {len(meshes_container)} meshes")
-    print(f"   - Labels: {meshes_container.labels}")
     
     print(f"\nKey Benefits:")
     print(f"   - Efficient organization of related data")
