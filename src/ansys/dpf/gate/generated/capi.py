@@ -907,6 +907,10 @@ def load_api(path):
 		dll.DataProcessing_getServerVersion_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_getServerVersion_on_client.restype = None
 
+	if hasattr(dll, "DataProcessing_getGrpcClientServerVersion"):
+		dll.DataProcessing_getGrpcClientServerVersion.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_getGrpcClientServerVersion.restype = None
+
 	if hasattr(dll, "DataProcessing_getServerIpAndPort"):
 		dll.DataProcessing_getServerIpAndPort.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_getServerIpAndPort.restype = ctypes.POINTER(ctypes.c_char)
