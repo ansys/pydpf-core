@@ -204,7 +204,7 @@ jobs:
         uses: ansys/pydpf-actions/test_docstrings@v2.3
         with:
           MODULE: ${{env.MODULE}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.standalone_suffix }}
           working-directory: src
 
       - name: "Set tox extra CLI arguments"
