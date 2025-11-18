@@ -1,4 +1,5 @@
 import os
+import warnings
 
 try:
     import importlib.metadata as importlib_metadata
@@ -22,7 +23,7 @@ try:
     if not os.path.exists(LOCAL_DOWNLOADED_EXAMPLES_PATH):  # pragma: no cover
         os.makedirs(LOCAL_DOWNLOADED_EXAMPLES_PATH)
 except Exception as e:  # pragma: no cover
-    raise e
+    warnings.warn(f"Could not set up example data directory: {e}")
 
 installed = [d.metadata["Name"] for d in importlib_metadata.distributions()]
 check_for = ["ansys-dpf-gatebin", "ansys-dpf-gate", "ansys-grpc-dpf"]
