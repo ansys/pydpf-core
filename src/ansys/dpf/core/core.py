@@ -313,7 +313,7 @@ def _deep_copy(dpf_entity, server=None):
     else:
         out = serializer.outputs.serialized_string1  # Required for retro with 241
     deserializer.inputs.stream_type.connect(stream_type)
-    deserializer.connect(0, out)
+    deserializer.inputs.serialized_string1.connect(out)
     type_map = types_enum_to_types()
     output_type = list(type_map.keys())[list(type_map.values()).index(dpf_entity.__class__)]
     return deserializer.get_output(pin=1, output_type=output_type)

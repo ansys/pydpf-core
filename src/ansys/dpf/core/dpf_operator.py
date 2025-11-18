@@ -870,6 +870,9 @@ class Operator:
             # Type match
             if input_type_name == python_name:
                 corresponding_pins.append(pin)
+            # Treat bytes as str
+            elif input_type_name == "bytes" and python_name == "str":
+                corresponding_pins.append(pin)
             # if the inpt has multiple potential outputs, find which ones can match
             elif isinstance(inpt, (_Outputs, Operator, Result)):
                 if isinstance(inpt, Operator):
