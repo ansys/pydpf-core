@@ -713,13 +713,13 @@ class InputsMarkdownLatexExample(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(markdown_latex_example._spec().inputs, op)
-        self._bogus_input = Input(
+        self._bogus_input: Input[str] = Input(
             markdown_latex_example._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._bogus_input)
 
     @property
-    def bogus_input(self) -> Input:
+    def bogus_input(self) -> Input[str]:
         r"""Allows to connect bogus_input input to the operator.
 
         This pin showcases the use of Markdown and LaTeX in pin descriptions:
@@ -840,7 +840,9 @@ class OutputsMarkdownLatexExample(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(markdown_latex_example._spec().outputs, op)
-        self._bogus_output = Output(markdown_latex_example._spec().output_pin(0), 0, op)
+        self._bogus_output: Output = Output(
+            markdown_latex_example._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._bogus_output)
 
     @property

@@ -156,9 +156,9 @@ class InputsMergeMaterials(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_materials._spec().inputs, op)
-        self._materials1 = Input(merge_materials._spec().input_pin(0), 0, op, 0)
+        self._materials1: Input = Input(merge_materials._spec().input_pin(0), 0, op, 0)
         self._inputs.append(self._materials1)
-        self._materials2 = Input(merge_materials._spec().input_pin(1), 1, op, 1)
+        self._materials2: Input = Input(merge_materials._spec().input_pin(1), 1, op, 1)
         self._inputs.append(self._materials2)
 
     @property
@@ -218,7 +218,9 @@ class OutputsMergeMaterials(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_materials._spec().outputs, op)
-        self._merged_materials = Output(merge_materials._spec().output_pin(0), 0, op)
+        self._merged_materials: Output = Output(
+            merge_materials._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._merged_materials)
 
     @property
