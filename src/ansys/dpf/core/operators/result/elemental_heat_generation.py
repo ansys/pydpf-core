@@ -90,9 +90,6 @@ class elemental_heat_generation(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElementalHeatGeneration
-    _outputs: OutputsElementalHeatGeneration
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,9 +102,13 @@ class elemental_heat_generation(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EHC", config=config, server=server)
-        self._inputs = InputsElementalHeatGeneration(self)
-        self._outputs = OutputsElementalHeatGeneration(self)
+        super().__init__(
+            name="EHC",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalHeatGeneration,
+            outputs_type=OutputsElementalHeatGeneration,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

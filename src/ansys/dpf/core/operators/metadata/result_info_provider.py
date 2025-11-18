@@ -60,15 +60,16 @@ class result_info_provider(Operator):
     >>> result_result_info = op.outputs.result_info()
     """
 
-    _inputs: InputsResultInfoProvider
-    _outputs: OutputsResultInfoProvider
-
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
-        super().__init__(name="result_info_provider", config=config, server=server)
-        self._inputs = InputsResultInfoProvider(self)
-        self._outputs = OutputsResultInfoProvider(self)
+        super().__init__(
+            name="result_info_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsResultInfoProvider,
+            outputs_type=OutputsResultInfoProvider,
+        )
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

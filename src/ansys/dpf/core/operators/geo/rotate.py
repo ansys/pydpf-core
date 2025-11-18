@@ -58,15 +58,16 @@ class rotate(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsRotate
-    _outputs: OutputsRotate
-
     def __init__(
         self, field=None, field_rotation_matrix=None, config=None, server=None
     ):
-        super().__init__(name="rotate", config=config, server=server)
-        self._inputs = InputsRotate(self)
-        self._outputs = OutputsRotate(self)
+        super().__init__(
+            name="rotate",
+            config=config,
+            server=server,
+            inputs_type=InputsRotate,
+            outputs_type=OutputsRotate,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if field_rotation_matrix is not None:

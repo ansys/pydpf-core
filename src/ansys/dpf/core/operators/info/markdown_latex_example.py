@@ -335,13 +335,14 @@ class markdown_latex_example(Operator):
     >>> result_bogus_output = op.outputs.bogus_output()
     """
 
-    _inputs: InputsMarkdownLatexExample
-    _outputs: OutputsMarkdownLatexExample
-
     def __init__(self, bogus_input=None, config=None, server=None):
-        super().__init__(name="markdown_latex_example", config=config, server=server)
-        self._inputs = InputsMarkdownLatexExample(self)
-        self._outputs = OutputsMarkdownLatexExample(self)
+        super().__init__(
+            name="markdown_latex_example",
+            config=config,
+            server=server,
+            inputs_type=InputsMarkdownLatexExample,
+            outputs_type=OutputsMarkdownLatexExample,
+        )
         if bogus_input is not None:
             self.inputs.bogus_input.connect(bogus_input)
 

@@ -102,9 +102,6 @@ class gasket_thermal_closure_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGasketThermalClosureX
-    _outputs: OutputsGasketThermalClosureX
-
     def __init__(
         self,
         time_scoping=None,
@@ -119,9 +116,13 @@ class gasket_thermal_closure_X(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GKTHX", config=config, server=server)
-        self._inputs = InputsGasketThermalClosureX(self)
-        self._outputs = OutputsGasketThermalClosureX(self)
+        super().__init__(
+            name="GKTHX",
+            config=config,
+            server=server,
+            inputs_type=InputsGasketThermalClosureX,
+            outputs_type=OutputsGasketThermalClosureX,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

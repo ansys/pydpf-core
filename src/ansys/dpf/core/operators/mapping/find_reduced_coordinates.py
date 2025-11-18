@@ -70,9 +70,6 @@ class find_reduced_coordinates(Operator):
     >>> result_element_ids = op.outputs.element_ids()
     """
 
-    _inputs: InputsFindReducedCoordinates
-    _outputs: OutputsFindReducedCoordinates
-
     def __init__(
         self,
         coordinates=None,
@@ -81,9 +78,13 @@ class find_reduced_coordinates(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="find_reduced_coordinates", config=config, server=server)
-        self._inputs = InputsFindReducedCoordinates(self)
-        self._outputs = OutputsFindReducedCoordinates(self)
+        super().__init__(
+            name="find_reduced_coordinates",
+            config=config,
+            server=server,
+            inputs_type=InputsFindReducedCoordinates,
+            outputs_type=OutputsFindReducedCoordinates,
+        )
         if coordinates is not None:
             self.inputs.coordinates.connect(coordinates)
         if mesh is not None:

@@ -58,13 +58,14 @@ class principal_invariants(Operator):
     >>> result_field_eig_3 = op.outputs.field_eig_3()
     """
 
-    _inputs: InputsPrincipalInvariants
-    _outputs: OutputsPrincipalInvariants
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="invariants", config=config, server=server)
-        self._inputs = InputsPrincipalInvariants(self)
-        self._outputs = OutputsPrincipalInvariants(self)
+        super().__init__(
+            name="invariants",
+            config=config,
+            server=server,
+            inputs_type=InputsPrincipalInvariants,
+            outputs_type=OutputsPrincipalInvariants,
+        )
         if field is not None:
             self.inputs.field.connect(field)
 

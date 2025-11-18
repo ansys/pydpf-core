@@ -72,9 +72,6 @@ class elemental_difference(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsElementalDifference
-    _outputs: OutputsElementalDifference
-
     def __init__(
         self,
         field=None,
@@ -84,9 +81,13 @@ class elemental_difference(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="elemental_difference", config=config, server=server)
-        self._inputs = InputsElementalDifference(self)
-        self._outputs = OutputsElementalDifference(self)
+        super().__init__(
+            name="elemental_difference",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalDifference,
+            outputs_type=OutputsElementalDifference,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if mesh_scoping is not None:

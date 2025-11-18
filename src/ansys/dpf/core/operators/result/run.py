@@ -83,9 +83,6 @@ class run(Operator):
     >>> result_port = op.outputs.port()
     """
 
-    _inputs: InputsRun
-    _outputs: OutputsRun
-
     def __init__(
         self,
         mapdl_exe_path=None,
@@ -97,9 +94,13 @@ class run(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mapdl::run", config=config, server=server)
-        self._inputs = InputsRun(self)
-        self._outputs = OutputsRun(self)
+        super().__init__(
+            name="mapdl::run",
+            config=config,
+            server=server,
+            inputs_type=InputsRun,
+            outputs_type=OutputsRun,
+        )
         if mapdl_exe_path is not None:
             self.inputs.mapdl_exe_path.connect(mapdl_exe_path)
         if working_dir is not None:

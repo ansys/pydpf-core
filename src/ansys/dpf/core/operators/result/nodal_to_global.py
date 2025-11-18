@@ -58,15 +58,14 @@ class nodal_to_global(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsNodalToGlobal
-    _outputs: OutputsNodalToGlobal
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(
-            name="NodalElementalResultsRotation", config=config, server=server
+            name="NodalElementalResultsRotation",
+            config=config,
+            server=server,
+            inputs_type=InputsNodalToGlobal,
+            outputs_type=OutputsNodalToGlobal,
         )
-        self._inputs = InputsNodalToGlobal(self)
-        self._outputs = OutputsNodalToGlobal(self)
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

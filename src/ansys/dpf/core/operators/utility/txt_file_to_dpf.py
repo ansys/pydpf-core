@@ -52,13 +52,14 @@ class txt_file_to_dpf(Operator):
     >>> result_any_output2 = op.outputs.any_output2()
     """
 
-    _inputs: InputsTxtFileToDpf
-    _outputs: OutputsTxtFileToDpf
-
     def __init__(self, input_string=None, config=None, server=None):
-        super().__init__(name="text_parser", config=config, server=server)
-        self._inputs = InputsTxtFileToDpf(self)
-        self._outputs = OutputsTxtFileToDpf(self)
+        super().__init__(
+            name="text_parser",
+            config=config,
+            server=server,
+            inputs_type=InputsTxtFileToDpf,
+            outputs_type=OutputsTxtFileToDpf,
+        )
         if input_string is not None:
             self.inputs.input_string.connect(input_string)
 

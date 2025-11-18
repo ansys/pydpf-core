@@ -78,9 +78,6 @@ class mapdl_material_properties(Operator):
     >>> result_properties_value = op.outputs.properties_value()
     """
 
-    _inputs: InputsMapdlMaterialProperties
-    _outputs: OutputsMapdlMaterialProperties
-
     def __init__(
         self,
         properties_name=None,
@@ -90,9 +87,13 @@ class mapdl_material_properties(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mapdl_material_properties", config=config, server=server)
-        self._inputs = InputsMapdlMaterialProperties(self)
-        self._outputs = OutputsMapdlMaterialProperties(self)
+        super().__init__(
+            name="mapdl_material_properties",
+            config=config,
+            server=server,
+            inputs_type=InputsMapdlMaterialProperties,
+            outputs_type=OutputsMapdlMaterialProperties,
+        )
         if properties_name is not None:
             self.inputs.properties_name.connect(properties_name)
         if materials is not None:

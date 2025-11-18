@@ -53,13 +53,14 @@ class window_welch_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsWindowWelchFc
-    _outputs: OutputsWindowWelchFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="window::welch_fc", config=config, server=server)
-        self._inputs = InputsWindowWelchFc(self)
-        self._outputs = OutputsWindowWelchFc(self)
+        super().__init__(
+            name="window::welch_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsWindowWelchFc,
+            outputs_type=OutputsWindowWelchFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

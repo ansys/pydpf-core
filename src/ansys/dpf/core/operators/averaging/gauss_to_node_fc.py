@@ -67,15 +67,16 @@ class gauss_to_node_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGaussToNodeFc
-    _outputs: OutputsGaussToNodeFc
-
     def __init__(
         self, fields_container=None, mesh=None, scoping=None, config=None, server=None
     ):
-        super().__init__(name="gauss_to_node_fc", config=config, server=server)
-        self._inputs = InputsGaussToNodeFc(self)
-        self._outputs = OutputsGaussToNodeFc(self)
+        super().__init__(
+            name="gauss_to_node_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsGaussToNodeFc,
+            outputs_type=OutputsGaussToNodeFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

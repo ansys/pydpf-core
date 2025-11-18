@@ -65,9 +65,6 @@ class ascending_sort(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAscendingSort
-    _outputs: OutputsAscendingSort
-
     def __init__(
         self,
         field=None,
@@ -76,9 +73,13 @@ class ascending_sort(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ascending_sort", config=config, server=server)
-        self._inputs = InputsAscendingSort(self)
-        self._outputs = OutputsAscendingSort(self)
+        super().__init__(
+            name="ascending_sort",
+            config=config,
+            server=server,
+            inputs_type=InputsAscendingSort,
+            outputs_type=OutputsAscendingSort,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if component_priority_table is not None:

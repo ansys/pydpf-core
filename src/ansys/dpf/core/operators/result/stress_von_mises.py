@@ -106,9 +106,6 @@ class stress_von_mises(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsStressVonMises
-    _outputs: OutputsStressVonMises
-
     def __init__(
         self,
         time_scoping=None,
@@ -124,9 +121,13 @@ class stress_von_mises(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="S_eqv", config=config, server=server)
-        self._inputs = InputsStressVonMises(self)
-        self._outputs = OutputsStressVonMises(self)
+        super().__init__(
+            name="S_eqv",
+            config=config,
+            server=server,
+            inputs_type=InputsStressVonMises,
+            outputs_type=OutputsStressVonMises,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

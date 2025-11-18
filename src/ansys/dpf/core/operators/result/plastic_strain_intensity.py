@@ -107,9 +107,6 @@ class plastic_strain_intensity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPlasticStrainIntensity
-    _outputs: OutputsPlasticStrainIntensity
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,9 +122,13 @@ class plastic_strain_intensity(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPPL_intensity", config=config, server=server)
-        self._inputs = InputsPlasticStrainIntensity(self)
-        self._outputs = OutputsPlasticStrainIntensity(self)
+        super().__init__(
+            name="EPPL_intensity",
+            config=config,
+            server=server,
+            inputs_type=InputsPlasticStrainIntensity,
+            outputs_type=OutputsPlasticStrainIntensity,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

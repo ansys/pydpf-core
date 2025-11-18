@@ -69,15 +69,16 @@ class elements_facets_surfaces_over_time(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
-    _inputs: InputsElementsFacetsSurfacesOverTime
-    _outputs: OutputsElementsFacetsSurfacesOverTime
-
     def __init__(
         self, scoping=None, displacement=None, mesh=None, config=None, server=None
     ):
-        super().__init__(name="surfaces_provider", config=config, server=server)
-        self._inputs = InputsElementsFacetsSurfacesOverTime(self)
-        self._outputs = OutputsElementsFacetsSurfacesOverTime(self)
+        super().__init__(
+            name="surfaces_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsElementsFacetsSurfacesOverTime,
+            outputs_type=OutputsElementsFacetsSurfacesOverTime,
+        )
         if scoping is not None:
             self.inputs.scoping.connect(scoping)
         if displacement is not None:

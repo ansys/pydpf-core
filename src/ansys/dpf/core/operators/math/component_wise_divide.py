@@ -62,13 +62,14 @@ class component_wise_divide(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsComponentWiseDivide
-    _outputs: OutputsComponentWiseDivide
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="component_wise_divide", config=config, server=server)
-        self._inputs = InputsComponentWiseDivide(self)
-        self._outputs = OutputsComponentWiseDivide(self)
+        super().__init__(
+            name="component_wise_divide",
+            config=config,
+            server=server,
+            inputs_type=InputsComponentWiseDivide,
+            outputs_type=OutputsComponentWiseDivide,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

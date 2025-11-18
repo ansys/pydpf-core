@@ -76,9 +76,6 @@ class accumulation_per_scoping(Operator):
     >>> result_accumulation_per_scoping_percentage = op.outputs.accumulation_per_scoping_percentage()
     """
 
-    _inputs: InputsAccumulationPerScoping
-    _outputs: OutputsAccumulationPerScoping
-
     def __init__(
         self,
         fields_container=None,
@@ -89,9 +86,13 @@ class accumulation_per_scoping(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="accumulation_per_scoping", config=config, server=server)
-        self._inputs = InputsAccumulationPerScoping(self)
-        self._outputs = OutputsAccumulationPerScoping(self)
+        super().__init__(
+            name="accumulation_per_scoping",
+            config=config,
+            server=server,
+            inputs_type=InputsAccumulationPerScoping,
+            outputs_type=OutputsAccumulationPerScoping,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh_scoping is not None:

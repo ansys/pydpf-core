@@ -59,13 +59,14 @@ class merge_any(Operator):
     >>> result_any = op.outputs.any()
     """
 
-    _inputs: InputsMergeAny
-    _outputs: OutputsMergeAny
-
     def __init__(self, any1=None, any2=None, config=None, server=None):
-        super().__init__(name="merge::any", config=config, server=server)
-        self._inputs = InputsMergeAny(self)
-        self._outputs = OutputsMergeAny(self)
+        super().__init__(
+            name="merge::any",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeAny,
+            outputs_type=OutputsMergeAny,
+        )
         if any1 is not None:
             self.inputs.any1.connect(any1)
         if any2 is not None:

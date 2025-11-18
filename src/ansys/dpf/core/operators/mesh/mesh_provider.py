@@ -84,9 +84,6 @@ class mesh_provider(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
-    _inputs: InputsMeshProvider
-    _outputs: OutputsMeshProvider
-
     def __init__(
         self,
         time_scoping=None,
@@ -98,9 +95,13 @@ class mesh_provider(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mesh_provider", config=config, server=server)
-        self._inputs = InputsMeshProvider(self)
-        self._outputs = OutputsMeshProvider(self)
+        super().__init__(
+            name="mesh_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshProvider,
+            outputs_type=OutputsMeshProvider,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if streams_container is not None:

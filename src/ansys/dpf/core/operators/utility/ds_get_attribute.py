@@ -75,9 +75,6 @@ class ds_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
-    _inputs: InputsDsGetAttribute
-    _outputs: OutputsDsGetAttribute
-
     def __init__(
         self,
         data_sources=None,
@@ -89,10 +86,12 @@ class ds_get_attribute(Operator):
         server=None,
     ):
         super().__init__(
-            name="datasources::get_attribute", config=config, server=server
+            name="datasources::get_attribute",
+            config=config,
+            server=server,
+            inputs_type=InputsDsGetAttribute,
+            outputs_type=OutputsDsGetAttribute,
         )
-        self._inputs = InputsDsGetAttribute(self)
-        self._outputs = OutputsDsGetAttribute(self)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
         if property_name is not None:

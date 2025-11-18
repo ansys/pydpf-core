@@ -64,13 +64,14 @@ class field_high_pass(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsFieldHighPass
-    _outputs: OutputsFieldHighPass
-
     def __init__(self, field=None, threshold=None, both=None, config=None, server=None):
-        super().__init__(name="core::field::high_pass", config=config, server=server)
-        self._inputs = InputsFieldHighPass(self)
-        self._outputs = OutputsFieldHighPass(self)
+        super().__init__(
+            name="core::field::high_pass",
+            config=config,
+            server=server,
+            inputs_type=InputsFieldHighPass,
+            outputs_type=OutputsFieldHighPass,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if threshold is not None:

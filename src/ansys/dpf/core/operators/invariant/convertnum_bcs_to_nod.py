@@ -58,15 +58,16 @@ class convertnum_bcs_to_nod(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsConvertnumBcsToNod
-    _outputs: OutputsConvertnumBcsToNod
-
     def __init__(
         self, fields_container=None, data_sources=None, config=None, server=None
     ):
-        super().__init__(name="convertnum_bcs_to_nod", config=config, server=server)
-        self._inputs = InputsConvertnumBcsToNod(self)
-        self._outputs = OutputsConvertnumBcsToNod(self)
+        super().__init__(
+            name="convertnum_bcs_to_nod",
+            config=config,
+            server=server,
+            inputs_type=InputsConvertnumBcsToNod,
+            outputs_type=OutputsConvertnumBcsToNod,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if data_sources is not None:

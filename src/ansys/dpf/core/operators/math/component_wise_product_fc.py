@@ -62,13 +62,14 @@ class component_wise_product_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsComponentWiseProductFc
-    _outputs: OutputsComponentWiseProductFc
-
     def __init__(self, fields_container=None, fieldB=None, config=None, server=None):
-        super().__init__(name="component_wise_product_fc", config=config, server=server)
-        self._inputs = InputsComponentWiseProductFc(self)
-        self._outputs = OutputsComponentWiseProductFc(self)
+        super().__init__(
+            name="component_wise_product_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsComponentWiseProductFc,
+            outputs_type=OutputsComponentWiseProductFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if fieldB is not None:

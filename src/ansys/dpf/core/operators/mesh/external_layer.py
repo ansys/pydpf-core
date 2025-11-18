@@ -57,15 +57,14 @@ class external_layer(Operator):
     >>> result_elements_mesh_scoping = op.outputs.elements_mesh_scoping()
     """
 
-    _inputs: InputsExternalLayer
-    _outputs: OutputsExternalLayer
-
     def __init__(self, mesh=None, config=None, server=None):
         super().__init__(
-            name="meshed_external_layer_sector", config=config, server=server
+            name="meshed_external_layer_sector",
+            config=config,
+            server=server,
+            inputs_type=InputsExternalLayer,
+            outputs_type=OutputsExternalLayer,
         )
-        self._inputs = InputsExternalLayer(self)
-        self._outputs = OutputsExternalLayer(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
 

@@ -98,9 +98,6 @@ class workflow_energy_per_component(Operator):
     >>> result_component_kinetic_energy_percentage = op.outputs.component_kinetic_energy_percentage()
     """
 
-    _inputs: InputsWorkflowEnergyPerComponent
-    _outputs: OutputsWorkflowEnergyPerComponent
-
     def __init__(
         self,
         time_scoping=None,
@@ -114,10 +111,12 @@ class workflow_energy_per_component(Operator):
         server=None,
     ):
         super().__init__(
-            name="workflow_energy_per_component", config=config, server=server
+            name="workflow_energy_per_component",
+            config=config,
+            server=server,
+            inputs_type=InputsWorkflowEnergyPerComponent,
+            outputs_type=OutputsWorkflowEnergyPerComponent,
         )
-        self._inputs = InputsWorkflowEnergyPerComponent(self)
-        self._outputs = OutputsWorkflowEnergyPerComponent(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

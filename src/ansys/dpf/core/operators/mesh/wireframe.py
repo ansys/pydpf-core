@@ -57,13 +57,14 @@ class wireframe(Operator):
     >>> result_wireframe = op.outputs.wireframe()
     """
 
-    _inputs: InputsWireframe
-    _outputs: OutputsWireframe
-
     def __init__(self, mesh=None, threshold=None, config=None, server=None):
-        super().__init__(name="wireframe", config=config, server=server)
-        self._inputs = InputsWireframe(self)
-        self._outputs = OutputsWireframe(self)
+        super().__init__(
+            name="wireframe",
+            config=config,
+            server=server,
+            inputs_type=InputsWireframe,
+            outputs_type=OutputsWireframe,
+        )
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if threshold is not None:

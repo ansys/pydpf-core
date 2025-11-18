@@ -67,9 +67,6 @@ class prep_sampling_fft(Operator):
     >>> result_freq_tfs_fft = op.outputs.freq_tfs_fft()
     """
 
-    _inputs: InputsPrepSamplingFft
-    _outputs: OutputsPrepSamplingFft
-
     def __init__(
         self,
         time_freq_support=None,
@@ -78,9 +75,13 @@ class prep_sampling_fft(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="prepare_sampling_fft", config=config, server=server)
-        self._inputs = InputsPrepSamplingFft(self)
-        self._outputs = OutputsPrepSamplingFft(self)
+        super().__init__(
+            name="prepare_sampling_fft",
+            config=config,
+            server=server,
+            inputs_type=InputsPrepSamplingFft,
+            outputs_type=OutputsPrepSamplingFft,
+        )
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
         if cutoff_frequency is not None:

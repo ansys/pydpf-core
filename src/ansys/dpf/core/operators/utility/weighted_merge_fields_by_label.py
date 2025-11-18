@@ -78,9 +78,6 @@ class weighted_merge_fields_by_label(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsWeightedMergeFieldsByLabel
-    _outputs: OutputsWeightedMergeFieldsByLabel
-
     def __init__(
         self,
         fields_container=None,
@@ -93,10 +90,12 @@ class weighted_merge_fields_by_label(Operator):
         server=None,
     ):
         super().__init__(
-            name="merge::weighted_fields_container_label", config=config, server=server
+            name="merge::weighted_fields_container_label",
+            config=config,
+            server=server,
+            inputs_type=InputsWeightedMergeFieldsByLabel,
+            outputs_type=OutputsWeightedMergeFieldsByLabel,
         )
-        self._inputs = InputsWeightedMergeFieldsByLabel(self)
-        self._outputs = OutputsWeightedMergeFieldsByLabel(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if label is not None:

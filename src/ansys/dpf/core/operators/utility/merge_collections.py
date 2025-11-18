@@ -53,13 +53,14 @@ class merge_collections(Operator):
     >>> result_merged_collections = op.outputs.merged_collections()
     """
 
-    _inputs: InputsMergeCollections
-    _outputs: OutputsMergeCollections
-
     def __init__(self, collections1=None, collections2=None, config=None, server=None):
-        super().__init__(name="merge::any_collection", config=config, server=server)
-        self._inputs = InputsMergeCollections(self)
-        self._outputs = OutputsMergeCollections(self)
+        super().__init__(
+            name="merge::any_collection",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeCollections,
+            outputs_type=OutputsMergeCollections,
+        )
         if collections1 is not None:
             self.inputs.collections1.connect(collections1)
         if collections2 is not None:

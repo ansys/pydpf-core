@@ -66,9 +66,6 @@ class global_time_step(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGlobalTimeStep
-    _outputs: OutputsGlobalTimeStep
-
     def __init__(
         self,
         streams_container=None,
@@ -77,9 +74,13 @@ class global_time_step(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GLOB_DT", config=config, server=server)
-        self._inputs = InputsGlobalTimeStep(self)
-        self._outputs = OutputsGlobalTimeStep(self)
+        super().__init__(
+            name="GLOB_DT",
+            config=config,
+            server=server,
+            inputs_type=InputsGlobalTimeStep,
+            outputs_type=OutputsGlobalTimeStep,
+        )
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
