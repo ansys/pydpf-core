@@ -285,8 +285,9 @@ For example, you can create a collection for :class:`ansys.dpf.core.DataSources`
 
 .. jupyter-execute::
 
-    from ansys.dpf.core import Collection, DataSources
+    from ansys.dpf.core import DataSources
     from ansys.dpf.core import examples
+    from ansys.dpf.core.collection import Collection
 
     # Create a collection class for DataSources
     DataSourcesCollection = Collection.collection_factory(DataSources)
