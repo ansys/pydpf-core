@@ -51,8 +51,7 @@ First, we import the required modules and load a transient analysis result file 
     model = dpf.Model(data_sources=data_sources)
     
     # Display basic model information
-    print(f"Number of time steps: {len(model.metadata.time_freq_support.time_frequencies)}")
-    print(f"Available results: {model.metadata.result_info.available_results}")
+    print(model)
 
 Working with FieldsContainer
 -----------------------------
@@ -67,7 +66,7 @@ Let's extract displacement results for all time steps, which will automatically 
 .. jupyter-execute::
 
     # Get displacement results for all time steps
-    displacement_fc = model.results.displacement.eval()
+    displacement_fc = model.results.displacement.on_all_time_freqs.eval()
     
     # Display FieldsContainer information
     print(displacement_fc)
@@ -82,17 +81,15 @@ You can access individual fields by their label or index.
     # Access field by index (first time step)
     first_field = displacement_fc[0]
     print(f"First field info:")
-    print(f"  Location: {first_field.location}")
-    print(f"  Number of entities: {first_field.scoping.size}")
-    print(f"  Components: {first_field.component_count}")
+    print(first_field)
     
     # Access field by label (specific time step)
-    time_sets = list(displacement_fc.get_label_space(0).keys())
-    if len(time_sets) > 1:
-        second_time_field = displacement_fc.get_field({"time": time_sets[1]})
-        print(f"\nSecond time step field:")
-        print(f"  Time set: {time_sets[1]}")
-        print(f"  Max displacement magnitude: {max(second_time_field.data):.6f}")
+    second_time_field = displacement_fc.get_field({"time": 2})
+    # Equivalent to:
+    second_time_field = displacement_fc.get_field_by_time_id(2)
+    print(f"\nSecond time step field:")
+    print(second_time_field)
+    print(f"  Max displacement magnitude: {max(second_time_field.data):.6f}")
 
 Create a Custom FieldsContainer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -158,11 +155,6 @@ Let's create different node selections and organize them in a |ScopingsContainer
 
     # Display ScopingsContainer information
     print(scopings_container)
-    
-    # Show details of each scoping
-    for i, scoping in enumerate(scopings_container):
-        label_space = scopings_container.get_label_space(i)
-        print(f"  Scoping {i}: {label_space} - {scoping.size} entities")
 
 Use ScopingsContainer with Operators
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -180,14 +172,7 @@ Use ScopingsContainer with Operators
     scoped_displacements = displacement_op.eval()
     
     print(f"Displacement results for different node selections:")
-    print(f"  Result type: {type(scoped_displacements)}")
-    print(f"  Number of result fields: {len(scoped_displacements)}")
-    
-    # Display information for each scoped result
-    for i, field in enumerate(scoped_displacements):
-        label_space = scoped_displacements.get_label_space(i)
-        max_displacement = field.data.max()
-        print(f"  Field {i}: {label_space} - {field.scoping.size} nodes, max displacement: {max_displacement:.6f}")
+    print(scoped_displacements)
 
 Working with MeshesContainer
 ----------------------------
@@ -267,14 +252,9 @@ You can filter collections based on labels or criteria.
 .. jupyter-execute::
 
     # Get specific fields from FieldsContainer by label criteria
-    if len(displacement_fc) >= 2:
-        # Get the second time step
-        time_sets = list(displacement_fc.get_label_space(0).keys())
-        if len(time_sets) > 1:
-            specific_field = displacement_fc.get_field({"time": time_sets[1]})
-            print(f"Retrieved field for time {time_sets[1]}:")
-            print(f"  Components: {specific_field.component_count}")
-            print(f"  Location: {specific_field.location}")
+    # Get all fields of ``custom_fc`` where ``zone=1``
+    zone_1_fields = custom_fc.get_fields({"zone": 1})
+    print(zone_1_fields)
     
     # Get scoping by selection criteria
     first_ten_scoping = scopings_container.get_scoping({"selection_type": 0})
