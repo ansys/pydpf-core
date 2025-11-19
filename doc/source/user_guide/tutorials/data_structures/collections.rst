@@ -255,3 +255,52 @@ You can filter collections based on labels or criteria.
     # Get all fields of ``custom_fc`` where ``zone=1``
     zone_1_fields = custom_fc.get_fields({"zone": 1})
     print(zone_1_fields)
+
+Other Built-in Collection Types
+------------------------------
+
+DPF provides several built-in collection types for common DPF objects, implemented in their respective modules:
+
+- :class:`ansys.dpf.core.fields_container.FieldsContainer` for fields
+- :class:`ansys.dpf.core.meshes_container.MeshesContainer` for meshes
+- :class:`ansys.dpf.core.scopings_container.ScopingsContainer` for scopings
+
+Additionally, the following specialized collection types are available (from ``collection_base.py``):
+
+- :class:`ansys.dpf.core.collection_base.IntegralCollection` for integral types
+- :class:`ansys.dpf.core.collection_base.IntCollection` for integers
+- :class:`ansys.dpf.core.collection_base.FloatCollection` for floats
+- :class:`ansys.dpf.core.collection_base.StringCollection` for strings
+
+These built-in collections are optimized for their respective DPF types and should be used when working with fields, meshes, scopings, or basic types. For other supported types, you can use the :py:meth:`ansys.dpf.core.collection.Collection.collection_factory` method to create a custom collection class at runtime.
+
+Using the Collection Factory
+---------------------------
+
+.. note::
+   Collections can only be made for types supported by DPF. Attempting to use unsupported or arbitrary Python types will result in an error.
+
+The :py:meth:`ansys.dpf.core.collection.Collection.collection_factory` method allows you to create a collection class for any supported DPF type at runtime. This is useful when you want to group and manage objects that are not covered by the built-in collection types (such as FieldsContainer, MeshesContainer, or ScopingsContainer).
+
+For example, you can create a collection for :class:`ansys.dpf.core.DataSources` objects:
+
+.. jupyter-execute::
+
+    from ansys.dpf.core import Collection, DataSources
+    from ansys.dpf.core import examples
+
+    # Create a collection class for DataSources
+    DataSourcesCollection = Collection.collection_factory(DataSources)
+    ds_collection = DataSourcesCollection()
+    ds_collection.labels = ["case"]
+
+    # Add DataSources objects to the collection
+    ds1 = DataSources("path/to/first/result/file.rst")
+    ds2 = DataSources("path/to/second/result/file.rst")
+    ds_collection.add_entry({"case": 0}, ds1)
+    ds_collection.add_entry({"case": 1}, ds2)
+
+    # Show the collection
+    print(ds_collection)
+
+This approach allows you to leverage the powerful labeling and grouping features of DPF collections for any supported DPF object type, making your workflows more flexible and organized.
