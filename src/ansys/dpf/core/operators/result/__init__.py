@@ -223,7 +223,6 @@ from .modal_coordinate import modal_coordinate
 from .modal_velocity import modal_velocity
 from .nmisc import nmisc
 from .nodal_force import nodal_force
-from .nodal_moment import nodal_moment
 from .nodal_rotation import nodal_rotation
 from .nodal_rotation_X import nodal_rotation_X
 from .nodal_rotation_Y import nodal_rotation_Y
