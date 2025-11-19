@@ -89,7 +89,6 @@ You can access individual fields by their label or index.
     second_time_field = displacement_fc.get_field_by_time_id(2)
     print(f"\nSecond time step field:")
     print(second_time_field)
-    print(f"  Max displacement magnitude: {max(second_time_field.data):.6f}")
 
 Create a Custom FieldsContainer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
