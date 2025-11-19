@@ -255,37 +255,3 @@ You can filter collections based on labels or criteria.
     # Get all fields of ``custom_fc`` where ``zone=1``
     zone_1_fields = custom_fc.get_fields({"zone": 1})
     print(zone_1_fields)
-    
-    # Get scoping by selection criteria
-    first_ten_scoping = scopings_container.get_scoping({"selection_type": 0})
-    print(f"\nRetrieved 'first_ten' scoping:")
-    print(f"  Size: {first_ten_scoping.size}")
-    print(f"  First 5 IDs: {first_ten_scoping.ids[:5]}")
-
-Collection Summary and Best Practices
---------------------------------------
-
-Let's summarize the key concepts and best practices for working with DPF collections.
-
-.. jupyter-execute::
-
-    print("DPF Collections Summary:")
-    print("=" * 50)
-    
-    print(f"\n1. FieldsContainer:")
-    print(f"   - Purpose: Store multiple Field objects with labels")
-    print(f"   - Common use: Results over time steps, frequencies, or load cases")
-    
-    print(f"\n2. ScopingsContainer:")
-    print(f"   - Purpose: Store multiple Scoping objects (entity selections)")
-    print(f"   - Common use: Different node/element selections for analysis")
-    
-    print(f"\n3. MeshesContainer:")
-    print(f"   - Purpose: Store multiple MeshedRegion objects")
-    print(f"   - Common use: Different mesh configurations or time-dependent meshes")
-    
-    print(f"\nKey Benefits:")
-    print(f"   - Efficient organization of related data")
-    print(f"   - Label-based access for easy data retrieval")
-    print(f"   - Integration with DPF operators for batch processing")
-    print(f"   - Memory-efficient handling of large datasets")
