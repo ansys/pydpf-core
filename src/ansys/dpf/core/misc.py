@@ -108,6 +108,20 @@ def get_ansys_path(ansys_path=None):
         ansys_path = os.environ.get("ANSYS_DPF_PATH")
         if ansys_path:
             ansys_path = ansys_path.replace('"', "")
+    # Check whether the current module is within an Ansys installation
+    if ansys_path is None:
+        current_file = Path(__file__).resolve()
+        print(current_file)
+        path_parts = current_file.parts
+        ansys_inc_part = str(Path("ANSYS Inc") / "v")
+        commonfiles_interpreter_part = str(Path("commonfiles") / "CPython")
+        if ansys_inc_part in str(current_file) and commonfiles_interpreter_part in str(
+            current_file
+        ):
+            ansys_index = path_parts.index("ANSYS Inc")
+            possible_ansys_path = Path(*path_parts[: ansys_index + 2])
+            if possible_ansys_path.is_dir():
+                ansys_path = str(possible_ansys_path)
     # Then check for usual installation folders with AWP_ROOT and installed modules
     if ansys_path is None:
         ansys_path = find_ansys()
