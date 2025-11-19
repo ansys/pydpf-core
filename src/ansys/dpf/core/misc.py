@@ -111,7 +111,6 @@ def get_ansys_path(ansys_path=None):
     # Check whether the current module is within an Ansys installation
     if ansys_path is None:
         current_file = Path(__file__).resolve()
-        print(current_file)
         path_parts = current_file.parts
         ansys_inc_part = str(Path("ANSYS Inc") / "v")
         commonfiles_interpreter_part = str(Path("commonfiles") / "CPython")
