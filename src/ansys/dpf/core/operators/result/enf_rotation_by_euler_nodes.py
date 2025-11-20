@@ -63,9 +63,6 @@ class enf_rotation_by_euler_nodes(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsEnfRotationByEulerNodes
-    _outputs: OutputsEnfRotationByEulerNodes
-
     def __init__(
         self,
         fields_container=None,
@@ -75,10 +72,12 @@ class enf_rotation_by_euler_nodes(Operator):
         server=None,
     ):
         super().__init__(
-            name="mapdl::rst::ENF_rotation_by_euler_nodes", config=config, server=server
+            name="mapdl::rst::ENF_rotation_by_euler_nodes",
+            config=config,
+            server=server,
+            inputs_type=InputsEnfRotationByEulerNodes,
+            outputs_type=OutputsEnfRotationByEulerNodes,
         )
-        self._inputs = InputsEnfRotationByEulerNodes(self)
-        self._outputs = OutputsEnfRotationByEulerNodes(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if streams_container is not None:

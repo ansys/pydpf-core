@@ -59,15 +59,14 @@ class elemental_nodal_to_nodal_elemental(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsElementalNodalToNodalElemental
-    _outputs: OutputsElementalNodalToNodalElemental
-
     def __init__(self, field=None, mesh_scoping=None, config=None, server=None):
         super().__init__(
-            name="ElementalNodal_To_NodalElemental", config=config, server=server
+            name="ElementalNodal_To_NodalElemental",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalNodalToNodalElemental,
+            outputs_type=OutputsElementalNodalToNodalElemental,
         )
-        self._inputs = InputsElementalNodalToNodalElemental(self)
-        self._outputs = OutputsElementalNodalToNodalElemental(self)
         if field is not None:
             self.inputs.field.connect(field)
         if mesh_scoping is not None:

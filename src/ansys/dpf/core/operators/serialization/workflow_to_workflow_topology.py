@@ -54,15 +54,14 @@ class workflow_to_workflow_topology(Operator):
     >>> result_workflow_topology = op.outputs.workflow_topology()
     """
 
-    _inputs: InputsWorkflowToWorkflowTopology
-    _outputs: OutputsWorkflowToWorkflowTopology
-
     def __init__(self, workflow=None, config=None, server=None):
         super().__init__(
-            name="workflow_to_workflow_topology", config=config, server=server
+            name="workflow_to_workflow_topology",
+            config=config,
+            server=server,
+            inputs_type=InputsWorkflowToWorkflowTopology,
+            outputs_type=OutputsWorkflowToWorkflowTopology,
         )
-        self._inputs = InputsWorkflowToWorkflowTopology(self)
-        self._outputs = OutputsWorkflowToWorkflowTopology(self)
         if workflow is not None:
             self.inputs.workflow.connect(workflow)
 

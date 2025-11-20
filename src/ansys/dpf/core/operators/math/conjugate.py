@@ -52,13 +52,14 @@ class conjugate(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsConjugate
-    _outputs: OutputsConjugate
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="conjugate", config=config, server=server)
-        self._inputs = InputsConjugate(self)
-        self._outputs = OutputsConjugate(self)
+        super().__init__(
+            name="conjugate",
+            config=config,
+            server=server,
+            inputs_type=InputsConjugate,
+            outputs_type=OutputsConjugate,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

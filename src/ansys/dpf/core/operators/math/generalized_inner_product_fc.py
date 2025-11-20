@@ -60,9 +60,6 @@ class generalized_inner_product_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGeneralizedInnerProductFc
-    _outputs: OutputsGeneralizedInnerProductFc
-
     def __init__(
         self,
         field_or_fields_container_A=None,
@@ -71,10 +68,12 @@ class generalized_inner_product_fc(Operator):
         server=None,
     ):
         super().__init__(
-            name="generalized_inner_product_fc", config=config, server=server
+            name="generalized_inner_product_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsGeneralizedInnerProductFc,
+            outputs_type=OutputsGeneralizedInnerProductFc,
         )
-        self._inputs = InputsGeneralizedInnerProductFc(self)
-        self._outputs = OutputsGeneralizedInnerProductFc(self)
         if field_or_fields_container_A is not None:
             self.inputs.field_or_fields_container_A.connect(field_or_fields_container_A)
         if field_or_fields_container_B is not None:

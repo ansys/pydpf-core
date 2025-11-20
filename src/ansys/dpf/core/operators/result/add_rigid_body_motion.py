@@ -71,9 +71,6 @@ class add_rigid_body_motion(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAddRigidBodyMotion
-    _outputs: OutputsAddRigidBodyMotion
-
     def __init__(
         self,
         displacement_field=None,
@@ -84,9 +81,13 @@ class add_rigid_body_motion(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="RigidBodyAddition", config=config, server=server)
-        self._inputs = InputsAddRigidBodyMotion(self)
-        self._outputs = OutputsAddRigidBodyMotion(self)
+        super().__init__(
+            name="RigidBodyAddition",
+            config=config,
+            server=server,
+            inputs_type=InputsAddRigidBodyMotion,
+            outputs_type=OutputsAddRigidBodyMotion,
+        )
         if displacement_field is not None:
             self.inputs.displacement_field.connect(displacement_field)
         if translation_field is not None:

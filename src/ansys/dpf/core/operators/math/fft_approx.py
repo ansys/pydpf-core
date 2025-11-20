@@ -98,9 +98,6 @@ class fft_approx(Operator):
     >>> result_second_der_d2y = op.outputs.second_der_d2y()
     """
 
-    _inputs: InputsFftApprox
-    _outputs: OutputsFftApprox
-
     def __init__(
         self,
         time_scoping=None,
@@ -114,9 +111,13 @@ class fft_approx(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="fft_approx", config=config, server=server)
-        self._inputs = InputsFftApprox(self)
-        self._outputs = OutputsFftApprox(self)
+        super().__init__(
+            name="fft_approx",
+            config=config,
+            server=server,
+            inputs_type=InputsFftApprox,
+            outputs_type=OutputsFftApprox,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

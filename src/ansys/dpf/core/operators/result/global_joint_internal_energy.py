@@ -66,9 +66,6 @@ class global_joint_internal_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGlobalJointInternalEnergy
-    _outputs: OutputsGlobalJointInternalEnergy
-
     def __init__(
         self,
         streams_container=None,
@@ -77,9 +74,13 @@ class global_joint_internal_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GLOB_JE", config=config, server=server)
-        self._inputs = InputsGlobalJointInternalEnergy(self)
-        self._outputs = OutputsGlobalJointInternalEnergy(self)
+        super().__init__(
+            name="GLOB_JE",
+            config=config,
+            server=server,
+            inputs_type=InputsGlobalJointInternalEnergy,
+            outputs_type=OutputsGlobalJointInternalEnergy,
+        )
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

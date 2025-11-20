@@ -84,9 +84,6 @@ class beam_axial_total_strain(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsBeamAxialTotalStrain
-    _outputs: OutputsBeamAxialTotalStrain
-
     def __init__(
         self,
         time_scoping=None,
@@ -98,9 +95,13 @@ class beam_axial_total_strain(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="B_EL", config=config, server=server)
-        self._inputs = InputsBeamAxialTotalStrain(self)
-        self._outputs = OutputsBeamAxialTotalStrain(self)
+        super().__init__(
+            name="B_EL",
+            config=config,
+            server=server,
+            inputs_type=InputsBeamAxialTotalStrain,
+            outputs_type=OutputsBeamAxialTotalStrain,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

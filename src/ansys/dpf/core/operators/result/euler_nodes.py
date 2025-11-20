@@ -73,9 +73,6 @@ class euler_nodes(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsEulerNodes
-    _outputs: OutputsEulerNodes
-
     def __init__(
         self,
         streams_container=None,
@@ -86,9 +83,13 @@ class euler_nodes(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="coords_and_euler_nodes", config=config, server=server)
-        self._inputs = InputsEulerNodes(self)
-        self._outputs = OutputsEulerNodes(self)
+        super().__init__(
+            name="coords_and_euler_nodes",
+            config=config,
+            server=server,
+            inputs_type=InputsEulerNodes,
+            outputs_type=OutputsEulerNodes,
+        )
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

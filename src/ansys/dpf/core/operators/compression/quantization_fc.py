@@ -64,13 +64,14 @@ class quantization_fc(Operator):
     >>> result_output_fc = op.outputs.output_fc()
     """
 
-    _inputs: InputsQuantizationFc
-    _outputs: OutputsQuantizationFc
-
     def __init__(self, input_fc=None, threshold=None, config=None, server=None):
-        super().__init__(name="quantization_fc", config=config, server=server)
-        self._inputs = InputsQuantizationFc(self)
-        self._outputs = OutputsQuantizationFc(self)
+        super().__init__(
+            name="quantization_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsQuantizationFc,
+            outputs_type=OutputsQuantizationFc,
+        )
         if input_fc is not None:
             self.inputs.input_fc.connect(input_fc)
         if threshold is not None:

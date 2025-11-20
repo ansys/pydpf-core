@@ -64,9 +64,6 @@ class rescope_property_field(Operator):
     >>> result_fields = op.outputs.fields()
     """
 
-    _inputs: InputsRescopePropertyField
-    _outputs: OutputsRescopePropertyField
-
     def __init__(
         self,
         fields=None,
@@ -75,9 +72,13 @@ class rescope_property_field(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="Rescope_pf", config=config, server=server)
-        self._inputs = InputsRescopePropertyField(self)
-        self._outputs = OutputsRescopePropertyField(self)
+        super().__init__(
+            name="Rescope_pf",
+            config=config,
+            server=server,
+            inputs_type=InputsRescopePropertyField,
+            outputs_type=OutputsRescopePropertyField,
+        )
         if fields is not None:
             self.inputs.fields.connect(fields)
         if mesh_scoping is not None:

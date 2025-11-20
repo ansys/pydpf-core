@@ -247,9 +247,6 @@ class contact_total_stress(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsContactTotalStress
-    _outputs: OutputsContactTotalStress
-
     def __init__(
         self,
         time_scoping=None,
@@ -271,9 +268,13 @@ class contact_total_stress(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ECT_STOT", config=config, server=server)
-        self._inputs = InputsContactTotalStress(self)
-        self._outputs = OutputsContactTotalStress(self)
+        super().__init__(
+            name="ECT_STOT",
+            config=config,
+            server=server,
+            inputs_type=InputsContactTotalStress,
+            outputs_type=OutputsContactTotalStress,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -204,9 +204,6 @@ class transform_invariant_terms_rbd(Operator):
     >>> result_dnzn = op.outputs.dnzn()
     """
 
-    _inputs: InputsTransformInvariantTermsRbd
-    _outputs: OutputsTransformInvariantTermsRbd
-
     def __init__(
         self,
         rotation_matrix=None,
@@ -238,10 +235,12 @@ class transform_invariant_terms_rbd(Operator):
         server=None,
     ):
         super().__init__(
-            name="transform_invariant_terms_rbd", config=config, server=server
+            name="transform_invariant_terms_rbd",
+            config=config,
+            server=server,
+            inputs_type=InputsTransformInvariantTermsRbd,
+            outputs_type=OutputsTransformInvariantTermsRbd,
         )
-        self._inputs = InputsTransformInvariantTermsRbd(self)
-        self._outputs = OutputsTransformInvariantTermsRbd(self)
         if rotation_matrix is not None:
             self.inputs.rotation_matrix.connect(rotation_matrix)
         if coordinate_system is not None:

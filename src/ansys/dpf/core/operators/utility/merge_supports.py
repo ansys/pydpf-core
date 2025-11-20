@@ -58,9 +58,6 @@ class merge_supports(Operator):
     >>> result_merged_support = op.outputs.merged_support()
     """
 
-    _inputs: InputsMergeSupports
-    _outputs: OutputsMergeSupports
-
     def __init__(
         self,
         should_merge_named_selections=None,
@@ -69,9 +66,13 @@ class merge_supports(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="merge::abstract_support", config=config, server=server)
-        self._inputs = InputsMergeSupports(self)
-        self._outputs = OutputsMergeSupports(self)
+        super().__init__(
+            name="merge::abstract_support",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeSupports,
+            outputs_type=OutputsMergeSupports,
+        )
         if should_merge_named_selections is not None:
             self.inputs.should_merge_named_selections.connect(
                 should_merge_named_selections

@@ -58,13 +58,14 @@ class pow(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsPow
-    _outputs: OutputsPow
-
     def __init__(self, field=None, factor=None, config=None, server=None):
-        super().__init__(name="Pow", config=config, server=server)
-        self._inputs = InputsPow(self)
-        self._outputs = OutputsPow(self)
+        super().__init__(
+            name="Pow",
+            config=config,
+            server=server,
+            inputs_type=InputsPow,
+            outputs_type=OutputsPow,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if factor is not None:

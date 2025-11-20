@@ -55,9 +55,6 @@ class strain_from_voigt(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsStrainFromVoigt
-    _outputs: OutputsStrainFromVoigt
-
     def __init__(
         self,
         strain_field=None,
@@ -65,9 +62,13 @@ class strain_from_voigt(Operator):
         server=None,
         field=None,
     ):
-        super().__init__(name="strain_from_voigt", config=config, server=server)
-        self._inputs = InputsStrainFromVoigt(self)
-        self._outputs = OutputsStrainFromVoigt(self)
+        super().__init__(
+            name="strain_from_voigt",
+            config=config,
+            server=server,
+            inputs_type=InputsStrainFromVoigt,
+            outputs_type=OutputsStrainFromVoigt,
+        )
         if strain_field is not None:
             self.inputs.strain_field.connect(strain_field)
         elif field is not None:

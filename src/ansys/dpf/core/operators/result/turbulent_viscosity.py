@@ -95,9 +95,6 @@ class turbulent_viscosity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsTurbulentViscosity
-    _outputs: OutputsTurbulentViscosity
-
     def __init__(
         self,
         time_scoping=None,
@@ -111,9 +108,13 @@ class turbulent_viscosity(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="MUT", config=config, server=server)
-        self._inputs = InputsTurbulentViscosity(self)
-        self._outputs = OutputsTurbulentViscosity(self)
+        super().__init__(
+            name="MUT",
+            config=config,
+            server=server,
+            inputs_type=InputsTurbulentViscosity,
+            outputs_type=OutputsTurbulentViscosity,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -57,13 +57,14 @@ class forward_meshes_container(Operator):
     >>> result_meshes_container = op.outputs.meshes_container()
     """
 
-    _inputs: InputsForwardMeshesContainer
-    _outputs: OutputsForwardMeshesContainer
-
     def __init__(self, meshes=None, default_label=None, config=None, server=None):
-        super().__init__(name="forward_meshes_container", config=config, server=server)
-        self._inputs = InputsForwardMeshesContainer(self)
-        self._outputs = OutputsForwardMeshesContainer(self)
+        super().__init__(
+            name="forward_meshes_container",
+            config=config,
+            server=server,
+            inputs_type=InputsForwardMeshesContainer,
+            outputs_type=OutputsForwardMeshesContainer,
+        )
         if meshes is not None:
             self.inputs.meshes.connect(meshes)
         if default_label is not None:

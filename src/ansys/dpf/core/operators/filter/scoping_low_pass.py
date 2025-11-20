@@ -65,13 +65,14 @@ class scoping_low_pass(Operator):
     >>> result_scoping = op.outputs.scoping()
     """
 
-    _inputs: InputsScopingLowPass
-    _outputs: OutputsScopingLowPass
-
     def __init__(self, field=None, threshold=None, both=None, config=None, server=None):
-        super().__init__(name="core::scoping::low_pass", config=config, server=server)
-        self._inputs = InputsScopingLowPass(self)
-        self._outputs = OutputsScopingLowPass(self)
+        super().__init__(
+            name="core::scoping::low_pass",
+            config=config,
+            server=server,
+            inputs_type=InputsScopingLowPass,
+            outputs_type=OutputsScopingLowPass,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if threshold is not None:

@@ -66,9 +66,6 @@ class global_velocity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGlobalVelocity
-    _outputs: OutputsGlobalVelocity
-
     def __init__(
         self,
         streams_container=None,
@@ -77,9 +74,13 @@ class global_velocity(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GLOB_V", config=config, server=server)
-        self._inputs = InputsGlobalVelocity(self)
-        self._outputs = OutputsGlobalVelocity(self)
+        super().__init__(
+            name="GLOB_V",
+            config=config,
+            server=server,
+            inputs_type=InputsGlobalVelocity,
+            outputs_type=OutputsGlobalVelocity,
+        )
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

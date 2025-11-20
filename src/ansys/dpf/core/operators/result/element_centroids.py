@@ -90,9 +90,6 @@ class element_centroids(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElementCentroids
-    _outputs: OutputsElementCentroids
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,9 +102,13 @@ class element_centroids(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="centroids", config=config, server=server)
-        self._inputs = InputsElementCentroids(self)
-        self._outputs = OutputsElementCentroids(self)
+        super().__init__(
+            name="centroids",
+            config=config,
+            server=server,
+            inputs_type=InputsElementCentroids,
+            outputs_type=OutputsElementCentroids,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -80,9 +80,6 @@ class hdf5dpf_custom_read(Operator):
     >>> result_field_or_fields_container = op.outputs.field_or_fields_container()
     """
 
-    _inputs: InputsHdf5DpfCustomRead
-    _outputs: OutputsHdf5DpfCustomRead
-
     def __init__(
         self,
         time_scoping=None,
@@ -94,9 +91,13 @@ class hdf5dpf_custom_read(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="hdf5::h5dpf::custom", config=config, server=server)
-        self._inputs = InputsHdf5DpfCustomRead(self)
-        self._outputs = OutputsHdf5DpfCustomRead(self)
+        super().__init__(
+            name="hdf5::h5dpf::custom",
+            config=config,
+            server=server,
+            inputs_type=InputsHdf5DpfCustomRead,
+            outputs_type=OutputsHdf5DpfCustomRead,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

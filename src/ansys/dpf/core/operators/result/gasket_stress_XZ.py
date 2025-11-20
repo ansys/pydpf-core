@@ -102,9 +102,6 @@ class gasket_stress_XZ(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGasketStressXz
-    _outputs: OutputsGasketStressXz
-
     def __init__(
         self,
         time_scoping=None,
@@ -119,9 +116,13 @@ class gasket_stress_XZ(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GKSXZ", config=config, server=server)
-        self._inputs = InputsGasketStressXz(self)
-        self._outputs = OutputsGasketStressXz(self)
+        super().__init__(
+            name="GKSXZ",
+            config=config,
+            server=server,
+            inputs_type=InputsGasketStressXz,
+            outputs_type=OutputsGasketStressXz,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

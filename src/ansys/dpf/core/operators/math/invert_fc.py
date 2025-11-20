@@ -54,13 +54,14 @@ class invert_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsInvertFc
-    _outputs: OutputsInvertFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="invert_fc", config=config, server=server)
-        self._inputs = InputsInvertFc(self)
-        self._outputs = OutputsInvertFc(self)
+        super().__init__(
+            name="invert_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsInvertFc,
+            outputs_type=OutputsInvertFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

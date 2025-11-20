@@ -118,9 +118,6 @@ class make_producer_consumer_for_each_iterator(Operator):
     >>> result_iterator = op.outputs.iterator()
     """
 
-    _inputs: InputsMakeProducerConsumerForEachIterator
-    _outputs: OutputsMakeProducerConsumerForEachIterator
-
     def __init__(
         self,
         try_generate_iterable=None,
@@ -146,9 +143,9 @@ class make_producer_consumer_for_each_iterator(Operator):
             name="make_producer_consumer_for_each_iterator",
             config=config,
             server=server,
+            inputs_type=InputsMakeProducerConsumerForEachIterator,
+            outputs_type=OutputsMakeProducerConsumerForEachIterator,
         )
-        self._inputs = InputsMakeProducerConsumerForEachIterator(self)
-        self._outputs = OutputsMakeProducerConsumerForEachIterator(self)
         if try_generate_iterable is not None:
             self.inputs.try_generate_iterable.connect(try_generate_iterable)
         if iterable is not None:
