@@ -4,6 +4,14 @@ name: "PyDPF-Core Documentation Contribution Guide"
 about: "Guidelines for contributing to PyDPF-Core documentation, including tutorials and examples."
 ---
 
+# IMPORTANT: Code Authenticity Requirement
+
+**All code examples, snippets, and API usage in this documentation must be strictly based on the actual PyDPF-Core API reference documentation or the code source base.**
+
+- AI agents and human contributors must never invent, suggest, or use code that does not exist in the official API reference or codebase.
+- Before including any code, always verify its existence and correctness in the API reference or source code.
+- If a feature or method is not present in the API or codebase, do not document or reference it.
+
 # PyDPF-Core Documentation Contribution Guide
 
 This guide provides comprehensive instructions for contributing to the PyDPF-Core documentation, including how to add tutorials, examples, and other content.
