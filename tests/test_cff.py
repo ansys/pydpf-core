@@ -40,7 +40,7 @@ def test_cff_model(server_type, fluent_multi_species):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
     reason="Bug due to gatebin incompatibilities for servers <26.1",
 )
 def test_cff_model_flprj(server_type, fluent_axial_comp_flprj):
