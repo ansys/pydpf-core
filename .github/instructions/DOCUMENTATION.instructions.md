@@ -1,3 +1,9 @@
+---
+applyTo: "doc/source/**/*.rst, examples/**/*"
+name: "PyDPF-Core Documentation Contribution Guide"
+about: "Guidelines for contributing to PyDPF-Core documentation, including tutorials and examples."
+---
+
 # PyDPF-Core Documentation Contribution Guide
 
 This guide provides comprehensive instructions for contributing to the PyDPF-Core documentation, including how to add tutorials, examples, and other content.
