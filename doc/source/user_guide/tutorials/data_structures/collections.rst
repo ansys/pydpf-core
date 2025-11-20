@@ -28,6 +28,9 @@ Each collection provides methods to:
 - Access objects by label (time, frequency, set ID, etc.)
 - Perform operations across all contained objects
 
+Collections are widely used in DPF workflows to provide vectorized data to operators,
+allowing to process the data in bulk or to process it in parallel whenever possible.
+
 Set up the Analysis
 -------------------
 
@@ -253,7 +256,9 @@ You can filter collections based on labels or criteria.
     # Get specific fields from FieldsContainer by label criteria
     # Get all fields of ``custom_fc`` where ``zone=1``
     zone_1_fields = custom_fc.get_fields({"zone": 1})
-    print(zone_1_fields)
+    print(f"\nFields in custom_fc with zone=1:")
+    for field in zone_1_fields:
+        print(field)
 
 Other Built-in Collection Types
 ------------------------------
