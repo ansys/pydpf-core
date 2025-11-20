@@ -6,7 +6,7 @@ DPF Collections
 
 .. include:: ../../links_and_refs.rst
 
-This tutorial shows how to create and work with some DPF collections: FieldsContainer, MeshesContainer and ScopingsContainer.
+This tutorial demonstrates how to create and work with some DPF collections: FieldsContainer, MeshesContainer and ScopingsContainer.
 
 DPF collections are homogeneous groups of labeled raw data storage structures that allow you to organize and manipulate related data efficiently. Collections are essential for handling multiple time steps, frequency sets, or other labeled datasets in your analysis workflows.
 
@@ -25,16 +25,16 @@ Collections in DPF serve as containers that group related objects with labels. T
 Each collection provides methods to:
 
 - Add, retrieve, and iterate over contained objects
-- Access objects by label (time, frequency, set ID, etc.)
+- Access objects by label (time, frequency, set ID, and so on)
 - Perform operations across all contained objects
 
 Collections are widely used in DPF workflows to provide vectorized data to operators,
-allowing to process the data in bulk or to process it in parallel whenever possible.
+allowing you to process the data in bulk or to process it in parallel whenever possible.
 
 Set up the Analysis
 -------------------
 
-First, we import the required modules and load a transient analysis result file that contains multiple time steps.
+First, import the required modules and load a transient analysis result file that contains multiple time steps.
 
 .. jupyter-execute::
 
@@ -64,7 +64,7 @@ A |FieldsContainer| is the most commonly used collection in DPF. It stores multi
 Extract Results into a FieldsContainer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Let's extract displacement results for all time steps, which will automatically create a |FieldsContainer|.
+Extract displacement results for all time steps, which will automatically create a |FieldsContainer|.
 
 .. jupyter-execute::
 
@@ -130,7 +130,7 @@ A |ScopingsContainer| holds multiple |Scoping| objects, which define sets of ent
 Create and Populate a ScopingsContainer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Let's create different node selections and organize them in a |ScopingsContainer|.
+Create different node selections and organize them in a |ScopingsContainer|.
 
 .. jupyter-execute::
 
@@ -184,7 +184,7 @@ A |MeshesContainer| stores multiple |MeshedRegion| objects. This is useful when 
 Create a MeshesContainer
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Let's create a |MeshesContainer| with mesh data for different analysis configurations.
+Create a |MeshesContainer| with mesh data for different analysis configurations.
 
 .. jupyter-execute::
 
