@@ -39,7 +39,7 @@ Below, we compare the execution time of the norm operator with the default confi
     import time
 
     # Run with default configuration (single-threaded)
-    norm_op_default = op.math.norm()
+    norm_op_default = op.math.norm_fc()
     norm_op_default.inputs.fields_container.connect(fields_container)
     start = time.time()
     result_fc_default = norm_op_default.outputs.fields_container()
@@ -47,9 +47,9 @@ Below, we compare the execution time of the norm operator with the default confi
     print(f"Norm (default config): {len(result_fc_default)} fields, time: {elapsed_default:.4f} s")
 
     # Run with num_threads=2
-    config = op.math.norm.default_config()
+    config = op.math.norm_fc.default_config()
     config.options["num_threads"] = 2
-    norm_op_mt = op.math.norm(config=config)
+    norm_op_mt = op.math.norm_fc(config=config)
     norm_op_mt.inputs.fields_container.connect(fields_container)
     start = time.time()
     result_fc_mt = norm_op_mt.outputs.fields_container()
@@ -73,7 +73,7 @@ first without mutex (which may cause inconsistent results), and then with mutex 
 
     # Function to run a norm operator and collect the result
     def run_norm_op(fc, config, results, idx):
-        op = op.math.norm(config=config)
+        op = op.math.norm_fc(config=config)
         op.inputs.fields_container.connect(fc)
         results[idx] = op.outputs.fields_container()[0].data.copy()
 
@@ -82,7 +82,7 @@ first without mutex (which may cause inconsistent results), and then with mutex 
     results_mutex = [None, None]
 
     # Run two norm operators in parallel WITHOUT mutex
-    config_no_mutex = op.math.norm.default_config()
+    config_no_mutex = op.math.norm_fc.default_config()
     config_no_mutex.options["num_threads"] = 2
     config_no_mutex.options["mutex"] = "false"
     threads = [
@@ -99,7 +99,7 @@ first without mutex (which may cause inconsistent results), and then with mutex 
     print("Equal results?", np.allclose(results_no_mutex[0], results_no_mutex[1]))
 
     # Run two norm operators in parallel WITH mutex
-    config_mutex = op.math.norm.default_config()
+    config_mutex = op.math.norm_fc.default_config()
     config_mutex.options["num_threads"] = 2
     config_mutex.options["mutex"] = "true"
     threads = [
