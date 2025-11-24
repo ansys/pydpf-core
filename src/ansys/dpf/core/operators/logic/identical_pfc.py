@@ -19,12 +19,12 @@ class identical_pfc(Operator):
     r"""Checks if two property_fields_container are identical.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     property_fields_containerA: PropertyFieldsContainer
     property_fields_containerB: PropertyFieldsContainer
 
-    Returns
+    Outputs
     -------
     boolean: bool
         bool (true if identical...)
@@ -62,10 +62,12 @@ class identical_pfc(Operator):
         server=None,
     ):
         super().__init__(
-            name="compare::property_fields_container", config=config, server=server
+            name="compare::property_fields_container",
+            config=config,
+            server=server,
+            inputs_type=InputsIdenticalPfc,
+            outputs_type=OutputsIdenticalPfc,
         )
-        self._inputs = InputsIdenticalPfc(self)
-        self._outputs = OutputsIdenticalPfc(self)
         if property_fields_containerA is not None:
             self.inputs.property_fields_containerA.connect(property_fields_containerA)
         if property_fields_containerB is not None:
@@ -140,7 +142,7 @@ class identical_pfc(Operator):
         inputs:
             An instance of InputsIdenticalPfc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsIdenticalPfc:
@@ -151,7 +153,7 @@ class identical_pfc(Operator):
         outputs:
             An instance of OutputsIdenticalPfc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsIdenticalPfc(_Inputs):
@@ -170,11 +172,11 @@ class InputsIdenticalPfc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(identical_pfc._spec().inputs, op)
-        self._property_fields_containerA = Input(
+        self._property_fields_containerA: Input = Input(
             identical_pfc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._property_fields_containerA)
-        self._property_fields_containerB = Input(
+        self._property_fields_containerB: Input = Input(
             identical_pfc._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._property_fields_containerB)
@@ -233,13 +235,13 @@ class OutputsIdenticalPfc(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(identical_pfc._spec().outputs, op)
-        self._boolean = Output(identical_pfc._spec().output_pin(0), 0, op)
+        self._boolean: Output[bool] = Output(identical_pfc._spec().output_pin(0), 0, op)
         self._outputs.append(self._boolean)
-        self._message = Output(identical_pfc._spec().output_pin(1), 1, op)
+        self._message: Output[str] = Output(identical_pfc._spec().output_pin(1), 1, op)
         self._outputs.append(self._message)
 
     @property
-    def boolean(self) -> Output:
+    def boolean(self) -> Output[bool]:
         r"""Allows to get boolean output of the operator
 
         bool (true if identical...)
@@ -259,7 +261,7 @@ class OutputsIdenticalPfc(_Outputs):
         return self._boolean
 
     @property
-    def message(self) -> Output:
+    def message(self) -> Output[str]:
         r"""Allows to get message output of the operator
 
         Returns

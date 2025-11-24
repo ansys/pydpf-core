@@ -8,6 +8,7 @@ from .change_location import change_location
 from .change_shell_layers import change_shell_layers
 from .compute_time_scoping import compute_time_scoping
 from .customtypefield_get_attribute import customtypefield_get_attribute
+from .cyclic_support_get_attribute import cyclic_support_get_attribute
 from .default_value import default_value
 from .delegate_to_operator import delegate_to_operator
 from .ds_get_attribute import ds_get_attribute
@@ -29,6 +30,7 @@ from .forward import forward
 from .forward_field import forward_field
 from .forward_fields_container import forward_fields_container
 from .forward_meshes_container import forward_meshes_container
+from .get_operators import get_operators
 from .hdf5dpf_workglow_provider import hdf5dpf_workglow_provider
 from .html_doc import html_doc
 from .incremental_concatenate_as_fc import incremental_concatenate_as_fc

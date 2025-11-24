@@ -66,6 +66,11 @@ class FieldServiceStub(object):
                 request_serializer=field__pb2.UpdateElementaryDataRequest.SerializeToString,
                 response_deserializer=base__pb2.Empty.FromString,
                 )
+        self.UpdateProperties = channel.unary_unary(
+                '/ansys.api.dpf.field.v0.FieldService/UpdateProperties',
+                request_serializer=field__pb2.UpdatePropertiesRequest.SerializeToString,
+                response_deserializer=base__pb2.Empty.FromString,
+                )
         self.List = channel.unary_stream(
                 '/ansys.api.dpf.field.v0.FieldService/List',
                 request_serializer=field__pb2.ListRequest.SerializeToString,
@@ -192,6 +197,12 @@ class FieldServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def UpdateProperties(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def List(self, request, context):
         """sends streamed data, to choose the size of each chunk set metadata with "num_float", "num_double", "num_int" or "num_bytes"
         """
@@ -311,6 +322,11 @@ def add_FieldServiceServicer_to_server(servicer, server):
             'UpdateElementaryData': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateElementaryData,
                     request_deserializer=field__pb2.UpdateElementaryDataRequest.FromString,
+                    response_serializer=base__pb2.Empty.SerializeToString,
+            ),
+            'UpdateProperties': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateProperties,
+                    request_deserializer=field__pb2.UpdatePropertiesRequest.FromString,
                     response_serializer=base__pb2.Empty.SerializeToString,
             ),
             'List': grpc.unary_stream_rpc_method_handler(
@@ -544,6 +560,23 @@ class FieldService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.field.v0.FieldService/UpdateElementaryData',
             field__pb2.UpdateElementaryDataRequest.SerializeToString,
+            base__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateProperties(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.field.v0.FieldService/UpdateProperties',
+            field__pb2.UpdatePropertiesRequest.SerializeToString,
             base__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
