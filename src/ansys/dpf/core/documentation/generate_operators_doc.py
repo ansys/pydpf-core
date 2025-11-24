@@ -33,6 +33,7 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.core import load_library
 from ansys.dpf.core.dpf_operator import available_operator_names
+from ansys.dpf.core.mapping_types import reflection_type_to_cpp_type
 
 
 class Jinja2ImportError(ModuleNotFoundError):  # pragma: nocover
@@ -233,22 +234,30 @@ def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:
     configurations_info = []
     for input_pin in spec.inputs:
         input_pin_info = spec.inputs[input_pin]
+        input_type_names = input_pin_info._type_names
         input_info.append(
             {
                 "pin_number": input_pin,
                 "name": input_pin_info.name,
-                "types": [str(t) for t in input_pin_info._type_names],
+                "types": [str(t) for t in input_type_names],
+                "cpp_types": [reflection_type_to_cpp_type(t) for t in input_type_names],
                 "document": input_pin_info.document,
                 "optional": input_pin_info.optional,
+                "ellipsis": input_pin_info.ellipsis,
             }
         )
     for output_pin in spec.outputs:
         output = spec.outputs[output_pin]
+        output_type_names = output._type_names
+        # if len(output_type_names) > 0:
+        # print(f"Output pin {output_pin} has types: {output_type_names}")
+        # print(f"Mapped C++ types: {[map_types_to_python[t] for t in output_type_names]}")
         output_info.append(
             {
                 "pin_number": output_pin,
                 "name": output.name,
-                "types": [str(t) for t in output._type_names],
+                "types": [str(t) for t in output_type_names],
+                "cpp_types": [reflection_type_to_cpp_type(t) for t in output_type_names],
                 "document": output.document,
                 "optional": output.optional,
             }
