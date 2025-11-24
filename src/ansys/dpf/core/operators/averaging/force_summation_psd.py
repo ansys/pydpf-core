@@ -49,8 +49,6 @@ class force_summation_psd(Operator):
 
     Outputs
     -------
-    force_accumulation: FieldsContainer
-        Returns the sum of forces for the 1-sigma displacement solution on the scoped nodes/elements.
     moment_accumulation: FieldsContainer
         Returns the sum of moments for the 1-sigma displacement solution on the scoped nodes/elements.
     forces_on_nodes: FieldsContainer
@@ -93,7 +91,6 @@ class force_summation_psd(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_force_accumulation = op.outputs.force_accumulation()
     >>> result_moment_accumulation = op.outputs.moment_accumulation()
     >>> result_forces_on_nodes = op.outputs.forces_on_nodes()
     >>> result_moments_on_nodes = op.outputs.moments_on_nodes()
@@ -186,12 +183,6 @@ FSUM/NFORCE.
                 ),
             },
             map_output_pin_spec={
-                0: PinSpecification(
-                    name="force_accumulation",
-                    type_names=["fields_container"],
-                    optional=False,
-                    document=r"""Returns the sum of forces for the 1-sigma displacement solution on the scoped nodes/elements.""",
-                ),
                 1: PinSpecification(
                     name="moment_accumulation",
                     type_names=["fields_container"],
@@ -470,7 +461,6 @@ class OutputsForceSummationPsd(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.averaging.force_summation_psd()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_force_accumulation = op.outputs.force_accumulation()
     >>> result_moment_accumulation = op.outputs.moment_accumulation()
     >>> result_forces_on_nodes = op.outputs.forces_on_nodes()
     >>> result_moments_on_nodes = op.outputs.moments_on_nodes()
@@ -478,10 +468,6 @@ class OutputsForceSummationPsd(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(force_summation_psd._spec().outputs, op)
-        self._force_accumulation: Output[FieldsContainer] = Output(
-            force_summation_psd._spec().output_pin(0), 0, op
-        )
-        self._outputs.append(self._force_accumulation)
         self._moment_accumulation: Output[FieldsContainer] = Output(
             force_summation_psd._spec().output_pin(1), 1, op
         )
@@ -494,26 +480,6 @@ class OutputsForceSummationPsd(_Outputs):
             force_summation_psd._spec().output_pin(11), 11, op
         )
         self._outputs.append(self._moments_on_nodes)
-
-    @property
-    def force_accumulation(self) -> Output[FieldsContainer]:
-        r"""Allows to get force_accumulation output of the operator
-
-        Returns the sum of forces for the 1-sigma displacement solution on the scoped nodes/elements.
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.averaging.force_summation_psd()
-        >>> # Get the output from op.outputs. ...
-        >>> result_force_accumulation = op.outputs.force_accumulation()
-        """
-        return self._force_accumulation
 
     @property
     def moment_accumulation(self) -> Output[FieldsContainer]:
