@@ -249,9 +249,6 @@ def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:
     for output_pin in spec.outputs:
         output = spec.outputs[output_pin]
         output_type_names = output._type_names
-        # if len(output_type_names) > 0:
-        # print(f"Output pin {output_pin} has types: {output_type_names}")
-        # print(f"Mapped C++ types: {[map_types_to_python[t] for t in output_type_names]}")
         output_info.append(
             {
                 "pin_number": output_pin,
