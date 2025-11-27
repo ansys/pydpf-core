@@ -30,6 +30,7 @@ from .forward import forward
 from .forward_field import forward_field
 from .forward_fields_container import forward_fields_container
 from .forward_meshes_container import forward_meshes_container
+from .get_operators import get_operators
 from .hdf5dpf_workglow_provider import hdf5dpf_workglow_provider
 from .html_doc import html_doc
 from .incremental_concatenate_as_fc import incremental_concatenate_as_fc

@@ -144,6 +144,10 @@ def load_api(path):
 		dll.Any_getAs_Support.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Any_getAs_Support.restype = ctypes.c_void_p
 
+	if hasattr(dll, "Any_getAs_LabelSpace"):
+		dll.Any_getAs_LabelSpace.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Any_getAs_LabelSpace.restype = ctypes.c_void_p
+
 	if hasattr(dll, "Any_makeObj_asAny"):
 		dll.Any_makeObj_asAny.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Any_makeObj_asAny.restype = ctypes.c_void_p
@@ -906,6 +910,10 @@ def load_api(path):
 	if hasattr(dll, "DataProcessing_getServerVersion_on_client"):
 		dll.DataProcessing_getServerVersion_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_getServerVersion_on_client.restype = None
+
+	if hasattr(dll, "DataProcessing_getGrpcClientServerVersion"):
+		dll.DataProcessing_getGrpcClientServerVersion.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_getGrpcClientServerVersion.restype = None
 
 	if hasattr(dll, "DataProcessing_getServerIpAndPort"):
 		dll.DataProcessing_getServerIpAndPort.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
