@@ -1,0 +1,161 @@
+
+
+
+
+
+
+:class:`Line`
+=============
+
+
+.. py:class:: ansys.dpf.core.geometry.Line(coordinates, n_points=100, server=None)
+
+   Create Line object from two 3D points.
+
+   :param coordinates: 3D coordinates of the two points defining the line.
+   :type coordinates: array, list, Field, Points
+   :param n_points: Number of points used to discretize the line (optional).
+   :type n_points: int
+   :param server: Server with the channel connected to the remote or local instance. The
+                  default is ``None``, in which case an attempt is made to use the global
+                  server.
+   :type server: :class:`ansys.dpf.core.server`, optional
+
+   .. rubric:: Examples
+
+   Create a line from two points, print object information and plot.
+
+   >>> from ansys.dpf.core.geometry import Line
+   >>> line = Line([[0, 0, 0], [1, 0, 0]])
+   >>> print(line)
+   DPF Line object:
+   Starting point: [0. 0. 0.]
+   Ending point: [1. 0. 0.]
+   Line discretized with 100 points
+   >>> line.plot()
+
+
+
+
+
+
+.. py:currentmodule:: Line
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~plot`
+            - Visualize line. If provided, ``mesh`` will be also plotted.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~coordinates`
+            - Coordinates of the two points defining the line.
+          * - :py:attr:`~mesh`
+            - Get line mesh.
+          * - :py:attr:`~length`
+            - Get line length.
+          * - :py:attr:`~path`
+            - Get line path (1D line coordinate).
+          * - :py:attr:`~n_points`
+            - Get number of points for the line discretization.
+          * - :py:attr:`~direction`
+            - Normalized direction vector between the two points defining the line.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - Overwrite getitem so coordinates.data is iterable.
+          * - :py:attr:`~__len__`
+            - Overwrite len so it returns the number of points.
+          * - :py:attr:`~__str__`
+            - Print line information.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.geometry import Line
+
+Property detail
+---------------
+
+.. py:property:: coordinates
+
+   Coordinates of the two points defining the line.
+
+.. py:property:: mesh
+
+   Get line mesh.
+
+.. py:property:: length
+
+   Get line length.
+
+.. py:property:: path
+
+   Get line path (1D line coordinate).
+
+.. py:property:: n_points
+
+   Get number of points for the line discretization.
+
+.. py:property:: direction
+
+   Normalized direction vector between the two points defining the line.
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(value)
+
+   Overwrite getitem so coordinates.data is iterable.
+
+
+.. py:method:: __len__()
+
+   Overwrite len so it returns the number of points.
+
+
+.. py:method:: __str__()
+
+   Print line information.
+
+
+.. py:method:: plot(mesh=None, **kwargs)
+
+   Visualize line. If provided, ``mesh`` will be also plotted.
+
+
+
+
+
