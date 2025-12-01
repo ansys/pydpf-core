@@ -21,16 +21,38 @@ if TYPE_CHECKING:
 
 
 class streams_provider(Operator):
-    r"""Creates streams (files with cache) from the data sources.
+    r"""Create streams (cached file handles) based on provided data sources.
+
+    - When the data sources contain a single result key, an internal
+      provider is instantiated for that namespace to create streams.
+    - When multiple result keys are present, streams are aggregated from
+      each namespace-specific internal provider.
+    - Upstream data sources (if defined) are opened and attached to the
+      output as upstream streams.
+
+    When the ``permissive`` configuration is enabled, the operator silently
+    skips result files that cannot be opened or have unsupported namespaces,
+    continuing with valid files. If ``permissive`` is disabled (default),
+    errors are thrown for invalid files.
+
+    Throws a runtime error if data sources are missing or if all result
+    files are invalid.
 
 
     Inputs
     ------
     data_sources: DataSources
+        Data sources describing one or more result files. Supports single or multiple result keys; may include upstream data sources.
+
+        **Error conditions when `permissive` config is disabled:**
+        - Throws `std::runtime_error` with message "StreamProvider: empty namespace for result key '<key>'" if a result file has no namespace.
+        - Throws `std::runtime_error` with message "StreamProvider: operator <namespace>::stream_provider not found." if the namespace is not supported.
+        - If all result files are invalid, throws an error even in permissive mode.
 
     Outputs
     -------
     streams_container: StreamsContainer
+        Streams created from the input data sources, including aggregated streams across namespaces and any upstream streams.
 
     Examples
     --------
@@ -65,7 +87,22 @@ class streams_provider(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Creates streams (files with cache) from the data sources.
+        description = r"""Create streams (cached file handles) based on provided data sources.
+
+- When the data sources contain a single result key, an internal
+  provider is instantiated for that namespace to create streams.
+- When multiple result keys are present, streams are aggregated from
+  each namespace-specific internal provider.
+- Upstream data sources (if defined) are opened and attached to the
+  output as upstream streams.
+
+When the ``permissive`` configuration is enabled, the operator silently
+skips result files that cannot be opened or have unsupported namespaces,
+continuing with valid files. If ``permissive`` is disabled (default),
+errors are thrown for invalid files.
+
+Throws a runtime error if data sources are missing or if all result
+files are invalid.
 """
         spec = Specification(
             description=description,
@@ -74,7 +111,12 @@ class streams_provider(Operator):
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Data sources describing one or more result files. Supports single or multiple result keys; may include upstream data sources.
+
+**Error conditions when `permissive` config is disabled:**
+- Throws `std::runtime_error` with message "StreamProvider: empty namespace for result key '<key>'" if a result file has no namespace.
+- Throws `std::runtime_error` with message "StreamProvider: operator <namespace>::stream_provider not found." if the namespace is not supported.
+- If all result files are invalid, throws an error even in permissive mode.""",
                 ),
             },
             map_output_pin_spec={
@@ -82,7 +124,7 @@ class streams_provider(Operator):
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Streams created from the input data sources, including aggregated streams across namespaces and any upstream streams.""",
                 ),
             },
         )
@@ -155,6 +197,13 @@ class InputsStreamsProvider(_Inputs):
     def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
+        Data sources describing one or more result files. Supports single or multiple result keys; may include upstream data sources.
+
+        **Error conditions when `permissive` config is disabled:**
+        - Throws `std::runtime_error` with message "StreamProvider: empty namespace for result key '<key>'" if a result file has no namespace.
+        - Throws `std::runtime_error` with message "StreamProvider: operator <namespace>::stream_provider not found." if the namespace is not supported.
+        - If all result files are invalid, throws an error even in permissive mode.
+
         Returns
         -------
         input:
@@ -193,6 +242,8 @@ class OutputsStreamsProvider(_Outputs):
     @property
     def streams_container(self) -> Output[StreamsContainer]:
         r"""Allows to get streams_container output of the operator
+
+        Streams created from the input data sources, including aggregated streams across namespaces and any upstream streams.
 
         Returns
         -------

@@ -26,6 +26,12 @@ class meshes_provider(Operator):
     r"""Reads meshes from result files. Meshes can be spatially or temporally
     varying.
 
+    The operator attempts to read mesh data from the provided data sources.
+    When the ``permissive`` configuration is enabled, the operator silently
+    skips result files that cannot be opened or have unsupported namespaces.
+    If ``permissive`` is disabled (default), errors are thrown for invalid
+    files.
+
 
     Inputs
     ------
@@ -34,7 +40,12 @@ class meshes_provider(Operator):
     streams_container: StreamsContainer, optional
         result file container allowed to be kept open to cache data
     data_sources: DataSources
-        result file path container, used if no streams are set
+        Data sources describing one or more result files.
+
+        **Error conditions when `permissive` config is disabled:**
+        - Throws `std::runtime_error` with message "StreamProvider: empty namespace for result key '<key>'" if a result file has no namespace.
+        - Throws `std::runtime_error` with message "StreamProvider: operator <namespace>::stream_provider not found." if the namespace is not supported.
+        - If all result files are invalid, throws an error even in permissive mode.
     read_cyclic: int, optional
         if 1, cyclic symmetry is ignored. If 2, cyclic expansion is done (default is 1).
     region_scoping: Scoping or int, optional
@@ -108,6 +119,12 @@ class meshes_provider(Operator):
     def _spec() -> Specification:
         description = r"""Reads meshes from result files. Meshes can be spatially or temporally
 varying.
+
+The operator attempts to read mesh data from the provided data sources.
+When the ``permissive`` configuration is enabled, the operator silently
+skips result files that cannot be opened or have unsupported namespaces.
+If ``permissive`` is disabled (default), errors are thrown for invalid
+files.
 """
         spec = Specification(
             description=description,
@@ -128,7 +145,12 @@ varying.
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document=r"""result file path container, used if no streams are set""",
+                    document=r"""Data sources describing one or more result files.
+
+**Error conditions when `permissive` config is disabled:**
+- Throws `std::runtime_error` with message "StreamProvider: empty namespace for result key '<key>'" if a result file has no namespace.
+- Throws `std::runtime_error` with message "StreamProvider: operator <namespace>::stream_provider not found." if the namespace is not supported.
+- If all result files are invalid, throws an error even in permissive mode.""",
                 ),
                 14: PinSpecification(
                     name="read_cyclic",
@@ -287,7 +309,12 @@ class InputsMeshesProvider(_Inputs):
     def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
-        result file path container, used if no streams are set
+        Data sources describing one or more result files.
+
+        **Error conditions when `permissive` config is disabled:**
+        - Throws `std::runtime_error` with message "StreamProvider: empty namespace for result key '<key>'" if a result file has no namespace.
+        - Throws `std::runtime_error` with message "StreamProvider: operator <namespace>::stream_provider not found." if the namespace is not supported.
+        - If all result files are invalid, throws an error even in permissive mode.
 
         Returns
         -------
