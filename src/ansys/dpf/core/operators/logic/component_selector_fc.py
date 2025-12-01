@@ -58,15 +58,16 @@ class component_selector_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsComponentSelectorFc
-    _outputs: OutputsComponentSelectorFc
-
     def __init__(
         self, fields_container=None, component_number=None, config=None, server=None
     ):
-        super().__init__(name="component_selector_fc", config=config, server=server)
-        self._inputs = InputsComponentSelectorFc(self)
-        self._outputs = OutputsComponentSelectorFc(self)
+        super().__init__(
+            name="component_selector_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsComponentSelectorFc,
+            outputs_type=OutputsComponentSelectorFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if component_number is not None:

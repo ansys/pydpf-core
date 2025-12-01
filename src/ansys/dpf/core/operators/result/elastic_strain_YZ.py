@@ -107,9 +107,6 @@ class elastic_strain_YZ(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElasticStrainYz
-    _outputs: OutputsElasticStrainYz
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,9 +122,13 @@ class elastic_strain_YZ(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPELYZ", config=config, server=server)
-        self._inputs = InputsElasticStrainYz(self)
-        self._outputs = OutputsElasticStrainYz(self)
+        super().__init__(
+            name="EPELYZ",
+            config=config,
+            server=server,
+            inputs_type=InputsElasticStrainYz,
+            outputs_type=OutputsElasticStrainYz,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

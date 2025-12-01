@@ -247,9 +247,6 @@ class num_surface_status_changes(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNumSurfaceStatusChanges
-    _outputs: OutputsNumSurfaceStatusChanges
-
     def __init__(
         self,
         time_scoping=None,
@@ -271,9 +268,13 @@ class num_surface_status_changes(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ECT_CNOS", config=config, server=server)
-        self._inputs = InputsNumSurfaceStatusChanges(self)
-        self._outputs = OutputsNumSurfaceStatusChanges(self)
+        super().__init__(
+            name="ECT_CNOS",
+            config=config,
+            server=server,
+            inputs_type=InputsNumSurfaceStatusChanges,
+            outputs_type=OutputsNumSurfaceStatusChanges,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

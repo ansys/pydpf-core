@@ -52,13 +52,14 @@ class json_to_data_tree(Operator):
     >>> result_data_tree = op.outputs.data_tree()
     """
 
-    _inputs: InputsJsonToDataTree
-    _outputs: OutputsJsonToDataTree
-
     def __init__(self, string_or_path=None, config=None, server=None):
-        super().__init__(name="json_to_data_tree", config=config, server=server)
-        self._inputs = InputsJsonToDataTree(self)
-        self._outputs = OutputsJsonToDataTree(self)
+        super().__init__(
+            name="json_to_data_tree",
+            config=config,
+            server=server,
+            inputs_type=InputsJsonToDataTree,
+            outputs_type=OutputsJsonToDataTree,
+        )
         if string_or_path is not None:
             self.inputs.string_or_path.connect(string_or_path)
 

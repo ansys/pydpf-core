@@ -90,9 +90,6 @@ class electric_potential(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElectricPotential
-    _outputs: OutputsElectricPotential
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,9 +102,13 @@ class electric_potential(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="VOLT", config=config, server=server)
-        self._inputs = InputsElectricPotential(self)
-        self._outputs = OutputsElectricPotential(self)
+        super().__init__(
+            name="VOLT",
+            config=config,
+            server=server,
+            inputs_type=InputsElectricPotential,
+            outputs_type=OutputsElectricPotential,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -54,13 +54,14 @@ class sqr(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsSqr
-    _outputs: OutputsSqr
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="sqr", config=config, server=server)
-        self._inputs = InputsSqr(self)
-        self._outputs = OutputsSqr(self)
+        super().__init__(
+            name="sqr",
+            config=config,
+            server=server,
+            inputs_type=InputsSqr,
+            outputs_type=OutputsSqr,
+        )
         if field is not None:
             self.inputs.field.connect(field)
 

@@ -90,9 +90,6 @@ class thermal_dissipation_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsThermalDissipationEnergy
-    _outputs: OutputsThermalDissipationEnergy
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,9 +102,13 @@ class thermal_dissipation_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ENG_TH", config=config, server=server)
-        self._inputs = InputsThermalDissipationEnergy(self)
-        self._outputs = OutputsThermalDissipationEnergy(self)
+        super().__init__(
+            name="ENG_TH",
+            config=config,
+            server=server,
+            inputs_type=InputsThermalDissipationEnergy,
+            outputs_type=OutputsThermalDissipationEnergy,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

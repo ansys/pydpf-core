@@ -247,9 +247,6 @@ class contact_friction_stress(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsContactFrictionStress
-    _outputs: OutputsContactFrictionStress
-
     def __init__(
         self,
         time_scoping=None,
@@ -271,9 +268,13 @@ class contact_friction_stress(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ECT_SFRIC", config=config, server=server)
-        self._inputs = InputsContactFrictionStress(self)
-        self._outputs = OutputsContactFrictionStress(self)
+        super().__init__(
+            name="ECT_SFRIC",
+            config=config,
+            server=server,
+            inputs_type=InputsContactFrictionStress,
+            outputs_type=OutputsContactFrictionStress,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

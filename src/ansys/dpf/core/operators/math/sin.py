@@ -53,13 +53,14 @@ class sin(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsSin
-    _outputs: OutputsSin
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="sin", config=config, server=server)
-        self._inputs = InputsSin(self)
-        self._outputs = OutputsSin(self)
+        super().__init__(
+            name="sin",
+            config=config,
+            server=server,
+            inputs_type=InputsSin,
+            outputs_type=OutputsSin,
+        )
         if field is not None:
             self.inputs.field.connect(field)
 

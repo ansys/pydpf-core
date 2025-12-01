@@ -51,13 +51,14 @@ class amplitude_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsAmplitudeFc
-    _outputs: OutputsAmplitudeFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="amplitude_fc", config=config, server=server)
-        self._inputs = InputsAmplitudeFc(self)
-        self._outputs = OutputsAmplitudeFc(self)
+        super().__init__(
+            name="amplitude_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAmplitudeFc,
+            outputs_type=OutputsAmplitudeFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

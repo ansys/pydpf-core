@@ -52,13 +52,14 @@ class spherical_to_cartesian(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsSphericalToCartesian
-    _outputs: OutputsSphericalToCartesian
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="spherical_to_cartesian", config=config, server=server)
-        self._inputs = InputsSphericalToCartesian(self)
-        self._outputs = OutputsSphericalToCartesian(self)
+        super().__init__(
+            name="spherical_to_cartesian",
+            config=config,
+            server=server,
+            inputs_type=InputsSphericalToCartesian,
+            outputs_type=OutputsSphericalToCartesian,
+        )
         if field is not None:
             self.inputs.field.connect(field)
 

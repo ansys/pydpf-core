@@ -55,13 +55,14 @@ class window_welch(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsWindowWelch
-    _outputs: OutputsWindowWelch
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="window::welch", config=config, server=server)
-        self._inputs = InputsWindowWelch(self)
-        self._outputs = OutputsWindowWelch(self)
+        super().__init__(
+            name="window::welch",
+            config=config,
+            server=server,
+            inputs_type=InputsWindowWelch,
+            outputs_type=OutputsWindowWelch,
+        )
         if field is not None:
             self.inputs.field.connect(field)
 

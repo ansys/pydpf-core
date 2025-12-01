@@ -57,17 +57,16 @@ class recombine_harmonic_indeces_cyclic(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRecombineHarmonicIndecesCyclic
-    _outputs: OutputsRecombineHarmonicIndecesCyclic
-
     def __init__(
         self, fields_container=None, is_constant=None, config=None, server=None
     ):
         super().__init__(
-            name="recombine_harmonic_indeces_cyclic", config=config, server=server
+            name="recombine_harmonic_indeces_cyclic",
+            config=config,
+            server=server,
+            inputs_type=InputsRecombineHarmonicIndecesCyclic,
+            outputs_type=OutputsRecombineHarmonicIndecesCyclic,
         )
-        self._inputs = InputsRecombineHarmonicIndecesCyclic(self)
-        self._outputs = OutputsRecombineHarmonicIndecesCyclic(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if is_constant is not None:

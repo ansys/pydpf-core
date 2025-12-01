@@ -58,13 +58,14 @@ class pow_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPowFc
-    _outputs: OutputsPowFc
-
     def __init__(self, fields_container=None, factor=None, config=None, server=None):
-        super().__init__(name="Pow_fc", config=config, server=server)
-        self._inputs = InputsPowFc(self)
-        self._outputs = OutputsPowFc(self)
+        super().__init__(
+            name="Pow_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsPowFc,
+            outputs_type=OutputsPowFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if factor is not None:

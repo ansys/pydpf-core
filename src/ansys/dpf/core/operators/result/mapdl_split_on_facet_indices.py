@@ -87,9 +87,6 @@ class mapdl_split_on_facet_indices(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsMapdlSplitOnFacetIndices
-    _outputs: OutputsMapdlSplitOnFacetIndices
-
     def __init__(
         self,
         fields_container=None,
@@ -102,10 +99,12 @@ class mapdl_split_on_facet_indices(Operator):
         server=None,
     ):
         super().__init__(
-            name="mapdl::split_on_facet_indices", config=config, server=server
+            name="mapdl::split_on_facet_indices",
+            config=config,
+            server=server,
+            inputs_type=InputsMapdlSplitOnFacetIndices,
+            outputs_type=OutputsMapdlSplitOnFacetIndices,
         )
-        self._inputs = InputsMapdlSplitOnFacetIndices(self)
-        self._outputs = OutputsMapdlSplitOnFacetIndices(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if property_field_new_elements_to_old is not None:

@@ -53,13 +53,14 @@ class exponential_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsExponentialFc
-    _outputs: OutputsExponentialFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="exponential_fc", config=config, server=server)
-        self._inputs = InputsExponentialFc(self)
-        self._outputs = OutputsExponentialFc(self)
+        super().__init__(
+            name="exponential_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsExponentialFc,
+            outputs_type=OutputsExponentialFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

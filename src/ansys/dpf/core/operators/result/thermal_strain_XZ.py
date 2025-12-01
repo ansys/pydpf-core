@@ -107,9 +107,6 @@ class thermal_strain_XZ(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsThermalStrainXz
-    _outputs: OutputsThermalStrainXz
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,9 +122,13 @@ class thermal_strain_XZ(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ETHXZ", config=config, server=server)
-        self._inputs = InputsThermalStrainXz(self)
-        self._outputs = OutputsThermalStrainXz(self)
+        super().__init__(
+            name="ETHXZ",
+            config=config,
+            server=server,
+            inputs_type=InputsThermalStrainXz,
+            outputs_type=OutputsThermalStrainXz,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

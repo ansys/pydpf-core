@@ -72,9 +72,6 @@ class identical_meshes(Operator):
     >>> result_are_identical = op.outputs.are_identical()
     """
 
-    _inputs: InputsIdenticalMeshes
-    _outputs: OutputsIdenticalMeshes
-
     def __init__(
         self,
         meshA=None,
@@ -85,9 +82,13 @@ class identical_meshes(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="compare::mesh", config=config, server=server)
-        self._inputs = InputsIdenticalMeshes(self)
-        self._outputs = OutputsIdenticalMeshes(self)
+        super().__init__(
+            name="compare::mesh",
+            config=config,
+            server=server,
+            inputs_type=InputsIdenticalMeshes,
+            outputs_type=OutputsIdenticalMeshes,
+        )
         if meshA is not None:
             self.inputs.meshA.connect(meshA)
         if meshB is not None:

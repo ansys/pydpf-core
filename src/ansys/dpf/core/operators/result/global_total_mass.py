@@ -66,9 +66,6 @@ class global_total_mass(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsGlobalTotalMass
-    _outputs: OutputsGlobalTotalMass
-
     def __init__(
         self,
         streams_container=None,
@@ -77,9 +74,13 @@ class global_total_mass(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="GLOB_TM", config=config, server=server)
-        self._inputs = InputsGlobalTotalMass(self)
-        self._outputs = OutputsGlobalTotalMass(self)
+        super().__init__(
+            name="GLOB_TM",
+            config=config,
+            server=server,
+            inputs_type=InputsGlobalTotalMass,
+            outputs_type=OutputsGlobalTotalMass,
+        )
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

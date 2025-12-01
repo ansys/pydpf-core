@@ -76,9 +76,6 @@ class elemental_difference_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElementalDifferenceFc
-    _outputs: OutputsElementalDifferenceFc
-
     def __init__(
         self,
         fields_container=None,
@@ -88,9 +85,13 @@ class elemental_difference_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="elemental_difference_fc", config=config, server=server)
-        self._inputs = InputsElementalDifferenceFc(self)
-        self._outputs = OutputsElementalDifferenceFc(self)
+        super().__init__(
+            name="elemental_difference_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalDifferenceFc,
+            outputs_type=OutputsElementalDifferenceFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

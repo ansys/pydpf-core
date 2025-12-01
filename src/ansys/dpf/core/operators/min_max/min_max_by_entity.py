@@ -55,13 +55,14 @@ class min_max_by_entity(Operator):
     >>> result_field_max = op.outputs.field_max()
     """
 
-    _inputs: InputsMinMaxByEntity
-    _outputs: OutputsMinMaxByEntity
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="min_max_by_entity", config=config, server=server)
-        self._inputs = InputsMinMaxByEntity(self)
-        self._outputs = OutputsMinMaxByEntity(self)
+        super().__init__(
+            name="min_max_by_entity",
+            config=config,
+            server=server,
+            inputs_type=InputsMinMaxByEntity,
+            outputs_type=OutputsMinMaxByEntity,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

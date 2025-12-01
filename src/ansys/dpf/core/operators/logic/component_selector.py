@@ -62,9 +62,6 @@ class component_selector(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsComponentSelector
-    _outputs: OutputsComponentSelector
-
     def __init__(
         self,
         field=None,
@@ -73,9 +70,13 @@ class component_selector(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="component_selector", config=config, server=server)
-        self._inputs = InputsComponentSelector(self)
-        self._outputs = OutputsComponentSelector(self)
+        super().__init__(
+            name="component_selector",
+            config=config,
+            server=server,
+            inputs_type=InputsComponentSelector,
+            outputs_type=OutputsComponentSelector,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if component_number is not None:

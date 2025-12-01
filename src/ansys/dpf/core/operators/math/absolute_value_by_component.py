@@ -55,15 +55,14 @@ class absolute_value_by_component(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAbsoluteValueByComponent
-    _outputs: OutputsAbsoluteValueByComponent
-
     def __init__(self, field=None, config=None, server=None):
         super().__init__(
-            name="absolute_value_by_component", config=config, server=server
+            name="absolute_value_by_component",
+            config=config,
+            server=server,
+            inputs_type=InputsAbsoluteValueByComponent,
+            outputs_type=OutputsAbsoluteValueByComponent,
         )
-        self._inputs = InputsAbsoluteValueByComponent(self)
-        self._outputs = OutputsAbsoluteValueByComponent(self)
         if field is not None:
             self.inputs.field.connect(field)
 

@@ -136,13 +136,6 @@ jobs:
         run: |
           tox -e doc-html --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
 
-      - name: "Upload Documentation Build log"
-        uses: actions/upload-artifact@v4
-        with:
-          name: doc-${{env.PACKAGE_NAME}}-log
-          path: doc/*.txt
-        if: always()
-
       - name: "Save doc-build cache"
         id: cache-doc-build-save
         uses: actions/cache/save@v4

@@ -247,9 +247,6 @@ class contact_gap_distance(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsContactGapDistance
-    _outputs: OutputsContactGapDistance
-
     def __init__(
         self,
         time_scoping=None,
@@ -271,9 +268,13 @@ class contact_gap_distance(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="ECT_GAP", config=config, server=server)
-        self._inputs = InputsContactGapDistance(self)
-        self._outputs = OutputsContactGapDistance(self)
+        super().__init__(
+            name="ECT_GAP",
+            config=config,
+            server=server,
+            inputs_type=InputsContactGapDistance,
+            outputs_type=OutputsContactGapDistance,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

@@ -106,9 +106,6 @@ class compute_total_strain_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsComputeTotalStrainX
-    _outputs: OutputsComputeTotalStrainX
-
     def __init__(
         self,
         time_scoping=None,
@@ -123,9 +120,13 @@ class compute_total_strain_X(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="compute_total_strain_X", config=config, server=server)
-        self._inputs = InputsComputeTotalStrainX(self)
-        self._outputs = OutputsComputeTotalStrainX(self)
+        super().__init__(
+            name="compute_total_strain_X",
+            config=config,
+            server=server,
+            inputs_type=InputsComputeTotalStrainX,
+            outputs_type=OutputsComputeTotalStrainX,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if scoping is not None:

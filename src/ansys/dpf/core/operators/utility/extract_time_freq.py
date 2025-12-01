@@ -62,9 +62,6 @@ class extract_time_freq(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsExtractTimeFreq
-    _outputs: OutputsExtractTimeFreq
-
     def __init__(
         self,
         time_freq_support=None,
@@ -73,9 +70,13 @@ class extract_time_freq(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="extract_time_freq", config=config, server=server)
-        self._inputs = InputsExtractTimeFreq(self)
-        self._outputs = OutputsExtractTimeFreq(self)
+        super().__init__(
+            name="extract_time_freq",
+            config=config,
+            server=server,
+            inputs_type=InputsExtractTimeFreq,
+            outputs_type=OutputsExtractTimeFreq,
+        )
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
         if time_scoping is not None:

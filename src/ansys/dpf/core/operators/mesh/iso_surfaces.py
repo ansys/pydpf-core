@@ -81,9 +81,6 @@ class iso_surfaces(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsIsoSurfaces
-    _outputs: OutputsIsoSurfaces
-
     def __init__(
         self,
         field=None,
@@ -94,9 +91,13 @@ class iso_surfaces(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="iso_surfaces", config=config, server=server)
-        self._inputs = InputsIsoSurfaces(self)
-        self._outputs = OutputsIsoSurfaces(self)
+        super().__init__(
+            name="iso_surfaces",
+            config=config,
+            server=server,
+            inputs_type=InputsIsoSurfaces,
+            outputs_type=OutputsIsoSurfaces,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if num_surfaces is not None:

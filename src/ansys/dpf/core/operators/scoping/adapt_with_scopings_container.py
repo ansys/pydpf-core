@@ -68,9 +68,6 @@ class adapt_with_scopings_container(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsAdaptWithScopingsContainer
-    _outputs: OutputsAdaptWithScopingsContainer
-
     def __init__(
         self,
         field_or_fields_container=None,
@@ -79,9 +76,13 @@ class adapt_with_scopings_container(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="rescope_fc", config=config, server=server)
-        self._inputs = InputsAdaptWithScopingsContainer(self)
-        self._outputs = OutputsAdaptWithScopingsContainer(self)
+        super().__init__(
+            name="rescope_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAdaptWithScopingsContainer,
+            outputs_type=OutputsAdaptWithScopingsContainer,
+        )
         if field_or_fields_container is not None:
             self.inputs.field_or_fields_container.connect(field_or_fields_container)
         if scopings_container is not None:

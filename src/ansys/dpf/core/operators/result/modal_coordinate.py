@@ -91,9 +91,6 @@ class modal_coordinate(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsModalCoordinate
-    _outputs: OutputsModalCoordinate
-
     def __init__(
         self,
         time_scoping=None,
@@ -113,8 +110,6 @@ class modal_coordinate(Operator):
                 super().__init__(name="U", config=config, server=server)
             else:
                 raise e
-        self._inputs = InputsModalCoordinate(self)
-        self._outputs = OutputsModalCoordinate(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

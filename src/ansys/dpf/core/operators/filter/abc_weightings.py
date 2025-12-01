@@ -63,9 +63,6 @@ class abc_weightings(Operator):
     >>> result_weightings = op.outputs.weightings()
     """
 
-    _inputs: InputsAbcWeightings
-    _outputs: OutputsAbcWeightings
-
     def __init__(
         self,
         fields_container=None,
@@ -74,9 +71,13 @@ class abc_weightings(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="abc_weightings", config=config, server=server)
-        self._inputs = InputsAbcWeightings(self)
-        self._outputs = OutputsAbcWeightings(self)
+        super().__init__(
+            name="abc_weightings",
+            config=config,
+            server=server,
+            inputs_type=InputsAbcWeightings,
+            outputs_type=OutputsAbcWeightings,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if weighting_type is not None:

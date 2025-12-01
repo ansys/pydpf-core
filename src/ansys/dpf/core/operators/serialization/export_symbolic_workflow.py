@@ -67,9 +67,6 @@ class export_symbolic_workflow(Operator):
     >>> result_data_sources = op.outputs.data_sources()
     """
 
-    _inputs: InputsExportSymbolicWorkflow
-    _outputs: OutputsExportSymbolicWorkflow
-
     def __init__(
         self,
         workflow=None,
@@ -79,9 +76,13 @@ class export_symbolic_workflow(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="export_symbolic_workflow", config=config, server=server)
-        self._inputs = InputsExportSymbolicWorkflow(self)
-        self._outputs = OutputsExportSymbolicWorkflow(self)
+        super().__init__(
+            name="export_symbolic_workflow",
+            config=config,
+            server=server,
+            inputs_type=InputsExportSymbolicWorkflow,
+            outputs_type=OutputsExportSymbolicWorkflow,
+        )
         if workflow is not None:
             self.inputs.workflow.connect(workflow)
         if path is not None:

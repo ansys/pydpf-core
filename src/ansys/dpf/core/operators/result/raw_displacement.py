@@ -90,9 +90,6 @@ class raw_displacement(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsRawDisplacement
-    _outputs: OutputsRawDisplacement
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,9 +102,13 @@ class raw_displacement(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="UTOT", config=config, server=server)
-        self._inputs = InputsRawDisplacement(self)
-        self._outputs = OutputsRawDisplacement(self)
+        super().__init__(
+            name="UTOT",
+            config=config,
+            server=server,
+            inputs_type=InputsRawDisplacement,
+            outputs_type=OutputsRawDisplacement,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

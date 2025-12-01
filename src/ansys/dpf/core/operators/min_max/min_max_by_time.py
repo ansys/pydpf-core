@@ -59,9 +59,6 @@ class min_max_by_time(Operator):
     >>> result_max = op.outputs.max()
     """
 
-    _inputs: InputsMinMaxByTime
-    _outputs: OutputsMinMaxByTime
-
     def __init__(
         self,
         fields_container=None,
@@ -69,9 +66,13 @@ class min_max_by_time(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="min_max_by_time", config=config, server=server)
-        self._inputs = InputsMinMaxByTime(self)
-        self._outputs = OutputsMinMaxByTime(self)
+        super().__init__(
+            name="min_max_by_time",
+            config=config,
+            server=server,
+            inputs_type=InputsMinMaxByTime,
+            outputs_type=OutputsMinMaxByTime,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if compute_absolute_value is not None:
