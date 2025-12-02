@@ -229,6 +229,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox -e test-api_entry,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Run compatible tests in parallel"
@@ -247,6 +248,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox -e test-server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_remote_workflow"
@@ -256,11 +258,13 @@ jobs:
           max_attempts: 3
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox -e test-remote_workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_remote_operator"
         shell: bash
         run: |
+          export DPF_DEFAULT_GRPC_MODE=insecure
           tox -e test-remote_operator,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_workflow"
@@ -270,6 +274,7 @@ jobs:
           max_attempts: 4
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox -e test-workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_service"
@@ -279,6 +284,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox -e test-service,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Combine coverage results"
