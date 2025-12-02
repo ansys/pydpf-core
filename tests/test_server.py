@@ -41,7 +41,7 @@ from ansys.dpf.core.server import (
     shutdown_all_session_servers,
     start_local_server,
 )
-from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
+from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig, GrpcMode
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     raises_for_servers_version_under,
@@ -188,7 +188,8 @@ def test_busy_port(remote_config_server_type):
     my_serv = start_local_server(config=remote_config_server_type)
     busy_port = my_serv.port
     with pytest.raises(errors.InvalidPortError):
-        server_types.launch_dpf(ansys_path=dpf.core.misc.get_ansys_path(), port=busy_port)
+        grpc_mode = GrpcMode.Insecure if os.environ.get("DPF_DEFAULT_GRPC_MODE", "") == "insecure" else GrpcMode.mTLS
+        server_types.launch_dpf(ansys_path=dpf.core.misc.get_ansys_path(), port=busy_port, grpc_mode = grpc_mode)
     server = start_local_server(as_global=False, port=busy_port, config=remote_config_server_type)
     assert server.port != busy_port
 
