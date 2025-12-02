@@ -37,7 +37,7 @@ import pytest
 from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core.check_version import get_server_version, meets_version
-from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
+from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig, GrpcMode
 import ansys.dpf.core.server_types
 from ansys.dpf.gate.load_api import _try_use_gatebin
 
@@ -51,6 +51,8 @@ os.environ["MPLBACKEND"] = "Agg"
 DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
 running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker
 local_test_repo = False
+
+DPF_DEFAULT_GRPC_MODE=os.environ.get("DPF_DEFAULT_GRPC_MODE", None)
 
 
 def _get_test_files_directory():
@@ -472,8 +474,8 @@ def server_type(request):
     config_names_server_type_remote_process,
 ) = remove_none_available_config(
     [
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True, grpc_mode=GrpcMode.Insecure if DPF_DEFAULT_GRPC_MODE == "insecure" else GrpcMode.mTLS),
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False,grpc_mode=GrpcMode.Insecure if DPF_DEFAULT_GRPC_MODE == "insecure" else GrpcMode.mTLS),
     ],
     ["ansys-grpc-dpf", "gRPC CLayer"],
 )
