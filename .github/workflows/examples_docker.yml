@@ -126,5 +126,6 @@ jobs:
         shell: bash
         working-directory: .ci
         run: |
+          export "DPF_DEFAULT_GRPC_MODE=insecure
           echo on
           python run_examples.py
