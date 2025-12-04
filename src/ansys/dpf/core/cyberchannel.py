@@ -1,3 +1,25 @@
+# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 """Module to create gRPC channels with different transport modes.
 
 This module provides functions to create gRPC channels based on the specified
@@ -20,13 +42,12 @@ Example
 # Only the create_channel function is exposed for external use
 __all__ = ["create_channel", "verify_transport_mode", "verify_uds_socket"]
 
+from dataclasses import dataclass
 import logging
 import os
-from dataclasses import dataclass
 from pathlib import Path
-from typing import cast
+from typing import TypeGuard, cast
 from warnings import warn
-from typing import TypeGuard
 
 import grpc
 
@@ -35,11 +56,13 @@ LOOPBACK_HOSTS = ("localhost", "127.0.0.1")
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class CertificateFiles:
     cert_file: str | Path | None = None
     key_file: str | Path | None = None
     ca_file: str | Path | None = None
+
 
 def create_channel(
     transport_mode: str,
@@ -98,11 +121,16 @@ def create_channel(
         The created gRPC channel
 
     """
+
     def check_host_port(transport_mode, host, port) -> tuple[str, str, str]:
         if host is None:
-            raise ValueError(f"When using {transport_mode.lower()} transport mode, 'host' must be provided.")
+            raise ValueError(
+                f"When using {transport_mode.lower()} transport mode, 'host' must be provided."
+            )
         if port is None:
-            raise ValueError(f"When using {transport_mode.lower()} transport mode, 'port' must be provided.")
+            raise ValueError(
+                f"When using {transport_mode.lower()} transport mode, 'port' must be provided."
+            )
         return transport_mode, host, port
 
     match transport_mode.lower():
@@ -295,7 +323,12 @@ def create_mtls_channel(
 
     """
     certs_folder = None
-    if cert_files is not None and cert_files.cert_file is not None and cert_files.key_file is not None and cert_files.ca_file is not None:
+    if (
+        cert_files is not None
+        and cert_files.cert_file is not None
+        and cert_files.key_file is not None
+        and cert_files.ca_file is not None
+    ):
         cert_file = Path(cert_files.cert_file).resolve()
         key_file = Path(cert_files.key_file).resolve()
         ca_file = Path(cert_files.ca_file).resolve()
@@ -322,8 +355,10 @@ def create_mtls_channel(
     except FileNotFoundError as e:
         error_message = f"Certificate file not found: {e.filename}. "
         if certs_folder is not None:
-            error_message += f"Ensure that the certificates are present in the '{certs_folder}' folder or " \
-            "set the 'ANSYS_GRPC_CERTIFICATES' environment variable."
+            error_message += (
+                f"Ensure that the certificates are present in the '{certs_folder}' folder or "
+                "set the 'ANSYS_GRPC_CERTIFICATES' environment variable."
+            )
         raise FileNotFoundError(error_message) from e
 
     # Create SSL credentials

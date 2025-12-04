@@ -31,11 +31,11 @@ from __future__ import annotations
 
 import abc
 from abc import ABC
+from copy import deepcopy
 import ctypes
 import io
 import os
 from pathlib import Path
-from copy import deepcopy
 import socket
 import subprocess
 import sys
@@ -121,8 +121,8 @@ def _run_launch_server_process(
     ansys_path=None,
     docker_config=server_factory.RunningDockerConfig(),
     context: ServerContext = None,
-    grpc_mode: server_factory.GrpcMode =server_factory.DEFAULT_GRPC_MODE,
-    certificates_dir: Path = None
+    grpc_mode: server_factory.GrpcMode = server_factory.DEFAULT_GRPC_MODE,
+    certificates_dir: Path = None,
 ):
     bShell = False
     if docker_config.use_docker:
@@ -155,7 +155,6 @@ def _run_launch_server_process(
             run_cmd.append("--mode 3")
             if certificates_dir is not None and isinstance(certificates_dir, Path):
                 run_cmd.append(f"--certs-dir {str(certificates_dir)}")
-
 
         path_in_install = load_api._get_path_in_install(internal_folder="bin")
         dpf_run_dir = _verify_ansys_path_is_valid(ansys_path, executable, path_in_install)
@@ -229,7 +228,13 @@ def _wait_and_check_server_connection(
 
 
 def launch_dpf(
-    ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, context: ServerContext = None, grpc_mode=server_factory.DEFAULT_GRPC_MODE, certificates_dir: Path = None
+    ansys_path,
+    ip=LOCALHOST,
+    port=DPF_DEFAULT_PORT,
+    timeout=10,
+    context: ServerContext = None,
+    grpc_mode=server_factory.DEFAULT_GRPC_MODE,
+    certificates_dir: Path = None,
 ):
     """Launch Ansys DPF.
 
@@ -251,7 +256,14 @@ def launch_dpf(
     context : , optional
         Context to apply to DPF server when launching it.
     """
-    process = _run_launch_server_process(ip, port, ansys_path, context=context, grpc_mode=grpc_mode, certificates_dir=certificates_dir)
+    process = _run_launch_server_process(
+        ip,
+        port,
+        ansys_path,
+        context=context,
+        grpc_mode=grpc_mode,
+        certificates_dir=certificates_dir,
+    )
     lines = []
     current_errors = []
     _wait_and_check_server_connection(
@@ -806,14 +818,15 @@ class GrpcServer(CServer):
         use_pypim: bool = True,
         context: server_context.ServerContext = server_context.SERVER_CONTEXT,
         grpc_mode: server_factory.GrpcMode = server_factory.DEFAULT_GRPC_MODE,
-        certificates_dir: Path = None
+        certificates_dir: Path = None,
     ):
         # Load DPFClientAPI
-        from ansys.dpf.core.misc import is_pypim_configured
         from ansys.dpf.core import settings
+        from ansys.dpf.core.misc import is_pypim_configured
+
         self._grpc_mode = deepcopy(grpc_mode)
         self._certs_dir = certificates_dir
-        if os.environ.get('DPF_DEFAULT_GRPC_MODE', None) == 'insecure':
+        if os.environ.get("DPF_DEFAULT_GRPC_MODE", None) == "insecure":
             self._grpc_mode = server_factory.GrpcMode.Insecure
 
         self.live = False
@@ -853,7 +866,15 @@ class GrpcServer(CServer):
                     timeout=timeout,
                 )
             else:
-                launch_dpf(ansys_path, ip, port, timeout=timeout, context=context, grpc_mode=self._grpc_mode, certificates_dir=self._certs_dir)
+                launch_dpf(
+                    ansys_path,
+                    ip,
+                    port,
+                    timeout=timeout,
+                    context=context,
+                    grpc_mode=self._grpc_mode,
+                    certificates_dir=self._certs_dir,
+                )
                 self._local_server = True
 
         local_client_config = settings.get_runtime_client_config()
@@ -863,7 +884,6 @@ class GrpcServer(CServer):
             local_client_config.grpc_mode = "mtls"
             if self._certs_dir is not None and len(str(self._certs_dir)) > 0:
                 local_client_config.grpc_certs_dir = str(self._certs_dir)
-
 
         # store port and ip for later reference
         self._client.set_address(address, self)
@@ -1256,14 +1276,15 @@ class LegacyGrpcServer(BaseServer):
         use_pypim: bool = True,
         context: server_context.ServerContext = server_context.SERVER_CONTEXT,
         grpc_mode: server_factory.GrpcMode = server_factory.DEFAULT_GRPC_MODE,
-        certificates_dir: Path = None
+        certificates_dir: Path = None,
     ):
         """Start the DPF server."""
         # Use ansys.grpc.dpf
         from ansys.dpf.core.misc import is_pypim_configured
+
         self._grpc_mode = deepcopy(grpc_mode)
         self._certs_dir = certificates_dir
-        if os.environ.get('DPF_DEFAULT_GRPC_MODE', None) == 'insecure':
+        if os.environ.get("DPF_DEFAULT_GRPC_MODE", None) == "insecure":
             self._grpc_mode = server_factory.GrpcMode.Insecure
 
         self.live = False
@@ -1306,7 +1327,15 @@ class LegacyGrpcServer(BaseServer):
                         timeout=timeout,
                     )
                 else:
-                    launch_dpf(ansys_path, ip, port, timeout=timeout, context=context, grpc_mode=self._grpc_mode, certificates_dir=self._certs_dir)
+                    launch_dpf(
+                        ansys_path,
+                        ip,
+                        port,
+                        timeout=timeout,
+                        context=context,
+                        grpc_mode=self._grpc_mode,
+                        certificates_dir=self._certs_dir,
+                    )
                     self._local_server = True
         from ansys.dpf.core import misc, settings
 
@@ -1315,10 +1344,15 @@ class LegacyGrpcServer(BaseServer):
             misc.RUNTIME_CLIENT_CONFIG.copy_config(self_config)
 
         from ansys.dpf.core import cyberchannel
+
         if self._grpc_mode == server_factory.GrpcMode.Insecure:
-            self.channel = cyberchannel.create_channel(transport_mode="insecure", host=ip, port=port)
+            self.channel = cyberchannel.create_channel(
+                transport_mode="insecure", host=ip, port=port
+            )
         elif self._grpc_mode == server_factory.GrpcMode.mTLS:
-            self.channel = cyberchannel.create_channel(transport_mode="mtls", host=ip, port=port, certs_dir=self._certs_dir)
+            self.channel = cyberchannel.create_channel(
+                transport_mode="mtls", host=ip, port=port, certs_dir=self._certs_dir
+            )
 
         # store the address for later reference
         self._address = address

@@ -45,18 +45,11 @@ from ansys.dpf.core import errors, server_context
 from ansys.dpf.core.misc import get_ansys_path, is_ubuntu
 from ansys.dpf.core.server_factory import (
     CommunicationProtocols,
+    GrpcMode,
     ServerConfig,
     ServerFactory,
-    GrpcMode
 )
-from ansys.dpf.core.server_types import (  # noqa: F401  # pylint: disable=unused-import
-    DPF_DEFAULT_PORT,
-    LOCALHOST,
-    RUNNING_DOCKER,
-    AnyServerType,
-    BaseServer,
-)
-from ansys.dpf.core.server_types import (  # noqa: F401  # pylint: disable=unused-import
+from ansys.dpf.core.server_types import (  # noqa: F401  # pylint: disable=unused-import  # noqa: F401  # pylint: disable=unused-import
     DPF_DEFAULT_PORT,
     LOCALHOST,
     RUNNING_DOCKER,
@@ -268,8 +261,8 @@ def start_local_server(
                 "ip" in server_init_signature.parameters.keys()
                 and "port" in server_init_signature.parameters.keys()
             ):
-                grpc_mode=GrpcMode.mTLS
-                certs_dir=""
+                grpc_mode = GrpcMode.mTLS
+                certs_dir = ""
                 if config is not None:
                     grpc_mode = config.grpc_mode
                     certs_dir = config.certificates_dir
@@ -285,7 +278,7 @@ def start_local_server(
                     use_pypim=use_pypim,
                     context=context,
                     grpc_mode=grpc_mode,
-                    certificates_dir=certs_dir
+                    certificates_dir=certs_dir,
                 )
             else:
                 server = server_type(
@@ -384,8 +377,8 @@ def connect_to_server(
             "ip" in server_init_signature.parameters.keys()
             and "port" in server_init_signature.parameters.keys()
         ):
-            grpc_mode=GrpcMode.mTLS
-            certs_dir=""
+            grpc_mode = GrpcMode.mTLS
+            certs_dir = ""
             if config is not None:
                 grpc_mode = config.grpc_mode
                 certs_dir = config.certificates_dir
@@ -397,7 +390,7 @@ def connect_to_server(
                 context=context,
                 timeout=timeout,
                 grpc_mode=grpc_mode,
-                certificates_dir=certs_dir
+                certificates_dir=certs_dir,
             )
         else:
             server = server_type(as_global=as_global, context=context)

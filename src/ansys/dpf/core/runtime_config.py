@@ -139,6 +139,7 @@ class RuntimeClientConfig(_RuntimeConfig):
 
     @property
     def grpc_mode(self):
+        """Returns current value for the key 'grpc_mode' setting."""
         return str(self._data_tree.get_as("grpc_mode", types.string))
 
     @grpc_mode.setter
@@ -147,6 +148,7 @@ class RuntimeClientConfig(_RuntimeConfig):
 
     @property
     def grpc_certs_dir(self):
+        """Returns the current value for the 'grpc_certs_dir' setting, can be empty."""
         return str(self._data_tree.get_as("grpc_certs_dir", types.string))
 
     @grpc_certs_dir.setter
