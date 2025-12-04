@@ -61,6 +61,13 @@ of basic features and concepts so you can start coding right away.
 
         Learn how to interact with meshes in PyDPF-Core.
 
+    .. grid-item-card:: Mapping and data interpolation
+        :link: ref_tutorials_mapping
+        :link-type: ref
+        :text-align: center
+
+        Learn how to map and interpolate results onto custom coordinates and meshes.
+
     .. grid-item-card:: Processing data with operators and workflows
         :text-align: center
         :class-card: sd-bg-light

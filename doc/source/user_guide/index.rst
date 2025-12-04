@@ -61,6 +61,7 @@ Troubleshooting
     tutorials/post_processing_basics/index.rst
     tutorials/import_data/index.rst
     tutorials/mesh/index.rst
+    tutorials/mapping/index.rst
     tutorials/plot/index.rst
     tutorials/animate/index.rst
     tutorials/mathematics/index.rst
