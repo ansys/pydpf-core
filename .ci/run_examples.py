@@ -20,6 +20,11 @@ server_version = server.version
 server.shutdown()
 print(f"Server version: {server_version}")
 
+skipped_docker = [
+    '00-cfx_res_files.py',
+    '03-distributed-msup_expansion_steps.py'
+]
+
 for root, subdirectories, files in os.walk(examples_path):
     for subdirectory in subdirectories:
         subdir = Path(root) / subdirectory
@@ -29,6 +34,10 @@ for root, subdirectories, files in os.walk(examples_path):
             elif "win" in sys.platform and "06-distributed_stress_averaging" in str(file):
                 # Currently very unstable in the GH CI
                 continue
+            if os.environ.get('DPF_DOCKER', None) is not None and file in skipped_docker:
+                print(f"Skipping ${file} in Docker context", flush=True)
+                continue
+                
             print("\n--------------------------------------------------")
             print(file)
             minimum_version_str = get_example_required_minimum_dpf_version(file)
