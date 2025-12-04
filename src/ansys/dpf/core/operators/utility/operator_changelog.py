@@ -54,13 +54,14 @@ class operator_changelog(Operator):
     >>> result_changelog_gdc = op.outputs.changelog_gdc()
     """
 
-    _inputs: InputsOperatorChangelog
-    _outputs: OutputsOperatorChangelog
-
     def __init__(self, operator_name=None, config=None, server=None):
-        super().__init__(name="operator_changelog", config=config, server=server)
-        self._inputs = InputsOperatorChangelog(self)
-        self._outputs = OutputsOperatorChangelog(self)
+        super().__init__(
+            name="operator_changelog",
+            config=config,
+            server=server,
+            inputs_type=InputsOperatorChangelog,
+            outputs_type=OutputsOperatorChangelog,
+        )
         if operator_name is not None:
             self.inputs.operator_name.connect(operator_name)
 

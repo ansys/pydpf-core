@@ -27,12 +27,14 @@ class norm_fc(Operator):
     Inputs
     ------
     fields_container: FieldsContainer
+        FieldsContainer containing fields for norm calculation
     scalar_int: int, optional
         Lp normalisation type, p = 1, 2, ...n - Default Lp=2
 
     Outputs
     -------
     fields_container: FieldsContainer
+        FieldsContainer with computed norms for each field
 
     Examples
     --------
@@ -57,15 +59,16 @@ class norm_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNormFc
-    _outputs: OutputsNormFc
-
     def __init__(
         self, fields_container=None, scalar_int=None, config=None, server=None
     ):
-        super().__init__(name="norm_fc", config=config, server=server)
-        self._inputs = InputsNormFc(self)
-        self._outputs = OutputsNormFc(self)
+        super().__init__(
+            name="norm_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsNormFc,
+            outputs_type=OutputsNormFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if scalar_int is not None:
@@ -83,7 +86,7 @@ process is applied on each field of the input fields container.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""FieldsContainer containing fields for norm calculation""",
                 ),
                 1: PinSpecification(
                     name="scalar_int",
@@ -97,7 +100,7 @@ process is applied on each field of the input fields container.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""FieldsContainer with computed norms for each field""",
                 ),
             },
         )
@@ -174,6 +177,8 @@ class InputsNormFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        FieldsContainer containing fields for norm calculation
+
         Returns
         -------
         input:
@@ -233,6 +238,8 @@ class OutputsNormFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        FieldsContainer with computed norms for each field
 
         Returns
         -------

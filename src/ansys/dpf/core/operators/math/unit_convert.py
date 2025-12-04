@@ -62,15 +62,16 @@ class unit_convert(Operator):
     >>> result_converted_entity = op.outputs.converted_entity()
     """
 
-    _inputs: InputsUnitConvert
-    _outputs: OutputsUnitConvert
-
     def __init__(
         self, entity_to_convert=None, unit_name=None, config=None, server=None
     ):
-        super().__init__(name="unit_convert", config=config, server=server)
-        self._inputs = InputsUnitConvert(self)
-        self._outputs = OutputsUnitConvert(self)
+        super().__init__(
+            name="unit_convert",
+            config=config,
+            server=server,
+            inputs_type=InputsUnitConvert,
+            outputs_type=OutputsUnitConvert,
+        )
         if entity_to_convert is not None:
             self.inputs.entity_to_convert.connect(entity_to_convert)
         if unit_name is not None:

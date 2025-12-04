@@ -87,9 +87,6 @@ class fft(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsFft
-    _outputs: OutputsFft
-
     def __init__(
         self,
         field=None,
@@ -101,9 +98,13 @@ class fft(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="fft", config=config, server=server)
-        self._inputs = InputsFft(self)
-        self._outputs = OutputsFft(self)
+        super().__init__(
+            name="fft",
+            config=config,
+            server=server,
+            inputs_type=InputsFft,
+            outputs_type=OutputsFft,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if scale_forward_transform is not None:

@@ -60,9 +60,6 @@ class scale_by_field_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsScaleByFieldFc
-    _outputs: OutputsScaleByFieldFc
-
     def __init__(
         self,
         field_or_fields_container_A=None,
@@ -70,9 +67,13 @@ class scale_by_field_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="scale_by_field_fc", config=config, server=server)
-        self._inputs = InputsScaleByFieldFc(self)
-        self._outputs = OutputsScaleByFieldFc(self)
+        super().__init__(
+            name="scale_by_field_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsScaleByFieldFc,
+            outputs_type=OutputsScaleByFieldFc,
+        )
         if field_or_fields_container_A is not None:
             self.inputs.field_or_fields_container_A.connect(field_or_fields_container_A)
         if field_or_fields_container_B is not None:

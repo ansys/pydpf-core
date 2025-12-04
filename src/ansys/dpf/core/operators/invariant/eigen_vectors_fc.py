@@ -53,13 +53,14 @@ class eigen_vectors_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsEigenVectorsFc
-    _outputs: OutputsEigenVectorsFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="eig_vectors_fc", config=config, server=server)
-        self._inputs = InputsEigenVectorsFc(self)
-        self._outputs = OutputsEigenVectorsFc(self)
+        super().__init__(
+            name="eig_vectors_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsEigenVectorsFc,
+            outputs_type=OutputsEigenVectorsFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

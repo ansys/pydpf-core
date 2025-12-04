@@ -57,13 +57,14 @@ class overall_dot(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsOverallDot
-    _outputs: OutputsOverallDot
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="native::overall_dot", config=config, server=server)
-        self._inputs = InputsOverallDot(self)
-        self._outputs = OutputsOverallDot(self)
+        super().__init__(
+            name="native::overall_dot",
+            config=config,
+            server=server,
+            inputs_type=InputsOverallDot,
+            outputs_type=OutputsOverallDot,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

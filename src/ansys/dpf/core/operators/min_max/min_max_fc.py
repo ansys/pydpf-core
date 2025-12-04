@@ -55,13 +55,14 @@ class min_max_fc(Operator):
     >>> result_field_max = op.outputs.field_max()
     """
 
-    _inputs: InputsMinMaxFc
-    _outputs: OutputsMinMaxFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="min_max_fc", config=config, server=server)
-        self._inputs = InputsMinMaxFc(self)
-        self._outputs = OutputsMinMaxFc(self)
+        super().__init__(
+            name="min_max_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsMinMaxFc,
+            outputs_type=OutputsMinMaxFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

@@ -57,9 +57,6 @@ class merge_time_freq_supports(Operator):
     >>> result_merged_support = op.outputs.merged_support()
     """
 
-    _inputs: InputsMergeTimeFreqSupports
-    _outputs: OutputsMergeTimeFreqSupports
-
     def __init__(
         self,
         time_freq_supports1=None,
@@ -67,9 +64,13 @@ class merge_time_freq_supports(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="merge::time_freq_support", config=config, server=server)
-        self._inputs = InputsMergeTimeFreqSupports(self)
-        self._outputs = OutputsMergeTimeFreqSupports(self)
+        super().__init__(
+            name="merge::time_freq_support",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeTimeFreqSupports,
+            outputs_type=OutputsMergeTimeFreqSupports,
+        )
         if time_freq_supports1 is not None:
             self.inputs.time_freq_supports1.connect(time_freq_supports1)
         if time_freq_supports2 is not None:

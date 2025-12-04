@@ -132,9 +132,6 @@ class write_motion_dfmf_file(Operator):
     >>> result_dfmf_data_source = op.outputs.dfmf_data_source()
     """
 
-    _inputs: InputsWriteMotionDfmfFile
-    _outputs: OutputsWriteMotionDfmfFile
-
     def __init__(
         self,
         model_data=None,
@@ -159,9 +156,13 @@ class write_motion_dfmf_file(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="write_motion_dfmf_file", config=config, server=server)
-        self._inputs = InputsWriteMotionDfmfFile(self)
-        self._outputs = OutputsWriteMotionDfmfFile(self)
+        super().__init__(
+            name="write_motion_dfmf_file",
+            config=config,
+            server=server,
+            inputs_type=InputsWriteMotionDfmfFile,
+            outputs_type=OutputsWriteMotionDfmfFile,
+        )
         if model_data is not None:
             self.inputs.model_data.connect(model_data)
         if mode_shapes is not None:

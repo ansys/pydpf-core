@@ -66,9 +66,6 @@ class serializer(Operator):
     >>> result_file_path = op.outputs.file_path()
     """
 
-    _inputs: InputsSerializer
-    _outputs: OutputsSerializer
-
     def __init__(
         self,
         stream_type=None,
@@ -78,9 +75,13 @@ class serializer(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="serializer", config=config, server=server)
-        self._inputs = InputsSerializer(self)
-        self._outputs = OutputsSerializer(self)
+        super().__init__(
+            name="serializer",
+            config=config,
+            server=server,
+            inputs_type=InputsSerializer,
+            outputs_type=OutputsSerializer,
+        )
         if stream_type is not None:
             self.inputs.stream_type.connect(stream_type)
         if file_path is not None:

@@ -90,9 +90,6 @@ class normal_contact_moment(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNormalContactMoment
-    _outputs: OutputsNormalContactMoment
-
     def __init__(
         self,
         time_scoping=None,
@@ -105,9 +102,13 @@ class normal_contact_moment(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="CFTNOR", config=config, server=server)
-        self._inputs = InputsNormalContactMoment(self)
-        self._outputs = OutputsNormalContactMoment(self)
+        super().__init__(
+            name="CFTNOR",
+            config=config,
+            server=server,
+            inputs_type=InputsNormalContactMoment,
+            outputs_type=OutputsNormalContactMoment,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

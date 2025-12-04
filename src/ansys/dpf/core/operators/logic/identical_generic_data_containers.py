@@ -78,9 +78,6 @@ class identical_generic_data_containers(Operator):
     >>> result_message = op.outputs.message()
     """
 
-    _inputs: InputsIdenticalGenericDataContainers
-    _outputs: OutputsIdenticalGenericDataContainers
-
     def __init__(
         self,
         generic_data_containerA=None,
@@ -92,10 +89,12 @@ class identical_generic_data_containers(Operator):
         server=None,
     ):
         super().__init__(
-            name="compare::generic_data_container", config=config, server=server
+            name="compare::generic_data_container",
+            config=config,
+            server=server,
+            inputs_type=InputsIdenticalGenericDataContainers,
+            outputs_type=OutputsIdenticalGenericDataContainers,
         )
-        self._inputs = InputsIdenticalGenericDataContainers(self)
-        self._outputs = OutputsIdenticalGenericDataContainers(self)
         if generic_data_containerA is not None:
             self.inputs.generic_data_containerA.connect(generic_data_containerA)
         if generic_data_containerB is not None:

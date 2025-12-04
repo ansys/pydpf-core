@@ -73,9 +73,6 @@ class mesh_cut(Operator):
     >>> result_mesh = op.outputs.mesh()
     """
 
-    _inputs: InputsMeshCut
-    _outputs: OutputsMeshCut
-
     def __init__(
         self,
         field=None,
@@ -86,9 +83,13 @@ class mesh_cut(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="mesh_cut", config=config, server=server)
-        self._inputs = InputsMeshCut(self)
-        self._outputs = OutputsMeshCut(self)
+        super().__init__(
+            name="mesh_cut",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshCut,
+            outputs_type=OutputsMeshCut,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if iso_value is not None:

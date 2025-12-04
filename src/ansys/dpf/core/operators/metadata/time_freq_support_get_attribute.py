@@ -70,9 +70,6 @@ class time_freq_support_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
-    _inputs: InputsTimeFreqSupportGetAttribute
-    _outputs: OutputsTimeFreqSupportGetAttribute
-
     def __init__(
         self,
         time_freq_support=None,
@@ -83,10 +80,12 @@ class time_freq_support_get_attribute(Operator):
         server=None,
     ):
         super().__init__(
-            name="timefreqsupport::get_attribute", config=config, server=server
+            name="timefreqsupport::get_attribute",
+            config=config,
+            server=server,
+            inputs_type=InputsTimeFreqSupportGetAttribute,
+            outputs_type=OutputsTimeFreqSupportGetAttribute,
         )
-        self._inputs = InputsTimeFreqSupportGetAttribute(self)
-        self._outputs = OutputsTimeFreqSupportGetAttribute(self)
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
         if property_name is not None:

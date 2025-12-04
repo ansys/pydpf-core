@@ -66,13 +66,14 @@ class gauss_to_node(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsGaussToNode
-    _outputs: OutputsGaussToNode
-
     def __init__(self, field=None, scoping=None, mesh=None, config=None, server=None):
-        super().__init__(name="gauss_to_node", config=config, server=server)
-        self._inputs = InputsGaussToNode(self)
-        self._outputs = OutputsGaussToNode(self)
+        super().__init__(
+            name="gauss_to_node",
+            config=config,
+            server=server,
+            inputs_type=InputsGaussToNode,
+            outputs_type=OutputsGaussToNode,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if scoping is not None:

@@ -125,9 +125,6 @@ class smisc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsSmisc
-    _outputs: OutputsSmisc
-
     def __init__(
         self,
         time_scoping=None,
@@ -153,8 +150,6 @@ class smisc(Operator):
                 super().__init__(name="mapdl::smisc", config=config, server=server)
             else:
                 raise e
-        self._inputs = InputsSmisc(self)
-        self._outputs = OutputsSmisc(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

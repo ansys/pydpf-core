@@ -32,6 +32,7 @@ class sqr(Operator):
     Outputs
     -------
     field: Field
+        Field with squared values applied element-wise to input data
 
     Examples
     --------
@@ -53,13 +54,14 @@ class sqr(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsSqr
-    _outputs: OutputsSqr
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="sqr", config=config, server=server)
-        self._inputs = InputsSqr(self)
-        self._outputs = OutputsSqr(self)
+        super().__init__(
+            name="sqr",
+            config=config,
+            server=server,
+            inputs_type=InputsSqr,
+            outputs_type=OutputsSqr,
+        )
         if field is not None:
             self.inputs.field.connect(field)
 
@@ -82,7 +84,7 @@ class sqr(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with squared values applied element-wise to input data""",
                 ),
             },
         )
@@ -193,6 +195,8 @@ class OutputsSqr(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with squared values applied element-wise to input data
 
         Returns
         -------

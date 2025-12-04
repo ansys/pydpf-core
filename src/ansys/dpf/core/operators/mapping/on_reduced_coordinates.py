@@ -76,9 +76,6 @@ class on_reduced_coordinates(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsOnReducedCoordinates
-    _outputs: OutputsOnReducedCoordinates
-
     def __init__(
         self,
         fields_container=None,
@@ -89,9 +86,13 @@ class on_reduced_coordinates(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="interpolation_operator", config=config, server=server)
-        self._inputs = InputsOnReducedCoordinates(self)
-        self._outputs = OutputsOnReducedCoordinates(self)
+        super().__init__(
+            name="interpolation_operator",
+            config=config,
+            server=server,
+            inputs_type=InputsOnReducedCoordinates,
+            outputs_type=OutputsOnReducedCoordinates,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if reduced_coordinates is not None:

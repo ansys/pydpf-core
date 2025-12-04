@@ -72,9 +72,6 @@ class part_hourglass_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPartHourglassEnergy
-    _outputs: OutputsPartHourglassEnergy
-
     def __init__(
         self,
         streams_container=None,
@@ -84,9 +81,13 @@ class part_hourglass_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="M_ENG_AHO", config=config, server=server)
-        self._inputs = InputsPartHourglassEnergy(self)
-        self._outputs = OutputsPartHourglassEnergy(self)
+        super().__init__(
+            name="M_ENG_AHO",
+            config=config,
+            server=server,
+            inputs_type=InputsPartHourglassEnergy,
+            outputs_type=OutputsPartHourglassEnergy,
+        )
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

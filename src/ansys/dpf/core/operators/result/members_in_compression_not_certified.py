@@ -111,9 +111,6 @@ class members_in_compression_not_certified(Operator):
     >>> result_buckling_resistance_compression_zz = op.outputs.buckling_resistance_compression_zz()
     """
 
-    _inputs: InputsMembersInCompressionNotCertified
-    _outputs: OutputsMembersInCompressionNotCertified
-
     def __init__(
         self,
         time_scoping=None,
@@ -130,10 +127,12 @@ class members_in_compression_not_certified(Operator):
         server=None,
     ):
         super().__init__(
-            name="members_in_compression_not_certified", config=config, server=server
+            name="members_in_compression_not_certified",
+            config=config,
+            server=server,
+            inputs_type=InputsMembersInCompressionNotCertified,
+            outputs_type=OutputsMembersInCompressionNotCertified,
         )
-        self._inputs = InputsMembersInCompressionNotCertified(self)
-        self._outputs = OutputsMembersInCompressionNotCertified(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if field_yield_strength is not None:

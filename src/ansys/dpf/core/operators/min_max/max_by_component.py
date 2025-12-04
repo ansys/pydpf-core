@@ -63,9 +63,6 @@ class max_by_component(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsMaxByComponent
-    _outputs: OutputsMaxByComponent
-
     def __init__(
         self,
         use_absolute_value=None,
@@ -74,9 +71,13 @@ class max_by_component(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="max_by_component", config=config, server=server)
-        self._inputs = InputsMaxByComponent(self)
-        self._outputs = OutputsMaxByComponent(self)
+        super().__init__(
+            name="max_by_component",
+            config=config,
+            server=server,
+            inputs_type=InputsMaxByComponent,
+            outputs_type=OutputsMaxByComponent,
+        )
         if use_absolute_value is not None:
             self.inputs.use_absolute_value.connect(use_absolute_value)
         if field1 is not None:

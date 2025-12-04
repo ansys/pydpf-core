@@ -37,6 +37,7 @@ class centroid(Operator):
     Outputs
     -------
     field: Field
+        Field with centroid calculation: fieldA*(1-factor) + fieldB*factor
 
     Examples
     --------
@@ -64,13 +65,14 @@ class centroid(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsCentroid
-    _outputs: OutputsCentroid
-
     def __init__(self, fieldA=None, fieldB=None, factor=None, config=None, server=None):
-        super().__init__(name="centroid", config=config, server=server)
-        self._inputs = InputsCentroid(self)
-        self._outputs = OutputsCentroid(self)
+        super().__init__(
+            name="centroid",
+            config=config,
+            server=server,
+            inputs_type=InputsCentroid,
+            outputs_type=OutputsCentroid,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:
@@ -110,7 +112,7 @@ field1\ *(1.-fact)+field2*\ (fact). Only works by index.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with centroid calculation: fieldA*(1-factor) + fieldB*factor""",
                 ),
             },
         )
@@ -273,6 +275,8 @@ class OutputsCentroid(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with centroid calculation: fieldA*(1-factor) + fieldB*factor
 
         Returns
         -------

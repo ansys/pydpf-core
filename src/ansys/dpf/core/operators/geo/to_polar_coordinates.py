@@ -60,13 +60,14 @@ class to_polar_coordinates(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsToPolarCoordinates
-    _outputs: OutputsToPolarCoordinates
-
     def __init__(self, field=None, coordinate_system=None, config=None, server=None):
-        super().__init__(name="polar_coordinates", config=config, server=server)
-        self._inputs = InputsToPolarCoordinates(self)
-        self._outputs = OutputsToPolarCoordinates(self)
+        super().__init__(
+            name="polar_coordinates",
+            config=config,
+            server=server,
+            inputs_type=InputsToPolarCoordinates,
+            outputs_type=OutputsToPolarCoordinates,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if coordinate_system is not None:

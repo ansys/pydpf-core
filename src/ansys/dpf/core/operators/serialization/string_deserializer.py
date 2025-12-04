@@ -65,9 +65,6 @@ class string_deserializer(Operator):
     >>> result_any_output2 = op.outputs.any_output2()
     """
 
-    _inputs: InputsStringDeserializer
-    _outputs: OutputsStringDeserializer
-
     def __init__(
         self,
         stream_type=None,
@@ -76,9 +73,13 @@ class string_deserializer(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="string_deserializer", config=config, server=server)
-        self._inputs = InputsStringDeserializer(self)
-        self._outputs = OutputsStringDeserializer(self)
+        super().__init__(
+            name="string_deserializer",
+            config=config,
+            server=server,
+            inputs_type=InputsStringDeserializer,
+            outputs_type=OutputsStringDeserializer,
+        )
         if stream_type is not None:
             self.inputs.stream_type.connect(stream_type)
         if serialized_string1 is not None:

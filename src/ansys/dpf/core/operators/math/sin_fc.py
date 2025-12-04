@@ -20,16 +20,18 @@ if TYPE_CHECKING:
 
 
 class sin_fc(Operator):
-    r"""Computes element-wise sin(field[i]).
+    r"""Computes element-wise sine function on field data: sin(field[i]).
 
 
     Inputs
     ------
     fields_container: FieldsContainer
+        Field containing numeric data for sine calculation
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Field with sine values applied element-wise to input data
 
     Examples
     --------
@@ -51,19 +53,20 @@ class sin_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsSinFc
-    _outputs: OutputsSinFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="sin_fc", config=config, server=server)
-        self._inputs = InputsSinFc(self)
-        self._outputs = OutputsSinFc(self)
+        super().__init__(
+            name="sin_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsSinFc,
+            outputs_type=OutputsSinFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes element-wise sin(field[i]).
+        description = r"""Computes element-wise sine function on field data: sin(field[i]).
 """
         spec = Specification(
             description=description,
@@ -72,7 +75,7 @@ class sin_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field containing numeric data for sine calculation""",
                 ),
             },
             map_output_pin_spec={
@@ -80,7 +83,7 @@ class sin_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with sine values applied element-wise to input data""",
                 ),
             },
         )
@@ -153,6 +156,8 @@ class InputsSinFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        Field containing numeric data for sine calculation
+
         Returns
         -------
         input:
@@ -191,6 +196,8 @@ class OutputsSinFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Field with sine values applied element-wise to input data
 
         Returns
         -------

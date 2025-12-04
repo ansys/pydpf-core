@@ -26,7 +26,7 @@ class abc_weightings(Operator):
     Inputs
     ------
     fields_container: FieldsContainer
-        data to be weighted in dB units.
+        data to be weighted in dB units equipped with cumulative ids in the scoping.
     weighting_type: int
         if this pin is set to 0, the A-weighting is computed, 1 the B-weigting is computed and 2 the C-weightings is computed.
     shape_by_tf_scoping: bool
@@ -63,9 +63,6 @@ class abc_weightings(Operator):
     >>> result_weightings = op.outputs.weightings()
     """
 
-    _inputs: InputsAbcWeightings
-    _outputs: OutputsAbcWeightings
-
     def __init__(
         self,
         fields_container=None,
@@ -74,9 +71,13 @@ class abc_weightings(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="abc_weightings", config=config, server=server)
-        self._inputs = InputsAbcWeightings(self)
-        self._outputs = OutputsAbcWeightings(self)
+        super().__init__(
+            name="abc_weightings",
+            config=config,
+            server=server,
+            inputs_type=InputsAbcWeightings,
+            outputs_type=OutputsAbcWeightings,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if weighting_type is not None:
@@ -95,7 +96,7 @@ class abc_weightings(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""data to be weighted in dB units.""",
+                    document=r"""data to be weighted in dB units equipped with cumulative ids in the scoping.""",
                 ),
                 1: PinSpecification(
                     name="weighting_type",
@@ -200,7 +201,7 @@ class InputsAbcWeightings(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        data to be weighted in dB units.
+        data to be weighted in dB units equipped with cumulative ids in the scoping.
 
         Returns
         -------

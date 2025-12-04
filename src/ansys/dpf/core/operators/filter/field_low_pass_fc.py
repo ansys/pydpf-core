@@ -64,15 +64,16 @@ class field_low_pass_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsFieldLowPassFc
-    _outputs: OutputsFieldLowPassFc
-
     def __init__(
         self, fields_container=None, threshold=None, both=None, config=None, server=None
     ):
-        super().__init__(name="core::field::low_pass_fc", config=config, server=server)
-        self._inputs = InputsFieldLowPassFc(self)
-        self._outputs = OutputsFieldLowPassFc(self)
+        super().__init__(
+            name="core::field::low_pass_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsFieldLowPassFc,
+            outputs_type=OutputsFieldLowPassFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if threshold is not None:

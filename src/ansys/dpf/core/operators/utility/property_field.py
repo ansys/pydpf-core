@@ -51,15 +51,14 @@ class property_field(Operator):
     >>> result_incremented_result = op.outputs.incremented_result()
     """
 
-    _inputs: InputsPropertyField
-    _outputs: OutputsPropertyField
-
     def __init__(self, input=None, config=None, server=None):
         super().__init__(
-            name="incremental::merge::property_field", config=config, server=server
+            name="incremental::merge::property_field",
+            config=config,
+            server=server,
+            inputs_type=InputsPropertyField,
+            outputs_type=OutputsPropertyField,
         )
-        self._inputs = InputsPropertyField(self)
-        self._outputs = OutputsPropertyField(self)
         if input is not None:
             self.inputs.input.connect(input)
 

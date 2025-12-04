@@ -79,9 +79,6 @@ class beam_s_shear_force(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsBeamSShearForce
-    _outputs: OutputsBeamSShearForce
-
     def __init__(
         self,
         time_scoping=None,
@@ -92,9 +89,13 @@ class beam_s_shear_force(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="B_T1", config=config, server=server)
-        self._inputs = InputsBeamSShearForce(self)
-        self._outputs = OutputsBeamSShearForce(self)
+        super().__init__(
+            name="B_T1",
+            config=config,
+            server=server,
+            inputs_type=InputsBeamSShearForce,
+            outputs_type=OutputsBeamSShearForce,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

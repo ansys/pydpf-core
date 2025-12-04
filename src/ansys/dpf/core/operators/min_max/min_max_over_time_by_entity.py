@@ -73,9 +73,6 @@ class min_max_over_time_by_entity(Operator):
     >>> result_time_freq_of_max = op.outputs.time_freq_of_max()
     """
 
-    _inputs: InputsMinMaxOverTimeByEntity
-    _outputs: OutputsMinMaxOverTimeByEntity
-
     def __init__(
         self,
         fields_container=None,
@@ -85,10 +82,12 @@ class min_max_over_time_by_entity(Operator):
         server=None,
     ):
         super().__init__(
-            name="min_max_over_time_by_entity", config=config, server=server
+            name="min_max_over_time_by_entity",
+            config=config,
+            server=server,
+            inputs_type=InputsMinMaxOverTimeByEntity,
+            outputs_type=OutputsMinMaxOverTimeByEntity,
         )
-        self._inputs = InputsMinMaxOverTimeByEntity(self)
-        self._outputs = OutputsMinMaxOverTimeByEntity(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if compute_absolute_value is not None:

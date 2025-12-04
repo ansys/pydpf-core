@@ -36,11 +36,12 @@ class scale_fc(Operator):
     boolean: bool, optional
         Default is false. If set to true, output of scale is made dimensionless
     algorithm: int, optional
-        Default is 0 use mkl. If set to 1, don't
+        Algorithm selection: 0 (default) uses MKL for optimization, 1 uses standard loops
 
     Outputs
     -------
     fields_container: FieldsContainer
+        FieldsContainer with scaled field values
 
     Examples
     --------
@@ -71,9 +72,6 @@ class scale_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsScaleFc
-    _outputs: OutputsScaleFc
-
     def __init__(
         self,
         fields_container=None,
@@ -84,9 +82,13 @@ class scale_fc(Operator):
         server=None,
         ponderation=None,
     ):
-        super().__init__(name="scale_fc", config=config, server=server)
-        self._inputs = InputsScaleFc(self)
-        self._outputs = OutputsScaleFc(self)
+        super().__init__(
+            name="scale_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsScaleFc,
+            outputs_type=OutputsScaleFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if weights is not None:
@@ -141,7 +143,7 @@ corresponding to the input field dimensionality
                     name="algorithm",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Default is 0 use mkl. If set to 1, don't""",
+                    document=r"""Algorithm selection: 0 (default) uses MKL for optimization, 1 uses standard loops""",
                 ),
             },
             map_output_pin_spec={
@@ -149,7 +151,7 @@ corresponding to the input field dimensionality
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""FieldsContainer with scaled field values""",
                 ),
             },
         )
@@ -299,7 +301,7 @@ class InputsScaleFc(_Inputs):
     def algorithm(self) -> Input[int]:
         r"""Allows to connect algorithm input to the operator.
 
-        Default is 0 use mkl. If set to 1, don't
+        Algorithm selection: 0 (default) uses MKL for optimization, 1 uses standard loops
 
         Returns
         -------
@@ -351,6 +353,8 @@ class OutputsScaleFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        FieldsContainer with scaled field values
 
         Returns
         -------

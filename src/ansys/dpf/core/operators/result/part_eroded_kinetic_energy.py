@@ -72,9 +72,6 @@ class part_eroded_kinetic_energy(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPartErodedKineticEnergy
-    _outputs: OutputsPartErodedKineticEnergy
-
     def __init__(
         self,
         streams_container=None,
@@ -84,9 +81,13 @@ class part_eroded_kinetic_energy(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="M_ERKE", config=config, server=server)
-        self._inputs = InputsPartErodedKineticEnergy(self)
-        self._outputs = OutputsPartErodedKineticEnergy(self)
+        super().__init__(
+            name="M_ERKE",
+            config=config,
+            server=server,
+            inputs_type=InputsPartErodedKineticEnergy,
+            outputs_type=OutputsPartErodedKineticEnergy,
+        )
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

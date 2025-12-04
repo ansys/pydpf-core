@@ -34,6 +34,7 @@ class add_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
+        FieldsContainer with summed fields by label space
 
     Examples
     --------
@@ -58,15 +59,16 @@ class add_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsAddFc
-    _outputs: OutputsAddFc
-
     def __init__(
         self, fields_container1=None, fields_container2=None, config=None, server=None
     ):
-        super().__init__(name="add_fc", config=config, server=server)
-        self._inputs = InputsAddFc(self)
-        self._outputs = OutputsAddFc(self)
+        super().__init__(
+            name="add_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsAddFc,
+            outputs_type=OutputsAddFc,
+        )
         if fields_container1 is not None:
             self.inputs.fields_container1.connect(fields_container1)
         if fields_container2 is not None:
@@ -109,7 +111,7 @@ doubles, are put in input they are added to all the fields.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""FieldsContainer with summed fields by label space""",
                 ),
             },
         )
@@ -245,6 +247,8 @@ class OutputsAddFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        FieldsContainer with summed fields by label space
 
         Returns
         -------

@@ -101,9 +101,6 @@ class result_provider(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsResultProvider
-    _outputs: OutputsResultProvider
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,8 +122,6 @@ class result_provider(Operator):
                 super().__init__(name="custom", config=config, server=server)
             else:
                 raise e
-        self._inputs = InputsResultProvider(self)
-        self._outputs = OutputsResultProvider(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

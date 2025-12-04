@@ -67,9 +67,6 @@ class elementary_data_selector(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsElementaryDataSelector
-    _outputs: OutputsElementaryDataSelector
-
     def __init__(
         self,
         field=None,
@@ -79,9 +76,13 @@ class elementary_data_selector(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="elementary_data_selector", config=config, server=server)
-        self._inputs = InputsElementaryDataSelector(self)
-        self._outputs = OutputsElementaryDataSelector(self)
+        super().__init__(
+            name="elementary_data_selector",
+            config=config,
+            server=server,
+            inputs_type=InputsElementaryDataSelector,
+            outputs_type=OutputsElementaryDataSelector,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if elementary_data_index is not None:

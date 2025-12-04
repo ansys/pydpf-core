@@ -75,9 +75,6 @@ class apply_svd(Operator):
     >>> result_sigma = op.outputs.sigma()
     """
 
-    _inputs: InputsApplySvd
-    _outputs: OutputsApplySvd
-
     def __init__(
         self,
         field_contaner_to_compress=None,
@@ -87,9 +84,13 @@ class apply_svd(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="svd_operator", config=config, server=server)
-        self._inputs = InputsApplySvd(self)
-        self._outputs = OutputsApplySvd(self)
+        super().__init__(
+            name="svd_operator",
+            config=config,
+            server=server,
+            inputs_type=InputsApplySvd,
+            outputs_type=OutputsApplySvd,
+        )
         if field_contaner_to_compress is not None:
             self.inputs.field_contaner_to_compress.connect(field_contaner_to_compress)
         if scalar_int is not None:

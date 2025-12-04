@@ -21,17 +21,18 @@ if TYPE_CHECKING:
 
 
 class cos(Operator):
-    r"""Computes element-wise cos(field[i]).
+    r"""Computes element-wise cosine function on field data: cos(field[i]).
 
 
     Inputs
     ------
     field: Field or FieldsContainer
-        field or fields container with only one field is expected
+        Field or fields container containing numeric data for cosine calculation
 
     Outputs
     -------
     field: Field
+        Field with cosine values applied element-wise to input data
 
     Examples
     --------
@@ -53,19 +54,20 @@ class cos(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsCos
-    _outputs: OutputsCos
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="cos", config=config, server=server)
-        self._inputs = InputsCos(self)
-        self._outputs = OutputsCos(self)
+        super().__init__(
+            name="cos",
+            config=config,
+            server=server,
+            inputs_type=InputsCos,
+            outputs_type=OutputsCos,
+        )
         if field is not None:
             self.inputs.field.connect(field)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes element-wise cos(field[i]).
+        description = r"""Computes element-wise cosine function on field data: cos(field[i]).
 """
         spec = Specification(
             description=description,
@@ -74,7 +76,7 @@ class cos(Operator):
                     name="field",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""field or fields container with only one field is expected""",
+                    document=r"""Field or fields container containing numeric data for cosine calculation""",
                 ),
             },
             map_output_pin_spec={
@@ -82,7 +84,7 @@ class cos(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with cosine values applied element-wise to input data""",
                 ),
             },
         )
@@ -155,7 +157,7 @@ class InputsCos(_Inputs):
     def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
-        field or fields container with only one field is expected
+        Field or fields container containing numeric data for cosine calculation
 
         Returns
         -------
@@ -193,6 +195,8 @@ class OutputsCos(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with cosine values applied element-wise to input data
 
         Returns
         -------
