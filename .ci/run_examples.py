@@ -20,7 +20,11 @@ server_version = server.version
 server.shutdown()
 print(f"Server version: {server_version}")
 
-skipped_docker = ["00-cfx_res_files.py", "03-distributed-msup_expansion_steps.py"]
+skipped_docker = [
+    "00-cfx_res_files.py",
+    "03-distributed-msup_expansion_steps.py",
+    "06-distributed_stress_averaging.py",
+]
 
 for root, subdirectories, files in os.walk(examples_path):
     for subdirectory in subdirectories:
