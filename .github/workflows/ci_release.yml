@@ -158,6 +158,7 @@ jobs:
       ANSYS_VERSION: ${{ matrix.version.version }}
       standalone_suffix: ${{ matrix.version.patch }}
       test_docstrings: ${{ matrix.test_docstrings }}
+      post_branch: latest
     secrets: inherit
 
   docker_tests:

@@ -5,7 +5,7 @@ on:
   workflow_call:
     inputs:
       post_branch:
-        default: ''
+        default: 'main'
         type: string
       ANSYS_VERSION:
         required: false
@@ -24,8 +24,8 @@ on:
   workflow_dispatch:
     inputs:
       post_branch:
-        description: 'PyDPF-Post branch or tag to test. Leave empty to get latest tagged version'
-        default: ''
+        description: 'PyDPF-Post branch or tag to test. Set to `latest` to get latest tagged version'
+        default: 'main'
         type: string
       ANSYS_VERSION:
         description: "ANSYS version"
@@ -120,7 +120,7 @@ jobs:
           REPO="https://github.com/ansys/pydpf-post.git"
           BranchName=${{ inputs.post_branch }}
           echo branch="$BranchName"
-          if [ "$BranchName" = '' ];
+          if [ "$BranchName" = 'latest' ];
           then
               BranchName=$(git ls-remote --tags --sort="v:refname" --refs $REPO | tail -n1 | cut -d/ -f3)
           fi
