@@ -1,5 +1,7 @@
 .. _contributing_as_a_developer:
 
+.. include:: ../../links.rst
+
 Contributing as a developer
 ###########################
 
@@ -141,6 +143,175 @@ Finally, verify the installation by listing all the different environments
               - {{ description }}
             {% endfor %}
 
+.. _code-style:
+
+Code style
+==========
+
+PyDPF-Core follows the PyAnsys coding style guidelines to ensure consistent,
+readable, and maintainable code across the project. All contributors must
+adhere to these standards.
+
+Code formatting tools
+---------------------
+
+PyDPF-Core uses `Ruff`_ as its primary code formatting and linting tool.
+Ruff is a fast Python linter and formatter that combines the functionality
+of multiple tools (like Black, isort, and Flake8) into a single package.
+
+The project configuration is defined in the ``pyproject.toml`` file with the
+following key settings:
+
+- **Line length**: 100 characters maximum
+- **Quote style**: Double quotes
+- **Import sorting**: Using isort rules with Ansys as a known first-party package
+- **Docstring convention**: NumPy style
+
+Pre-commit hooks
+----------------
+
+PyDPF-Core uses `pre-commit`_ hooks to automatically check and format code
+before each commit. These hooks ensure that code styling rules are applied
+consistently across all contributions.
+
+To set up pre-commit hooks, install pre-commit and activate it:
+
+.. code-block:: bash
+
+    python -m pip install pre-commit
+    pre-commit install
+
+Once installed, the hooks will run automatically on ``git commit``. The following
+checks are performed:
+
+- **Ruff**: Linting and formatting
+- **Codespell**: Spell checking
+- **License headers**: Ensures all files have proper copyright headers
+- **Merge conflicts**: Detects merge conflict markers
+- **Debug statements**: Identifies leftover debug code
+
+You can also run pre-commit manually on all files:
+
+.. code-block:: bash
+
+    pre-commit run --all-files
+
+Manual code formatting
+----------------------
+
+If you prefer to format code manually without committing, you can run Ruff
+directly:
+
+.. code-block:: bash
+
+    # Format code
+    python -m ruff format .
+
+    # Check and fix linting issues
+    python -m ruff check --fix .
+
+    # Check without fixing
+    python -m ruff check .
+
+PEP 8 compliance
+----------------
+
+PyDPF-Core follows `PEP 8 <https://peps.python.org/pep-0008/>`_ style guidelines,
+which are the official Python style guide. Ruff enforces most PEP 8 rules
+automatically.
+
+Key PEP 8 principles include:
+
+- Use 4 spaces for indentation (never tabs)
+- Limit line length to 100 characters (project-specific)
+- Use meaningful variable and function names
+- Follow naming conventions:
+
+  - ``lowercase_with_underscores`` for functions and variables
+  - ``CapitalizedWords`` for class names
+  - ``UPPERCASE_WITH_UNDERSCORES`` for constants
+
+- Add appropriate whitespace around operators and after commas
+- Use docstrings for all public modules, functions, classes, and methods
+
+For complete details on PEP 8 and formatting best practices, refer to:
+
+- `PyAnsys Coding Style - PEP 8 Guidelines <https://dev.docs.pyansys.com/coding-style/pep8.html>`_
+- `PyAnsys Coding Style - Formatting Tools <https://dev.docs.pyansys.com/coding-style/formatting-tools.html>`_
+
+Docstring style
+---------------
+
+PyDPF-Core uses the `NumPy docstring convention <https://numpydoc.readthedocs.io/en/latest/format.html>`_
+for all documentation strings. This convention is enforced by Ruff's pydocstyle
+rules.
+
+Example of a properly formatted function docstring:
+
+.. code-block:: python
+
+    def calculate_stress(field, mesh, location="Nodal"):
+        """Calculate stress values at specified locations.
+
+        Parameters
+        ----------
+        field : Field
+            Input field containing stress data.
+        mesh : MeshedRegion
+            Mesh region for the calculation.
+        location : str, optional
+            Location where stress is calculated. Default is ``"Nodal"``.
+
+        Returns
+        -------
+        Field
+            Calculated stress field.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> stress_field = calculate_stress(field, mesh)
+
+        """
+        # Implementation here
+        pass
+
+Type hints
+----------
+
+While not strictly enforced, using type hints is encouraged for better code
+clarity and IDE support. PyDPF-Core uses type hints extensively in its
+public API.
+
+Example with type hints:
+
+.. code-block:: python
+
+    from typing import Optional
+    from ansys.dpf.core import Field, MeshedRegion
+
+    def process_field(
+        field: Field,
+        mesh: Optional[MeshedRegion] = None
+    ) -> Field:
+        """Process a field with optional mesh support."""
+        # Implementation here
+        pass
+
+Continuous integration checks
+------------------------------
+
+All pull requests are automatically checked for code style compliance using
+GitHub Actions. Your code must pass these checks before it can be merged:
+
+- Ruff formatting and linting
+- Codespell checks
+- License header verification
+- Test suite execution
+
+If the CI checks fail, review the error messages and apply the necessary fixes
+before requesting a review.
+
 .. _run-tests:
 
 Run the tests
@@ -240,10 +411,10 @@ For example, to run compatible parallel tests while using a Standalone DPF Serve
     `takes precedence <https://dpf.docs.pyansys.com/version/dev/getting_started/dpf_server.html#manage-multiple-dpf-server-installations>`_
     over any other DPF Server installation method. Therefore, a standalone DPF Server installed in editable mode, in the
     presence of ANSYS_DPF_PATH environment variable, will be ignored.
-    
+
     With tox, a simple workaround is not setting this environment variable at the operating system level but passing it explicitly only when
     required. This is achived by adding ``-x testenv.setenv+="ANSYS_DPF_PATH=<path/to/valid/DPF/Server/installation>"`` to any tox command.
-    
+
     Alternatively, when set at the operating system level, commenting out the line where this environment variable is passed in the tox
     configuration file will ensure that it is ignored within the tox environments.
 
@@ -251,7 +422,7 @@ For example, to run compatible parallel tests while using a Standalone DPF Serve
 
 Testing on Linux via WSL
 ------------------------
-Some system dependencies required for VTK to run properly might be missing when running tests on linux via WSL (or even linux in general). 
+Some system dependencies required for VTK to run properly might be missing when running tests on linux via WSL (or even linux in general).
 The identified workaround for this is to install the OSMesa wheel variant that leverages offscreen rendering with OSMesa.
 This wheel is being built for both Linux and Windows at this time and bundles all of the necessary libraries into the wheel. This is
 achieved by adding ``-x testenv.commands_pre="uv pip install --index-url https://wheels.vtk.org vtk-osmesa==<version>"``
