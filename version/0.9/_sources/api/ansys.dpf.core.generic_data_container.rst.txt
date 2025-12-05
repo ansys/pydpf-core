@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.generic_data_container
+   :inherited-members:

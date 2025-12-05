@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.cyclic_kinetic_energy
+   :inherited-members:
