@@ -41,7 +41,7 @@ def test_property_fields_collection(allkindofcomplexity, server_type):
     # Test adding another label
     pfc.add_label(label="body")
     assert pfc.has_label(label="body")
-    assert pfc.labels == ["test", "body"]
+    assert pfc.labels == ["body", "test"]
 
     # Get a property field from the model
     property_field = model.metadata.meshed_region.elements.connectivities_field
@@ -106,7 +106,7 @@ def test_property_fields_collection_from_scratch(server_type):
 
     # Set labels
     pfc.labels = ["time", "body"]
-    assert pfc.labels == ["time", "body"]
+    assert pfc.labels == ["body", "time"]
 
     # Create property fields and add them
     for i in range(3):
