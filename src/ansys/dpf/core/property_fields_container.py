@@ -61,7 +61,7 @@ class PropertyFieldsCollection(Collection[PropertyField]):
     ...     label_space = {"time": i+1, "body": 0}
     ...     pfield = dpf.PropertyField()
     ...     pfield.data = list(range(i*10, (i+1)*10))
-    ...     pfc.add_field(label_space, pfield)
+    ...     pfc.add_entry(label_space, pfield)
 
     """
 
