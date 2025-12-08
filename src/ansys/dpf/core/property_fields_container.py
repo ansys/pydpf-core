@@ -21,37 +21,29 @@
 # SOFTWARE.
 
 """
-PropertyFieldsContainer.
+PropertyFieldsCollection.
 
-Contains classes associated with the PropertyFieldsContainer.
+Contains classes associated with the PropertyFieldsCollection.
 """
 
 from __future__ import annotations
 
-# from collections.abc import Sequence
-# import copy
-from typing import Dict, List, Union
-
-# import numpy as np
-
-# import ansys.dpf.core as dpf
 from ansys.dpf.core import PropertyField
-from ansys.dpf.core.collection_base import CollectionBase
-# from ansys.dpf.core.server_types import BaseServer
+from ansys.dpf.core.collection import Collection
 
 
-class PropertyFieldsContainer(CollectionBase[PropertyField]):
-    """Represents a property fields container, which contains property fields.
+class PropertyFieldsCollection(Collection[PropertyField]):
+    """Represents a property fields collection, which contains property fields.
 
-    A property fields container is a set of property fields ordered by labels and IDs.
-    Each property field in the container has an ID for each label, allowing flexible
+    A property fields collection is a set of property fields ordered by labels and IDs.
+    Each property field in the collection has an ID for each label, allowing flexible
     organization and retrieval of property fields based on various criteria.
 
     Parameters
     ----------
-    property_fields_container : ansys.grpc.dpf.collection_message_pb2.Collection, ctypes.c_void_p,
-        PropertyFieldsContainer, optional
-        Property fields container created from either a collection message or by copying
+    property_fields_collection : ansys.grpc.dpf.collection_message_pb2.Collection, ctypes.c_void_p,
+        PropertyFieldsCollection, optional
+        Property fields collection created from either a collection message or by copying
         an existing one. The default is ``None``.
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
@@ -60,10 +52,10 @@ class PropertyFieldsContainer(CollectionBase[PropertyField]):
 
     Examples
     --------
-    Create a property fields container from scratch.
+    Create a property fields collection from scratch.
 
     >>> from ansys.dpf import core as dpf
-    >>> pfc = dpf.PropertyFieldsContainer()
+    >>> pfc = dpf.PropertyFieldsCollection()
     >>> pfc.labels = ['time', 'body']
     >>> for i in range(0, 5):
     ...     label_space = {"time": i+1, "body": 0}
@@ -73,214 +65,9 @@ class PropertyFieldsContainer(CollectionBase[PropertyField]):
 
     """
 
-    entries_type = PropertyField
-
-    def __init__(self, property_fields_container=None, server=None):
+    def __init__(self, property_fields_collection=None, server=None, entries_type: type = PropertyField):
         """Initialize a property fields container."""
-        super().__init__(collection=property_fields_container, server=server)
-        if self._internal_obj is None:
-            # PropertyField collections use the generic custom_type_field collection
-            if self._server.has_client():
-                self._internal_obj = self._api.collection_of_custom_type_field_new_on_client(
-                    self._server.client
-                )
-            else:
-                self._internal_obj = self._api.collection_of_custom_type_field_new()
-
-    def create_subtype(self, obj_by_copy):
-        """Create a property field subtype."""
-        return PropertyField(property_field=obj_by_copy, server=self._server)
-
-    def get_fields(self, label_space: Dict[str, int]) -> List[PropertyField]:
-        """Retrieve the property fields at a requested label space.
-
-        Parameters
-        ----------
-        label_space : dict[str, int]
-            Scoping of the requested property fields. For example,
-            ``{"time": 1, "body": 0}``.
-
-        Returns
-        -------
-        fields : list[PropertyField]
-            Property fields corresponding to the request.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> pfc = dpf.PropertyFieldsContainer()
-        >>> pfc.labels = ['time']
-        >>> # ... add property fields ...
-        >>> fields = pfc.get_fields({"time": 1})
-
-        """
-        return self.get_entries(label_space)
-
-    def get_field(self, label_space_or_index: Union[Dict[str, int], int]) -> PropertyField:
-        """Retrieve the property field at a requested index or label space.
-
-        An exception is raised if the number of property fields matching the request
-        is greater than one.
-
-        Parameters
-        ----------
-        label_space_or_index : dict[str, int], int
-            Scoping of the requested property field, for example,
-            ``{"time": 1, "body": 0}``, or index of the property field.
-
-        Returns
-        -------
-        field : PropertyField
-            Property field corresponding to the request.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> pfc = dpf.PropertyFieldsContainer()
-        >>> pfc.labels = ['time']
-        >>> # ... add property fields ...
-        >>> field = pfc.get_field({"time": 1})
-        >>> # Or by index
-        >>> field = pfc.get_field(0)
-
-        """
-        return self.get_entry(label_space_or_index)
-
-    def add_field(self, label_space: Dict[str, int], field: PropertyField):
-        """Add or update a property field at a requested label space.
-
-        Parameters
-        ----------
-        label_space : dict[str, int]
-            Label space of the requested property field. For example,
-            ``{"time": 1, "body": 0}``.
-        field : PropertyField
-            DPF property field to add or update.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> pfc = dpf.PropertyFieldsContainer()
-        >>> pfc.labels = ['time']
-        >>> pfield = dpf.PropertyField()
-        >>> pfield.data = [1, 2, 3, 4, 5]
-        >>> pfc.add_field({"time": 1}, pfield)
-
-        """
-        self.add_entry(label_space, field)
-
-    def add_entry(self, label_space: Dict[str, int], field: PropertyField):
-        """Add or update a property field entry at a requested label space.
-
-        This method is an alias for :func:`add_field()` to maintain API compatibility
-        with _MockPropertyFieldsContainer.
-
-        Parameters
-        ----------
-        label_space : dict[str, int]
-            Label space of the requested property field. For example,
-            ``{"time": 1, "body": 0}``.
-        field : PropertyField
-            DPF property field to add or update.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> pfc = dpf.PropertyFieldsContainer()
-        >>> pfc.labels = ['time']
-        >>> pfield = dpf.PropertyField()
-        >>> pfield.data = [1, 2, 3, 4, 5]
-        >>> pfc.add_entry({"time": 1}, pfield)
-
-        """
-        super()._add_entry(label_space, field)
-
-    def get_entries(self, label_space: Dict[str, int]) -> List[PropertyField]:
-        """Retrieve the property fields at a requested index or label space.
-
-        This method returns a list of property fields. For partial label space queries,
-        it may return multiple fields. For index queries, it returns a single-element list.
-
-        Parameters
-        ----------
-        label_space_or_index : dict[str, int], int
-            Scoping of the requested property fields, for example,
-            ``{"time": 1}``, or index of the property field.
-
-        Returns
-        -------
-        fields : list[PropertyField]
-            Property fields corresponding to the request.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> pfc = dpf.PropertyFieldsContainer()
-        >>> pfc.labels = ['time', 'complex']
-        >>> # ... add property fields ...
-        >>> # Get all fields at time=1 (may return multiple if complex varies)
-        >>> fields = pfc.get_entries({"time": 1})
-        >>> # Get field at index 0 (returns single-element list)
-        >>> fields = pfc.get_entries(0)
-
-        """
-        return super()._get_entries(label_space)
-
-    def get_entry(self, label_space_or_index: Union[Dict[str, int], int]) -> PropertyField:
-        """Retrieve a single property field at a requested index or label space.
-
-        This method is an alias for :func:`get_field()` to maintain API compatibility
-        with _MockPropertyFieldsContainer. An exception is raised if the number of 
-        property fields matching the request is greater than one.
-
-        Parameters
-        ----------
-        label_space_or_index : dict[str, int], int
-            Scoping of the requested property field, for example,
-            ``{"time": 1, "body": 0}``, or index of the property field.
-
-        Returns
-        -------
-        field : PropertyField
-            Property field corresponding to the request.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> pfc = dpf.PropertyFieldsContainer()
-        >>> pfc.labels = ['time']
-        >>> # ... add property fields ...
-        >>> field = pfc.get_entry({"time": 1})
-        >>> # Or by index
-        >>> field = pfc.get_entry(0)
-
-        """
-        return super()._get_entry(label_space_or_index)
-
-    def __getitem__(self, key: Union[int, Dict[str, int]]) -> PropertyField:
-        """Retrieve the property field at a requested index or label space.
-
-        Parameters
-        ----------
-        key : int, dict[str, int]
-            Index or label space.
-
-        Returns
-        -------
-        field : PropertyField
-            Property field corresponding to the request.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> pfc = dpf.PropertyFieldsContainer()
-        >>> pfc.labels = ['time']
-        >>> # ... add property fields ...
-        >>> field = pfc[0]  # Access by index
-        >>> field = pfc[{"time": 1}]  # Access by label space
-
-        """
-        return super().__getitem__(key)
+        super().__init__(collection=property_fields_collection, server=server, entries_type=entries_type)
 
 
 # class _LabelSpaceKV:
