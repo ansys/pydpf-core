@@ -65,6 +65,10 @@ class PropertyFieldsCollection(Collection[PropertyField]):
 
     """
 
-    def __init__(self, property_fields_collection=None, server=None, entries_type: type = PropertyField):
+    def __init__(
+        self, property_fields_collection=None, server=None, entries_type: type = PropertyField
+    ):
         """Initialize a property fields container."""
-        super().__init__(collection=property_fields_collection, server=server, entries_type=entries_type)
+        super().__init__(
+            collection=property_fields_collection, server=server, entries_type=entries_type
+        )
