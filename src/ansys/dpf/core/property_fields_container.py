@@ -40,34 +40,6 @@ from ansys.dpf.core.collection_base import CollectionBase
 # from ansys.dpf.core.server_types import BaseServer
 
 
-# class _LabelSpaceKV:
-#     """Class for internal use to associate a label space with a field."""
-
-#     def __init__(self, _dict: Dict[str, int], _field: dpf.Field):
-#         """Construct an association between a dictionary and a field."""
-#         self._dict = _dict
-#         self._field = _field
-
-#     @property
-#     def dict(self) -> dict:
-#         """Returns the associated dictionary."""
-#         return self._dict
-
-#     @property
-#     def field(self) -> dpf.Field:
-#         """Returns the associated field."""
-#         return self._field
-
-#     @field.setter
-#     def field(self, value: dpf.Field):
-#         self._field = value
-
-#     def __str__(self):
-#         """Return a string representation of the association."""
-#         field_str = str(self._field).replace("\n", "\n\t\t\t")
-#         return f"Label Space: {self._dict} with field\n\t\t\t{field_str}"
-
-
 class PropertyFieldsContainer(CollectionBase[PropertyField]):
     """Represents a property fields container, which contains property fields.
 
@@ -309,6 +281,35 @@ class PropertyFieldsContainer(CollectionBase[PropertyField]):
 
         """
         return super().__getitem__(key)
+
+
+# class _LabelSpaceKV:
+#     """Class for internal use to associate a label space with a field."""
+
+#     def __init__(self, _dict: Dict[str, int], _field: dpf.Field):
+#         """Construct an association between a dictionary and a field."""
+#         self._dict = _dict
+#         self._field = _field
+
+#     @property
+#     def dict(self) -> dict:
+#         """Returns the associated dictionary."""
+#         return self._dict
+
+#     @property
+#     def field(self) -> dpf.Field:
+#         """Returns the associated field."""
+#         return self._field
+
+#     @field.setter
+#     def field(self, value: dpf.Field):
+#         self._field = value
+
+#     def __str__(self):
+#         """Return a string representation of the association."""
+#         field_str = str(self._field).replace("\n", "\n\t\t\t")
+#         return f"Label Space: {self._dict} with field\n\t\t\t{field_str}"
+
 
 
 # class _MockPropertyFieldsContainer(Sequence):
