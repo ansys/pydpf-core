@@ -77,6 +77,11 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
         return CollectionGRPCAPI.collection_new_on_client(client, base_pb2.Type.Value("ANY"))
 
     @staticmethod
+    def collection_of_custom_type_field_new_on_client(client):
+        from ansys.grpc.dpf import base_pb2
+        return CollectionGRPCAPI.collection_new_on_client(client, base_pb2.Type.Value("PROPERTY_FIELD"))
+
+    @staticmethod
     def collection_add_label(collection, label):
         from ansys.grpc.dpf import collection_pb2
         request = collection_pb2.UpdateLabelsRequest()
