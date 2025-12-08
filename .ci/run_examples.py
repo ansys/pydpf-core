@@ -26,7 +26,7 @@ skipped_docker = [
     "06-distributed_stress_averaging.py",
     "01-distributed_workflows_on_remote.py",
     "00-distributed_total_disp.py",
-    "02-distributed-msup_expansion.py"
+    "02-distributed-msup_expansion.py",
 ]
 
 for root, subdirectories, files in os.walk(examples_path):
