@@ -28,11 +28,11 @@ Contains classes associated with the PropertyFieldsCollection.
 
 from __future__ import annotations
 
-from ansys.dpf.core import PropertyField
+from ansys.dpf.core import property_field
 from ansys.dpf.core.collection import Collection
 
 
-class PropertyFieldsCollection(Collection[PropertyField]):
+class PropertyFieldsCollection(Collection["property_field.PropertyField"]):
     """Represents a property fields collection, which contains property fields.
 
     A property fields collection is a set of property fields ordered by labels and IDs.
@@ -66,7 +66,7 @@ class PropertyFieldsCollection(Collection[PropertyField]):
     """
 
     def __init__(
-        self, property_fields_collection=None, server=None, entries_type: type = PropertyField
+        self, property_fields_collection=None, server=None, entries_type: type = property_field.PropertyField
     ):
         """Initialize a property fields container."""
         super().__init__(
