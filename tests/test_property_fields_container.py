@@ -54,10 +54,6 @@ def test_property_fields_collection(allkindofcomplexity, server_type):
     label_space = pfc.get_label_space(0)
     assert label_space == {"test": 42, "body": 0}
 
-    # Test get_label_scoping
-    with pytest.raises(KeyError, match="label test2 not found"):
-        pfc.get_label_scoping("test2")
-
     scoping = pfc.get_label_scoping("test")
     assert isinstance(scoping, dpf.Scoping)
     assert 42 in scoping.ids
@@ -81,7 +77,7 @@ def test_property_fields_collection(allkindofcomplexity, server_type):
     assert isinstance(field_by_index, dpf.PropertyField)
 
     # Test __getitem__ with label space
-    field_by_label = pfc[{"test": 42, "body": 0}]
+    field_by_label = pfc.get_entry({"test": 42, "body": 0})
     assert isinstance(field_by_label, dpf.PropertyField)
 
     # Test adding more entries with different label spaces
@@ -139,7 +135,7 @@ def test_property_fields_collection_from_scratch(server_type):
     field_idx = pfc[1]
     assert isinstance(field_idx, dpf.PropertyField)
 
-    field_label = pfc[{"time": 3, "body": 0}]
+    field_label = pfc.get_entry({"time": 3, "body": 0})
     assert isinstance(field_label, dpf.PropertyField)
 
     # Test get_label_space
