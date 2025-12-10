@@ -230,6 +230,7 @@ def build_operator(
 
     # Process specification description for property_fields_container --> property_fields_collection
     specification_description = specification_description.replace("property_fields_container", "property_fields_collection")
+    specification_description = specification_description.replace("PropertyFieldsContainer", "PropertyFieldsCollection")
 
     docstring = build_docstring(specification_description)
 
