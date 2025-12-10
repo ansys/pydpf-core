@@ -21,9 +21,9 @@
 # SOFTWARE.
 
 """
-PropertyFieldsCollection.
+PropertyFieldsContainer.
 
-Contains classes associated with the PropertyFieldsCollection.
+Contains classes associated with the PropertyFieldsContainer.
 """
 
 from __future__ import annotations
@@ -32,18 +32,18 @@ from ansys.dpf.core import property_field
 from ansys.dpf.core.collection import Collection
 
 
-class PropertyFieldsCollection(Collection["property_field.PropertyField"]):
-    """Represents a property fields collection, which contains property fields.
+class PropertyFieldsContainer(Collection["property_field.PropertyField"]):
+    """Represents a property fields container, which contains property fields.
 
-    A property fields collection is a set of property fields ordered by labels and IDs.
+    A property fields container is a set of property fields ordered by labels and IDs.
     Each property field in the collection has an ID for each label, allowing flexible
     organization and retrieval of property fields based on various criteria.
 
     Parameters
     ----------
-    property_fields_collection : ansys.grpc.dpf.collection_message_pb2.Collection, ctypes.c_void_p,
-        PropertyFieldsCollection, optional
-        Property fields collection created from either a collection message or by copying
+    property_fields_container : ansys.grpc.dpf.collection_message_pb2.Collection, ctypes.c_void_p,
+        PropertyFieldsContainer, optional
+        Property fields container created from either a collection message or by copying
         an existing one. The default is ``None``.
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
@@ -52,10 +52,10 @@ class PropertyFieldsCollection(Collection["property_field.PropertyField"]):
 
     Examples
     --------
-    Create a property fields collection from scratch.
+    Create a property fields container from scratch.
 
     >>> from ansys.dpf import core as dpf
-    >>> pfc = dpf.PropertyFieldsCollection()
+    >>> pfc = dpf.PropertyFieldsContainer()
     >>> pfc.labels = ['time', 'body']
     >>> for i in range(0, 5):
     ...     label_space = {"time": i+1, "body": 0}
@@ -67,11 +67,11 @@ class PropertyFieldsCollection(Collection["property_field.PropertyField"]):
 
     def __init__(
         self,
-        property_fields_collection=None,
+        property_fields_container=None,
         server=None,
         entries_type: type = property_field.PropertyField,
     ):
         """Initialize a property fields container."""
         super().__init__(
-            collection=property_fields_collection, server=server, entries_type=entries_type
+            collection=property_fields_container, server=server, entries_type=entries_type
         )

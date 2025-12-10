@@ -61,7 +61,7 @@ map_types_to_cpp["double"] = "double"
 map_types_to_cpp["float"] = "double"
 map_types_to_cpp["UnitSystem"] = "class dataProcessing::unit::CUnitSystem"
 map_types_to_cpp["dict"] = "label_space"
-map_types_to_cpp["PropertyFieldsCollection"] = (
+map_types_to_cpp["PropertyFieldsContainer"] = (
     "class dataProcessing::DpfTypeCollection<class dataProcessing::CPropertyField>"
 )
 
@@ -79,7 +79,6 @@ map_types_to_python["vector<int32>"] = "list[int]"
 map_types_to_python["vector<double>"] = "list[float]"
 map_types_to_python["vector<string>"] = "list[str]"
 map_types_to_python["b"] = "bool"
-map_types_to_python["property_fields_container"] = "PropertyFieldsCollection"
 
 
 def reflection_type_to_cpp_type(reflection_type: str) -> str:
