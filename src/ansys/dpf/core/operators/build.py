@@ -130,6 +130,11 @@ def build_pin_data(pins, output=False):
         specification = pins[id]
 
         type_names = specification.type_names
+        # Process type_names for property_fields_container --> property_fields_collection
+        type_names = [
+            name.replace("property_fields_container", "property_fields_collection")
+            for name in type_names
+        ]
 
         derived_class_type_name = specification.name_derived_class
 
@@ -149,6 +154,8 @@ def build_pin_data(pins, output=False):
         pin_name = specification.name
         pin_name = pin_name.replace("<", "_")
         pin_name = pin_name.replace(">", "_")
+        # Process pin name for property_fields_container --> property_fields_collection
+        pin_name = pin_name.replace("property_fields_container", "property_fields_collection")
 
         main_type = docstring_types[0] if len(docstring_types) >= 1 else ""
 
@@ -221,6 +228,9 @@ def build_operator(
     multiple_output_types = any(pin["multiple_types"] for pin in output_pins)
     has_output_aliases = any(len(pin["aliases_list"]) > 0 for pin in output_pins)
 
+    # Process specification description for property_fields_container --> property_fields_collection
+    specification_description = specification_description.replace("property_fields_container", "property_fields_collection")
+
     docstring = build_docstring(specification_description)
 
     date_and_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
@@ -246,6 +256,9 @@ def build_operator(
         )
     annotation_import_list.sort(key= lambda x: x["class_name"].split("ansys.dpf.core.")[-1])
     non_empty_annotation_import_list = bool(annotation_import_list)
+
+    # Process operator name for property_fields_container --> property_fields_collection
+    operator_name = operator_name.replace("property_fields_container", "property_fields_collection")
 
     data = {
         "operator_name": operator_name,
