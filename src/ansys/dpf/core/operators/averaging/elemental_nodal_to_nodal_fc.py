@@ -52,8 +52,7 @@ class elemental_nodal_to_nodal_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
-    weights: Class Dataprocessing::Dpftypecollection&lt;Class
-      Dataprocessing::Cpropertyfield&gt;
+    weights: PropertyFieldsContainer
         Gives for each node, the number of times it was found in the Elemental Nodal field. Can be used to average later.
 
     Examples

@@ -36,11 +36,9 @@ class merge_weighted_fields_containers(Operator):
         A vector of fields containers to merge or fields containers from pin 0 to ...
     fields_containers2: FieldsContainer
         A vector of fields containers to merge or fields containers from pin 0 to ...
-    weights1: Class Dataprocessing::Dpftypecollection&lt;Class
-      Dataprocessing::Cpropertyfield&gt;
+    weights1: PropertyFieldsContainer
         Weights to apply to each field from pin 1000 to ...
-    weights2: Class Dataprocessing::Dpftypecollection&lt;Class
-      Dataprocessing::Cpropertyfield&gt;
+    weights2: PropertyFieldsContainer
         Weights to apply to each field from pin 1000 to ...
 
     Outputs
@@ -65,9 +63,9 @@ class merge_weighted_fields_containers(Operator):
     >>> op.inputs.fields_containers1.connect(my_fields_containers1)
     >>> my_fields_containers2 = dpf.FieldsContainer()
     >>> op.inputs.fields_containers2.connect(my_fields_containers2)
-    >>> my_weights1 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
+    >>> my_weights1 = dpf.PropertyFieldsContainer()
     >>> op.inputs.weights1.connect(my_weights1)
-    >>> my_weights2 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
+    >>> my_weights2 = dpf.PropertyFieldsContainer()
     >>> op.inputs.weights2.connect(my_weights2)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -254,9 +252,9 @@ class InputsMergeWeightedFieldsContainers(_Inputs):
     >>> op.inputs.fields_containers1.connect(my_fields_containers1)
     >>> my_fields_containers2 = dpf.FieldsContainer()
     >>> op.inputs.fields_containers2.connect(my_fields_containers2)
-    >>> my_weights1 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
+    >>> my_weights1 = dpf.PropertyFieldsContainer()
     >>> op.inputs.weights1.connect(my_weights1)
-    >>> my_weights2 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
+    >>> my_weights2 = dpf.PropertyFieldsContainer()
     >>> op.inputs.weights2.connect(my_weights2)
     """
 
