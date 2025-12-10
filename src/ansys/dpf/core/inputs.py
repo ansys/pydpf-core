@@ -24,6 +24,7 @@
 
 from enum import Enum
 from textwrap import wrap
+from typing import Generic, TypeVar, Union
 import warnings
 import weakref
 
@@ -31,8 +32,10 @@ from ansys.dpf import core
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.outputs import Output, _Outputs
 
+T = TypeVar("T")
 
-class Input:
+
+class Input(Generic[T]):
     """
     Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
 
@@ -70,16 +73,8 @@ class Input:
             self.name += str(self._count_ellipsis + 1)
         self._update_doc_str(docstr, self.name)
 
-    def connect(self, inpt):
-        """Connect any input (entity or operator output) to a specified input pin of this operator.
-
-        Parameters
-        ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion, Enum,
-        Output, Outputs, Operator, os.PathLike
-            Input of the operator.
-
-        """
+    def connect(self, inpt: Union[T, Output[T]]):
+        """Connect any input (entity or operator output) to a specified input pin of this operator."""
         from pathlib import Path
 
         # always convert ranges to lists
@@ -118,15 +113,25 @@ class Input:
         self._operator()._find_outputs_corresponding_pins(
             self._python_expected_types, inpt, self._pin, corresponding_pins, input_type_name
         )
+        # We can have a single output with multiple types compatible with this input
+        # if it accepts several of these types so we need to check for unique combinations
+        corresponding_pins = list(set(corresponding_pins))
         if len(corresponding_pins) > 1:
-            err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
+            op_name = (
+                self._operator().specification.properties["scripting_name"]
+                if "scripting_name" in self._operator().specification.properties
+                else self._operator().name
+            )
+            err_str = f"Operator {op_name}:\n"
+            err_str += "Pin connection is ambiguous, specify the input to connect to with:\n"
+            inpt_name = inpt._operator.name
             for pin in corresponding_pins:
                 err_str += (
-                    "   - operator.inputs."
+                    f"   - {op_name}.inputs."
                     + self._spec.name
-                    + "(out_op."
+                    + f"({inpt_name}."
                     + inpt._dict_outputs[pin[1]].name
-                    + ")"
+                    + ")\n"
                 )
             err_str += "Connecting to first input in the list.\n"
             warnings.warn(message=err_str)
@@ -163,7 +168,7 @@ class Input:
 
         self.__inc_if_ellipsis()
 
-    def __call__(self, inpt):
+    def __call__(self, inpt: T):
         """Allow instances to be called like a function."""
         self.connect(inpt)
 
@@ -231,13 +236,6 @@ class _Inputs:
 
         .. deprecated::
             Deprecated in favor of explicit output-to-input connections.
-
-        Parameters
-        ----------
-        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
-        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs, os.PathLike  # noqa: E501
-            Input of the operator.
-
         """
         warnings.warn(
             message="Use explicit output-to-input connections.", category=DeprecationWarning

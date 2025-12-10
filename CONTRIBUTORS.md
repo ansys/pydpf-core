@@ -51,6 +51,7 @@
 * [Rafael Canton](https://github.com/rafacanton)
 * [Rajesh Meena](https://github.com/MeenaBytes)
 * [Ramdane Lagha](https://github.com/rlagha)
+* [Reda Lahlou Kassi](https://github.com/Redansys)
 * [Revathy Venugopal](https://github.com/Revathyvenugopal162)
 * [Ricardo Peixoto Coelho](https://github.com/ricardopeixotocoelho)
 * [Roberto Pastor Muela](https://github.com/RobPasMue)

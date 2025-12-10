@@ -20,8 +20,8 @@ class serialize_to_hdf5(Operator):
     instead. Serialize the inputs in an hdf5 format.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     file_path: str
         output file path with .h5 extension
     export_floats: bool, optional
@@ -33,7 +33,7 @@ class serialize_to_hdf5(Operator):
     data2:
         only the data set explicitly to export is exported
 
-    Returns
+    Outputs
     -------
 
     Examples
@@ -76,9 +76,13 @@ class serialize_to_hdf5(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="serialize_to_hdf5", config=config, server=server)
-        self._inputs = InputsSerializeToHdf5(self)
-        self._outputs = OutputsSerializeToHdf5(self)
+        super().__init__(
+            name="serialize_to_hdf5",
+            config=config,
+            server=server,
+            inputs_type=InputsSerializeToHdf5,
+            outputs_type=OutputsSerializeToHdf5,
+        )
         if file_path is not None:
             self.inputs.file_path.connect(file_path)
         if export_floats is not None:
@@ -163,7 +167,7 @@ instead. Serialize the inputs in an hdf5 format.
         inputs:
             An instance of InputsSerializeToHdf5.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsSerializeToHdf5:
@@ -174,7 +178,7 @@ instead. Serialize the inputs in an hdf5 format.
         outputs:
             An instance of OutputsSerializeToHdf5.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsSerializeToHdf5(_Inputs):
@@ -199,21 +203,25 @@ class InputsSerializeToHdf5(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(serialize_to_hdf5._spec().inputs, op)
-        self._file_path = Input(serialize_to_hdf5._spec().input_pin(0), 0, op, -1)
+        self._file_path: Input[str] = Input(
+            serialize_to_hdf5._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._file_path)
-        self._export_floats = Input(serialize_to_hdf5._spec().input_pin(1), 1, op, -1)
+        self._export_floats: Input[bool] = Input(
+            serialize_to_hdf5._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._export_floats)
-        self._export_flat_vectors = Input(
+        self._export_flat_vectors: Input[bool] = Input(
             serialize_to_hdf5._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._export_flat_vectors)
-        self._data1 = Input(serialize_to_hdf5._spec().input_pin(3), 3, op, 0)
+        self._data1: Input = Input(serialize_to_hdf5._spec().input_pin(3), 3, op, 0)
         self._inputs.append(self._data1)
-        self._data2 = Input(serialize_to_hdf5._spec().input_pin(4), 4, op, 1)
+        self._data2: Input = Input(serialize_to_hdf5._spec().input_pin(4), 4, op, 1)
         self._inputs.append(self._data2)
 
     @property
-    def file_path(self) -> Input:
+    def file_path(self) -> Input[str]:
         r"""Allows to connect file_path input to the operator.
 
         output file path with .h5 extension
@@ -234,7 +242,7 @@ class InputsSerializeToHdf5(_Inputs):
         return self._file_path
 
     @property
-    def export_floats(self) -> Input:
+    def export_floats(self) -> Input[bool]:
         r"""Allows to connect export_floats input to the operator.
 
         converts double to float to reduce file size (default is true)
@@ -255,7 +263,7 @@ class InputsSerializeToHdf5(_Inputs):
         return self._export_floats
 
     @property
-    def export_flat_vectors(self) -> Input:
+    def export_flat_vectors(self) -> Input[bool]:
         r"""Allows to connect export_flat_vectors input to the operator.
 
         if true, vectors and matrices data are exported flat (x1,y1,z1,x2,y2,z2..) (default is false)
