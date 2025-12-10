@@ -17,6 +17,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.property_fields_container import PropertyFieldsContainer
 
 
 class merge_weighted_fields_containers(Operator):
@@ -36,11 +37,9 @@ class merge_weighted_fields_containers(Operator):
         A vector of fields containers to merge or fields containers from pin 0 to ...
     fields_containers2: FieldsContainer
         A vector of fields containers to merge or fields containers from pin 0 to ...
-    weights1: Class Dataprocessing::Dpftypecollection&lt;Class
-      Dataprocessing::Cpropertyfield&gt;
+    weights1: PropertyFieldsContainer
         Weights to apply to each field from pin 1000 to ...
-    weights2: Class Dataprocessing::Dpftypecollection&lt;Class
-      Dataprocessing::Cpropertyfield&gt;
+    weights2: PropertyFieldsContainer
         Weights to apply to each field from pin 1000 to ...
 
     Outputs
@@ -65,9 +64,9 @@ class merge_weighted_fields_containers(Operator):
     >>> op.inputs.fields_containers1.connect(my_fields_containers1)
     >>> my_fields_containers2 = dpf.FieldsContainer()
     >>> op.inputs.fields_containers2.connect(my_fields_containers2)
-    >>> my_weights1 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
+    >>> my_weights1 = dpf.PropertyFieldsContainer()
     >>> op.inputs.weights1.connect(my_weights1)
-    >>> my_weights2 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
+    >>> my_weights2 = dpf.PropertyFieldsContainer()
     >>> op.inputs.weights2.connect(my_weights2)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -254,9 +253,9 @@ class InputsMergeWeightedFieldsContainers(_Inputs):
     >>> op.inputs.fields_containers1.connect(my_fields_containers1)
     >>> my_fields_containers2 = dpf.FieldsContainer()
     >>> op.inputs.fields_containers2.connect(my_fields_containers2)
-    >>> my_weights1 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
+    >>> my_weights1 = dpf.PropertyFieldsContainer()
     >>> op.inputs.weights1.connect(my_weights1)
-    >>> my_weights2 = dpf.Class Dataprocessing::Dpftypecollection&lt;Class Dataprocessing::Cpropertyfield&gt;()
+    >>> my_weights2 = dpf.PropertyFieldsContainer()
     >>> op.inputs.weights2.connect(my_weights2)
     """
 
@@ -282,11 +281,11 @@ class InputsMergeWeightedFieldsContainers(_Inputs):
             merge_weighted_fields_containers._spec().input_pin(1), 1, op, 1
         )
         self._inputs.append(self._fields_containers2)
-        self._weights1: Input = Input(
+        self._weights1: Input[PropertyFieldsContainer] = Input(
             merge_weighted_fields_containers._spec().input_pin(1000), 1000, op, 0
         )
         self._inputs.append(self._weights1)
-        self._weights2: Input = Input(
+        self._weights2: Input[PropertyFieldsContainer] = Input(
             merge_weighted_fields_containers._spec().input_pin(1001), 1001, op, 1
         )
         self._inputs.append(self._weights2)
@@ -397,7 +396,7 @@ class InputsMergeWeightedFieldsContainers(_Inputs):
         return self._fields_containers2
 
     @property
-    def weights1(self) -> Input:
+    def weights1(self) -> Input[PropertyFieldsContainer]:
         r"""Allows to connect weights1 input to the operator.
 
         Weights to apply to each field from pin 1000 to ...
@@ -418,7 +417,7 @@ class InputsMergeWeightedFieldsContainers(_Inputs):
         return self._weights1
 
     @property
-    def weights2(self) -> Input:
+    def weights2(self) -> Input[PropertyFieldsContainer]:
         r"""Allows to connect weights2 input to the operator.
 
         Weights to apply to each field from pin 1000 to ...

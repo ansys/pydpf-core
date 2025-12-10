@@ -18,6 +18,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.property_field import PropertyField
+    from ansys.dpf.core.property_fields_container import PropertyFieldsContainer
     from ansys.dpf.core.scoping import Scoping
 
 
@@ -187,7 +188,7 @@ class InputsRescopePropertyField(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(rescope_property_field._spec().inputs, op)
-        self._fields: Input[PropertyField] = Input(
+        self._fields: Input[PropertyFieldsContainer | PropertyField] = Input(
             rescope_property_field._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields)
@@ -201,7 +202,7 @@ class InputsRescopePropertyField(_Inputs):
         self._inputs.append(self._default_value)
 
     @property
-    def fields(self) -> Input[PropertyField]:
+    def fields(self) -> Input[PropertyFieldsContainer | PropertyField]:
         r"""Allows to connect fields input to the operator.
 
         Returns
