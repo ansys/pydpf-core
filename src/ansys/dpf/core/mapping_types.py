@@ -80,7 +80,6 @@ map_types_to_python["vector<double>"] = "list[float]"
 map_types_to_python["vector<string>"] = "list[str]"
 map_types_to_python["b"] = "bool"
 
-
 def reflection_type_to_cpp_type(reflection_type: str) -> str:
     """Convert a reflection type to its corresponding C++ type.
 

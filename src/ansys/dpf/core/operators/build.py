@@ -43,7 +43,6 @@ TYPES_WITHOUT_PYTHON_IMPLEMENTATION = (
     "MeshSelectionManager",
     "Class Dataprocessing::Dpftypecollection<Class Dataprocessing::Cpropertyfield>",
     "Struct Iansdispatch",
-    "PropertyFieldsContainer",
     "Class Dataprocessing::Crstfilewrapper",
     "Char",
 )
@@ -220,7 +219,6 @@ def build_operator(
         output_pins = build_pin_data(specification.outputs, output=True)
     multiple_output_types = any(pin["multiple_types"] for pin in output_pins)
     has_output_aliases = any(len(pin["aliases_list"]) > 0 for pin in output_pins)
-
 
     docstring = build_docstring(specification_description)
 

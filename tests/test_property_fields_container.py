@@ -23,19 +23,19 @@
 import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core.property_fields_collection import PropertyFieldsCollection
+from ansys.dpf.core.property_fields_container import PropertyFieldsContainer
 import conftest
 
 
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1, reason="Available for servers >=8.1"
 )
-def test_property_fields_collection(allkindofcomplexity, server_type):
-    """Test PropertyFieldsCollection class."""
+def test_property_fields_container(allkindofcomplexity, server_type):
+    """Test PropertyFieldsContainer class."""
     model = dpf.Model(allkindofcomplexity, server=server_type)
 
-    # Create a PropertyFieldsCollection
-    pfc = PropertyFieldsCollection(server=server_type)
+    # Create a PropertyFieldsContainer
+    pfc = PropertyFieldsContainer(server=server_type)
 
     # Test adding labels
     pfc.add_label(label="test")
@@ -102,10 +102,10 @@ def test_property_fields_collection(allkindofcomplexity, server_type):
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1, reason="Available for servers >=8.1"
 )
-def test_property_fields_collection_from_scratch(server_type):
-    """Test creating PropertyFieldsCollection from scratch without a model."""
-    # Create a PropertyFieldsCollection
-    pfc = PropertyFieldsCollection(server=server_type)
+def test_property_fields_container_from_scratch(server_type):
+    """Test creating PropertyFieldsContainer from scratch without a model."""
+    # Create a PropertyFieldsContainer
+    pfc = PropertyFieldsContainer(server=server_type)
 
     # Set labels
     pfc.labels = ["time", "body"]
