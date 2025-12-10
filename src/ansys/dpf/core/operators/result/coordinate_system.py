@@ -35,7 +35,7 @@ class coordinate_system(Operator):
     Outputs
     -------
     field: Field
-        the first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector
+        The first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector. The rotation matrix stored is from local to global coordinate system.
 
     Examples
     --------
@@ -116,7 +116,7 @@ class coordinate_system(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""the first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector""",
+                    document=r"""The first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector. The rotation matrix stored is from local to global coordinate system.""",
                 ),
             },
         )
@@ -278,7 +278,7 @@ class OutputsCoordinateSystem(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        the first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector
+        The first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector. The rotation matrix stored is from local to global coordinate system.
 
         Returns
         -------
