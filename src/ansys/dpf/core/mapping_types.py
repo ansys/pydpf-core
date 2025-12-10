@@ -61,7 +61,9 @@ map_types_to_cpp["double"] = "double"
 map_types_to_cpp["float"] = "double"
 map_types_to_cpp["UnitSystem"] = "class dataProcessing::unit::CUnitSystem"
 map_types_to_cpp["dict"] = "label_space"
-map_types_to_cpp["PropertyFieldsCollection"] = "class dataProcessing::DpfTypeCollection<class dataProcessing::CPropertyField>"
+map_types_to_cpp["PropertyFieldsCollection"] = (
+    "class dataProcessing::DpfTypeCollection<class dataProcessing::CPropertyField>"
+)
 
 
 class _smart_dict_snake(dict):

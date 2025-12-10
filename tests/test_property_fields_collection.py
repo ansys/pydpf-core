@@ -24,8 +24,8 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core.property_fields_collection import PropertyFieldsCollection
-
 import conftest
+
 
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1, reason="Available for servers >=8.1"
@@ -97,6 +97,7 @@ def test_property_fields_collection(allkindofcomplexity, server_type):
     test_ids = pfc.get_available_ids_for_label("test")
     assert 42 in test_ids
     assert 43 in test_ids
+
 
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1, reason="Available for servers >=8.1"
