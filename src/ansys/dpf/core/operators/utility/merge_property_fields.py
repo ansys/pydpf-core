@@ -17,6 +17,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.property_field import PropertyField
+    from ansys.dpf.core.property_fields_collection import PropertyFieldsCollection
 
 
 class merge_property_fields(Operator):
@@ -27,9 +28,9 @@ class merge_property_fields(Operator):
     ------
     naive_merge: bool
         If true, merge the input property fields assuming that there is no repetition in their scoping ids. Default is false.
-    property_fields1: PropertyField or PropertyFieldsContainer
+    property_fields1: PropertyField or PropertyFieldsCollection
         Either a property fields container, a vector of property fields to merge or property fields from pin 0 to ...
-    property_fields2: PropertyField or PropertyFieldsContainer
+    property_fields2: PropertyField or PropertyFieldsCollection
         Either a property fields container, a vector of property fields to merge or property fields from pin 0 to ...
 
     Outputs
@@ -99,13 +100,13 @@ class merge_property_fields(Operator):
                 ),
                 0: PinSpecification(
                     name="property_fields",
-                    type_names=["property_field", "property_fields_container"],
+                    type_names=["property_field", "property_fields_collection"],
                     optional=False,
                     document=r"""Either a property fields container, a vector of property fields to merge or property fields from pin 0 to ...""",
                 ),
                 1: PinSpecification(
                     name="property_fields",
-                    type_names=["property_field", "property_fields_container"],
+                    type_names=["property_field", "property_fields_collection"],
                     optional=False,
                     document=r"""Either a property fields container, a vector of property fields to merge or property fields from pin 0 to ...""",
                 ),
@@ -187,11 +188,11 @@ class InputsMergePropertyFields(_Inputs):
             merge_property_fields._spec().input_pin(-201), -201, op, -1
         )
         self._inputs.append(self._naive_merge)
-        self._property_fields1: Input[PropertyField] = Input(
+        self._property_fields1: Input[PropertyField | PropertyFieldsCollection] = Input(
             merge_property_fields._spec().input_pin(0), 0, op, 0
         )
         self._inputs.append(self._property_fields1)
-        self._property_fields2: Input[PropertyField] = Input(
+        self._property_fields2: Input[PropertyField | PropertyFieldsCollection] = Input(
             merge_property_fields._spec().input_pin(1), 1, op, 1
         )
         self._inputs.append(self._property_fields2)
@@ -218,7 +219,7 @@ class InputsMergePropertyFields(_Inputs):
         return self._naive_merge
 
     @property
-    def property_fields1(self) -> Input[PropertyField]:
+    def property_fields1(self) -> Input[PropertyField | PropertyFieldsCollection]:
         r"""Allows to connect property_fields1 input to the operator.
 
         Either a property fields container, a vector of property fields to merge or property fields from pin 0 to ...
@@ -239,7 +240,7 @@ class InputsMergePropertyFields(_Inputs):
         return self._property_fields1
 
     @property
-    def property_fields2(self) -> Input[PropertyField]:
+    def property_fields2(self) -> Input[PropertyField | PropertyFieldsCollection]:
         r"""Allows to connect property_fields2 input to the operator.
 
         Either a property fields container, a vector of property fields to merge or property fields from pin 0 to ...

@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 class identical_anys(Operator):
     r"""Takes two Any objects and compares them.Supported types: Field,
     FieldsContainer, Mesh, MeshesContainer, PropertyField,
-    PropertyFieldsContainer, Scoping, ScopingsContainer, StringField,
+    PropertyFieldsCollection, Scoping, ScopingsContainer, StringField,
     standard types (double, int, string, vector of int, doubles, string).
     Note: all inputs related to fields, mesh, and so on are passed to each
     property check.
@@ -110,7 +110,7 @@ class identical_anys(Operator):
     def _spec() -> Specification:
         description = r"""Takes two Any objects and compares them.Supported types: Field,
 FieldsContainer, Mesh, MeshesContainer, PropertyField,
-PropertyFieldsContainer, Scoping, ScopingsContainer, StringField,
+PropertyFieldsCollection, Scoping, ScopingsContainer, StringField,
 standard types (double, int, string, vector of int, doubles, string).
 Note: all inputs related to fields, mesh, and so on are passed to each
 property check.

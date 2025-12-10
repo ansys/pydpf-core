@@ -17,6 +17,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.property_fields_collection import PropertyFieldsCollection
 
 
 class mapdl_split_to_acmo_facet_indices(Operator):
@@ -30,7 +31,7 @@ class mapdl_split_to_acmo_facet_indices(Operator):
     ------
     fields_container: FieldsContainer
         Fields container to split, with generic number of labels (e.g. time, zone, complex...), 'facet' label is compulsory.The Fields of the FieldsContainer will have location Elemental and the Scoping Ids will be the Element Ids on the skin mesh.
-    property_fields_container_element_types: PropertyFieldsContainer
+    property_fields_collection_element_types: PropertyFieldsCollection
         It should only have the 'facet' label. For each facet, it stores a PropertyField with the element types of the corresponding elements.The scoping should be the same as the scoping of the corresponding Field in input 0.
 
     Outputs
@@ -48,13 +49,13 @@ class mapdl_split_to_acmo_facet_indices(Operator):
     >>> # Make input connections
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_property_fields_container_element_types = dpf.PropertyFieldsContainer()
-    >>> op.inputs.property_fields_container_element_types.connect(my_property_fields_container_element_types)
+    >>> my_property_fields_collection_element_types = dpf.PropertyFieldsCollection()
+    >>> op.inputs.property_fields_collection_element_types.connect(my_property_fields_collection_element_types)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.mapdl_split_to_acmo_facet_indices(
     ...     fields_container=my_fields_container,
-    ...     property_fields_container_element_types=my_property_fields_container_element_types,
+    ...     property_fields_collection_element_types=my_property_fields_collection_element_types,
     ... )
 
     >>> # Get output data
@@ -64,7 +65,7 @@ class mapdl_split_to_acmo_facet_indices(Operator):
     def __init__(
         self,
         fields_container=None,
-        property_fields_container_element_types=None,
+        property_fields_collection_element_types=None,
         config=None,
         server=None,
     ):
@@ -77,9 +78,9 @@ class mapdl_split_to_acmo_facet_indices(Operator):
         )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
-        if property_fields_container_element_types is not None:
-            self.inputs.property_fields_container_element_types.connect(
-                property_fields_container_element_types
+        if property_fields_collection_element_types is not None:
+            self.inputs.property_fields_collection_element_types.connect(
+                property_fields_collection_element_types
             )
 
     @staticmethod
@@ -99,8 +100,8 @@ to the appropriate entity.
                     document=r"""Fields container to split, with generic number of labels (e.g. time, zone, complex...), 'facet' label is compulsory.The Fields of the FieldsContainer will have location Elemental and the Scoping Ids will be the Element Ids on the skin mesh.""",
                 ),
                 1: PinSpecification(
-                    name="property_fields_container_element_types",
-                    type_names=["property_fields_container"],
+                    name="property_fields_collection_element_types",
+                    type_names=["property_fields_collection"],
                     optional=False,
                     document=r"""It should only have the 'facet' label. For each facet, it stores a PropertyField with the element types of the corresponding elements.The scoping should be the same as the scoping of the corresponding Field in input 0.""",
                 ),
@@ -172,8 +173,8 @@ class InputsMapdlSplitToAcmoFacetIndices(_Inputs):
     >>> op = dpf.operators.result.mapdl_split_to_acmo_facet_indices()
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_property_fields_container_element_types = dpf.PropertyFieldsContainer()
-    >>> op.inputs.property_fields_container_element_types.connect(my_property_fields_container_element_types)
+    >>> my_property_fields_collection_element_types = dpf.PropertyFieldsCollection()
+    >>> op.inputs.property_fields_collection_element_types.connect(my_property_fields_collection_element_types)
     """
 
     def __init__(self, op: Operator):
@@ -182,10 +183,10 @@ class InputsMapdlSplitToAcmoFacetIndices(_Inputs):
             mapdl_split_to_acmo_facet_indices._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._property_fields_container_element_types: Input = Input(
-            mapdl_split_to_acmo_facet_indices._spec().input_pin(1), 1, op, -1
-        )
-        self._inputs.append(self._property_fields_container_element_types)
+        self._property_fields_collection_element_types: Input[
+            PropertyFieldsCollection
+        ] = Input(mapdl_split_to_acmo_facet_indices._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._property_fields_collection_element_types)
 
     @property
     def fields_container(self) -> Input[FieldsContainer]:
@@ -209,8 +210,10 @@ class InputsMapdlSplitToAcmoFacetIndices(_Inputs):
         return self._fields_container
 
     @property
-    def property_fields_container_element_types(self) -> Input:
-        r"""Allows to connect property_fields_container_element_types input to the operator.
+    def property_fields_collection_element_types(
+        self,
+    ) -> Input[PropertyFieldsCollection]:
+        r"""Allows to connect property_fields_collection_element_types input to the operator.
 
         It should only have the 'facet' label. For each facet, it stores a PropertyField with the element types of the corresponding elements.The scoping should be the same as the scoping of the corresponding Field in input 0.
 
@@ -223,11 +226,11 @@ class InputsMapdlSplitToAcmoFacetIndices(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.result.mapdl_split_to_acmo_facet_indices()
-        >>> op.inputs.property_fields_container_element_types.connect(my_property_fields_container_element_types)
+        >>> op.inputs.property_fields_collection_element_types.connect(my_property_fields_collection_element_types)
         >>> # or
-        >>> op.inputs.property_fields_container_element_types(my_property_fields_container_element_types)
+        >>> op.inputs.property_fields_collection_element_types(my_property_fields_collection_element_types)
         """
-        return self._property_fields_container_element_types
+        return self._property_fields_collection_element_types
 
 
 class OutputsMapdlSplitToAcmoFacetIndices(_Outputs):

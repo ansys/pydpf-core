@@ -18,6 +18,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.property_field import PropertyField
+    from ansys.dpf.core.property_fields_collection import PropertyFieldsCollection
     from ansys.dpf.core.scoping import Scoping
 
 
@@ -29,14 +30,14 @@ class rescope_property_field(Operator):
 
     Inputs
     ------
-    fields: PropertyFieldsContainer or PropertyField
+    fields: PropertyFieldsCollection or PropertyField
     mesh_scoping: Scoping, optional
     default_value: int, optional
         If pin 2 is used, the IDs not found in the property field are added with this default value.
 
     Outputs
     -------
-    fields: PropertyFieldsContainer or PropertyField
+    fields: PropertyFieldsCollection or PropertyField
 
     Examples
     --------
@@ -46,7 +47,7 @@ class rescope_property_field(Operator):
     >>> op = dpf.operators.scoping.rescope_property_field()
 
     >>> # Make input connections
-    >>> my_fields = dpf.PropertyFieldsContainer()
+    >>> my_fields = dpf.PropertyFieldsCollection()
     >>> op.inputs.fields.connect(my_fields)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
@@ -97,7 +98,7 @@ defined.
             map_input_pin_spec={
                 0: PinSpecification(
                     name="fields",
-                    type_names=["property_fields_container", "property_field"],
+                    type_names=["property_fields_collection", "property_field"],
                     optional=False,
                     document=r"""""",
                 ),
@@ -117,7 +118,7 @@ defined.
             map_output_pin_spec={
                 0: PinSpecification(
                     name="fields",
-                    type_names=["property_fields_container", "property_field"],
+                    type_names=["property_fields_collection", "property_field"],
                     optional=False,
                     document=r"""""",
                 ),
@@ -177,7 +178,7 @@ class InputsRescopePropertyField(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.scoping.rescope_property_field()
-    >>> my_fields = dpf.PropertyFieldsContainer()
+    >>> my_fields = dpf.PropertyFieldsCollection()
     >>> op.inputs.fields.connect(my_fields)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
@@ -187,7 +188,7 @@ class InputsRescopePropertyField(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(rescope_property_field._spec().inputs, op)
-        self._fields: Input[PropertyField] = Input(
+        self._fields: Input[PropertyFieldsCollection | PropertyField] = Input(
             rescope_property_field._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields)
@@ -201,7 +202,7 @@ class InputsRescopePropertyField(_Inputs):
         self._inputs.append(self._default_value)
 
     @property
-    def fields(self) -> Input[PropertyField]:
+    def fields(self) -> Input[PropertyFieldsCollection | PropertyField]:
         r"""Allows to connect fields input to the operator.
 
         Returns
@@ -274,15 +275,15 @@ class OutputsRescopePropertyField(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(rescope_property_field._spec().outputs, op)
-        self.fields_as_property_fields_container = Output(
+        self.fields_as_property_fields_collection = Output(
             _modify_output_spec_with_one_type(
                 rescope_property_field._spec().output_pin(0),
-                "property_fields_container",
+                "property_fields_collection",
             ),
             0,
             op,
         )
-        self._outputs.append(self.fields_as_property_fields_container)
+        self._outputs.append(self.fields_as_property_fields_collection)
         self.fields_as_property_field = Output(
             _modify_output_spec_with_one_type(
                 rescope_property_field._spec().output_pin(0), "property_field"

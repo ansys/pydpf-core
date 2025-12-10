@@ -23,6 +23,7 @@ if TYPE_CHECKING:
     from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.meshes_container import MeshesContainer
     from ansys.dpf.core.property_field import PropertyField
+    from ansys.dpf.core.property_fields_collection import PropertyFieldsCollection
     from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.scopings_container import ScopingsContainer
     from ansys.dpf.core.string_field import StringField
@@ -36,7 +37,7 @@ class extract_scoping(Operator):
     Inputs
     ------
     field_or_fields_container: Field or FieldsContainer or PropertyField or
-      PropertyFieldsContainer or CustomTypeField or
+      PropertyFieldsCollection or CustomTypeField or
       CustomTypeFieldsContainer or StringField or Scoping or
       ScopingsContainer or MeshedRegion or MeshesContainer, optional
     requested_location: int, optional
@@ -102,7 +103,7 @@ scoping or scopings container.
                         "field",
                         "fields_container",
                         "property_field",
-                        "property_fields_container",
+                        "property_fields_collection",
                         "custom_type_field",
                         "custom_type_fields_container",
                         "string_field",
@@ -196,6 +197,7 @@ class InputsExtractScoping(_Inputs):
             Field
             | FieldsContainer
             | PropertyField
+            | PropertyFieldsCollection
             | CustomTypeField
             | StringField
             | Scoping
@@ -216,6 +218,7 @@ class InputsExtractScoping(_Inputs):
         Field
         | FieldsContainer
         | PropertyField
+        | PropertyFieldsCollection
         | CustomTypeField
         | StringField
         | Scoping

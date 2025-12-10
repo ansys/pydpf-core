@@ -17,6 +17,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.property_fields_collection import PropertyFieldsCollection
     from ansys.dpf.core.streams_container import StreamsContainer
 
 
@@ -29,7 +30,7 @@ class enrich_materials(Operator):
     ------
     MaterialContainer:
     streams: StreamsContainer or FieldsContainer
-    streams_mapping: PropertyFieldsContainer
+    streams_mapping: PropertyFieldsCollection
 
     Outputs
     -------
@@ -47,7 +48,7 @@ class enrich_materials(Operator):
     >>> op.inputs.MaterialContainer.connect(my_MaterialContainer)
     >>> my_streams = dpf.StreamsContainer()
     >>> op.inputs.streams.connect(my_streams)
-    >>> my_streams_mapping = dpf.PropertyFieldsContainer()
+    >>> my_streams_mapping = dpf.PropertyFieldsCollection()
     >>> op.inputs.streams_mapping.connect(my_streams_mapping)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -105,7 +106,7 @@ MaterialContainer using stream data.
                 ),
                 2: PinSpecification(
                     name="streams_mapping",
-                    type_names=["property_fields_container"],
+                    type_names=["property_fields_collection"],
                     optional=False,
                     document=r"""""",
                 ),
@@ -177,7 +178,7 @@ class InputsEnrichMaterials(_Inputs):
     >>> op.inputs.MaterialContainer.connect(my_MaterialContainer)
     >>> my_streams = dpf.StreamsContainer()
     >>> op.inputs.streams.connect(my_streams)
-    >>> my_streams_mapping = dpf.PropertyFieldsContainer()
+    >>> my_streams_mapping = dpf.PropertyFieldsCollection()
     >>> op.inputs.streams_mapping.connect(my_streams_mapping)
     """
 
@@ -191,7 +192,7 @@ class InputsEnrichMaterials(_Inputs):
             enrich_materials._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._streams)
-        self._streams_mapping: Input = Input(
+        self._streams_mapping: Input[PropertyFieldsCollection] = Input(
             enrich_materials._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._streams_mapping)
@@ -235,7 +236,7 @@ class InputsEnrichMaterials(_Inputs):
         return self._streams
 
     @property
-    def streams_mapping(self) -> Input:
+    def streams_mapping(self) -> Input[PropertyFieldsCollection]:
         r"""Allows to connect streams_mapping input to the operator.
 
         Returns

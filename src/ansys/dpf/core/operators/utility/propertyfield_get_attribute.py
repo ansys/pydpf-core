@@ -18,6 +18,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.property_field import PropertyField
+    from ansys.dpf.core.property_fields_collection import PropertyFieldsCollection
 
 
 class propertyfield_get_attribute(Operator):
@@ -27,7 +28,7 @@ class propertyfield_get_attribute(Operator):
 
     Inputs
     ------
-    property_field: PropertyField or PropertyFieldsContainer
+    property_field: PropertyField or PropertyFieldsCollection
     property_name: str
         Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.
 
@@ -84,7 +85,7 @@ pin 0, a property name (string) in pin 1 are expected as inputs
             map_input_pin_spec={
                 0: PinSpecification(
                     name="property_field",
-                    type_names=["property_field", "property_fields_container"],
+                    type_names=["property_field", "property_fields_collection"],
                     optional=False,
                     document=r"""""",
                 ),
@@ -173,7 +174,7 @@ class InputsPropertyfieldGetAttribute(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(propertyfield_get_attribute._spec().inputs, op)
-        self._property_field: Input[PropertyField] = Input(
+        self._property_field: Input[PropertyField | PropertyFieldsCollection] = Input(
             propertyfield_get_attribute._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._property_field)
@@ -183,7 +184,7 @@ class InputsPropertyfieldGetAttribute(_Inputs):
         self._inputs.append(self._property_name)
 
     @property
-    def property_field(self) -> Input[PropertyField]:
+    def property_field(self) -> Input[PropertyField | PropertyFieldsCollection]:
         r"""Allows to connect property_field input to the operator.
 
         Returns

@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 class identical_generic_data_containers(Operator):
     r"""Takes two generic data containers and compares them. Supported types:
     Field, FieldsContainer, Mesh, MeshesContainer, PropertyField,
-    PropertyFieldsContainer, Scoping, ScopingsContainer, StringFieldstandard
+    PropertyFieldsCollection, Scoping, ScopingsContainer, StringFieldstandard
     types (double, int, string, vector of int, doubles, string)Note: all
     inputs related to fields, mesh, and so on are passed to each property
     check.
@@ -110,7 +110,7 @@ class identical_generic_data_containers(Operator):
     def _spec() -> Specification:
         description = r"""Takes two generic data containers and compares them. Supported types:
 Field, FieldsContainer, Mesh, MeshesContainer, PropertyField,
-PropertyFieldsContainer, Scoping, ScopingsContainer, StringFieldstandard
+PropertyFieldsCollection, Scoping, ScopingsContainer, StringFieldstandard
 types (double, int, string, vector of int, doubles, string)Note: all
 inputs related to fields, mesh, and so on are passed to each property
 check.
