@@ -258,9 +258,6 @@ def build_operator(
     annotation_import_list.sort(key= lambda x: x["class_name"].split("ansys.dpf.core.")[-1])
     non_empty_annotation_import_list = bool(annotation_import_list)
 
-    # Process operator name for property_fields_container --> property_fields_collection
-    operator_name = operator_name.replace("property_fields_container", "property_fields_collection")
-
     data = {
         "operator_name": operator_name,
         "class_name": class_name,
