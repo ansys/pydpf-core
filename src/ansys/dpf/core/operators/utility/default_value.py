@@ -16,18 +16,22 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class default_value(Operator):
-    r"""Default return value from input pin 1 to output pin 0 if there is
-    nothing on input pin 0.
+    r"""Returns the value from pin 0 if provided, otherwise returns the default
+    value from pin 1. This operator acts as a fallback mechanism for
+    optional inputs.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     forced_value: optional
+        Primary value to return if provided. Can be any type
     default_value:
+        Default value to return if pin 0 is not connected. Must be the same type as pin 0
 
-    Returns
+    Outputs
     -------
     output:
+        Returns primary_value if provided, otherwise default_value
 
     Examples
     --------
@@ -53,9 +57,13 @@ class default_value(Operator):
     """
 
     def __init__(self, forced_value=None, default_value=None, config=None, server=None):
-        super().__init__(name="default_value", config=config, server=server)
-        self._inputs = InputsDefaultValue(self)
-        self._outputs = OutputsDefaultValue(self)
+        super().__init__(
+            name="default_value",
+            config=config,
+            server=server,
+            inputs_type=InputsDefaultValue,
+            outputs_type=OutputsDefaultValue,
+        )
         if forced_value is not None:
             self.inputs.forced_value.connect(forced_value)
         if default_value is not None:
@@ -63,8 +71,9 @@ class default_value(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Default return value from input pin 1 to output pin 0 if there is
-nothing on input pin 0.
+        description = r"""Returns the value from pin 0 if provided, otherwise returns the default
+value from pin 1. This operator acts as a fallback mechanism for
+optional inputs.
 """
         spec = Specification(
             description=description,
@@ -73,20 +82,20 @@ nothing on input pin 0.
                     name="forced_value",
                     type_names=["any"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Primary value to return if provided. Can be any type""",
                 ),
                 1: PinSpecification(
                     name="default_value",
                     type_names=["any"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Default value to return if pin 0 is not connected. Must be the same type as pin 0""",
                 ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
                     name="output",
                     optional=False,
-                    document=r"""""",
+                    document=r"""Returns primary_value if provided, otherwise default_value""",
                 ),
             },
         )
@@ -122,7 +131,7 @@ nothing on input pin 0.
         inputs:
             An instance of InputsDefaultValue.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsDefaultValue:
@@ -133,7 +142,7 @@ nothing on input pin 0.
         outputs:
             An instance of OutputsDefaultValue.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsDefaultValue(_Inputs):
@@ -152,14 +161,18 @@ class InputsDefaultValue(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(default_value._spec().inputs, op)
-        self._forced_value = Input(default_value._spec().input_pin(0), 0, op, -1)
+        self._forced_value: Input = Input(default_value._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._forced_value)
-        self._default_value = Input(default_value._spec().input_pin(1), 1, op, -1)
+        self._default_value: Input = Input(
+            default_value._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._default_value)
 
     @property
     def forced_value(self) -> Input:
         r"""Allows to connect forced_value input to the operator.
+
+        Primary value to return if provided. Can be any type
 
         Returns
         -------
@@ -179,6 +192,8 @@ class InputsDefaultValue(_Inputs):
     @property
     def default_value(self) -> Input:
         r"""Allows to connect default_value input to the operator.
+
+        Default value to return if pin 0 is not connected. Must be the same type as pin 0
 
         Returns
         -------
@@ -210,12 +225,14 @@ class OutputsDefaultValue(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(default_value._spec().outputs, op)
-        self._output = Output(default_value._spec().output_pin(0), 0, op)
+        self._output: Output = Output(default_value._spec().output_pin(0), 0, op)
         self._outputs.append(self._output)
 
     @property
     def output(self) -> Output:
         r"""Allows to get output output of the operator
+
+        Returns primary_value if provided, otherwise default_value
 
         Returns
         -------

@@ -1,4 +1,5 @@
 import os
+import warnings
 
 try:
     import importlib.metadata as importlib_metadata
@@ -11,18 +12,18 @@ __version__ = importlib_metadata.version("ansys-dpf-core")
 USER_DATA_PATH = None
 LOCAL_DOWNLOADED_EXAMPLES_PATH = None
 try:
-    import pkgutil
+    from importlib.util import find_spec
 
-    spec = pkgutil.get_loader(__name__)
-    USER_DATA_PATH = os.path.dirname(spec.get_filename(__name__))
+    spec = find_spec(__name__)
+    USER_DATA_PATH = os.path.dirname(spec.origin)
     if not os.path.exists(USER_DATA_PATH):  # pragma: no cover
         os.makedirs(USER_DATA_PATH)
 
     LOCAL_DOWNLOADED_EXAMPLES_PATH = os.path.join(USER_DATA_PATH, "examples")
     if not os.path.exists(LOCAL_DOWNLOADED_EXAMPLES_PATH):  # pragma: no cover
         os.makedirs(LOCAL_DOWNLOADED_EXAMPLES_PATH)
-except:  # pragma: no cover
-    pass
+except Exception as e:  # pragma: no cover
+    warnings.warn(f"Could not set up example data directory: {e}")
 
 installed = [d.metadata["Name"] for d in importlib_metadata.distributions()]
 check_for = ["ansys-dpf-gatebin", "ansys-dpf-gate", "ansys-grpc-dpf"]
@@ -109,17 +110,16 @@ from ansys.dpf.core.generic_data_container import GenericDataContainer
 from ansys.dpf.core.dpf_operator import available_operator_names
 
 
-from ansys.dpf.core.collection import CollectionFactory as _CollectionFactory
 from ansys.dpf.core.collection import Collection as _Collection
 from ansys.dpf.core.label_space import LabelSpace
 
 
 # register classes for collection types:
-CustomTypeFieldsCollection:type = _CollectionFactory(CustomTypeField)
-GenericDataContainersCollection:type = _CollectionFactory(GenericDataContainer)
-StringFieldsCollection:type = _CollectionFactory(StringField)
-OperatorsCollection: type = _CollectionFactory(Operator)
-AnyCollection:type = _Collection
+CustomTypeFieldsCollection = _Collection.collection_factory(CustomTypeField)
+GenericDataContainersCollection = _Collection.collection_factory(GenericDataContainer)
+StringFieldsCollection = _Collection.collection_factory(StringField)
+OperatorsCollection = _Collection.collection_factory(Operator)
+AnyCollection = _Collection
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."
