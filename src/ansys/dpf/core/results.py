@@ -270,6 +270,7 @@ class Result:
         self._connector = connector
         self._time_scoping = None
         self._mesh_scoping = None
+        self._region_scoping = None
         self._location = None
         self._mesh_by_default = mesh_by_default
         self._result_info = result_info
@@ -295,7 +296,7 @@ class Result:
             print(self._result_info.name)
             raise e
 
-    def __call__(self, time_scoping=None, mesh_scoping=None):
+    def __call__(self, time_scoping=None, mesh_scoping=None, region_scoping=None):
         """Provide for Result instances to be callable for operator retrieval."""
         op = self._operator
         if time_scoping:
@@ -307,6 +308,12 @@ class Result:
             op.inputs.mesh_scoping(mesh_scoping)
         elif self._mesh_scoping:
             op.inputs.mesh_scoping(self._mesh_scoping)
+
+        if hasattr(op.inputs, "region_scoping"):
+            if region_scoping:
+                op.inputs.region_scoping(region_scoping)
+            elif self._region_scoping:
+                op.inputs.region_scoping(self._region_scoping)
 
         if self._location:
             op.inputs.requested_location(self._location)
@@ -381,7 +388,7 @@ class Result:
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.find_msup_transient())
         >>> disp = model.results.displacement
-        >>> disp.on_first_time_freq.eval().get_label_scoping("time").ids
+        >>> disp.on_first_time_freq.eval().get_label_scoping("time").ids  #
         <BLANKLINE>
         ...[1]...
 
@@ -591,6 +598,58 @@ class Result:
             )
 
         self._mesh_scoping = mesh_scoping
+        return self
+
+    def on_region_scoping(self, region_scoping: Scoping | list[int], region_location=None):
+        """Set the region scoping to a given region scoping.
+
+        Parameters
+        ----------
+        region_scoping:
+            Scoping identifying a list of regions (part IDs or zone IDs).
+        region_location:
+            Location for the scoping if 'region_scoping' is a list of IDs.
+            Either `locations.zone` or `locations.part`.
+
+        Returns
+        -------
+        self : Result
+
+        Examples
+        --------
+        Use a list of fluid face zones.
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_fluent_mixing_elbow_steady_state())
+        >>> disp = model.results.displacement
+        >>> fc = disp.on_region_scoping(region_scoping=[1,2,3], region_location=dpf.locations.zone).eval()
+        >>> len(fc[0].scoping)
+        3
+
+        Use a scoping to specify a list of entity IDs with their locations.
+
+        >>> stress = model.results.stress
+        >>> scop = dpf.Scoping(ids=[3,4,5], location=dpf.locations.zone)
+        >>> fc = stress.on_region_scoping(scop).eval()
+        >>> len(fc[0].scoping)
+        3
+        >>> fc[0].location
+        'Faces'
+
+        """
+        if isinstance(region_scoping, list):
+            if region_location is None:
+                raise ValueError(
+                    "Result.on_region_scoping: argument 'region_location' is required if 'region_scoping' is a list of IDs."
+                )
+            region_scoping = Scoping(
+                ids=region_scoping,
+                location=region_location,
+                server=self._server,
+            )
+
+        self._region_scoping = region_scoping
         return self
 
     def on_location(self, location):
