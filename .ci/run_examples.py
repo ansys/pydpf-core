@@ -21,7 +21,6 @@ server.shutdown()
 print(f"Server version: {server_version}")
 
 skipped_docker = [
-    "00-cfx_res_files.py",
     "03-distributed-msup_expansion_steps.py",
     "06-distributed_stress_averaging.py",
     "01-distributed_workflows_on_remote.py",
