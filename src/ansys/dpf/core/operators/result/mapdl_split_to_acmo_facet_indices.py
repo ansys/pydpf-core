@@ -17,6 +17,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.property_fields_container import PropertyFieldsContainer
 
 
 class mapdl_split_to_acmo_facet_indices(Operator):
@@ -182,9 +183,9 @@ class InputsMapdlSplitToAcmoFacetIndices(_Inputs):
             mapdl_split_to_acmo_facet_indices._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._property_fields_container_element_types: Input = Input(
-            mapdl_split_to_acmo_facet_indices._spec().input_pin(1), 1, op, -1
-        )
+        self._property_fields_container_element_types: Input[
+            PropertyFieldsContainer
+        ] = Input(mapdl_split_to_acmo_facet_indices._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._property_fields_container_element_types)
 
     @property
@@ -209,7 +210,7 @@ class InputsMapdlSplitToAcmoFacetIndices(_Inputs):
         return self._fields_container
 
     @property
-    def property_fields_container_element_types(self) -> Input:
+    def property_fields_container_element_types(self) -> Input[PropertyFieldsContainer]:
         r"""Allows to connect property_fields_container_element_types input to the operator.
 
         It should only have the 'facet' label. For each facet, it stores a PropertyField with the element types of the corresponding elements.The scoping should be the same as the scoping of the corresponding Field in input 0.
