@@ -28,7 +28,6 @@ Contains classes associated with the PropertyFieldsContainer.
 
 from __future__ import annotations
 
-from optparse import Option
 from typing import TYPE_CHECKING, Optional
 
 from ansys.dpf.core import property_field
