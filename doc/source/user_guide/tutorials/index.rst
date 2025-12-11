@@ -104,6 +104,13 @@ of basic features and concepts so you can start coding right away.
 
         Learn how to perform mathematical operations on data structures.
 
+    .. grid-item-card:: Parallelization
+        :link: ref_tutorials_parallelization
+        :link-type: ref
+        :text-align: center
+
+        Learn how to accelerate DPF workflows using multithreading and operator configuration options.
+
     .. grid-item-card:: Custom Python operator and plugin
         :link: ref_tutorials_custom_operators_and_plugins
         :link-type: ref
@@ -143,3 +150,23 @@ of basic features and concepts so you can start coding right away.
 
         +++
         Coming soon
+
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+
+    parallelization/index.rst
+    collections_tutorial.rst
+    data_structures/index.rst
+    post_processing_basics/index.rst
+    import_data/index.rst
+    export_data/index.rst
+    mesh/index.rst
+    plot/index.rst
+    operators_and_workflows/index.rst
+    mathematics/index.rst
+    distributed_files/index.rst
+    dpf_server/index.rst
+    custom_operators_and_plugins/index.rst
+    licensing/index.rst
+    animate/index.rst
