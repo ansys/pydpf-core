@@ -42,7 +42,7 @@ import sys
 from threading import Lock, Thread
 import time
 import traceback
-from typing import TYPE_CHECKING, Union, cast
+from typing import TYPE_CHECKING, Union
 import warnings
 
 import psutil
