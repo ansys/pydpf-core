@@ -33,9 +33,9 @@ from ansys.dpf.core.collection import Collection
 
 
 class PropertyFieldsContainer(Collection["property_field.PropertyField"]):
-    """Represents a property fields container, which contains property fields.
+    """Represents a property fields container, which is a collection of property fields.
 
-    A property fields container is a set of property fields ordered by labels and IDs.
+    A property fields container is a collection of property fields ordered by labels and IDs.
     Each property field in the collection has an ID for each label, allowing flexible
     organization and retrieval of property fields based on various criteria.
 
