@@ -109,7 +109,7 @@ class LabelSpace:
 
         # step4: if object exists, take the instance, else create it
         if label_space is not None and not isinstance(label_space, dict):
-            self._internal_obj = label_space._internal_obj
+            self._internal_obj = label_space
         else:
             self._internal_obj = self._api.label_space_new_for_object(obj)
             if isinstance(label_space, dict):
