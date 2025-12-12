@@ -17,6 +17,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.property_field import PropertyField
+    from ansys.dpf.core.property_fields_container import PropertyFieldsContainer
 
 
 class merge_property_fields(Operator):
@@ -187,11 +188,11 @@ class InputsMergePropertyFields(_Inputs):
             merge_property_fields._spec().input_pin(-201), -201, op, -1
         )
         self._inputs.append(self._naive_merge)
-        self._property_fields1: Input[PropertyField] = Input(
+        self._property_fields1: Input[PropertyField | PropertyFieldsContainer] = Input(
             merge_property_fields._spec().input_pin(0), 0, op, 0
         )
         self._inputs.append(self._property_fields1)
-        self._property_fields2: Input[PropertyField] = Input(
+        self._property_fields2: Input[PropertyField | PropertyFieldsContainer] = Input(
             merge_property_fields._spec().input_pin(1), 1, op, 1
         )
         self._inputs.append(self._property_fields2)
@@ -218,7 +219,7 @@ class InputsMergePropertyFields(_Inputs):
         return self._naive_merge
 
     @property
-    def property_fields1(self) -> Input[PropertyField]:
+    def property_fields1(self) -> Input[PropertyField | PropertyFieldsContainer]:
         r"""Allows to connect property_fields1 input to the operator.
 
         Either a property fields container, a vector of property fields to merge or property fields from pin 0 to ...
@@ -239,7 +240,7 @@ class InputsMergePropertyFields(_Inputs):
         return self._property_fields1
 
     @property
-    def property_fields2(self) -> Input[PropertyField]:
+    def property_fields2(self) -> Input[PropertyField | PropertyFieldsContainer]:
         r"""Allows to connect property_fields2 input to the operator.
 
         Either a property fields container, a vector of property fields to merge or property fields from pin 0 to ...

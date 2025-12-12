@@ -19,6 +19,7 @@ if TYPE_CHECKING:
     from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.meshes_container import MeshesContainer
+    from ansys.dpf.core.property_fields_container import PropertyFieldsContainer
     from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.scopings_container import ScopingsContainer
 
@@ -52,8 +53,7 @@ class elemental_nodal_to_nodal_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
-    weights: Class Dataprocessing::Dpftypecollection&lt;Class
-      Dataprocessing::Cpropertyfield&gt;
+    weights: PropertyFieldsContainer
         Gives for each node, the number of times it was found in the Elemental Nodal field. Can be used to average later.
 
     Examples
@@ -507,7 +507,7 @@ class OutputsElementalNodalToNodalFc(_Outputs):
             elemental_nodal_to_nodal_fc._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
-        self._weights: Output = Output(
+        self._weights: Output[PropertyFieldsContainer] = Output(
             elemental_nodal_to_nodal_fc._spec().output_pin(1), 1, op
         )
         self._outputs.append(self._weights)
@@ -531,7 +531,7 @@ class OutputsElementalNodalToNodalFc(_Outputs):
         return self._fields_container
 
     @property
-    def weights(self) -> Output:
+    def weights(self) -> Output[PropertyFieldsContainer]:
         r"""Allows to get weights output of the operator
 
         Gives for each node, the number of times it was found in the Elemental Nodal field. Can be used to average later.
