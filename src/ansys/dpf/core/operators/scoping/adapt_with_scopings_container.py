@@ -118,6 +118,12 @@ rescoped fields.
                     optional=True,
                     document=r"""Whether to keep fields that become empty after rescoping. Default is false.""",
                 ),
+                2: PinSpecification(
+                    name="keep_empty_fields",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""Default false.""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
