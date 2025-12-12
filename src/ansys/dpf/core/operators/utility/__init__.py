@@ -7,6 +7,8 @@ from .bind_support_fc import bind_support_fc
 from .change_location import change_location
 from .change_shell_layers import change_shell_layers
 from .compute_time_scoping import compute_time_scoping
+from .concatenate_fields import concatenate_fields
+from .concatenate_fields_containers import concatenate_fields_containers
 from .customtypefield_get_attribute import customtypefield_get_attribute
 from .cyclic_support_get_attribute import cyclic_support_get_attribute
 from .default_value import default_value
