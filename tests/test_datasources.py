@@ -42,7 +42,6 @@ def test_create_with_resultpath_data_sources(allkindofcomplexity, server_type):
     assert data_sources.result_key == "rst"
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type, key="test")
     assert data_sources.result_key == "test"
-    
 
 
 def test_setresultpath_data_sources(allkindofcomplexity, server_type):
