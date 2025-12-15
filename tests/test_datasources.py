@@ -105,7 +105,7 @@ def test_set_resultpath_data_sources_cff(server_type):
 
 def test_auto_key_data_sources_h5dpf(server_type):
     data_sources = dpf.core.DataSources(result_path="test.h5", server=server_type)
-    assert data_sources.result_key == "h5dpf"
+    assert data_sources.result_key == "hdf5"
 
 
 def test_set_resultpath_data_sources_cfx_res(server_type):
