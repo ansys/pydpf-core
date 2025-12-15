@@ -28,7 +28,8 @@ class force_summation(Operator):
     r"""Computes the sum of elemental forces contribution on a set of nodes in
     Global Coordinate System. Equivalent to MAPDL FSUM & NFORCE commands.
     Supports Static, Transient, Modal & Harmonic analysis for thermal and
-    structural degrees of freedom.
+    structural degrees of freedom. The moment is computed in the unit system
+    of the data source.
 
 
     Inputs
@@ -46,7 +47,7 @@ class force_summation(Operator):
     force_type: int, optional
         Type of force to be processed (0: Total forces (static, damping, and inertia)., 1 (default): Static forces, 2: Damping forces, 3: Inertia forces)
     spoint: Field or FieldsContainer, optional
-        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).
+        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0). If unitless, it is assumed to be in meters.
     scoping_filter: int, optional
         Selected set of nodes.
 
@@ -152,7 +153,8 @@ class force_summation(Operator):
         description = r"""Computes the sum of elemental forces contribution on a set of nodes in
 Global Coordinate System. Equivalent to MAPDL FSUM & NFORCE commands.
 Supports Static, Transient, Modal & Harmonic analysis for thermal and
-structural degrees of freedom.
+structural degrees of freedom. The moment is computed in the unit system
+of the data source.
 """
         spec = Specification(
             description=description,
@@ -197,7 +199,7 @@ structural degrees of freedom.
                     name="spoint",
                     type_names=["field", "fields_container"],
                     optional=True,
-                    document=r"""Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).""",
+                    document=r"""Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0). If unitless, it is assumed to be in meters.""",
                 ),
                 9: PinSpecification(
                     name="scoping_filter",
@@ -487,7 +489,7 @@ class InputsForceSummation(_Inputs):
     def spoint(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect spoint input to the operator.
 
-        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).
+        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0). If unitless, it is assumed to be in meters.
 
         Returns
         -------
