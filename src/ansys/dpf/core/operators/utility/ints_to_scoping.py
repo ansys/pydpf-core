@@ -121,6 +121,12 @@ vectors, or existing scopings into a properly formatted DPF scoping.
                     optional=True,
                     document=r"""Upper bound for creating a range scoping. Creates IDs from pin 0 value to this upper bound (inclusive)""",
                 ),
+                2: PinSpecification(
+                    name="upper_bound",
+                    type_names=["int32", "scoping"],
+                    optional=True,
+                    document=r"""Define the upper bound to create a scoping that will contain a range from the single value input in pin 0 to the upper bound defined in this pin.""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
