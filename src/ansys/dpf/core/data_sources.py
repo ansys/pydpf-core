@@ -174,7 +174,7 @@ class DataSources:
         if key == "" and extension in [".h5", ".cff"]:
             key = self.guess_second_key(str(filepath))
         if key == "" and extension == ".h5":
-            key = "hdf5"
+            key = "h5dpf"
         if key == "":
             self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
         else:
