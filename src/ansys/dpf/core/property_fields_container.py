@@ -34,7 +34,6 @@ from ansys.dpf.core import property_field
 from ansys.dpf.core.collection import Collection
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.property_fields_container import PropertyFieldsContainer
     from ansys.dpf.core.server_types import AnyServerType
 
 
@@ -73,7 +72,7 @@ class PropertyFieldsContainer(Collection["property_field.PropertyField"]):
 
     def __init__(
         self,
-        property_fields_container: Optional[PropertyFieldsContainer] = None,
+        property_fields_container: Optional["PropertyFieldsContainer"] = None,
         server: Optional[AnyServerType] = None,
         entries_type: type = property_field.PropertyField,
     ):
