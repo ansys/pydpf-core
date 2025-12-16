@@ -85,12 +85,12 @@ class LabelSpace:
         --------
         >>> # Create a LabelSpace from a dictionary
         >>> ls = LabelSpace(label_space={"time": 1, "zone": 2})
-        >>> print(dict(ls))
+        >>> print(ls)
         {'time': 1, 'zone': 2}
 
         >>> # Create a LabelSpace from another LabelSpace
         >>> ls2 = LabelSpace(label_space=ls)
-        >>> print(dict(ls2))
+        >>> print(ls2)
         {'time': 1, 'zone': 2}
         """
         # ############################
@@ -140,26 +140,26 @@ class LabelSpace:
         --------
         >>> label_space = LabelSpace()
         >>> label_space.fill({"time": 1, "node": 42})
-        >>> print(dict(label_space))
-        {'time': 1, 'node': 42}
+        >>> print(label_space)
+        {'node': 42, 'time': 1}
         """
         for key, index in label_space.items():
             self._api.label_space_add_data(self, key, index)
 
     def __str__(self) -> str:
         """
-        Return a string representation of the LabelSpace instance.
+        Return a string representation of the LabelSpace instance with keys ordered.
 
         Returns
         -------
         str
-            A string representation of the label space, formatted as a dictionary.
+            A string representation of the label space, formatted as a dictionary with sorted keys.
 
         Examples
         --------
         >>> label_space = LabelSpace(label_space={"time": 1, "node": 42})
-        >>> print(str(label_space))
-        "{'time': 1, 'node': 42}"
+        >>> print(label_space)
+        "{'node': 42, 'time': 1}"
         """
         return str(dict(self))
 
@@ -175,10 +175,10 @@ class LabelSpace:
         Examples
         --------
         >>> label_space = LabelSpace(label_space={"time": 1, "node": 42})
-        >>> for key, value in label_space:
+        >>> for key, value in sorted(label_space):
         ...     print(key, value)
-        time 1
         node 42
+        time 1
         """
         yield from [
             (
@@ -190,7 +190,7 @@ class LabelSpace:
 
     def __dict__(self) -> dict[str, int]:
         """
-        Return a dictionary representation of the LabelSpace instance.
+        Return a dictionary representation of the LabelSpace instance with keys ordered.
 
         Returns
         -------
@@ -202,7 +202,7 @@ class LabelSpace:
         >>> label_space = LabelSpace(label_space={"time": 1, "node": 42})
         >>> d = label_space.__dict__()
         >>> print(d)
-        {'time': 1, 'node': 42}
+        {'node': 42, 'time': 1}
         """
         if isinstance(self._internal_obj, dict):
             return self._internal_obj
@@ -212,7 +212,7 @@ class LabelSpace:
             out[self._api.label_space_get_labels_name(self, i)] = (
                 self._api.label_space_get_labels_value(self, i)
             )
-        return out
+        return dict(sorted(out.items()))
 
     def __del__(self) -> None:
         """
