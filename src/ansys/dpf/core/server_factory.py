@@ -30,6 +30,7 @@ protocols and server configurations available.
 import io
 import logging
 import os
+from pathlib import Path
 import subprocess
 import time
 
@@ -55,8 +56,16 @@ class CommunicationProtocols:
     InProcess = "InProcess"
 
 
+class GrpcMode:
+    """Defines available authentication modes for gRPC servers."""
+
+    Insecure = "insecure"
+    mTLS = "mtls"
+
+
 DEFAULT_COMMUNICATION_PROTOCOL = CommunicationProtocols.InProcess
 DEFAULT_LEGACY = False
+DEFAULT_GRPC_MODE = GrpcMode.mTLS
 
 
 class DockerConfig:
@@ -297,12 +306,20 @@ class ServerConfig:
         self,
         protocol: str = DEFAULT_COMMUNICATION_PROTOCOL,
         legacy: bool = DEFAULT_LEGACY,
+        grpc_mode: str = DEFAULT_GRPC_MODE,
+        certificates_dir: Path = None,
     ):
         self.legacy = legacy
         if not protocol:
             self.protocol = CommunicationProtocols.InProcess
         else:
             self.protocol = protocol
+
+        if not grpc_mode:
+            self.grpc_mode = DEFAULT_GRPC_MODE
+        else:
+            self.grpc_mode = grpc_mode
+        self.certificates_dir = certificates_dir
 
     def __str__(self):
         """Return a string representation of the ServerConfig instance.
@@ -337,7 +354,12 @@ class ServerConfig:
             True if the instances have the same protocol and legacy status, False otherwise.
         """
         if isinstance(other, ServerConfig):
-            return self.legacy == other.legacy and self.protocol == other.protocol
+            return (
+                self.legacy == other.legacy
+                and self.protocol == other.protocol
+                and self.grpc_mode == other.grpc_mode
+                and self.certificates_dir == other.certificates_dir
+            )
         return False
 
     def __ne__(self, other):
@@ -453,6 +475,12 @@ class AvailableServerConfigs:
     LegacyGrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=True)
     InProcessServer = ServerConfig(CommunicationProtocols.InProcess, legacy=False)
     GrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=False)
+    InsecureGrpcServer = ServerConfig(
+        CommunicationProtocols.gRPC, legacy=False, grpc_mode=GrpcMode.Insecure
+    )
+    InsecureLegacyGrpcServer = ServerConfig(
+        CommunicationProtocols.gRPC, legacy=True, grpc_mode=GrpcMode.Insecure
+    )
 
 
 class RunningDockerConfig:
