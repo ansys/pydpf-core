@@ -35,37 +35,30 @@ Main features:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
 import warnings
 
 import numpy as np
 import pyvista as pv
-
-if TYPE_CHECKING:
-    from pyvista import MultiBlock, UnstructuredGrid
-
-    from ansys.dpf.core import Field, FieldsContainer, MeshedRegion, MeshesContainer, PropertyField
-else:
-    from vtk import (
-        VTK_HEXAHEDRON,
-        VTK_LINE,
-        VTK_POLYGON,
-        VTK_POLYHEDRON,
-        VTK_PYRAMID,
-        VTK_QUAD,
-        VTK_QUADRATIC_EDGE,
-        VTK_QUADRATIC_HEXAHEDRON,
-        VTK_QUADRATIC_POLYGON,
-        VTK_QUADRATIC_PYRAMID,
-        VTK_QUADRATIC_QUAD,
-        VTK_QUADRATIC_TETRA,
-        VTK_QUADRATIC_TRIANGLE,
-        VTK_TETRA,
-        VTK_TRIANGLE,
-        VTK_VERTEX,
-        VTK_WEDGE,
-        vtkVersion,
-    )
+from vtk import (
+    VTK_HEXAHEDRON,
+    VTK_LINE,
+    VTK_POLYGON,
+    VTK_POLYHEDRON,
+    VTK_PYRAMID,
+    VTK_QUAD,
+    VTK_QUADRATIC_EDGE,
+    VTK_QUADRATIC_HEXAHEDRON,
+    VTK_QUADRATIC_POLYGON,
+    VTK_QUADRATIC_PYRAMID,
+    VTK_QUADRATIC_QUAD,
+    VTK_QUADRATIC_TETRA,
+    VTK_QUADRATIC_TRIANGLE,
+    VTK_TETRA,
+    VTK_TRIANGLE,
+    VTK_VERTEX,
+    VTK_WEDGE,
+    vtkVersion,
+)
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import errors
@@ -173,7 +166,7 @@ class PyVistaImportError(ModuleNotFoundError):
 
 
 def _dpf_mesh_to_vtk_op(
-    mesh: MeshedRegion, nodes: Field = None, as_linear: bool = True
+    mesh: dpf.MeshedRegion, nodes: dpf.Field = None, as_linear: bool = True
 ) -> pv.UnstructuredGrid:
     """Return a pyvista unstructured grid given DPF node and element definitions from operators (server > 6.2).
 
@@ -223,7 +216,7 @@ def _dpf_mesh_to_vtk_op(
 
 
 def _dpf_mesh_to_vtk_py(
-    mesh: MeshedRegion, nodes: Field = None, as_linear: bool = True
+    mesh: dpf.MeshedRegion, nodes: dpf.Field = None, as_linear: bool = True
 ) -> pv.UnstructuredGrid:
     """Return a pyvista unstructured grid given DPF node and element definitions in pure Python (server <= 6.2).
 
@@ -931,8 +924,8 @@ def append_field_to_grid(
 
 
 def append_fieldscontainer_to_grid(
-    fields_container: FieldsContainer,
-    meshed_region: MeshedRegion,
+    fields_container: dpf.FieldsContainer,
+    meshed_region: dpf.MeshedRegion,
     grid: pv.UnstructuredGrid,
     field_name: str = "",
 ) -> pv.UnstructuredGrid:
