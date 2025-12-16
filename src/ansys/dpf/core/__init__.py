@@ -39,6 +39,7 @@ from ansys.dpf.core.field import Field, FieldDefinition
 from ansys.dpf.core.custom_type_field import CustomTypeField  # noqa: F401
 from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.core.property_field import PropertyField
+from ansys.dpf.core.property_fields_container import PropertyFieldsContainer  # noqa: F401
 from ansys.dpf.core.string_field import StringField
 from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.dpf.core.meshes_container import MeshesContainer

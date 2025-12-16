@@ -104,7 +104,6 @@ autoapi_ignore_list = [
     "*/gate/*",
     "*/gatebin/*",
     "*/grpc/*",
-    "*/property_fields_container.py"
 ]
 
 # -- General configuration ---------------------------------------------------
