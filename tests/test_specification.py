@@ -20,9 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from __future__ import annotations
+
+from typing import Any, override
+
 import pytest
 
 import ansys.dpf.core as dpf
+from ansys.dpf.core import server as server_module
+from ansys.dpf.core.operator_specification import Exposures, Specification
+from ansys.dpf.core.server_types import BaseServer
+from ansys.dpf.gate.generated import operator_specification_abstract_api
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0
 
 
@@ -109,3 +117,84 @@ def test_pin_alias(server_type):
     op.inputs.weights.connect(weights)
     output: dpf.Field = op.eval()
     assert output.data_as_list == [2.0]
+
+
+class MockSpecificationAPI(operator_specification_abstract_api.OperatorSpecificationAbstractAPI):
+    @staticmethod
+    def DefaultProperties() -> dict[str, Any]:
+        return {
+            "scripting_name": "operator_scripting_name",
+            "internal_name": "operator_internal_name",
+            "exposure": Exposures.public,
+            "license": "any_dpf_increment",
+            "plugin": "unknown",
+            "category": "test_category",
+            "display_name": "Operator display name",
+        }
+
+    @staticmethod
+    def Default() -> MockSpecificationAPI:
+        return MockSpecificationAPI(properties=MockSpecificationAPI.DefaultProperties())
+
+    @staticmethod
+    def New(*, properties: dict[str, Any], add_defaults: bool = False) -> MockSpecificationAPI:
+        props = (
+            MockSpecificationAPI.DefaultProperties() | properties if add_defaults else properties
+        )
+        return MockSpecificationAPI(properties=props)
+
+    __properties: dict[str, Any] = dict()
+
+    @override
+    def __init__(self, *, properties: dict[str, Any]):
+        self.__properties = properties
+
+    @property
+    def properties(self):
+        return self.__properties
+
+    @properties.setter
+    def set_property(self, value: dict[str, Any]):
+        self.__properties = value
+
+    def operator_specification_get_num_properties(self, *args):
+        return len(self.__properties)
+
+    def operator_specification_get_property_key(self, any, index: int, *args):
+        props = list(self.__properties.keys())
+        return props[index]
+
+    def operator_specification_get_properties(self, any, key, *args):
+        return self.__properties[key]
+
+
+class MockSpecification(Specification):
+    def __init__(
+        self,
+        operator_name: str | None = None,
+        specification: Specification | None = None,
+        server: server_module.BaseServer | None = None,
+        *,
+        api: operator_specification_abstract_api.OperatorSpecificationAbstractAPI | None = None,
+        internal_obj: Any = None,
+    ):
+        self._api = api or MockSpecificationAPI.Default()
+        self.operator_name = operator_name
+        self._internal_obj = internal_obj
+
+        # Properties initialization
+        self._properties = None
+
+
+class TestOperatorSpecification:
+    def test_properties(self):
+        spec = MockSpecification(
+            api=MockSpecificationAPI.New(properties={"scripting_name": None}, add_defaults=True),
+            internal_obj=not None,
+        )
+
+        props = spec.properties
+        scripting_name = props.get("scripting_name")
+
+        assert scripting_name is not None
+        assert scripting_name == props.get("internal_name")

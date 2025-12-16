@@ -175,7 +175,7 @@ class ConfigSpecification(dict):
 
 class ConfigOptionSpec:
     """Documentation of a configuration option available for a given Operator.
-    
+
      (:class:`ansys.dpf.core.Operator`)
 
     Attributes
@@ -346,6 +346,11 @@ class Specification(SpecificationBase):
                     )
                     prop = self._api.operator_specification_get_properties(self, property_key)
                     temp_properties[property_key] = prop
+
+            # If scripting_name is None, it means it has the value of internal_name
+            if(temp_properties.get("scripting_name") is None):
+                temp_properties["scripting_name"] = temp_properties.get("internal_name", None)
+
             # Reorder the properties for consistency
             self._properties = dict()
             for key in sorted(temp_properties.keys()):
@@ -671,7 +676,7 @@ class SpecificationProperties:
 
 class CustomSpecification(Specification):
     """Create an operator specification with its description.
-    
+
     Allows to create an Operator Specification with its description (what the Operator does),
     its inputs and outputs and some properties.
     Inherits from Specification (which has only getters) to implement setters.
