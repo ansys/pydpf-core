@@ -413,6 +413,7 @@ class Operator:
             meshed_region,
             meshes_container,
             property_field,
+            property_fields_container,
             result_info,
             scoping,
             scopings_container,
@@ -533,6 +534,14 @@ class Operator:
                     generic_data_container.GenericDataContainer,
                     self._api.operator_getoutput_generic_data_container,
                     "generic_data_container",
+                )
+            )
+        if hasattr(self._api, "operator_getoutput_custom_type_fields_container"):
+            out.append(
+                (
+                    property_fields_container.PropertyFieldsContainer,
+                    self._api.operator_getoutput_custom_type_fields_container,
+                    "property_fields_container",
                 )
             )
         return out

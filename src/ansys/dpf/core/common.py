@@ -184,6 +184,7 @@ class types(Enum):
     meshes_container = -3
     streams_container = -4
     bytes = -5
+    property_fields_container = -6
 
 
 def types_enum_to_types():
@@ -209,6 +210,7 @@ def types_enum_to_types():
         meshed_region,
         meshes_container,
         property_field,
+        property_fields_container,
         result_info,
         scoping,
         scopings_container,
@@ -237,6 +239,7 @@ def types_enum_to_types():
         types.meshed_region: meshed_region.MeshedRegion,
         types.result_info: result_info.ResultInfo,
         types.property_field: property_field.PropertyField,
+        types.property_fields_container: property_fields_container.PropertyFieldsContainer,
         types.data_tree: data_tree.DataTree,
         types.operator: dpf_operator.Operator,
         types.scoping: scoping.Scoping,
@@ -248,6 +251,7 @@ def types_enum_to_types():
         types.generic_data_container: generic_data_container.GenericDataContainer,
         types.mesh_info: mesh_info.MeshInfo,
         types.any: Any,
+
     }
 
 
