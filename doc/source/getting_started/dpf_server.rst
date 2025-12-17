@@ -127,8 +127,12 @@ Run DPF Server in Secure mode wih mTLS
 
 Starting with 26.1, DPF Server gRPC connections defaults to mTLS Transport. 
 Both client and server now requires mTLS certificates to establish a gRPC connection. 
-The location to the mTLS certificates can be set using an environment variable ``ANSYS_GRPC_CERTIFICATES``, 
+The location to the mTLS certificates can be set using an environment variable ``ANSYS_GRPC_CERTIFICATES``,
 more information on the generation of certificates can be read on `Generating certificates for mtls<https://tools.docs.pyansys.com/version/0.3/user_guide/secure_grpc.html#generating-certificates-for-mtls>`.
 
-mTLS Transport can be disabled, by explicitly setting ``DPF_DEFAULT_GRPC_MODE`` to ``insecure``, on both client-side and server-side.
+This environment variable must be set both on the server machine and on the client machine when working remotely.
+
+The mTLS Transport mode can be disabled by setting ``DPF_DEFAULT_GRPC_MODE`` to ``insecure`` both client-side and server-side.
+
+This allows to fall back to the previous behavior.
 

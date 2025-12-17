@@ -66,6 +66,7 @@ class GrpcMode:
 DEFAULT_COMMUNICATION_PROTOCOL = CommunicationProtocols.InProcess
 DEFAULT_LEGACY = False
 DEFAULT_GRPC_MODE = GrpcMode.mTLS
+DEFAULT_CERTIFICATES_DIR = None
 
 
 class DockerConfig:
@@ -271,12 +272,19 @@ class ServerConfig:
 
     Parameters
     ----------
-    protocol : CommunicationProtocols, optional
+    protocol:
         Communication protocol for DPF server (e.g. InProcess, gRPC)
-    legacy : bool, optional
+    legacy:
         If legacy is set to True, the server will be using ansys-grpc-dpf
         Python module. If not, it will communicate with DPF binaries using ctypes
         and DPF CLayer calls.
+    grpc_mode:
+        Grpc mode to use when launching DPF server.
+        Can be one of the members of :class:`ansys.dpf.core.server_factory.GrpcMode`.
+        Defaults to mTLS authenticated mode.
+    certificates_dir:
+        Path to a directory containing the certificates to use for mTLS authentication.
+
 
     Examples
     --------
@@ -307,7 +315,7 @@ class ServerConfig:
         protocol: str = DEFAULT_COMMUNICATION_PROTOCOL,
         legacy: bool = DEFAULT_LEGACY,
         grpc_mode: str = DEFAULT_GRPC_MODE,
-        certificates_dir: Path = None,
+        certificates_dir: Path = DEFAULT_CERTIFICATES_DIR,
     ):
         self.legacy = legacy
         if not protocol:
@@ -319,7 +327,11 @@ class ServerConfig:
             self.grpc_mode = DEFAULT_GRPC_MODE
         else:
             self.grpc_mode = grpc_mode
-        self.certificates_dir = certificates_dir
+        self.certificates_dir = (
+            certificates_dir
+            if certificates_dir
+            else os.environ.get("ANSYS_GRPC_CERTIFICATES", None)
+        )
 
     def __str__(self):
         """Return a string representation of the ServerConfig instance.
