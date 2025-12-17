@@ -123,7 +123,7 @@ DPF Server can be run in a Docker container.
 
 
 Run DPF Server in Secure mode wih mTLS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Starting with 26.1, DPF Server gRPC connections defaults to mTLS Transport. 
 Both client and server now requires mTLS certificates to establish a gRPC connection. 
