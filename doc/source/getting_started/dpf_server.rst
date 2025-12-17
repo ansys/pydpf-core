@@ -121,6 +121,7 @@ DPF Server can be run in a Docker container.
 
 5. To run the DPF Docker container, license it. For more information, see :ref:`DPF Preview License Agreement<target_to_license_terms>`.
 
+.. _ref_dpf_server_secure_mode:
 
 Run DPF Server in Secure mode wih mTLS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

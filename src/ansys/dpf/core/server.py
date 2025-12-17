@@ -179,6 +179,12 @@ def start_local_server(
     the default) the server is stored globally, replacing the one stored previously.
     Otherwise, a user must keep a handle on their server.
 
+    .. warning::
+        Starting with DPF 2026 R1 and PyDPF 0.15.0, the default gRPC server uses mTLS authentication.
+        Please refer to :ref:`ref_dpf_server_secure_mode` for more information on how to set up the
+        certificates and configure the server and client accordingly.
+        See the ``config`` parameter for more details.
+
     Parameters
     ----------
     ip:
@@ -212,6 +218,7 @@ def start_local_server(
         Define the default server authentication configuration with environment variables:
         - ANSYS_GRPC_CERTIFICATES: path to the certificates directory
         - DPF_GRPC_MODE: gRPC authentication mode, options are 'mtls' and 'insecure'.
+        More information available at :ref:`ref_dpf_server_secure_mode`.
     use_pypim_by_default:
         Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
         Defaults to True.
@@ -337,6 +344,12 @@ def connect_to_server(
 
     This method sets the global default channel that is then used for the
     duration of the DPF session.
+
+    .. warning::
+        Starting with DPF 2026 R1 and PyDPF 0.15.0, the default gRPC server uses mTLS authentication.
+        Please refer to :ref:`ref_dpf_server_secure_mode` for more information on how to set up the
+        certificates and configure the server and client accordingly.
+        See the ``config`` parameter for more details.
 
     Parameters
     ----------
