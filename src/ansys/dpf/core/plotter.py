@@ -33,7 +33,7 @@ from __future__ import annotations
 from pathlib import Path
 import sys
 import tempfile
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 import warnings
 
 import numpy as np
@@ -482,6 +482,30 @@ class _PyVistaPlotter:
             scalar_bar_args = {"title": stitle}
         kwargs.setdefault("scalar_bar_args", scalar_bar_args)
         return kwargs
+
+
+class _VizInterfacePlotter:
+
+    def __init__(
+        self,
+        use_trame: Optional[bool] = False,
+        allow_picking: Optional[bool] = False,
+        allow_hovering: Optional[bool] = False,
+        plot_picked_names: Optional[bool] = False,
+        **plotter_kwargs,
+    ) -> None:
+        try:
+            from ansys.tools.visualization_interface.backends.pyvista import PyVistaBackend  # Probably replace with PVBInterface
+        except Exception as e:
+            raise e
+
+        self._backend = PyVistaBackend(
+            use_trame=use_trame,
+            allow_picking=allow_picking,
+            allow_hovering=allow_hovering,
+            plot_picked_names=plot_picked_names,
+            **plotter_kwargs,
+        )
 
 
 class DpfPlotter:
