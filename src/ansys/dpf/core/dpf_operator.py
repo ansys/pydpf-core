@@ -514,11 +514,6 @@ class Operator:
                 ).get_integral_entries(),
             ),
             (
-                collection.Collection,
-                self._api.operator_getoutput_as_any,
-                lambda obj, type: any.Any(server=self._server, any_dpf=obj).cast(type),
-            ),
-            (
                 custom_container_base.CustomContainerBase,
                 self._api.operator_getoutput_generic_data_container,
                 lambda obj, type: type(
@@ -544,6 +539,14 @@ class Operator:
                     "property_fields_container",
                 )
             )
+        # Append here so subclasses of Collection type are checked before it
+        out.append(
+            (
+                collection.Collection,
+                self._api.operator_getoutput_as_any,
+                lambda obj, type: any.Any(server=self._server, any_dpf=obj).cast(type),
+            ),
+        )
         return out
 
     @property
