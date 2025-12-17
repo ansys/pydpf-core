@@ -374,6 +374,7 @@ def connect_to_server(
         Define the default server authentication configuration with environment variables:
         - ANSYS_GRPC_CERTIFICATES: path to the certificates directory
         - DPF_GRPC_MODE: gRPC authentication mode, options are 'mtls' and 'insecure'.
+        More information available at :ref:`ref_dpf_server_secure_mode`.
     context:
         Defines the settings that will be used to load DPF's plugins.
         A DPF xml file can be used to list the plugins and set up variables. Default is
