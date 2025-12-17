@@ -217,6 +217,8 @@ html_short_title = html_title = "PyDPF-Core"
 html_theme = "ansys_sphinx_theme"
 html_favicon = ansys_favicon
 html_theme_options = {
+    "announcement": """Starting with PyDPF-Core 0.15.0, the default communication with the DPF server requires authentication.
+Refer to <a href='https://dpf.docs.pyansys.com/version/dev/getting_started/dpf_server.html#run-dpf-server-in-secure-mode-with-mtls'>this page</a> for more information.""",
     "logo": {
         "image_dark": pyansys_logo_dark_mode,
         "image_light": pyansys_logo_light_mode,
