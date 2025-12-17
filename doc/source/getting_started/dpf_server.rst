@@ -126,7 +126,14 @@ DPF Server can be run in a Docker container.
 Run DPF Server in Secure mode wih mTLS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Starting with 26.1, DPF Server gRPC connections defaults to mTLS Transport. 
+Starting with Ansys 2026 R1 (DPF 2026.1.0, kernel version 11.0) and PyDPF-Core 0.15.0, DPF Server gRPC connections defaults to mTLS Transport.
+
+This change is also brought by service packs for the following older Ansys versions:
+
+- `Ansys 2025 R2 SP04`
+- `Ansys 2025 R1 SP04`
+- `Ansys 2024 R2 SP05`
+
 Both client and server now requires mTLS certificates to establish a gRPC connection. 
 The location to the mTLS certificates can be set using an environment variable ``ANSYS_GRPC_CERTIFICATES``,
 more information on the generation of certificates can be read on `Generating certificates for mtls<https://tools.docs.pyansys.com/version/0.3/user_guide/secure_grpc.html#generating-certificates-for-mtls>`.
