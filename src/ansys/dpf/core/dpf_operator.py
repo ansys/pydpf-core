@@ -531,14 +531,14 @@ class Operator:
                     "generic_data_container",
                 )
             )
-        if hasattr(self._api, "operator_getoutput_custom_type_fields_container"):
-            out.append(
-                (
-                    property_fields_container.PropertyFieldsContainer,
-                    self._api.operator_getoutput_custom_type_fields_container,
-                    "property_fields_container",
-                )
-            )
+        # if hasattr(self._api, "operator_getoutput_custom_type_fields_container"):
+        #     out.append(
+        #         (
+        #             property_fields_container.PropertyFieldsContainer,
+        #             self._api.operator_getoutput_custom_type_fields_container,
+        #             "property_fields_container",
+        #         )
+        #     )
         # Append here so subclasses of Collection type are checked before it
         out.append(
             (
