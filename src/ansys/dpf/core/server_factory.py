@@ -266,6 +266,12 @@ class DockerConfig:
 class ServerConfig:
     """Provides an instance of ServerConfig object to manage the server type used.
 
+    .. warning::
+        Starting with DPF 2026 R1 and PyDPF 0.15.0, the default gRPC server uses mTLS authentication.
+        Please refer to :ref:`ref_dpf_server_secure_mode` for more information on how to set up the
+        certificates and configure the server and client accordingly.
+        See the ``config`` parameter for more details.
+
     The default parameters can be overwritten using the DPF_SERVER_TYPE environment
     variable. DPF_SERVER_TYPE=INPROCESS, DPF_SERVER_TYPE=GRPC,
     DPF_SERVER_TYPE=LEGACYGRPC can be used.
@@ -282,8 +288,10 @@ class ServerConfig:
         Grpc mode to use when launching DPF server.
         Can be one of the members of :class:`ansys.dpf.core.server_factory.GrpcMode`.
         Defaults to mTLS authenticated mode.
+        More information available at :ref:`ref_dpf_server_secure_mode`.
     certificates_dir:
         Path to a directory containing the certificates to use for mTLS authentication.
+        More information available at :ref:`ref_dpf_server_secure_mode`.
 
 
     Examples
