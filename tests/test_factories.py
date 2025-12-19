@@ -20,10 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import numpy as np
 import platform
-import pytest
 import sys
+
+import numpy as np
+import pytest
 
 from ansys.dpf.core import (
     Model,
@@ -307,7 +308,7 @@ def test_named_selection_scoping(model_with_ns):
 
 @pytest.skipif(
     sys.version_info >= (3, 13) and platform.system() == "Linux",
-    reason="Currently fails for Python 3.13 on Ubuntu."
+    reason="Currently fails for Python 3.13 on Ubuntu.",
 )
 def test_named_selection_scoping_with_deepcopy(model_with_ns):
     model = Model(model_with_ns)
