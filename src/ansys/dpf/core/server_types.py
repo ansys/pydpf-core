@@ -255,6 +255,12 @@ def launch_dpf(
         passes, the connection fails.
     context : , optional
         Context to apply to DPF server when launching it.
+    grpc_mode:
+        Grpc mode to use when launching DPF server.
+        Can be one of the members of :class:`ansys.dpf.core.server_factory.GrpcMode`.
+        Defaults to mTLS authenticated mode.
+    certificates_dir:
+        Path to a directory containing the certificates to use for mTLS authentication.
     """
     process = _run_launch_server_process(
         ip,
@@ -803,7 +809,46 @@ class GrpcClient:
 
 
 class GrpcServer(CServer):
-    """Server using the gRPC communication protocol."""
+    """Server using the gRPC communication protocol.
+
+    Parameters
+    ----------
+    ansys_path:
+        Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
+        The default is the latest Ansys installation.
+    ip:
+        IP address of the remote or local instance to connect to. The
+        default is ``"LOCALHOST"``.
+    port:
+        Port to connect to the remote instance on. The default is
+        ``"DPF_DEFAULT_PORT"``, which is 50054.
+    timeout:
+        Maximum number of seconds for the initialization attempt.
+        The default is ``10``. Once the specified number of seconds
+        passes, the connection fails.
+    as_global:
+        Set this server as the global server used by default by PyDPF.
+        The default is ``True``.
+    load_operators:
+        Whether to load the operators upon server initialization.
+        The default is ``True``.
+    launch_server:
+        Whether to launch a new server process. If ``False``, connects to an existing server.
+        The default is ``True``.
+    docker_config:
+        To start DPF server as a docker, specify the docker configurations here.
+    use_pypim:
+        Whether to use PyPIM to launch a remote DPF server if PyPIM is configured.
+        The default is ``True``.
+    context:
+        Context to apply to DPF server when launching it.
+    grpc_mode:
+        Grpc mode to use when launching DPF server.
+        Can be one of the members of :class:`ansys.dpf.core.server_factory.GrpcMode`.
+        Defaults to mTLS authenticated mode.
+    certificates_dir:
+        Path to a directory containing the certificates to use for mTLS authentication.
+    """
 
     def __init__(
         self,
@@ -1235,32 +1280,40 @@ class LegacyGrpcServer(BaseServer):
 
     Parameters
     ----------
-    ansys_path : str
+    ansys_path:
         Path for the DPF executable.
-    ip : str
+    ip:
         IP address of the remote or local instance to connect to. The
         default is ``"LOCALHOST"``.
-    port : int
+    port:
         Port to connect to the remote instance on. The default is
         ``"DPF_DEFAULT_PORT"``, which is 50054.
-    timeout : float, optional
+    timeout:
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
-    as_global : bool, optional
+    as_global:
         Global variable that stores the IP address and port for the DPF
         module. All DPF objects created in this Python session will
         use this IP and port. The default is ``True``.
-    load_operators : bool, optional
-        Whether to automatically load the math operators. The default
+    load_operators:
+        Whether to automatically load the operators. The default
         is ``True``.
-    launch_server : bool, optional
+    launch_server:
         Whether to launch the server on Windows.
-    docker_config : server_factory.DockerConfig, optional
+    docker_config:
         To start DPF server as a docker, specify the docker name here.
-    use_pypim: bool, optional
+    use_pypim:
         Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
         Defaults to True.
+    context:
+        Context to apply to DPF server when launching it.
+    grpc_mode:
+        Grpc mode to use when launching DPF server.
+        Can be one of the members of :class:`ansys.dpf.core.server_factory.GrpcMode`.
+        Defaults to mTLS authenticated mode.
+    certificates_dir:
+        Path to a directory containing the certificates to use for mTLS authentication.
     """
 
     def __init__(
