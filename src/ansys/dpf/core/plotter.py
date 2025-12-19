@@ -46,10 +46,11 @@ from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core.nodes import Node, Nodes
 
 if TYPE_CHECKING:  # pragma: no cover
-    from ansys.dpf.core import Operator, Result
+    from ansys.dpf.core import Operator
     from ansys.dpf.core.field import Field
     from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.meshed_region import MeshedRegion
+    from ansys.dpf.core.results import Result
 
 
 class _InternalPlotterFactory:
@@ -58,6 +59,16 @@ class _InternalPlotterFactory:
     @staticmethod
     def get_plotter_class():
         return _PyVistaPlotter
+
+
+def _set_scalar_bar_title(kwargs):
+    stitle = kwargs.pop("stitle", None)
+    # use scalar_bar_args
+    scalar_bar_args = kwargs.pop("scalar_bar_args", None)
+    if not scalar_bar_args:
+        scalar_bar_args = {"title": stitle}
+    kwargs.setdefault("scalar_bar_args", scalar_bar_args)
+    return kwargs
 
 
 class _PyVistaPlotter:
@@ -124,7 +135,7 @@ class _PyVistaPlotter:
         self._plotter.add_mesh(plane_plot, **kwargs)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, as_linear=True, **kwargs):
-        kwargs = self._set_scalar_bar_title(kwargs)
+        kwargs = _set_scalar_bar_title(kwargs)
 
         # Set defaults for PyDPF
         kwargs.setdefault("show_edges", True)
@@ -283,7 +294,7 @@ class _PyVistaPlotter:
         unit = field.unit
         kwargs.setdefault("stitle", f"{name} ({unit})")
 
-        kwargs = self._set_scalar_bar_title(kwargs)
+        kwargs = _set_scalar_bar_title(kwargs)
 
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
@@ -473,19 +484,12 @@ class _PyVistaPlotter:
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.show, **kwargs)
         return self._plotter.show(**kwargs_in), self._plotter
 
-    @staticmethod
-    def _set_scalar_bar_title(kwargs):
-        stitle = kwargs.pop("stitle", None)
-        # use scalar_bar_args
-        scalar_bar_args = kwargs.pop("scalar_bar_args", None)
-        if not scalar_bar_args:
-            scalar_bar_args = {"title": stitle}
-        kwargs.setdefault("scalar_bar_args", scalar_bar_args)
-        return kwargs
+
+class _VizInterfacePlotlyPlotter:
+    pass
 
 
-class _VizInterfacePlotter:
-
+class _VizInterfacePyVistaPlotter:
     def __init__(
         self,
         use_trame: Optional[bool] = False,
@@ -495,7 +499,7 @@ class _VizInterfacePlotter:
         **plotter_kwargs,
     ) -> None:
         try:
-            from ansys.tools.visualization_interface.backends.pyvista import PyVistaBackend  # Probably replace with PVBInterface
+            from ansys.tools.visualization_interface.backends.pyvista import PyVistaBackend
         except Exception as e:
             raise e
 
@@ -506,6 +510,98 @@ class _VizInterfacePlotter:
             plot_picked_names=plot_picked_names,
             **plotter_kwargs,
         )
+
+    def add_scale_factor_legend(self, scale_factor, **kwargs):
+        kwargs_in = _sort_supported_kwargs(
+            bound_method=self._backend.base_plotter.add_text, **kwargs
+        )
+        _ = kwargs_in.pop("position", None)
+        _ = kwargs_in.pop("font_size", None)
+        _ = kwargs_in.pop("text", None)
+        _ = kwargs_in.pop("color", None)
+        self._backend.base_plotter.add_text(
+            f"Scale factor: {scale_factor}",
+            position="upper_right",
+            font_size=12,
+            **kwargs_in,
+        )
+
+    def add_mesh(
+        self,
+        meshed_region: MeshedRegion,
+        deform_by: Union[Field, FieldsContainer, Result, Operator] = None,
+        scale_factor: Optional[float] = 1.0,
+        as_linear: Optional[bool] = True,
+        **plotter_kwargs,
+    ):
+        plotter_kwargs = _set_scalar_bar_title(plotter_kwargs)
+
+        # Set defaults for PyDPF
+        plotter_kwargs.setdefault("show_edges", True)
+        # plotter_kwargs.setdefault("nan_color", "grey")
+
+        # If deformed geometry, print the scale_factor
+        if deform_by:
+            self.add_scale_factor_legend(scale_factor, **plotter_kwargs)
+
+        # Filter kwargs
+        plotter_kwargs_in = _sort_supported_kwargs(bound_method=self._backend.base_plotter.add_mesh, **plotter_kwargs)
+        # Give the mesh to the pyvista Plotter
+        # Have to remove any active scalar field from the pre-existing grid object,
+        # otherwise we get two scalar bars when calling several plot_contour on the same mesh
+        # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
+        if not deform_by:
+            if as_linear != meshed_region.as_linear:
+                grid = meshed_region._as_vtk(
+                    meshed_region.nodes.coordinates_field, as_linear=as_linear
+                )
+                meshed_region._full_grid = grid
+                meshed_region.as_linear = as_linear
+            else:
+                grid = meshed_region.grid
+        else:
+            grid = meshed_region._as_vtk(
+                meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
+            )
+
+        # show axes
+        show_axes = plotter_kwargs.pop("show_axes", None)
+        if show_axes:
+            self._backend.base_plotter.add_axes()
+
+        grid.set_active_scalars(None)
+        self._backend.base_plotter.add_mesh(grid, **plotter_kwargs_in)
+
+    def show_figure(self, **kwargs):
+            # text = kwargs.pop("text", None)
+            # if text is not None:
+            #     self._plotter.add_text(text, position="lower_edge")
+
+            # background = kwargs.pop("background", None)
+            # if background is not None:
+            #     self._plotter.set_background(background)
+
+            # # show result
+            # show_axes = kwargs.pop("show_axes", None)
+            # if show_axes:
+            #     self._plotter.add_axes()
+
+            # if kwargs.pop("parallel_projection", False):
+            #     self._plotter.parallel_projection = True
+
+            # # Set cpos
+            # cpos = kwargs.pop("cpos", None)
+            # if cpos is not None:
+            #     self._plotter.camera_position = cpos
+
+            # zoom = kwargs.pop("zoom", None)
+            # if zoom is not None:
+            #     self._plotter.camera.zoom(zoom)
+
+            # Show depending on return_cpos option
+            kwargs_in = _sort_supported_kwargs(bound_method=self._backend.pv_interface.show, **kwargs)
+            return self._backend.pv_interface.show(**kwargs_in), self._backend.base_plotter
+
 
 
 class DpfPlotter:
