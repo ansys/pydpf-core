@@ -306,7 +306,7 @@ def test_named_selection_scoping(model_with_ns):
     assert len(scop.ids) != 0
 
 
-@pytest.skipif(
+@pytest.mark.skipif(
     sys.version_info >= (3, 13) and platform.system() == "Linux",
     reason="Currently fails for Python 3.13 on Ubuntu.",
 )
