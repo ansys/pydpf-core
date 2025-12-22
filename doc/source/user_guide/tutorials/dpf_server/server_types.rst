@@ -117,7 +117,7 @@ connect from different machines or leverage distributed computing capabilities.
 
     Starting with Ansys 2026 R1 (DPF 2026.1.0) and PyDPF-Core 0.15.0, DPF Server gRPC
     connections default to using authenticated mTLS (mutual TLS) transport for enhanced security.
-    This change also applies to service packs for Ansys 2025 R2 SP03, 2025 R1 SP04, and 2024 R2 SP05.
+    This change also applies to service packs for Ansys 2025 R2 SP03 and SP04, 2025 R1 SP04, and 2024 R2 SP05.
 
     For remote connections, you must configure mTLS certificates on both client and server machines.
     See :ref:`ref_dpf_server_secure_mode` for detailed information on certificate configuration.
