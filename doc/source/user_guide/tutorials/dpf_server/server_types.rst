@@ -87,7 +87,7 @@ Create an |Operator| on the local server:
 .. jupyter-execute::
 
     # Instantiate a displacement Operator on the local server
-    local_operator = dpf.operators.results.displacement(server=local_server)
+    local_operator = dpf.operators.result.displacement(server=local_server)
 
     # Display the Operator
     print(local_operator)
@@ -173,7 +173,7 @@ Create DPF objects on the remote server:
 .. jupyter-execute::
 
     # Instantiate an Operator on the remote server
-    remote_operator = dpf.operators.results.displacement(server=remote_server)
+    remote_operator = dpf.operators.result.displacement(server=remote_server)
 
     # Display the remote Operator
     print(remote_operator)
