@@ -48,7 +48,7 @@ transfer overhead and providing the fastest performance.
     While :class:`InProcessServer <ansys.dpf.core.server_types.InProcessServer>` offers the best
     performance, it requires that all runtime dependencies are compatible between your Python
     environment and DPF plugins. If any Python dependency clashes with a DPF plugin dependency,
-    that plugin is not be loaded, resulting in lost capabilities.
+    that plugin will not be loaded, resulting in lost capabilities.
 
     :class:`GrpcServer <ansys.dpf.core.server_types.GrpcServer>` does not have this limitation
     because process isolation ensures dependency isolation between the client and server.
