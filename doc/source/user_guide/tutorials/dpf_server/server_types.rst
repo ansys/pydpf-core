@@ -24,13 +24,16 @@ Understanding DPF server types
 There are three main server configurations available in PyDPF-Core:
 
 - :class:`InProcessServer <ansys.dpf.core.server_types.InProcessServer>`: Direct communication
-  within the same Python process (fastest, default since Ansys 2023 R1)
+  within the same Python process (fastest, default since Ansys 2023 R1). Requires compatible
+  runtime dependencies between Python packages and DPF plugins.
 - :class:`GrpcServer <ansys.dpf.core.server_types.GrpcServer>`: Network communication using
-  gRPC protocol (enables remote and distributed computation)
+  gRPC protocol (enables remote and distributed computation). Process isolation prevents
+  dependency conflicts with DPF plugins.
 - :class:`LegacyGrpcServer <ansys.dpf.core.server_types.LegacyGrpcServer>`: Legacy gRPC
   communication for Ansys 2022 R1 and earlier versions
 
-The choice of server type impacts performance, memory usage, and distributed computing capabilities.
+The choice of server type impacts performance, memory usage, dependency management, and
+distributed computing capabilities.
 
 
 Starting a local InProcess server
@@ -39,6 +42,16 @@ Starting a local InProcess server
 The default and most efficient way to use PyDPF-Core is with an :class:`InProcessServer <ansys.dpf.core.server_types.InProcessServer>`.
 This configuration runs the DPF server directly within your Python process, eliminating data
 transfer overhead and providing the fastest performance.
+
+.. note::
+
+    While :class:`InProcessServer <ansys.dpf.core.server_types.InProcessServer>` offers the best
+    performance, it requires that all runtime dependencies are compatible between your Python
+    environment and DPF plugins. If any Python dependency clashes with a DPF plugin dependency,
+    that plugin is not be loaded, resulting in lost capabilities.
+
+    :class:`GrpcServer <ansys.dpf.core.server_types.GrpcServer>` does not have this limitation
+    because process isolation ensures dependency isolation between the client and server.
 
 First, import the necessary modules:
 
@@ -293,9 +306,15 @@ The choice of DPF server configuration depends on your specific requirements:
 - Use :class:`InProcessServer <ansys.dpf.core.server_types.InProcessServer>` for local computations
   requiring maximum performance and minimal memory overhead (default since Ansys 2023 R1)
 
+  - Provides the fastest performance by eliminating data transfer between client and server
+  - **Limitation**: Requires compatible runtime dependencies between Python packages and DPF plugins.
+    Incompatibilities between dependencies can prevent plugins from loading
+  - Best suited for environments with controlled dependencies and standard DPF plugins
+
 - Use :class:`GrpcServer <ansys.dpf.core.server_types.GrpcServer>` when you need distributed
   computation, remote access, or when running DPF on a different machine (available since Ansys 2022 R2)
 
+  - Process isolation ensures dependency isolation, avoiding clashes between Python environment and plugins
   - Starting with DPF 2026 R1, gRPC connections use mTLS authentication by default for enhanced security
   - Configure ``ANSYS_GRPC_CERTIFICATES`` environment variable on both client and server for mTLS
   - For more information, see :ref:`ref_dpf_server_secure_mode`
