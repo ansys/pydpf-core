@@ -413,6 +413,7 @@ class Operator:
             meshed_region,
             meshes_container,
             property_field,
+            property_fields_container,
             result_info,
             scoping,
             scopings_container,

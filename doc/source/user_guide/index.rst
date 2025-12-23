@@ -65,6 +65,7 @@ Troubleshooting
     tutorials/animate/index.rst
     tutorials/mathematics/index.rst
     tutorials/custom_operators_and_plugins/index.rst
+    tutorials/dpf_server/index.rst
 
 
 
