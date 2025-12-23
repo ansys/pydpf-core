@@ -123,15 +123,11 @@ of basic features and concepts so you can start coding right away.
         Coming soon
 
     .. grid-item-card:: Managing local and remote servers
+        :link: ref_tutorials_dpf_server
+        :link-type: ref
         :text-align: center
-        :class-card: sd-bg-light
-        :class-header: sd-bg-light sd-text-dark
-        :class-footer: sd-bg-light sd-text-dark
 
         Learn about the DPF client-server architecture and management of local and remote servers.
-
-        +++
-        Coming soon
 
     .. grid-item-card:: Manage licensing
         :text-align: center
