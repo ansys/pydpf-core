@@ -10,6 +10,8 @@
 .. _reStructuredText: https://docutils.sourceforge.io/rst.html
 .. _Sphinx-Gallery: https://sphinx-gallery.github.io/stable/index.html
 .. _Sphinx: https://www.sphinx-doc.org/en/master/
+.. _Ruff: https://docs.astral.sh/ruff/
+.. _pre-commit: https://pre-commit.com/
 
 .. PyAnsys Developer Guide
 .. _Documenting: https://dev.docs.pyansys.com/how-to/contributing.html
