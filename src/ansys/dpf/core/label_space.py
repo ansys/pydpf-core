@@ -20,11 +20,35 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""Internal Usage."""
+# -*- coding: utf-8 -*-
+
+"""
+LabelSpace.
+
+LabelSpace is a key component for managing entries in DPF collections such as FieldsContainer and ScopingsContainer.
+
+It provides a mapping between label names and values,
+allowing users to organize, filter, and retrieve data based on metadata
+such as time steps, zones, element types, and more.
+
+Typical usage:
+- FieldsContainer: Each field is indexed by a LabelSpace, enabling access by time, zone, etc.
+- ScopingsContainer: Each scoping is indexed by a LabelSpace, allowing management of multiple selections.
+
+LabelSpace enables advanced data organization and querying in DPF workflows.
+
+"""
+
+from __future__ import annotations
 
 import traceback
-from typing import Dict
+from typing import TYPE_CHECKING
 import warnings
+
+if TYPE_CHECKING:  # pragma: no cover
+    from collections.abc import Generator
+
+    from ansys.dpf.core.server import AnyServerType
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
@@ -38,7 +62,37 @@ from ansys.dpf.gate import (
 class LabelSpace:
     """A class representing a label space, which allows storage and management of key-value pairs (labels)."""
 
-    def __init__(self, label_space=None, obj=None, server=None):
+    def __init__(
+        self,
+        label_space: dict[str, int] | LabelSpace | None = None,
+        obj: object = None,
+        server: AnyServerType = None,
+    ) -> None:
+        """
+        Initialize a LabelSpace instance.
+
+        Parameters
+        ----------
+        label_space:
+            Dictionary of label names and values, another LabelSpace instance, or an internal label space object.
+            If a dictionary is provided, it will be used to fill the label space.
+        obj:
+            Internal object used for advanced initialization (rarely needed by users).
+        server:
+            DPF server instance to associate with this label space.
+
+        Examples
+        --------
+        >>> # Create a LabelSpace from a dictionary
+        >>> ls = LabelSpace(label_space={"time": 1, "zone": 2})
+        >>> print(ls)
+        {'time': 1, 'zone': 2}
+
+        >>> # Create a LabelSpace from another LabelSpace
+        >>> ls2 = LabelSpace(label_space=ls)
+        >>> print(ls2)
+        {'time': 1, 'zone': 2}
+        """
         # ############################
         # step 1: get server
         self._server = server_module.get_or_create_server(
@@ -55,7 +109,10 @@ class LabelSpace:
 
         # step4: if object exists, take the instance, else create it
         if label_space is not None and not isinstance(label_space, dict):
-            self._internal_obj = label_space
+            if isinstance(label_space, LabelSpace):
+                self._internal_obj = label_space._internal_obj
+            else:
+                self._internal_obj = label_space
         else:
             self._internal_obj = self._api.label_space_new_for_object(obj)
             if isinstance(label_space, dict):
@@ -70,7 +127,7 @@ class LabelSpace:
         core_api.init_data_processing_environment(self)
         return core_api
 
-    def fill(self, label_space: Dict[str, int]):
+    def fill(self, label_space: dict[str, int]) -> None:
         """
         Fill the label space with the provided dictionary of labels.
 
@@ -79,26 +136,34 @@ class LabelSpace:
         label_space : dict
             A dictionary where keys are labels (str) and values are indices (int) to be added to the label space.
 
-        Returns
-        -------
-        None
-            This method does not return anything, it modifies the internal label space.
+        Examples
+        --------
+        >>> label_space = LabelSpace()
+        >>> label_space.fill({"time": 1, "node": 42})
+        >>> print(label_space)
+        {'node': 42, 'time': 1}
         """
         for key, index in label_space.items():
             self._api.label_space_add_data(self, key, index)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
-        Return a string representation of the LabelSpace instance.
+        Return a string representation of the LabelSpace instance with keys ordered.
 
         Returns
         -------
         str
-            A string representation of the label space, formatted as a dictionary.
+            A string representation of the label space, formatted as a dictionary with sorted keys.
+
+        Examples
+        --------
+        >>> label_space = LabelSpace(label_space={"time": 1, "node": 42})
+        >>> print(label_space)
+        "{'node': 42, 'time': 1}"
         """
         return str(dict(self))
 
-    def __iter__(self):
+    def __iter__(self) -> Generator[tuple[str, int], None, None]:
         """
         Iterate over the labels in the label space, yielding (key, value) pairs.
 
@@ -106,6 +171,14 @@ class LabelSpace:
         ------
         tuple
             A tuple of (key, value) for each label in the label space.
+
+        Examples
+        --------
+        >>> label_space = LabelSpace(label_space={"time": 1, "node": 42})
+        >>> for key, value in sorted(label_space):
+        ...     print(key, value)
+        node 42
+        time 1
         """
         yield from [
             (
@@ -115,14 +188,21 @@ class LabelSpace:
             for i in range(self._api.label_space_get_size(self))
         ]
 
-    def __dict__(self):
+    def __dict__(self) -> dict[str, int]:
         """
-        Return a dictionary representation of the LabelSpace instance.
+        Return a dictionary representation of the LabelSpace instance with keys ordered.
 
         Returns
         -------
         dict
             A dictionary where keys are label names (str) and values are label indices (int).
+
+        Examples
+        --------
+        >>> label_space = LabelSpace(label_space={"time": 1, "node": 42})
+        >>> d = label_space.__dict__()
+        >>> print(d)
+        {'node': 42, 'time': 1}
         """
         if isinstance(self._internal_obj, dict):
             return self._internal_obj
@@ -132,9 +212,9 @@ class LabelSpace:
             out[self._api.label_space_get_labels_name(self, i)] = (
                 self._api.label_space_get_labels_value(self, i)
             )
-        return out
+        return dict(sorted(out.items()))
 
-    def __del__(self):
+    def __del__(self) -> None:
         """
         Destructor for cleaning up the label space resources.
 
