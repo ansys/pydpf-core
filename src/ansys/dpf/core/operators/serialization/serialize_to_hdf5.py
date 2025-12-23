@@ -16,8 +16,8 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class serialize_to_hdf5(Operator):
-    r"""This operator is deprecated: use ‘hdf5::h5dpf::make_result_file’
-    instead. Serialize the inputs in an hdf5 format.
+    r"""This operator is deprecated: use ‘hdf5dpf_generate_result_file’ instead.
+    Serialize the inputs in an hdf5 format.
 
 
     Inputs
@@ -96,8 +96,8 @@ class serialize_to_hdf5(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""This operator is deprecated: use ‘hdf5::h5dpf::make_result_file’
-instead. Serialize the inputs in an hdf5 format.
+        description = r"""This operator is deprecated: use ‘hdf5dpf_generate_result_file’ instead.
+Serialize the inputs in an hdf5 format.
 """
         spec = Specification(
             description=description,
