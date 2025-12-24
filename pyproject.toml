@@ -42,7 +42,7 @@ graphics = [
     # 2D chart plotting
     "matplotlib>=3.2",
     # 3D plotting
-    "ansys-tools-visualization-interface>=0.2.6",
+    "ansys-tools-visualization-interface[plotly]>=1.0.0a0",
     "pyvista>=0.32.0",
     "vtk!=9.4.0",
     # Animations

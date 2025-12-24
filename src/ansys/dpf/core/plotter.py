@@ -45,12 +45,20 @@ from ansys.dpf.core.common import DefinitionLabels, locations, shell_layers as e
 from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core.nodes import Node, Nodes
 
+# Temporary
+from ansys.tools.visualization_interface import Plotter as VizPlotter
+from ansys.tools.visualization_interface.backends.plotly.plotly_interface import PlotlyBackend
+from ansys.tools.visualization_interface.backends.pyvista import PyVistaBackend
+
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Operator
     from ansys.dpf.core.field import Field
     from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.results import Result
+
+    # Temporary
+    from ansys.tools.visualization_interface.backends._base import BaseBackend
 
 
 class _InternalPlotterFactory:
@@ -60,7 +68,7 @@ class _InternalPlotterFactory:
     def get_plotter_class():
         return _PyVistaPlotter
 
-
+# I guess we also need this in viz
 def _set_scalar_bar_title(kwargs):
     stitle = kwargs.pop("stitle", None)
     # use scalar_bar_args
@@ -545,7 +553,9 @@ class _VizInterfacePyVistaPlotter:
             self.add_scale_factor_legend(scale_factor, **plotter_kwargs)
 
         # Filter kwargs
-        plotter_kwargs_in = _sort_supported_kwargs(bound_method=self._backend.base_plotter.add_mesh, **plotter_kwargs)
+        plotter_kwargs_in = _sort_supported_kwargs(
+            bound_method=self._backend.base_plotter.add_mesh, **plotter_kwargs
+        )
         # Give the mesh to the pyvista Plotter
         # Have to remove any active scalar field from the pre-existing grid object,
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
@@ -573,35 +583,123 @@ class _VizInterfacePyVistaPlotter:
         self._backend.base_plotter.add_mesh(grid, **plotter_kwargs_in)
 
     def show_figure(self, **kwargs):
-            # text = kwargs.pop("text", None)
-            # if text is not None:
-            #     self._plotter.add_text(text, position="lower_edge")
+        # text = kwargs.pop("text", None)
+        # if text is not None:
+        #     self._plotter.add_text(text, position="lower_edge")
 
-            # background = kwargs.pop("background", None)
-            # if background is not None:
-            #     self._plotter.set_background(background)
+        # background = kwargs.pop("background", None)
+        # if background is not None:
+        #     self._plotter.set_background(background)
 
-            # # show result
-            # show_axes = kwargs.pop("show_axes", None)
-            # if show_axes:
-            #     self._plotter.add_axes()
+        # # show result
+        # show_axes = kwargs.pop("show_axes", None)
+        # if show_axes:
+        #     self._plotter.add_axes()
 
-            # if kwargs.pop("parallel_projection", False):
-            #     self._plotter.parallel_projection = True
+        # if kwargs.pop("parallel_projection", False):
+        #     self._plotter.parallel_projection = True
 
-            # # Set cpos
-            # cpos = kwargs.pop("cpos", None)
-            # if cpos is not None:
-            #     self._plotter.camera_position = cpos
+        # # Set cpos
+        # cpos = kwargs.pop("cpos", None)
+        # if cpos is not None:
+        #     self._plotter.camera_position = cpos
 
-            # zoom = kwargs.pop("zoom", None)
-            # if zoom is not None:
-            #     self._plotter.camera.zoom(zoom)
+        # zoom = kwargs.pop("zoom", None)
+        # if zoom is not None:
+        #     self._plotter.camera.zoom(zoom)
 
-            # Show depending on return_cpos option
-            kwargs_in = _sort_supported_kwargs(bound_method=self._backend.pv_interface.show, **kwargs)
-            return self._backend.pv_interface.show(**kwargs_in), self._backend.base_plotter
+        # Show depending on return_cpos option
+        return self._backend.show(**kwargs)
 
+
+class _VizPlotter(VizPlotter):
+
+    def __init__(self, backend: Optional[BaseBackend] = None):
+        super().__init__(backend)
+        self._plotting_options = {}
+        self._plotting_list = []
+
+    # Needs high level API in viz to avoid customization
+    def add_scale_factor_legend(self, scale_factor, **kwargs):
+        if isinstance(self.backend, PyVistaBackend):
+            kwargs_in = _sort_supported_kwargs(
+                bound_method=self.backend.base_plotter.add_text, **kwargs
+            )
+            self.backend.base_plotter.add_text(
+                f"Scale factor: {scale_factor}",
+                position="upper_right",
+                font_size=12,
+                **kwargs_in,
+            )
+        elif isinstance(self.backend, PlotlyBackend):
+            kwargs_in = _sort_supported_kwargs(self.backend._fig.add_annotation, **kwargs)
+            self.backend._fig.add_annotation(
+                text=f"Scale factor: {scale_factor}",
+                xref="paper",
+                xanchor="right",
+                yref="paper",
+                yanchor="top",
+            )
+
+    def add_mesh(
+        self,
+        meshed_region: MeshedRegion,
+        deform_by: Union[Field, FieldsContainer, Result, Operator] = None,
+        scale_factor: Optional[float] = 1.0,
+        as_linear: Optional[bool] = True,
+        **plotter_kwargs,
+    ):
+        plotter_kwargs = _set_scalar_bar_title(plotter_kwargs)
+
+        # Set defaults for PyDPF
+        plotter_kwargs.setdefault("show_edges", True)
+
+        # If deformed geometry, print the scale_factor
+        if deform_by:
+            self.add_scale_factor_legend(scale_factor, **plotter_kwargs)
+
+        # Filter kwargs
+        # plotter_kwargs_in = _sort_supported_kwargs(
+        #     bound_method=self._backend.base_plotter.add_mesh, **plotter_kwargs
+        # )
+        # Give the mesh to the pyvista Plotter
+        # Have to remove any active scalar field from the pre-existing grid object,
+        # otherwise we get two scalar bars when calling several plot_contour on the same mesh
+        # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
+        if not deform_by:
+            if as_linear != meshed_region.as_linear:
+                grid = meshed_region._as_vtk(
+                    meshed_region.nodes.coordinates_field, as_linear=as_linear
+                )
+                meshed_region._full_grid = grid
+                meshed_region.as_linear = as_linear
+            else:
+                grid = meshed_region.grid
+        else:
+            grid = meshed_region._as_vtk(
+                meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
+            )
+
+        grid.set_active_scalars(None)
+        self._plotting_options.update(plotter_kwargs)
+        self._plotting_list.append(grid)
+
+    def show_figure(self, **kwargs):
+
+        self._plotting_options.update(kwargs)
+
+        if isinstance(self._backend, PlotlyBackend):
+            # Convert mesh objects to pv.Polydata
+            for i, mesh_object in enumerate(self._plotting_list):
+                mesh_object = mesh_object.extract_surface() # viz only supports pv.Polydata objects
+                self._plotting_list[i] = mesh_object
+
+            self.plot_iter(self._plotting_list) # Bug: PlotlyBackend.plot_iter can't accept **kwargs
+            self.show(**self._plotting_options) # Bug: **kwargs to PlotlyBackend.show are not being filtered
+            return
+
+        self.plot_iter(self._plotting_list, **self._plotting_options)
+        self.show(**self._plotting_options)
 
 
 class DpfPlotter:
