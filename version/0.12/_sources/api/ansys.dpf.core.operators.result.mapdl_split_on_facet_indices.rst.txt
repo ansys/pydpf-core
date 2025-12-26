@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.mapdl_split_on_facet_indices
+   :inherited-members:

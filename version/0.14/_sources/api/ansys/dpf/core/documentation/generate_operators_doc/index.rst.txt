@@ -1,0 +1,230 @@
+
+
+
+
+
+
+The ``generate_operators_doc.py`` module
+========================================
+
+.. py:module:: ansys.dpf.core.documentation.generate_operators_doc
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: generate_operators_doc
+.. tab-set::
+
+
+
+
+
+
+    .. tab-item:: Exceptions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.documentation.generate_operators_doc.Jinja2ImportError`
+            - Error raised when Jinja2 could not be imported during operator documentation generation.
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~initialize_server`
+            - Initialize a DPF server for a given installation folder by loading required plugins.
+
+
+          * - :py:obj:`~extract_operator_description_update`
+            - Extract the updated description to use for an operator.
+
+
+          * - :py:obj:`~replace_operator_description`
+            - Replace the original operator description with a new one in the operator documentation file.
+
+
+          * - :py:obj:`~update_operator_descriptions`
+            - Update operator descriptions based on '*_upd.md' files in DPF documentation sources.
+
+
+          * - :py:obj:`~fetch_doc_info`
+            - Fetch information about the specifications of a given operator.
+
+
+          * - :py:obj:`~get_plugin_operators`
+            - Get the list of operators for a given plugin.
+
+
+          * - :py:obj:`~generate_operator_doc`
+            - Write the Markdown documentation page for a given operator on a given DPF server.
+
+
+          * - :py:obj:`~update_toc_tree`
+            - Update the global toc.yml file for the DPF documentation based on the operators found.
+
+
+          * - :py:obj:`~generate_operators_doc`
+            - Generate the Markdown source files for the DPF operator documentation.
+
+
+          * - :py:obj:`~run_with_args`
+            - Run generate_operators_doc from the command line with argument parsing.
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-md-lightning_bolt"></span> Jinja2ImportError</api/ansys/dpf/core/documentation/generate_operators_doc/Jinja2ImportError>
+
+
+
+
+
+
+
+Description
+-----------
+
+Generation of Markdown documentation source files for operators of a given DPF installation.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: initialize_server(ansys_path: str | os.PathLike = None, include_composites: bool = False, include_sound: bool = False, verbose: bool = False) -> ansys.dpf.core.AnyServerType
+
+   Initialize a DPF server for a given installation folder by loading required plugins.
+
+   :param ansys_path: Path to the DPF installation to use to start a server.
+   :param include_composites: Whether to generate documentation for operators of the Composites plugin.
+   :param include_sound: Whether to generate documentation for operators of the Sound DPF plugin.
+   :param verbose: Whether to print progress information.
+
+   :returns: A running DPF server to generate operator documentation for.
+   :rtype: server
+
+
+.. py:function:: extract_operator_description_update(content: str) -> str
+
+   Extract the updated description to use for an operator.
+
+   :param content: The contents of the '*_upd.md' file.
+
+   :returns: The updated description to use for the operator.
+   :rtype: description_update
+
+
+.. py:function:: replace_operator_description(original_documentation: str, new_description: str)
+
+   Replace the original operator description with a new one in the operator documentation file.
+
+   :param original_documentation: Original operator documentation.
+   :param new_description: New operator description
+
+   :returns: The updated operator documentation content
+   :rtype: updated_documentation
+
+
+.. py:function:: update_operator_descriptions(docs_path: pathlib.Path, verbose: bool = False)
+
+   Update operator descriptions based on '*_upd.md' files in DPF documentation sources.
+
+   :param docs_path: Root path of the DPF documentation to update operator descriptions for.
+   :param verbose: Whether to print progress information.
+
+
+.. py:function:: fetch_doc_info(server: ansys.dpf.core.AnyServerType, operator_name: str) -> dict
+
+   Fetch information about the specifications of a given operator.
+
+   :param server: A DPF server to query the specifications of the operator.
+   :param operator_name: The name of the operator of interest.
+
+   :returns: Information about the operator structured for use with the documentation template.
+   :rtype: doc_info
+
+
+.. py:function:: get_plugin_operators(server: ansys.dpf.core.AnyServerType, plugin_name: str) -> list[str]
+
+   Get the list of operators for a given plugin.
+
+   :param server: DPF server to query for the list of operators.
+   :param plugin_name: Name of the plugin of interest.
+
+   :returns: List of names of operators available on the server for the given plugin.
+   :rtype: operator_list
+
+
+.. py:function:: generate_operator_doc(server: ansys.dpf.core.AnyServerType, operator_name: str, include_private: bool, output_path: pathlib.Path)
+
+   Write the Markdown documentation page for a given operator on a given DPF server.
+
+   :param server: DPF server of interest.
+   :param operator_name: Name of the operator of interest.
+   :param include_private: Whether to generate the documentation if the operator is private.
+   :param output_path: Path to write the operator documentation at.
+
+
+.. py:function:: update_toc_tree(docs_path: pathlib.Path)
+
+   Update the global toc.yml file for the DPF documentation based on the operators found.
+
+   :param docs_path: Path to the root of the DPF documentation sources.
+
+
+.. py:function:: generate_operators_doc(output_path: pathlib.Path, ansys_path: pathlib.Path = None, include_composites: bool = False, include_sound: bool = False, include_private: bool = False, desired_plugin: str = None, verbose: bool = True)
+
+   Generate the Markdown source files for the DPF operator documentation.
+
+   This function generates a Markdown file for each operator found in a given DPF installation,
+   categorized in folders per operator category, as well as a `toc.yml` file.
+   These are used to generate the DPF html documentation website as seen on the Developer Portal.
+
+   :param output_path: Path to write the output files at.
+   :param ansys_path: Path to an Ansys/DPF installation.
+   :param include_composites: Whether to include operators of the Composites plugin.
+   :param include_sound: Whether to include operators of the Sound plugin.
+   :param include_private: Whether to include private operators.
+   :param desired_plugin: Restrict documentation generation to the operators of this specific plugin.
+   :param verbose: Whether to print progress information.
+
+
+.. py:function:: run_with_args()
+
+   Run generate_operators_doc from the command line with argument parsing.
+
+
+
+

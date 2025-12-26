@@ -1,0 +1,246 @@
+
+
+
+
+
+
+:class:`InputsFft`
+==================
+
+
+.. py:class:: ansys.dpf.core.operators.mapping.fft.InputsFft(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   fft operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.fft()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_scale_forward_transform = float()
+   >>> op.inputs.scale_forward_transform.connect(my_scale_forward_transform)
+   >>> my_inplace = bool()
+   >>> op.inputs.inplace.connect(my_inplace)
+   >>> my_force_fft_points = int()
+   >>> op.inputs.force_fft_points.connect(my_force_fft_points)
+   >>> my_cutoff_frequency = float()
+   >>> op.inputs.cutoff_frequency.connect(my_cutoff_frequency)
+   >>> my_scale_right_amplitude = bool()
+   >>> op.inputs.scale_right_amplitude.connect(my_scale_right_amplitude)
+
+
+
+
+
+
+.. py:currentmodule:: InputsFft
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~scale_forward_transform`
+            - Allows to connect scale_forward_transform input to the operator.
+          * - :py:attr:`~inplace`
+            - Allows to connect inplace input to the operator.
+          * - :py:attr:`~force_fft_points`
+            - Allows to connect force_fft_points input to the operator.
+          * - :py:attr:`~cutoff_frequency`
+            - Allows to connect cutoff_frequency input to the operator.
+          * - :py:attr:`~scale_right_amplitude`
+            - Allows to connect scale_right_amplitude input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.fft import InputsFft
+
+Property detail
+---------------
+
+.. py:property:: field
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect field input to the operator.
+
+   Field or Fields Container.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.fft()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: scale_forward_transform
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect scale_forward_transform input to the operator.
+
+   Scale for Forward Transform, default is 2/field_num_elementary_data.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.fft()
+   >>> op.inputs.scale_forward_transform.connect(my_scale_forward_transform)
+   >>> # or
+   >>> op.inputs.scale_forward_transform(my_scale_forward_transform)
+
+.. py:property:: inplace
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect inplace input to the operator.
+
+   True if inplace, default is false.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.fft()
+   >>> op.inputs.inplace.connect(my_inplace)
+   >>> # or
+   >>> op.inputs.inplace(my_inplace)
+
+.. py:property:: force_fft_points
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect force_fft_points input to the operator.
+
+   Explicitely define number of fft points to either rescope or perform zero padding.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.fft()
+   >>> op.inputs.force_fft_points.connect(my_force_fft_points)
+   >>> # or
+   >>> op.inputs.force_fft_points(my_force_fft_points)
+
+.. py:property:: cutoff_frequency
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect cutoff_frequency input to the operator.
+
+   Restrict output frequency up to this cutoff frequency
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.fft()
+   >>> op.inputs.cutoff_frequency.connect(my_cutoff_frequency)
+   >>> # or
+   >>> op.inputs.cutoff_frequency(my_cutoff_frequency)
+
+.. py:property:: scale_right_amplitude
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect scale_right_amplitude input to the operator.
+
+   If set to true (default is false), 2/field_num_entities scaling will be applied, to have right amplitude values.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.fft()
+   >>> op.inputs.scale_right_amplitude.connect(my_scale_right_amplitude)
+   >>> # or
+   >>> op.inputs.scale_right_amplitude(my_scale_right_amplitude)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

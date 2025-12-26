@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.accumulation_per_scoping
+   :inherited-members:
