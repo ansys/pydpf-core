@@ -547,7 +547,7 @@ Checklists
 ----------
 
 - ☐ how
-- ☝ about
+- ☐ about
 
   - ☝ a
   - ☒ nice
