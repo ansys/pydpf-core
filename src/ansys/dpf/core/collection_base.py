@@ -576,7 +576,7 @@ class CollectionBase(Generic[TYPE]):
         """Return next element in iteration."""
         if self._loop_index < len(self):
             self._loop_index += 1
-            yield self[self._loop_index]
+            yield self[self._loop_index - 1]
         else:
             raise StopIteration
 
