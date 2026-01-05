@@ -549,7 +549,7 @@ Checklists
 - ☐ how
 - ☐ about
 
-  - ☝ a
+  - ☐ a
   - ☒ nice
 
 - ☒ check
