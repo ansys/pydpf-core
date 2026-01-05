@@ -6,9 +6,11 @@ DPF Collections
 
 .. include:: ../../links_and_refs.rst
 
-This tutorial demonstrates how to create and work with some DPF collections: FieldsContainer, MeshesContainer and ScopingsContainer.
+This tutorial demonstrates how to create and work with some DPF collections: |FieldsContainer|, |MeshesContainer| and |ScopingsContainer|.
 
-DPF collections are homogeneous groups of labeled raw data storage structures that allow you to organize and manipulate related data efficiently. Collections are essential for handling multiple time steps, frequency sets, or other labeled datasets in your analysis workflows.
+You can store DPF entities of a given type as a DPF collection and further categorize them according to labels and associated values,
+which allows you to organize and keep track of data.
+Collections are essential for handling multiple time steps, frequency sets, or other labeled datasets in your analysis workflows.
 
 :jupyter-download-script:`Download tutorial as Python script<collections>`
 :jupyter-download-notebook:`Download tutorial as Jupyter notebook<collections>`
@@ -19,7 +21,7 @@ Introduction to Collections
 Collections in DPF serve as containers that group related objects with labels. The main collection types are:
 
 - |FieldsContainer|: A collection of |Field| objects, typically representing results over multiple time steps or frequency sets
-- |MeshesContainer|: A collection of |MeshedRegion| objects for different configurations or time steps  
+- |MeshesContainer|: A collection of |MeshedRegion| objects for different cases or time steps
 - |ScopingsContainer|: A collection of |Scoping| objects for organizing entity selections
 
 Each collection provides methods to:
@@ -28,13 +30,15 @@ Each collection provides methods to:
 - Access objects by label (time, frequency, set ID, and so on)
 - Perform operations across all contained objects
 
-Collections are widely used in DPF workflows to provide vectorized data to operators,
+Collections are used in DPF workflows to provide vectorized data to operators,
 allowing you to process the data in bulk or to process it in parallel whenever possible.
 
-Set up the Analysis
--------------------
+Load an example file
+--------------------
 
-First, import the required modules and load a transient analysis result file that contains multiple time steps.
+First, import the required modules and load a transient analysis result file.
+
+A transient analysis is a typical example where collections are useful, as data is available at multiple time steps.
 
 .. jupyter-execute::
 
@@ -56,170 +60,196 @@ First, import the required modules and load a transient analysis result file tha
     # Display basic model information
     print(model)
 
-Working with FieldsContainer
------------------------------
+.. tab-set::
 
-A |FieldsContainer| is the most commonly used collection in DPF. It stores multiple |Field| objects, each associated with a label such as time step or frequency.
+    .. tab-item:: FieldsContainer
 
-Extract Results into a FieldsContainer
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        Working with FieldsContainer
+        ----------------------------
 
-Extract displacement results for all time steps, which will automatically create a |FieldsContainer|.
+        A |FieldsContainer| is the most commonly used collection in DPF. It stores multiple |Field| objects, each associated with a label such as time step or frequency.
 
-.. jupyter-execute::
+        Extract Results into a FieldsContainer
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    # Get displacement results for all time steps
-    displacement_fc = model.results.displacement.on_all_time_freqs.eval()
-    
-    # Display FieldsContainer information
-    print(displacement_fc)
+        Extract displacement results for all time steps, which will automatically create a |FieldsContainer|.
 
-Access Individual Fields in the Container
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        .. jupyter-execute::
 
-You can access individual fields by their label or index.
+            # Get displacement results for all time steps
+            displacement_fc = model.results.displacement.on_all_time_freqs.eval()
 
-.. jupyter-execute::
+            # Display FieldsContainer information
+            print(displacement_fc)
 
-    # Access field by index (first time step)
-    first_field = displacement_fc[0]
-    print(f"First field info:")
-    print(first_field)
-    
-    # Access field by label (specific time step)
-    second_time_field = displacement_fc.get_field({"time": 2})
-    # Equivalent to:
-    second_time_field = displacement_fc.get_field_by_time_id(2)
-    print(f"\nSecond time step field:")
-    print(second_time_field)
+        Access Individual Fields in the Container
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Create a Custom FieldsContainer
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        You can access individual fields by their label or index.
 
-You can create your own |FieldsContainer| and add fields with custom labels.
+        .. jupyter-execute::
 
-.. jupyter-execute::
+            # Access field by index (first time step)
+            first_field = displacement_fc[0]
+            print(f"First field info:")
+            print(first_field)
 
-    # Create an empty FieldsContainer
-    custom_fc = dpf.FieldsContainer()
-    
-    # Set up labels for the container
-    custom_fc.labels = ["time", "zone"]
-    
-    # Create sample fields for different time steps and zones  
-    for time_step in [1, 2]:
-        for zone in [1, 2]:
+            # Access field by label (specific time step)
+            second_time_field = displacement_fc.get_field({"time": 2})
+            # Equivalent to:
+            second_time_field = displacement_fc.get_field_by_time_id(2)
+            print(f"\nSecond time step field:")
+            print(second_time_field)
+
+        Create a Custom FieldsContainer
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+        You can create your own |FieldsContainer| and add fields with custom labels.
+
+        .. jupyter-execute::
+
+            # Create an empty FieldsContainer
+            custom_fc = dpf.FieldsContainer()
+
+            # Set up labels for the container
+            custom_fc.labels = ["time", "zone"]
+
+            # Create sample fields for different time steps and zones
+            for time_step in [1, 2]:
+                for zone in [1, 2]:
             # Create a simple field with sample data
-            field = dpf.Field(location=dpf.locations.nodal, nature=dpf.natures.scalar)
-            
+            field1 = dpf.Field(location=dpf.locations.nodal, nature=dpf.natures.scalar)
+            field2 = dpf.Field(location=dpf.locations.nodal, nature=dpf.natures.scalar)
+            field3 = dpf.Field(location=dpf.locations.nodal, nature=dpf.natures.scalar)
+            field4 = dpf.Field(location=dpf.locations.nodal, nature=dpf.natures.scalar)
+
             # Add some sample nodes and data
-            field.scoping.ids = [1, 2, 3, 4, 5]
-            field.data = [float(time_step * zone * i) for i in range(1, 6)]
-            
+            field1.scoping.ids = [1, 2, 3, 4, 5]
+            field1.data = [float(1 * i) for i in range(1, 6)]
+            field2.scoping.ids = [1, 2, 3, 4, 5]
+            field2.data = [float(2 * i) for i in range(1, 6)]
+            field3.scoping.ids = [1, 2, 3, 4, 5]
+            field3.data = [float(3 * i) for i in range(1, 6)]
+            field4.scoping.ids = [1, 2, 3, 4, 5]
+            field4.data = [float(4 * i) for i in range(1, 6)]
+
             # Add field to container with labels
-            custom_fc.add_field({"time": time_step, "zone": zone}, field)
-    
-    # Display the custom FieldsContainer
-    print(custom_fc)
+            custom_fc.add_field({"time": 1, "zone": 1}, field1)
+            custom_fc.add_field({"time": 2, "zone": 1}, field2)
+            custom_fc.add_field({"time": 1, "zone": 2}, field3)
+            custom_fc.add_field({"time": 2, "zone": 2}, field4)
 
-Working with ScopingsContainer
-------------------------------
+            # Display the custom FieldsContainer
+            print(custom_fc)
 
-A |ScopingsContainer| holds multiple |Scoping| objects, which define sets of entity IDs (nodes, elements, etc.).
+    .. tab-item:: ScopingsContainer
 
-Create and Populate a ScopingsContainer
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        Working with ScopingsContainer
+        ------------------------------
 
-Create different node selections and organize them in a |ScopingsContainer|.
+        A |ScopingsContainer| holds multiple |Scoping| objects, which define sets of entity IDs (nodes, elements, etc.).
 
-.. jupyter-execute::
+        Create and Populate a ScopingsContainer
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    # Get the mesh from our model
-    mesh = model.metadata.meshed_region
-    
-    # Create a ScopingsContainer
-    scopings_container = dpf.ScopingsContainer()
-    # Set labels for different selections
-    scopings_container.labels = ["selection_type"]
-    # Selection 1: First 10 nodes
-    first_nodes = dpf.Scoping(location=dpf.locations.nodal)
-    first_nodes.ids = list(range(1, 11))
-    scopings_container.add_scoping(label_space={"selection_type": 0}, scoping=first_nodes)
-    # Selection 2: Every 10th node (sample)
-    all_node_ids = mesh.nodes.scoping.ids
-    every_tenth = dpf.Scoping(location=dpf.locations.nodal)
-    every_tenth.ids = all_node_ids[::10]  # Every 10th node
-    scopings_container.add_scoping(label_space={"selection_type": 1}, scoping=every_tenth)
-    # Selection 3: Last 10 nodes
-    last_nodes = dpf.Scoping(location=dpf.locations.nodal)
-    last_nodes.ids = all_node_ids[-10:]
-    scopings_container.add_scoping(label_space={"selection_type": 2}, scoping=last_nodes)
+        Create different node selections and organize them in a |ScopingsContainer|.
 
-    # Display ScopingsContainer information
-    print(scopings_container)
+        .. jupyter-execute::
 
-Use ScopingsContainer with Operators
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            # Get the mesh from our model
+            mesh = model.metadata.meshed_region
 
-|ScopingsContainer| objects can be used with operators to apply operations to multiple selections.
+            # Create a ScopingsContainer
+            scopings_container = dpf.ScopingsContainer()
 
-.. jupyter-execute::
+            # Set labels for different selections
+            scopings_container.labels = ["selection_type"]
 
-    # Create an operator to extract displacement on specific node sets
-    displacement_op = dpf.operators.result.displacement()
-    displacement_op.inputs.data_sources(data_sources)
-    displacement_op.inputs.mesh_scoping(scopings_container)
-    
-    # Evaluate to get results for all scopings
-    scoped_displacements = displacement_op.eval()
-    
-    print(f"Displacement results for different node selections:")
-    print(scoped_displacements)
+            # Selection 1: First 10 nodes
+            first_nodes = dpf.Scoping(location=dpf.locations.nodal)
+            first_nodes.ids = list(range(1, 11))
+            scopings_container.add_scoping(label_space={"selection_type": 0}, scoping=first_nodes)
 
-Working with MeshesContainer
-----------------------------
+            # Selection 2: Every 10th node (sample)
+            all_node_ids = mesh.nodes.scoping.ids
+            every_tenth = dpf.Scoping(location=dpf.locations.nodal)
+            every_tenth.ids = all_node_ids[::10]  # Every 10th node
+            scopings_container.add_scoping(label_space={"selection_type": 1}, scoping=every_tenth)
 
-A |MeshesContainer| stores multiple |MeshedRegion| objects. This is useful when working with different mesh configurations or time-dependent meshes.
+            # Selection 3: Last 10 nodes
+            last_nodes = dpf.Scoping(location=dpf.locations.nodal)
+            last_nodes.ids = all_node_ids[-10:]
+            scopings_container.add_scoping(label_space={"selection_type": 2}, scoping=last_nodes)
 
-Create a MeshesContainer
-^^^^^^^^^^^^^^^^^^^^^^^^
+            # Display ScopingsContainer information
+            print(scopings_container)
 
-Create a |MeshesContainer| with mesh data for different analysis configurations.
+        Use ScopingsContainer with Operators
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. jupyter-execute::
+        |ScopingsContainer| objects can be used with operators to apply operations to multiple selections.
 
-    # Create a MeshesContainer
-    meshes_container = dpf.MeshesContainer()
+        .. jupyter-execute::
 
-    # Set labels for different mesh configurations
-    meshes_container.labels = ["variation"]
+            # Create an operator to extract displacement on specific node sets
+            displacement_op = dpf.operators.result.displacement()
+            # Connect the data source
+            displacement_op.inputs.data_sources(data_sources)
+            # Connect the scopings container which defines the node selections
+            displacement_op.inputs.mesh_scoping(scopings_container)
 
-    # Get the original mesh
-    original_mesh = model.metadata.meshed_region
+            # Evaluate to get results for all scopings
+            scoped_displacements = displacement_op.eval()
 
-    # Add original mesh
-    meshes_container.add_mesh({"variation": 0}, original_mesh)
+            print(f"Displacement results for different node selections:")
+            print(scoped_displacements)
 
-    # Create a modified mesh (example: subset of elements)
-    # Get element scoping for first half of elements
-    all_element_ids = original_mesh.elements.scoping.ids
-    subset_element_ids = all_element_ids[:len(all_element_ids)//2]
+    .. tab-item:: MeshesContainer
 
-    # Create element scoping for subset
-    element_scoping = dpf.Scoping(location=dpf.locations.elemental)
-    element_scoping.ids = subset_element_ids
+        Working with MeshesContainer
+        ----------------------------
 
-    # Extract subset mesh using an operator
-    mesh_extract_op = dpf.operators.mesh.from_scoping()
-    mesh_extract_op.inputs.mesh(original_mesh)
-    mesh_extract_op.inputs.scoping(element_scoping)
-    subset_mesh = mesh_extract_op.eval()
+        A |MeshesContainer| stores multiple |MeshedRegion| objects. This is useful when working with different mesh variations or time-dependent meshes.
 
-    # Add subset mesh to container
-    meshes_container.add_mesh({"variation": 1}, subset_mesh)
+        Create a MeshesContainer
+        ^^^^^^^^^^^^^^^^^^^^^^^^
 
-    # Display MeshesContainer information
-    print(meshes_container)
+        Create a |MeshesContainer| with mesh data for different cases.
+
+        .. jupyter-execute::
+
+            # Create a MeshesContainer
+            meshes_container = dpf.MeshesContainer()
+
+            # Set labels for different mesh variations
+            meshes_container.labels = ["variation"]
+
+            # Get the original mesh
+            original_mesh = model.metadata.meshed_region
+
+            # Add original mesh
+            meshes_container.add_mesh({"variation": 0}, original_mesh)
+
+            # Create a modified mesh (example: subset of elements)
+            # Get element scoping for first half of elements
+            all_element_ids = original_mesh.elements.scoping.ids
+            subset_element_ids = all_element_ids[:len(all_element_ids)//2]
+
+            # Create element scoping for subset
+            element_scoping = dpf.Scoping(location=dpf.locations.elemental)
+            element_scoping.ids = subset_element_ids
+
+            # Extract subset mesh using an operator
+            mesh_extract_op = dpf.operators.mesh.from_scoping()
+            mesh_extract_op.inputs.mesh(original_mesh)
+            mesh_extract_op.inputs.scoping(element_scoping)
+            subset_mesh = mesh_extract_op.eval()
+
+            # Add subset mesh to container
+            meshes_container.add_mesh({"variation": 1}, subset_mesh)
+
+            # Display MeshesContainer information
+            print(meshes_container)
 
 Collection Operations and Iteration
 ------------------------------------
@@ -233,27 +263,33 @@ You can iterate through collections using different methods.
 
 .. jupyter-execute::
 
-    # Iterate through FieldsContainer by index
+    # Iterate through a FieldsContainer
     print("Iterating through displacement fields by index:")
-    for i in range(min(3, len(displacement_fc))):  # Show first 3 fields
+    for i in range(3):  # Show the first three fields in the collection
+        # Get the field at index i
         field = displacement_fc[i]
+        # Get the label space for the field at index i
         label_space = displacement_fc.get_label_space(i)
+        # Print field information
         max_value = field.data.max()
         print(f"  Field {i}: {label_space}, max value: {max_value:.6f}")
-    
-    print("\nIterating through ScopingsContainer:")
+
+    # Enumerate the scopings in a ScopingsContainer
+    print("\nEnumerate the scopings in a ScopingsContainer:")
     for i, scoping in enumerate(scopings_container):
+        # Get the label space for the scoping at index i
         label_space = scopings_container.get_label_space(i)
+        # Print scoping information
         print(f"  Scoping {i}: {label_space}, size: {scoping.size}")
 
 Filter and Select from Collections  
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can filter collections based on labels or criteria.
+You can filter collections based on label values.
 
 .. jupyter-execute::
 
-    # Get specific fields from FieldsContainer by label criteria
+    # Get specific fields from a FieldsContainer with criteria on label values
     # Get all fields of ``custom_fc`` where ``zone=1``
     zone_1_fields = custom_fc.get_fields({"zone": 1})
     print(f"\nFields in custom_fc with zone=1:")
@@ -276,7 +312,8 @@ Additionally, the following specialized collection types are available (from ``c
 - :class:`ansys.dpf.core.collection_base.FloatCollection` for floats
 - :class:`ansys.dpf.core.collection_base.StringCollection` for strings
 
-These built-in collections are optimized for their respective DPF types and should be used when working with fields, meshes, scopings, or basic types. For other supported types, you can use the :py:meth:`ansys.dpf.core.collection.Collection.collection_factory` method to create a custom collection class at runtime.
+These built-in collections are optimized for their respective DPF types and should be used when working with fields, meshes, scopings, or basic types.
+For other supported types, you can use the :py:meth:`ansys.dpf.core.collection.Collection.collection_factory` method to create a custom collection class at runtime.
 
 Using the Collection Factory
 ---------------------------
@@ -284,7 +321,8 @@ Using the Collection Factory
 .. note::
    Collections can only be made for types supported by DPF. Attempting to use unsupported or arbitrary Python types will result in an error.
 
-The :py:meth:`ansys.dpf.core.collection.Collection.collection_factory` method allows you to create a collection class for any supported DPF type at runtime. This is useful when you want to group and manage objects that are not covered by the built-in collection types (such as FieldsContainer, MeshesContainer, or ScopingsContainer).
+The :py:meth:`ansys.dpf.core.collection.Collection.collection_factory` method allows you to create a collection class for any supported DPF type at runtime.
+This is useful when you want to group and manage objects that are not covered by the built-in collection types (such as FieldsContainer, MeshesContainer, or ScopingsContainer).
 
 For example, you can create a collection for :class:`ansys.dpf.core.DataSources` objects:
 
@@ -308,4 +346,5 @@ For example, you can create a collection for :class:`ansys.dpf.core.DataSources`
     # Show the collection
     print(ds_collection)
 
-This approach allows you to leverage the powerful labeling and grouping features of DPF collections for any supported DPF object type, making your workflows more flexible and organized.
+This approach allows you to leverage the powerful labeling and grouping features of DPF collections for any supported DPF object type,
+making your workflows more flexible and organized.
