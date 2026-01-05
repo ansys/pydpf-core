@@ -4,7 +4,7 @@
 Working with DPF server configurations
 ======================================
 
-.. include:: ../../links_and_refs.rst
+.. include:: ../../../links_and_refs.rst
 
 This tutorial demonstrates how to work with different DPF server types and configurations
 to optimize your workflow based on your specific needs.
