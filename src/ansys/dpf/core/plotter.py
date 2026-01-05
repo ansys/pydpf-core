@@ -493,8 +493,31 @@ class _PyVistaPlotter:
         return kwargs
 
 class _VizPlotter(VizPlotter):
+    """Internal plotter using ansys-tools-visualization-interface backend.
 
-    def __init__(self, backend: Optional[BaseBackend] = None):
+    This class provides a plotting interface that wraps the Visualization
+    Interface Tool plotter, enabling switching between PyVista
+    and Plotly backends.
+
+    Parameters
+    ----------
+    backend : PyVistaBackend, PlotlyBackend, optional
+        Visualization backend to use. If None, defaults to PyVistaBackend.
+
+    Notes
+    -----
+    This plotter uses a deferred plotting approach where objects and options
+    are accumulated and then batch-processed when show_figure() is called.
+    """
+
+    def __init__(self, backend=None):
+        """Initialize the visualization plotter.
+
+        Parameters
+        ----------
+        backend : PyVistaBackend, PlotlyBackend, optional
+            Visualization backend to use. If None, defaults to PyVistaBackend.
+        """
         super().__init__(backend)
         self._plotting_options = {}
         self._plotting_list = []
@@ -502,6 +525,20 @@ class _VizPlotter(VizPlotter):
 
     # Needs high level API in viz to avoid customization
     def add_scale_factor_legend(self, scale_factor, **kwargs):
+        """Add a scale factor legend to the plot.
+
+        Parameters
+        ----------
+        scale_factor : float
+            Scale factor value to display in the legend.
+        **kwargs : dict
+            Additional keyword arguments for legend customization.
+
+        Notes
+        -----
+        Implementation is backend-specific. PyVista uses add_text while
+        Plotly uses add_annotation.
+        """
         if isinstance(self.backend, PyVistaBackend):
             kwargs_in = _sort_supported_kwargs(
                 bound_method=self.backend.base_plotter.add_text, **kwargs
@@ -530,6 +567,21 @@ class _VizPlotter(VizPlotter):
         as_linear: Optional[bool] = True,
         **plotter_kwargs,
     ):
+        """Add a meshed region to the plotter.
+
+        Parameters
+        ----------
+        meshed_region : MeshedRegion
+            Mesh to add to the plot.
+        deform_by : Field, FieldsContainer, Result, or Operator, optional
+            Field used to deform the mesh. Must output a 3D vector field.
+        scale_factor : float, optional
+            Scaling factor for mesh deformation. Default is 1.0.
+        as_linear : bool, optional
+            Whether to plot quadratic elements as linear. Default is True.
+        **plotter_kwargs : dict
+            Additional plotting options passed to the backend.
+        """
         plotter_kwargs = self._set_scalar_bar_title(plotter_kwargs)
 
         # Set pyvista defaults for PyDPF
@@ -585,6 +637,34 @@ class _VizPlotter(VizPlotter):
         shell_layer=eshell_layers.top,
         **kwargs,
     ):
+        """Add a field with data to the plotter.
+
+        Parameters
+        ----------
+        field : Field
+            Field containing data to plot.
+        meshed_region : MeshedRegion, optional
+            Mesh to plot the field on. If None, uses field.meshed_region.
+        show_max : bool, optional
+            Whether to label the maximum value point. Default is False.
+            (Currently not implemented in _VizPlotter).
+        show_min : bool, optional
+            Whether to label the minimum value point. Default is False.
+            (Currently not implemented in _VizPlotter).
+        deform_by : Field, FieldsContainer, Result, or Operator, optional
+            Field used to deform the mesh. Must output a 3D vector field.
+        scale_factor : float, optional
+            Scaling factor for mesh deformation. Default is 1.0.
+        scale_factor_legend : float or None or False, optional
+            Custom scale factor for legend. If None, uses scale_factor.
+            If False, no legend is shown.
+        as_linear : bool, optional
+            Whether to plot quadratic elements as linear. Default is True.
+        shell_layer : eshell_layers, optional
+            Shell layer to plot for shell elements. Default is top layer.
+        **kwargs : dict
+            Additional plotting options passed to the backend.
+        """
         # Get the field name
         name = field.name.split("_")[0]
         unit = field.unit
@@ -742,7 +822,18 @@ class _VizPlotter(VizPlotter):
         #     )
 
     def show_figure(self, **kwargs):
+        """Display the accumulated plots.
 
+        Parameters
+        ----------
+        **kwargs : dict
+            Additional keyword arguments for the show method.
+
+        Notes
+        -----
+        This method triggers the actual plotting of all accumulated meshes
+        and fields using the backend's plot_iter and show methods.
+        """
         self._plotting_options.update(kwargs)
 
         if isinstance(self._backend, PlotlyBackend):
