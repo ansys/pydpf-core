@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -39,6 +39,9 @@ def test_create_data_sources(server_type):
 def test_create_with_resultpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)
     assert data_sources._internal_obj
+    assert data_sources.result_key == "rst"
+    data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type, key="test")
+    assert data_sources.result_key == "test"
 
 
 def test_setresultpath_data_sources(allkindofcomplexity, server_type):
@@ -101,6 +104,11 @@ def test_set_resultpath_data_sources_cff(server_type):
     assert data_sources.result_key == "cas"
     data_sources = dpf.core.DataSources(result_path=cas_h5_file, server=server_type)
     assert data_sources.result_key == "cas"
+
+
+def test_auto_key_data_sources_h5dpf(server_type):
+    data_sources = dpf.core.DataSources(result_path="test.h5", server=server_type)
+    assert data_sources.result_key == "h5dpf"
 
 
 def test_set_resultpath_data_sources_cfx_res(server_type):

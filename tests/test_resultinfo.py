@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -126,7 +126,10 @@ def test_get_resultinfo_2(simple_bar, server_type):
     assert res.solver_time == 170340
     assert res.user_name == "afaure"
     assert res.job_name == "file_Static22_0"
-    assert res.product_name == "FULL"
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0:
+        assert res.product_name == "MAPDL"
+    else:
+        assert res.product_name == "FULL"
     assert "unsaved_project--Static" in res.main_title
     assert res.cyclic_support is None
 

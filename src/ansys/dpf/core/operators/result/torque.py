@@ -21,15 +21,16 @@ if TYPE_CHECKING:
 
 
 class torque(Operator):
-    r"""Compute torque of a force based on a 3D point.
+    r"""Compute torque of a force based on a 3D point. The torque is computed in
+    units consistent with the force and the mesh support.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Fields container containing the nodal forces.
+        Fields container containing the nodal forces. The fields must have an associated mesh support.
     spoint: Field or FieldsContainer
-        Field or fields container containing the summation points for each associated field on pin 0.
+        Field or fields container containing the summation points for each associated field on pin 0. If unitless, it is assumed to be in meters.
 
     Outputs
     -------
@@ -87,7 +88,8 @@ class torque(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Compute torque of a force based on a 3D point.
+        description = r"""Compute torque of a force based on a 3D point. The torque is computed in
+units consistent with the force and the mesh support.
 """
         spec = Specification(
             description=description,
@@ -96,13 +98,13 @@ class torque(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container containing the nodal forces.""",
+                    document=r"""Fields container containing the nodal forces. The fields must have an associated mesh support.""",
                 ),
                 1: PinSpecification(
                     name="spoint",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""Field or fields container containing the summation points for each associated field on pin 0.""",
+                    document=r"""Field or fields container containing the summation points for each associated field on pin 0. If unitless, it is assumed to be in meters.""",
                     aliases=["field"],
                 ),
             },
@@ -190,7 +192,7 @@ class InputsTorque(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Fields container containing the nodal forces.
+        Fields container containing the nodal forces. The fields must have an associated mesh support.
 
         Returns
         -------
@@ -211,7 +213,7 @@ class InputsTorque(_Inputs):
     def spoint(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect spoint input to the operator.
 
-        Field or fields container containing the summation points for each associated field on pin 0.
+        Field or fields container containing the summation points for each associated field on pin 0. If unitless, it is assumed to be in meters.
 
         Returns
         -------

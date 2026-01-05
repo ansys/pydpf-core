@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -1032,3 +1032,31 @@ class Workflow:
         from ansys.dpf.core.core import _description
 
         return _description(self._internal_obj, self._server)
+
+    def required_plugins(self) -> list[str]:
+        """List of plugins required by the workflow based on registered operators.
+
+        Returns
+        -------
+        plugins:
+            List of plugins used by the workflow ordered alphabetically.
+            The plugin name reported is the one set when loading the plugin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> wf = dpf.Workflow()
+        >>> op1 = dpf.Operator("csv_to_field")  # from 'csv' plugin
+        >>> op2 = dpf.Operator("U")         # from 'core' plugin
+        >>> wf.add_operators([op1, op2])
+        >>> wf.required_plugins()
+        ['core', 'csv']
+        """
+        num = self._api.work_flow_number_of_operators(self)
+        out = []
+        for i in range(num):
+            op_name = self._api.work_flow_operator_name_by_index(self, i)
+            spec = dpf.core.dpf_operator.Operator.operator_specification(op_name, self._server)
+            plugin_name = spec.properties["plugin"]
+            out.append(plugin_name)
+        return sorted(list(set(out)))

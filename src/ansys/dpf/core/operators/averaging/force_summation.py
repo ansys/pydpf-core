@@ -28,7 +28,8 @@ class force_summation(Operator):
     r"""Computes the sum of elemental forces contribution on a set of nodes in
     Global Coordinate System. Equivalent to MAPDL FSUM & NFORCE commands.
     Supports Static, Transient, Modal & Harmonic analysis for thermal and
-    structural degrees of freedom.
+    structural degrees of freedom. The moment is computed in the unit system
+    of the data source.
 
 
     Inputs
@@ -46,7 +47,14 @@ class force_summation(Operator):
     force_type: int, optional
         Type of force to be processed (0: Total forces (static, damping, and inertia)., 1 (default): Static forces, 2: Damping forces, 3: Inertia forces)
     spoint: Field or FieldsContainer, optional
-        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).
+        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0). If unitless, it is assumed to be in meters.
+    scoping_filter: int, optional
+        Selected set of nodes.
+
+        - 0 (default): Sum all nodal forces for all selected nodes, excluding contact elements
+        - 1: Sum all nodal forces for contact nodes only.
+        - 2: Sum all nodal forces for all selected nodes, including contact elements.
+
 
     Outputs
     -------
@@ -79,6 +87,8 @@ class force_summation(Operator):
     >>> op.inputs.force_type.connect(my_force_type)
     >>> my_spoint = dpf.Field()
     >>> op.inputs.spoint.connect(my_spoint)
+    >>> my_scoping_filter = int()
+    >>> op.inputs.scoping_filter.connect(my_scoping_filter)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.averaging.force_summation(
@@ -89,6 +99,7 @@ class force_summation(Operator):
     ...     data_sources=my_data_sources,
     ...     force_type=my_force_type,
     ...     spoint=my_spoint,
+    ...     scoping_filter=my_scoping_filter,
     ... )
 
     >>> # Get output data
@@ -109,6 +120,7 @@ class force_summation(Operator):
         data_sources=None,
         force_type=None,
         spoint=None,
+        scoping_filter=None,
         config=None,
         server=None,
     ):
@@ -133,13 +145,16 @@ class force_summation(Operator):
             self.inputs.force_type.connect(force_type)
         if spoint is not None:
             self.inputs.spoint.connect(spoint)
+        if scoping_filter is not None:
+            self.inputs.scoping_filter.connect(scoping_filter)
 
     @staticmethod
     def _spec() -> Specification:
         description = r"""Computes the sum of elemental forces contribution on a set of nodes in
 Global Coordinate System. Equivalent to MAPDL FSUM & NFORCE commands.
 Supports Static, Transient, Modal & Harmonic analysis for thermal and
-structural degrees of freedom.
+structural degrees of freedom. The moment is computed in the unit system
+of the data source.
 """
         spec = Specification(
             description=description,
@@ -184,7 +199,18 @@ structural degrees of freedom.
                     name="spoint",
                     type_names=["field", "fields_container"],
                     optional=True,
-                    document=r"""Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).""",
+                    document=r"""Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0). If unitless, it is assumed to be in meters.""",
+                ),
+                9: PinSpecification(
+                    name="scoping_filter",
+                    type_names=["int32"],
+                    optional=True,
+                    document=r"""Selected set of nodes.
+                    
+- 0 (default): Sum all nodal forces for all selected nodes, excluding contact elements
+- 1: Sum all nodal forces for contact nodes only.
+- 2: Sum all nodal forces for all selected nodes, including contact elements.
+""",
                 ),
             },
             map_output_pin_spec={
@@ -294,6 +320,8 @@ class InputsForceSummation(_Inputs):
     >>> op.inputs.force_type.connect(my_force_type)
     >>> my_spoint = dpf.Field()
     >>> op.inputs.spoint.connect(my_spoint)
+    >>> my_scoping_filter = int()
+    >>> op.inputs.scoping_filter.connect(my_scoping_filter)
     """
 
     def __init__(self, op: Operator):
@@ -326,6 +354,10 @@ class InputsForceSummation(_Inputs):
             force_summation._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._spoint)
+        self._scoping_filter: Input[int] = Input(
+            force_summation._spec().input_pin(9), 9, op, -1
+        )
+        self._inputs.append(self._scoping_filter)
 
     @property
     def time_scoping(self) -> Input[Scoping]:
@@ -457,7 +489,7 @@ class InputsForceSummation(_Inputs):
     def spoint(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect spoint input to the operator.
 
-        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).
+        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0). If unitless, it is assumed to be in meters.
 
         Returns
         -------
@@ -473,6 +505,32 @@ class InputsForceSummation(_Inputs):
         >>> op.inputs.spoint(my_spoint)
         """
         return self._spoint
+
+    @property
+    def scoping_filter(self) -> Input[int]:
+        r"""Allows to connect scoping_filter input to the operator.
+
+        Selected set of nodes.
+
+        - 0 (default): Sum all nodal forces for all selected nodes, excluding contact elements
+        - 1: Sum all nodal forces for contact nodes only.
+        - 2: Sum all nodal forces for all selected nodes, including contact elements.
+
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.force_summation()
+        >>> op.inputs.scoping_filter.connect(my_scoping_filter)
+        >>> # or
+        >>> op.inputs.scoping_filter(my_scoping_filter)
+        """
+        return self._scoping_filter
 
 
 class OutputsForceSummation(_Outputs):

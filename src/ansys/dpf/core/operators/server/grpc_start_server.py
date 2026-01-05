@@ -39,6 +39,12 @@ class grpc_start_server(Operator):
         A data source with result key 'grpc' and file path 'port:ip' can be used instead of the input port and IP.
     dpf_context: str or int, optional
         This pin is associated with pin(2) = 2 (server started in a new process). User can enter the integer associated with a DPF context (1: Standalone Context - DpfCoreStandalone.xml, 3: Custom - DpfCustomDefined.xml) or a string with the path of the XML specifying the context.
+    transport_mode: int, optional
+        Transport Mode.
+        * 0: Insecure (default, localhost as default)
+        * 1: Insecure Legacy (Legacy logic to find non localhost interface)* 2: mTLS (ANSYS_GRPC_CERTIFICATES must point on certificates folder, containing server.crt, server.key and ca.crt)
+    tls_certificates_dir: str, optional
+        Path to certificates directory when mTLS mode is enabled.
 
     Outputs
     -------
@@ -65,6 +71,10 @@ class grpc_start_server(Operator):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_dpf_context = str()
     >>> op.inputs.dpf_context.connect(my_dpf_context)
+    >>> my_transport_mode = int()
+    >>> op.inputs.transport_mode.connect(my_transport_mode)
+    >>> my_tls_certificates_dir = str()
+    >>> op.inputs.tls_certificates_dir.connect(my_tls_certificates_dir)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.server.grpc_start_server(
@@ -74,6 +84,8 @@ class grpc_start_server(Operator):
     ...     should_start_server=my_should_start_server,
     ...     data_sources=my_data_sources,
     ...     dpf_context=my_dpf_context,
+    ...     transport_mode=my_transport_mode,
+    ...     tls_certificates_dir=my_tls_certificates_dir,
     ... )
 
     >>> # Get output data
@@ -88,6 +100,8 @@ class grpc_start_server(Operator):
         should_start_server=None,
         data_sources=None,
         dpf_context=None,
+        transport_mode=None,
+        tls_certificates_dir=None,
         config=None,
         server=None,
     ):
@@ -110,6 +124,10 @@ class grpc_start_server(Operator):
             self.inputs.data_sources.connect(data_sources)
         if dpf_context is not None:
             self.inputs.dpf_context.connect(dpf_context)
+        if transport_mode is not None:
+            self.inputs.transport_mode.connect(transport_mode)
+        if tls_certificates_dir is not None:
+            self.inputs.tls_certificates_dir.connect(tls_certificates_dir)
 
     @staticmethod
     def _spec() -> Specification:
@@ -154,6 +172,20 @@ waiting for requests in a streams.
                     type_names=["string", "int32"],
                     optional=True,
                     document=r"""This pin is associated with pin(2) = 2 (server started in a new process). User can enter the integer associated with a DPF context (1: Standalone Context - DpfCoreStandalone.xml, 3: Custom - DpfCustomDefined.xml) or a string with the path of the XML specifying the context. """,
+                ),
+                6: PinSpecification(
+                    name="transport_mode",
+                    type_names=["int32"],
+                    optional=True,
+                    document=r"""Transport Mode.
+* 0: Insecure (default, localhost as default)
+* 1: Insecure Legacy (Legacy logic to find non localhost interface)* 2: mTLS (ANSYS_GRPC_CERTIFICATES must point on certificates folder, containing server.crt, server.key and ca.crt)""",
+                ),
+                7: PinSpecification(
+                    name="tls_certificates_dir",
+                    type_names=["string"],
+                    optional=True,
+                    document=r"""Path to certificates directory when mTLS mode is enabled.""",
                 ),
             },
             map_output_pin_spec={
@@ -231,6 +263,10 @@ class InputsGrpcStartServer(_Inputs):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_dpf_context = str()
     >>> op.inputs.dpf_context.connect(my_dpf_context)
+    >>> my_transport_mode = int()
+    >>> op.inputs.transport_mode.connect(my_transport_mode)
+    >>> my_tls_certificates_dir = str()
+    >>> op.inputs.tls_certificates_dir.connect(my_tls_certificates_dir)
     """
 
     def __init__(self, op: Operator):
@@ -257,6 +293,14 @@ class InputsGrpcStartServer(_Inputs):
             grpc_start_server._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._dpf_context)
+        self._transport_mode: Input[int] = Input(
+            grpc_start_server._spec().input_pin(6), 6, op, -1
+        )
+        self._inputs.append(self._transport_mode)
+        self._tls_certificates_dir: Input[str] = Input(
+            grpc_start_server._spec().input_pin(7), 7, op, -1
+        )
+        self._inputs.append(self._tls_certificates_dir)
 
     @property
     def ip(self) -> Input[str]:
@@ -383,6 +427,50 @@ class InputsGrpcStartServer(_Inputs):
         >>> op.inputs.dpf_context(my_dpf_context)
         """
         return self._dpf_context
+
+    @property
+    def transport_mode(self) -> Input[int]:
+        r"""Allows to connect transport_mode input to the operator.
+
+        Transport Mode.
+        * 0: Insecure (default, localhost as default)
+        * 1: Insecure Legacy (Legacy logic to find non localhost interface)* 2: mTLS (ANSYS_GRPC_CERTIFICATES must point on certificates folder, containing server.crt, server.key and ca.crt)
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.server.grpc_start_server()
+        >>> op.inputs.transport_mode.connect(my_transport_mode)
+        >>> # or
+        >>> op.inputs.transport_mode(my_transport_mode)
+        """
+        return self._transport_mode
+
+    @property
+    def tls_certificates_dir(self) -> Input[str]:
+        r"""Allows to connect tls_certificates_dir input to the operator.
+
+        Path to certificates directory when mTLS mode is enabled.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.server.grpc_start_server()
+        >>> op.inputs.tls_certificates_dir.connect(my_tls_certificates_dir)
+        >>> # or
+        >>> op.inputs.tls_certificates_dir(my_tls_certificates_dir)
+        """
+        return self._tls_certificates_dir
 
 
 class OutputsGrpcStartServer(_Outputs):

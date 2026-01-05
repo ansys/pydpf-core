@@ -5,3 +5,4 @@ exclude_paths:
   - "./src/ansys/dpf/gate/**/*"
   - "./src/ansys/dpf/gatebin/**/*"
   - "./src/ansys/grpc/dpf/**/*"
+  - "./src/ansys/dpf/core/cyberchannel.py"

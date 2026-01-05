@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -249,6 +249,20 @@ def fluent_axial_comp():
         files = examples.download_fluent_axial_comp(server=server)
         ds.set_result_file_path(files["cas"][0], "cas")
         ds.add_file_path(files["dat"][0], "dat")
+        return ds
+
+    return return_ds
+
+
+@pytest.fixture()
+def fluent_axial_comp_flprj():
+    """Return a function which creates a data sources
+    with a 'flrpj' file of fluent axial compressor case."""
+
+    def return_ds(server=None):
+        ds = core.DataSources(server=server)
+        files = examples.download_fluent_axial_comp(server=server)
+        ds.set_result_file_path(files["flprj"], "flprj")
         return ds
 
     return return_ds

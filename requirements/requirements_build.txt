@@ -1,4 +1,4 @@
-black==25.11.0
+black==25.12.0
 build==1.3.0
 chevron==0.14.0
 pypandoc_binary==1.15

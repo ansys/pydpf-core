@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -413,6 +413,7 @@ class Operator:
             meshed_region,
             meshes_container,
             property_field,
+            property_fields_container,
             result_info,
             scoping,
             scopings_container,

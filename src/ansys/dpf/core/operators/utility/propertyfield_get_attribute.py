@@ -18,6 +18,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.property_field import PropertyField
+    from ansys.dpf.core.property_fields_container import PropertyFieldsContainer
 
 
 class propertyfield_get_attribute(Operator):
@@ -173,7 +174,7 @@ class InputsPropertyfieldGetAttribute(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(propertyfield_get_attribute._spec().inputs, op)
-        self._property_field: Input[PropertyField] = Input(
+        self._property_field: Input[PropertyField | PropertyFieldsContainer] = Input(
             propertyfield_get_attribute._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._property_field)
@@ -183,7 +184,7 @@ class InputsPropertyfieldGetAttribute(_Inputs):
         self._inputs.append(self._property_name)
 
     @property
-    def property_field(self) -> Input[PropertyField]:
+    def property_field(self) -> Input[PropertyField | PropertyFieldsContainer]:
         r"""Allows to connect property_field input to the operator.
 
         Returns

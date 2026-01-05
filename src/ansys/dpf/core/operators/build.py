@@ -43,7 +43,6 @@ TYPES_WITHOUT_PYTHON_IMPLEMENTATION = (
     "MeshSelectionManager",
     "Class Dataprocessing::Dpftypecollection<Class Dataprocessing::Cpropertyfield>",
     "Struct Iansdispatch",
-    "PropertyFieldsContainer",
     "Class Dataprocessing::Crstfilewrapper",
     "Char",
 )
