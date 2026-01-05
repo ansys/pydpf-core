@@ -546,7 +546,7 @@ Separations
 Checklists
 ----------
 
-- ☝ how
+- ☐ how
 - ☝ about
 
   - ☝ a
