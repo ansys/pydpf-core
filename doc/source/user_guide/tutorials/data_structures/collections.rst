@@ -115,9 +115,6 @@ A transient analysis is a typical example where collections are useful, as data 
             custom_fc.labels = ["time", "zone"]
 
             # Create sample fields for different time steps and zones
-            for time_step in [1, 2]:
-                for zone in [1, 2]:
-            # Create a simple field with sample data
             field1 = dpf.Field(location=dpf.locations.nodal, nature=dpf.natures.scalar)
             field2 = dpf.Field(location=dpf.locations.nodal, nature=dpf.natures.scalar)
             field3 = dpf.Field(location=dpf.locations.nodal, nature=dpf.natures.scalar)
