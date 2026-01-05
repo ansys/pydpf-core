@@ -553,7 +553,7 @@ Checklists
   - ☒ nice
 
 - ☒ check
-- ☝ list
+- ☐ list
 
 Tables
 ------
