@@ -46,8 +46,6 @@ class nmisc(Operator):
         result file container allowed to be kept open to cache data
     data_sources: DataSources
         result file path container, used if no streams are set
-    bool_rotate_to_global: bool, optional
-        if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
     mesh: MeshedRegion or MeshesContainer, optional
         mesh. If cylic expansion is to be done, mesh of the base sector
     item_index: int, optional
@@ -85,8 +83,6 @@ class nmisc(Operator):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_bool_rotate_to_global = bool()
-    >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_item_index = int()
@@ -109,7 +105,6 @@ class nmisc(Operator):
     ...     fields_container=my_fields_container,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
-    ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
     ...     item_index=my_item_index,
     ...     num_components=my_num_components,
@@ -123,9 +118,6 @@ class nmisc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsNmisc
-    _outputs: OutputsNmisc
-
     def __init__(
         self,
         time_scoping=None,
@@ -133,7 +125,6 @@ class nmisc(Operator):
         fields_container=None,
         streams_container=None,
         data_sources=None,
-        bool_rotate_to_global=None,
         mesh=None,
         item_index=None,
         num_components=None,
@@ -151,8 +142,6 @@ class nmisc(Operator):
                 super().__init__(name="mapdl::nmisc", config=config, server=server)
             else:
                 raise e
-        self._inputs = InputsNmisc(self)
-        self._outputs = OutputsNmisc(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:
@@ -163,8 +152,6 @@ class nmisc(Operator):
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
-        if bool_rotate_to_global is not None:
-            self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if item_index is not None:
@@ -226,12 +213,6 @@ results cannot be summed.
                     type_names=["data_sources"],
                     optional=False,
                     document=r"""result file path container, used if no streams are set""",
-                ),
-                5: PinSpecification(
-                    name="bool_rotate_to_global",
-                    type_names=["bool"],
-                    optional=True,
-                    document=r"""if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -349,8 +330,6 @@ class InputsNmisc(_Inputs):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_bool_rotate_to_global = bool()
-    >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_item_index = int()
@@ -389,10 +368,6 @@ class InputsNmisc(_Inputs):
             nmisc._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
-        self._bool_rotate_to_global: Input[bool] = Input(
-            nmisc._spec().input_pin(5), 5, op, -1
-        )
-        self._inputs.append(self._bool_rotate_to_global)
         self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
             nmisc._spec().input_pin(7), 7, op, -1
         )
@@ -520,27 +495,6 @@ class InputsNmisc(_Inputs):
         >>> op.inputs.data_sources(my_data_sources)
         """
         return self._data_sources
-
-    @property
-    def bool_rotate_to_global(self) -> Input[bool]:
-        r"""Allows to connect bool_rotate_to_global input to the operator.
-
-        if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.nmisc()
-        >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
-        >>> # or
-        >>> op.inputs.bool_rotate_to_global(my_bool_rotate_to_global)
-        """
-        return self._bool_rotate_to_global
 
     @property
     def mesh(self) -> Input[MeshedRegion | MeshesContainer]:

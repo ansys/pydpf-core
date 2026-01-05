@@ -21,18 +21,19 @@ if TYPE_CHECKING:
 
 
 class absolute_value_by_component(Operator):
-    r"""Compute the absolute value of each data value of the input field, no
-    norm performed.
+    r"""Computes the absolute value of each data value in the input field
+    component-wise, without performing vector norm operations.
 
 
     Inputs
     ------
     field: Field or FieldsContainer or float
-        field or fields container with only one field is expected
+        Field, fields container, or numeric data for which to compute absolute values
 
     Outputs
     -------
     field: Field
+        Field with absolute values applied to each component
 
     Examples
     --------
@@ -54,22 +55,21 @@ class absolute_value_by_component(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAbsoluteValueByComponent
-    _outputs: OutputsAbsoluteValueByComponent
-
     def __init__(self, field=None, config=None, server=None):
         super().__init__(
-            name="absolute_value_by_component", config=config, server=server
+            name="absolute_value_by_component",
+            config=config,
+            server=server,
+            inputs_type=InputsAbsoluteValueByComponent,
+            outputs_type=OutputsAbsoluteValueByComponent,
         )
-        self._inputs = InputsAbsoluteValueByComponent(self)
-        self._outputs = OutputsAbsoluteValueByComponent(self)
         if field is not None:
             self.inputs.field.connect(field)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Compute the absolute value of each data value of the input field, no
-norm performed.
+        description = r"""Computes the absolute value of each data value in the input field
+component-wise, without performing vector norm operations.
 """
         spec = Specification(
             description=description,
@@ -83,7 +83,7 @@ norm performed.
                         "vector<double>",
                     ],
                     optional=False,
-                    document=r"""field or fields container with only one field is expected""",
+                    document=r"""Field, fields container, or numeric data for which to compute absolute values""",
                 ),
             },
             map_output_pin_spec={
@@ -91,7 +91,7 @@ norm performed.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with absolute values applied to each component""",
                 ),
             },
         )
@@ -166,7 +166,7 @@ class InputsAbsoluteValueByComponent(_Inputs):
     def field(self) -> Input[Field | FieldsContainer | float]:
         r"""Allows to connect field input to the operator.
 
-        field or fields container with only one field is expected
+        Field, fields container, or numeric data for which to compute absolute values
 
         Returns
         -------
@@ -206,6 +206,8 @@ class OutputsAbsoluteValueByComponent(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with absolute values applied to each component
 
         Returns
         -------

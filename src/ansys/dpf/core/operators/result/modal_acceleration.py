@@ -19,10 +19,7 @@ if TYPE_CHECKING:
     from ansys.dpf.core.data_sources import DataSources
     from ansys.dpf.core.field import Field
     from ansys.dpf.core.fields_container import FieldsContainer
-    from ansys.dpf.core.meshed_region import MeshedRegion
-    from ansys.dpf.core.meshes_container import MeshesContainer
     from ansys.dpf.core.scoping import Scoping
-    from ansys.dpf.core.scopings_container import ScopingsContainer
     from ansys.dpf.core.streams_container import StreamsContainer
 
 
@@ -35,18 +32,10 @@ class modal_acceleration(Operator):
     ------
     time_scoping: Scoping or int or float or Field, optional
         time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
-    mesh_scoping: ScopingsContainer or Scoping, optional
-        nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains
-    fields_container: FieldsContainer, optional
-        Fields container already allocated modified inplace
     streams_container: StreamsContainer, optional
         result file container allowed to be kept open to cache data
     data_sources: DataSources
         result file path container, used if no streams are set
-    bool_rotate_to_global: bool, optional
-        if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
-    mesh: MeshedRegion or MeshesContainer, optional
-        prevents from reading the mesh in the result files
 
     Outputs
     -------
@@ -62,66 +51,43 @@ class modal_acceleration(Operator):
     >>> # Make input connections
     >>> my_time_scoping = dpf.Scoping()
     >>> op.inputs.time_scoping.connect(my_time_scoping)
-    >>> my_mesh_scoping = dpf.ScopingsContainer()
-    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
-    >>> my_fields_container = dpf.FieldsContainer()
-    >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_streams_container = dpf.StreamsContainer()
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_bool_rotate_to_global = bool()
-    >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
-    >>> my_mesh = dpf.MeshedRegion()
-    >>> op.inputs.mesh.connect(my_mesh)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.modal_acceleration(
     ...     time_scoping=my_time_scoping,
-    ...     mesh_scoping=my_mesh_scoping,
-    ...     fields_container=my_fields_container,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
-    ...     bool_rotate_to_global=my_bool_rotate_to_global,
-    ...     mesh=my_mesh,
     ... )
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsModalAcceleration
-    _outputs: OutputsModalAcceleration
-
     def __init__(
         self,
         time_scoping=None,
-        mesh_scoping=None,
-        fields_container=None,
         streams_container=None,
         data_sources=None,
-        bool_rotate_to_global=None,
-        mesh=None,
         config=None,
         server=None,
     ):
-        super().__init__(name="MAF", config=config, server=server)
-        self._inputs = InputsModalAcceleration(self)
-        self._outputs = OutputsModalAcceleration(self)
+        super().__init__(
+            name="MAF",
+            config=config,
+            server=server,
+            inputs_type=InputsModalAcceleration,
+            outputs_type=OutputsModalAcceleration,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
-        if mesh_scoping is not None:
-            self.inputs.mesh_scoping.connect(mesh_scoping)
-        if fields_container is not None:
-            self.inputs.fields_container.connect(fields_container)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
-        if bool_rotate_to_global is not None:
-            self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
-        if mesh is not None:
-            self.inputs.mesh.connect(mesh)
 
     @staticmethod
     def _spec() -> Specification:
@@ -144,18 +110,6 @@ datasources.
                     optional=True,
                     document=r"""time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.""",
                 ),
-                1: PinSpecification(
-                    name="mesh_scoping",
-                    type_names=["scopings_container", "scoping"],
-                    optional=True,
-                    document=r"""nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains""",
-                ),
-                2: PinSpecification(
-                    name="fields_container",
-                    type_names=["fields_container"],
-                    optional=True,
-                    document=r"""Fields container already allocated modified inplace""",
-                ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
@@ -167,18 +121,6 @@ datasources.
                     type_names=["data_sources"],
                     optional=False,
                     document=r"""result file path container, used if no streams are set""",
-                ),
-                5: PinSpecification(
-                    name="bool_rotate_to_global",
-                    type_names=["bool"],
-                    optional=True,
-                    document=r"""if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.""",
-                ),
-                7: PinSpecification(
-                    name="mesh",
-                    type_names=["abstract_meshed_region", "meshes_container"],
-                    optional=True,
-                    document=r"""prevents from reading the mesh in the result files""",
                 ),
             },
             map_output_pin_spec={
@@ -246,18 +188,10 @@ class InputsModalAcceleration(_Inputs):
     >>> op = dpf.operators.result.modal_acceleration()
     >>> my_time_scoping = dpf.Scoping()
     >>> op.inputs.time_scoping.connect(my_time_scoping)
-    >>> my_mesh_scoping = dpf.ScopingsContainer()
-    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
-    >>> my_fields_container = dpf.FieldsContainer()
-    >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_streams_container = dpf.StreamsContainer()
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_bool_rotate_to_global = bool()
-    >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
-    >>> my_mesh = dpf.MeshedRegion()
-    >>> op.inputs.mesh.connect(my_mesh)
     """
 
     def __init__(self, op: Operator):
@@ -266,14 +200,6 @@ class InputsModalAcceleration(_Inputs):
             modal_acceleration._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping: Input[ScopingsContainer | Scoping] = Input(
-            modal_acceleration._spec().input_pin(1), 1, op, -1
-        )
-        self._inputs.append(self._mesh_scoping)
-        self._fields_container: Input[FieldsContainer] = Input(
-            modal_acceleration._spec().input_pin(2), 2, op, -1
-        )
-        self._inputs.append(self._fields_container)
         self._streams_container: Input[StreamsContainer] = Input(
             modal_acceleration._spec().input_pin(3), 3, op, -1
         )
@@ -282,14 +208,6 @@ class InputsModalAcceleration(_Inputs):
             modal_acceleration._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
-        self._bool_rotate_to_global: Input[bool] = Input(
-            modal_acceleration._spec().input_pin(5), 5, op, -1
-        )
-        self._inputs.append(self._bool_rotate_to_global)
-        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
-            modal_acceleration._spec().input_pin(7), 7, op, -1
-        )
-        self._inputs.append(self._mesh)
 
     @property
     def time_scoping(self) -> Input[Scoping | int | float | Field]:
@@ -311,48 +229,6 @@ class InputsModalAcceleration(_Inputs):
         >>> op.inputs.time_scoping(my_time_scoping)
         """
         return self._time_scoping
-
-    @property
-    def mesh_scoping(self) -> Input[ScopingsContainer | Scoping]:
-        r"""Allows to connect mesh_scoping input to the operator.
-
-        nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.modal_acceleration()
-        >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
-        >>> # or
-        >>> op.inputs.mesh_scoping(my_mesh_scoping)
-        """
-        return self._mesh_scoping
-
-    @property
-    def fields_container(self) -> Input[FieldsContainer]:
-        r"""Allows to connect fields_container input to the operator.
-
-        Fields container already allocated modified inplace
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.modal_acceleration()
-        >>> op.inputs.fields_container.connect(my_fields_container)
-        >>> # or
-        >>> op.inputs.fields_container(my_fields_container)
-        """
-        return self._fields_container
 
     @property
     def streams_container(self) -> Input[StreamsContainer]:
@@ -395,48 +271,6 @@ class InputsModalAcceleration(_Inputs):
         >>> op.inputs.data_sources(my_data_sources)
         """
         return self._data_sources
-
-    @property
-    def bool_rotate_to_global(self) -> Input[bool]:
-        r"""Allows to connect bool_rotate_to_global input to the operator.
-
-        if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.modal_acceleration()
-        >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
-        >>> # or
-        >>> op.inputs.bool_rotate_to_global(my_bool_rotate_to_global)
-        """
-        return self._bool_rotate_to_global
-
-    @property
-    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
-        r"""Allows to connect mesh input to the operator.
-
-        prevents from reading the mesh in the result files
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.modal_acceleration()
-        >>> op.inputs.mesh.connect(my_mesh)
-        >>> # or
-        >>> op.inputs.mesh(my_mesh)
-        """
-        return self._mesh
 
 
 class OutputsModalAcceleration(_Outputs):

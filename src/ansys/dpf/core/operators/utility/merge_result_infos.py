@@ -57,15 +57,16 @@ class merge_result_infos(Operator):
     >>> result_merged_result_infos = op.outputs.merged_result_infos()
     """
 
-    _inputs: InputsMergeResultInfos
-    _outputs: OutputsMergeResultInfos
-
     def __init__(
         self, result_infos1=None, result_infos2=None, config=None, server=None
     ):
-        super().__init__(name="merge::result_info", config=config, server=server)
-        self._inputs = InputsMergeResultInfos(self)
-        self._outputs = OutputsMergeResultInfos(self)
+        super().__init__(
+            name="merge::result_info",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeResultInfos,
+            outputs_type=OutputsMergeResultInfos,
+        )
         if result_infos1 is not None:
             self.inputs.result_infos1.connect(result_infos1)
         if result_infos2 is not None:

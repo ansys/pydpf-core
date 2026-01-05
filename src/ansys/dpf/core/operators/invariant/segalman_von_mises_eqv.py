@@ -53,13 +53,14 @@ class segalman_von_mises_eqv(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsSegalmanVonMisesEqv
-    _outputs: OutputsSegalmanVonMisesEqv
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="segalmaneqv", config=config, server=server)
-        self._inputs = InputsSegalmanVonMisesEqv(self)
-        self._outputs = OutputsSegalmanVonMisesEqv(self)
+        super().__init__(
+            name="segalmaneqv",
+            config=config,
+            server=server,
+            inputs_type=InputsSegalmanVonMisesEqv,
+            outputs_type=OutputsSegalmanVonMisesEqv,
+        )
         if field is not None:
             self.inputs.field.connect(field)
 

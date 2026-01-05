@@ -24,6 +24,7 @@ env:
   MODULE: core
   ANSYSLMD_LICENSE_FILE: 1055@${{ secrets.LICENSE_SERVER }}
   ANSYS_DPF_ACCEPT_LA: Y
+  DPF_DEFAULT_GRPC_MODE: insecure
 
 jobs:
   update_generated:

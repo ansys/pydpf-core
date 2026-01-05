@@ -35,6 +35,7 @@ class generalized_inner_product(Operator):
     Outputs
     -------
     field: Field
+        Field containing the generalized inner product result
 
     Examples
     --------
@@ -59,13 +60,14 @@ class generalized_inner_product(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsGeneralizedInnerProduct
-    _outputs: OutputsGeneralizedInnerProduct
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="generalized_inner_product", config=config, server=server)
-        self._inputs = InputsGeneralizedInnerProduct(self)
-        self._outputs = OutputsGeneralizedInnerProduct(self)
+        super().__init__(
+            name="generalized_inner_product",
+            config=config,
+            server=server,
+            inputs_type=InputsGeneralizedInnerProduct,
+            outputs_type=OutputsGeneralizedInnerProduct,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:
@@ -107,7 +109,7 @@ possibly different dimensionality.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field containing the generalized inner product result""",
                 ),
             },
         )
@@ -247,6 +249,8 @@ class OutputsGeneralizedInnerProduct(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field containing the generalized inner product result
 
         Returns
         -------

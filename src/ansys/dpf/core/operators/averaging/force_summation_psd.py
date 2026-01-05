@@ -27,7 +27,8 @@ if TYPE_CHECKING:
 class force_summation_psd(Operator):
     r"""Computes the sum of elemental forces contribution on a set of nodes in
     Global Coordinate System for a PSD analysis. Equivalent to MAPDL
-    FSUM/NFORCE.
+    FSUM/NFORCE. The moment is computed in the unit system of the data
+    source.
 
 
     Inputs
@@ -41,7 +42,7 @@ class force_summation_psd(Operator):
     data_sources: DataSources
         Data sources containing RST and PSD files (optional if using a streams container). The operator supports both a single RST file (containing both modal and PSD results) and two separate RST files (one for modal and one for PSD analyses).The data source containing modal results must be defined as an upstream data source.If using a single RST file for PSD and modal analysis, the RST file must be in an upstream data source.If using two separate RST files, only the modal RST must be in an upstream data source.
     spoint: Field or FieldsContainer, optional
-        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).
+        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0). If unitless, it is assumed to be in meters.
     abs_rel_key: int, optional
         Key to select the type of response: 0 for relative response (default) or 1 for absolute response.
     signif: float, optional
@@ -99,9 +100,6 @@ class force_summation_psd(Operator):
     >>> result_moments_on_nodes = op.outputs.moments_on_nodes()
     """
 
-    _inputs: InputsForceSummationPsd
-    _outputs: OutputsForceSummationPsd
-
     def __init__(
         self,
         nodal_scoping=None,
@@ -114,9 +112,13 @@ class force_summation_psd(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="force_summation_psd", config=config, server=server)
-        self._inputs = InputsForceSummationPsd(self)
-        self._outputs = OutputsForceSummationPsd(self)
+        super().__init__(
+            name="force_summation_psd",
+            config=config,
+            server=server,
+            inputs_type=InputsForceSummationPsd,
+            outputs_type=OutputsForceSummationPsd,
+        )
         if nodal_scoping is not None:
             self.inputs.nodal_scoping.connect(nodal_scoping)
         if elemental_scoping is not None:
@@ -136,7 +138,8 @@ class force_summation_psd(Operator):
     def _spec() -> Specification:
         description = r"""Computes the sum of elemental forces contribution on a set of nodes in
 Global Coordinate System for a PSD analysis. Equivalent to MAPDL
-FSUM/NFORCE.
+FSUM/NFORCE. The moment is computed in the unit system of the data
+source.
 """
         spec = Specification(
             description=description,
@@ -169,7 +172,7 @@ FSUM/NFORCE.
                     name="spoint",
                     type_names=["field", "fields_container"],
                     optional=True,
-                    document=r"""Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).""",
+                    document=r"""Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0). If unitless, it is assumed to be in meters.""",
                 ),
                 7: PinSpecification(
                     name="abs_rel_key",
@@ -400,7 +403,7 @@ class InputsForceSummationPsd(_Inputs):
     def spoint(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect spoint input to the operator.
 
-        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0).
+        Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0). If unitless, it is assumed to be in meters.
 
         Returns
         -------

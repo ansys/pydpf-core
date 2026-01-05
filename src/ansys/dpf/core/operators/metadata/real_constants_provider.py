@@ -65,9 +65,6 @@ class real_constants_provider(Operator):
     >>> result_real_constants = op.outputs.real_constants()
     """
 
-    _inputs: InputsRealConstantsProvider
-    _outputs: OutputsRealConstantsProvider
-
     def __init__(
         self,
         solver_real_constants_ids=None,
@@ -76,9 +73,13 @@ class real_constants_provider(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="real_constants_provider", config=config, server=server)
-        self._inputs = InputsRealConstantsProvider(self)
-        self._outputs = OutputsRealConstantsProvider(self)
+        super().__init__(
+            name="real_constants_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsRealConstantsProvider,
+            outputs_type=OutputsRealConstantsProvider,
+        )
         if solver_real_constants_ids is not None:
             self.inputs.solver_real_constants_ids.connect(solver_real_constants_ids)
         if streams is not None:

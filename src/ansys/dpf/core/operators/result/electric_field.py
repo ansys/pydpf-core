@@ -156,7 +156,7 @@ class electric_field(Operator):
     data_sources: DataSources
         result file path container, used if no streams are set
     bool_rotate_to_global: bool, optional
-        if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
+        Rotate the result to the global coordinate system if rotations are available (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
     mesh: MeshedRegion or MeshesContainer, optional
         prevents from reading the mesh in the result files
     requested_location: str, optional
@@ -227,9 +227,6 @@ class electric_field(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElectricField
-    _outputs: OutputsElectricField
-
     def __init__(
         self,
         time_scoping=None,
@@ -247,9 +244,13 @@ class electric_field(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EF", config=config, server=server)
-        self._inputs = InputsElectricField(self)
-        self._outputs = OutputsElectricField(self)
+        super().__init__(
+            name="EF",
+            config=config,
+            server=server,
+            inputs_type=InputsElectricField,
+            outputs_type=OutputsElectricField,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:
@@ -436,7 +437,7 @@ elshape Related elements
                     name="bool_rotate_to_global",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.""",
+                    document=r"""Rotate the result to the global coordinate system if rotations are available (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -724,7 +725,7 @@ class InputsElectricField(_Inputs):
     def bool_rotate_to_global(self) -> Input[bool]:
         r"""Allows to connect bool_rotate_to_global input to the operator.
 
-        if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
+        Rotate the result to the global coordinate system if rotations are available (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
 
         Returns
         -------

@@ -59,6 +59,60 @@ This operator supports the following keys ([file formats](../../index.md#overvie
 
  **License**: {{ scripting_info.license }}
 
+## Examples
+
+<details>
+<summary>C++</summary>
+
+```cpp
+#include "dpf_api.h"
+
+ansys::dpf::Operator op("{{ scripting_info.internal_name }}"); // operator instantiation
+{%- for input in inputs %}
+op.connect({{ input.pin_number }}, my_{{ input.name }});
+{%- endfor %}
+{%- for output in outputs %}
+{{ output.cpp_types[0] }} my_{{ output.name }} = op.getOutput<{{ output.cpp_types[0] }}>({{ output.pin_number }});
+{%- endfor %}
+```
+</details>
+
+<details>
+<summary>CPython</summary>
+
+```python
+import ansys.dpf.core as dpf
+
+op = dpf.operators.{{ scripting_info.category }}.{{ scripting_info.scripting_name }}() # operator instantiation
+
+{%- for input in inputs %}
+{% if input.ellipsis %}op.inputs.{{ input.name }}1.connect(my_{{ input.name }}1)
+op.inputs.{{ input.name }}2.connect(my_{{ input.name }}2){% else%}op.inputs.{{ input.name }}.connect(my_{{ input.name }}){% endif %}
+{%- endfor %}
+{%- for output in outputs %}
+{% if output.types|length > 1 %}my_{{ output.name }}_as_{{ output.types[0] }} = op.outputs.{{ output.name }}_as_{{ output.types[0] }}(){% else %}my_{{ output.name }} = op.outputs.{{ output.name }}(){% endif %}
+{%- endfor %}
+```
+</details>
+
+<details>
+<summary>IPython</summary>
+
+```python
+import mech_dpf
+import Ans.DataProcessing as dpf
+
+op = dpf.operators.{{ scripting_info.category }}.{{ scripting_info.scripting_name }}() # operator instantiation
+
+{%- for input in inputs %}
+op.inputs.{{ input.name }}.Connect(my_{{ input.name }})
+{%- endfor %}
+{%- for output in outputs %}
+my_{{ output.name }} = op.outputs.{{ output.name }}.GetData()
+{%- endfor %}
+```
+</details>
+<br>
 
 ## Changelog
 

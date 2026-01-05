@@ -92,9 +92,6 @@ class migrate_to_vtu(Operator):
     >>> result_path = op.outputs.path()
     """
 
-    _inputs: InputsMigrateToVtu
-    _outputs: OutputsMigrateToVtu
-
     def __init__(
         self,
         time_scoping=None,
@@ -108,9 +105,13 @@ class migrate_to_vtu(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="migrate_to_vtu", config=config, server=server)
-        self._inputs = InputsMigrateToVtu(self)
-        self._outputs = OutputsMigrateToVtu(self)
+        super().__init__(
+            name="migrate_to_vtu",
+            config=config,
+            server=server,
+            inputs_type=InputsMigrateToVtu,
+            outputs_type=OutputsMigrateToVtu,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if streams_container is not None:

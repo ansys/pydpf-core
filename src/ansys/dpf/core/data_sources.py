@@ -66,6 +66,8 @@ class DataSources:
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
         server.
+    key:
+        Explicit key to associate to the result file given as ``result_path``.
 
     Examples
     --------
@@ -85,6 +87,7 @@ class DataSources:
         result_path: Union[str, os.PathLike] = None,
         data_sources: Union[dpf.DataSources, int, data_sources_pb2.DataSources] = None,
         server: AnyServerType = None,
+        key: str = "",
     ):
         """Initialize a connection with the server."""
         # step 1: get server
@@ -127,7 +130,7 @@ class DataSources:
                 self._internal_obj = self._api.data_sources_new("data_sources")
 
         if result_path is not None:
-            self.set_result_file_path(result_path)
+            self.set_result_file_path(result_path, key=key)
 
     def set_result_file_path(
         self,
@@ -173,6 +176,8 @@ class DataSources:
         # Look for another extension for .h5 and .cff files
         if key == "" and extension in [".h5", ".cff"]:
             key = self.guess_second_key(str(filepath))
+        if key == "" and extension == ".h5":
+            key = "h5dpf"
         if key == "":
             self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
         else:

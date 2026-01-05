@@ -21,17 +21,19 @@ if TYPE_CHECKING:
 
 
 class elemental_from_mesh(Operator):
-    r"""Retrieves the elemental scoping of a given input mesh, which contains
-    the element IDs.
+    r"""Retrieves the elemental scoping from a mesh, containing all element IDs
+    with elemental location.
 
 
     Inputs
     ------
     mesh: MeshedRegion
+        Mesh from which to extract the elemental scoping
 
     Outputs
     -------
     mesh_scoping: Scoping
+        Scoping containing all element IDs in the mesh with 'Elemental' location
 
     Examples
     --------
@@ -53,20 +55,21 @@ class elemental_from_mesh(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
-    _inputs: InputsElementalFromMesh
-    _outputs: OutputsElementalFromMesh
-
     def __init__(self, mesh=None, config=None, server=None):
-        super().__init__(name="GetElementScopingFromMesh", config=config, server=server)
-        self._inputs = InputsElementalFromMesh(self)
-        self._outputs = OutputsElementalFromMesh(self)
+        super().__init__(
+            name="GetElementScopingFromMesh",
+            config=config,
+            server=server,
+            inputs_type=InputsElementalFromMesh,
+            outputs_type=OutputsElementalFromMesh,
+        )
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Retrieves the elemental scoping of a given input mesh, which contains
-the element IDs.
+        description = r"""Retrieves the elemental scoping from a mesh, containing all element IDs
+with elemental location.
 """
         spec = Specification(
             description=description,
@@ -75,7 +78,7 @@ the element IDs.
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Mesh from which to extract the elemental scoping""",
                 ),
             },
             map_output_pin_spec={
@@ -83,7 +86,7 @@ the element IDs.
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Scoping containing all element IDs in the mesh with 'Elemental' location""",
                 ),
             },
         )
@@ -156,6 +159,8 @@ class InputsElementalFromMesh(_Inputs):
     def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
+        Mesh from which to extract the elemental scoping
+
         Returns
         -------
         input:
@@ -194,6 +199,8 @@ class OutputsElementalFromMesh(_Outputs):
     @property
     def mesh_scoping(self) -> Output[Scoping]:
         r"""Allows to get mesh_scoping output of the operator
+
+        Scoping containing all element IDs in the mesh with 'Elemental' location
 
         Returns
         -------

@@ -107,9 +107,6 @@ class element_orientations_X(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElementOrientationsX
-    _outputs: OutputsElementOrientationsX
-
     def __init__(
         self,
         time_scoping=None,
@@ -125,9 +122,13 @@ class element_orientations_X(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EULX", config=config, server=server)
-        self._inputs = InputsElementOrientationsX(self)
-        self._outputs = OutputsElementOrientationsX(self)
+        super().__init__(
+            name="EULX",
+            config=config,
+            server=server,
+            inputs_type=InputsElementOrientationsX,
+            outputs_type=OutputsElementOrientationsX,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

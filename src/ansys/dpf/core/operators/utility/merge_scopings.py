@@ -58,13 +58,14 @@ class merge_scopings(Operator):
     >>> result_merged_scoping = op.outputs.merged_scoping()
     """
 
-    _inputs: InputsMergeScopings
-    _outputs: OutputsMergeScopings
-
     def __init__(self, scopings1=None, scopings2=None, config=None, server=None):
-        super().__init__(name="merge::scoping", config=config, server=server)
-        self._inputs = InputsMergeScopings(self)
-        self._outputs = OutputsMergeScopings(self)
+        super().__init__(
+            name="merge::scoping",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeScopings,
+            outputs_type=OutputsMergeScopings,
+        )
         if scopings1 is not None:
             self.inputs.scopings1.connect(scopings1)
         if scopings2 is not None:

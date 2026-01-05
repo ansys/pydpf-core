@@ -63,13 +63,14 @@ class integrate_over_elements(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsIntegrateOverElements
-    _outputs: OutputsIntegrateOverElements
-
     def __init__(self, field=None, scoping=None, mesh=None, config=None, server=None):
-        super().__init__(name="element::integrate", config=config, server=server)
-        self._inputs = InputsIntegrateOverElements(self)
-        self._outputs = OutputsIntegrateOverElements(self)
+        super().__init__(
+            name="element::integrate",
+            config=config,
+            server=server,
+            inputs_type=InputsIntegrateOverElements,
+            outputs_type=OutputsIntegrateOverElements,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if scoping is not None:

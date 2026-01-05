@@ -59,13 +59,14 @@ class scoping_get_attribute(Operator):
     >>> result_property = op.outputs.property()
     """
 
-    _inputs: InputsScopingGetAttribute
-    _outputs: OutputsScopingGetAttribute
-
     def __init__(self, scoping=None, property_name=None, config=None, server=None):
-        super().__init__(name="scoping::get_attribute", config=config, server=server)
-        self._inputs = InputsScopingGetAttribute(self)
-        self._outputs = OutputsScopingGetAttribute(self)
+        super().__init__(
+            name="scoping::get_attribute",
+            config=config,
+            server=server,
+            inputs_type=InputsScopingGetAttribute,
+            outputs_type=OutputsScopingGetAttribute,
+        )
         if scoping is not None:
             self.inputs.scoping.connect(scoping)
         if property_name is not None:

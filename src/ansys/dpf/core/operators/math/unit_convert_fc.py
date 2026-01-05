@@ -32,6 +32,7 @@ class unit_convert_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
+        FieldsContainer with converted units (inplace operation)
 
     Examples
     --------
@@ -56,13 +57,14 @@ class unit_convert_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsUnitConvertFc
-    _outputs: OutputsUnitConvertFc
-
     def __init__(self, fields_container=None, unit_name=None, config=None, server=None):
-        super().__init__(name="unit_convert_fc", config=config, server=server)
-        self._inputs = InputsUnitConvertFc(self)
-        self._outputs = OutputsUnitConvertFc(self)
+        super().__init__(
+            name="unit_convert_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsUnitConvertFc,
+            outputs_type=OutputsUnitConvertFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if unit_name is not None:
@@ -93,7 +95,7 @@ class unit_convert_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""FieldsContainer with converted units (inplace operation)""",
                 ),
             },
         )
@@ -231,6 +233,8 @@ class OutputsUnitConvertFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        FieldsContainer with converted units (inplace operation)
 
         Returns
         -------

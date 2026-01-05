@@ -32,6 +32,7 @@ class invert_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
+        Field with inverse values (1/x) applied element-wise to input data
 
     Examples
     --------
@@ -53,13 +54,14 @@ class invert_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsInvertFc
-    _outputs: OutputsInvertFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="invert_fc", config=config, server=server)
-        self._inputs = InputsInvertFc(self)
-        self._outputs = OutputsInvertFc(self)
+        super().__init__(
+            name="invert_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsInvertFc,
+            outputs_type=OutputsInvertFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 
@@ -83,7 +85,7 @@ component-wise inverse of a field (1./x).
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with inverse values (1/x) applied element-wise to input data""",
                 ),
             },
         )
@@ -196,6 +198,8 @@ class OutputsInvertFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Field with inverse values (1/x) applied element-wise to input data
 
         Returns
         -------

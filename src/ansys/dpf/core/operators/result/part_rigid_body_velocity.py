@@ -72,9 +72,6 @@ class part_rigid_body_velocity(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsPartRigidBodyVelocity
-    _outputs: OutputsPartRigidBodyVelocity
-
     def __init__(
         self,
         streams_container=None,
@@ -84,9 +81,13 @@ class part_rigid_body_velocity(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="M_RBV", config=config, server=server)
-        self._inputs = InputsPartRigidBodyVelocity(self)
-        self._outputs = OutputsPartRigidBodyVelocity(self)
+        super().__init__(
+            name="M_RBV",
+            config=config,
+            server=server,
+            inputs_type=InputsPartRigidBodyVelocity,
+            outputs_type=OutputsPartRigidBodyVelocity,
+        )
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

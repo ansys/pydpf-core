@@ -66,9 +66,6 @@ class extract_sub_sc(Operator):
     >>> result_scopings_container = op.outputs.scopings_container()
     """
 
-    _inputs: InputsExtractSubSc
-    _outputs: OutputsExtractSubSc
-
     def __init__(
         self,
         scopings_container=None,
@@ -77,9 +74,13 @@ class extract_sub_sc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="extract_sub_sc", config=config, server=server)
-        self._inputs = InputsExtractSubSc(self)
-        self._outputs = OutputsExtractSubSc(self)
+        super().__init__(
+            name="extract_sub_sc",
+            config=config,
+            server=server,
+            inputs_type=InputsExtractSubSc,
+            outputs_type=OutputsExtractSubSc,
+        )
         if scopings_container is not None:
             self.inputs.scopings_container.connect(scopings_container)
         if label_space is not None:

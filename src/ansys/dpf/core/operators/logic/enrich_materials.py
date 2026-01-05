@@ -17,6 +17,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.property_fields_container import PropertyFieldsContainer
     from ansys.dpf.core.streams_container import StreamsContainer
 
 
@@ -61,9 +62,6 @@ class enrich_materials(Operator):
     >>> result_MaterialContainer = op.outputs.MaterialContainer()
     """
 
-    _inputs: InputsEnrichMaterials
-    _outputs: OutputsEnrichMaterials
-
     def __init__(
         self,
         MaterialContainer=None,
@@ -72,9 +70,13 @@ class enrich_materials(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="enrich_materials", config=config, server=server)
-        self._inputs = InputsEnrichMaterials(self)
-        self._outputs = OutputsEnrichMaterials(self)
+        super().__init__(
+            name="enrich_materials",
+            config=config,
+            server=server,
+            inputs_type=InputsEnrichMaterials,
+            outputs_type=OutputsEnrichMaterials,
+        )
         if MaterialContainer is not None:
             self.inputs.MaterialContainer.connect(MaterialContainer)
         if streams is not None:
@@ -190,7 +192,7 @@ class InputsEnrichMaterials(_Inputs):
             enrich_materials._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._streams)
-        self._streams_mapping: Input = Input(
+        self._streams_mapping: Input[PropertyFieldsContainer] = Input(
             enrich_materials._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._streams_mapping)
@@ -234,7 +236,7 @@ class InputsEnrichMaterials(_Inputs):
         return self._streams
 
     @property
-    def streams_mapping(self) -> Input:
+    def streams_mapping(self) -> Input[PropertyFieldsContainer]:
         r"""Allows to connect streams_mapping input to the operator.
 
         Returns

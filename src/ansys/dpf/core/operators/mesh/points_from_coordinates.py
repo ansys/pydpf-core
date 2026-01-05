@@ -59,15 +59,14 @@ class points_from_coordinates(Operator):
     >>> result_abstract_meshed_region = op.outputs.abstract_meshed_region()
     """
 
-    _inputs: InputsPointsFromCoordinates
-    _outputs: OutputsPointsFromCoordinates
-
     def __init__(self, nodes_to_keep=None, mesh=None, config=None, server=None):
         super().__init__(
-            name="mesh::points_from_coordinates", config=config, server=server
+            name="mesh::points_from_coordinates",
+            config=config,
+            server=server,
+            inputs_type=InputsPointsFromCoordinates,
+            outputs_type=OutputsPointsFromCoordinates,
         )
-        self._inputs = InputsPointsFromCoordinates(self)
-        self._outputs = OutputsPointsFromCoordinates(self)
         if nodes_to_keep is not None:
             self.inputs.nodes_to_keep.connect(nodes_to_keep)
         if mesh is not None:

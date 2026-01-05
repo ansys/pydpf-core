@@ -66,9 +66,6 @@ class extract_sub_mc(Operator):
     >>> result_meshes_container = op.outputs.meshes_container()
     """
 
-    _inputs: InputsExtractSubMc
-    _outputs: OutputsExtractSubMc
-
     def __init__(
         self,
         meshes=None,
@@ -77,9 +74,13 @@ class extract_sub_mc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="extract_sub_mc", config=config, server=server)
-        self._inputs = InputsExtractSubMc(self)
-        self._outputs = OutputsExtractSubMc(self)
+        super().__init__(
+            name="extract_sub_mc",
+            config=config,
+            server=server,
+            inputs_type=InputsExtractSubMc,
+            outputs_type=OutputsExtractSubMc,
+        )
         if meshes is not None:
             self.inputs.meshes.connect(meshes)
         if label_space is not None:

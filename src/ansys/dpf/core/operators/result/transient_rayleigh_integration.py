@@ -86,9 +86,6 @@ class transient_rayleigh_integration(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsTransientRayleighIntegration
-    _outputs: OutputsTransientRayleighIntegration
-
     def __init__(
         self,
         fields_container=None,
@@ -102,10 +99,12 @@ class transient_rayleigh_integration(Operator):
         server=None,
     ):
         super().__init__(
-            name="transient_rayleigh_integration", config=config, server=server
+            name="transient_rayleigh_integration",
+            config=config,
+            server=server,
+            inputs_type=InputsTransientRayleighIntegration,
+            outputs_type=OutputsTransientRayleighIntegration,
         )
-        self._inputs = InputsTransientRayleighIntegration(self)
-        self._outputs = OutputsTransientRayleighIntegration(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:

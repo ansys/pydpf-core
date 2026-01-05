@@ -21,27 +21,29 @@ if TYPE_CHECKING:
 
 
 class scalars_to_field(Operator):
-    r"""Create scalar or vector Field.
+    r"""Creates a scalar or vector field from numeric data. Converts scalar
+    values or vectors into a DPF field with specified properties.
 
 
     Inputs
     ------
     double_or_vector_double: float, optional
-        Data of the field, default is 0-field. Specify a double to have a field of same value or specify directly the data vector.
+        Data of the field. Default is 0-field. Specify a double to create a field with uniform values, or a vector for explicit data per entity
     unit: str, optional
-        Unit symbol (m, Hz, kg, ...)
+        Unit symbol (m, Hz, kg, ...). Default is dimensionless
     location: str, optional
-        Location of the field ex 'Nodal', 'ElementalNodal', 'Elemental'... Default is 'numeric'.
-    num_entity: int, optional
-        Number of field entities. Default is 1 or the size of the scoping in input if specified.
-    num_comp: int, optional
-        Number of field components. Default is 1.
+        Location of the field: 'Nodal', 'ElementalNodal', 'Elemental', etc. Default is 'numeric'
+    num_entities: int, optional
+        Number of field entities. Default is 1, or the size of the scoping if provided
+    num_components: int, optional
+        Number of field components per entity. Default is 1 for scalar, >1 for vector
     scoping: Scoping, optional
-        Scoping.
+        Scoping defining entity IDs and locations. If provided, overrides num_entities
 
     Outputs
     -------
     field: Field
+        Generated field with specified data and properties
 
     Examples
     --------
@@ -57,10 +59,10 @@ class scalars_to_field(Operator):
     >>> op.inputs.unit.connect(my_unit)
     >>> my_location = str()
     >>> op.inputs.location.connect(my_location)
-    >>> my_num_entity = int()
-    >>> op.inputs.num_entity.connect(my_num_entity)
-    >>> my_num_comp = int()
-    >>> op.inputs.num_comp.connect(my_num_comp)
+    >>> my_num_entities = int()
+    >>> op.inputs.num_entities.connect(my_num_entities)
+    >>> my_num_components = int()
+    >>> op.inputs.num_components.connect(my_num_components)
     >>> my_scoping = dpf.Scoping()
     >>> op.inputs.scoping.connect(my_scoping)
 
@@ -69,8 +71,8 @@ class scalars_to_field(Operator):
     ...     double_or_vector_double=my_double_or_vector_double,
     ...     unit=my_unit,
     ...     location=my_location,
-    ...     num_entity=my_num_entity,
-    ...     num_comp=my_num_comp,
+    ...     num_entities=my_num_entities,
+    ...     num_components=my_num_components,
     ...     scoping=my_scoping,
     ... )
 
@@ -78,39 +80,57 @@ class scalars_to_field(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsScalarsToField
-    _outputs: OutputsScalarsToField
-
     def __init__(
         self,
         double_or_vector_double=None,
         unit=None,
         location=None,
-        num_entity=None,
-        num_comp=None,
+        num_entities=None,
+        num_components=None,
         scoping=None,
         config=None,
         server=None,
+        num_entity=None,
+        num_comp=None,
     ):
-        super().__init__(name="fieldify", config=config, server=server)
-        self._inputs = InputsScalarsToField(self)
-        self._outputs = OutputsScalarsToField(self)
+        super().__init__(
+            name="fieldify",
+            config=config,
+            server=server,
+            inputs_type=InputsScalarsToField,
+            outputs_type=OutputsScalarsToField,
+        )
         if double_or_vector_double is not None:
             self.inputs.double_or_vector_double.connect(double_or_vector_double)
         if unit is not None:
             self.inputs.unit.connect(unit)
         if location is not None:
             self.inputs.location.connect(location)
-        if num_entity is not None:
-            self.inputs.num_entity.connect(num_entity)
-        if num_comp is not None:
-            self.inputs.num_comp.connect(num_comp)
+        if num_entities is not None:
+            self.inputs.num_entities.connect(num_entities)
+        elif num_entity is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator scalars_to_field: Input name "num_entity" is deprecated in favor of "num_entities".'
+                )
+            )
+            self.inputs.num_entities.connect(num_entity)
+        if num_components is not None:
+            self.inputs.num_components.connect(num_components)
+        elif num_comp is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator scalars_to_field: Input name "num_comp" is deprecated in favor of "num_components".'
+                )
+            )
+            self.inputs.num_components.connect(num_comp)
         if scoping is not None:
             self.inputs.scoping.connect(scoping)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Create scalar or vector Field.
+        description = r"""Creates a scalar or vector field from numeric data. Converts scalar
+values or vectors into a DPF field with specified properties.
 """
         spec = Specification(
             description=description,
@@ -119,37 +139,39 @@ class scalars_to_field(Operator):
                     name="double_or_vector_double",
                     type_names=["double", "vector<double>"],
                     optional=True,
-                    document=r"""Data of the field, default is 0-field. Specify a double to have a field of same value or specify directly the data vector.""",
+                    document=r"""Data of the field. Default is 0-field. Specify a double to create a field with uniform values, or a vector for explicit data per entity""",
                 ),
                 1: PinSpecification(
                     name="unit",
                     type_names=["string"],
                     optional=True,
-                    document=r"""Unit symbol (m, Hz, kg, ...)""",
+                    document=r"""Unit symbol (m, Hz, kg, ...). Default is dimensionless""",
                 ),
                 2: PinSpecification(
                     name="location",
                     type_names=["string"],
                     optional=True,
-                    document=r"""Location of the field ex 'Nodal', 'ElementalNodal', 'Elemental'... Default is 'numeric'. """,
+                    document=r"""Location of the field: 'Nodal', 'ElementalNodal', 'Elemental', etc. Default is 'numeric'""",
                 ),
                 3: PinSpecification(
-                    name="num_entity",
+                    name="num_entities",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Number of field entities. Default is 1 or the size of the scoping in input if specified.""",
+                    document=r"""Number of field entities. Default is 1, or the size of the scoping if provided""",
+                    aliases=["num_entity"],
                 ),
                 4: PinSpecification(
-                    name="num_comp",
+                    name="num_components",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Number of field components. Default is 1.""",
+                    document=r"""Number of field components per entity. Default is 1 for scalar, >1 for vector""",
+                    aliases=["num_comp"],
                 ),
                 5: PinSpecification(
                     name="scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document=r"""Scoping.""",
+                    document=r"""Scoping defining entity IDs and locations. If provided, overrides num_entities""",
                 ),
             },
             map_output_pin_spec={
@@ -157,7 +179,7 @@ class scalars_to_field(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Generated field with specified data and properties""",
                 ),
             },
         )
@@ -221,10 +243,10 @@ class InputsScalarsToField(_Inputs):
     >>> op.inputs.unit.connect(my_unit)
     >>> my_location = str()
     >>> op.inputs.location.connect(my_location)
-    >>> my_num_entity = int()
-    >>> op.inputs.num_entity.connect(my_num_entity)
-    >>> my_num_comp = int()
-    >>> op.inputs.num_comp.connect(my_num_comp)
+    >>> my_num_entities = int()
+    >>> op.inputs.num_entities.connect(my_num_entities)
+    >>> my_num_components = int()
+    >>> op.inputs.num_components.connect(my_num_components)
     >>> my_scoping = dpf.Scoping()
     >>> op.inputs.scoping.connect(my_scoping)
     """
@@ -241,14 +263,14 @@ class InputsScalarsToField(_Inputs):
             scalars_to_field._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._location)
-        self._num_entity: Input[int] = Input(
+        self._num_entities: Input[int] = Input(
             scalars_to_field._spec().input_pin(3), 3, op, -1
         )
-        self._inputs.append(self._num_entity)
-        self._num_comp: Input[int] = Input(
+        self._inputs.append(self._num_entities)
+        self._num_components: Input[int] = Input(
             scalars_to_field._spec().input_pin(4), 4, op, -1
         )
-        self._inputs.append(self._num_comp)
+        self._inputs.append(self._num_components)
         self._scoping: Input[Scoping] = Input(
             scalars_to_field._spec().input_pin(5), 5, op, -1
         )
@@ -258,7 +280,7 @@ class InputsScalarsToField(_Inputs):
     def double_or_vector_double(self) -> Input[float]:
         r"""Allows to connect double_or_vector_double input to the operator.
 
-        Data of the field, default is 0-field. Specify a double to have a field of same value or specify directly the data vector.
+        Data of the field. Default is 0-field. Specify a double to create a field with uniform values, or a vector for explicit data per entity
 
         Returns
         -------
@@ -279,7 +301,7 @@ class InputsScalarsToField(_Inputs):
     def unit(self) -> Input[str]:
         r"""Allows to connect unit input to the operator.
 
-        Unit symbol (m, Hz, kg, ...)
+        Unit symbol (m, Hz, kg, ...). Default is dimensionless
 
         Returns
         -------
@@ -300,7 +322,7 @@ class InputsScalarsToField(_Inputs):
     def location(self) -> Input[str]:
         r"""Allows to connect location input to the operator.
 
-        Location of the field ex 'Nodal', 'ElementalNodal', 'Elemental'... Default is 'numeric'.
+        Location of the field: 'Nodal', 'ElementalNodal', 'Elemental', etc. Default is 'numeric'
 
         Returns
         -------
@@ -318,10 +340,10 @@ class InputsScalarsToField(_Inputs):
         return self._location
 
     @property
-    def num_entity(self) -> Input[int]:
-        r"""Allows to connect num_entity input to the operator.
+    def num_entities(self) -> Input[int]:
+        r"""Allows to connect num_entities input to the operator.
 
-        Number of field entities. Default is 1 or the size of the scoping in input if specified.
+        Number of field entities. Default is 1, or the size of the scoping if provided
 
         Returns
         -------
@@ -332,17 +354,17 @@ class InputsScalarsToField(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.scalars_to_field()
-        >>> op.inputs.num_entity.connect(my_num_entity)
+        >>> op.inputs.num_entities.connect(my_num_entities)
         >>> # or
-        >>> op.inputs.num_entity(my_num_entity)
+        >>> op.inputs.num_entities(my_num_entities)
         """
-        return self._num_entity
+        return self._num_entities
 
     @property
-    def num_comp(self) -> Input[int]:
-        r"""Allows to connect num_comp input to the operator.
+    def num_components(self) -> Input[int]:
+        r"""Allows to connect num_components input to the operator.
 
-        Number of field components. Default is 1.
+        Number of field components per entity. Default is 1 for scalar, >1 for vector
 
         Returns
         -------
@@ -353,17 +375,17 @@ class InputsScalarsToField(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.scalars_to_field()
-        >>> op.inputs.num_comp.connect(my_num_comp)
+        >>> op.inputs.num_components.connect(my_num_components)
         >>> # or
-        >>> op.inputs.num_comp(my_num_comp)
+        >>> op.inputs.num_components(my_num_components)
         """
-        return self._num_comp
+        return self._num_components
 
     @property
     def scoping(self) -> Input[Scoping]:
         r"""Allows to connect scoping input to the operator.
 
-        Scoping.
+        Scoping defining entity IDs and locations. If provided, overrides num_entities
 
         Returns
         -------
@@ -379,6 +401,25 @@ class InputsScalarsToField(_Inputs):
         >>> op.inputs.scoping(my_scoping)
         """
         return self._scoping
+
+    def __getattr__(self, name):
+        if name in ["num_entity"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator scalars_to_field: Input name "{name}" is deprecated in favor of "num_entities".'
+                )
+            )
+            return self.num_entities
+        if name in ["num_comp"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator scalars_to_field: Input name "{name}" is deprecated in favor of "num_components".'
+                )
+            )
+            return self.num_components
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsScalarsToField(_Outputs):
@@ -403,6 +444,8 @@ class OutputsScalarsToField(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Generated field with specified data and properties
 
         Returns
         -------

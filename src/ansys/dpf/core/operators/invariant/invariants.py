@@ -58,13 +58,14 @@ class invariants(Operator):
     >>> result_field_max_shear = op.outputs.field_max_shear()
     """
 
-    _inputs: InputsInvariants
-    _outputs: OutputsInvariants
-
     def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="invariants_deriv", config=config, server=server)
-        self._inputs = InputsInvariants(self)
-        self._outputs = OutputsInvariants(self)
+        super().__init__(
+            name="invariants_deriv",
+            config=config,
+            server=server,
+            inputs_type=InputsInvariants,
+            outputs_type=OutputsInvariants,
+        )
         if field is not None:
             self.inputs.field.connect(field)
 

@@ -21,7 +21,8 @@ if TYPE_CHECKING:
 
 
 class field_to_csv(Operator):
-    r"""Exports a field or a fields container into a csv file
+    r"""Exports a field or a fields container into a csv file. Currently only
+    homogenous Fields Definition of Fields Container are supported.
 
 
     Inputs
@@ -59,9 +60,6 @@ class field_to_csv(Operator):
 
     """
 
-    _inputs: InputsFieldToCsv
-    _outputs: OutputsFieldToCsv
-
     def __init__(
         self,
         field_or_fields_container=None,
@@ -70,9 +68,13 @@ class field_to_csv(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="field_to_csv", config=config, server=server)
-        self._inputs = InputsFieldToCsv(self)
-        self._outputs = OutputsFieldToCsv(self)
+        super().__init__(
+            name="field_to_csv",
+            config=config,
+            server=server,
+            inputs_type=InputsFieldToCsv,
+            outputs_type=OutputsFieldToCsv,
+        )
         if field_or_fields_container is not None:
             self.inputs.field_or_fields_container.connect(field_or_fields_container)
         if file_path is not None:
@@ -82,7 +84,8 @@ class field_to_csv(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Exports a field or a fields container into a csv file
+        description = r"""Exports a field or a fields container into a csv file. Currently only
+homogenous Fields Definition of Fields Container are supported.
 """
         spec = Specification(
             description=description,

@@ -60,17 +60,16 @@ class mesh_selection_manager_provider(Operator):
     >>> result_mesh_selection_manager = op.outputs.mesh_selection_manager()
     """
 
-    _inputs: InputsMeshSelectionManagerProvider
-    _outputs: OutputsMeshSelectionManagerProvider
-
     def __init__(
         self, streams_container=None, data_sources=None, config=None, server=None
     ):
         super().__init__(
-            name="MeshSelectionManagerProvider", config=config, server=server
+            name="MeshSelectionManagerProvider",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshSelectionManagerProvider,
+            outputs_type=OutputsMeshSelectionManagerProvider,
         )
-        self._inputs = InputsMeshSelectionManagerProvider(self)
-        self._outputs = OutputsMeshSelectionManagerProvider(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

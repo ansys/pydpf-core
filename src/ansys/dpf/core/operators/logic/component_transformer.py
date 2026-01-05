@@ -63,9 +63,6 @@ class component_transformer(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsComponentTransformer
-    _outputs: OutputsComponentTransformer
-
     def __init__(
         self,
         field=None,
@@ -74,9 +71,13 @@ class component_transformer(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="component_transformer", config=config, server=server)
-        self._inputs = InputsComponentTransformer(self)
-        self._outputs = OutputsComponentTransformer(self)
+        super().__init__(
+            name="component_transformer",
+            config=config,
+            server=server,
+            inputs_type=InputsComponentTransformer,
+            outputs_type=OutputsComponentTransformer,
+        )
         if field is not None:
             self.inputs.field.connect(field)
         if component_number is not None:

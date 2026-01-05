@@ -156,7 +156,7 @@ class elastic_strain(Operator):
     data_sources: DataSources
         result file path container, used if no streams are set
     bool_rotate_to_global: bool, optional
-        if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
+        Rotate the result to the global coordinate system if rotations are available (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
     mesh: MeshedRegion or MeshesContainer, optional
         mesh. If cylic expansion is to be done, mesh of the base sector
     requested_location: str, optional
@@ -247,9 +247,6 @@ class elastic_strain(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsElasticStrain
-    _outputs: OutputsElasticStrain
-
     def __init__(
         self,
         time_scoping=None,
@@ -271,9 +268,13 @@ class elastic_strain(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="EPEL", config=config, server=server)
-        self._inputs = InputsElasticStrain(self)
-        self._outputs = OutputsElasticStrain(self)
+        super().__init__(
+            name="EPEL",
+            config=config,
+            server=server,
+            inputs_type=InputsElasticStrain,
+            outputs_type=OutputsElasticStrain,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:
@@ -468,7 +469,7 @@ elshape Related elements
                     name="bool_rotate_to_global",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.""",
+                    document=r"""Rotate the result to the global coordinate system if rotations are available (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -804,7 +805,7 @@ class InputsElasticStrain(_Inputs):
     def bool_rotate_to_global(self) -> Input[bool]:
         r"""Allows to connect bool_rotate_to_global input to the operator.
 
-        if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
+        Rotate the result to the global coordinate system if rotations are available (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
 
         Returns
         -------

@@ -31,6 +31,7 @@ class sqr_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
+        Field with squared values applied element-wise to input data
 
     Examples
     --------
@@ -52,13 +53,14 @@ class sqr_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsSqrFc
-    _outputs: OutputsSqrFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="sqr_fc", config=config, server=server)
-        self._inputs = InputsSqrFc(self)
-        self._outputs = OutputsSqrFc(self)
+        super().__init__(
+            name="sqr_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsSqrFc,
+            outputs_type=OutputsSqrFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 
@@ -81,7 +83,7 @@ class sqr_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with squared values applied element-wise to input data""",
                 ),
             },
         )
@@ -194,6 +196,8 @@ class OutputsSqrFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Field with squared values applied element-wise to input data
 
         Returns
         -------

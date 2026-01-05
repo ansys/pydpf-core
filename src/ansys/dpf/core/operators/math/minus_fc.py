@@ -37,6 +37,7 @@ class minus_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
+        Field containing the element-wise difference (fieldA - fieldB)
 
     Examples
     --------
@@ -61,9 +62,6 @@ class minus_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsMinusFc
-    _outputs: OutputsMinusFc
-
     def __init__(
         self,
         field_or_fields_container_A=None,
@@ -71,9 +69,13 @@ class minus_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="minus_fc", config=config, server=server)
-        self._inputs = InputsMinusFc(self)
-        self._outputs = OutputsMinusFc(self)
+        super().__init__(
+            name="minus_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsMinusFc,
+            outputs_type=OutputsMinusFc,
+        )
         if field_or_fields_container_A is not None:
             self.inputs.field_or_fields_container_A.connect(field_or_fields_container_A)
         if field_or_fields_container_B is not None:
@@ -117,7 +119,7 @@ field entirely. When using a constant or ‘work_by_index’, you can use
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field containing the element-wise difference (fieldA - fieldB)""",
                 ),
             },
         )
@@ -257,6 +259,8 @@ class OutputsMinusFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Field containing the element-wise difference (fieldA - fieldB)
 
         Returns
         -------

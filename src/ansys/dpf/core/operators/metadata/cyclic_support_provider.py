@@ -82,9 +82,6 @@ class cyclic_support_provider(Operator):
     >>> result_sector_meshes = op.outputs.sector_meshes()
     """
 
-    _inputs: InputsCyclicSupportProvider
-    _outputs: OutputsCyclicSupportProvider
-
     def __init__(
         self,
         streams_container=None,
@@ -108,8 +105,6 @@ class cyclic_support_provider(Operator):
                 )
             else:
                 raise e
-        self._inputs = InputsCyclicSupportProvider(self)
-        self._outputs = OutputsCyclicSupportProvider(self)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:

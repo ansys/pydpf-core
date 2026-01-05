@@ -82,9 +82,6 @@ class cgns_result_provider(Operator):
     >>> result_fields = op.outputs.fields()
     """
 
-    _inputs: InputsCgnsResultProvider
-    _outputs: OutputsCgnsResultProvider
-
     def __init__(
         self,
         time_scoping=None,
@@ -97,10 +94,12 @@ class cgns_result_provider(Operator):
         server=None,
     ):
         super().__init__(
-            name="cgns::cgns::result_provider", config=config, server=server
+            name="cgns::cgns::result_provider",
+            config=config,
+            server=server,
+            inputs_type=InputsCgnsResultProvider,
+            outputs_type=OutputsCgnsResultProvider,
         )
-        self._inputs = InputsCgnsResultProvider(self)
-        self._outputs = OutputsCgnsResultProvider(self)
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

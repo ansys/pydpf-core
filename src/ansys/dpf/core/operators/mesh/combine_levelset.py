@@ -55,13 +55,14 @@ class combine_levelset(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsCombineLevelset
-    _outputs: OutputsCombineLevelset
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="levelset::combine", config=config, server=server)
-        self._inputs = InputsCombineLevelset(self)
-        self._outputs = OutputsCombineLevelset(self)
+        super().__init__(
+            name="levelset::combine",
+            config=config,
+            server=server,
+            inputs_type=InputsCombineLevelset,
+            outputs_type=OutputsCombineLevelset,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:

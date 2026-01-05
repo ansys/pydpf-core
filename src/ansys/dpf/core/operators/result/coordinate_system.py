@@ -35,7 +35,7 @@ class coordinate_system(Operator):
     Outputs
     -------
     field: Field
-        the first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector
+        The first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector. The rotation matrix stored is from local to global coordinate system.
 
     Examples
     --------
@@ -63,9 +63,6 @@ class coordinate_system(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsCoordinateSystem
-    _outputs: OutputsCoordinateSystem
-
     def __init__(
         self,
         cs_id=None,
@@ -81,8 +78,6 @@ class coordinate_system(Operator):
                 super().__init__(name="mapdl::rst::CS", config=config, server=server)
             else:
                 raise e
-        self._inputs = InputsCoordinateSystem(self)
-        self._outputs = OutputsCoordinateSystem(self)
         if cs_id is not None:
             self.inputs.cs_id.connect(cs_id)
         if streams_container is not None:
@@ -121,7 +116,7 @@ class coordinate_system(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""the first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector""",
+                    document=r"""The first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector. The rotation matrix stored is from local to global coordinate system.""",
                 ),
             },
         )
@@ -283,7 +278,7 @@ class OutputsCoordinateSystem(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        the first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector
+        The first 9 double are the rotation (3x3 matrix) and the last 3 is the translation vector. The rotation matrix stored is from local to global coordinate system.
 
         Returns
         -------

@@ -20,17 +20,18 @@ if TYPE_CHECKING:
 
 
 class exponential_fc(Operator):
-    r"""Computes element-wise exp(field[i]).
+    r"""Computes element-wise exponential function on field data: exp(field[i]).
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        field or fields container with only one field is expected
+        Field, fields container, or numeric data for exponential calculation
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Field with exponential values applied element-wise to input data
 
     Examples
     --------
@@ -52,19 +53,20 @@ class exponential_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsExponentialFc
-    _outputs: OutputsExponentialFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="exponential_fc", config=config, server=server)
-        self._inputs = InputsExponentialFc(self)
-        self._outputs = OutputsExponentialFc(self)
+        super().__init__(
+            name="exponential_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsExponentialFc,
+            outputs_type=OutputsExponentialFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes element-wise exp(field[i]).
+        description = r"""Computes element-wise exponential function on field data: exp(field[i]).
 """
         spec = Specification(
             description=description,
@@ -73,7 +75,7 @@ class exponential_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""field or fields container with only one field is expected""",
+                    document=r"""Field, fields container, or numeric data for exponential calculation""",
                 ),
             },
             map_output_pin_spec={
@@ -81,7 +83,7 @@ class exponential_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with exponential values applied element-wise to input data""",
                 ),
             },
         )
@@ -154,7 +156,7 @@ class InputsExponentialFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        field or fields container with only one field is expected
+        Field, fields container, or numeric data for exponential calculation
 
         Returns
         -------
@@ -194,6 +196,8 @@ class OutputsExponentialFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Field with exponential values applied element-wise to input data
 
         Returns
         -------

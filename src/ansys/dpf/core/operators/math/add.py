@@ -38,6 +38,7 @@ class add(Operator):
     Outputs
     -------
     field: Field
+        Field containing the element-wise sum of the two input fields
 
     Examples
     --------
@@ -62,13 +63,14 @@ class add(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    _inputs: InputsAdd
-    _outputs: OutputsAdd
-
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="add", config=config, server=server)
-        self._inputs = InputsAdd(self)
-        self._outputs = OutputsAdd(self)
+        super().__init__(
+            name="add",
+            config=config,
+            server=server,
+            inputs_type=InputsAdd,
+            outputs_type=OutputsAdd,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:
@@ -113,7 +115,7 @@ use ‘inplace’ to reuse one of the fields.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field containing the element-wise sum of the two input fields""",
                 ),
             },
         )
@@ -251,6 +253,8 @@ class OutputsAdd(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field containing the element-wise sum of the two input fields
 
         Returns
         -------

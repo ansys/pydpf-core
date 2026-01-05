@@ -59,13 +59,14 @@ class invariants_fc(Operator):
     >>> result_fields_max_shear = op.outputs.fields_max_shear()
     """
 
-    _inputs: InputsInvariantsFc
-    _outputs: OutputsInvariantsFc
-
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="invariants_deriv_fc", config=config, server=server)
-        self._inputs = InputsInvariantsFc(self)
-        self._outputs = OutputsInvariantsFc(self)
+        super().__init__(
+            name="invariants_deriv_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsInvariantsFc,
+            outputs_type=OutputsInvariantsFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
 

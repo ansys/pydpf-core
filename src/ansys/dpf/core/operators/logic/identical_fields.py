@@ -20,7 +20,18 @@ if TYPE_CHECKING:
 
 
 class identical_fields(Operator):
-    r"""Check if two fields are identical.
+    r"""Check if two fields are identical according to the following behavior:
+
+    - double_value (input pin 2) parameter is a significance threshold, not
+      an absolute tolerance
+    - Values below double_value are considereded ‘negligible’, values above
+      are considered ‘significant’
+    - Both fields are considered different if the data for at least one
+      entity in one field is negligible and the data for the same entity in
+      the other is significant
+    - When the data for the same entity in both fields is significant, they
+      are compared based on double_tolerance (input pin 3) with the
+      expression given in the pin documentation.
 
 
     Inputs
@@ -30,7 +41,7 @@ class identical_fields(Operator):
     double_value: float, optional
         Double positive small value. Smallest value considered during the comparison step. All the absolute values in the field less than this value are considered null, (default value: 1.0e-14).
     double_tolerance: float, optional
-        Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical. Formula is (v1 - v2) / v2 < relativeTol. Default is 0.001.
+        Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical. Formula is (v1 - v2) / v2 < double_tolerance. Default is 0.001.
 
     Outputs
     -------
@@ -68,9 +79,6 @@ class identical_fields(Operator):
     >>> result_message = op.outputs.message()
     """
 
-    _inputs: InputsIdenticalFields
-    _outputs: OutputsIdenticalFields
-
     def __init__(
         self,
         fieldA=None,
@@ -80,9 +88,13 @@ class identical_fields(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="AreFieldsIdentical", config=config, server=server)
-        self._inputs = InputsIdenticalFields(self)
-        self._outputs = OutputsIdenticalFields(self)
+        super().__init__(
+            name="AreFieldsIdentical",
+            config=config,
+            server=server,
+            inputs_type=InputsIdenticalFields,
+            outputs_type=OutputsIdenticalFields,
+        )
         if fieldA is not None:
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:
@@ -94,7 +106,18 @@ class identical_fields(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Check if two fields are identical.
+        description = r"""Check if two fields are identical according to the following behavior:
+
+- double_value (input pin 2) parameter is a significance threshold, not
+  an absolute tolerance
+- Values below double_value are considereded ‘negligible’, values above
+  are considered ‘significant’
+- Both fields are considered different if the data for at least one
+  entity in one field is negligible and the data for the same entity in
+  the other is significant
+- When the data for the same entity in both fields is significant, they
+  are compared based on double_tolerance (input pin 3) with the
+  expression given in the pin documentation.
 """
         spec = Specification(
             description=description,
@@ -121,7 +144,7 @@ class identical_fields(Operator):
                     name="double_tolerance",
                     type_names=["double"],
                     optional=True,
-                    document=r"""Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical. Formula is (v1 - v2) / v2 < relativeTol. Default is 0.001.""",
+                    document=r"""Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical. Formula is (v1 - v2) / v2 < double_tolerance. Default is 0.001.""",
                 ),
             },
             map_output_pin_spec={
@@ -285,7 +308,7 @@ class InputsIdenticalFields(_Inputs):
     def double_tolerance(self) -> Input[float]:
         r"""Allows to connect double_tolerance input to the operator.
 
-        Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical. Formula is (v1 - v2) / v2 < relativeTol. Default is 0.001.
+        Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical. Formula is (v1 - v2) / v2 < double_tolerance. Default is 0.001.
 
         Returns
         -------

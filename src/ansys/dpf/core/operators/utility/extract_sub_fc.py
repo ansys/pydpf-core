@@ -66,9 +66,6 @@ class extract_sub_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsExtractSubFc
-    _outputs: OutputsExtractSubFc
-
     def __init__(
         self,
         fields_container=None,
@@ -77,9 +74,13 @@ class extract_sub_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="extract_sub_fc", config=config, server=server)
-        self._inputs = InputsExtractSubFc(self)
-        self._outputs = OutputsExtractSubFc(self)
+        super().__init__(
+            name="extract_sub_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsExtractSubFc,
+            outputs_type=OutputsExtractSubFc,
+        )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if label_space is not None:

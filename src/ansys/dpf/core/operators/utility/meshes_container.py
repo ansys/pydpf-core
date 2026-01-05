@@ -51,15 +51,14 @@ class meshes_container(Operator):
     >>> result_incremented_result = op.outputs.incremented_result()
     """
 
-    _inputs: InputsMeshesContainer
-    _outputs: OutputsMeshesContainer
-
     def __init__(self, input=None, config=None, server=None):
         super().__init__(
-            name="incremental::merge::meshes_container", config=config, server=server
+            name="incremental::merge::meshes_container",
+            config=config,
+            server=server,
+            inputs_type=InputsMeshesContainer,
+            outputs_type=OutputsMeshesContainer,
         )
-        self._inputs = InputsMeshesContainer(self)
-        self._outputs = OutputsMeshesContainer(self)
         if input is not None:
             self.inputs.input.connect(input)
 

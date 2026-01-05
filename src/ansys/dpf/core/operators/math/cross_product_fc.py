@@ -59,9 +59,6 @@ class cross_product_fc(Operator):
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    _inputs: InputsCrossProductFc
-    _outputs: OutputsCrossProductFc
-
     def __init__(
         self,
         field_or_fields_container_A=None,
@@ -69,9 +66,13 @@ class cross_product_fc(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="cross_product_fc", config=config, server=server)
-        self._inputs = InputsCrossProductFc(self)
-        self._outputs = OutputsCrossProductFc(self)
+        super().__init__(
+            name="cross_product_fc",
+            config=config,
+            server=server,
+            inputs_type=InputsCrossProductFc,
+            outputs_type=OutputsCrossProductFc,
+        )
         if field_or_fields_container_A is not None:
             self.inputs.field_or_fields_container_A.connect(field_or_fields_container_A)
         if field_or_fields_container_B is not None:

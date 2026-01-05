@@ -57,15 +57,16 @@ class identical_string_fields(Operator):
     >>> result_information = op.outputs.information()
     """
 
-    _inputs: InputsIdenticalStringFields
-    _outputs: OutputsIdenticalStringFields
-
     def __init__(
         self, string_fieldA=None, string_fieldB=None, config=None, server=None
     ):
-        super().__init__(name="compare::string_field", config=config, server=server)
-        self._inputs = InputsIdenticalStringFields(self)
-        self._outputs = OutputsIdenticalStringFields(self)
+        super().__init__(
+            name="compare::string_field",
+            config=config,
+            server=server,
+            inputs_type=InputsIdenticalStringFields,
+            outputs_type=OutputsIdenticalStringFields,
+        )
         if string_fieldA is not None:
             self.inputs.string_fieldA.connect(string_fieldA)
         if string_fieldB is not None:

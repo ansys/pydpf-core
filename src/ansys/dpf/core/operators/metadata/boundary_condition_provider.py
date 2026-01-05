@@ -18,6 +18,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.data_sources import DataSources
+    from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.streams_container import StreamsContainer
 
 
@@ -28,13 +29,33 @@ class boundary_condition_provider(Operator):
 
     Inputs
     ------
+    time_scoping: Scoping, optional
+        Time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output.
     streams_container: StreamsContainer, optional
+        Result file container allowed to be kept open to cache data.
     data_sources: DataSources
+        Result file path container, used if no streams are set.
+    property: int
+        Type of boundary condition to get.
+
+        Available boundary conditions are :
+        - Applied Force : 1
+        - Fixed Displacement : 2
+        - Applied Pressure : 3
+        - Fixed Temperature : 4
+        - Applied Heat Flux : 5
+        - Fluid Temperature : 6
+        - Film Coefficient Convection : 7
+        - Ambient Temperature : 8
+        - Spatial Integrand : 9
+        - Fixed Rotation : 10
+        - Fixed Acceleration : 11
+        - Fixed Velocity : 12
 
     Outputs
     -------
-    results_info: Field or FieldsContainer
-        results info
+    field_or_fields_container: Field or FieldsContainer
+        Value of the boundary condition at each node (0 if there is not). It is a field if there is only one time step, and a fields container otherwise.
 
     Examples
     --------
@@ -44,34 +65,51 @@ class boundary_condition_provider(Operator):
     >>> op = dpf.operators.metadata.boundary_condition_provider()
 
     >>> # Make input connections
+    >>> my_time_scoping = dpf.Scoping()
+    >>> op.inputs.time_scoping.connect(my_time_scoping)
     >>> my_streams_container = dpf.StreamsContainer()
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_property = int()
+    >>> op.inputs.property.connect(my_property)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.metadata.boundary_condition_provider(
+    ...     time_scoping=my_time_scoping,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
+    ...     property=my_property,
     ... )
 
     >>> # Get output data
-    >>> result_results_info = op.outputs.results_info()
+    >>> result_field_or_fields_container = op.outputs.field_or_fields_container()
     """
 
-    _inputs: InputsBoundaryConditionProvider
-    _outputs: OutputsBoundaryConditionProvider
-
     def __init__(
-        self, streams_container=None, data_sources=None, config=None, server=None
+        self,
+        time_scoping=None,
+        streams_container=None,
+        data_sources=None,
+        property=None,
+        config=None,
+        server=None,
     ):
-        super().__init__(name="boundary_conditions", config=config, server=server)
-        self._inputs = InputsBoundaryConditionProvider(self)
-        self._outputs = OutputsBoundaryConditionProvider(self)
+        super().__init__(
+            name="boundary_conditions",
+            config=config,
+            server=server,
+            inputs_type=InputsBoundaryConditionProvider,
+            outputs_type=OutputsBoundaryConditionProvider,
+        )
+        if time_scoping is not None:
+            self.inputs.time_scoping.connect(time_scoping)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
+        if property is not None:
+            self.inputs.property.connect(property)
 
     @staticmethod
     def _spec() -> Specification:
@@ -81,25 +119,52 @@ streams or data sources.
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                0: PinSpecification(
+                    name="time_scoping",
+                    type_names=["scoping", "vector<int32>"],
+                    optional=True,
+                    document=r"""Time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output.""",
+                ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Result file container allowed to be kept open to cache data.""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Result file path container, used if no streams are set.""",
+                ),
+                13: PinSpecification(
+                    name="property",
+                    type_names=["int32"],
+                    optional=False,
+                    document=r"""Type of boundary condition to get.
+
+Available boundary conditions are :
+- Applied Force : 1
+- Fixed Displacement : 2
+- Applied Pressure : 3
+- Fixed Temperature : 4
+- Applied Heat Flux : 5
+- Fluid Temperature : 6
+- Film Coefficient Convection : 7
+- Ambient Temperature : 8
+- Spatial Integrand : 9
+- Fixed Rotation : 10
+- Fixed Acceleration : 11
+- Fixed Velocity : 12""",
                 ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
-                    name="results_info",
+                    name="field_or_fields_container",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""results info""",
+                    document=r"""Value of the boundary condition at each node (0 if there is not). It is a field if there is only one time step, and a fields container otherwise.""",
+                    aliases=["result_info"],
                 ),
             },
         )
@@ -157,14 +222,22 @@ class InputsBoundaryConditionProvider(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.metadata.boundary_condition_provider()
+    >>> my_time_scoping = dpf.Scoping()
+    >>> op.inputs.time_scoping.connect(my_time_scoping)
     >>> my_streams_container = dpf.StreamsContainer()
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_property = int()
+    >>> op.inputs.property.connect(my_property)
     """
 
     def __init__(self, op: Operator):
         super().__init__(boundary_condition_provider._spec().inputs, op)
+        self._time_scoping: Input[Scoping] = Input(
+            boundary_condition_provider._spec().input_pin(0), 0, op, -1
+        )
+        self._inputs.append(self._time_scoping)
         self._streams_container: Input[StreamsContainer] = Input(
             boundary_condition_provider._spec().input_pin(3), 3, op, -1
         )
@@ -173,10 +246,37 @@ class InputsBoundaryConditionProvider(_Inputs):
             boundary_condition_provider._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
+        self._property: Input[int] = Input(
+            boundary_condition_provider._spec().input_pin(13), 13, op, -1
+        )
+        self._inputs.append(self._property)
+
+    @property
+    def time_scoping(self) -> Input[Scoping]:
+        r"""Allows to connect time_scoping input to the operator.
+
+        Time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.metadata.boundary_condition_provider()
+        >>> op.inputs.time_scoping.connect(my_time_scoping)
+        >>> # or
+        >>> op.inputs.time_scoping(my_time_scoping)
+        """
+        return self._time_scoping
 
     @property
     def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
+
+        Result file container allowed to be kept open to cache data.
 
         Returns
         -------
@@ -197,6 +297,8 @@ class InputsBoundaryConditionProvider(_Inputs):
     def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
+        Result file path container, used if no streams are set.
+
         Returns
         -------
         input:
@@ -212,6 +314,41 @@ class InputsBoundaryConditionProvider(_Inputs):
         """
         return self._data_sources
 
+    @property
+    def property(self) -> Input[int]:
+        r"""Allows to connect property input to the operator.
+
+        Type of boundary condition to get.
+
+        Available boundary conditions are :
+        - Applied Force : 1
+        - Fixed Displacement : 2
+        - Applied Pressure : 3
+        - Fixed Temperature : 4
+        - Applied Heat Flux : 5
+        - Fluid Temperature : 6
+        - Film Coefficient Convection : 7
+        - Ambient Temperature : 8
+        - Spatial Integrand : 9
+        - Fixed Rotation : 10
+        - Fixed Acceleration : 11
+        - Fixed Velocity : 12
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.metadata.boundary_condition_provider()
+        >>> op.inputs.property.connect(my_property)
+        >>> # or
+        >>> op.inputs.property(my_property)
+        """
+        return self._property
+
 
 class OutputsBoundaryConditionProvider(_Outputs):
     """Intermediate class used to get outputs from
@@ -222,24 +359,36 @@ class OutputsBoundaryConditionProvider(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.metadata.boundary_condition_provider()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_results_info = op.outputs.results_info()
+    >>> result_field_or_fields_container = op.outputs.field_or_fields_container()
     """
 
     def __init__(self, op: Operator):
         super().__init__(boundary_condition_provider._spec().outputs, op)
-        self.results_info_as_field = Output(
+        self.field_or_fields_container_as_field = Output(
             _modify_output_spec_with_one_type(
                 boundary_condition_provider._spec().output_pin(0), "field"
             ),
             0,
             op,
         )
-        self._outputs.append(self.results_info_as_field)
-        self.results_info_as_fields_container = Output(
+        self._outputs.append(self.field_or_fields_container_as_field)
+        self.field_or_fields_container_as_fields_container = Output(
             _modify_output_spec_with_one_type(
                 boundary_condition_provider._spec().output_pin(0), "fields_container"
             ),
             0,
             op,
         )
-        self._outputs.append(self.results_info_as_fields_container)
+        self._outputs.append(self.field_or_fields_container_as_fields_container)
+
+    def __getattr__(self, name):
+        if name in ["result_info"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator boundary_condition_provider: Output name "{name}" is deprecated in favor of "field_or_fields_container".'
+                )
+            )
+            return self.field_or_fields_container
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )

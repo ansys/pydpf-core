@@ -23,6 +23,7 @@ if TYPE_CHECKING:
     from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.meshes_container import MeshesContainer
     from ansys.dpf.core.property_field import PropertyField
+    from ansys.dpf.core.property_fields_container import PropertyFieldsContainer
     from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.scopings_container import ScopingsContainer
     from ansys.dpf.core.string_field import StringField
@@ -69,9 +70,6 @@ class extract_scoping(Operator):
     >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
 
-    _inputs: InputsExtractScoping
-    _outputs: OutputsExtractScoping
-
     def __init__(
         self,
         field_or_fields_container=None,
@@ -79,9 +77,13 @@ class extract_scoping(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="extract_scoping", config=config, server=server)
-        self._inputs = InputsExtractScoping(self)
-        self._outputs = OutputsExtractScoping(self)
+        super().__init__(
+            name="extract_scoping",
+            config=config,
+            server=server,
+            inputs_type=InputsExtractScoping,
+            outputs_type=OutputsExtractScoping,
+        )
         if field_or_fields_container is not None:
             self.inputs.field_or_fields_container.connect(field_or_fields_container)
         if requested_location is not None:
@@ -195,6 +197,7 @@ class InputsExtractScoping(_Inputs):
             Field
             | FieldsContainer
             | PropertyField
+            | PropertyFieldsContainer
             | CustomTypeField
             | StringField
             | Scoping
@@ -215,6 +218,7 @@ class InputsExtractScoping(_Inputs):
         Field
         | FieldsContainer
         | PropertyField
+        | PropertyFieldsContainer
         | CustomTypeField
         | StringField
         | Scoping

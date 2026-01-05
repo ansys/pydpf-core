@@ -102,9 +102,6 @@ class strain_eqv_as_mechanical(Operator):
     >>> result_meshes_container = op.outputs.meshes_container()
     """
 
-    _inputs: InputsStrainEqvAsMechanical
-    _outputs: OutputsStrainEqvAsMechanical
-
     def __init__(
         self,
         time_scoping=None,
@@ -119,9 +116,13 @@ class strain_eqv_as_mechanical(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="strain_eqv_as_mechanical", config=config, server=server)
-        self._inputs = InputsStrainEqvAsMechanical(self)
-        self._outputs = OutputsStrainEqvAsMechanical(self)
+        super().__init__(
+            name="strain_eqv_as_mechanical",
+            config=config,
+            server=server,
+            inputs_type=InputsStrainEqvAsMechanical,
+            outputs_type=OutputsStrainEqvAsMechanical,
+        )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping is not None:

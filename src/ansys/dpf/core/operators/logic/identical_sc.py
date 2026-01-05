@@ -58,9 +58,6 @@ class identical_sc(Operator):
     >>> result_message = op.outputs.message()
     """
 
-    _inputs: InputsIdenticalSc
-    _outputs: OutputsIdenticalSc
-
     def __init__(
         self,
         scopings_containerA=None,
@@ -69,10 +66,12 @@ class identical_sc(Operator):
         server=None,
     ):
         super().__init__(
-            name="compare::scopings_container", config=config, server=server
+            name="compare::scopings_container",
+            config=config,
+            server=server,
+            inputs_type=InputsIdenticalSc,
+            outputs_type=OutputsIdenticalSc,
         )
-        self._inputs = InputsIdenticalSc(self)
-        self._outputs = OutputsIdenticalSc(self)
         if scopings_containerA is not None:
             self.inputs.scopings_containerA.connect(scopings_containerA)
         if scopings_containerB is not None:

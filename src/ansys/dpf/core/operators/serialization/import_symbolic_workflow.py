@@ -58,13 +58,14 @@ class import_symbolic_workflow(Operator):
     >>> result_workflow = op.outputs.workflow()
     """
 
-    _inputs: InputsImportSymbolicWorkflow
-    _outputs: OutputsImportSymbolicWorkflow
-
     def __init__(self, string_or_path=None, format=None, config=None, server=None):
-        super().__init__(name="import_symbolic_workflow", config=config, server=server)
-        self._inputs = InputsImportSymbolicWorkflow(self)
-        self._outputs = OutputsImportSymbolicWorkflow(self)
+        super().__init__(
+            name="import_symbolic_workflow",
+            config=config,
+            server=server,
+            inputs_type=InputsImportSymbolicWorkflow,
+            outputs_type=OutputsImportSymbolicWorkflow,
+        )
         if string_or_path is not None:
             self.inputs.string_or_path.connect(string_or_path)
         if format is not None:

@@ -68,9 +68,6 @@ class merge_fields_by_label(Operator):
     >>> result_merged_field_support = op.outputs.merged_field_support()
     """
 
-    _inputs: InputsMergeFieldsByLabel
-    _outputs: OutputsMergeFieldsByLabel
-
     def __init__(
         self,
         fields_container=None,
@@ -81,10 +78,12 @@ class merge_fields_by_label(Operator):
         server=None,
     ):
         super().__init__(
-            name="merge::fields_container_label", config=config, server=server
+            name="merge::fields_container_label",
+            config=config,
+            server=server,
+            inputs_type=InputsMergeFieldsByLabel,
+            outputs_type=OutputsMergeFieldsByLabel,
         )
-        self._inputs = InputsMergeFieldsByLabel(self)
-        self._outputs = OutputsMergeFieldsByLabel(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
         if label is not None:
