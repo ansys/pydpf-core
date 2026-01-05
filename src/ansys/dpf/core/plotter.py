@@ -61,6 +61,7 @@ if TYPE_CHECKING:  # pragma: no cover
     # Temporary
     from ansys.tools.visualization_interface.backends._base import BaseBackend
 
+
 class _InternalPlotterFactory:
     """Factory for _InternalPlotter based on the backend."""
 
@@ -492,6 +493,7 @@ class _PyVistaPlotter:
         kwargs.setdefault("scalar_bar_args", scalar_bar_args)
         return kwargs
 
+
 class _VizPlotter(VizPlotter):
     """Internal plotter using ansys-tools-visualization-interface backend.
 
@@ -503,11 +505,6 @@ class _VizPlotter(VizPlotter):
     ----------
     backend : PyVistaBackend, PlotlyBackend, optional
         Visualization backend to use. If None, defaults to PyVistaBackend.
-
-    Notes
-    -----
-    This plotter uses a deferred plotting approach where objects and options
-    are accumulated and then batch-processed when show_figure() is called.
     """
 
     def __init__(self, backend=None):
@@ -519,9 +516,6 @@ class _VizPlotter(VizPlotter):
             Visualization backend to use. If None, defaults to PyVistaBackend.
         """
         super().__init__(backend)
-        self._plotting_options = {}
-        self._plotting_list = []
-        self._apply_backend_defaults_options(self._plotting_options)
 
     # Needs high level API in viz to avoid customization
     def add_scale_factor_legend(self, scale_factor, **kwargs):
@@ -584,19 +578,14 @@ class _VizPlotter(VizPlotter):
         """
         plotter_kwargs = self._set_scalar_bar_title(plotter_kwargs)
 
-        # Set pyvista defaults for PyDPF
-        if isinstance(self._backend, PyVistaBackend):
-            plotter_kwargs.setdefault("show_edges", True) # Bug: **kwargs to PlotlyBackend.show are not being filtered
+        # Set backend defaults for PyDPF
+        self._apply_backend_default_options(plotter_kwargs)
 
-        # If deformed geometry, print the scale_factor
+        # If deformed geometry, add the scale_factor
         if deform_by:
             self.add_scale_factor_legend(scale_factor, **plotter_kwargs)
 
-        # Filter kwargs
-        # plotter_kwargs_in = _sort_supported_kwargs(
-        #     bound_method=self._backend.base_plotter.add_mesh, **plotter_kwargs
-        # )
-        # Give the mesh to the pyvista Plotter
+        # Pass the mesh to the Plotter
         # Have to remove any active scalar field from the pre-existing grid object,
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
@@ -615,22 +604,17 @@ class _VizPlotter(VizPlotter):
             )
         grid.set_active_scalars(None)
 
-        # Convert mesh objects to pv.Polydata - viz PlotlyBackend only supports pv.Polydata
-        # if isinstance(self._backend, PlotlyBackend):
-        #     grid = grid.extract_surface()
-
-        self._plotting_options.update(plotter_kwargs)
-        self._plotting_list.append(grid)
+        self.plot(grid, **plotter_kwargs)
 
     def add_field(
         self,
-        field : Field,
-        meshed_region : Optional[MeshedRegion] = None,
+        field: Field,
+        meshed_region: Optional[MeshedRegion] = None,
         show_max=False,
         show_min=False,
         # label_text_size=30,
         # label_point_size=20,
-        deform_by : Union[Field, FieldsContainer, Result, Operator] = None,
+        deform_by: Union[Field, FieldsContainer, Result, Operator] = None,
         scale_factor=1.0,
         scale_factor_legend=None,
         as_linear=True,
@@ -672,13 +656,8 @@ class _VizPlotter(VizPlotter):
 
         kwargs = self._set_scalar_bar_title(kwargs)
 
-        kwargs.setdefault("show_edges", True)
-        kwargs.setdefault("nan_color", "grey")
-
-        # show axes
-        # show_axes = kwargs.pop("show_axes", None)
-        # if show_axes:
-        #     self._plotter.add_axes()
+        # Set backend defaults for PyDPF
+        self._apply_backend_default_options(kwargs)
 
         # get the meshed region location
         if meshed_region is None:
@@ -749,8 +728,7 @@ class _VizPlotter(VizPlotter):
             overall_data[ind] = field.data[mask]
         else:
             overall_data[:] = field.data[0]
-        # Filter kwargs for add_mesh
-        # kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
+
         # Have to remove any active scalar field from the pre-existing grid object,
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
@@ -779,10 +757,9 @@ class _VizPlotter(VizPlotter):
                 scale_factor_legend = scale_factor
             self.add_scale_factor_legend(scale_factor_legend, **kwargs)
 
-        kwargs.update({'scalars':overall_data})
+        kwargs.update({"scalars": overall_data})
 
-        self._plotting_options.update(kwargs)
-        self._plotting_list.append(grid)
+        self.plot(grid, **kwargs)
 
         # if show_max or show_min:
         #     # Get Min-Max for the field
@@ -834,22 +811,15 @@ class _VizPlotter(VizPlotter):
         This method triggers the actual plotting of all accumulated meshes
         and fields using the backend's plot_iter and show methods.
         """
-        self._plotting_options.update(kwargs)
+        self.show(**kwargs)
 
-        if isinstance(self._backend, PlotlyBackend):
-            self.plot_iter(self._plotting_list) # Bug: PlotlyBackend.plot_iter can't accept **kwargs
-            self.show(**self._plotting_options) # Bug: **kwargs to PlotlyBackend.show are not being filtered
-            return
-
-        self.plot_iter(self._plotting_list, **self._plotting_options)
-        self.show(**self._plotting_options)
-
-    def _apply_backend_defaults_options(self, kwargs: dict):
+    def _apply_backend_default_options(self, kwargs: dict):
         """Apply backend-specific default options."""
+        # pyvista defaults for PyDPF
         if isinstance(self._backend, PyVistaBackend):
             kwargs.setdefault("show_edges", True)
+        # place-holder for plotly-specific defaults
         elif isinstance(self._backend, PlotlyBackend):
-            # place-holder for plotly-specific defaults
             pass
 
     @staticmethod
@@ -861,6 +831,7 @@ class _VizPlotter(VizPlotter):
             scalar_bar_args = {"title": stitle}
         kwargs.setdefault("scalar_bar_args", scalar_bar_args)
         return kwargs
+
 
 class DpfPlotter:
     """DpfPlotter class. Can be used in order to plot results over a mesh.
