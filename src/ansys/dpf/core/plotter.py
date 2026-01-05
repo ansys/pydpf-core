@@ -498,6 +498,7 @@ class _VizPlotter(VizPlotter):
         super().__init__(backend)
         self._plotting_options = {}
         self._plotting_list = []
+        self._apply_backend_defaults_options(self._plotting_options)
 
     # Needs high level API in viz to avoid customization
     def add_scale_factor_legend(self, scale_factor, **kwargs):
@@ -751,6 +752,14 @@ class _VizPlotter(VizPlotter):
 
         self.plot_iter(self._plotting_list, **self._plotting_options)
         self.show(**self._plotting_options)
+
+    def _apply_backend_defaults_options(self, kwargs: dict):
+        """Apply backend-specific default options."""
+        if isinstance(self._backend, PyVistaBackend):
+            kwargs.setdefault("show_edges", True)
+        elif isinstance(self._backend, PlotlyBackend):
+            # place-holder for plotly-specific defaults
+            pass
 
     @staticmethod
     def _set_scalar_bar_title(kwargs: dict) -> dict:
