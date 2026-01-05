@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -546,14 +546,14 @@ Separations
 Checklists
 ----------
 
-- ☐ how
-- ☐ about
+- ☝ how
+- ☝ about
 
-  - ☐ a
+  - ☝ a
   - ☒ nice
 
 - ☒ check
-- ☐ list
+- ☝ list
 
 Tables
 ------
