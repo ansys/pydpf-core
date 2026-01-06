@@ -404,7 +404,9 @@ class _PyVistaPlotter:
             max_field = min_max.outputs.field_max()
             # Get Node ID at max.
             node_id_at_max = max_field.scoping.id(0)
-            labels.append(f"Max: {max_field.data[0]:.2f}\nNodeID: {node_id_at_max}")
+            labels.append(
+                f"Max: {((max_field.data ** 2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_max}"
+            )
             # Get Node index at max value.
             node_ids.append(node_id_at_max)
 
@@ -412,7 +414,9 @@ class _PyVistaPlotter:
             min_field = min_max.outputs.field_min()
             # Get Node ID at min.
             node_id_at_min = min_field.scoping.id(0)
-            labels.append(f"Min: {min_field.data[0]:.2f}\nNodeID: {node_id_at_min}")
+            labels.append(
+                f"Min: {((min_field.data ** 2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_min}"
+            )
             # Get Node index at min. value.
             node_ids.append(node_id_at_min)
 
