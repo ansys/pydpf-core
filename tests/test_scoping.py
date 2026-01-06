@@ -28,7 +28,6 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import Scoping, errors as dpf_errors
 import conftest
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0
 
 
 def test_create_scoping():
@@ -36,10 +35,6 @@ def test_create_scoping():
     assert scop._internal_obj
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Copying data is " "supported starting server version 3.0",
-)
 def test_createbycopy_scoping(server_type):
     scop = Scoping(server=server_type)
     scop2 = Scoping(scoping=scop, server=server_type)
@@ -94,10 +89,6 @@ def test_set_get_ids_scoping_range(server_type):
     assert np.allclose(scop.ids, range_ids)
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0,
-    reason="Requires server version higher than 2.0",
-)
 def test_set_get_ids_long_scoping():
     scop = Scoping()
     ids = range(1, 1000000)
@@ -196,10 +187,6 @@ def test_delete_scoping(server_type):
         scop.ids
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Copying data is supported starting server version 3.0",
-)
 def test_delete_auto_scoping(server_type):
     scop = Scoping(server=server_type)
     scop2 = Scoping(scoping=scop)
@@ -207,10 +194,6 @@ def test_delete_auto_scoping(server_type):
     assert np.allclose(scop2.ids, [])
 
 
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0,
-    reason="Requires server version below (or equal) than 2.0",
-)
 def test_throw_if_unsufficient_version():
     scop = Scoping()
     ids = range(1, int(2e6))
@@ -225,10 +208,6 @@ def test_throw_if_unsufficient_version():
     assert np.allclose(ids, ids_check)
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0,
-    reason="Requires server version higher than 2.0",
-)
 def test_field_with_scoping_many_ids(allkindofcomplexity, server_type):
     # set scoping ids with a scoping created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_type)
@@ -335,7 +314,6 @@ def test_auto_delete_scoping_local():
         assert s[0] == 1
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_mutable_ids_data(server_clayer):
     scop = Scoping(server=server_clayer)
     scop.ids = range(1, int(2e6))

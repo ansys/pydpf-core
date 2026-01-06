@@ -82,9 +82,6 @@ def test_license_agr_remote(remote_config_server_type, restore_accept_la_env):
 
 
 @pytest.mark.order(4)
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0, reason="not supported"
-)
 @conftest.raises_for_servers_version_under("6.0")
 def test_apply_context_remote(remote_config_server_type):
     dpf.server.shutdown_all_session_servers()
@@ -138,7 +135,6 @@ def test_apply_context_remote(remote_config_server_type):
 
 
 @pytest.mark.order(5)
-@conftest.raises_for_servers_version_under("4.0")
 def test_runtime_client_no_server(remote_config_server_type):
     dpf.server.shutdown_all_session_servers()
     dpf.SERVER_CONFIGURATION = remote_config_server_type
@@ -162,12 +158,8 @@ def test_runtime_client_no_server(remote_config_server_type):
 @pytest.mark.order("last")  # Mandatory
 @conftest.raises_for_servers_version_under("6.0")
 @pytest.mark.skipif(
-    (running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0)
-    or (
-        conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
-        and not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0
-        and os.name == "posix"
-    ),
+    running_docker
+    or (not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 and os.name == "posix"),
     reason="AWP ROOT is not set with Docker AND Failing for 231 on Linux",
 )
 def test_apply_context():

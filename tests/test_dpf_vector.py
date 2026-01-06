@@ -96,7 +96,6 @@ def test_update_empty_dpf_vector_string_field(server_type):
     assert string_field.get_entity_data(1) == ["goodbye"]
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_update_empty_dpf_vector_custom_type_field(server_type):
     field = dpf.CustomTypeField(unitary_type=np.double, server=server_type)
     field.data = np.zeros((100), dtype=np.double)

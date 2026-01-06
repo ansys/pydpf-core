@@ -25,7 +25,6 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import Model, examples
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
@@ -33,11 +32,6 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
 )
-
-if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
-    mechanical = "mechanical"
-else:
-    mechanical = "mecanic"  # codespell:ignore mecanic
 
 
 @pytest.fixture()
@@ -80,7 +74,7 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
             assert result in available_results_names
 
     assert "m, kg, N, s, V, A" in res.unit_system
-    assert res.physics_type == mechanical
+    assert res.physics_type == "mechanical"
 
 
 def test_get_resultinfo(model):
@@ -113,7 +107,7 @@ def test_get_resultinfo(model):
             assert result in available_results_names
 
     assert "m, kg, N, s, V, A" in res.unit_system
-    assert res.physics_type == mechanical
+    assert res.physics_type == "mechanical"
     assert "Static analysis" in str(res)
 
 
@@ -305,17 +299,10 @@ Physics Type: Mechanical
 Available results:
      -  scripting_name: Nodal Scripting Name
 """
-        elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
-            ref = """Static analysis
-Unit system: 
-Physics Type: Mechanical
-Available results:
-     -  scripting_name: Nodal Scripting Name
-"""
         else:
             ref = """Static analysis
 Unit system: 
-Physics Type: Mecanic
+Physics Type: Mechanical
 Available results:
      -  scripting_name: Nodal Scripting Name
 """
