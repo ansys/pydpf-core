@@ -2,7 +2,9 @@
 
 ===============
 DPF Collections
-===============
+###############
+DPF Collections
+###############
 
 .. include:: ../../../links_and_refs.rst
 
@@ -16,7 +18,7 @@ Collections are essential for handling multiple time steps, frequency sets, or o
 :jupyter-download-notebook:`Download tutorial as Jupyter notebook<collections>`
 
 Introduction to Collections
----------------------------
+===========================
 
 Collections in DPF serve as containers that group related objects with labels. The main collection types are:
 
@@ -30,8 +32,21 @@ Each collection provides methods to:
 - Access objects by label (time, frequency, set ID, and so on)
 - Perform operations across all contained objects
 
-Collections are used in DPF workflows to provide vectorized data to operators,
+Collections are used in DPF workflows to provide operators with vectorized data,
 allowing you to process the data in bulk or to process it in parallel whenever possible.
+
+What You'll Learn
+=================
+
+This tutorial covers the following topics:
+
+- Working with |FieldsContainer|: Extract results across time steps, access individual fields, and create custom containers with multiple labels
+- Working with |ScopingsContainer|: Create and manage selections, and use them with operators for targeted result extraction
+- Working with |MeshesContainer|: Store and organize multiple mesh variations or time-dependent meshes
+- Collection operations: Iterate through collections, filter by labels, and access metadata
+- Advanced usage: Learn about other built-in collection types and create custom collections using the collection factory
+
+By the end of this tutorial, you'll have a basic understanding of how to effectively organize and manipulate DPF data using collections in your analysis workflows.
 
 Load an example file
 --------------------
@@ -335,5 +350,5 @@ For example, you can create a collection for :class:`ansys.dpf.core.DataSources`
     # Show the collection
     print(ds_collection)
 
-This approach allows you to leverage the powerful labeling and grouping features of DPF collections for any supported DPF object type,
+This approach allows you to leverage the powerful labeling and grouping features of DPF collections for any supported DPF type,
 making your workflows more flexible and organized.
