@@ -17,7 +17,7 @@ Compatibility with DPF and ANSYS releases
 The DPF server version depends on your installed Ansys version or your installed standalone DPF Server pre-release version.
 
 
-The compatibility tables below shows client-server (``ansys-dpf-core`` to ``DPF``) compatibility for supported DPF versions.
+The compatibility table below shows the client-server (``ansys-dpf-core`` to ``DPF``) compatibility for supported DPF versions.
 
 Here is a summary of the compatibility rules:
 
