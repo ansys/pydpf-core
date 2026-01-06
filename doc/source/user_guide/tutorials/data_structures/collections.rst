@@ -1,7 +1,5 @@
 .. _ref_tutorials_collections:
 
-===============
-DPF Collections
 ###############
 DPF Collections
 ###############
