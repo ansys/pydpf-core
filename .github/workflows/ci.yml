@@ -158,6 +158,8 @@ jobs:
       - uses: ansys/actions/doc-deploy-pr@v10
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
+          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
+          decompress-artifact: true
           token: ${{ secrets.GITHUB_TOKEN }}
           bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
           bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
