@@ -75,6 +75,11 @@ Compatibility tables
      - ``ansys.grpc.dpf`` Python module version
      - ``ansys.dpf.gatebin`` binaries Python module version
      - ``ansys.dpf.gate`` Python module version
+   * - 12.0 (2026 R1)
+     - 0.15.0 and later
+     - None
+     - None
+     - None
    * - 11.0 (2026 R1 pre0)
      - 0.14.0 and later
      - None
