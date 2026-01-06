@@ -16,3 +16,7 @@ CI/CD:
 - docker/**/*
 - .github/**/*
 - .ci/**/*
+deploy-pr-doc:
+  - all:
+    - changed-files:
+      - all-globs-to-all-files: ['THIS-NEVER-MATCHES-A-FILE']
