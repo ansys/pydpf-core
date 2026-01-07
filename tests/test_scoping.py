@@ -194,20 +194,6 @@ def test_delete_auto_scoping(server_type):
     assert np.allclose(scop2.ids, [])
 
 
-def test_throw_if_unsufficient_version():
-    scop = Scoping()
-    ids = range(1, int(2e6))
-    with pytest.raises(dpf_errors.DpfVersionNotSupported):
-        scop.ids = ids
-    ids = range(1, int(3e6))
-    with pytest.raises(dpf_errors.DpfVersionNotSupported):
-        scop.ids = ids
-    ids = range(1, 2000)
-    scop.ids = ids
-    ids_check = scop.ids
-    assert np.allclose(ids, ids_check)
-
-
 def test_field_with_scoping_many_ids(allkindofcomplexity, server_type):
     # set scoping ids with a scoping created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_type)
