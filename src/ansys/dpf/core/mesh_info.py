@@ -254,13 +254,13 @@ class MeshInfo:
     def parts(self) -> dict:
         """Dictionary of available part IDs to part names.
 
+        .. warning::
+            Currently unavailable for LegacyGrpc servers.
+
         Returns
         -------
         parts:
             Map of part IDs to part names.
-
-        .. warning::
-            Currently unavailable for LegacyGrpc servers.
         """
         if self._part_map:
             return self._part_map
@@ -277,13 +277,13 @@ class MeshInfo:
     def part_scoping(self):
         """Return part scoping of the mesh.
 
+        .. warning::
+            Currently unavailable for LegacyGrpc servers.
+
         Returns
         -------
         part_scoping : Scoping
             part Scoping of the mesh (if it can be split by parts)
-
-        .. warning::
-            Currently unavailable for LegacyGrpc servers.
         """
         if "part_scoping" in self._generic_data_container.get_property_description():
             return self.generic_data_container.get_property("part_scoping")
@@ -322,13 +322,13 @@ class MeshInfo:
     def bodies(self) -> dict:
         """Dictionary of available body IDs to body names.
 
+        .. warning::
+            Currently unavailable for LegacyGrpc servers.
+
         Returns
         -------
         bodies:
             Map of body IDs to body names.
-
-        .. warning::
-            Currently unavailable for LegacyGrpc servers.
         """
         if self._bodies_map:
             return self._bodies_map
@@ -345,13 +345,13 @@ class MeshInfo:
     def zone_names(self):
         """Return zone names of the mesh.
 
+        .. warning::
+            Currently unavailable for LegacyGrpc servers.
+
         Returns
         -------
         zone_names : StringField
             zone_names of the mesh (if it can be split by zones)
-
-        .. warning::
-            Currently unavailable for LegacyGrpc servers.
         """
         if "zone_names" in self._generic_data_container.get_property_description():
             return self.generic_data_container.get_property("zone_names")
@@ -362,13 +362,13 @@ class MeshInfo:
     def zones(self) -> dict:
         """Dictionary of available zone IDs to zone names.
 
+        .. warning::
+            Currently unavailable for LegacyGrpc servers.
+
         Returns
         -------
         zones:
             Map of zone IDs to zone names.
-
-        .. warning::
-            Currently unavailable for LegacyGrpc servers.
         """
         if self._zone_map:
             return self._zone_map
@@ -385,13 +385,13 @@ class MeshInfo:
     def face_zones(self) -> dict:
         """Dictionary of available face zone IDs to face zone names.
 
+        .. warning::
+            Currently unavailable for LegacyGrpc servers.
+
         Returns
         -------
         face_zones:
             Map of face zone IDs to face zone names.
-
-        .. warning::
-            Currently unavailable for LegacyGrpc servers.
         """
         if self._face_zone_map:
             return self._face_zone_map
@@ -411,13 +411,13 @@ class MeshInfo:
     def cell_zones(self) -> dict:
         """Dictionary of available cell zone IDs to cell zone names.
 
+        .. warning::
+            Currently unavailable for LegacyGrpc servers.
+
         Returns
         -------
         cell_zones:
             Map of cell zone IDs to cell zone names.
-
-        .. warning::
-            Currently unavailable for LegacyGrpc servers.
         """
         if self._cell_zone_map:
             return self._cell_zone_map
@@ -437,13 +437,13 @@ class MeshInfo:
     def zone_scoping(self):
         """Return zone scoping of the mesh.
 
+        .. warning::
+            Currently unavailable for LegacyGrpc servers.
+
         Returns
         -------
         zone_scoping : Scoping
             zone Scoping of the mesh (if it can be split by zone)
-
-        .. warning::
-            Currently unavailable for LegacyGrpc servers.
         """
         if "zone_scoping" in self._generic_data_container.get_property_description():
             return self.generic_data_container.get_property("zone_scoping")
