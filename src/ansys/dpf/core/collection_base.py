@@ -89,6 +89,7 @@ class CollectionBase(Generic[TYPE]):
             else:
                 self._internal_obj = collection
         self.owned = False
+        self._loop_index = 0
 
     @property
     def _server(self):
@@ -567,9 +568,17 @@ class CollectionBase(Generic[TYPE]):
         return self._internal_obj
 
     def __iter__(self):
-        """Provide for looping through entry items."""
-        for i in range(len(self)):
-            yield self[i]
+        """Return iterator."""
+        self._loop_index = 0
+        return self
+
+    def __next__(self) -> TYPE:
+        """Return next element in iteration."""
+        if self._loop_index < len(self):
+            self._loop_index += 1
+            return self[self._loop_index - 1]
+        else:
+            raise StopIteration
 
 
 class IntegralCollection(CollectionBase):

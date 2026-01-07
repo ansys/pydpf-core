@@ -1396,7 +1396,7 @@ class LegacyGrpcServer(BaseServer):
             self_config = settings.get_runtime_client_config(server=self)
             misc.RUNTIME_CLIENT_CONFIG.copy_config(self_config)
 
-        from ansys.dpf.core import cyberchannel
+        from ansys.tools.common import cyberchannel
 
         if self._grpc_mode == server_factory.GrpcMode.Insecure:
             self.channel = cyberchannel.create_channel(

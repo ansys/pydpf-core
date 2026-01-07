@@ -409,31 +409,32 @@ class _PyVistaPlotter:
 
         # Add Min and Max Labels
         labels = []
-        grid_points = []
+        node_ids = []
         if show_max:
             max_field = min_max.outputs.field_max()
             # Get Node ID at max.
             node_id_at_max = max_field.scoping.id(0)
-            labels.append(f"Max: {max_field.data[0]:.2f}\nNodeID: {node_id_at_max}")
+            labels.append(
+                f"Max: {((max_field.data ** 2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_max}"
+            )
             # Get Node index at max value.
-            node_index_at_max = meshed_region.nodes.scoping.index(node_id_at_max)
-            # Append the corresponding Grid Point.
-            grid_points.append(meshed_region.grid.points[node_index_at_max])
+            node_ids.append(node_id_at_max)
 
         if show_min:
             min_field = min_max.outputs.field_min()
             # Get Node ID at min.
             node_id_at_min = min_field.scoping.id(0)
-            labels.append(f"Min: {min_field.data[0]:.2f}\nNodeID: {node_id_at_min}")
+            labels.append(
+                f"Min: {((min_field.data ** 2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_min}"
+            )
             # Get Node index at min. value.
-            node_index_at_min = meshed_region.nodes.scoping.index(node_id_at_min)
-            # Append the corresponding Grid Point.
-            grid_points.append(meshed_region.grid.points[node_index_at_min])
+            node_ids.append(node_id_at_min)
 
         # Plot labels:
-        for index, grid_point in enumerate(grid_points):
-            self._plotter.add_point_labels(
-                grid_point,
+        for index, node_id in enumerate(node_ids):
+            self.add_point_labels(
+                [node_id],
+                meshed_region,
                 [labels[index]],
                 font_size=label_text_size,
                 point_size=label_point_size,
