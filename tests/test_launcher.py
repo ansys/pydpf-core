@@ -31,7 +31,6 @@ import pytest
 
 from ansys.dpf import core
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     config_namesserver_type,
     configsserver_type,
     running_docker,
@@ -64,10 +63,6 @@ class TestServerConfigs:
 
         request.addfinalizer(reset_server)
 
-    @pytest.mark.skipif(
-        not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-        reason="Ans.Dpf.Grpc.bat and .sh need AWP_ROOT221 for 221 install",
-    )
     def test_start_local_custom_ansys_path(self, server_config):
         ver_to_check = core._version.server_to_ansys_version[str(core.global_server().version)]
         ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
@@ -113,10 +108,6 @@ class TestServerConfigs:
             if os.environ.get("AWP_ROOT" + ver_to_check, None) is not None:
                 assert os.environ["AWP_ROOT" + ver_to_check] in p.cwd()
 
-    @pytest.mark.skipif(
-        not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-        reason="Ans.Dpf.Grpc.bat and .sh need AWP_ROOT221 for 221 install",
-    )
     def test_start_local_ansys_path_environment_variable(self, server_config):
         ver_to_check = core._version.server_to_ansys_version[str(core.SERVER.version)]
         ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
@@ -263,8 +254,8 @@ def test_start_with_dpf_server_type_env():
             "Fixture is not correctly working"
         )  # a specific case is already set to run the unit tests
     else:
-        if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 and not running_docker:
-            # test for v222 and higher
+        if not running_docker:
+            # test for not Docker
             os.environ[dpf_server_type_str] = "GRPC"
             my_serv = core.start_local_server(as_global=False)
             assert isinstance(my_serv, core.server_types.GrpcServer)
@@ -284,8 +275,8 @@ def test_start_with_dpf_server_type_env():
                 my_serv_3 = core.start_local_server(as_global=False)
 
             del os.environ[dpf_server_type_str]
-        elif running_docker:
-            # test for v221 and lower
+        else:
+            # test for Docker
             os.environ[dpf_server_type_str] = "GRPC"
             my_serv = core.start_local_server(as_global=False)
             assert isinstance(my_serv, core.server_types.GrpcServer)
@@ -295,23 +286,5 @@ def test_start_with_dpf_server_type_env():
             my_serv_2 = core.start_local_server(as_global=False)
             assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
             my_serv_2.shutdown()
-
-            del os.environ[dpf_server_type_str]
-        else:
-            # test for v221 and lower
-            os.environ[dpf_server_type_str] = "GRPC"
-            my_serv = core.start_local_server(as_global=False)
-            assert isinstance(my_serv, core.server_types.LegacyGrpcServer)
-            my_serv.shutdown()
-
-            os.environ[dpf_server_type_str] = "LEGACYGRPC"
-            my_serv_2 = core.start_local_server(as_global=False)
-            assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
-            my_serv_2.shutdown()
-
-            os.environ[dpf_server_type_str] = "bla"
-            my_serv_3 = core.start_local_server(as_global=False)
-            assert isinstance(my_serv_3, core.server_types.LegacyGrpcServer)
-            my_serv_3.shutdown()
 
             del os.environ[dpf_server_type_str]

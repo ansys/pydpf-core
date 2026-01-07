@@ -28,7 +28,6 @@ from ansys.dpf import core
 import conftest
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_scopingdata_custom_type_field(server_type):
     pfield = core.CustomTypeField(np.uint64, server=server_type)
     list_ids = [1, 2, 4, 6, 7]
@@ -41,7 +40,6 @@ def test_scopingdata_custom_type_field(server_type):
     assert np.allclose(pfield.scoping.ids, list_ids)
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_set_get_data_custom_type_field(server_type):
     field = dpf.core.CustomTypeField(np.byte, nentities=20, server=server_type)
     data = np.empty((20,), dtype=np.byte)
@@ -52,7 +50,6 @@ def test_set_get_data_custom_type_field(server_type):
     # print(field.data)
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_create_custom_type_field_push_back(server_type):
     f_vec = core.CustomTypeField(np.int16, server=server_type)
     f_vec.append([1, 2, 4], 1)
@@ -74,7 +71,6 @@ def test_create_custom_type_field_push_back(server_type):
     assert f_scal.scoping.ids[1] == 2
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_set_get_data_pointer_custom_type_field(server_type):
     field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_type)
     field_def = dpf.core.FieldDefinition(server=server_type)
@@ -105,7 +101,6 @@ def test_set_get_data_pointer_custom_type_field(server_type):
     assert field.size == 36
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_set_get_field_def_custom_type_field(server_type):
     field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_type)
     field_def = dpf.core.FieldDefinition(server=server_type)
@@ -136,7 +131,6 @@ def test_set_get_field_def_custom_type_field(server_type):
     assert field.name == "thing"
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_mutable_data_custom_type_field(server_clayer):
     field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_clayer)
     field_def = dpf.core.FieldDefinition(server=server_clayer)
@@ -190,7 +184,6 @@ def get_float_field(server_clayer):
     return field
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_mutable_data_pointer_custom_type_field(server_clayer):
     float_field = get_float_field(server_clayer)
     assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
@@ -209,7 +202,6 @@ def test_mutable_data_pointer_custom_type_field(server_clayer):
     assert np.allclose(float_field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_data_wrong_type_custom_type_field(server_type):
     pfield = core.CustomTypeField(np.uint64, server=server_type)
     list_ids = [1, 2, 4, 6, 7]
@@ -224,7 +216,6 @@ def test_data_wrong_type_custom_type_field(server_type):
     assert np.allclose(pfield.data, list_data)
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_data_wrong_type2_custom_type_field(server_type):
     pfield = core.CustomTypeField(np.int16, server=server_type)
     list_ids = [1, 2, 4, 6, 7]
@@ -235,7 +226,6 @@ def test_data_wrong_type2_custom_type_field(server_type):
     assert np.allclose(pfield.data, list_data)
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_support_im_freq_custom_type_field(server_type):
     tfq = core.TimeFreqSupport(server=server_type)
     frequencies = core.fields_factory.create_scalar_field(3, server=server_type)
@@ -250,7 +240,6 @@ def test_support_im_freq_custom_type_field(server_type):
     )
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_large_data_custom_type_field(server_type):
     size = 1000001
     pfield = core.CustomTypeField(np.uint64, server=server_type)
@@ -264,7 +253,6 @@ def test_large_data_custom_type_field(server_type):
     assert np.allclose(pfield.scoping.ids, list_ids)
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_data_as_list_custom_type_field(server_type):
     pfield = core.CustomTypeField(np.uint64, server=server_type)
     list_ids = [1, 2, 4, 6, 7]
@@ -275,7 +263,6 @@ def test_data_as_list_custom_type_field(server_type):
     assert np.allclose(pfield.data, [20, 30, 50, 70, 80, 90])
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_check_types_custom_type_field(server_type):
     pfield = core.CustomTypeField(np.uint64, server=server_type)
     pfield2 = core.CustomTypeField(np.int16, server=server_type)
