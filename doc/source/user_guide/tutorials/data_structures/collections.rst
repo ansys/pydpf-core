@@ -53,7 +53,7 @@ DPF collections use **labels** to categorize and organize contained objects.
 
 Labels can be thought of as categories or dimensions along which the objects in the collection are organized.
 
-Each object in the collection is associated to an integer value for every label/category/dimension of the collection.
+Each object in the collection is associated with an integer value for every label/category/dimension of the collection.
 
 A **LabelSpace** is a dictionary of one or more labels (e.g., "time", "frequency", "set ID"), each associated with specific values.
 
@@ -81,7 +81,7 @@ Here are some examples:
 
 
 Load an example file
---------------------
+====================
 
 First, import the required modules and load a transient analysis result file.
 
@@ -108,12 +108,12 @@ A transient analysis is a typical example where collections are useful, as data 
     print(model)
 
 Working with FieldsContainer
-----------------------------
+============================
 
 A |FieldsContainer| is the most commonly used collection in DPF. It stores multiple |Field| objects, each associated with a label such as time step or frequency.
 
 Extract Results into a FieldsContainer
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------
 
 Extract displacement results for all time steps, which will automatically create a |FieldsContainer|.
 
@@ -126,7 +126,7 @@ Extract displacement results for all time steps, which will automatically create
     print(displacement_fc)
 
 Access Individual Fields in the Container
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------
 
 You can access individual fields by their label or index.
 
@@ -145,7 +145,7 @@ You can access individual fields by their label or index.
     print(second_time_field)
 
 Create a Custom FieldsContainer
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------
 
 You can create your own |FieldsContainer| and add fields with custom labels.
 
@@ -183,12 +183,12 @@ You can create your own |FieldsContainer| and add fields with custom labels.
     print(custom_fc)
 
 Working with ScopingsContainer
-------------------------------
+==============================
 
 A |ScopingsContainer| holds multiple |Scoping| objects, which define sets of entity IDs (nodes, elements, etc.).
 
 Create and Populate a ScopingsContainer
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------
 
 Create different node selections and organize them in a |ScopingsContainer|.
 
@@ -223,7 +223,7 @@ Create different node selections and organize them in a |ScopingsContainer|.
     print(scopings_container)
 
 Use ScopingsContainer with Operators
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------
 
 |ScopingsContainer| objects can be used with operators to apply operations to multiple selections.
 
@@ -243,12 +243,12 @@ Use ScopingsContainer with Operators
     print(scoped_displacements)
 
 Working with MeshesContainer
-----------------------------
+============================
 
 A |MeshesContainer| stores multiple |MeshedRegion| objects. This is useful when working with different mesh variations or time-dependent meshes.
 
 Create a MeshesContainer
-^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------
 
 Create a |MeshesContainer| with mesh data for different cases.
 
@@ -288,12 +288,12 @@ Create a |MeshesContainer| with mesh data for different cases.
     print(meshes_container)
 
 Collection Operations and Iteration
-------------------------------------
+===================================
 
 Collections support various operations for data manipulation and analysis.
 
 Iterate Through Collections
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------
 
 You can iterate through collections using different methods.
 
@@ -319,7 +319,7 @@ You can iterate through collections using different methods.
         print(f"  Scoping {i}: {label_space}, size: {scoping.size}")
 
 Filter and Select from Collections  
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------
 
 You can filter collections based on label values.
 
@@ -333,7 +333,7 @@ You can filter collections based on label values.
         print(field)
 
 Other Built-in Collection Types
--------------------------------
+===============================
 
 DPF provides several built-in collection types for common DPF objects, implemented in their respective modules:
 
@@ -352,7 +352,7 @@ These built-in collections are optimized for their respective DPF types and shou
 For other supported types, you can use the :py:meth:`ansys.dpf.core.collection.Collection.collection_factory` method to create a custom collection class at runtime.
 
 Using the Collection Factory
-----------------------------
+============================
 
 .. note::
    Collections can only be made for types supported by DPF. Attempting to use unsupported or arbitrary Python types will result in an error.
