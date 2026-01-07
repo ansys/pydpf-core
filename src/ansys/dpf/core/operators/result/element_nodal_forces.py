@@ -156,7 +156,7 @@ class element_nodal_forces(Operator):
     data_sources: DataSources
         result file path container, used if no streams are set
     bool_rotate_to_global: bool, optional
-        Rotate the result to the global coordinate system if rotations are available (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
+        if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
     mesh: MeshedRegion or MeshesContainer, optional
         mesh. If cylic expansion is to be done, mesh of the base sector
     requested_location: str, optional
@@ -477,7 +477,7 @@ elshape Related elements
                     name="bool_rotate_to_global",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""Rotate the result to the global coordinate system if rotations are available (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.""",
+                    document=r"""if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -825,7 +825,7 @@ class InputsElementNodalForces(_Inputs):
     def bool_rotate_to_global(self) -> Input[bool]:
         r"""Allows to connect bool_rotate_to_global input to the operator.
 
-        Rotate the result to the global coordinate system if rotations are available (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
+        if true the field is rotated to global coordinate system (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
 
         Returns
         -------

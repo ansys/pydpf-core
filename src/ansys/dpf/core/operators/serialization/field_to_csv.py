@@ -21,8 +21,7 @@ if TYPE_CHECKING:
 
 
 class field_to_csv(Operator):
-    r"""Exports a field or a fields container into a csv file. Currently only
-    homogenous Fields Definition of Fields Container are supported.
+    r"""Exports a field or a fields container into a csv file
 
 
     Inputs
@@ -84,8 +83,7 @@ class field_to_csv(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Exports a field or a fields container into a csv file. Currently only
-homogenous Fields Definition of Fields Container are supported.
+        description = r"""Exports a field or a fields container into a csv file
 """
         spec = Specification(
             description=description,
