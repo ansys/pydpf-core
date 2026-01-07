@@ -29,20 +29,16 @@ These tutorials explains how these structures work and how you can manipulate da
 
 
     .. grid-item-card:: DPF collections
-       :link: ref_tutorials_language_and_usage
+       :link: ref_tutorials_collections
        :link-type: ref
        :text-align: center
-       :class-header: sd-bg-light sd-text-dark
-       :class-footer: sd-bg-light sd-text-dark
 
        This tutorial shows how to create and work with some DPF collections:
        FieldsContainer, MeshesContainer and ScopingsContainer
-
-       +++
-       Coming soon
 
 .. toctree::
     :maxdepth: 2
     :hidden:
 
     data_arrays.rst
+    collections.rst
