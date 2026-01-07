@@ -15,6 +15,19 @@ Collections are essential for handling multiple time steps, frequency sets, or o
 :jupyter-download-script:`Download tutorial as Python script<collections>`
 :jupyter-download-notebook:`Download tutorial as Jupyter notebook<collections>`
 
+What You'll Learn
+=================
+
+This tutorial covers the following topics:
+
+- Working with |FieldsContainer|: Extract results across time steps, access individual fields, and create custom containers with multiple labels
+- Working with |ScopingsContainer|: Create and manage selections, and use them with operators for targeted result extraction
+- Working with |MeshesContainer|: Store and organize multiple mesh variations or time-dependent meshes
+- Collection operations: Iterate through collections, filter by labels, and access metadata
+- Advanced usage: Learn about other built-in collection types and create custom collections using the collection factory
+
+By the end of this tutorial, you'll have a basic understanding of how to effectively organize and manipulate DPF data using collections in your analysis workflows.
+
 Introduction to Collections
 ===========================
 
@@ -33,18 +46,39 @@ Each collection provides methods to:
 Collections are used in DPF workflows to provide operators with vectorized data,
 allowing you to process the data in bulk or to process it in parallel whenever possible.
 
-What You'll Learn
-=================
+The LabelSpace
+--------------
 
-This tutorial covers the following topics:
+DPF collections use **labels** to categorize and organize contained objects.
 
-- Working with |FieldsContainer|: Extract results across time steps, access individual fields, and create custom containers with multiple labels
-- Working with |ScopingsContainer|: Create and manage selections, and use them with operators for targeted result extraction
-- Working with |MeshesContainer|: Store and organize multiple mesh variations or time-dependent meshes
-- Collection operations: Iterate through collections, filter by labels, and access metadata
-- Advanced usage: Learn about other built-in collection types and create custom collections using the collection factory
+Labels can be thought of as categories or dimensions along which the objects in the collection are organized.
 
-By the end of this tutorial, you'll have a basic understanding of how to effectively organize and manipulate DPF data using collections in your analysis workflows.
+Each object in the collection is associated to an integer value for every label/category/dimension of the collection.
+
+A **LabelSpace** is a dictionary of one or more labels (e.g., "time", "frequency", "set ID"), each associated with specific values.
+
+The **LabelSpace** is used to identify and access the objects within the collection.
+
+It can be partial and target multiple objects in the collection,
+or it can be complete and define a value for each label of the collection, resulting in a unique object.
+
+It is similar to multi-dimensional indexing in arrays or dataframes, or to a filter or query in databases.
+
+Here are some examples:
+
+- a collection of fields (a |FieldsContainer|) across time uses the label **time**
+  with each field associated to a **time** integer value (the time step ID).
+  The **LabelSpace** ``{"time": 3}`` would uniquely identify the field for time step 3.
+- a collection of fields (a |FieldsContainer|) across frequency and stage uses the labels **frequency** and **stage**
+  with each field associated to a **frequency** integer value (the frequency ID) and a **stage** integer value (the stage ID).
+  The **LabelSpace** ``{"frequency": 2, "stage": 1}`` would uniquely identify the field for frequency ID 2 at stage ID 1.
+- a collection of meshes (a |MeshesContainer|) across different parts, further split by element type, uses the labels **part** and **element_type**
+  with each mesh associated to a **part** integer value (the part ID) and an **element_type** integer value (the element type code).
+  The **LabelSpace** ``{"part": 2, "element_type": 1}`` would uniquely identify the mesh for part 2 with element type code 1.
+- a collection of scopings (a |ScopingsContainer|) across different fluid zones for a transient analysis uses the labels **zone** and **time**
+  with each scoping associated to a **zone** integer value (the zone ID) and a **time** integer value (the time step ID).
+  The **LabelSpace** ``{"zone": 1}`` would identify the collection of scopings for zone 1 only, for all time steps.
+
 
 Load an example file
 --------------------
