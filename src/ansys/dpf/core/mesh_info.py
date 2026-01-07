@@ -259,7 +259,7 @@ class MeshInfo:
         parts:
             Map of part IDs to part names.
 
-        .. warning:
+        .. warning::
             Currently unavailable for LegacyGrpc servers.
         """
         if self._part_map:
@@ -282,7 +282,7 @@ class MeshInfo:
         part_scoping : Scoping
             part Scoping of the mesh (if it can be split by parts)
 
-        .. warning:
+        .. warning::
             Currently unavailable for LegacyGrpc servers.
         """
         if "part_scoping" in self._generic_data_container.get_property_description():
@@ -327,7 +327,7 @@ class MeshInfo:
         bodies:
             Map of body IDs to body names.
 
-        .. warning:
+        .. warning::
             Currently unavailable for LegacyGrpc servers.
         """
         if self._bodies_map:
@@ -350,7 +350,7 @@ class MeshInfo:
         zone_names : StringField
             zone_names of the mesh (if it can be split by zones)
 
-        .. warning:
+        .. warning::
             Currently unavailable for LegacyGrpc servers.
         """
         if "zone_names" in self._generic_data_container.get_property_description():
@@ -367,7 +367,7 @@ class MeshInfo:
         zones:
             Map of zone IDs to zone names.
 
-        .. warning:
+        .. warning::
             Currently unavailable for LegacyGrpc servers.
         """
         if self._zone_map:
@@ -390,7 +390,7 @@ class MeshInfo:
         face_zones:
             Map of face zone IDs to face zone names.
 
-        .. warning:
+        .. warning::
             Currently unavailable for LegacyGrpc servers.
         """
         if self._face_zone_map:
@@ -416,7 +416,7 @@ class MeshInfo:
         cell_zones:
             Map of cell zone IDs to cell zone names.
 
-        .. warning:
+        .. warning::
             Currently unavailable for LegacyGrpc servers.
         """
         if self._cell_zone_map:
@@ -442,7 +442,7 @@ class MeshInfo:
         zone_scoping : Scoping
             zone Scoping of the mesh (if it can be split by zone)
 
-        .. warning:
+        .. warning::
             Currently unavailable for LegacyGrpc servers.
         """
         if "zone_scoping" in self._generic_data_container.get_property_description():
