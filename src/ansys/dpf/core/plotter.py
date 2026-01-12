@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -76,8 +76,6 @@ class _PyVistaPlotter:
         kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.__init__, **kwargs)
         # Initiate pyvista Plotter
         self._plotter = pv.Plotter(**kwargs_in)
-        if kwargs.pop("parallel_projection", False):
-            self._plotter.parallel_projection = True
 
     def add_scale_factor_legend(self, scale_factor, **kwargs):
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **kwargs)
@@ -401,31 +399,32 @@ class _PyVistaPlotter:
 
         # Add Min and Max Labels
         labels = []
-        grid_points = []
+        node_ids = []
         if show_max:
             max_field = min_max.outputs.field_max()
             # Get Node ID at max.
             node_id_at_max = max_field.scoping.id(0)
-            labels.append(f"Max: {max_field.data[0]:.2f}\nNodeID: {node_id_at_max}")
+            labels.append(
+                f"Max: {((max_field.data ** 2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_max}"
+            )
             # Get Node index at max value.
-            node_index_at_max = meshed_region.nodes.scoping.index(node_id_at_max)
-            # Append the corresponding Grid Point.
-            grid_points.append(meshed_region.grid.points[node_index_at_max])
+            node_ids.append(node_id_at_max)
 
         if show_min:
             min_field = min_max.outputs.field_min()
             # Get Node ID at min.
             node_id_at_min = min_field.scoping.id(0)
-            labels.append(f"Min: {min_field.data[0]:.2f}\nNodeID: {node_id_at_min}")
+            labels.append(
+                f"Min: {((min_field.data ** 2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_min}"
+            )
             # Get Node index at min. value.
-            node_index_at_min = meshed_region.nodes.scoping.index(node_id_at_min)
-            # Append the corresponding Grid Point.
-            grid_points.append(meshed_region.grid.points[node_index_at_min])
+            node_ids.append(node_id_at_min)
 
         # Plot labels:
-        for index, grid_point in enumerate(grid_points):
-            self._plotter.add_point_labels(
-                grid_point,
+        for index, node_id in enumerate(node_ids):
+            self.add_point_labels(
+                [node_id],
+                meshed_region,
                 [labels[index]],
                 font_size=label_text_size,
                 point_size=label_point_size,
@@ -459,10 +458,17 @@ class _PyVistaPlotter:
         if show_axes:
             self._plotter.add_axes()
 
+        if kwargs.pop("parallel_projection", False):
+            self._plotter.parallel_projection = True
+
         # Set cpos
         cpos = kwargs.pop("cpos", None)
         if cpos is not None:
             self._plotter.camera_position = cpos
+
+        zoom = kwargs.pop("zoom", None)
+        if zoom is not None:
+            self._plotter.camera.zoom(zoom)
 
         # Show depending on return_cpos option
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.show, **kwargs)
@@ -673,7 +679,7 @@ class DpfPlotter:
         ...        radius=0.001,
         ...        )
         >>> pl.show_figure(show_axes=True)
-
+        (None, <pyvista.plotting.plotter.Plotter ...>)
         """
         self._internal_plotter.add_streamlines(
             streamlines=streamlines,
@@ -783,17 +789,17 @@ class DpfPlotter:
         >>> node_scoping = dpf.Scoping(
         ...    location=dpf.locations.nodal,
         ...    ids=mesh.nodes.scoping.ids[0:100]
-        ...)
+        ... )
         >>> element_scoping = dpf.Scoping(
         ...    location=dpf.locations.elemental,
         ...    ids=mesh.elements.scoping.ids[0:100]
-        ...)
+        ... )
         >>> from ansys.dpf.core.plotter import DpfPlotter
         >>> plt = DpfPlotter()
         >>> plt.add_scoping(node_scoping, mesh, show_mesh=True, color="red")
         >>> plt.add_scoping(element_scoping, mesh, color="green")
         >>> plt.show_figure()
-
+        (None, <pyvista.plotting.plotter.Plotter ...>)
         """
         self._internal_plotter.add_scoping(
             scoping=scoping, mesh=mesh, show_mesh=show_mesh, **kwargs
@@ -819,7 +825,7 @@ class DpfPlotter:
         >>> pl = DpfPlotter()
         >>> pl.add_field(field, mesh)
         >>> pl.show_figure()
-
+        (None, <pyvista.plotting.plotter.Plotter ...>)
         """
         if "notebook" in kwargs.keys():
             warnings.simplefilter("once")
@@ -1191,9 +1197,16 @@ class Plotter:
         if background is not None:
             self._internal_plotter._plotter.set_background(background)
 
+        if kwargs.pop("parallel_projection", False):
+            self._internal_plotter._plotter.parallel_projection = True
+
         cpos = kwargs.pop("cpos", None)
         if cpos is not None:
             self._internal_plotter._plotter.camera_position = cpos
+
+        zoom = kwargs.pop("zoom", None)
+        if zoom is not None:
+            self._internal_plotter._plotter.camera.zoom(zoom)
 
         # show result
         kwargs_in = _sort_supported_kwargs(

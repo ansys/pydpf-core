@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -50,6 +50,7 @@ from ansys.dpf.gate import (
 from ansys.dpf.gate.errors import DPFServerException
 
 if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.dimensionality import Dimensionality
     from ansys.dpf.core.dpf_operator import Operator
     from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.results import Result
@@ -233,7 +234,7 @@ class Field(_FieldBase):
     @staticmethod
     def _field_create_internal_obj(
         api: field_abstract_api.FieldAbstractAPI,
-        client,
+        server,
         nature,
         nentities,
         location=locations.nodal,
@@ -242,6 +243,7 @@ class Field(_FieldBase):
         with_type=None,
     ):
         dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
+        client = server.client
 
         if dim.is_1d_dim():
             if client is not None:
@@ -442,7 +444,7 @@ class Field(_FieldBase):
             data.shape = (data.size // n_comp, n_comp)
         return data
 
-    def append(self, data, scopingid):
+    def append(self, data: float | list[float] | np.ndarray[np.float64], scopingid: int):
         """Append data to the Field."""
         if isinstance(data, list):
             if isinstance(data[0], list):
@@ -520,7 +522,7 @@ class Field(_FieldBase):
     def plot(
         self,
         shell_layers: eshell_layers = None,
-        deform_by: Union[Field, Result, Operator] = None,
+        deform_by: Field | Result | Operator = None,
         scale_factor: float = 1.0,
         meshed_region: MeshedRegion = None,
         **kwargs,
@@ -543,6 +545,7 @@ class Field(_FieldBase):
         >>> fields_container = disp.outputs.fields_container()
         >>> field = fields_container[0]
         >>> mesh.plot(field)
+        (None, <pyvista.plotting.plotter.Plotter ...>)
 
         Parameters
         ----------
@@ -657,9 +660,7 @@ class Field(_FieldBase):
         Setting a named dimensionless unit requires DPF 11.0 (2026 R1) or above.
 
         """
-        field_def = self.field_definition
-        field_def.unit = value
-        self.field_definition = field_def
+        self.field_definition.unit = value
 
     @property
     def dimensionality(self):
@@ -674,7 +675,7 @@ class Field(_FieldBase):
             return self.field_definition.dimensionality
 
     @dimensionality.setter
-    def dimensionality(self, value):
+    def dimensionality(self, value: Dimensionality):
         fielddef = self.field_definition
         fielddef.dimensionality = value
         self.field_definition = fielddef

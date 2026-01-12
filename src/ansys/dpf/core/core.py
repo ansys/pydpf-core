@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -311,12 +311,12 @@ def _deep_copy(dpf_entity, server=None):
     if stream_type == 1:
         out = serializer.get_output(0, types.bytes)
     else:
-        out = serializer.outputs.serialized_string  # Required for retro with 241
-    deserializer.connect(-1, stream_type)
-    deserializer.connect(0, out)
+        out = serializer.outputs.serialized_string1  # Required for retro with 241
+    deserializer.inputs.stream_type.connect(stream_type)
+    deserializer.inputs.serialized_string1.connect(out)
     type_map = types_enum_to_types()
     output_type = list(type_map.keys())[list(type_map.values()).index(dpf_entity.__class__)]
-    return deserializer.get_output(1, output_type)
+    return deserializer.get_output(pin=1, output_type=output_type)
 
 
 class BaseService:

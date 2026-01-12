@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -29,7 +29,7 @@ Beam results manipulations
 This example provides an overview of the LS-DYNA beam results manipulations.
 
 .. note::
-    This example requires DPF 6.1 (ansys-dpf-server-2023-2-pre0) or above.
+    This example requires DPF 8.0 (DPF 2024 R2) or above.
     For more information, see :ref:`ref_compatibility`.
 
 """

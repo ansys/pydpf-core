@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -27,6 +27,11 @@ Use incremental evaluation helper
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This example shows you how to use the incremental evaluation helper.
+
+.. note::
+    This example requires DPF 6.0 (DPF 2023 R2) or above.
+    For more information, see :ref:`ref_compatibility`.
+
 """
 
 # Import necessary modules

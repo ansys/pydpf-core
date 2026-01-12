@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -176,8 +176,7 @@ merge_fields = ops.utility.merge_fields_containers()
 merge_mesh = ops.utility.merge_meshes()
 
 ds = dpf.DataSources(files_rfrq[0])
-response = ops.result.displacement(data_sources=ds)
-response.inputs.mesh(merge_mesh.outputs.merges_mesh)
+response = ops.result.modal_coordinate(data_sources=ds)
 
 expansion = ops.math.modal_superposition(solution_in_modal_space=response, modal_basis=merge_fields)
 component = ops.logic.component_selector_fc(expansion, 1)

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -262,7 +262,7 @@ class FieldDefinition:
         self._api.csfield_definition_set_shell_layers(self, value)
 
     @dimensionality.setter
-    def dimensionality(self, value):
+    def dimensionality(self, value: Dimensionality):
         if not isinstance(value, Dimensionality):
             raise TypeError("the dimensionality needs to be of type Dimensionality")
         self._api.csfield_definition_set_dimensionality(

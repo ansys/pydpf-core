@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -29,7 +29,7 @@ from ansys.dpf.core import DataSources, path_utilities, server as server_module
 from ansys.dpf.core.core import upload_file_in_tmp_folder
 
 
-def get_example_required_minimum_dpf_version(file: os.PathLike) -> str:
+def get_example_required_minimum_dpf_version(file: str) -> str:
     """Return the minimal DPF server version required to run the example, as declared in a note.
 
     Parameters

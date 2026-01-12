@@ -15,15 +15,6 @@ How-tos
 
        .. image:: ../images/plotting/pontoon.png
        .. image:: ../images/plotting/pontoon_strain.png
-
-
-    .. grid-item-card:: Create custom operators
-       :link: user_guide_custom_operators
-       :link-type: ref
-       :text-align: center
-
-       .. image:: ../images/drawings/plugin-logo.png
-          :width: 50%
 		  
 
     .. grid-item-card:: Use DPF Server package

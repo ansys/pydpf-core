@@ -1,9 +1,14 @@
 """Build static source operators from DPF server."""
+
 import copy
-import os
 from datetime import datetime
+import importlib
+import inspect
+import os
+import pkgutil
 from textwrap import wrap
 import time
+from typing import Optional
 
 import black
 import chevron
@@ -11,19 +16,75 @@ import chevron
 from ansys.dpf import core as dpf
 from ansys.dpf.core import common
 from ansys.dpf.core.dpf_operator import available_operator_names
-from ansys.dpf.core.outputs import _make_printable_type
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.operators.translator import Markdown2RstTranslator
-
+from ansys.dpf.core.outputs import _make_printable_type
 
 # Operator internal names to call if first name is not available
 # Allows deprecating internal names associated to public Python operator modules
-operator_aliases = {
+OPERATOR_ALIASES = {
     "support_provider_cyclic": "mapdl::rst::support_provider_cyclic",
     "NMISC": "mapdl::nmisc",
     "SMISC": "mapdl::smisc",
     "result_provider": "custom",
+    "CS": "mapdl::rst::CS",
+    "MCF": "U",
 }
+
+BUILT_IN_TYPES = ("int", "double", "string", "bool", "float", "str", "dict")
+
+TYPES_WITHOUT_PYTHON_IMPLEMENTATION = (
+    "Materials",
+    "AnsDispatchHolder",
+    "Stream",
+    "AbstractFieldSupport",
+    "AnyCollection",
+    "CustomTypeFieldsContainer",
+    "MeshSelectionManager",
+    "Class Dataprocessing::Dpftypecollection<Class Dataprocessing::Cpropertyfield>",
+    "Struct Iansdispatch",
+    "Class Dataprocessing::Crstfilewrapper",
+    "Char",
+)
+
+
+def find_class_origin(class_name: str, package_name: str = "ansys.dpf.core") -> Optional[str]:
+    """Find the fully qualified import path where a class is originally defined."""
+    try:
+        pkg = importlib.import_module(package_name)
+    except ModuleNotFoundError:
+        raise ValueError(f"Package '{package_name}' not found")
+
+    # ensure we’re working with a real package, not a module
+    if not hasattr(pkg, "__path__"):
+        raise ValueError(f"'{package_name}' is not a package")
+
+    # include the top-level package itself
+    modules_to_check = [package_name]
+
+    # add all submodules of the package
+    for modinfo in pkgutil.walk_packages(pkg.__path__, prefix=f"{package_name}."):
+        modules_to_check.append(modinfo.name)
+
+    # search through all modules
+    for mod_name in modules_to_check:
+        try:
+            mod = importlib.import_module(mod_name)
+        except Exception:
+            # skip broken or unimportable modules
+            continue
+
+        cls = getattr(mod, class_name, None)
+        if cls is None or not inspect.isclass(cls):
+            continue
+
+        # get the module where the class is actually defined
+        defining_module = inspect.getmodule(cls)
+        if defining_module and defining_module.__name__ == mod_name:
+            return f"{defining_module.__name__}"
+
+    return None
+
 
 def build_docstring(specification_description):
     """Used to generate class docstrings."""
@@ -63,6 +124,7 @@ def build_pin_data(pins, output=False):
     pin_ids.sort()
 
     data = []
+
     for id in pin_ids:
         specification = pins[id]
 
@@ -74,8 +136,13 @@ def build_pin_data(pins, output=False):
             type_names = update_type_names_for_ellipsis(type_names)
         docstring_types = map_types(type_names)
         parameter_types = " or ".join(docstring_types)
-        parameter_types = "\n".join(
-            wrap(parameter_types, subsequent_indent="        ", width=60)
+        parameter_types = "\n".join(wrap(parameter_types, subsequent_indent="      ", width=60))
+
+        type_list_for_annotation = " | ".join(
+            docstring_type
+            for docstring_type in docstring_types
+            if docstring_type
+            not in TYPES_WITHOUT_PYTHON_IMPLEMENTATION  # Types without python implementations can't be typechecked
         )
 
         pin_name = specification.name
@@ -83,7 +150,6 @@ def build_pin_data(pins, output=False):
         pin_name = pin_name.replace(">", "_")
 
         main_type = docstring_types[0] if len(docstring_types) >= 1 else ""
-        built_in_types = ("int", "double", "string", "bool", "float", "str", "dict")
 
         # Case where output pin has multiple types.
         multiple_types = len(type_names) >= 2
@@ -97,16 +163,18 @@ def build_pin_data(pins, output=False):
         pin_data = {
             "id": id,
             "name": pin_name,
-            "pin_name": pin_name, # Base pin name, without numbers for when pin is ellipsis
+            "pin_name": pin_name,  # Base pin name, without numbers for when pin is ellipsis
             "has_types": len(type_names) >= 1,
             "has_derived_class": len(derived_class_type_name) >= 1,
             "multiple_types": multiple_types,
             "printable_type_names": printable_type_names,
             "types": type_names,
             "derived_type_name": derived_class_type_name,
+            "docstring_types": docstring_types,
+            "type_list_for_annotation": type_list_for_annotation,
             "types_for_docstring": parameter_types,
             "main_type": main_type,
-            "built_in_main_type": main_type in built_in_types,
+            "built_in_main_type": main_type in BUILT_IN_TYPES,
             "optional": specification.optional,
             "document": document,
             "document_pin_docstring": document_pin_docstring,
@@ -134,9 +202,13 @@ def build_pin_data(pins, output=False):
 
 
 def build_operator(
-    specification, operator_name, class_name, capital_class_name, category, specification_description
+    specification,
+    operator_name,
+    class_name,
+    capital_class_name,
+    category,
+    specification_description,
 ):
-
     input_pins = []
     if specification.inputs:
         input_pins = build_pin_data(specification.inputs)
@@ -152,13 +224,37 @@ def build_operator(
 
     date_and_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
+    annotation_import_types = set()
+    for input_pin in input_pins:
+        annotation_import_types.update(input_pin["docstring_types"])
+    for output_pin in output_pins:
+        # Output pins with multiple types can't be annotated with current operators design
+        if output_pin["multiple_types"]:
+            continue
+        annotation_import_types.update(output_pin["docstring_types"])
+    annotation_import_list = []
+    for annotation_type in annotation_import_types:
+        if annotation_type in BUILT_IN_TYPES + TYPES_WITHOUT_PYTHON_IMPLEMENTATION:
+            continue
+        definition_location = find_class_origin(annotation_type)
+        annotation_import_list.append(
+            {
+                "class_name": annotation_type,
+                "definition_location": definition_location,
+            }
+        )
+    annotation_import_list.sort(key= lambda x: x["class_name"].split("ansys.dpf.core.")[-1])
+    non_empty_annotation_import_list = bool(annotation_import_list)
+
     data = {
         "operator_name": operator_name,
         "class_name": class_name,
-        "class_name_underlining": len(class_name)*"=",
+        "class_name_underlining": len(class_name) * "=",
         "capital_class_name": capital_class_name,
         "docstring": docstring,
         "specification_description": specification_description,
+        "annotation_import_list": annotation_import_list,
+        "non_empty_annotation_import_list": non_empty_annotation_import_list,
         "input_pins": input_pins,
         "output_pins": output_pins,
         "outputs": len(output_pins) >= 1,
@@ -167,8 +263,8 @@ def build_operator(
         "date_and_time": date_and_time,
         "has_input_aliases": has_input_aliases,
         "has_output_aliases": has_output_aliases,
-        "has_internal_name_alias": operator_name in operator_aliases.keys(),
-        "internal_name_alias": operator_aliases.get(operator_name),
+        "has_internal_name_alias": operator_name in OPERATOR_ALIASES.keys(),
+        "internal_name_alias": OPERATOR_ALIASES.get(operator_name),
     }
 
     this_path = os.path.dirname(os.path.abspath(__file__))
@@ -199,9 +295,12 @@ def build_operators():
     # until they are fully deprecated
     hidden_to_expose = [  # Use internal names
         "change_fc",
-        "dot", "dot_tensor",
-        "scale_by_field", "scale_by_field_fc",
-        "invert", "invert_fc",
+        "dot",
+        "dot_tensor",
+        "scale_by_field",
+        "scale_by_field_fc",
+        "invert",
+        "invert_fc",
     ]
     categories = set()
 
@@ -213,9 +312,10 @@ def build_operators():
             print(f"{done} operators done...")
         specification = dpf.Operator.operator_specification(operator_name)
 
-        if (specification.properties["exposure"] in ["hidden", "private"]
-                and
-                operator_name not in hidden_to_expose):
+        if (
+            specification.properties["exposure"] in ["hidden", "private"]
+            and operator_name not in hidden_to_expose
+        ):
             hidden += 1
             continue
 
@@ -246,7 +346,7 @@ def build_operators():
 
         # Write to operator file
         operator_file = os.path.join(category_path, scripting_name + ".py")
-        with open(operator_file, "w", encoding='utf-8', newline="\u000A") as f:
+        with open(operator_file, "w", encoding="utf-8", newline="\u000a") as f:
             operator_str = scripting_name
             try:
                 operator_str = build_operator(
@@ -274,18 +374,23 @@ def build_operators():
 
     # Create __init__.py files
     print(f"Generating __init__.py files...")
-    with open(os.path.join(this_path, "__init__.py"), "w", encoding="utf-8", newline="\u000A") as main_init:
+    with open(
+        os.path.join(this_path, "__init__.py"), "w", encoding="utf-8", newline="\u000a"
+    ) as main_init:
         for category in sorted(categories):
             # Add category to main init file imports
             main_init.write(f"from . import {category}\n")
             # Create category init file
             category_operators = os.listdir(os.path.join(this_path, category.split(".")[0]))
-            with open(os.path.join(this_path, category, "__init__.py"), "w", encoding="utf-8", newline="\u000A") as category_init:
+            with open(
+                os.path.join(this_path, category, "__init__.py"),
+                "w",
+                encoding="utf-8",
+                newline="\u000a",
+            ) as category_init:
                 for category_operator in sorted(category_operators):
                     operator_name = category_operator.split(".")[0]
-                    category_init.write(
-                        f"from .{operator_name} import {operator_name}\n"
-                    )
+                    category_init.write(f"from .{operator_name} import {operator_name}\n")
 
     if succeeded == len(available_operators) - hidden:
         print("Success")

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -93,6 +93,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         ... )
         >>> disp_fc = disp_op.outputs.fields_container()
         >>> meshes_cont.plot(disp_fc)
+        (None, <pyvista.plotting.plotter.Plotter ...>)
 
         """
         # DPF defaults

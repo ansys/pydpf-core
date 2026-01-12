@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -28,6 +28,10 @@ Matrix Operations
 
 This example shows how to do some matrix operations, including basic mathematical operations (power, add and multiply by
 a constant, add field containers and invert) and separating and assembling fields and fields containers.
+
+.. note::
+    This example requires DPF 6.0 (DPF 2023 R2) or above.
+    For more information, see :ref:`ref_compatibility`.
 
 """
 

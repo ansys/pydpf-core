@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -162,20 +162,28 @@ print(result_names_time_per_time)
 
 ###############################################################################
 # compare first result at second time set:
-fc_all_steps_first_step_first_res = res_deser_all_times_list[0].get_field_by_time_id(2)  # set 1
+position_result = result_names_on_all_time_steps.index("result_U")
+fc_all_steps_first_step_first_res = res_deser_all_times_list[position_result].get_field_by_time_id(
+    2
+)  # set 2
 mesh_deser_all_times.plot(fc_all_steps_first_step_first_res)
 
 mesh_deser_set_per_set.plot(res_deser_set_per_set_list[num_res * 1 + 0])
 
 ###############################################################################
-# compare 4th result at 6 time set:
+# compare ENF at 6 time set:
+position_result = result_names_on_all_time_steps.index("result_ENF")
 to_nodal_op = dpf.operators.averaging.to_nodal_fc()
 
-fc_all_steps_first_step_first_res = res_deser_all_times_list[3].get_field_by_time_id(6)  # set 6
+fc_all_steps_first_step_first_res = res_deser_all_times_list[position_result].get_field_by_time_id(
+    6
+)  # set 6
 mesh_deser_all_times.plot(
     dpf.operators.averaging.to_nodal(fc_all_steps_first_step_first_res).outputs.field()
 )
 
 mesh_deser_set_per_set.plot(
-    dpf.operators.averaging.to_nodal(res_deser_set_per_set_list[num_res * 5 + 3]).outputs.field()
+    dpf.operators.averaging.to_nodal(
+        res_deser_set_per_set_list[num_res * 5 + position_result]
+    ).outputs.field()
 )

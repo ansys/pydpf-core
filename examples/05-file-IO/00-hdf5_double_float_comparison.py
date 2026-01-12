@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -29,6 +29,10 @@ HDF5 export and compare precision
 
 This example shows how to use HDF5 format to export and
 compare simple precision versus double precision.
+
+.. note::
+    This example requires DPF 6.0 (DPF 2023 R2) or above.
+    For more information, see :ref:`ref_compatibility`.
 
 """
 
@@ -82,7 +86,7 @@ files = [
 ]
 ###############################################################################
 # Export with simple precision.
-
+print(files)
 h5op.inputs.file_path.connect(files[0])
 h5op.run()
 

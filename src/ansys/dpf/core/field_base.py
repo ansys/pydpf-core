@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -77,7 +77,7 @@ class _FieldBase:
         else:
             self._internal_obj = self.__class__._field_create_internal_obj(
                 self._api,
-                client=self._server.client,
+                server=self._server,
                 nature=nature,
                 nentities=nentities,
                 location=location,
@@ -97,7 +97,7 @@ class _FieldBase:
     @abstractmethod
     def _field_create_internal_obj(
         api: field_abstract_api.FieldAbstractAPI,
-        client,
+        server,
         nature,
         nentities,
         location=locations.nodal,
@@ -504,6 +504,8 @@ class _FieldBase:
 
     @data.setter
     def data(self, data):
+        if isinstance(data, (np.ndarray, np.generic)) and data.base is not None:
+            data = data.copy()
         self._set_data(data)
 
     @abstractmethod

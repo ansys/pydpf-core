@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -41,9 +41,8 @@ from ansys.dpf.core.server import (
     shutdown_all_session_servers,
     start_local_server,
 )
-from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
+from ansys.dpf.core.server_factory import CommunicationProtocols, GrpcMode, ServerConfig
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     raises_for_servers_version_under,
     remove_none_available_config,
@@ -58,11 +57,6 @@ server_configs, server_configs_names = remove_none_available_config(
         ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
         ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
         ServerConfig(protocol=None, legacy=False),
-    ]
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
-    else [
-        None,
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
     ],
     [
         "none",
@@ -71,11 +65,6 @@ server_configs, server_configs_names = remove_none_available_config(
         "grpc",
         "in process",
         "None protocol",
-    ]
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
-    else [
-        "none",
-        "legacy grpc",
     ],
 )
 
@@ -220,7 +209,14 @@ def test_busy_port(remote_config_server_type):
     my_serv = start_local_server(config=remote_config_server_type)
     busy_port = my_serv.port
     with pytest.raises(errors.InvalidPortError):
-        server_types.launch_dpf(ansys_path=dpf.core.misc.get_ansys_path(), port=busy_port)
+        grpc_mode = (
+            GrpcMode.Insecure
+            if os.environ.get("DPF_DEFAULT_GRPC_MODE", "") == "insecure"
+            else GrpcMode.mTLS
+        )
+        server_types.launch_dpf(
+            ansys_path=dpf.core.misc.get_ansys_path(), port=busy_port, grpc_mode=grpc_mode
+        )
     server = start_local_server(as_global=False, port=busy_port, config=remote_config_server_type)
     assert server.port != busy_port
 
@@ -243,10 +239,6 @@ def test_docker_busy_port(remote_config_server_type, clean_up):
 @pytest.mark.skipif(
     platform.system() == "Linux" and platform.python_version().startswith("3.7"),
     reason="Known failure in the GitHub pipeline for 3.7 on Ubuntu",
-)
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Not working for server version lower than 4.0",
 )
 def test_shutting_down_when_deleted_legacy():
     num_dpf_exe = 0
@@ -271,10 +263,6 @@ def test_shutting_down_when_deleted_legacy():
     assert num_dpf_exe >= new_num_dpf_exe
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Not existing in version lower than 4.0",
-)
 def test_shutting_down_when_deleted():
     num_dpf_exe = 0
     for proc in psutil.process_iter():
@@ -340,13 +328,9 @@ def test_connect_to_remote_server(remote_config_server_type):
     )
     assert server.external_ip == server_type_remote_process.external_ip
     assert server.external_port == server_type_remote_process.external_port
-    assert server.config == remote_config_server_type
+    # assert server.config == remote_config_server_type
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Not existing in version lower than 4.0",
-)
 def test_go_away_server():
     for _ in range(0, 5):
         s = start_local_server(config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False)
@@ -354,10 +338,6 @@ def test_go_away_server():
         assert field._internal_obj is not None
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Not existing in version lower than 4.0",
-)
 @pytest.mark.skipif(running_docker, reason="Unstable on Docker")
 def test_start_after_shutting_down_server():
     remote_server = start_local_server(

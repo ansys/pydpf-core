@@ -4,19 +4,21 @@
 Installation
 ************
 
+.. include:: ../links_and_refs.rst
+
 Install using ``pip``
 ---------------------
 
-The standard package installer for Python is `pip <https://pypi.org/project/pip/>`_.
+The standard package installer for Python is `pip <pip_pypi_page_>`_.
 
-To use PyDPF-Core with Ansys 2022 R2 or later, install the latest version
+To use PyDPF-Core with Ansys 2023 R1 or later, install the latest version
 with this command:
 
 .. code::
 
    pip install ansys-dpf-core
 
-PyDPF-Core plotting capabilities require you to have `PyVista <https://pyvista.org/>`_ installed.
+PyDPF-Core plotting capabilities require you to have `PyVista <pyvista_org_>`_ installed.
 To install PyDPF-Core with its optional plotting functionalities, run this command:
 
 .. code::
@@ -30,6 +32,13 @@ To install PyDPF-Core with its optional plotting functionalities, run this comma
    target instead.
 
 For more information about PyDPF-Core plotting capabilities, see :ref:`user_guide_plotting`.
+
+To use PyDPF-Core with Ansys 2022 R2, install the latest compatible version
+with this command:
+
+.. code::
+
+   pip install ansys-dpf-core<0.16.0
 
 To use PyDPF-Core with Ansys 2022 R1, install the latest compatible version
 with this command:
@@ -58,7 +67,7 @@ Install without internet
 
 If you are unable to install PyDPF-Core on the host machine using ``pip`` due to
 network isolation, download the wheelhouse corresponding to your platform and Python interpreter version
-for the latest release of PyDPF-Core from the assets section of the `latest PyDPF-Core release on GitHub <https://github.com/ansys/pydpf-core/releases/latest>`_.
+for the latest release of PyDPF-Core from the assets section of the `latest PyDPF-Core release on GitHub <pydpfcore_latest_release>`_.
 
 The wheelhouse is a ZIP file containing Python wheels for all the packages PyDPF-Core requires to run.
 To install PyDPF-Core using the downloaded wheelhouse, unzip the wheelhouse to a local directory,
@@ -70,8 +79,8 @@ then use the following command from within this local directory:
 
 Note that PyDPF-Core wheelhouses do not include the optional plotting dependencies.
 To use the plotting capabilities, also download the wheels corresponding to your platform and Python interpreter version
-for `PyVista <https://pypi.org/project/pyvista/#files>`_ and 
-`matplotlib <https://pypi.org/project/matplotlib/#files>`_. Then, place them in the same local directory and run the preceding command.
+for `PyVista <pyvista_download_files>`_ and
+`matplotlib <matplotlib_download_files>`_. Then, place them in the same local directory and run the preceding command.
 
 
 Install in development mode
