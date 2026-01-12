@@ -9,7 +9,7 @@ Package dependencies
 
 Dependencies for the ``ansys-dpf-core`` package are automatically checked when the
 package is installed. Package dependencies are:
-
+- `ansys-tools-common <https://pypi.org/project/ansys-tools-common/>`_
 - `google-api-python-client <https://pypi.org/project/google-api-python-client/>`_
 - `grpcio <https://pypi.org/project/grpcio/>`_
 - `importlib-metadata <https://pypi.org/project/importlib-metadata/>`_

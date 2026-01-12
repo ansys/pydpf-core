@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -334,7 +334,7 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.math.add()
         >>> operator.specification.properties
-        {'category': 'math', 'exposure': 'public', 'plugin': 'core', 'user_name': '+'}
+        {'category': '...', 'exposure': '...', 'plugin': '...', 'user_name': '...'}
         """
         if self._properties is None:
             temp_properties = dict()
@@ -386,8 +386,8 @@ class Specification(SpecificationBase):
         >>> 4 in operator.specification.inputs.keys()
         True
         >>> operator.specification.inputs[4]
-        PinSpecification(name='data_sources', _type_names=['data_sources'], ...set', ellipsis=False,
-         name_derived_class='', aliases=[...])
+        PinSpecification(name='...', _type_names=[...], ...,
+         name_derived_class=..., aliases=[...])
         """
         if self._map_input_pin_spec is None:
             self._map_input_pin_spec = {}
@@ -407,8 +407,8 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.mesh.mesh_provider()
         >>> operator.specification.outputs
-        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], ...=False,
-         name_derived_class='', aliases=[...])}
+        {0: PinSpecification(name='...', _type_names=[...], ...,
+         name_derived_class=..., aliases=[...])}
         """
         if self._map_output_pin_spec is None:
             self._map_output_pin_spec = {}

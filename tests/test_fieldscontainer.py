@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -81,10 +81,6 @@ def test_createby_message_copy_fields_container(server_type_legacy_grpc):
     assert fc._internal_obj == fields_container2._internal_obj
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Copying data is supported starting server version 3.0",
-)
 def test_createbycopy_fields_container(server_type):
     fc = FieldsContainer(server=server_type)
     fields_container2 = FieldsContainer(fields_container=fc)
@@ -360,10 +356,6 @@ def test_deep_copy_over_time_fields_container(velocity_acceleration):
     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Bug in server version lower than 3.0",
-)
 def test_light_copy(server_type):
     fc = FieldsContainer(server=server_type)
     fc.labels = ["time"]
@@ -561,7 +553,6 @@ def test_fields_container_get_time_scoping(server_type, disp_fc):
     assert freq_scoping.size == 1
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_fields_container_set_tfsupport(server_type):
     coll = dpf.FieldsContainer(server=server_type)
     coll.labels = ["body", "time"]

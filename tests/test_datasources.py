@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -39,6 +39,9 @@ def test_create_data_sources(server_type):
 def test_create_with_resultpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)
     assert data_sources._internal_obj
+    assert data_sources.result_key == "rst"
+    data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type, key="test")
+    assert data_sources.result_key == "test"
 
 
 def test_setresultpath_data_sources(allkindofcomplexity, server_type):
@@ -103,6 +106,11 @@ def test_set_resultpath_data_sources_cff(server_type):
     assert data_sources.result_key == "cas"
 
 
+def test_auto_key_data_sources_h5dpf(server_type):
+    data_sources = dpf.core.DataSources(result_path="test.h5", server=server_type)
+    assert data_sources.result_key == "h5dpf"
+
+
 def test_set_resultpath_data_sources_cfx_res(server_type):
     from ansys.dpf.core import examples
 
@@ -138,10 +146,6 @@ def test_data_sources_from_data_sources(allkindofcomplexity, server_type):
     data_sources2 = dpf.core.DataSources(data_sources=data_sources, server=server_type)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Bug in server version lower than 4.0",
-)
 def test_several_result_path_data_sources(server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path("file_hello.rst")
@@ -150,10 +154,6 @@ def test_several_result_path_data_sources(server_type):
     assert data_sources.result_files == ["file_hello.rst", "file_bye.rst"]
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Copying data is supported starting server version 3.0",
-)
 def test_delete_auto_data_sources(server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     ref = weakref.ref(data_sources)
@@ -185,3 +185,10 @@ def test_namespace(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(cas_h5_file)
     assert data_sources.namespace(data_sources.result_key) == "cff"
+
+
+def test_as_stream(allkindofcomplexity, server_in_process):
+    ds = dpf.core.DataSources(allkindofcomplexity, server=server_in_process)
+    stream = ds.streams_container
+    assert isinstance(stream, dpf.core.StreamsContainer)
+    assert stream.datasources.result_files == ds.result_files

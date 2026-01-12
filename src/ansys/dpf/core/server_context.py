@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -118,6 +118,7 @@ class LicenseContextManager:
     Examples
     --------
     Using a context manager
+
     >>> from ansys.dpf import core as dpf
     >>> dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
     >>> field = dpf.Field()
@@ -129,6 +130,7 @@ class LicenseContextManager:
     ...    out = op.outputs.field()
 
     Using an instance
+
     >>> lic = dpf.LicenseContextManager()
     >>> op.inputs.field(field)
     >>> op.inputs.threshold(0.0)
@@ -136,6 +138,7 @@ class LicenseContextManager:
     >>> lic = None
 
     Using a context manager and choosing license options
+
     >>> op.inputs.field(field)
     >>> op.inputs.threshold(0.0)
     >>> out = op.outputs.field()
@@ -149,6 +152,7 @@ class LicenseContextManager:
     Notes
     -----
     Available from 6.1 server version.
+
     """
 
     def __init__(

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -62,10 +62,6 @@ def test_createby_message_copy_scopings_container(server_type_legacy_grpc):
     assert sc._internal_obj == scopings_container2._internal_obj
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Copying data is supported starting server version 3.0",
-)
 def test_createbycopy_scopings_container(server_type):
     sc = ScopingsContainer(server=server_type)
     scopings_container2 = ScopingsContainer(scopings_container=sc)
