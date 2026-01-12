@@ -5,10 +5,10 @@ requires = ["setuptools>=61.0.0", "wheel"]
 [project]
 # Check https://setuptools.pypa.io/en/stable/userguide/quickstart.html for all available sections
 name = "ansys-dpf-core"
-version = "0.14.3.dev0"
+version = "0.15.1.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
-requires-python = ">=3.9, <4"
+requires-python = ">=3.10, <4"
 license = {file = "LICENSE"}
 authors = [
     {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"},
@@ -27,6 +27,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 dependencies = [
+    "ansys-tools-common",
     "grpcio >=1.63.0",
     "importlib-metadata >=4.0",
     "numpy",
