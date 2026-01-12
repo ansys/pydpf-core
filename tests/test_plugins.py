@@ -25,7 +25,7 @@ from pathlib import Path
 import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
+from ansys.dpf.core import errors, examples
 import conftest
 
 
@@ -124,6 +124,7 @@ def test_vtk(server_type, tmpdir):
     # assert os.path.exists(tmp_path)
 
 
+@pytest.mark.xfail(raises=errors.DpfVersionNotSupported)
 def test_load_library_default_name(config_server_type):
     xml_path = Path(conftest.DEFAULT_ANSYS_PATH) / "dpf" / "utilities" / "DpfCustomDefined.xml"
     server_context = dpf.server_context.ServerContext(context_type=2, xml_path=str(xml_path))
