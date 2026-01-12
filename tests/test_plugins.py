@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -26,7 +26,6 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
 
 
 @pytest.fixture()
@@ -81,10 +80,6 @@ def test_eng(engineering_data_sources, try_load_composites_operators):
     field_variable_provider.run()
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="Requires server version higher than 5.0",
-)
 def test_lsdynahgp(d3plot_files, server_type):
     ds = dpf.DataSources(server=server_type)
     ds.set_result_file_path(d3plot_files[0], "d3plot")
@@ -96,18 +91,10 @@ def test_lsdynahgp(d3plot_files, server_type):
     assert dpf.Operator("lsdyna::stream_provider") is not None
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="Requires server version higher than 5.0",
-)
 def test_cgns(server_type):
     assert dpf.Operator("cgns::stream_provider", server=server_type) is not None
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="Requires server version higher than 5.0",
-)
 def test_vtk(server_type, tmpdir):
     op = dpf.Operator("vtu_export", server=server_type)
     try:

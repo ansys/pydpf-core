@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -58,6 +58,7 @@ def delete_downloads(verbose=True):
             Path(examples.__file__).parent / "__init__.py",
             Path(examples.__file__).parent / "downloads.py",
             Path(examples.__file__).parent / "examples.py",
+            Path(examples.__file__).parent / "python_plugins" / "custom_operator_example.py",
         ]
     )
     for root, dirs, files in os.walk(LOCAL_DOWNLOADED_EXAMPLES_PATH, topdown=False):

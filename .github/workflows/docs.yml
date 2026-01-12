@@ -64,6 +64,7 @@ jobs:
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
+          echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
 
       - name: "Setup Python"
         uses: actions/setup-python@v5
@@ -79,7 +80,7 @@ jobs:
       - name: "Build the wheel"
         shell: pwsh
         run: |
-          tox -e build-wheel
+          tox -e build-wheel -- "any"
 
       - name: "Expose the wheel"
         shell: bash
@@ -135,13 +136,6 @@ jobs:
         shell: bash
         run: |
           tox -e doc-html --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
-
-      - name: "Upload Documentation Build log"
-        uses: actions/upload-artifact@v4
-        with:
-          name: doc-${{env.PACKAGE_NAME}}-log
-          path: doc/*.txt
-        if: always()
 
       - name: "Save doc-build cache"
         id: cache-doc-build-save

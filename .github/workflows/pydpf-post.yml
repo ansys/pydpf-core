@@ -5,7 +5,7 @@ on:
   workflow_call:
     inputs:
       post_branch:
-        default: ''
+        default: 'main'
         type: string
       ANSYS_VERSION:
         required: false
@@ -24,8 +24,8 @@ on:
   workflow_dispatch:
     inputs:
       post_branch:
-        description: 'PyDPF-Post branch or tag to test. Leave empty to get latest tagged version'
-        default: ''
+        description: 'PyDPF-Post branch or tag to test. Set to `latest` to get latest tagged version'
+        default: 'main'
         type: string
       ANSYS_VERSION:
         description: "ANSYS version"
@@ -65,6 +65,7 @@ jobs:
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
+          echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
 
       - name: "Setup Python"
         uses: actions/setup-python@v5
@@ -77,7 +78,7 @@ jobs:
       - name: "Build ansys-dpf-core wheel"
         shell: bash
         run: |
-          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
+          if [[ ${{ matrix.os }} == *"ubuntu"* ]]; then
               export platform="manylinux_2_17"
           else
               export platform="win"
@@ -120,9 +121,9 @@ jobs:
           REPO="https://github.com/ansys/pydpf-post.git"
           BranchName=${{ inputs.post_branch }}
           echo branch="$BranchName"
-          if [ "$BranchName" = '' ];
+          if [ "$BranchName" = 'latest' ];
           then
-              BranchName=$(git ls-remote --tags --refs $REPO | tail -n1 | cut -d/ -f3)
+              BranchName=$(git ls-remote --tags --sort="v:refname" --refs $REPO | tail -n1 | cut -d/ -f3)
           fi
           echo branch=$BranchName
           git clone --single-branch --branch "$BranchName" $REPO
@@ -152,7 +153,7 @@ jobs:
           PACKAGE_NAME: ansys-dpf-post
           working-directory: pydpf-post/src
         if: inputs.test_docstrings == 'true'
-        timeout-minutes: 10
+        timeout-minutes: 12
         continue-on-error: true
         
       - uses: mainmatter/continue-on-error-comment@v1

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -32,6 +32,7 @@ import copy
 import functools
 import inspect
 import os
+from pathlib import Path
 import platform
 import socket
 import sys
@@ -43,12 +44,21 @@ import weakref
 from ansys import dpf
 from ansys.dpf.core import errors, server_context
 from ansys.dpf.core.misc import get_ansys_path, is_ubuntu
+from ansys.dpf.core.server_context import ServerContext
 from ansys.dpf.core.server_factory import (
     CommunicationProtocols,
+    DockerConfig,
+    GrpcMode,
     ServerConfig,
     ServerFactory,
 )
-from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER, BaseServer
+from ansys.dpf.core.server_types import (  # noqa: F401  # pylint: disable=unused-import  # noqa: F401  # pylint: disable=unused-import
+    DPF_DEFAULT_PORT,
+    LOCALHOST,
+    RUNNING_DOCKER,
+    AnyServerType,
+    BaseServer,
+)
 
 
 def shutdown_global_server():
@@ -73,7 +83,7 @@ def has_local_server():
     return dpf.core.SERVER is not None
 
 
-def _global_server() -> BaseServer:
+def _global_server() -> AnyServerType:
     """Retrieve the global server if it exists.
 
     If the global server has not been specified, check the expected server type in
@@ -151,63 +161,76 @@ def shutdown_all_session_servers():
 
 
 def start_local_server(
-    ip=LOCALHOST,
-    port=DPF_DEFAULT_PORT,
-    ansys_path=None,
-    as_global=True,
-    load_operators=True,
-    use_docker_by_default=True,
-    docker_config=RUNNING_DOCKER,
-    timeout=20.0,
-    config=None,
-    use_pypim_by_default=True,
-    context=None,
-) -> BaseServer:
+    ip: str = LOCALHOST,
+    port: int = DPF_DEFAULT_PORT,
+    ansys_path: Path | str = None,
+    as_global: bool = True,
+    load_operators: bool = True,
+    use_docker_by_default: bool = True,
+    docker_config: DockerConfig = RUNNING_DOCKER,
+    timeout: float = 20.0,
+    config: ServerConfig = None,
+    use_pypim_by_default: bool = True,
+    context: ServerContext = None,
+) -> AnyServerType:
     """Start a new local DPF server at a given port and IP address.
 
     This method requires Windows and ANSYS 2021 R1 or later. If ``as_global=True``, which is
     the default) the server is stored globally, replacing the one stored previously.
     Otherwise, a user must keep a handle on their server.
 
+    .. warning::
+        Starting with DPF 2026 R1 and PyDPF 0.15.0, the default gRPC server uses mTLS authentication.
+        Please refer to :ref:`ref_dpf_server_secure_mode` for more information on how to set up the
+        certificates and configure the server and client accordingly.
+        See the ``config`` parameter for more details.
+
     Parameters
     ----------
-    ip : str, optional
+    ip:
         IP address of the remote or local instance to connect to. The
         default is ``"LOCALHOST"``.
-    port : int, optional
+    port:
         Port to connect to the remote instance on. The default is
         ``"DPF_DEFAULT_PORT"``, which is 50054.
-    ansys_path : str or os.PathLike, optional
+    ansys_path:
         Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
         The default is the latest Ansys installation.
-    as_global : bool, optional
+    as_global:
         Global variable that stores the IP address and port for the DPF
         module. All DPF objects created in this Python session will
         use this IP and port. The default is ``True``.
-    load_operators : bool, optional
+    load_operators:
         Whether to automatically load the math operators. The default is ``True``.
-    use_docker_by_default : bool, optional
+    use_docker_by_default:
         If the environment variable DPF_DOCKER is set to a docker name and use_docker_by_default
         is True, the server is ran as a docker (default is True).
-    docker_config : server_factory.DockerConfig, optional
+    docker_config:
         To start DPF server as a docker, specify the docker configuration options here.
-    timeout : float, optional
+    timeout:
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
-    config: ServerConfig, optional
-        Manages the type of server connection to use.
-    use_pypim_by_default: bool, optional
+    config:
+        Manages the type of server connection to use. Forced to LegacyGrpc on macOS.
+        Defaults to mTLS authenticated gRPC connection.
+        Define the path to the mTLS authentication certificates here if needed.
+        Define the default server authentication configuration with environment variables:
+        - ANSYS_GRPC_CERTIFICATES: path to the certificates directory
+        - DPF_GRPC_MODE: gRPC authentication mode, options are 'mtls' and 'insecure'.
+        More information available at :ref:`ref_dpf_server_secure_mode`.
+    use_pypim_by_default:
         Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
         Defaults to True.
-    context: ServerContext, optional
+    context:
         Defines the settings that will be used to load DPF's plugins.
         A DPF xml file can be used to list the plugins and set up variables. Default is
         `server_context.SERVER_CONTEXT`.
 
     Returns
     -------
-    server : server.ServerBase
+    server:
+        The newly created server.
     """
     from ansys.dpf.core.misc import is_pypim_configured
 
@@ -254,6 +277,13 @@ def start_local_server(
                 "ip" in server_init_signature.parameters.keys()
                 and "port" in server_init_signature.parameters.keys()
             ):
+                grpc_mode = GrpcMode.mTLS
+                certs_dir = ""
+                if config is not None:
+                    grpc_mode = config.grpc_mode
+                    certs_dir = config.certificates_dir
+                else:
+                    config = ServerConfig()
                 server = server_type(
                     ansys_path,
                     ip,
@@ -265,6 +295,8 @@ def start_local_server(
                     timeout=timeout,
                     use_pypim=use_pypim,
                     context=context,
+                    grpc_mode=grpc_mode,
+                    certificates_dir=certs_dir,
                 )
             else:
                 server = server_type(
@@ -301,37 +333,49 @@ def start_local_server(
 
 
 def connect_to_server(
-    ip=LOCALHOST,
-    port=DPF_DEFAULT_PORT,
-    as_global=True,
-    timeout=10.0,
-    config=None,
-    context=None,
+    ip: str = LOCALHOST,
+    port: int = DPF_DEFAULT_PORT,
+    as_global: bool = True,
+    timeout: float = 10.0,
+    config: ServerConfig = None,
+    context: ServerContext = None,
 ):
     """Connect to an existing DPF server.
 
     This method sets the global default channel that is then used for the
     duration of the DPF session.
 
+    .. warning::
+        Starting with DPF 2026 R1 and PyDPF 0.15.0, the default gRPC server uses mTLS authentication.
+        Please refer to :ref:`ref_dpf_server_secure_mode` for more information on how to set up the
+        certificates and configure the server and client accordingly.
+        See the ``config`` parameter for more details.
+
     Parameters
     ----------
-    ip : str
+    ip:
         IP address of the remote or local instance to connect to. The
         default is ``"LOCALHOST"``.
-    port : int
+    port:
         Port to connect to the remote instance on. The default is
         ``"DPF_DEFAULT_PORT"``, which is 50054.
-    as_global : bool, optional
+    as_global:
         Global variable that stores the IP address and port for the DPF
         module. All DPF objects created in this Python session will
         use this IP and port. The default is ``True``.
-    timeout : float, optional
+    timeout:
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
-    config: ServerConfig, optional
+    config:
         Manages the type of server connection to use. Forced to LegacyGrpc on macOS.
-    context: ServerContext, optional
+        Defaults to mTLS authenticated gRPC connection.
+        Define the path to the mTLS authentication certificates here if needed.
+        Define the default server authentication configuration with environment variables:
+        - ANSYS_GRPC_CERTIFICATES: path to the certificates directory
+        - DPF_GRPC_MODE: gRPC authentication mode, options are 'mtls' and 'insecure'.
+        More information available at :ref:`ref_dpf_server_secure_mode`.
+    context:
         Defines the settings that will be used to load DPF's plugins.
         A DPF xml file can be used to list the plugins and set up variables. Default is
         `server_context.SERVER_CONTEXT`.
@@ -363,6 +407,11 @@ def connect_to_server(
             "ip" in server_init_signature.parameters.keys()
             and "port" in server_init_signature.parameters.keys()
         ):
+            grpc_mode = GrpcMode.mTLS
+            certs_dir = ""
+            if config is not None:
+                grpc_mode = config.grpc_mode
+                certs_dir = config.certificates_dir
             server = server_type(
                 ip=ip,
                 port=port,
@@ -370,6 +419,8 @@ def connect_to_server(
                 launch_server=False,
                 context=context,
                 timeout=timeout,
+                grpc_mode=grpc_mode,
+                certificates_dir=certs_dir,
             )
         else:
             server = server_type(as_global=as_global, context=context)
@@ -399,12 +450,12 @@ def connect_to_server(
         raise e
 
 
-def get_or_create_server(server: BaseServer | None) -> Union[BaseServer, None]:
+def get_or_create_server(server: AnyServerType | None) -> Union[AnyServerType, None]:
     """Return the given server or if None, creates a new one.
 
     Parameters
     ----------
-    server: BaseServer, None
+    server:
 
     Returns
     -------

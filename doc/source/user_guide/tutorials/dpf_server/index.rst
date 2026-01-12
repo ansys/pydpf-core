@@ -4,21 +4,28 @@
 DPF server
 ==========
 
-This tutorial explains how to manipulate DPF client-server architecture
+These tutorials explain how to work with the DPF client-server architecture and
+manage different server configurations for optimal performance.
 
 .. grid:: 1 1 3 3
     :gutter: 2
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Switch between local and remote server
-       :link: ref_tutorials
+    .. grid-item-card:: Working with DPF server configurations
+       :link: user_guide_server_types
        :link-type: ref
        :text-align: center
 
-       This tutorial
+       Learn how to start and use different DPF server types (InProcess, gRPC, and Legacy)
+       for local and remote computation.
+
+       +++
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
 .. toctree::
     :maxdepth: 2
     :hidden:
+
+    server_types
 
