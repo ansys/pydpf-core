@@ -26,6 +26,7 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+import conftest
 
 
 @pytest.fixture()
