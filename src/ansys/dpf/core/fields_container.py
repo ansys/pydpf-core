@@ -28,6 +28,7 @@ Contains classes associated with the DPF FieldsContainer.
 
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING, Union
 
 from ansys import dpf
@@ -38,6 +39,7 @@ from ansys.dpf.core.common import shell_layers
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Operator, Result
 
+_logger = logging.getLogger(__name__)
 
 class FieldsContainer(CollectionBase["field.Field"]):
     """Represents a fields container, which contains fields belonging to a common result.
@@ -507,8 +509,8 @@ class FieldsContainer(CollectionBase["field.Field"]):
             fc.add_field(self.get_label_space(i), f.deep_copy(server))
         try:
             fc.time_freq_support = self.time_freq_support.deep_copy(server)
-        except:
-            pass
+        except Exception as e:
+            _logger.warning(f"Failed to copy time_freq_support: {e}")
         return fc
 
     def get_time_scoping(self):

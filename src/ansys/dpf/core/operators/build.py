@@ -4,6 +4,7 @@ import copy
 from datetime import datetime
 import importlib
 import inspect
+import logging
 import os
 import pkgutil
 from textwrap import wrap
@@ -47,6 +48,8 @@ TYPES_WITHOUT_PYTHON_IMPLEMENTATION = (
     "Char",
 )
 
+_logger = logging.getLogger(__name__)
+
 
 def find_class_origin(class_name: str, package_name: str = "ansys.dpf.core") -> Optional[str]:
     """Find the fully qualified import path where a class is originally defined."""
@@ -70,8 +73,9 @@ def find_class_origin(class_name: str, package_name: str = "ansys.dpf.core") -> 
     for mod_name in modules_to_check:
         try:
             mod = importlib.import_module(mod_name)
-        except Exception:
+        except Exception as e:
             # skip broken or unimportable modules
+            _logger.warning(f"Failed to import module {mod_name}: {e}")
             continue
 
         cls = getattr(mod, class_name, None)
@@ -357,7 +361,7 @@ def build_operators():
                     category,
                     specification_description,
                 )
-                exec(operator_str, globals())
+                exec(operator_str, globals()) # nosec B102
                 f.write(operator_str)
                 succeeded += 1
             except SyntaxError as e:

@@ -24,8 +24,10 @@
 
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING
 
+from joblib.externals.loky.process_executor import LOGGER
 import numpy as np
 
 from ansys import dpf
@@ -55,6 +57,7 @@ if TYPE_CHECKING:  # pragma: nocover
     from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.results import Result
 
+_logger = logging.getLogger(__name__)
 
 class Field(_FieldBase):
     """Represents the main simulation data container.
@@ -941,16 +944,16 @@ class Field(_FieldBase):
         f.field_definition = self.field_definition.deep_copy(server)
         try:
             f._data_pointer = self._data_pointer
-        except:
-            pass
+        except Exception as e:
+            _logger.warning(f"Failed to copy _data_pointer: {e}")
         try:
             f.meshed_region = self.meshed_region.deep_copy(server=server)
-        except:
-            pass
+        except Exception as e:
+            _logger .warning(f"Failed to copy meshed_region: {e}")
         try:
             f.time_freq_support = self.time_freq_support.deep_copy(server=server)
-        except:
-            pass
+        except Exception as e:
+            _logger.warning(f"Failed to copy time_freq_support: {e}")
 
         return f
 
