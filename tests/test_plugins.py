@@ -125,7 +125,8 @@ def test_vtk(server_type, tmpdir):
 
 
 @pytest.mark.xfail(raises=errors.DpfVersionNotSupported)
-def test_load_library_default_name(config_server_type):
+def test_load_library_default_name(remote_config_server_type):
+    # Test only for remote server configs as InProcess already ran and loaded plugins at this point
     xml_path = Path(conftest.DEFAULT_ANSYS_PATH) / "dpf" / "utilities" / "DpfCustomDefined.xml"
     server_context = dpf.server_context.ServerContext(context_type=2, xml_path=str(xml_path))
     print(server_context)
