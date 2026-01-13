@@ -28,6 +28,7 @@ to easily access results in result files.
 """
 
 import functools
+import logging
 
 from ansys.dpf.core import Operator, errors
 from ansys.dpf.core.custom_fields_container import (
@@ -545,8 +546,9 @@ class Result:
         if previous_mesh_scoping:
             try:
                 self._mesh_scoping.inputs.mesh_scoping(previous_mesh_scoping)
-            except:
-                pass
+            except Exception as e:
+                _logger = logging.getLogger(__name__)
+                _logger.warning(f"Failed to set previous mesh scoping: {e}")
         return self
 
     def on_mesh_scoping(self, mesh_scoping):

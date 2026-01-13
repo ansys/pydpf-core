@@ -58,6 +58,7 @@ if TYPE_CHECKING:  # pragma: nocover
 
 _logger = logging.getLogger(__name__)
 
+
 class Field(_FieldBase):
     """Represents the main simulation data container.
 
@@ -948,7 +949,7 @@ class Field(_FieldBase):
         try:
             f.meshed_region = self.meshed_region.deep_copy(server=server)
         except Exception as e:
-            _logger .warning(f"Failed to copy meshed_region: {e}")
+            _logger.warning(f"Failed to copy meshed_region: {e}")
         try:
             f.time_freq_support = self.time_freq_support.deep_copy(server=server)
         except Exception as e:

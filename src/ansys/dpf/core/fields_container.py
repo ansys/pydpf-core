@@ -41,6 +41,7 @@ if TYPE_CHECKING:  # pragma: no cover
 
 _logger = logging.getLogger(__name__)
 
+
 class FieldsContainer(CollectionBase["field.Field"]):
     """Represents a fields container, which contains fields belonging to a common result.
 
