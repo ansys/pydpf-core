@@ -129,7 +129,8 @@ def test_load_library_default_name(config_server_type):
     xml_path = Path(conftest.DEFAULT_ANSYS_PATH) / "dpf" / "utilities" / "DpfCustomDefined.xml"
     server_context = dpf.server_context.ServerContext(context_type=2, xml_path=str(xml_path))
     print(server_context)
-    server = dpf.start_local_server(config=config_server_type, context=server_context)
+    server = dpf.start_local_server(config=config_server_type, context=server_context, as_global=False)
     print(server.plugins)
+    assert len(server.plugins) == 1
     # TODO: fix use of custom XML at server startup. The above should only show grpc loaded
     # https://github.com/ansys/pydpf-core/issues/2666
