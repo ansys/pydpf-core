@@ -73,7 +73,7 @@ def load_library(
     symbol: str = "LoadOperators",
     server: AnyServerType = None,
     generate_operators: bool = False,
-):
+) -> str:
     """Load a DPF plugin (a binary library of operators).
 
     Set `generate_operators=True` to also make the operators available in the current
@@ -103,8 +103,7 @@ def load_library(
 
     """
     base = BaseService(server, load_operators=False)
-    base.load_library(filename, name, symbol, generate_operators)
-    return name + " successfully loaded"
+    return base.load_library(filename, name, symbol, generate_operators)
 
 
 def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
@@ -402,7 +401,7 @@ class BaseService:
         name: str = None,
         symbol: str = "LoadOperators",
         generate_operators: bool = False,
-    ):
+    ) -> str:
         """Dynamically load an operators library for dpf.core.
 
         Code containing this library's operators is generated in
@@ -431,7 +430,7 @@ class BaseService:
 
         """
         if name is None:
-            name = Path(file_path).name
+            name = Path(file_path).stem
         file_path = str(
             PurePosixPath(file_path)
             if self.server_info["os"] == "posix"
@@ -486,6 +485,8 @@ class BaseService:
                 __generate_code(
                     TARGET_PATH=LOCAL_PATH, filename=file_path, name=name, symbol=symbol
                 )
+
+        return name + " successfully loaded"
 
     @version_requires("6.0")
     def apply_context(self, context):
