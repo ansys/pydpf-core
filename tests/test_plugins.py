@@ -129,6 +129,7 @@ def test_vtk(server_type, tmpdir):
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     reason="Use of custom XML broken before 252",
 )
+@pytest.mark.skipif(conftest.running_docker, reason="server start using custom xml not working on Docker")
 def test_load_library_default_name(remote_config_server_type):
     # Test only for remote server configs as InProcess already ran and loaded plugins at this point
     xml_path = Path(conftest.DEFAULT_ANSYS_PATH) / "dpf" / "utilities" / "DpfCustomDefined.xml"
