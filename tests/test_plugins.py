@@ -130,10 +130,10 @@ def test_vtk(server_type, tmpdir):
     reason="Use of custom XML broken before 252",
 )
 @pytest.mark.skipif(conftest.running_docker, reason="server start using custom xml not working on Docker")
-def test_load_library_default_name(remote_config_server_type):
+def test_load_library_default_name(remote_config_server_type, testfiles_dir):
     # Test only for remote server configs as InProcess already ran and loaded plugins at this point
-    xml_path = Path(conftest.DEFAULT_ANSYS_PATH) / "dpf" / "utilities" / "DpfCustomDefined.xml"
-    server_context = dpf.server_context.ServerContext(context_type=2, xml_path=str(xml_path))
+    server_context = dpf.core.AvailableServerContexts.no_context
+    server_context.xml_path = Path(testfiles_dir) / "DpfCustomDefinedTest.xml"
     print(server_context)
     server = dpf.start_local_server(
         config=remote_config_server_type, context=server_context, as_global=False
