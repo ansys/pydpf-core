@@ -27,7 +27,6 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
-from joblib.externals.loky.process_executor import LOGGER
 import numpy as np
 
 from ansys import dpf
