@@ -131,7 +131,7 @@ def test_load_library_default_name(remote_config_server_type):
     server_context = dpf.server_context.ServerContext(context_type=2, xml_path=str(xml_path))
     print(server_context)
     server = dpf.start_local_server(
-        config=config_server_type, context=server_context, as_global=False
+        config=remote_config_server_type, context=server_context, as_global=False
     )
     print(server.plugins)
     assert len(server.plugins) == 1
