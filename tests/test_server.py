@@ -43,6 +43,7 @@ from ansys.dpf.core.server import (
 )
 from ansys.dpf.core.server_factory import CommunicationProtocols, GrpcMode, ServerConfig
 from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     raises_for_servers_version_under,
     remove_none_available_config,
     running_docker,
@@ -167,6 +168,20 @@ class TestServer:
         server_plugins = start_local_server(config=server_config).plugins
         assert isinstance(server_plugins, dict)
         assert "native" in server_plugins.keys()
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="not working properly before 25R2"
+)
+@pytest.mark.skipif(running_docker, reason="server start using custom xml not working on Docker")
+def test_server_context_custom_xml(remote_config_server_type, testfiles_dir):
+    from pathlib import Path
+
+    context = dpf.core.AvailableServerContexts.no_context
+    context.xml_path = Path(testfiles_dir) / "DpfCustomDefinedTest.xml"
+    server_plugins = start_local_server(config=remote_config_server_type, context=context).plugins
+    ref = ["grpc", "native"]
+    assert sorted(list(server_plugins.keys())) == ref
 
 
 @pytest.mark.skipif(
