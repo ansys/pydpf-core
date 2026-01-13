@@ -127,7 +127,7 @@ def test_vtk(server_type, tmpdir):
 @pytest.mark.xfail(raises=errors.DpfVersionNotSupported)
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
-    reason="Use of custom XML broken before 252"
+    reason="Use of custom XML broken before 252",
 )
 def test_load_library_default_name(remote_config_server_type):
     # Test only for remote server configs as InProcess already ran and loaded plugins at this point
