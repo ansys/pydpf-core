@@ -173,6 +173,7 @@ class TestServer:
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="not working properly before 25R2"
 )
+@pytest.mark.skipif(running_docker, reason="server start using custom xml not working on Docker")
 def test_server_context_custom_xml(remote_config_server_type, testfiles_dir):
     from pathlib import Path
 
@@ -180,24 +181,6 @@ def test_server_context_custom_xml(remote_config_server_type, testfiles_dir):
     context.xml_path = Path(testfiles_dir) / "DpfCustomDefinedTest.xml"
     server_plugins = start_local_server(config=remote_config_server_type, context=context).plugins
     ref = ["grpc", "native"]
-    if running_docker:  # Use of custom xml not working either on Docker
-        ref = [
-            "cff",
-            "cngs",
-            "compression",
-            "documentation",
-            "fem_utils",
-            "grpc",
-            "hdf5",
-            "live_post",
-            "lsDyna",
-            "mapdl_plugin",
-            "math",
-            "mechanical_results",
-            "mesh_plugin",
-            "native",
-            "vtk",
-        ]
     assert sorted(list(server_plugins.keys())) == ref
 
 
