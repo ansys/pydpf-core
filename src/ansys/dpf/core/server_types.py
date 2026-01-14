@@ -162,12 +162,9 @@ def _run_launch_server_process(
         run_cmd = " ".join(run_cmd)
     old_dir = Path.cwd()
     os.chdir(dpf_run_dir)
-    if not bShell:
-        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    else:
-        process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
-        )
+    process = subprocess.Popen(
+        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=bShell
+    )  # nosec B602
     os.chdir(old_dir)
     return process
 

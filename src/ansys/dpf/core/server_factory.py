@@ -31,7 +31,7 @@ import io
 import logging
 import os
 from pathlib import Path
-import subprocess
+import subprocess  # nosec B404
 import time
 
 from ansys.dpf.gate.load_api import (
@@ -101,7 +101,7 @@ class DockerConfig:
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
 
         if mounted_volumes is None:
-            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
+            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}  # nosec B108
 
         self._use_docker = use_docker
         self._docker_name = docker_name
@@ -248,7 +248,10 @@ class DockerConfig:
         if os.name == "posix":
             b_shell = True
         with subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
+            run_cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=b_shell,  # nosec B602
         ) as process:
             used_ports = []
             with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
@@ -629,7 +632,10 @@ class RunningDockerConfig:
         if os.name == "posix":
             b_shell = True
         with subprocess.Popen(
-            stop_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
+            stop_cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=b_shell,  # nosec B602
         ) as process:
             rm_cmd = f"docker rm {self.server_id}"
             with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
@@ -640,7 +646,7 @@ class RunningDockerConfig:
                     rm_cmd,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
-                    shell=b_shell,
+                    shell=b_shell,  # nosec B602
                     check=True,
                 )
             except subprocess.CalledProcessError as e:
@@ -680,7 +686,7 @@ class RunningDockerConfig:
                 f"docker logs {self.server_id}",
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                shell=(os.name == "posix"),
+                shell=(os.name == "posix"),  # nosec B602
             ) as docker_process:
                 self._use_docker = True
                 if stdout:

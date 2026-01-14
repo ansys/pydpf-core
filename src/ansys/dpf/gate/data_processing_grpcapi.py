@@ -1,3 +1,4 @@
+from contextlib import suppress
 import copy
 import re
 import weakref
@@ -54,16 +55,12 @@ class DataProcessingYielderHelper:
                 yield request
                 i += len(piece) * 1e-3
                 if need_progress_bar:
-                    try:
-                        bar.update(min(i, tot_size))
-                    except:
-                        pass
+                    with suppress(Exception):
+                        bar.update(min(i, tot_size))      
 
         if need_progress_bar:
-            try:
+            with suppress(Exception):
                 bar.finish()
-            except:
-                pass
 
 
 @errors.protect_grpc_class
@@ -317,11 +314,9 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
             for chunk in chunks:
                 f.write(chunk.data.data)
                 i += len(chunk.data.data) * 1e-3
-                try:
+                with suppress(Exception):
                     if bar is not None:
                         bar.update(min(i, tot_size))
-                except:
-                    pass
         if bar is not None:
             bar.finish()
 
@@ -394,9 +389,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
                     f = None
             if f is not None:
                 f.write(chunk.data.data)
-        try:
+        with suppress(Exception):
             if bar is not None:
                 bar.finish()
-        except:
-            pass
         return client_paths
