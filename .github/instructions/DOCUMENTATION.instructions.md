@@ -50,7 +50,7 @@ pydpf-core/
 ## Prerequisites
 
 1. **Setup Development Environment**: Follow the developer setup instructions in `doc/source/getting_started/contribute/developer.rst`
-2. **Install Dependencies**: 
+2. **Install Dependencies**:
    ```bash
    python -m pip install tox tox-uv
    ```
@@ -171,7 +171,7 @@ First, you import the required modules and set up initial data...
 
     # Import required modules
     from ansys.dpf import core as dpf
-    
+
     # Define the result file path
     result_file_path = '/path/to/result.rst'
 
@@ -184,7 +184,7 @@ Then, you create the necessary DPF objects...
 
     # Create a DataSources object
     ds = dpf.DataSources(result_path=result_file_path)
-    
+
     # Create a Model
     my_model = dpf.Model(data_sources=ds)
 
@@ -197,7 +197,7 @@ Finally, you achieve the tutorial objective...
 
     # Get the results
     stress_fc = my_model.results.stress.eval()
-    
+
     # Display information
     print(stress_fc)
 ```
@@ -246,7 +246,7 @@ Finally, you achieve the tutorial objective...
   ```python
   # Correct
   stress_fc = model.results.stress(time_scoping=time_steps).eval()
-  
+
   # Incorrect
   stress_fc = model.results.stress(time_steps).eval()
   ```
@@ -278,16 +278,16 @@ Finally, you achieve the tutorial objective...
 - **Use bullet lists** for enumerations:
   ```rst
   This operator accepts:
-  
+
   - A Result
-  - An Operator  
+  - An Operator
   - A FieldsContainer
   ```
 
 - **Use numbered lists** for sequential steps:
   ```rst
   To extract the mesh:
-  
+
   #. Get the result file
   #. Create a Model
   #. Get the MeshedRegion
@@ -321,6 +321,43 @@ Use tabs for solver-specific implementations:
 - `:bdg-lsdyna:`LS-DYNA``
 - `:bdg-fluent:`FLUENT``
 - `:bdg-cfx:`CFX``
+
+#### Related Examples Section
+**Always include a "Related examples" section** at the end of each tutorial if any examples use the feature being presented:
+
+1. **Search for examples**: Check the `examples/` directory for Python scripts that use the tutorial's main operator, method, or feature
+2. **Add the section**: If examples are found, add a "Related examples" section at the end of the tutorial
+3. **Format**: Use the example's reference label and provide a brief description
+
+**Template**:
+```rst
+Related examples
+----------------
+
+For practical applications of the ``operator_name`` operator, see:
+
+- :ref:`example_reference` - Brief description of what the example demonstrates
+- :ref:`another_example` - Another practical use case
+```
+
+**Example**:
+```rst
+Related examples
+----------------
+
+For practical applications of the ``on_coordinates`` operator, see:
+
+- :ref:`stress_gradient_path` - Map stress results along a path normal to a node
+- :ref:`plot_on_path` - Map and plot results along a defined coordinate path
+- :ref:`plot_on_geometries` - Map fields to geometric objects (points, lines, planes)
+```
+
+**Guidelines**:
+- Only reference examples that actually use the specific feature being taught
+- Use the example's official reference label (found at the top of the example file: `.. _reference_label:`)
+- Keep descriptions concise (one line per example)
+- Place this section at the very end of the tutorial file
+- Do not add this section if no examples use the feature
 
 ## Adding Examples
 
@@ -389,7 +426,7 @@ When creating a new example category:
    ```
    Category Title
    ==============
-   
+
    Description of the examples in this category.
    ```
 
