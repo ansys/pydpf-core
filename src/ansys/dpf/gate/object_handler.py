@@ -1,3 +1,4 @@
+import logging
 
 class ObjHandler:
     def __init__(self, data_processing_api, internal_obj=None, server=None):
@@ -19,6 +20,5 @@ class ObjHandler:
             if hasattr(self, "_internal_obj") and not self.owned:
                 self.data_processing_api.data_processing_delete_shared_object(self)
         except Exception as e:
-            pass
-        #     print("Deletion failed:", e)
-
+            _logger = logging.getLogger(__name__)
+            _logger.warning(f"Deletion failed: {e}")
