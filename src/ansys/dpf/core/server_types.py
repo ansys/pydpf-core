@@ -37,7 +37,7 @@ import io
 import os
 from pathlib import Path
 import socket
-import subprocess
+import subprocess  # nosec B404
 import sys
 from threading import Lock, Thread
 import time

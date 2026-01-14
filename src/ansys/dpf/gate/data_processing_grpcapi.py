@@ -380,11 +380,9 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
                     )
                     client_paths.append(cient_path)
                     f = open(cient_path, "wb")
-                    try:
+                    with suppress(Exception):
                         if bar is not None:
                             bar.update(len(client_paths))
-                    except:
-                        pass
                 else:
                     f = None
             if f is not None:
