@@ -33,10 +33,11 @@ from __future__ import annotations
 from pathlib import Path
 import sys
 import tempfile
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 import warnings
 
 import numpy as np
+from pyvista import UnstructuredGrid
 
 from ansys import dpf
 from ansys.dpf import core
@@ -45,11 +46,20 @@ from ansys.dpf.core.common import DefinitionLabels, locations, shell_layers as e
 from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core.nodes import Node, Nodes
 
+# Temporary
+from ansys.tools.visualization_interface import Plotter as VizPlotter
+from ansys.tools.visualization_interface.backends.plotly.plotly_interface import PlotlyBackend
+from ansys.tools.visualization_interface.backends.pyvista import PyVistaBackend
+
 if TYPE_CHECKING:  # pragma: no cover
-    from ansys.dpf.core import Operator, Result
+    from ansys.dpf.core import Operator
     from ansys.dpf.core.field import Field
     from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.meshed_region import MeshedRegion
+    from ansys.dpf.core.results import Result
+
+    # Temporary
+    from ansys.tools.visualization_interface.backends._base import BaseBackend
 
 
 class _InternalPlotterFactory:
@@ -476,6 +486,345 @@ class _PyVistaPlotter:
 
     @staticmethod
     def _set_scalar_bar_title(kwargs):
+        stitle = kwargs.pop("stitle", None)
+        # use scalar_bar_args
+        scalar_bar_args = kwargs.pop("scalar_bar_args", None)
+        if not scalar_bar_args:
+            scalar_bar_args = {"title": stitle}
+        kwargs.setdefault("scalar_bar_args", scalar_bar_args)
+        return kwargs
+
+
+class _VizPlotter(VizPlotter):
+    """Internal plotter using ansys-tools-visualization-interface backend.
+
+    This class provides a plotting interface that wraps the Visualization
+    Interface Tool plotter, enabling switching between PyVista
+    and Plotly backends.
+
+    Parameters
+    ----------
+    backend : PyVistaBackend, PlotlyBackend, optional
+        Visualization backend to use. If None, defaults to PyVistaBackend.
+    """
+
+    def __init__(self, backend=None):
+        """Initialize the visualization plotter.
+
+        Parameters
+        ----------
+        backend : PyVistaBackend, PlotlyBackend, optional
+            Visualization backend to use. If None, defaults to PyVistaBackend.
+        """
+        super().__init__(backend)
+
+    # Needs high level API in viz to avoid customization
+    def add_scale_factor_legend(self, scale_factor, **kwargs):
+        """Add a scale factor legend to the plot.
+
+        Parameters
+        ----------
+        scale_factor : float
+            Scale factor value to display in the legend.
+        **kwargs : dict
+            Additional keyword arguments for legend customization.
+
+        Notes
+        -----
+        Implementation is backend-specific. PyVista uses add_text while
+        Plotly uses add_annotation.
+        """
+        if isinstance(self.backend, PyVistaBackend):
+            kwargs_in = _sort_supported_kwargs(
+                bound_method=self.backend.base_plotter.add_text, **kwargs
+            )
+            self.backend.base_plotter.add_text(
+                f"Scale factor: {scale_factor}",
+                position="upper_right",
+                font_size=12,
+                **kwargs_in,
+            )
+        elif isinstance(self.backend, PlotlyBackend):
+            kwargs_in = _sort_supported_kwargs(self.backend._fig.add_annotation, **kwargs)
+            self.backend._fig.add_annotation(
+                text=f"Scale factor: {scale_factor}",
+                xref="paper",
+                xanchor="right",
+                yref="paper",
+                yanchor="top",
+            )
+
+    def add_mesh(
+        self,
+        meshed_region: MeshedRegion,
+        deform_by: Union[Field, FieldsContainer, Result, Operator] = None,
+        scale_factor: Optional[float] = 1.0,
+        as_linear: Optional[bool] = True,
+        **plotter_kwargs,
+    ):
+        """Add a meshed region to the plotter.
+
+        Parameters
+        ----------
+        meshed_region : MeshedRegion
+            Mesh to add to the plot.
+        deform_by : Field, FieldsContainer, Result, or Operator, optional
+            Field used to deform the mesh. Must output a 3D vector field.
+        scale_factor : float, optional
+            Scaling factor for mesh deformation. Default is 1.0.
+        as_linear : bool, optional
+            Whether to plot quadratic elements as linear. Default is True.
+        **plotter_kwargs : dict
+            Additional plotting options passed to the backend.
+        """
+        plotter_kwargs = self._set_scalar_bar_title(plotter_kwargs)
+
+        # Set backend defaults for PyDPF
+        self._apply_backend_default_options(plotter_kwargs)
+
+        # If deformed geometry, add the scale_factor
+        if deform_by:
+            self.add_scale_factor_legend(scale_factor, **plotter_kwargs)
+
+        # Pass the mesh to the Plotter
+        # Have to remove any active scalar field from the pre-existing grid object,
+        # otherwise we get two scalar bars when calling several plot_contour on the same mesh
+        # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
+        if not deform_by:
+            if as_linear != meshed_region.as_linear:
+                grid = meshed_region._as_vtk(
+                    meshed_region.nodes.coordinates_field, as_linear=as_linear
+                )
+                meshed_region._full_grid = grid
+                meshed_region.as_linear = as_linear
+            else:
+                grid = meshed_region.grid
+        else:
+            grid = meshed_region._as_vtk(
+                meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
+            )
+        grid.set_active_scalars(None)
+
+        self.plot(grid, **plotter_kwargs)
+
+    def add_field(
+        self,
+        field: Field,
+        meshed_region: Optional[MeshedRegion] = None,
+        show_max=False,
+        show_min=False,
+        # label_text_size=30,
+        # label_point_size=20,
+        deform_by: Union[Field, FieldsContainer, Result, Operator] = None,
+        scale_factor=1.0,
+        scale_factor_legend=None,
+        as_linear=True,
+        shell_layer=eshell_layers.top,
+        **kwargs,
+    ):
+        """Add a field with data to the plotter.
+
+        Parameters
+        ----------
+        field : Field
+            Field containing data to plot.
+        meshed_region : MeshedRegion, optional
+            Mesh to plot the field on. If None, uses field.meshed_region.
+        show_max : bool, optional
+            Whether to label the maximum value point. Default is False.
+            (Currently not implemented in _VizPlotter).
+        show_min : bool, optional
+            Whether to label the minimum value point. Default is False.
+            (Currently not implemented in _VizPlotter).
+        deform_by : Field, FieldsContainer, Result, or Operator, optional
+            Field used to deform the mesh. Must output a 3D vector field.
+        scale_factor : float, optional
+            Scaling factor for mesh deformation. Default is 1.0.
+        scale_factor_legend : float or None or False, optional
+            Custom scale factor for legend. If None, uses scale_factor.
+            If False, no legend is shown.
+        as_linear : bool, optional
+            Whether to plot quadratic elements as linear. Default is True.
+        shell_layer : eshell_layers, optional
+            Shell layer to plot for shell elements. Default is top layer.
+        **kwargs : dict
+            Additional plotting options passed to the backend.
+        """
+        # Get the field name
+        name = field.name.split("_")[0]
+        unit = field.unit
+        kwargs.setdefault("stitle", f"{name} ({unit})")
+
+        kwargs = self._set_scalar_bar_title(kwargs)
+
+        # Set backend defaults for PyDPF
+        self._apply_backend_default_options(kwargs)
+
+        # get the meshed region location
+        if meshed_region is None:
+            meshed_region = field.meshed_region
+
+        location = field.location
+        if location == locations.nodal:
+            mesh_location = meshed_region.nodes
+        elif location == locations.elemental:
+            mesh_location = meshed_region.elements
+            if show_max or show_min:
+                warnings.warn("`show_max` and `show_min` is only supported for Nodal results.")
+                show_max = False
+                show_min = False
+        elif location == locations.faces:
+            mesh_location = meshed_region.faces
+            if len(mesh_location) == 0:
+                raise ValueError("No faces found to plot on")
+            if show_max or show_min:
+                warnings.warn("`show_max` and `show_min` is only supported for Nodal results.")
+                show_max = False
+                show_min = False
+        elif location == locations.overall:
+            mesh_location = meshed_region.elements
+        elif location == locations.elemental_nodal:
+            mesh_location = meshed_region.elements
+            # If ElementalNodal, first extend results to mid-nodes
+            field = dpf.core.operators.averaging.extend_to_mid_nodes(field=field).eval()
+        else:
+            raise ValueError(
+                "Only elemental, elemental nodal, nodal, faces, or overall location are supported for plotting."
+            )
+
+        # Treat multilayered shells
+        if not isinstance(shell_layer, eshell_layers):
+            raise TypeError("shell_layer attribute must be a core.shell_layers instance.")
+        if field.shell_layers in [
+            eshell_layers.topbottom,
+            eshell_layers.topbottommid,
+        ]:
+            change_shell_layer_op = core.operators.utility.change_shell_layers(
+                fields_container=field,
+                e_shell_layer=shell_layer,
+            )
+            field = change_shell_layer_op.get_output(0, core.types.field)
+
+        location_data_len = meshed_region.location_data_len(location)
+        component_count = field.component_count
+        if component_count > 1:
+            overall_data = np.full((location_data_len, component_count), np.nan)
+        else:
+            overall_data = np.full(location_data_len, np.nan)
+        if location != locations.overall:
+            ind, mask = mesh_location.map_scoping(field.scoping)
+
+            # Rework ind and mask to take into account n_nodes per element if ElementalNodal
+            if location == locations.elemental_nodal:
+                n_nodes_list = meshed_region.get_elemental_nodal_size_list().astype(np.int32)
+                first_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
+                mask_2 = np.asarray(
+                    [mask_i for i, mask_i in enumerate(mask) for _ in range(n_nodes_list[ind[i]])]
+                )
+                ind_2 = np.asarray(
+                    [first_index[ind_i] + j for ind_i in ind for j in range(n_nodes_list[ind_i])]
+                )
+                mask = mask_2
+                ind = ind_2
+            overall_data[ind] = field.data[mask]
+        else:
+            overall_data[:] = field.data[0]
+
+        # Have to remove any active scalar field from the pre-existing grid object,
+        # otherwise we get two scalar bars when calling several plot_contour on the same mesh
+        # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
+        if location == locations.elemental_nodal:
+            as_linear = False
+        if deform_by:
+            grid = meshed_region._as_vtk(
+                meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
+            )
+        else:
+            if as_linear != meshed_region.as_linear:
+                grid = meshed_region._as_vtk(
+                    meshed_region.nodes.coordinates_field, as_linear=as_linear
+                )
+                meshed_region.as_linear = as_linear
+            else:
+                grid = meshed_region.grid
+        if location == locations.elemental_nodal:
+            grid = grid.shrink(1.0)
+        grid.point_data[name] = overall_data
+        grid.set_active_scalars(None)
+
+        # If deformed geometry, print the scale_factor
+        if deform_by and scale_factor_legend is not False:
+            if scale_factor_legend is None:
+                scale_factor_legend = scale_factor
+            self.add_scale_factor_legend(scale_factor_legend, **kwargs)
+
+        kwargs.update({"scalars": overall_data})
+
+        self.plot(grid, **kwargs)
+
+        # if show_max or show_min:
+        #     # Get Min-Max for the field
+        #     min_max = core.operators.min_max.min_max()
+        #     min_max.inputs.connect(field)
+
+        # Add Min and Max Labels
+        # labels = []
+        # grid_points = []
+        # if show_max:
+        #     max_field = min_max.outputs.field_max()
+        #     # Get Node ID at max.
+        #     node_id_at_max = max_field.scoping.id(0)
+        #     labels.append(f"Max: {max_field.data[0]:.2f}\nNodeID: {node_id_at_max}")
+        #     # Get Node index at max value.
+        #     node_index_at_max = meshed_region.nodes.scoping.index(node_id_at_max)
+        #     # Append the corresponding Grid Point.
+        #     grid_points.append(meshed_region.grid.points[node_index_at_max])
+
+        # if show_min:
+        #     min_field = min_max.outputs.field_min()
+        #     # Get Node ID at min.
+        #     node_id_at_min = min_field.scoping.id(0)
+        #     labels.append(f"Min: {min_field.data[0]:.2f}\nNodeID: {node_id_at_min}")
+        #     # Get Node index at min. value.
+        #     node_index_at_min = meshed_region.nodes.scoping.index(node_id_at_min)
+        #     # Append the corresponding Grid Point.
+        #     grid_points.append(meshed_region.grid.points[node_index_at_min])
+
+        # Plot labels:
+        # for index, grid_point in enumerate(grid_points):
+        #     self._plotter.add_point_labels(
+        #         grid_point,
+        #         [labels[index]],
+        #         font_size=label_text_size,
+        #         point_size=label_point_size,
+        #     )
+
+    def show_figure(self, **kwargs):
+        """Display the accumulated plots.
+
+        Parameters
+        ----------
+        **kwargs : dict
+            Additional keyword arguments for the show method.
+
+        Notes
+        -----
+        This method triggers the actual plotting of all accumulated meshes
+        and fields using the backend's plot_iter and show methods.
+        """
+        self.show(**kwargs)
+
+    def _apply_backend_default_options(self, kwargs: dict):
+        """Apply backend-specific default options."""
+        # pyvista defaults for PyDPF
+        if isinstance(self._backend, PyVistaBackend):
+            kwargs.setdefault("show_edges", True)
+        # place-holder for plotly-specific defaults
+        elif isinstance(self._backend, PlotlyBackend):
+            pass
+
+    @staticmethod
+    def _set_scalar_bar_title(kwargs: dict) -> dict:
         stitle = kwargs.pop("stitle", None)
         # use scalar_bar_args
         scalar_bar_args = kwargs.pop("scalar_bar_args", None)
