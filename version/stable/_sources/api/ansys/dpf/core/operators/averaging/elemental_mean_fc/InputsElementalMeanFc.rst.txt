@@ -1,0 +1,267 @@
+
+
+
+
+
+
+:class:`InputsElementalMeanFc`
+==============================
+
+
+.. py:class:: ansys.dpf.core.operators.averaging.elemental_mean_fc.InputsElementalMeanFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   elemental_mean_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_mean_fc()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_collapse_shell_layers = bool()
+   >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+   >>> my_force_averaging = bool()
+   >>> op.inputs.force_averaging.connect(my_force_averaging)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_abstract_meshed_region = dpf.MeshedRegion()
+   >>> op.inputs.abstract_meshed_region.connect(my_abstract_meshed_region)
+   >>> my_merge_solid_shell = bool()
+   >>> op.inputs.merge_solid_shell.connect(my_merge_solid_shell)
+   >>> my_e_shell_layer = int()
+   >>> op.inputs.e_shell_layer.connect(my_e_shell_layer)
+
+
+
+
+
+
+.. py:currentmodule:: InputsElementalMeanFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~collapse_shell_layers`
+            - Allows to connect collapse_shell_layers input to the operator.
+          * - :py:attr:`~force_averaging`
+            - Allows to connect force_averaging input to the operator.
+          * - :py:attr:`~scoping`
+            - Allows to connect scoping input to the operator.
+          * - :py:attr:`~abstract_meshed_region`
+            - Allows to connect abstract_meshed_region input to the operator.
+          * - :py:attr:`~merge_solid_shell`
+            - Allows to connect merge_solid_shell input to the operator.
+          * - :py:attr:`~e_shell_layer`
+            - Allows to connect e_shell_layer input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.elemental_mean_fc import InputsElementalMeanFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect fields_container input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_mean_fc()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: collapse_shell_layers
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect collapse_shell_layers input to the operator.
+
+   If true, the data across different shell layers is averaged as well (default is false).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_mean_fc()
+   >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+   >>> # or
+   >>> op.inputs.collapse_shell_layers(my_collapse_shell_layers)
+
+.. py:property:: force_averaging
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect force_averaging input to the operator.
+
+   If true you average, if false you just sum.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_mean_fc()
+   >>> op.inputs.force_averaging.connect(my_force_averaging)
+   >>> # or
+   >>> op.inputs.force_averaging(my_force_averaging)
+
+.. py:property:: scoping
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping | ansys.dpf.core.scopings_container.ScopingsContainer]
+
+
+   Allows to connect scoping input to the operator.
+
+   Average only on these elements. If it is a scoping container, the label must correspond to the one of the fields container.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_mean_fc()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> # or
+   >>> op.inputs.scoping(my_scoping)
+
+.. py:property:: abstract_meshed_region
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.meshed_region.MeshedRegion | ansys.dpf.core.meshes_container.MeshesContainer]
+
+
+   Allows to connect abstract_meshed_region input to the operator.
+
+   The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_mean_fc()
+   >>> op.inputs.abstract_meshed_region.connect(my_abstract_meshed_region)
+   >>> # or
+   >>> op.inputs.abstract_meshed_region(my_abstract_meshed_region)
+
+.. py:property:: merge_solid_shell
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect merge_solid_shell input to the operator.
+
+   For shell/solid mixed fields, group in the same field all solids and shells (false by default). This pin only has an effect when collapse_shell_layers is false and a value for e_shell_layer is provided.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_mean_fc()
+   >>> op.inputs.merge_solid_shell.connect(my_merge_solid_shell)
+   >>> # or
+   >>> op.inputs.merge_solid_shell(my_merge_solid_shell)
+
+.. py:property:: e_shell_layer
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect e_shell_layer input to the operator.
+
+   0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid. This pin only has an effect when collapse_shell_layers is false.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_mean_fc()
+   >>> op.inputs.e_shell_layer.connect(my_e_shell_layer)
+   >>> # or
+   >>> op.inputs.e_shell_layer(my_e_shell_layer)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

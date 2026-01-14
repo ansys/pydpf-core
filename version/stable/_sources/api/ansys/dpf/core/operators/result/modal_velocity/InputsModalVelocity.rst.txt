@@ -1,0 +1,177 @@
+
+
+
+
+
+
+:class:`InputsModalVelocity`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.result.modal_velocity.InputsModalVelocity(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   modal_velocity operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.modal_velocity()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+
+
+
+
+
+
+.. py:currentmodule:: InputsModalVelocity
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.modal_velocity import InputsModalVelocity
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping | int | float | ansys.dpf.core.field.Field]
+
+
+   Allows to connect time_scoping input to the operator.
+
+   time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.modal_velocity()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: streams_container
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.streams_container.StreamsContainer]
+
+
+   Allows to connect streams_container input to the operator.
+
+   result file container allowed to be kept open to cache data
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.modal_velocity()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.data_sources.DataSources]
+
+
+   Allows to connect data_sources input to the operator.
+
+   result file path container, used if no streams are set
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.modal_velocity()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+
