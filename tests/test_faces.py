@@ -24,6 +24,7 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import mesh_scoping_factory
+from ansys.dpf.core.check_version import meets_version
 from ansys.dpf.core.elements import element_types
 import conftest
 
@@ -78,7 +79,10 @@ def test_face(model_faces):
 \tType:       element_types.Quad4
 """
     assert str(face) == ref_str
-    assert face.node_ids == [4688, 4679, 4663, 4677]
+    if meets_version(model_faces._server.version, "12.0"):
+        assert face.node_ids == [4677, 4663, 4679, 4688]
+    else:
+        assert face.node_ids == [4688, 4679, 4663, 4677]
     assert face.id == 4500
     assert face.type == element_types.Quad4
     assert face.n_nodes == 4
