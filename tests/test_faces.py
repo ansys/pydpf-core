@@ -79,7 +79,7 @@ def test_face(model_faces):
 \tType:       element_types.Quad4
 """
     assert str(face) == ref_str
-    if meets_version(model_faces._server.version, "12.0"):
+    if meets_version(model_faces._server.version, "11.0"):
         assert face.node_ids == [4677, 4663, 4679, 4688]
     else:
         assert face.node_ids == [4688, 4679, 4663, 4677]
