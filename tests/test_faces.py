@@ -24,7 +24,6 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import mesh_scoping_factory
-from ansys.dpf.core.check_version import meets_version
 from ansys.dpf.core.elements import element_types
 import conftest
 
