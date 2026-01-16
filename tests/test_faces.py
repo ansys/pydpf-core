@@ -79,7 +79,7 @@ def test_face(model_faces):
 \tType:       element_types.Quad4
 """
     assert str(face) == ref_str
-    if meets_version(model_faces._server.version, "12.0"):
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
         assert face.node_ids == [4677, 4663, 4679, 4688]
     else:
         assert face.node_ids == [4688, 4679, 4663, 4677]
@@ -94,7 +94,10 @@ Index:         4676
 Location: [-0.022856459489947675, -0.08534214957826106, -0.013310679234564304]
 """
 
-    assert str(face.nodes[3]) == ref_node_str
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        assert str(face.nodes[0]) == ref_node_str
+    else:
+        assert str(face.nodes[3]) == ref_node_str
 
 
 @pytest.mark.skipif(
