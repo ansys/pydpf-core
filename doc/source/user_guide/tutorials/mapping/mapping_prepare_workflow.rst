@@ -166,6 +166,26 @@ The generated workflow contains operators that perform the RBF-based mapping.
     for i, op_name in enumerate(workflow_operators):
         print(f"  {i+1}. {op_name}")
 
+.. jupyter-execute::
+   :hide-output:
+
+    # View the workflow as a diagram
+    mapping_workflow.view(title="RBF mapping workflow")
+
+.. jupyter-execute::
+   :hide-code:
+   :hide-output:
+
+    mapping_workflow.view(
+        title="RBF mapping workflow",
+        save_as="mapping_workflow_diagram.png",
+        off_screen=True,
+    )
+
+.. image:: mapping_workflow_diagram.png
+    :align: center
+    :alt: RBF mapping workflow diagram
+
 Use the workflow to map results
 --------------------------------
 
