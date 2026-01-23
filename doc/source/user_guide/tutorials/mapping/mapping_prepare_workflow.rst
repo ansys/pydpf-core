@@ -204,18 +204,14 @@ Apply the generated workflow to map actual field data.
 .. jupyter-execute::
 
     # Connect the displacement field to the workflow
-    # The workflow has inputs and outputs
-    print("\nWorkflow inputs:")
-    for input_name in mapping_workflow.input_names:
-        print(f"  - {input_name}")
+    # The workflow has the following inputs and outputs
+    print("Workflow inputs: 'source' and 'optional_target_support'.")
 
-    print("\nWorkflow outputs:")
-    for output_name in mapping_workflow.output_names:
-        print(f"  - {output_name}")
+    print("\nWorkflow outputs: 'target'.")
 
     # Get the first input and output names
-    input_pin_name = mapping_workflow.input_names[0]
-    output_pin_name = mapping_workflow.output_names[0]
+    input_pin_name = "source"
+    output_pin_name = "target"
 
     # Connect the field to the workflow input
     mapping_workflow.connect(pin_name=input_pin_name, inpt=displacement_field)
@@ -280,8 +276,8 @@ Reuse the same workflow to map different field types.
 
 .. jupyter-execute::
 
-    # Get stress results
-    stress_fc = model.results.stress.eval()
+    # Get nodal stress results
+    stress_fc = model.results.stress.on_location(dpf.locations.nodal).eval()
     stress_field = stress_fc[0]
 
     # Use the original mapping workflow with stress
@@ -341,15 +337,10 @@ Here we create an alternative output mesh with a different element selection.
 
 .. jupyter-execute::
 
-    # Use the alternative mesh-to-mesh workflow
-    # Get the input/output pin names from the workflow
-    alt_mesh_input_pin = alt_mesh_to_mesh_workflow.input_names[0]
-    alt_mesh_output_pin = alt_mesh_to_mesh_workflow.output_names[0]
-
-    alt_mesh_to_mesh_workflow.connect(pin_name=alt_mesh_input_pin, inpt=displacement_field)
+    alt_mesh_to_mesh_workflow.connect(pin_name=input_pin_name, inpt=displacement_field)
 
     # Execute the workflow
-    mapped_to_alt_mesh = alt_mesh_to_mesh_workflow.get_output(pin_name=alt_mesh_output_pin, output_type=dpf.types.field)
+    mapped_to_alt_mesh = alt_mesh_to_mesh_workflow.get_output(pin_name=output_pin_name, output_type=dpf.types.field)
 
     # Print the result
     print("Displacement mapped to alternative output mesh:")
@@ -378,14 +369,10 @@ interpolation but may lose fine details.
         )
 
         workflow = prep_op.eval()
-        
-        # Get the input and output pin names
-        wf_input_pin = workflow.input_names[0]
-        wf_output_pin = workflow.output_names[0]
 
         # Map displacement
-        workflow.connect(pin_name=wf_input_pin, inpt=displacement_field)
-        result = workflow.get_output(pin_name=wf_output_pin, output_type=dpf.types.field)
+        workflow.connect(pin_name=input_pin_name, inpt=displacement_field)
+        result = workflow.get_output(pin_name=output_pin_name, output_type=dpf.types.field)
 
         # Print results for comparison
         print(f"\nWith filter radius = {radius}:")
