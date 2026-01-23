@@ -14,10 +14,10 @@ RBF-based workflow mapping
 Generate a workflow for mapping results using RBF filters.
 
 This tutorial demonstrates how to use the |prepare_mapping_workflow| operator to
-generate a reusable workflow that maps results from one support to another using
+generate a reusable workflow that maps results between non-conforming meshes using
 Radial Basis Function (RBF) filters. This is particularly useful when you need to
-transfer data between different mesh representations or interpolate results to a
-different spatial support.
+transfer data between different mesh discretizations or when working with meshes
+that have different topologies.
 
 :jupyter-download-script:`Download tutorial as Python script<mapping_prepare_workflow>`
 :jupyter-download-notebook:`Download tutorial as Jupyter notebook<mapping_prepare_workflow>`
@@ -69,32 +69,67 @@ Define the support from which you want to map results. This can be a |Field| or 
 Define the output support
 -------------------------
 
-Define the target support where you want to map the results. Here we create a set
-of target points.
+Define the target support where you want to map the results. For this tutorial, we'll
+create a truly non-conforming mesh by extracting a subset of the original mesh and
+perturbing the node coordinates to create a different mesh topology.
 
 .. jupyter-execute::
 
-    # Define target points for the output support
-    target_points = np.array([
-        [0.01, 0.04, 0.01],
-        [0.015, 0.045, 0.015],
-        [0.02, 0.05, 0.02],
-        [0.025, 0.055, 0.025]
-    ])
-
-    # Create a Field to represent the output support
-    output_support_field = dpf.fields_factory.create_3d_vector_field(num_entities=len(target_points))
-    output_support_field.data = target_points
-
-    # Print the output support field
-    print("\nOutput support (target coordinates):")
-    print(output_support_field)
+    # Create a non-conforming mesh by extracting a subset and moving nodes
+    
+    # First, extract a coarser mesh by selecting every 3rd node
+    original_node_ids = input_mesh.nodes.scoping.ids
+    coarse_node_ids = original_node_ids[::3]
+    
+    # Create a scoping for the coarse nodes
+    coarse_node_scoping = dpf.Scoping(ids=coarse_node_ids, location=dpf.locations.nodal)
+    
+    # Extract a submesh with these nodes
+    mesh_extraction_op = ops.mesh.from_scoping(
+        mesh=input_mesh,
+        scoping=coarse_node_scoping,
+        inclusive=1  # Include elements connected to selected nodes
+    )
+    subset_mesh = mesh_extraction_op.eval()
+    
+    # Now create a truly non-conforming mesh by perturbing the node coordinates
+    # Get the coordinates field from the subset mesh
+    coords_field = subset_mesh.nodes.coordinates_field
+    
+    # Get the coordinate data as a numpy array
+    coords_data = coords_field.data.copy()
+    
+    # Add random perturbations to create a non-conforming mesh
+    # Perturb by up to 5% of the model dimensions
+    np.random.seed(42)  # For reproducibility
+    perturbation_scale = 0.05 * np.max(np.ptp(coords_data, axis=0))
+    perturbations = np.random.uniform(-perturbation_scale, perturbation_scale, coords_data.shape)
+    perturbed_coords = coords_data + perturbations
+    
+    # Create a new field with perturbed coordinates
+    from ansys.dpf.core import fields_factory
+    perturbed_coords_field = fields_factory.field_from_array(perturbed_coords)
+    perturbed_coords_field.scoping = coords_field.scoping
+    
+    # Create a new mesh with the perturbed coordinates
+    output_mesh = subset_mesh.deep_copy()
+    output_mesh.nodes.coordinates_field = perturbed_coords_field
+    
+    # Print the output mesh information
+    print("Output support (non-conforming mesh with perturbed nodes):")
+    print(output_mesh)
+    print(f"\nInput mesh nodes: {input_mesh.nodes.n_nodes}")
+    print(f"Output mesh nodes: {output_mesh.nodes.n_nodes}")
+    print(f"Input mesh elements: {input_mesh.elements.n_elements}")
+    print(f"Output mesh elements: {output_mesh.elements.n_elements}")
+    print(f"Coordinate perturbation scale: {perturbation_scale:.6e}")
 
 Prepare the mapping workflow
 -----------------------------
 
 Use the |prepare_mapping_workflow| operator to generate a workflow that can map
-results from the input support to the output support using RBF filters.
+results from the input support to the output support using RBF filters. This allows
+transferring field data between non-conforming meshes.
 
 .. jupyter-execute::
 
@@ -105,7 +140,7 @@ results from the input support to the output support using RBF filters.
     # Create the prepare_mapping_workflow operator
     prepare_op = ops.mapping.prepare_mapping_workflow(
         input_support=input_mesh,
-        output_support=output_support_field,
+        output_support=output_mesh,
         filter_radius=filter_radius
     )
 
@@ -154,11 +189,19 @@ Apply the generated workflow to map actual field data.
     for input_name in mapping_workflow.input_names:
         print(f"  - {input_name}")
 
+    print("\nWorkflow outputs:")
+    for output_name in mapping_workflow.output_names:
+        print(f"  - {output_name}")
+
+    # Get the first input and output names
+    input_pin_name = mapping_workflow.input_names[0]
+    output_pin_name = mapping_workflow.output_names[0]
+
     # Connect the field to the workflow input
-    mapping_workflow.connect_with(pin_in=0, inpt=displacement_field)
+    mapping_workflow.connect(pin_name=input_pin_name, inpt=displacement_field)
 
     # Execute the workflow
-    mapped_displacement_field = mapping_workflow.get_output(pin=0, output_type=dpf.types.field)
+    mapped_displacement_field = mapping_workflow.get_output(pin_name=output_pin_name, output_type=dpf.types.field)
 
     # Print the mapped field
     print("\nMapped displacement field:")
@@ -167,25 +210,29 @@ Apply the generated workflow to map actual field data.
 Compare input and output
 -------------------------
 
-Compare the sizes and values of the input and output fields.
+Compare the sizes and values of the input and output fields. Note that the output
+field now has a size corresponding to the non-conforming output mesh.
 
 .. jupyter-execute::
 
     # Compare field sizes
     print(f"Input field size: {len(displacement_field.data)}")
     print(f"Output field size: {len(mapped_displacement_field.data)}")
+    print(f"Input mesh nodes: {input_mesh.nodes.n_nodes}")
+    print(f"Output mesh nodes: {output_mesh.nodes.n_nodes}")
 
     # Print sample values
     print(f"\nSample input displacement (first 3 entities):")
     print(displacement_field.data[:3])
 
-    print(f"\nSample output displacement (all entities):")
-    print(mapped_displacement_field.data)
+    print(f"\nSample output displacement (first 3 entities):")
+    print(mapped_displacement_field.data[:3])
 
 Use with influence box parameter
 ---------------------------------
 
-The influence box parameter can further control the RBF filter behavior.
+The influence box parameter can further control the RBF filter behavior. This is
+particularly useful for non-conforming mesh mapping to limit the search radius.
 
 .. jupyter-execute::
 
@@ -194,7 +241,7 @@ The influence box parameter can further control the RBF filter behavior.
 
     prepare_op_with_box = ops.mapping.prepare_mapping_workflow(
         input_support=input_mesh,
-        output_support=output_support_field,
+        output_support=output_mesh,
         filter_radius=filter_radius,
         influence_box=influence_box
     )
@@ -218,10 +265,11 @@ Reuse the same workflow to map different field types.
     stress_field = stress_fc[0]
 
     # Use the original mapping workflow with stress
-    mapping_workflow.connect_with(pin_in=0, inpt=stress_field)
+    # Connect using the same input pin name
+    mapping_workflow.connect(pin_name=input_pin_name, inpt=stress_field)
 
     # Execute the workflow for stress
-    mapped_stress_field = mapping_workflow.get_output(pin=0, output_type=dpf.types.field)
+    mapped_stress_field = mapping_workflow.get_output(pin_name=output_pin_name, output_type=dpf.types.field)
 
     # Print the mapped stress field
     print("Mapped stress field:")
@@ -234,56 +282,67 @@ Reuse the same workflow to map different field types.
 Use mesh as output support
 ---------------------------
 
-You can also use a mesh as the output support for mesh-to-mesh mapping.
+You can use different mesh subsets or externally defined meshes as the output support.
+Here we create an alternative output mesh with a different element selection.
 
 .. jupyter-execute::
 
-    # Create a coarser output mesh or use an external mesh
-    # For demonstration, we'll create a subset of the original mesh
-
-    # Get a subset of elements for the output mesh
-    element_scoping = dpf.Scoping(ids=list(range(1, 20)), location=dpf.locations.elemental)
+    # Create an alternative output mesh with different elements
+    # Select elements from a different region of the mesh
+    
+    # Get a subset of elements for the alternative output mesh
+    element_scoping = dpf.Scoping(ids=list(range(1, 50, 2)), location=dpf.locations.elemental)
 
     # Extract submesh
     submesh_op = ops.mesh.from_scoping(mesh=input_mesh, scoping=element_scoping)
-    output_mesh = submesh_op.eval()
+    alternative_output_mesh = submesh_op.eval()
 
     # Print output mesh
-    print("Output mesh (subset of input):")
-    print(output_mesh)
+    print("Alternative output mesh (different element selection):")
+    print(alternative_output_mesh)
+    print(f"Number of nodes: {alternative_output_mesh.nodes.n_nodes}")
+    print(f"Number of elements: {alternative_output_mesh.elements.n_elements}")
 
 .. jupyter-execute::
 
-    # Create mapping workflow with mesh as output support
-    prepare_mesh_op = ops.mapping.prepare_mapping_workflow(
+    # Create mapping workflow with alternative mesh as output support
+    prepare_alt_mesh_op = ops.mapping.prepare_mapping_workflow(
         input_support=input_mesh,
-        output_support=output_mesh,
+        output_support=alternative_output_mesh,
         filter_radius=filter_radius
     )
 
     # Evaluate to get the workflow
-    mesh_to_mesh_workflow = prepare_mesh_op.eval()
+    alt_mesh_to_mesh_workflow = prepare_alt_mesh_op.eval()
 
     # Print workflow
-    print("\nMesh-to-mesh mapping workflow:")
-    print(mesh_to_mesh_workflow)
+    print("\nAlternative mesh-to-mesh mapping workflow:")
+    print(alt_mesh_to_mesh_workflow)
 
 .. jupyter-execute::
 
-    # Use the mesh-to-mesh workflow
-    mesh_to_mesh_workflow.connect_with(pin_in=0, inpt=displacement_field)
+    # Use the alternative mesh-to-mesh workflow
+    # Get the input/output pin names from the workflow
+    alt_mesh_input_pin = alt_mesh_to_mesh_workflow.input_names[0]
+    alt_mesh_output_pin = alt_mesh_to_mesh_workflow.output_names[0]
+
+    alt_mesh_to_mesh_workflow.connect(pin_name=alt_mesh_input_pin, inpt=displacement_field)
 
     # Execute the workflow
-    mapped_to_mesh = mesh_to_mesh_workflow.get_output(pin=0, output_type=dpf.types.field)
+    mapped_to_alt_mesh = alt_mesh_to_mesh_workflow.get_output(pin_name=alt_mesh_output_pin, output_type=dpf.types.field)
 
     # Print the result
-    print("Displacement mapped to output mesh:")
-    print(mapped_to_mesh)
+    print("Displacement mapped to alternative output mesh:")
+    print(mapped_to_alt_mesh)
+    print(f"\nMapped field size: {len(mapped_to_alt_mesh.data)}")
+    print(f"Target mesh nodes: {alternative_output_mesh.nodes.n_nodes}")
 
 Adjust filter radius
 --------------------
 
-The filter radius parameter significantly affects the mapping quality and smoothness.
+The filter radius parameter significantly affects the mapping quality and smoothness
+when transferring data between non-conforming meshes. A larger radius provides smoother
+interpolation but may lose fine details.
 
 .. jupyter-execute::
 
@@ -294,19 +353,24 @@ The filter radius parameter significantly affects the mapping quality and smooth
         # Create workflow with specific radius
         prep_op = ops.mapping.prepare_mapping_workflow(
             input_support=input_mesh,
-            output_support=output_support_field,
+            output_support=output_mesh,
             filter_radius=radius
         )
 
         workflow = prep_op.eval()
+        
+        # Get the input and output pin names
+        wf_input_pin = workflow.input_names[0]
+        wf_output_pin = workflow.output_names[0]
 
         # Map displacement
-        workflow.connect_with(pin_in=0, inpt=displacement_field)
-        result = workflow.get_output(pin=0, output_type=dpf.types.field)
+        workflow.connect(pin_name=wf_input_pin, inpt=displacement_field)
+        result = workflow.get_output(pin_name=wf_output_pin, output_type=dpf.types.field)
 
         # Print results for comparison
         print(f"\nWith filter radius = {radius}:")
         print(f"  Mapped values range: [{result.min().data}, {result.max().data}]")
+        print(f"  Mean displacement magnitude: {np.mean(np.linalg.norm(result.data, axis=1)):.6e}")
 
 When to use this approach
 --------------------------

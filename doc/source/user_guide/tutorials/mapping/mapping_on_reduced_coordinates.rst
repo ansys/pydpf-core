@@ -81,11 +81,8 @@ Define the spatial coordinates where you want to interpolate results.
         [0.02, 0.05, 0.02]
     ])
 
-    # Create a Field to store the coordinates
-    coords_field = dpf.fields_factory.create_3d_vector_field(num_entities=len(points))
-
-    # Assign the coordinate data to the field
-    coords_field.data = points
+    # Create a Field from the array
+    coords_field = dpf.fields_factory.field_from_array(arr=points)
 
     # Print the coordinates field
     print(coords_field)
