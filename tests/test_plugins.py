@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 from pathlib import Path
+import sys
 
 import pytest
 
@@ -143,6 +144,10 @@ def test_load_library_default_name(remote_config_server_type, testfiles_dir):
     assert len(server.plugins) == 2  # Only grpc and native are loaded
     assert "grpc" in server.plugins.keys()
     assert "native" in server.plugins.keys()
-    dpf.load_library(filename="meshOperatorsCore.dll", server=server)
+    if sys.platform.startswith("linux"):
+        lib_name = "libmeshOperatorsCore.so"
+    else:
+        lib_name = "meshOperatorsCore.dll"
+    dpf.load_library(filename=lib_name, server=server)
     assert len(server.plugins) == 3
     assert "meshOperatorsCore" in server.plugins.keys()
