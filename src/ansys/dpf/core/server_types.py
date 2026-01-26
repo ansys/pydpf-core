@@ -771,6 +771,8 @@ class CServer(BaseServer, ABC):
 class GrpcClient:
     """Client using the gRPC communication protocol."""
 
+    _internal_obj = None
+
     def __init__(self):
         from ansys.dpf.gate import client_capi
 
