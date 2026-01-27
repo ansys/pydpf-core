@@ -125,7 +125,6 @@ extensions = [
     "sphinx_design",
     "sphinx_jinja",
     'sphinx_reredirects',
-    "jupyter_sphinx",
 ]
 
 redirects = {
@@ -405,12 +404,6 @@ envs.remove("default environments:")
 envs.remove("additional environments:")
 envs.remove("")
 
-jinja_contexts = {
-    "toxenvs" : {
-        "envs": envs,
-    }
-}
-
 # Optionally exclude api or example documentation generation.
 BUILD_API = True if os.environ.get("BUILD_API", "true") == "true" else False
 if BUILD_API:
@@ -419,6 +412,21 @@ if BUILD_API:
 BUILD_EXAMPLES = True if os.environ.get("BUILD_EXAMPLES", "true") == "true" else False
 if BUILD_EXAMPLES:
     extensions.extend(["sphinx_gallery.gen_gallery"])
+
+BUILD_TUTORIALS = True if os.environ.get("BUILD_TUTORIALS", "true") == "true" else False
+if BUILD_TUTORIALS:
+    extensions.extend(["jupyter_sphinx"])
+
+jinja_contexts = {
+    "toxenvs" : {
+        "envs": envs,
+    },
+    "toctree" : {
+        "build_api": BUILD_API,
+        "build_examples": BUILD_EXAMPLES,
+        "build_tutorials": BUILD_TUTORIALS,
+    },
+}
 
 print(f"{extensions=}")
 
