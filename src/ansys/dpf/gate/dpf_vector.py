@@ -1,5 +1,6 @@
-import copy
+from contextlib import suppress
 import ctypes
+import logging
 import numpy as np
 
 from ansys.dpf.core.check_version import server_meet_version
@@ -7,6 +8,7 @@ from ansys.dpf.gate.generated import dpf_vector_capi
 from ansys.dpf.gate.integral_types import MutableListInt32, MutableInt32, MutableListDouble, \
     MutableListString, MutableListChar
 
+_logger = logging.getLogger(__name__)
 
 def get_size_of_list(list):
     if isinstance(list, (np.generic, np.ndarray)):
@@ -93,8 +95,8 @@ class DPFVectorBase:
     def __del__(self):
         try:
             self.dpf_vector_api.dpf_vector_delete(self)
-        except:
-            pass
+        except Exception as e:
+            _logger.warning(f"DPFVector __del__ failed {e}")
 
 
 class DPFVectorInt(DPFVectorBase):
@@ -120,12 +122,10 @@ class DPFVectorInt(DPFVectorBase):
         self.dpf_vector_api.dpf_vector_int_commit(self, self.internal_data, self.internal_size, self.has_changed())
 
     def __del__(self):
-        try:
+        with suppress(Exception):
             if self._array:
                 self.dpf_vector_api.dpf_vector_int_free(self, self.internal_data, self.internal_size,
                                                         self.has_changed())
-        except:
-            pass
         super().__del__()
 
 
@@ -152,12 +152,10 @@ class DPFVectorDouble(DPFVectorBase):
         self.dpf_vector_api.dpf_vector_double_commit(self, self.internal_data, self.internal_size, self.has_changed())
 
     def __del__(self):
-        try:
+        with suppress(Exception):
             if self._array:
                 self.dpf_vector_api.dpf_vector_double_free(self, self.internal_data, self.internal_size,
                                                            self.has_changed())
-        except:
-            pass
         super().__del__()
 
 
@@ -217,12 +215,10 @@ class DPFVectorCustomType(DPFVectorBase):
         )
 
     def __del__(self):
-        try:
+        with suppress(Exception):
             if self._array:
                 self.dpf_vector_api.dpf_vector_char_free(self, self.internal_data, self.size * self.type.itemsize,
                                                          self.has_changed())
-        except:
-            pass
         super().__del__()
 
 
@@ -242,12 +238,10 @@ class DPFVectorString(DPFVectorBase):
         return self._array
 
     def __del__(self):
-        try:
+        with suppress(Exception):
             if self._array:
                 self.dpf_vector_api.dpf_vector_char_ptr_free(self, self.internal_data, self.internal_size,
                                                              self.has_changed())
-        except:
-            pass
         super().__del__()
 
     def __len__(self):

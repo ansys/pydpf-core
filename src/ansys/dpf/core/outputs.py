@@ -22,6 +22,7 @@
 
 """Outputs."""
 
+import logging
 import re
 from typing import Generic, TypeVar
 
@@ -180,8 +181,9 @@ def _clearRepeatedMessage(message):
     try:
         while True:
             message.pop(len(message) - 1)
-    except:
-        pass
+    except Exception as e:
+        _logger = logging.getLogger(__name__)
+        _logger.warning(f"Failed to clear repeated message: {e}")
 
 
 def _make_printable_type(type):
