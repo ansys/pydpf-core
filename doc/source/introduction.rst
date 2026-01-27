@@ -1,8 +1,8 @@
 .. _introduction:
 
-==========
-PyDPF-Core
-==========
+============
+Introduction
+============
 
 Ansys Data Processing Framework (DPF) provides numerical simulation 
 users and engineers with a toolbox for accessing and transforming simulation 
@@ -129,7 +129,7 @@ the **Ansys installer** and **DPF Server**.
 
 - `User guide <https://developer.ansys.com/product/DPF-C-Client-Library-2023-R2/modules.xhtml>`_ in the *DPF C++ Client Library*
 
-- :ref:`user_guide_custom_operators` in the PyDPF-Core documentation 
+- :ref:`ref_tutorials_custom_operators_and_plugins` in the PyDPF-Core documentation 
 
 - `How to write a new solver reader as a DPF plugin <https://astonishing-hyacinth-e64.notion.site/How-to-write-a-new-solver-reader-as-a-DPF-s-plugin-bd2d2a3cf51f47ef9e70df45d64f89cb>`_
 

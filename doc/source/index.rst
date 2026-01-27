@@ -14,16 +14,13 @@ PyDPF-Core is a Python client library for the Ansys Data Processing Framework (D
         :link: introduction
         :link-type: doc
 
-        Understand what PyDPF-Core is and how it provides a Python interface to Ansys Data Processing Framework
-        for accessing and transforming simulation data from various Ansys solvers and file formats.
+        Understand what PyDPF-Core is and how it provides a Python interface to Ansys Data Processing Framework.
 
     .. grid-item-card:: Getting started :fa:`person-running`
         :link: getting_started/index
         :link-type: doc
 
-        Learn how to install and start using PyDPF-Core by setting up a DPF Server,
-        installing the Python package, and running basic data processing operations
-        on simulation results.
+        Learn how to install and start using PyDPF-Core.
 
     .. grid-item-card:: User guide :fa:`book-open-reader`
         :link: user_guide/index
@@ -40,7 +37,7 @@ PyDPF-Core is a Python client library for the Ansys Data Processing Framework (D
             :link-type: doc
 
             Understand fundamental PyDPF-Core functionalities through simple yet comprehensive
-            tutorials that cover a wide range of topics and use cases.
+            tutorials.
         {% endif %}
 
         {% if build_examples %}
@@ -61,7 +58,13 @@ PyDPF-Core is a Python client library for the Ansys Data Processing Framework (D
             and how to interact with them programmatically.
         {% endif %}
 
-    .. grid-item-card:: Contribute :fa:`people-group`
+    .. grid-item-card:: Operators :fa:`chart-diagram`
+        :link: operator_reference
+        :link-type: doc
+
+        Learn about the available operators in PyDPF-Core.
+
+    .. grid-item-card:: Contributing :fa:`people-group`
         :link: contribute/index
         :link-type: doc
 

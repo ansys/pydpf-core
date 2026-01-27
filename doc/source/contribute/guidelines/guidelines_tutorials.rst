@@ -167,7 +167,7 @@ The header must have :
 - an introduction,
 - download buttons for Python script and Jupyter notebook versions of the tutorial.
 
-.. literalinclude:: tutorial_structure_template.rst
+.. literalinclude:: tutorial_templates/tutorial_structure_template.rst
     :end-before: First Step
 
 The main PyDPF-Core library references are available in the ``doc/source/links_and_refs.rst`` file.
