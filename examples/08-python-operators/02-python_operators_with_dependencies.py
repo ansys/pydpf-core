@@ -148,7 +148,6 @@ if os.name == "nt" and not (Path(plugin_path) / "assets" / "gltf_sites_winx64.zi
         Path(folder_root)
         / "doc"
         / "source"
-        / "user_guide"
         / "tutorials"
         / "custom_operators_and_plugins"
         / "create_sites_for_python_operators.ps1"
@@ -180,7 +179,6 @@ elif os.name == "posix" and not (Path(plugin_path) / "assets" / "gltf_sites_linx
         Path(folder_root)
         / "doc"
         / "source"
-        / "user_guide"
         / "tutorials"
         / "custom_operators_and_plugins"
         / "create_sites_for_python_operators.sh"
