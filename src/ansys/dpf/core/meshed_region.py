@@ -24,7 +24,8 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from optparse import Option
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:  # pragma: nocover
     from ansys.dpf.core.scoping import Scoping
@@ -472,7 +473,7 @@ class MeshedRegion:
     #     self._internal_obj = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
 
-    def deform_by(self, deform_by, scale_factor=1.0):
+    def deform_by(self, deform_by, scale_factor: Optional[float] = 1.0):
         """
         Deforms the mesh according to a 3D vector field and an additional scale factor.
 
@@ -498,7 +499,7 @@ class MeshedRegion:
         scale_op = scale(field=deform_by, weights=scale_factor)
         return add(fieldA=self.nodes.coordinates_field, fieldB=scale_op.outputs.field).eval()
 
-    def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):
+    def _as_vtk(self, coordinates=None, as_linear: Optional[bool] = True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
         try:
             from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
