@@ -150,4 +150,4 @@ def test_load_library_default_name(remote_config_server_type, testfiles_dir):
         lib_name = "meshOperatorsCore.dll"
     dpf.load_library(filename=lib_name, server=server)
     assert len(server.plugins) == 3
-    assert "meshOperatorsCore" in server.plugins.keys()
+    assert lib_name.split(".")[0] in server.plugins.keys()
