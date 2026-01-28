@@ -656,10 +656,10 @@ def test_meshed_region_bounding_box(simple_bar_model):
     # Verify it's a Field
     assert isinstance(bbox, dpf.core.Field)
 
-    # Verify the field has overall location
-    assert bbox.location == dpf.core.locations.overall
+    # Verify the field has nodal location
+    assert bbox.location == dpf.core.locations.nodal
 
-    # Verify the field has 2 entities (min and max)
+    # Verify the field has 2 node entities (min and max)
     assert len(bbox.scoping.ids) == 2
     assert 1 in bbox.scoping.ids
     assert 2 in bbox.scoping.ids

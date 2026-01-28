@@ -304,10 +304,10 @@ class MeshedRegion:
         Returns
         -------
         bounding_box : Field
-            Field with overall location containing the bounding box data.
-            The field has 3 dimensions (x, y, z) and 2 entities:
-            - Entity 1: minimum coordinates [x_min, y_min, z_min]
-            - Entity 2: maximum coordinates [x_max, y_max, z_max]
+            Field with nodal location containing the bounding box data.
+            The field has 3 dimensions (x, y, z) and 2 node entities:
+            - Node 1: minimum coordinates [x_min, y_min, z_min]
+            - Node 2: maximum coordinates [x_max, y_max, z_max]
 
         Examples
         --------
@@ -318,7 +318,7 @@ class MeshedRegion:
         >>> bbox = meshed_region.bounding_box
         >>> print(bbox)
         DPF bounding_box Field
-          Location: overall
+          Location: Nodal
           Unit: m
           2 entities
           Data: 3 components and 2 elementary data
@@ -333,7 +333,7 @@ class MeshedRegion:
         max_coords = np.max(coords, axis=0)
 
         # Create a field with overall location
-        bbox_field = field.Field(location=locations.overall, server=self._server)
+        bbox_field = field.Field(location=locations.nodal, server=self._server)
         bbox_field.name = "bounding_box"
 
         # Set unit from coordinates field if available
