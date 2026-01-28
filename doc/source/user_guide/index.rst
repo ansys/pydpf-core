@@ -14,11 +14,7 @@ computation, customization, and remote data processing accessible in Python.
 The goals of this section are to:
 
  - Describe some DPF entities and how they can help you to access and modify solver data.
- - Provide detailed tutorials to demonstrate PyDPF-Core functionalities.
  - Explain how to resolve the most common issues encountered when using PyDPF-Core
-
-.. include::
-   tutorials/index.rst
 
 .. include::
    concepts/index.rst
@@ -50,24 +46,6 @@ Troubleshooting
        :link: user_guide_troubleshooting_performance_issues
        :link-type: ref
        :text-align: center
-
-
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-    :caption: Tutorials
-
-    tutorials/data_structures/index.rst
-    tutorials/post_processing_basics/index.rst
-    tutorials/import_data/index.rst
-    tutorials/mesh/index.rst
-    tutorials/plot/index.rst
-    tutorials/animate/index.rst
-    tutorials/mathematics/index.rst
-    tutorials/custom_operators_and_plugins/index.rst
-    tutorials/dpf_server/index.rst
-
-
 
 .. toctree::
    :maxdepth: 2
