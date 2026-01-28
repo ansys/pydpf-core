@@ -14,106 +14,53 @@ postprocessing operations on large amounts of simulation data.
 PyDPF-Core is a Python client API communicating with a **DPF Server**, either
 through the network using gRPC or directly in the same process.
 
+.. grid:: 1 2 3 3
+    :gutter: 1 2 3 3
+    :padding: 1 2 3 3
 
-Install DPF Server
-------------------
+    .. grid-item-card:: Installation summary :fa:`rectangle-list`
+        :link: summary
+        :link-type: doc
 
-To use PyDPF-Core, you need access to a DPF Server.
+        Short overview of the installation steps to get started with PyDPF-Core.
 
-* DPF Server is packaged within the **Ansys installer** in Ansys 2021 R1 and later.
-  To use it, download the standard installation using your preferred distribution channel,
-  and install Ansys following the installer instructions.
-  For information on getting a licensed copy of Ansys, visit the `Ansys website <https://www.ansys.com/>`_.
+    .. grid-item-card:: Installing PyDPF-Core :fa:`file-arrow-down`
+        :link: install
+        :link-type: doc
 
-* DPF Server pre-releases are also available as **standalone** packages (independent of the Ansys installer) on the
-  `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_ of the Ansys Customer Portal.
-  As explained in :ref:`ref_licensing`, the standalone DPF Server is still protected by an Ansys license mechanism
-  and requires accepting the :ref:`DPF Preview License Agreement<target_to_license_terms>`.
-  Once you have access to an Ansys license, follow the guidelines to :ref:`install a standalone DPF Server <target_installing_server>`.
+        Learn how to install the PyDPF-Core python package.
 
-For more information regarding installing, managing, and running DPF servers, see :ref:`ref_dpf_server`.
+    .. grid-item-card:: Installing DPF Server :fa:`download`
+        :link: dpf_server
+        :link-type: doc
 
-Install PyDPF-Core
-------------------
+        Learn how to install the DPF Server.
 
-To install PyDPF-Core, in a Python environment, run this command:
+    .. grid-item-card:: Compatibility :fa:`handshake`
+        :link: compatibility
+        :link-type: doc
 
-.. code::
+        Learn about the compatibility between PyDPF-Core and DPF Server versions.
 
-   pip install ansys-dpf-core
+    .. grid-item-card:: Licensing :fa:`user-check`
+        :link: licensing
+        :link-type: doc
 
-Be sure to check the :ref:`compatibility guidelines <ref_compatibility>` to know if your
-DPF Server version is compatible with the latest version of PyDPF-Core.
+        Learn about the licensing requirements for using PyDPF-Core and DPF Server.
 
-For more installation options, see :ref:`Installation section <installation>`.
+    .. grid-item-card:: Dependencies :fa:`circle-nodes`
+        :link: dependencies
+        :link-type: doc
 
+        Learn about the dependencies required to use PyDPF-Core.
 
-Use PyDPF-Core
---------------
-
-To use PyDPF-Core, in the same Python environment, run this command:
-
-.. code-block:: python
-
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
-    model = dpf.Model(examples.download_crankshaft())
-    print(model)
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    DPF Model
-    ------------------------------
-    Static analysis
-    Unit system: MKS: m, kg, N, s, V, A, degC
-    Physics Type: Mechanical
-    Available results:
-         -  displacement: Nodal Displacement
-         -  velocity: Nodal Velocity
-         -  acceleration: Nodal Acceleration
-         -  reaction_force: Nodal Force
-         -  stress: ElementalNodal Stress
-         -  elemental_volume: Elemental Volume
-         -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
-         -  artificial_hourglass_energy: Elemental Hourglass Energy
-         -  thermal_dissipation_energy: Elemental thermal dissipation energy
-         -  kinetic_energy: Elemental Kinetic Energy
-         -  co_energy: Elemental co-energy
-         -  incremental_energy: Elemental incremental energy
-         -  elastic_strain: ElementalNodal Strain
-         -  structural_temperature: ElementalNodal Temperature
-    ------------------------------
-    DPF  Meshed Region:
-      69762 nodes
-      39315 elements
-      Unit: m
-      With solid (3D) elements
-    ------------------------------
-    DPF  Time/Freq Support:
-      Number of sets: 3
-    Cumulative     Time (s)       LoadStep       Substep
-    1              1.000000       1              1
-    2              2.000000       1              2
-    3              3.000000       1              3
-
-
-
-.. code-block:: python
-
-    over_time_disp = model.results.displacement().eval()
-    over_time_disp[0].plot()
-
-
-.. figure:: ../images/plotting/crankshaft_disp.png
 
 
 .. toctree::
    :maxdepth: 2
    :hidden:
 
+   summary
    install
    dpf_server
    compatibility
