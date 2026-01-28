@@ -32,6 +32,8 @@ from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import locations, nodal_properties
 
 if TYPE_CHECKING:  # pragma: no cover
+    from ansys.dpf.core.field import Field
+    from ansys.dpf.core.property_field import PropertyField
     from ansys.dpf.core.scoping import Scoping
 
 
@@ -165,28 +167,28 @@ class Nodes:
         for i in range(len(self)):
             yield self[i]
 
-    def node_by_id(self, id):
+    def node_by_id(self, id: int) -> Node:
         """Array of node coordinates ordered by ID."""
         return self.__get_node(nodeid=id)
 
-    def node_by_index(self, index):
+    def node_by_index(self, index: int) -> Node:
         """Array of node coordinates ordered by index."""
         return self.__get_node(nodeindex=index)
 
-    def __get_node(self, nodeindex=None, nodeid=None):
+    def __get_node(self, nodeindex: int = None, nodeid: int = None) -> Node:
         """
         Retrieve the node by its ID or index.
 
         Parameters
         ----------
-        nodeid : int
+        nodeid:
             ID of the node. The default is ``None``.
-        nodeindex : int
+        nodeindex:
             Index of the node. The default is ``None``.
 
         Returns
         -------
-        node : ansys.dpf.core.meshed_region.Node
+        node:
             Requested node
         """
         if nodeindex is None:
@@ -226,18 +228,18 @@ class Nodes:
         return self._mesh._get_scoping(loc=locations.nodal)
 
     @property
-    def n_nodes(self):
+    def n_nodes(self) -> int:
         """Number of nodes."""
         return self._mesh._api.meshed_region_get_num_nodes(self._mesh)
 
     @property
-    def coordinates_field(self):
+    def coordinates_field(self) -> Field:
         """
         Coordinates field.
 
         Returns
         -------
-        coordinates_field : Field
+        coordinates_field:
             Field with all the coordinates for the nodes.
 
         Examples
@@ -260,19 +262,19 @@ class Nodes:
 
     @coordinates_field.setter
     @version_requires("3.0")
-    def coordinates_field(self, property_field):
+    def coordinates_field(self, field: Field):
         """
         Coordinates field setter.
 
         Parameters
         ----------
-        property_field : Field
+        field:
             Field that contains coordinates
         """
-        self._mesh.set_coordinates_field(property_field)
+        self._mesh.set_coordinates_field(field)
 
     @property
-    def nodal_connectivity_field(self):
+    def nodal_connectivity_field(self) -> PropertyField:
         """
         Nodal connectivity field.
 
@@ -281,7 +283,7 @@ class Nodes:
 
         Returns
         -------
-        nodal_connectivity_field : PropertyField
+        nodal_connectivity_field:
             Field of the element indices associated with each node.
 
         Examples
@@ -298,16 +300,16 @@ class Nodes:
         """
         return self._mesh.field_of_properties(nodal_properties.nodal_connectivity)
 
-    def _get_coordinates_field(self):
+    def _get_coordinates_field(self) -> Field:
         """Retrieve the coordinates field."""
         return self._mesh.field_of_properties(nodal_properties.coordinates)
 
-    def _build_mapping_id_to_index(self):
+    def _build_mapping_id_to_index(self) -> dict[int, int]:
         """Retrieve a mapping between IDs and indices of the entity."""
         return {eid: i for i, eid in enumerate(self.scoping.ids)}
 
     @property
-    def mapping_id_to_index(self):
+    def mapping_id_to_index(self) -> dict[int, int]:
         """Property storing mapping between IDs and indices of the entity."""
         if self._mapping_id_to_index is None:
             self._mapping_id_to_index = self._build_mapping_id_to_index()
