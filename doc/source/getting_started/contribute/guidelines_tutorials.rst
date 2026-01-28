@@ -45,9 +45,9 @@ Adding a new tutorial section
 
 .. note::
 
-    Avoid creating new folders unless absolutely necessary. 
-    When in doubt, mention the location of the new section in the pull request for approval. 
-    If you must create a new folder, make sure to add an ``index.rst`` file with a reference, a title, and a description of the section. 
+    Avoid creating new folders unless absolutely necessary.
+    When in doubt, mention the location of the new section in the pull request for approval.
+    If you must create a new folder, make sure to add an ``index.rst`` file with a reference, a title, and a description of the section.
     The documentation ignores folders lacking this file.
 
 Location and naming
@@ -154,7 +154,7 @@ The tutorial is divided in two main parts:
 Header
 ^^^^^^
 
-This first part is essential for clarity, organization and usability of the tutorial. It establishes the purpose 
+This first part is essential for clarity, organization and usability of the tutorial. It establishes the purpose
 of the tutorial, making it easier to understand what is going to be explained and reference it within the other parts of
 the documentation.
 
@@ -378,7 +378,7 @@ guide to ensure that all code looks the same across the project.
     .. grid-item-card::
 
         :octicon:`x-circle-fill` **Incorrect**
-        
+
         A single broad explanation for two steps with outputs mixed together
 
         .. code-block::
@@ -697,3 +697,74 @@ guide to ensure that the tutorials follow a coherent writing style across the pr
 
             - Item 2
             Presentation of the second item...
+
+Related examples section
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Always include a "Related examples" section** at the end of each tutorial if any examples in the
+``examples/`` directory use the feature being presented.
+
+Steps to add this section:
+
+#. **Search for examples**: Check the ``examples/`` directory for Python scripts that use the tutorial's
+   main operator, method, or feature.
+#. **Add the section**: If examples are found that use the specific feature, add a "Related examples"
+   section at the end of the tutorial.
+#. **Use proper formatting**: Reference each example using its official reference label (found at the top
+   of each example file: ``.. _reference_label:``) and provide a brief one-line description.
+
+.. grid:: 2
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card::
+
+        :octicon:`check-circle-fill` **Correct**
+
+        .. code-block::
+
+            Related examples
+            ----------------
+
+            For practical applications of the ``on_coordinates`` operator, see:
+
+            - :ref:`stress_gradient_path` - Map stress results along a path normal to a node
+            - :ref:`plot_on_path` - Map and plot results along a defined coordinate path
+            - :ref:`plot_on_geometries` - Map fields to geometric objects (points, lines, planes)
+
+    .. grid-item-card::
+
+        :octicon:`x-circle-fill` **Incorrect**
+
+        .. code-block::
+
+            # Including examples that don't actually use the feature
+
+            Related examples
+            ----------------
+
+            For practical applications of mapping, see:
+
+            - :ref:`basic_plotting` - Basic plotting example
+            - :ref:`stress_gradient_path` - Map stress results along a path
+
+        .. code-block::
+
+            # Including examples without verifying they use the feature
+
+            Related examples
+            ----------------
+
+            See these examples:
+
+            - :ref:`example1`
+            - :ref:`example2`
+
+**Important guidelines**:
+
+- Only reference examples that actually use the specific operator, method, or feature taught in the tutorial.
+- Do not add this section if no examples use the feature.
+- Keep descriptions concise (one line per example).
+- Place this section at the very end of the tutorial file.
+- Verify that the example reference labels are correct by checking the example files.

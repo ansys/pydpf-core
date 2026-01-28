@@ -139,3 +139,10 @@ of basic features and concepts so you can start coding right away.
 
         +++
         Coming soon
+
+    .. grid-item-card:: Mapping
+        :link: ref_tutorials_mapping
+        :link-type: ref
+        :text-align: center
+
+        Learn how to use mapping operators to transfer, interpolate, or project results.
