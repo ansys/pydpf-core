@@ -94,9 +94,9 @@ jobs:
         run: |
           pip install --find-links=.github/ -e .
 
-      - name: "Install requirements_build"
+      - name: "Install build dependencies"
         run: |
-          pip install -r requirements/requirements_build.txt
+          pip install --group build.txt
 
       - name: "List installed packages"
         shell: bash

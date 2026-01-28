@@ -54,7 +54,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: "Install requirements"
-        run: pip install -r requirements/requirements_build.txt
+        run: pip install --group build.txt
 
       - name: "Build the manylinux1 wheel"
         shell: bash
