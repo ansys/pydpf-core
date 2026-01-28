@@ -293,6 +293,60 @@ class MeshedRegion:
         """
         return self._api.meshed_region_set_unit(self, unit)
 
+    @property
+    def bounding_box(self):
+        """
+        Bounding box of the meshed region.
+
+        Returns the minimum and maximum coordinates along each dimension (x, y, z)
+        of the nodes in the meshed region as a Field.
+
+        Returns
+        -------
+        bounding_box : Field
+            Field with overall location containing the bounding box data.
+            The field has 3 dimensions (x, y, z) and 2 entities:
+            - Entity 1: minimum coordinates [x_min, y_min, z_min]
+            - Entity 2: maximum coordinates [x_max, y_max, z_max]
+
+        Examples
+        --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.find_static_rst())
+        >>> meshed_region = model.metadata.meshed_region
+        >>> bbox = meshed_region.bounding_box
+        >>> print(bbox)
+        DPF bounding_box Field
+          Location: overall
+          Unit: m
+          2 entities
+          Data: 3 components and 2 elementary data
+          IDs                   data(m)
+          ------------          ----------
+          1                     0.000000e+00   3.000000e-02   0.000000e+00
+          2                     3.000000e-02   6.000000e-02   3.000000e-02
+
+        """
+        coords = self.nodes.coordinates_field.data
+        min_coords = np.min(coords, axis=0)
+        max_coords = np.max(coords, axis=0)
+
+        # Create a field with overall location
+        bbox_field = field.Field(location=locations.overall, server=self._server)
+        bbox_field.name = "bounding_box"
+
+        # Set unit from coordinates field if available
+        coords_field = self.nodes.coordinates_field
+        if coords_field.unit:
+            bbox_field.unit = coords_field.unit
+
+        # Add min and max as separate entities (1-based IDs)
+        bbox_field.append(min_coords, 1)  # Entity 1: min
+        bbox_field.append(max_coords, 2)  # Entity 2: max
+
+        return bbox_field
+
     def __del__(self):
         """Delete this instance of the meshed region."""
         try:
