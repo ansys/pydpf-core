@@ -173,6 +173,57 @@ In this tutorial, we explore the data about the mesh nodes.
             # Print the nodes
             print("Nodes: ", nodes_4)
 
+You can also get the bounding box of the mesh using the :method:`MeshedRegion.bounding_box <ansys.dpf.core.meshed_region.MeshedRegion.bounding_box>` property.
+
+The bounding box gives the minimum and maximum coordinates of the mesh in the X, Y and Z directions.
+
+It is a 3D |Field| with overall location and 2 entities containing the bounding box data:
+
+- Entity 1: minimum coordinates [x_min, y_min, z_min]
+- Entity 2: maximum coordinates [x_max, y_max, z_max]
+
+.. tab-set::
+
+    .. tab-item:: MAPDL
+
+        .. jupyter-execute::
+
+            # Get the mesh bounding box
+            bbox_1 = meshed_region_1.bounding_box
+
+            # Print the bounding box
+            print("Bounding box: ", bbox_1)
+
+    .. tab-item:: LSDYNA
+
+        .. jupyter-execute::
+
+            # Get the mesh bounding box
+            bbox_2 = meshed_region_2.bounding_box
+
+            # Print the bounding box
+            print("Bounding box: ", bbox_2)
+
+    .. tab-item:: Fluent
+
+        .. jupyter-execute::
+
+            # Get the mesh bounding box
+            bbox_3 = meshed_region_3.bounding_box
+
+            # Print the bounding box
+            print("Bounding box: ", bbox_3)
+
+    .. tab-item:: CFX
+
+        .. jupyter-execute::
+
+            # Get the mesh bounding box
+            bbox_4 = meshed_region_4.bounding_box
+
+            # Print the bounding box
+            print("Bounding box: ", bbox_4)
+
 Explore the mesh metadata
 -------------------------
 
