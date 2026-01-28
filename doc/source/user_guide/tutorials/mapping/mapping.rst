@@ -30,6 +30,8 @@ This method:
 **When to use**: Use this approach when you need quick interpolation at specific points
 and standard shape function accuracy is sufficient for your analysis.
 
+**Limitations**: Any target location outside the source mesh yields an empty value as this is interpolation only.
+
 Reduced coordinates mapping
 ---------------------------
 
@@ -57,6 +59,8 @@ This approach offers several advantages:
 want to map multiple fields to the same locations efficiently, or require the highest
 interpolation accuracy for critical analyses.
 
+**Limitations**: Like direct coordinate mapping, target locations outside the source mesh yield empty values.
+
 Solid-to-skin mapping
 ---------------------
 
@@ -69,6 +73,8 @@ data from volume (solid) elements to surface (skin) elements. This operator:
 
 **When to use**: Use this when you need to extract surface results from volumetric data,
 for example to visualize external surfaces or analyze boundary conditions.
+
+**Limitations**: Only works between topologically related solid and skin meshes. Cannot map between arbitrary unrelated meshes or create new interpolation points.
 
 RBF-based workflow mapping
 ---------------------------
@@ -87,6 +93,8 @@ This method:
 **When to use**: Use this for mapping between non-conforming meshes where the source and
 target meshes have different structures, or for repeated mapping operations on various
 field types.
+
+**Limitations**: Requires careful tuning of filter radius and influence box parameters. Results depend on RBF smoothing which may not preserve sharp gradients or peak values with large filter radii. Computationally more expensive than direct shape function interpolation.
 
 Choosing the right mapping method
 ==================================
