@@ -96,7 +96,7 @@ jobs:
 
       - name: "Install build dependencies"
         run: |
-          pip install --group build.txt
+          pip install --group build
 
       - name: "List installed packages"
         shell: bash

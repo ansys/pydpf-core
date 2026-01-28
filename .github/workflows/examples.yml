@@ -76,7 +76,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: "Install requirements"
-        run: pip install --group build.txt
+        run: pip install --group build
 
       - name: "Build the wheel"
         shell: bash

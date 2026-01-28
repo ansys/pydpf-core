@@ -73,7 +73,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: "Install ansys-dpf-core build requirements"
-        run: pip install --group build.txt
+        run: pip install --group build
 
       - name: "Build ansys-dpf-core wheel"
         shell: bash
