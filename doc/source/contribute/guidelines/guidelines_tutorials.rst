@@ -24,6 +24,7 @@ You also need to understand the structure of the ``doc`` directory on the PyDPF-
     │   │    ├── examples
     │   │    ├── getting_started
     │   │    ├── images
+    │   │    ├── tutorials
     │   │    ├── user_guide
     │   │    ├── conf.py
     │   │    ├── index.rst
@@ -31,7 +32,7 @@ You also need to understand the structure of the ``doc`` directory on the PyDPF-
     │   ├── make.bat
 
 
-Tutorials are located in the ``doc/source/user_guide`` directory.
+Tutorials are located in the ``doc/source/tutorials`` directory.
 
 ----
 
@@ -41,7 +42,7 @@ Tutorials are located in the ``doc/source/user_guide`` directory.
 Adding a new tutorial section
 =============================
 
-:download:`Download the new tutorial section template<tutorial_section_template.rst>`
+:download:`Download the new tutorial section template<tutorial_templates/tutorial_section_template.rst>`
 
 .. note::
 
@@ -53,16 +54,15 @@ Adding a new tutorial section
 Location and naming
 -------------------
 
-The new tutorial section must reside in a new folder such as ``doc/source/user_guide/tutorials/new_section_name``.
+The new tutorial section must reside in a new folder such as ``doc/source/tutorials/new_section_name``.
 
 .. code-block::
 
     .
     ├── doc
     │   ├── source
-    │   │    ├── user_guide
-    │   │    │   ├── tutorials
-    │   │    │        ├── new_section
+    │   │    ├── tutorials
+    │   │    │   ├── new_section_name
 
 Structure
 ---------
@@ -75,11 +75,11 @@ The section folder must contain an ``index.rst`` file with:
 - cards with links to the tutorials, titles, descriptions and applicable solvers,
 - a ``Toctree`` for the tutorials in the section to appear in the navigation pane.
 
-.. literalinclude:: tutorial_section_template.rst
+.. literalinclude:: tutorial_templates/tutorial_section_template.rst
 
-You must reference the new section ``index.rst`` file in the main user guide page toctree
-for it to appear in the sidebar of the user guide main page. You can find this toctree
-at the end of the ``doc/source/user_guide/index.rst`` file.
+You must reference the new section ``index.rst`` file in the main tutorial page toctree
+for it to appear in the sidebar of the tutorial main page. You can find this toctree
+at the end of the ``doc/source/tutorials/index.rst`` file.
 For example:
 
 .. code-block::
@@ -89,10 +89,10 @@ For example:
         :hidden:
         :caption: Tutorials
 
-        tutorials/section_x/index.rst
-        tutorials/section_y/index.rst
-        tutorials/section_z/index.rst
-        tutorials/new_section/index.rst
+        section_x/index.rst
+        section_y/index.rst
+        section_z/index.rst
+        new_section/index.rst
 
 ----
 
@@ -102,25 +102,24 @@ For example:
 Adding a new tutorial
 =====================
 
-:download:`Download the tutorial card template<tutorial_card_template.rst>`
-:download:`Download the tutorial structure template<tutorial_structure_template.rst>`
-:download:`Download the tutorial content formating template<tutorial_content_template.rst>`
+:download:`Download the tutorial card template<tutorial_templates/tutorial_card_template.rst>`
+:download:`Download the tutorial structure template<tutorial_templates/tutorial_structure_template.rst>`
+:download:`Download the tutorial content formating template<tutorial_templates/tutorial_content_template.rst>`
 
 Location and naming
 -------------------
 
 New tutorials correspond to new ``.rst`` files in tutorial section folders,
-for example: ``doc/source/user_guide/tutorials/section/new_tutorial.rst``
+for example: ``doc/source/tutorials/section/new_tutorial.rst``
 
 .. code-block::
 
     .
     ├── doc
     │   ├── source
-    │   │    ├── user_guide
-    │   │    │   ├── tutorials
-    │   │    │        ├── section
-    │   │    │             ├── new_tutorial.rst
+    │   │    ├── tutorials
+    │   │    │   ├── section
+    │   │    │        ├── new_tutorial.rst
 
 You must also add a new card in the ``index.rst`` file for the tutorial section as well as modify
 its toctree. The card must include:
@@ -167,7 +166,7 @@ The header must have :
 - an introduction,
 - download buttons for Python script and Jupyter notebook versions of the tutorial.
 
-.. literalinclude:: tutorial_structure_template.rst
+.. literalinclude:: tutorial_templates/tutorial_structure_template.rst
     :end-before: First Step
 
 The main PyDPF-Core library references are available in the ``doc/source/links_and_refs.rst`` file.

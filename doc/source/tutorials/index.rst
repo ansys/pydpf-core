@@ -139,3 +139,17 @@ of basic features and concepts so you can start coding right away.
 
         +++
         Coming soon
+
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+
+    data_structures/index.rst
+    post_processing_basics/index.rst
+    import_data/index.rst
+    mesh/index.rst
+    plot/index.rst
+    animate/index.rst
+    mathematics/index.rst
+    custom_operators_and_plugins/index.rst
+    dpf_server/index.rst

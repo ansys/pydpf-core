@@ -44,6 +44,6 @@ The following contribution information is specific to PyDPF-Core. Start by selec
     :hidden:
     :maxdepth: 3
 
-    User<contribute/user>
-    Developer<contribute/developer>
-    Documentation<contribute/documentarian>
+    User<user>
+    Developer<developer>
+    Documentation<documentarian>
