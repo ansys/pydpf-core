@@ -58,7 +58,7 @@ PyDPF-Core is a Python client library for the Ansys Data Processing Framework (D
             and how to interact with them programmatically.
         {% endif %}
 
-    .. grid-item-card:: Operators :fa:`chart-diagram`
+    .. grid-item-card:: Operators :fa:`network-wired`
         :link: operator_reference
         :link-type: doc
 
