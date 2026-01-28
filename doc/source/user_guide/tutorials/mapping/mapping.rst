@@ -86,8 +86,11 @@ functions, this approach uses RBF filters that can map data between non-conformi
 This method:
 
 - Creates a workflow that can be applied to multiple field types
-- Uses RBF filters for smooth, continuous interpolation
-- Allows customization through filter radius and influence box parameters
+- Uses RBF filters for smooth, continuous interpolation across non-conforming meshes
+- Calculates values at target points by weighting surrounding source nodes based on distance
+- Provides control over the smoothing scale through the filter radius (acts like standard deviation in Gaussian weighting)
+- Enables capture of local gradients with small radii or general trends with large radii
+- Uses influence box as a computational optimization to define the spatial search window
 - Is particularly useful for transferring data between meshes with different topologies or structures
 
 **When to use**: Use this for mapping between non-conforming meshes where the source and
