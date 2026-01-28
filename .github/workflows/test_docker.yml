@@ -53,9 +53,7 @@ jobs:
         uses: ts-graphviz/setup-graphviz@v2
 
       - name: "Install requirements"
-        run: |
-          pip install -U pip
-          pip install --group build
+        run: pip install -r requirements/requirements_build.txt
 
       - name: "Build the wheel"
         shell: bash
