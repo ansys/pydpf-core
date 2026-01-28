@@ -1,0 +1,5 @@
+black==26.1.0
+build==1.4.0
+chevron==0.14.0
+pypandoc_binary==1.16.2
+wheel==0.46.3
