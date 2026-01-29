@@ -31,6 +31,8 @@ class nodal_to_elemental_nodal(Operator):
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
+    extend_to_mid_nodes: bool, optional
+        Copy values from midside nodes to ElementalNodal field. Default: false
     collapse_shell_layers: bool, optional
         If true, the data across different shell layers is averaged as well (default is false).
 
@@ -50,6 +52,8 @@ class nodal_to_elemental_nodal(Operator):
     >>> op.inputs.field.connect(my_field)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
     >>> my_collapse_shell_layers = bool()
     >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
 
@@ -57,6 +61,7 @@ class nodal_to_elemental_nodal(Operator):
     >>> op = dpf.operators.averaging.nodal_to_elemental_nodal(
     ...     field=my_field,
     ...     mesh_scoping=my_mesh_scoping,
+    ...     extend_to_mid_nodes=my_extend_to_mid_nodes,
     ...     collapse_shell_layers=my_collapse_shell_layers,
     ... )
 
@@ -68,6 +73,7 @@ class nodal_to_elemental_nodal(Operator):
         self,
         field=None,
         mesh_scoping=None,
+        extend_to_mid_nodes=None,
         collapse_shell_layers=None,
         config=None,
         server=None,
@@ -83,6 +89,8 @@ class nodal_to_elemental_nodal(Operator):
             self.inputs.field.connect(field)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
+        if extend_to_mid_nodes is not None:
+            self.inputs.extend_to_mid_nodes.connect(extend_to_mid_nodes)
         if collapse_shell_layers is not None:
             self.inputs.collapse_shell_layers.connect(collapse_shell_layers)
 
@@ -105,6 +113,12 @@ computed on a given element’s scoping.
                     type_names=["scoping"],
                     optional=True,
                     document=r"""""",
+                ),
+                4: PinSpecification(
+                    name="extend_to_mid_nodes",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""Copy values from midside nodes to ElementalNodal field. Default: false""",
                 ),
                 10: PinSpecification(
                     name="collapse_shell_layers",
@@ -180,6 +194,8 @@ class InputsNodalToElementalNodal(_Inputs):
     >>> op.inputs.field.connect(my_field)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
     >>> my_collapse_shell_layers = bool()
     >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
     """
@@ -194,6 +210,10 @@ class InputsNodalToElementalNodal(_Inputs):
             nodal_to_elemental_nodal._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_scoping)
+        self._extend_to_mid_nodes: Input[bool] = Input(
+            nodal_to_elemental_nodal._spec().input_pin(4), 4, op, -1
+        )
+        self._inputs.append(self._extend_to_mid_nodes)
         self._collapse_shell_layers: Input[bool] = Input(
             nodal_to_elemental_nodal._spec().input_pin(10), 10, op, -1
         )
@@ -238,6 +258,27 @@ class InputsNodalToElementalNodal(_Inputs):
         >>> op.inputs.mesh_scoping(my_mesh_scoping)
         """
         return self._mesh_scoping
+
+    @property
+    def extend_to_mid_nodes(self) -> Input[bool]:
+        r"""Allows to connect extend_to_mid_nodes input to the operator.
+
+        Copy values from midside nodes to ElementalNodal field. Default: false
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.nodal_to_elemental_nodal()
+        >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
+        >>> # or
+        >>> op.inputs.extend_to_mid_nodes(my_extend_to_mid_nodes)
+        """
+        return self._extend_to_mid_nodes
 
     @property
     def collapse_shell_layers(self) -> Input[bool]:
