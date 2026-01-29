@@ -118,11 +118,11 @@ jobs:
         run: |
           choco install pandoc
 
-      - name: Install Quarto
-        uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2.2.0
-        with:
-          tinytex: true
-          version: 1.6.43
+      - name: "Install quarto for cheatsheet"
+        shell: powershell
+        run: | # zizmor: ignore[github-env]
+          choco install quarto --version=1.6.43 -y
+          echo "C:\ProgramData\chocolatey\lib\quarto\tools" | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
 
       - name: Check Quarto Version
         shell: bash
@@ -134,6 +134,17 @@ jobs:
         run: |
           choco install poppler -y
           echo "C:\Program Files\poppler\bin" | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
+
+      - name: Install Miktex and update PATH with Miktex binaries
+        shell: powershell
+        run: |
+          choco install miktex -y
+          echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
+
+      - name: Set up Miktex to automatically install packages
+        shell: powershell
+        run: |
+          initexmf --set-config-value [MPM]AutoInstall=1
 
       - name: "Restore doc build cache"
         id: cache-doc-build-restore
