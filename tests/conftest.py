@@ -343,6 +343,8 @@ def cfx_mixing_elbow():
     return return_ds
 
 
+DEFAULT_ANSYS_PATH = core._global_server().ansys_path
+
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0 = meets_version(
     get_server_version(core._global_server()), "12.0"
 )
