@@ -142,7 +142,6 @@ jobs:
         with:
           DEBUG: true
           working-directory: pydpf-post
-          install-from-dependency-groups: "true"
 
       - name: "List installed packages"
         shell: bash
