@@ -96,7 +96,8 @@ jobs:
 
       - name: "Install requirements_build"
         run: |
-          pip install -r requirements/requirements_build.txt
+          pip install -U pip
+          pip install --group build
 
       - name: "List installed packages"
         shell: bash

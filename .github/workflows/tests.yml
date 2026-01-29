@@ -198,6 +198,7 @@ jobs:
         uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
         with:
           DEBUG: true
+          install-from-dependency-groups: "true"
           
       - name: "Test Docstrings"
         if: (inputs.DOCSTRING == 'true')

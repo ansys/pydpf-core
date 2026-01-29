@@ -71,7 +71,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: "Install requirements"
-        run: pip install -r requirements/requirements_build.txt
+        run: |
+          pip install -U pip
+          pip install --group build
 
       - name: "Build the wheel"
         shell: bash
@@ -117,6 +119,7 @@ jobs:
         uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
         with:
           DEBUG: true
+          install-from-dependency-groups: "true"
 
       - name: "List installed packages"
         shell: bash
