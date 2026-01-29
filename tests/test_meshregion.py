@@ -644,3 +644,44 @@ def test_empty_mesh_get_scoping(server_type):
     assert okay
     okay = mesh.elements.scoping is None or len(mesh.elements.scoping) == 0
     assert okay
+
+
+def test_meshed_region_bounding_box(simple_bar_model):
+    """Test the bounding_box property of MeshedRegion."""
+    mesh = simple_bar_model.metadata.meshed_region
+
+    # Get the bounding box
+    bbox = mesh.bounding_box
+
+    # Verify it's a Field
+    assert isinstance(bbox, dpf.core.Field)
+
+    # Verify the field has nodal location
+    assert bbox.location == dpf.core.locations.overall
+
+    # Verify the field has 1 entity
+    assert len(bbox.scoping.ids) == 1
+
+    # Get all data as a 1x6 array
+    bbox_data = bbox.data
+    assert bbox_data.shape == (1, 6)
+
+    # First are min values, second are max values
+    min_coords = bbox_data[0, 0:3]
+    max_coords = bbox_data[0, 3:6]
+
+    # Verify min is less than or equal to max for each dimension
+    assert np.all(min_coords <= max_coords)
+
+    # Verify the bounding box matches the actual coordinate range
+    coords = mesh.nodes.coordinates_field.data
+    expected_min = np.min(coords, axis=0)
+    expected_max = np.max(coords, axis=0)
+
+    assert np.allclose(min_coords, expected_min)
+    assert np.allclose(max_coords, expected_max)
+
+    # Verify the unit is set correctly
+    coords_field = mesh.nodes.coordinates_field
+    if coords_field.unit:
+        assert bbox.unit == coords_field.unit
