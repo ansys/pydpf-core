@@ -118,6 +118,23 @@ jobs:
         run: |
           choco install pandoc
 
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2.2.0
+        with:
+          tinytex: true
+          version: 1.6.43
+
+      - name: Check Quarto Version
+        shell: bash
+        run: |
+          quarto --version
+
+      - name: "Install Poppler for PDF to PNG conversion"
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+
       - name: "Restore doc build cache"
         id: cache-doc-build-restore
         uses: actions/cache/restore@v4
