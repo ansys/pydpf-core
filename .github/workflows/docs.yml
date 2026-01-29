@@ -132,8 +132,8 @@ jobs:
       - name: "Install Poppler for PDF to PNG conversion"
         shell: bash
         run: |
-          sudo apt-get update
-          sudo apt-get install -y poppler-utils
+          choco install poppler -y
+          echo "C:\Program Files\poppler\bin" >> $GITHUB_PATH
 
       - name: "Restore doc build cache"
         id: cache-doc-build-restore
