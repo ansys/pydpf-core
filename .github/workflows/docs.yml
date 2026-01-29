@@ -130,10 +130,10 @@ jobs:
           quarto --version
 
       - name: "Install Poppler for PDF to PNG conversion"
-        shell: bash
+        shell: powershell
         run: |
           choco install poppler -y
-          echo "C:\Program Files\poppler\bin" >> $GITHUB_PATH
+          echo "C:\Program Files\poppler\bin" | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
 
       - name: "Restore doc build cache"
         id: cache-doc-build-restore
