@@ -177,10 +177,8 @@ You can also get the bounding box of the mesh using the :method:`MeshedRegion.bo
 
 The bounding box gives the minimum and maximum coordinates of the mesh in the X, Y and Z directions.
 
-It is a 3D |Field| with nodal location and 2 entities containing the bounding box data:
-
-- Node 1: minimum coordinates [x_min, y_min, z_min]
-- Node 2: maximum coordinates [x_max, y_max, z_max]
+It is a 6D |Field| with overall location and 1 entity,
+containing the bounding box data in the format [x_min, y_min, z_min, x_max, y_max, z_max].
 
 .. tab-set::
 
