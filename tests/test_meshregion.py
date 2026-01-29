@@ -657,24 +657,18 @@ def test_meshed_region_bounding_box(simple_bar_model):
     assert isinstance(bbox, dpf.core.Field)
 
     # Verify the field has nodal location
-    assert bbox.location == dpf.core.locations.nodal
+    assert bbox.location == dpf.core.locations.overall
 
-    # Verify the field has 2 node entities (min and max)
-    assert len(bbox.scoping.ids) == 2
-    assert 1 in bbox.scoping.ids
-    assert 2 in bbox.scoping.ids
+    # Verify the field has 1 entity
+    assert len(bbox.scoping.ids) == 1
 
-    # Get all data as a 2x3 array
+    # Get all data as a 1x6 array
     bbox_data = bbox.data
-    assert bbox_data.shape == (2, 3)
+    assert bbox_data.shape == (1, 6)
 
-    # First row is min, second row is max
-    min_coords = bbox_data[0]
-    max_coords = bbox_data[1]
-
-    # Verify the values are arrays with 3 components (x, y, z)
-    assert len(min_coords) == 3
-    assert len(max_coords) == 3
+    # First are min values, second are max values
+    min_coords = bbox_data[0, 0:3]
+    max_coords = bbox_data[0, 3:6]
 
     # Verify min is less than or equal to max for each dimension
     assert np.all(min_coords <= max_coords)

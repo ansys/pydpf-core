@@ -40,6 +40,7 @@ from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core.check_version import meets_version, server_meet_version, version_requires
 from ansys.dpf.core.common import (
     locations,
+    natures,
     nodal_properties,
     types,
 )
@@ -304,10 +305,8 @@ class MeshedRegion:
         Returns
         -------
         bounding_box : Field
-            Field with nodal location containing the bounding box data.
-            The field has 3 dimensions (x, y, z) and 2 node entities:
-            - Node 1: minimum coordinates [x_min, y_min, z_min]
-            - Node 2: maximum coordinates [x_max, y_max, z_max]
+            Field with overall location containing the bounding box data.
+            The field is a vector with 6 components (x_min, y_min, z_min, x_max, y_max, z_max).
 
         Examples
         --------
@@ -318,33 +317,32 @@ class MeshedRegion:
         >>> bbox = meshed_region.bounding_box
         >>> print(bbox)
         DPF bounding_box Field
-          Location: Nodal
+          Location: overall
           Unit: m
-          2 entities
-          Data: 3 components and 2 elementary data
+          1 entities
+          Data: 6 components and 1 elementary data
           IDs                   data(m)
           ------------          ----------
-          1                     0.000000e+00   3.000000e-02   0.000000e+00
-          2                     3.000000e-02   6.000000e-02   3.000000e-02
+          0                     0.000000e+00   3.000000e-02   0.000000e+00   3.000000e-02   6.000000e-02   3.000000e-02
 
         """
-        coords = self.nodes.coordinates_field.data
-        min_coords = np.min(coords, axis=0)
-        max_coords = np.max(coords, axis=0)
+        from ansys.dpf.core import fields_factory, operators
 
-        # Create a field with overall location
-        bbox_field = field.Field(location=locations.nodal, server=self._server)
+        node_coordinates_op = operators.mesh.node_coordinates(mesh=self, server=self._server)
+        min_max = operators.min_max.min_max(field=node_coordinates_op, server=self._server)
+        field_min = min_max.outputs.field_min()
+        field_max = min_max.outputs.field_max()
+
+        # Create a field with overall location and format [x_min, y_min, z_min; x_max, y_max, z_max]
+        bbox_field = fields_factory.create_overall_field(
+            value=[*field_min.data_as_list, *field_max.data_as_list],
+            server=self._server,
+            nature=natures.vector,
+            num_comp=6,
+            num_entities=1,
+        )
         bbox_field.name = "bounding_box"
-
-        # Set unit from coordinates field if available
-        coords_field = self.nodes.coordinates_field
-        if coords_field.unit:
-            bbox_field.unit = coords_field.unit
-
-        # Add min and max as separate entities (1-based IDs)
-        bbox_field.append(min_coords, 1)  # Entity 1: min
-        bbox_field.append(max_coords, 2)  # Entity 2: max
-
+        bbox_field.unit = field_min.unit
         return bbox_field
 
     def __del__(self):
