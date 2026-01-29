@@ -179,9 +179,3 @@ where = ["src"]
 [tool.setuptools.package-data]
 "ansys.dpf.gatebin" = ["*.so", "*.dll"]
 "ansys.dpf.core.documentation" = ["toc_template.j2", "operator_doc_template.j2"]
-
-[tools.pytest]
-filterwarnings = "ignore:Use explicit output-to-input connections:DeprecationWarning"
-norecursedirs = "*"
-doctest_optionflags = "NORMALIZE_WHITESPACE ELLIPSIS"
-markers = "slow: mark a test as slow."
