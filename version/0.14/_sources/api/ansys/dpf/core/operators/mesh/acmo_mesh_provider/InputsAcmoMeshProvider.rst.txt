@@ -1,0 +1,167 @@
+
+
+
+
+
+
+:class:`InputsAcmoMeshProvider`
+===============================
+
+
+.. py:class:: ansys.dpf.core.operators.mesh.acmo_mesh_provider.InputsAcmoMeshProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   acmo_mesh_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.acmo_mesh_provider()
+   >>> my_assembly_mesh = dpf.AnsDispatchHolder()
+   >>> op.inputs.assembly_mesh.connect(my_assembly_mesh)
+   >>> my_unit = str()
+   >>> op.inputs.unit.connect(my_unit)
+
+
+
+
+
+
+.. py:currentmodule:: InputsAcmoMeshProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~assembly_mesh`
+            - Allows to connect assembly_mesh input to the operator.
+          * - :py:attr:`~unit`
+            - Allows to connect unit input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.acmo_mesh_provider import InputsAcmoMeshProvider
+
+Property detail
+---------------
+
+.. py:property:: assembly_mesh
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect assembly_mesh input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.acmo_mesh_provider()
+   >>> op.inputs.assembly_mesh.connect(my_assembly_mesh)
+   >>> # or
+   >>> op.inputs.assembly_mesh(my_assembly_mesh)
+
+.. py:property:: unit
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect unit input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.acmo_mesh_provider()
+   >>> op.inputs.unit.connect(my_unit)
+   >>> # or
+   >>> op.inputs.unit(my_unit)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

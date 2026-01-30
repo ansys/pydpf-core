@@ -1,0 +1,118 @@
+
+
+
+
+
+
+:class:`VTKMeshValidity`
+========================
+
+
+.. py:class:: ansys.dpf.core.vtk_helper.VTKMeshValidity
+
+   Dataclass containing the results of a call to vtk_mesh_is_valid.
+
+   valid:
+       Whether the vtk mesh is valid according to the vtkCellValidator.
+   message:
+       Output message.
+   validity_grid:
+       A copy of the original grid, with validity fields.
+   wrong_number_of_points:
+       List of indexes of elements with the wrong number of points.
+   intersecting_edges:
+       List of indexes of elements with intersecting edges.
+   intersecting_faces:
+       List of indexes of elements with intersecting faces.
+   non_contiguous_edges:
+       List of indexes of elements with non-contiguous edges.
+   non_convex:
+       List of indexes of elements with non-convex shape.
+   inverted_faces:
+       List of indexes of elements with inverted faces.
+
+
+
+.. py:currentmodule:: VTKMeshValidity
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~valid`
+            - 
+          * - :py:attr:`~msg`
+            - 
+          * - :py:attr:`~grid`
+            - 
+          * - :py:attr:`~wrong_number_of_points`
+            - 
+          * - :py:attr:`~intersecting_edges`
+            - 
+          * - :py:attr:`~intersecting_faces`
+            - 
+          * - :py:attr:`~non_contiguous_edges`
+            - 
+          * - :py:attr:`~non_convex`
+            - 
+          * - :py:attr:`~inverted_faces`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.vtk_helper import VTKMeshValidity
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: valid
+   :type:  bool
+
+.. py:attribute:: msg
+   :type:  str
+
+.. py:attribute:: grid
+   :type:  pyvista.UnstructuredGrid
+
+.. py:attribute:: wrong_number_of_points
+   :type:  numpy.ndarray
+
+.. py:attribute:: intersecting_edges
+   :type:  numpy.ndarray
+
+.. py:attribute:: intersecting_faces
+   :type:  numpy.ndarray
+
+.. py:attribute:: non_contiguous_edges
+   :type:  numpy.ndarray
+
+.. py:attribute:: non_convex
+   :type:  numpy.ndarray
+
+.. py:attribute:: inverted_faces
+   :type:  numpy.ndarray
+
+
+
+
+
