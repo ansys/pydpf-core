@@ -22,63 +22,44 @@ if TYPE_CHECKING:
 
 
 class compute_residual_and_error(Operator):
-    r"""Computes the \\(L_p\\) norm of a normalized field or a field container.
-    When a second entry is provided, the calculation is done on the residual
-    (the difference between the first and second entry). When a second entry
-    is not provided, the calculation is only completed for the first entry.
+    r"""Computes the Lp-norm of a field or a field container. When a second
+    entry is provided, the residual (the difference between the first and
+    second entry) is calculated along with the error as the Lp-norm of the
+    difference. When a second input is not provided, the calculation is only
+    completed for the first entry. The type of calculation performed is
+    based on the specifications provided for pin 1, pin 2 defines the type
+    of error norm (L1 vs L2), and pin 3 which entity to use as a reference
 
 
     Inputs
     ------
     field_or_fields_container1: Field or FieldsContainer
-        Field or fields container to be normalized (\\(FC_1\\))
+        field or fields container - compulsory
     normalization_type: int, optional
-        Type of normalization applied to the residual and the norm (\\(norm\\)) :
-        - 0 for absolute (default)
-        - 1 for relative to the first entry
-        - 2 for normalized by the max of each field of the reference field
-        - 3 for normalized by the max over all fields of the reference field
-
+        type of normalization applied to the residuals and norm  calculation (optional, defaut: absolute):
+                                                                                                                        0 for absolute,
+                                                                                                                        1 for relative to the first entry,
+                                                                                                                        2 for normalized by the max of each field of the first entry or residuals depending on the reference field option,
+                                                                                                                        3 for normalized by the max over all fields of the first entry or residuals depending on the reference field option
     norm_calculation_type: int, optional
-        Type for norm calculation (\\(p\\)) :
-        - 1 for \\( L_1 \\) norm
-        - 2 for \\( L_2 \\) norm (default)
-
+        type for norm calculation (optional, default: L2) - It is normalized depending on Pin2 selection
+                                                                                                                        1 for L1, ie sum(abs(xi)),
+                                                                                                                        2 for L2, ie sqrt(sum((xi^2))
     field_reference: int, optional
-        Reference for the normalization step (\\(r\\)) :
-        - 0 for pin 0 (default)
-        - 1 for residual
-        \\[ ref = \begin{cases} FC_1 &\text{ if } r = 0 \\\\ Res &\text{ if } r = 1 \end{cases} \\]
-
+        Field reference for the normalization step, default: 0 for entry 1, 1 for residuals - optional
     field_or_fields_container2: Field or FieldsContainer, optional
-        Field or fields container of the exact same dimensions as pin 0 to be used for residual computation  (\\(FC_2\\))
-        \\[ Res = \begin{cases} FC_1 - FC_2 &\text{ if } FC_2 \\\\ FC_1 &\text{ if not } FC_2 \end{cases} \\]
-
+        field or fields container of same dimensionality as entry 1 - optional
 
     Outputs
     -------
-    residual: Field or FieldsContainer
-        Normalized residual :
-        For each field of the input fields container, for \\(norm \in \\{0, 1, 2, 3\\}\\) : \\[ \overline{Res} = \frac{Res}{k_{Res}} \\]
-
+    residuals: Field or FieldsContainer
+        0: normalized residuals (aka field 1 - field 2) as a field or field container, normalized depending on the normalization type
     error: Field or FieldsContainer
-        Normalized error :
-        For each field of the input fields container, for \\(norm \in \\{0, 1, 2, 3\\}\\) : \\[ \overline{Err} = \frac{\\|Res\\|\_{L\_p}}{k_{Err}} \\]
-
-    residual_normalization_factor: Field or FieldsContainer
-        Residual scaling factor :
-        - \\(norm = 0\\) : \\[ k_{Res} = 1 \\]
-        - \\(norm = 1\\) : \\[ k_{Res} = |ref| \\]
-        - \\(norm = 2\\) : \\[ k_{Res} = \underset{i\in\{1,\ldots,n_{entity}\}}{\max}\left(|ref_i|\right) \\]
-        - \\(norm = 3\\) : \\[ k_{Res} = \underset{i\in\{1,\ldots,n_{comp}\}}{\max}\left(\underset{j\in\{1,\ldots,n_{entity}\}}{\max}\left(|ref_{ij}|\right)\right) \\]
-
+        1: error as a field or a field container depending on the entry's type.
+    residuals_normalization_factor: Field or FieldsContainer
+        2: factor used for residual normalization
     error_normalization_factor: Field or FieldsContainer
-        Error scaling factor :
-        - \\(norm = 0\\) : \\[ k_{Err} = 1 \\]
-        - \\(norm = 1\\) : \\[ k_{Err} = \\|ref\\|_{L_p} \\]
-        - \\(norm = 2\\) : \\[ k_{Err} = \underset{i\in\{1,\ldots,n_{entity}\}}{\max}\left(\\|ref_i\\|_{L_p}\right) \\]
-        - \\(norm = 3\\) : \\[ k_{Err} = \underset{i\in\{1,\ldots,n_{comp}\}}{\max}\left(\underset{j\in\{1,\ldots,n_{entity}\}}{\max}\left(\\|ref_{ij}\\|_{L_p}\right)\right) \\]
-
+        3: factor used for error norm normalization
 
     Examples
     --------
@@ -109,9 +90,9 @@ class compute_residual_and_error(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_residual = op.outputs.residual()
+    >>> result_residuals = op.outputs.residuals()
     >>> result_error = op.outputs.error()
-    >>> result_residual_normalization_factor = op.outputs.residual_normalization_factor()
+    >>> result_residuals_normalization_factor = op.outputs.residuals_normalization_factor()
     >>> result_error_normalization_factor = op.outputs.error_normalization_factor()
     """
 
@@ -145,10 +126,13 @@ class compute_residual_and_error(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the \\(L_p\\) norm of a normalized field or a field container.
-When a second entry is provided, the calculation is done on the residual
-(the difference between the first and second entry). When a second entry
-is not provided, the calculation is only completed for the first entry.
+        description = r"""Computes the Lp-norm of a field or a field container. When a second
+entry is provided, the residual (the difference between the first and
+second entry) is calculated along with the error as the Lp-norm of the
+difference. When a second input is not provided, the calculation is only
+completed for the first entry. The type of calculation performed is
+based on the specifications provided for pin 1, pin 2 defines the type
+of error norm (L1 vs L2), and pin 3 which entity to use as a reference
 """
         spec = Specification(
             description=description,
@@ -157,85 +141,63 @@ is not provided, the calculation is only completed for the first entry.
                     name="field_or_fields_container1",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""Field or fields container to be normalized (\\(FC_1\\))""",
+                    document=r"""field or fields container - compulsory""",
                 ),
                 1: PinSpecification(
                     name="normalization_type",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Type of normalization applied to the residual and the norm (\\(norm\\)) :
-- 0 for absolute (default)
-- 1 for relative to the first entry
-- 2 for normalized by the max of each field of the reference field
-- 3 for normalized by the max over all fields of the reference field
-			""",
+                    document=r"""type of normalization applied to the residuals and norm  calculation (optional, defaut: absolute): 
+														0 for absolute, 
+														1 for relative to the first entry, 
+														2 for normalized by the max of each field of the first entry or residuals depending on the reference field option, 
+														3 for normalized by the max over all fields of the first entry or residuals depending on the reference field option""",
                 ),
                 2: PinSpecification(
                     name="norm_calculation_type",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Type for norm calculation (\\(p\\)) :
-- 1 for \\( L_1 \\) norm
-- 2 for \\( L_2 \\) norm (default)
-			""",
+                    document=r"""type for norm calculation (optional, default: L2) - It is normalized depending on Pin2 selection
+														1 for L1, ie sum(abs(xi)), 
+														2 for L2, ie sqrt(sum((xi^2))""",
                 ),
                 3: PinSpecification(
                     name="field_reference",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Reference for the normalization step (\\(r\\)) :
-- 0 for pin 0 (default)
-- 1 for residual
-\\[ ref = \begin{cases} FC_1 &\text{ if } r = 0 \\\\ Res &\text{ if } r = 1 \end{cases} \\]
-			""",
+                    document=r"""Field reference for the normalization step, default: 0 for entry 1, 1 for residuals - optional""",
                 ),
                 4: PinSpecification(
                     name="field_or_fields_container2",
                     type_names=["field", "fields_container"],
                     optional=True,
-                    document=r"""Field or fields container of the exact same dimensions as pin 0 to be used for residual computation  (\\(FC_2\\))
-\\[ Res = \begin{cases} FC_1 - FC_2 &\text{ if } FC_2 \\\\ FC_1 &\text{ if not } FC_2 \end{cases} \\]
-			""",
+                    document=r"""field or fields container of same dimensionality as entry 1 - optional""",
                 ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
-                    name="residual",
+                    name="residuals",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""Normalized residual :
-For each field of the input fields container, for \\(norm \in \\{0, 1, 2, 3\\}\\) : \\[ \overline{Res} = \frac{Res}{k_{Res}} \\]
-			""",
+                    document=r"""0: normalized residuals (aka field 1 - field 2) as a field or field container, normalized depending on the normalization type""",
                 ),
                 1: PinSpecification(
                     name="error",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""Normalized error :
-For each field of the input fields container, for \\(norm \in \\{0, 1, 2, 3\\}\\) : \\[ \overline{Err} = \frac{\\|Res\\|\_{L\_p}}{k_{Err}} \\]
-			""",
+                    document=r"""1: error as a field or a field container depending on the entry's type.""",
                 ),
                 2: PinSpecification(
-                    name="residual_normalization_factor",
+                    name="residuals_normalization_factor",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""Residual scaling factor :
-- \\(norm = 0\\) : \\[ k_{Res} = 1 \\]
-- \\(norm = 1\\) : \\[ k_{Res} = |ref| \\]
-- \\(norm = 2\\) : \\[ k_{Res} = \underset{i\in\{1,\ldots,n_{entity}\}}{\max}\left(|ref_i|\right) \\]
-- \\(norm = 3\\) : \\[ k_{Res} = \underset{i\in\{1,\ldots,n_{comp}\}}{\max}\left(\underset{j\in\{1,\ldots,n_{entity}\}}{\max}\left(|ref_{ij}|\right)\right) \\]
-			""",
+                    document=r"""2: factor used for residual normalization""",
                 ),
                 3: PinSpecification(
                     name="error_normalization_factor",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""Error scaling factor :
-- \\(norm = 0\\) : \\[ k_{Err} = 1 \\]
-- \\(norm = 1\\) : \\[ k_{Err} = \\|ref\\|_{L_p} \\]
-- \\(norm = 2\\) : \\[ k_{Err} = \underset{i\in\{1,\ldots,n_{entity}\}}{\max}\left(\\|ref_i\\|_{L_p}\right) \\]
-- \\(norm = 3\\) : \\[ k_{Err} = \underset{i\in\{1,\ldots,n_{comp}\}}{\max}\left(\underset{j\in\{1,\ldots,n_{entity}\}}{\max}\left(\\|ref_{ij}\\|_{L_p}\right)\right) \\]
-			""",
+                    document=r"""3: factor used for error norm normalization""",
                 ),
             },
         )
@@ -332,7 +294,7 @@ class InputsComputeResidualAndError(_Inputs):
     def field_or_fields_container1(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field_or_fields_container1 input to the operator.
 
-        Field or fields container to be normalized (\\(FC_1\\))
+        field or fields container - compulsory
 
         Returns
         -------
@@ -353,12 +315,11 @@ class InputsComputeResidualAndError(_Inputs):
     def normalization_type(self) -> Input[int]:
         r"""Allows to connect normalization_type input to the operator.
 
-        Type of normalization applied to the residual and the norm (\\(norm\\)) :
-        - 0 for absolute (default)
-        - 1 for relative to the first entry
-        - 2 for normalized by the max of each field of the reference field
-        - 3 for normalized by the max over all fields of the reference field
-
+        type of normalization applied to the residuals and norm  calculation (optional, defaut: absolute):
+                                                                                                                        0 for absolute,
+                                                                                                                        1 for relative to the first entry,
+                                                                                                                        2 for normalized by the max of each field of the first entry or residuals depending on the reference field option,
+                                                                                                                        3 for normalized by the max over all fields of the first entry or residuals depending on the reference field option
 
         Returns
         -------
@@ -379,10 +340,9 @@ class InputsComputeResidualAndError(_Inputs):
     def norm_calculation_type(self) -> Input[int]:
         r"""Allows to connect norm_calculation_type input to the operator.
 
-        Type for norm calculation (\\(p\\)) :
-        - 1 for \\( L_1 \\) norm
-        - 2 for \\( L_2 \\) norm (default)
-
+        type for norm calculation (optional, default: L2) - It is normalized depending on Pin2 selection
+                                                                                                                        1 for L1, ie sum(abs(xi)),
+                                                                                                                        2 for L2, ie sqrt(sum((xi^2))
 
         Returns
         -------
@@ -403,11 +363,7 @@ class InputsComputeResidualAndError(_Inputs):
     def field_reference(self) -> Input[int]:
         r"""Allows to connect field_reference input to the operator.
 
-        Reference for the normalization step (\\(r\\)) :
-        - 0 for pin 0 (default)
-        - 1 for residual
-        \\[ ref = \begin{cases} FC_1 &\text{ if } r = 0 \\\\ Res &\text{ if } r = 1 \end{cases} \\]
-
+        Field reference for the normalization step, default: 0 for entry 1, 1 for residuals - optional
 
         Returns
         -------
@@ -428,9 +384,7 @@ class InputsComputeResidualAndError(_Inputs):
     def field_or_fields_container2(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field_or_fields_container2 input to the operator.
 
-        Field or fields container of the exact same dimensions as pin 0 to be used for residual computation  (\\(FC_2\\))
-        \\[ Res = \begin{cases} FC_1 - FC_2 &\text{ if } FC_2 \\\\ FC_1 &\text{ if not } FC_2 \end{cases} \\]
-
+        field or fields container of same dimensionality as entry 1 - optional
 
         Returns
         -------
@@ -457,30 +411,30 @@ class OutputsComputeResidualAndError(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.math.compute_residual_and_error()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_residual = op.outputs.residual()
+    >>> result_residuals = op.outputs.residuals()
     >>> result_error = op.outputs.error()
-    >>> result_residual_normalization_factor = op.outputs.residual_normalization_factor()
+    >>> result_residuals_normalization_factor = op.outputs.residuals_normalization_factor()
     >>> result_error_normalization_factor = op.outputs.error_normalization_factor()
     """
 
     def __init__(self, op: Operator):
         super().__init__(compute_residual_and_error._spec().outputs, op)
-        self.residual_as_field = Output(
+        self.residuals_as_field = Output(
             _modify_output_spec_with_one_type(
                 compute_residual_and_error._spec().output_pin(0), "field"
             ),
             0,
             op,
         )
-        self._outputs.append(self.residual_as_field)
-        self.residual_as_fields_container = Output(
+        self._outputs.append(self.residuals_as_field)
+        self.residuals_as_fields_container = Output(
             _modify_output_spec_with_one_type(
                 compute_residual_and_error._spec().output_pin(0), "fields_container"
             ),
             0,
             op,
         )
-        self._outputs.append(self.residual_as_fields_container)
+        self._outputs.append(self.residuals_as_fields_container)
         self.error_as_field = Output(
             _modify_output_spec_with_one_type(
                 compute_residual_and_error._spec().output_pin(1), "field"
@@ -497,22 +451,22 @@ class OutputsComputeResidualAndError(_Outputs):
             op,
         )
         self._outputs.append(self.error_as_fields_container)
-        self.residual_normalization_factor_as_field = Output(
+        self.residuals_normalization_factor_as_field = Output(
             _modify_output_spec_with_one_type(
                 compute_residual_and_error._spec().output_pin(2), "field"
             ),
             2,
             op,
         )
-        self._outputs.append(self.residual_normalization_factor_as_field)
-        self.residual_normalization_factor_as_fields_container = Output(
+        self._outputs.append(self.residuals_normalization_factor_as_field)
+        self.residuals_normalization_factor_as_fields_container = Output(
             _modify_output_spec_with_one_type(
                 compute_residual_and_error._spec().output_pin(2), "fields_container"
             ),
             2,
             op,
         )
-        self._outputs.append(self.residual_normalization_factor_as_fields_container)
+        self._outputs.append(self.residuals_normalization_factor_as_fields_container)
         self.error_normalization_factor_as_field = Output(
             _modify_output_spec_with_one_type(
                 compute_residual_and_error._spec().output_pin(3), "field"

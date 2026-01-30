@@ -29,13 +29,11 @@ class pow(Operator):
         Field for which to compute power operation
     factor: float
         Power exponent value
-    division_by_zero_value: float, optional
-        If this pin is used, the result of the division by zero for negative exponents is set to this value.
-        Default = inf
 
     Outputs
     -------
     field: Field
+        Field with power operation applied element-wise
 
     Examples
     --------
@@ -49,28 +47,18 @@ class pow(Operator):
     >>> op.inputs.field.connect(my_field)
     >>> my_factor = float()
     >>> op.inputs.factor.connect(my_factor)
-    >>> my_division_by_zero_value = float()
-    >>> op.inputs.division_by_zero_value.connect(my_division_by_zero_value)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.pow(
     ...     field=my_field,
     ...     factor=my_factor,
-    ...     division_by_zero_value=my_division_by_zero_value,
     ... )
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(
-        self,
-        field=None,
-        factor=None,
-        division_by_zero_value=None,
-        config=None,
-        server=None,
-    ):
+    def __init__(self, field=None, factor=None, config=None, server=None):
         super().__init__(
             name="Pow",
             config=config,
@@ -82,8 +70,6 @@ class pow(Operator):
             self.inputs.field.connect(field)
         if factor is not None:
             self.inputs.factor.connect(factor)
-        if division_by_zero_value is not None:
-            self.inputs.division_by_zero_value.connect(division_by_zero_value)
 
     @staticmethod
     def _spec() -> Specification:
@@ -104,20 +90,13 @@ class pow(Operator):
                     optional=False,
                     document=r"""Power exponent value""",
                 ),
-                2: PinSpecification(
-                    name="division_by_zero_value",
-                    type_names=["double"],
-                    optional=True,
-                    document=r"""If this pin is used, the result of the division by zero for negative exponents is set to this value.
-Default = inf""",
-                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field with power operation applied element-wise""",
                 ),
             },
         )
@@ -179,8 +158,6 @@ class InputsPow(_Inputs):
     >>> op.inputs.field.connect(my_field)
     >>> my_factor = float()
     >>> op.inputs.factor.connect(my_factor)
-    >>> my_division_by_zero_value = float()
-    >>> op.inputs.division_by_zero_value.connect(my_division_by_zero_value)
     """
 
     def __init__(self, op: Operator):
@@ -189,10 +166,6 @@ class InputsPow(_Inputs):
         self._inputs.append(self._field)
         self._factor: Input[float] = Input(pow._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._factor)
-        self._division_by_zero_value: Input[float] = Input(
-            pow._spec().input_pin(2), 2, op, -1
-        )
-        self._inputs.append(self._division_by_zero_value)
 
     @property
     def field(self) -> Input[Field]:
@@ -236,28 +209,6 @@ class InputsPow(_Inputs):
         """
         return self._factor
 
-    @property
-    def division_by_zero_value(self) -> Input[float]:
-        r"""Allows to connect division_by_zero_value input to the operator.
-
-        If this pin is used, the result of the division by zero for negative exponents is set to this value.
-        Default = inf
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.math.pow()
-        >>> op.inputs.division_by_zero_value.connect(my_division_by_zero_value)
-        >>> # or
-        >>> op.inputs.division_by_zero_value(my_division_by_zero_value)
-        """
-        return self._division_by_zero_value
-
 
 class OutputsPow(_Outputs):
     """Intermediate class used to get outputs from
@@ -279,6 +230,8 @@ class OutputsPow(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field with power operation applied element-wise
 
         Returns
         -------
