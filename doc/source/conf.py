@@ -66,7 +66,7 @@ print("".rjust(40, '*'))
 
 # Build ignore pattern
 ignored_pattern = r"(ignore"
-for example in sorted(glob(r"../../examples/**/*.py")):
+for example in sorted(glob(r"../sphinx_gallery_examples/**/*.py")):
     minimum_version_str = get_example_required_minimum_dpf_version(example)
     if float(server_version) - float(minimum_version_str) < -0.05:
         example_name = example.split(os.path.sep)[-1]
@@ -186,7 +186,7 @@ sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
     # path to your examples scripts
-    "examples_dirs": ["../../examples"],
+    "examples_dirs": ["../sphinx_gallery_examples"],
     # abort build at first example error
     'abort_on_example_error': True,
     # path where to save gallery generated examples
