@@ -18,19 +18,28 @@ class FbsRefCAPI(fbs_ref_abstract_api.FbsRefAbstractAPI):
 		object._deleter_func = (DataProcessingCAPI.data_processing_delete_shared_object, lambda obj: obj)
 
 	@staticmethod
-	def fbs_ref_new(client, channel_address, req_slice, req_offset):
+	def fbs_ref_new_with_fbs_client(client, req_slice):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
-		res = capi.dll.FbsRef_new(client, utils.to_char_ptr(channel_address), req_slice, req_offset, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		res = capi.dll.FbsRef_newWithFbsClient(client._internal_obj if client is not None else None, req_slice, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
 
 	@staticmethod
-	def fbs_ref_get_from_db(ptr, size):
+	def fbs_client_new(channel_address):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
-		res = capi.dll.FbsRef_getFromDB(ptr, size, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		res = capi.dll.FbsClient_new(utils.to_char_ptr(channel_address), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def fbs_client_new_with_channel(channel):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.FbsClient_newWithChannel(channel, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -45,10 +54,10 @@ class FbsRefCAPI(fbs_ref_abstract_api.FbsRefAbstractAPI):
 		return res
 
 	@staticmethod
-	def fbs_ref_start_or_get_thread_server(get_existing, ip, port, address):
+	def fbs_client_start_or_get_thread_server(get_existing, ip, port, address):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
-		res = capi.dll.FbsRef_StartOrGetThreadServer(get_existing, utils.to_char_ptr(ip), utils.to_int32(port), utils.to_char_ptr(address), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		res = capi.dll.FbsClient_StartOrGetThreadServer(get_existing, utils.to_char_ptr(ip), utils.to_int32(port), utils.to_char_ptr(address), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -58,6 +67,15 @@ class FbsRefCAPI(fbs_ref_abstract_api.FbsRefAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Fbs_GetBytesBufferFromSlice(req_slice, req_offset, size_out, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def fbs_create_slice_from_bytes_buffer(req_slice, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Fbs_CreateSliceFromBytesBuffer(req_slice, size, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -81,19 +99,28 @@ class FbsRefCAPI(fbs_ref_abstract_api.FbsRefAbstractAPI):
 		return res
 
 	@staticmethod
-	def fbs_ref_new_on_client(client, channel, channel_address, req_slice, req_offset):
+	def fbs_ref_new_with_fbs_client_on_client(client, fbs_client, req_slice):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
-		res = capi.dll.FbsRef_new_on_client(client._internal_obj if client is not None else None, channel, utils.to_char_ptr(channel_address), req_slice, req_offset, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		res = capi.dll.FbsRef_newWithFbsClient_on_client(client._internal_obj if client is not None else None, fbs_client._internal_obj if fbs_client is not None else None, req_slice, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
 
 	@staticmethod
-	def fbs_ref_start_or_get_thread_server_on_client(client, get_existing, ip, port, address):
+	def fbs_client_new_on_client(client, channel_address):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
-		res = capi.dll.FbsRef_StartOrGetThreadServer_on_client(client._internal_obj if client is not None else None, get_existing, utils.to_char_ptr(ip), utils.to_int32(port), utils.to_char_ptr(address), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		res = capi.dll.FbsClient_new_on_client(client._internal_obj if client is not None else None, utils.to_char_ptr(channel_address), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def fbs_client_start_or_get_thread_server_on_client(client, get_existing, ip, port, address):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.FbsClient_StartOrGetThreadServer_on_client(client._internal_obj if client is not None else None, get_existing, utils.to_char_ptr(ip), utils.to_int32(port), utils.to_char_ptr(address), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
