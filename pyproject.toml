@@ -75,7 +75,7 @@ doc = [
   "imageio==2.37.2",
   "imageio-ffmpeg==0.6.0",
   "jupyter_sphinx==0.5.3",
-  "nbsphinx==0.9.5",
+  "nbsphinx==0.9.8",
   "pypandoc==1.16.2",
   "pytest-sphinx==0.7.1",
   "pyvista==0.46.5",
