@@ -53,9 +53,6 @@ from ansys.dpf.gate import (
     workflow_grpcapi,
 )
 
-LOG = logging.getLogger(__name__)
-LOG.setLevel("DEBUG")
-
 
 class Workflow:
     """Represents a workflow.
