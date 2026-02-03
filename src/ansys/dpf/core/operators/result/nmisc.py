@@ -50,8 +50,6 @@ class nmisc(Operator):
         mesh. If cylic expansion is to be done, mesh of the base sector
     item_index: int, optional
         Index of requested item.
-    num_components: int, optional
-        Number of components for the requested item.
     read_cyclic: int, optional
         if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
     expanded_meshed_region: MeshedRegion or MeshesContainer, optional
@@ -87,8 +85,6 @@ class nmisc(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_item_index = int()
     >>> op.inputs.item_index.connect(my_item_index)
-    >>> my_num_components = int()
-    >>> op.inputs.num_components.connect(my_num_components)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     >>> my_expanded_meshed_region = dpf.MeshedRegion()
@@ -107,7 +103,6 @@ class nmisc(Operator):
     ...     data_sources=my_data_sources,
     ...     mesh=my_mesh,
     ...     item_index=my_item_index,
-    ...     num_components=my_num_components,
     ...     read_cyclic=my_read_cyclic,
     ...     expanded_meshed_region=my_expanded_meshed_region,
     ...     sectors_to_expand=my_sectors_to_expand,
@@ -127,7 +122,6 @@ class nmisc(Operator):
         data_sources=None,
         mesh=None,
         item_index=None,
-        num_components=None,
         read_cyclic=None,
         expanded_meshed_region=None,
         sectors_to_expand=None,
@@ -156,8 +150,6 @@ class nmisc(Operator):
             self.inputs.mesh.connect(mesh)
         if item_index is not None:
             self.inputs.item_index.connect(item_index)
-        if num_components is not None:
-            self.inputs.num_components.connect(num_components)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
         if expanded_meshed_region is not None:
@@ -222,15 +214,9 @@ results cannot be summed.
                 ),
                 10: PinSpecification(
                     name="item_index",
-                    type_names=["int32"],
+                    type_names=["int32", "vector<int32>"],
                     optional=True,
                     document=r"""Index of requested item.""",
-                ),
-                11: PinSpecification(
-                    name="num_components",
-                    type_names=["int32"],
-                    optional=True,
-                    document=r"""Number of components for the requested item.""",
                 ),
                 14: PinSpecification(
                     name="read_cyclic",
@@ -334,8 +320,6 @@ class InputsNmisc(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_item_index = int()
     >>> op.inputs.item_index.connect(my_item_index)
-    >>> my_num_components = int()
-    >>> op.inputs.num_components.connect(my_num_components)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     >>> my_expanded_meshed_region = dpf.MeshedRegion()
@@ -374,10 +358,6 @@ class InputsNmisc(_Inputs):
         self._inputs.append(self._mesh)
         self._item_index: Input[int] = Input(nmisc._spec().input_pin(10), 10, op, -1)
         self._inputs.append(self._item_index)
-        self._num_components: Input[int] = Input(
-            nmisc._spec().input_pin(11), 11, op, -1
-        )
-        self._inputs.append(self._num_components)
         self._read_cyclic: Input[int] = Input(nmisc._spec().input_pin(14), 14, op, -1)
         self._inputs.append(self._read_cyclic)
         self._expanded_meshed_region: Input[MeshedRegion | MeshesContainer] = Input(
@@ -537,27 +517,6 @@ class InputsNmisc(_Inputs):
         >>> op.inputs.item_index(my_item_index)
         """
         return self._item_index
-
-    @property
-    def num_components(self) -> Input[int]:
-        r"""Allows to connect num_components input to the operator.
-
-        Number of components for the requested item.
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.nmisc()
-        >>> op.inputs.num_components.connect(my_num_components)
-        >>> # or
-        >>> op.inputs.num_components(my_num_components)
-        """
-        return self._num_components
 
     @property
     def read_cyclic(self) -> Input[int]:

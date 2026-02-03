@@ -447,7 +447,7 @@ elshape Related elements
                 ),
                 10: PinSpecification(
                     name="item_index",
-                    type_names=["int32"],
+                    type_names=["int32", "vector<int32>"],
                     optional=True,
                     document=r"""Index of requested item.""",
                 ),
