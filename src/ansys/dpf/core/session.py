@@ -38,6 +38,8 @@ from ansys.dpf.core.common import (
 )
 from ansys.dpf.gate import capi, session_capi, session_grpcapi
 
+LOG = logging.getLogger(__name__)
+
 
 @capi.GenericCallBackType
 def progress_call_back(obj, nature, arg):
