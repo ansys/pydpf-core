@@ -29,6 +29,8 @@ class nodal_to_global(Operator):
         Vector or tensor field that must be rotated, expressed in nodal coordinate system.
     fieldB: Field
         Nodal euler angles defined from a result file. Those must be the rotations from Nodal to Global.
+    inverse_rotation: bool, optional
+        If true, we apply the inverse rotation (default is false).
 
     Outputs
     -------
@@ -47,18 +49,23 @@ class nodal_to_global(Operator):
     >>> op.inputs.fieldA.connect(my_fieldA)
     >>> my_fieldB = dpf.Field()
     >>> op.inputs.fieldB.connect(my_fieldB)
+    >>> my_inverse_rotation = bool()
+    >>> op.inputs.inverse_rotation.connect(my_inverse_rotation)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.nodal_to_global(
     ...     fieldA=my_fieldA,
     ...     fieldB=my_fieldB,
+    ...     inverse_rotation=my_inverse_rotation,
     ... )
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
+    def __init__(
+        self, fieldA=None, fieldB=None, inverse_rotation=None, config=None, server=None
+    ):
         super().__init__(
             name="NodalElementalResultsRotation",
             config=config,
@@ -70,6 +77,8 @@ class nodal_to_global(Operator):
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:
             self.inputs.fieldB.connect(fieldB)
+        if inverse_rotation is not None:
+            self.inputs.inverse_rotation.connect(inverse_rotation)
 
     @staticmethod
     def _spec() -> Specification:
@@ -89,6 +98,12 @@ class nodal_to_global(Operator):
                     type_names=["field"],
                     optional=False,
                     document=r"""Nodal euler angles defined from a result file. Those must be the rotations from Nodal to Global.""",
+                ),
+                200: PinSpecification(
+                    name="inverse_rotation",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""If true, we apply the inverse rotation (default is false).""",
                 ),
             },
             map_output_pin_spec={
@@ -160,6 +175,8 @@ class InputsNodalToGlobal(_Inputs):
     >>> op.inputs.fieldA.connect(my_fieldA)
     >>> my_fieldB = dpf.Field()
     >>> op.inputs.fieldB.connect(my_fieldB)
+    >>> my_inverse_rotation = bool()
+    >>> op.inputs.inverse_rotation.connect(my_inverse_rotation)
     """
 
     def __init__(self, op: Operator):
@@ -172,6 +189,10 @@ class InputsNodalToGlobal(_Inputs):
             nodal_to_global._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._fieldB)
+        self._inverse_rotation: Input[bool] = Input(
+            nodal_to_global._spec().input_pin(200), 200, op, -1
+        )
+        self._inputs.append(self._inverse_rotation)
 
     @property
     def fieldA(self) -> Input[Field]:
@@ -214,6 +235,27 @@ class InputsNodalToGlobal(_Inputs):
         >>> op.inputs.fieldB(my_fieldB)
         """
         return self._fieldB
+
+    @property
+    def inverse_rotation(self) -> Input[bool]:
+        r"""Allows to connect inverse_rotation input to the operator.
+
+        If true, we apply the inverse rotation (default is false).
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.nodal_to_global()
+        >>> op.inputs.inverse_rotation.connect(my_inverse_rotation)
+        >>> # or
+        >>> op.inputs.inverse_rotation(my_inverse_rotation)
+        """
+        return self._inverse_rotation
 
 
 class OutputsNodalToGlobal(_Outputs):
