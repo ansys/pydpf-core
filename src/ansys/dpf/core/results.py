@@ -28,7 +28,6 @@ to easily access results in result files.
 """
 
 import functools
-import logging
 
 from ansys.dpf.core import Operator, errors
 from ansys.dpf.core.custom_fields_container import (

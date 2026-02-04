@@ -56,7 +56,7 @@ class DataProcessingYielderHelper:
                 i += len(piece) * 1e-3
                 if need_progress_bar:
                     with suppress(Exception):
-                        bar.update(min(i, tot_size))      
+                        bar.update(min(i, tot_size))
 
         if need_progress_bar:
             with suppress(Exception):
