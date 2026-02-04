@@ -89,13 +89,13 @@ make.bat clean  # Clean previous builds
 
 Use when adding a completely new category of tutorials.
 
-**Location**: `doc/source/user_guide/tutorials/new_section_name/`
+**Location**: `doc/source/tutorials/new_section_name/`
 
 **Steps**:
 
 1. **Create section directory**:
    ```
-   doc/source/user_guide/tutorials/new_section_name/
+   doc/source/tutorials/new_section_name/
    ```
 
 2. **Create `index.rst`** using the template:
@@ -143,7 +143,7 @@ Use when adding a completely new category of tutorials.
 
 ### 2. Creating a New Tutorial
 
-**Location**: `doc/source/user_guide/tutorials/section_name/tutorial_name.rst`
+**Location**: `doc/source/tutorials/section_name/tutorial_name.rst`
 
 **Template Structure**:
 ```rst

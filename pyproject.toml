@@ -66,6 +66,60 @@ operator_doc = [
     "jinja2",
 ]
 
+[dependency-groups]
+
+doc = [
+  "ansys-sphinx-theme[autoapi]==1.6.4",
+  "enum-tools[sphinx]==0.13.0",
+  "graphviz==0.21",
+  "imageio==2.37.2",
+  "imageio-ffmpeg==0.6.0",
+  "jupyter_sphinx==0.5.3",
+  "nbsphinx==0.9.8",
+  "pypandoc==1.16.2",
+  "pytest-sphinx==0.7.1",
+  "pyvista==0.46.5",
+  "sphinx==8.2.3",
+  "sphinx-copybutton==0.5.2",
+  "sphinx-gallery==0.20.0",
+  "sphinx-jinja==2.0.2",
+  "sphinx-notfound-page==1.1.0",
+  "sphinx-reredirects==0.1.6",
+  "sphinx_design==0.6.1",
+  "sphinxcontrib-napoleon==0.7",
+  "vtk==9.4.2",
+]
+test = [
+  "ansys-platform-instancemanagement==1.1.2",
+  "ansys-tools-common==0.4.2",
+  "coverage==7.13.2",
+  "graphviz==0.21",
+  "imageio==2.37.2",
+  "imageio-ffmpeg==0.6.0",
+  "jinja2==3.1.6",
+  "pypandoc_binary==1.16.2",
+  "pytest==9.0.2",
+  "pytest-cov==7.0.0",
+  "pytest-order==1.3.0",
+  "pytest-rerunfailures==16.1",
+  "pyvista==0.46.5",
+  "vtk==9.4.2",
+]
+build = [
+  "black==26.1.0",
+  "build==1.4.0",
+  "chevron==0.14.0",
+  "pypandoc_binary==1.16.2",
+  "wheel==0.46.3",
+]
+install = [
+  "importlib-metadata==8.7.1",
+  "numpy==2.4.1",
+  "packaging==26.0",
+  "psutil==7.2.2",
+  "tqdm==4.67.2",
+]
+
 [project.urls]
 Homepage = "https://dpf.docs.pyansys.com/"
 Documentation = "https://dpf.docs.pyansys.com/"
@@ -126,3 +180,8 @@ where = ["src"]
 "ansys.dpf.gatebin" = ["*.so", "*.dll"]
 "ansys.dpf.core.documentation" = ["toc_template.j2", "operator_doc_template.j2"]
 
+[tool.pytest]
+#filterwarnings = ['ignore:Use explicit output-to-input connections:DeprecationWarning']
+norecursedirs = ["*"]
+doctest_optionflags = ["NORMALIZE_WHITESPACE", "ELLIPSIS"]
+markers = ["slow: mark a test as slow."]

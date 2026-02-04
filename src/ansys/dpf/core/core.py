@@ -22,13 +22,19 @@
 
 """Core."""
 
+from __future__ import annotations
+
 import logging
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
+from typing import TYPE_CHECKING
 import warnings
 import weakref
 
 from ansys.dpf.core import errors, misc, server as server_module
+
+if TYPE_CHECKING:  # pragma: noqa
+    from ansys.dpf.core import AnyServerType
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.runtime_config import (
     RuntimeClientConfig,
@@ -52,8 +58,6 @@ try:
 except ImportError:
     pass
 
-LOG = logging.getLogger(__name__)
-LOG.setLevel("DEBUG")
 
 if "DPF_CONFIGURATION" in os.environ:
     CONFIGURATION = os.environ["DPF_CONFIGURATION"]
@@ -61,26 +65,31 @@ else:
     CONFIGURATION = "release"
 
 
-def load_library(filename, name="", symbol="LoadOperators", server=None, generate_operators=False):
-    """Dynamically load an operators library for dpf.core.
+def load_library(
+    filename: str | Path,
+    name: str = None,
+    symbol: str = "LoadOperators",
+    server: AnyServerType = None,
+    generate_operators: bool = False,
+) -> str:
+    """Load a DPF plugin (a binary library of operators).
 
-    Code containing this library's operators is generated in
-    ansys.dpf.core.operators
+    Set `generate_operators=True` to also make the operators available in the current
+    installation of `ansys-dpf-core`.
 
     Parameters
     ----------
-    filename : str or os.PathLike
-        Filename of the operator library.
-
-    name : str, optional
-        Library name.  Probably optional
-
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the global server.
-
-    generate_operators : bool, optional
-        Whether operators code generation should be done or not (default is False).
+    filename:
+        Filename or path to the operator library.
+    name:
+        Name to give the plugin once loaded. Defaults to the name of the library file.
+    symbol:
+        The name of the entrypoint of the plugin, which is the function recording the operators.
+    server:
+        Server to load the plugin onto. Defaults to the global server.
+    generate_operators:
+        Whether to generate the Python modules for the operators of the library.
+        This updates the ansys.dpf.core.operators package of the current installation.
 
     Examples
     --------
@@ -92,8 +101,7 @@ def load_library(filename, name="", symbol="LoadOperators", server=None, generat
 
     """
     base = BaseService(server, load_operators=False)
-    base.load_library(filename, name, symbol, generate_operators)
-    return name + " successfully loaded"
+    return base.load_library(filename, name, symbol, generate_operators)
 
 
 def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
@@ -385,7 +393,13 @@ class BaseService:
         else:
             return self._api_tmp_dir.tmp_dir_get_dir()
 
-    def load_library(self, file_path, name="", symbol="LoadOperators", generate_operators=False):
+    def load_library(
+        self,
+        file_path: str | Path,
+        name: str = None,
+        symbol: str = "LoadOperators",
+        generate_operators: bool = False,
+    ) -> str:
         """Dynamically load an operators library for dpf.core.
 
         Code containing this library's operators is generated in
@@ -393,14 +407,15 @@ class BaseService:
 
         Parameters
         ----------
-        file_path : str or os.PathLike
-            file_path of the operator library.
-
-        name : str, optional
-            Library name.  Probably optional
-
-        generate_operators : bool, optional
-            Whether operators code generation should be done or not (default is False).
+        file_path:
+            Path to the DPF plugin file holding a library of operators.
+        name:
+            Name to give the plugin once loaded. Defaults to the name of the library file.
+        symbol:
+            The name of the entrypoint of the plugin, which is the function recording the operators.
+        generate_operators:
+            Whether to generate the Python modules for the operators of the library.
+            This updates the ansys.dpf.core.operators package of the current installation.
 
         Examples
         --------
@@ -412,7 +427,13 @@ class BaseService:
         >>> # base.load_library('meshOperatorsCore.dll', 'mesh_operators')
 
         """
-        file_path = str(file_path)
+        if name is None:
+            name = Path(file_path).stem
+        file_path = str(
+            PurePosixPath(file_path)
+            if self.server_info["os"] == "posix"
+            else PureWindowsPath(file_path)
+        )
         if self._server().has_client():
             self._internal_obj = self._api.data_processing_load_library_on_client(
                 sLibraryKey=name,
@@ -462,6 +483,8 @@ class BaseService:
                 __generate_code(
                     TARGET_PATH=LOCAL_PATH, filename=file_path, name=name, symbol=symbol
                 )
+
+        return name + " successfully loaded"
 
     @version_requires("6.0")
     def apply_context(self, context):

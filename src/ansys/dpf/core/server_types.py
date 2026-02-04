@@ -60,7 +60,6 @@ if TYPE_CHECKING:  # pragma: no cover
 import logging
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel("DEBUG")
 DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 50054))
 LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
 RUNNING_DOCKER = server_factory.create_default_docker_config()
