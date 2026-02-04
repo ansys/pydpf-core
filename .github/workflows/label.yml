@@ -18,7 +18,7 @@ jobs:
 
     # Label based on modified files
     - name: "Label based on changed files"
-      uses: actions/labeler@v4
+      uses: actions/labeler@v6
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         sync-labels: ''
@@ -70,7 +70,7 @@ jobs:
     needs: labeler
     steps:
     - name: Suggest to add labels
-      uses: peter-evans/create-or-update-comment@v2
+      uses: peter-evans/create-or-update-comment@v5
       # Execute only when no labels have been applied to the pull request
       if: toJSON(github.event.pull_request.labels.*.name) == '[]'
       with:

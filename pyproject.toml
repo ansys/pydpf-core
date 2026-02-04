@@ -72,11 +72,11 @@ doc = [
   "ansys-sphinx-theme[autoapi]==1.6.4",
   "enum-tools[sphinx]==0.13.0",
   "graphviz==0.21",
-  "imageio==2.37.0",
+  "imageio==2.37.2",
   "imageio-ffmpeg==0.6.0",
   "jupyter_sphinx==0.5.3",
-  "nbsphinx==0.9.5",
   "pdf2image==1.17.0",
+  "nbsphinx==0.9.8",
   "pypandoc==1.16.2",
   "pytest-sphinx==0.7.1",
   "pyvista[jupyter]==0.46.5",
@@ -93,10 +93,10 @@ doc = [
 ]
 test = [
   "ansys-platform-instancemanagement==1.1.2",
-  "ansys-tools-common==0.4.1",
+  "ansys-tools-common==0.4.2",
   "coverage==7.13.2",
   "graphviz==0.21",
-  "imageio==2.37.0",
+  "imageio==2.37.2",
   "imageio-ffmpeg==0.6.0",
   "jinja2==3.1.6",
   "pypandoc_binary==1.16.2",
@@ -115,11 +115,11 @@ build = [
   "wheel==0.46.3",
 ]
 install = [
-  "importlib-metadata==8.7.0",
+  "importlib-metadata==8.7.1",
   "numpy==2.4.1",
   "packaging==26.0",
-  "psutil==7.2.1",
-  "tqdm==4.67.1",
+  "psutil==7.2.2",
+  "tqdm==4.67.2",
 ]
 
 [project.urls]
