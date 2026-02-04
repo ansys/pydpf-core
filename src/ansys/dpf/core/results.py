@@ -543,12 +543,8 @@ class Result:
         self._mesh_scoping.inputs.requested_location(self._result_info.native_scoping_location)
         self._mesh_scoping.inputs.mesh(self._connector.mesh_provider)
         self._mesh_scoping.inputs.label1(prop)
-        if previous_mesh_scoping:
-            try:
-                self._mesh_scoping.inputs.mesh_scoping(previous_mesh_scoping)
-            except Exception as e:
-                _logger = logging.getLogger(__name__)
-                _logger.warning(f"Failed to set previous mesh scoping: {e}")
+        if isinstance(previous_mesh_scoping, Scoping):
+            self._mesh_scoping.inputs.mesh_scoping(previous_mesh_scoping)
         return self
 
     def on_mesh_scoping(self, mesh_scoping):
