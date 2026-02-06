@@ -31,6 +31,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
 )
 
 
@@ -164,7 +165,18 @@ def test_repr_available_results_list(model):
 )
 def test_print_available_result_with_qualifiers(cfx_heating_coil, server_type):
     model = Model(cfx_heating_coil(server=server_type), server=server_type)
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        ref = """DPF Result
+----------
+specific_heat
+Operator name: "CP"
+Number of components: 1
+Dimensionality: scalar
+Homogeneity: specific_heat
+Units: J/kg/dK
+Location: Nodal
+Available qualifier labels:"""  # noqa: E501
+    elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
         ref = """DPF Result
 ----------
 specific_heat
