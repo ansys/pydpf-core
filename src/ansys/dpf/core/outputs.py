@@ -180,8 +180,8 @@ def _clearRepeatedMessage(message):
     try:
         while True:
             message.pop(len(message) - 1)
-    except:
-        pass
+    except Exception as e:
+        raise e
 
 
 def _make_printable_type(type):

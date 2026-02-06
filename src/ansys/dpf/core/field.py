@@ -941,16 +941,36 @@ class Field(_FieldBase):
         f.field_definition = self.field_definition.deep_copy(server)
         try:
             f._data_pointer = self._data_pointer
-        except:
-            pass
+        except Exception as e:
+            raise e
+
         try:
-            f.meshed_region = self.meshed_region.deep_copy(server=server)
-        except:
-            pass
+            if self.meshed_region:
+                f.meshed_region = self.meshed_region.deep_copy(server=server)
+        except DPFServerException as e:
+            if "the field doesn't have this support type" in str(e):
+                pass
+            else:
+                raise e
+        except RuntimeError as e:
+            if "The field's support is not a mesh." in str(e):
+                pass
+            else:
+                raise e
+
         try:
-            f.time_freq_support = self.time_freq_support.deep_copy(server=server)
-        except:
-            pass
+            if self.time_freq_support:
+                f.time_freq_support = self.time_freq_support.deep_copy(server=server)
+        except DPFServerException as e:
+            if "the field doesn't have this support type" in str(e):
+                pass
+            else:
+                raise e
+        except RuntimeError as e:
+            if "The field's support is not a timefreqsupport." in str(e):
+                pass
+            else:
+                raise e
 
         return f
 
