@@ -35,7 +35,7 @@ from copy import deepcopy
 import ctypes
 import io
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 import socket
 import subprocess
 import sys
@@ -52,7 +52,7 @@ from ansys.dpf.core import __version__, errors, server_context, server_factory
 from ansys.dpf.core._version import min_server_version, server_to_ansys_version
 from ansys.dpf.core.check_version import get_server_version, meets_version, version_requires
 from ansys.dpf.core.server_context import AvailableServerContexts, ServerContext
-from ansys.dpf.gate import data_processing_grpcapi, load_api
+from ansys.dpf.gate import data_processing_capi, data_processing_grpcapi, load_api
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.server_factory import DockerConfig
@@ -469,6 +469,8 @@ class BaseServer(abc.ABC):
         self._info_instance = None
         self._docker_config = server_factory.RunningDockerConfig()
         self._server_meet_version = {}
+        if core.DEFAULT_SERVER_DEBUG is not None:
+            self.start_debug(folder_path=core.DEFAULT_SERVER_DEBUG)
 
     def set_as_global(self, as_global=True):
         """Set the current server as global if necessary.
@@ -732,6 +734,32 @@ class BaseServer(abc.ABC):
                             core._server_instances.remove(server)
         except:
             warnings.warn(traceback.format_exc())
+
+    def start_debug(self, folder_path: str | Path):
+        """Start writing server-side debug information within the given folder.
+
+        Parameters
+        ----------
+        folder_path:
+            Path to a folder server-side where to write debug info.
+
+        """
+        folder_path = (
+            PurePosixPath(folder_path) if self.os == "posix" else PureWindowsPath(folder_path)
+        )
+        api = self.get_api_for_type(
+            capi=data_processing_capi.DataProcessingCAPI,
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+        )
+        api.data_processing_set_debug_trace(text=str(folder_path))
+
+    def stop_debug(self):
+        """Stop writing server-side debug information."""
+        api = self.get_api_for_type(
+            capi=data_processing_capi.DataProcessingCAPI,
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+        )
+        api.data_processing_set_debug_trace(text="")
 
 
 class CServer(BaseServer, ABC):
