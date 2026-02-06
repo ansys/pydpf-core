@@ -42,10 +42,10 @@ jobs:
         os: ["ubuntu-latest"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: "Setup Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -53,7 +53,9 @@ jobs:
         uses: ts-graphviz/setup-graphviz@v2
 
       - name: "Install requirements"
-        run: pip install -r requirements/requirements_build.txt
+        run: |
+          pip install -U pip
+          pip install --group build
 
       - name: "Build the wheel"
         shell: bash
@@ -96,9 +98,10 @@ jobs:
         run: python -c "from ansys.dpf import core"
 
       - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
+        uses: ansys/pydpf-actions/prepare_tests@v2.3
         with:
           DEBUG: true
+          install-from-dependency-groups: "true"
 
       - name: "List installed packages"
         shell: bash
@@ -226,7 +229,7 @@ jobs:
 #        timeout-minutes: 10
 
       - name: "Upload Test Results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}_docker
           path: tests/junit/test-results.xml

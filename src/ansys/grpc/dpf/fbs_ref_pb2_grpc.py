@@ -5,7 +5,7 @@ import grpc
 import ansys.grpc.dpf.fbs_ref_pb2 as fbs__ref__pb2
 
 
-class FBSRefServiceStub(object):
+class FbsRefServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -15,18 +15,13 @@ class FBSRefServiceStub(object):
             channel: A grpc.Channel.
         """
         self.Create = channel.unary_unary(
-                '/ansys.api.dpf.fbs_ref.v0.FBSRefService/Create',
-                request_serializer=fbs__ref__pb2.FBSRefData.SerializeToString,
-                response_deserializer=fbs__ref__pb2.FBSRef.FromString,
-                )
-        self.StartFbsServer = channel.unary_unary(
-                '/ansys.api.dpf.fbs_ref.v0.FBSRefService/StartFbsServer',
-                request_serializer=fbs__ref__pb2.StartFBSObjectDBServiceRequest.SerializeToString,
-                response_deserializer=fbs__ref__pb2.StartFBSObjectDBServiceResponse.FromString,
+                '/ansys.api.dpf.fbs_ref.v0.FbsRefService/Create',
+                request_serializer=fbs__ref__pb2.FbsRefData.SerializeToString,
+                response_deserializer=fbs__ref__pb2.FbsRef.FromString,
                 )
 
 
-class FBSRefServiceServicer(object):
+class FbsRefServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Create(self, request, context):
@@ -38,34 +33,22 @@ class FBSRefServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def StartFbsServer(self, request, context):
-        """Start or return an already started fbs server. Useful when fbs objects need to be consumed by DPF.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
 
-
-def add_FBSRefServiceServicer_to_server(servicer, server):
+def add_FbsRefServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Create': grpc.unary_unary_rpc_method_handler(
                     servicer.Create,
-                    request_deserializer=fbs__ref__pb2.FBSRefData.FromString,
-                    response_serializer=fbs__ref__pb2.FBSRef.SerializeToString,
-            ),
-            'StartFbsServer': grpc.unary_unary_rpc_method_handler(
-                    servicer.StartFbsServer,
-                    request_deserializer=fbs__ref__pb2.StartFBSObjectDBServiceRequest.FromString,
-                    response_serializer=fbs__ref__pb2.StartFBSObjectDBServiceResponse.SerializeToString,
+                    request_deserializer=fbs__ref__pb2.FbsRefData.FromString,
+                    response_serializer=fbs__ref__pb2.FbsRef.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'ansys.api.dpf.fbs_ref.v0.FBSRefService', rpc_method_handlers)
+            'ansys.api.dpf.fbs_ref.v0.FbsRefService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class FBSRefService(object):
+class FbsRefService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -79,11 +62,72 @@ class FBSRefService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.fbs_ref.v0.FBSRefService/Create',
-            fbs__ref__pb2.FBSRefData.SerializeToString,
-            fbs__ref__pb2.FBSRef.FromString,
+        return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.fbs_ref.v0.FbsRefService/Create',
+            fbs__ref__pb2.FbsRefData.SerializeToString,
+            fbs__ref__pb2.FbsRef.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+
+class FbsClientServiceStub(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.StartFbsServer = channel.unary_unary(
+                '/ansys.api.dpf.fbs_ref.v0.FbsClientService/StartFbsServer',
+                request_serializer=fbs__ref__pb2.StartFbsObjectDBServiceRequest.SerializeToString,
+                response_deserializer=fbs__ref__pb2.StartFbsObjectDBServiceResponse.FromString,
+                )
+        self.Create = channel.unary_unary(
+                '/ansys.api.dpf.fbs_ref.v0.FbsClientService/Create',
+                request_serializer=fbs__ref__pb2.CreateFbsClientRequest.SerializeToString,
+                response_deserializer=fbs__ref__pb2.FbsClient.FromString,
+                )
+
+
+class FbsClientServiceServicer(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def StartFbsServer(self, request, context):
+        """Start or return an already started fbs server. Useful when fbs objects need to be consumed by DPF.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Create(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_FbsClientServiceServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'StartFbsServer': grpc.unary_unary_rpc_method_handler(
+                    servicer.StartFbsServer,
+                    request_deserializer=fbs__ref__pb2.StartFbsObjectDBServiceRequest.FromString,
+                    response_serializer=fbs__ref__pb2.StartFbsObjectDBServiceResponse.SerializeToString,
+            ),
+            'Create': grpc.unary_unary_rpc_method_handler(
+                    servicer.Create,
+                    request_deserializer=fbs__ref__pb2.CreateFbsClientRequest.FromString,
+                    response_serializer=fbs__ref__pb2.FbsClient.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'ansys.api.dpf.fbs_ref.v0.FbsClientService', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+
+
+ # This class is part of an EXPERIMENTAL API.
+class FbsClientService(object):
+    """Missing associated documentation comment in .proto file."""
 
     @staticmethod
     def StartFbsServer(request,
@@ -96,8 +140,25 @@ class FBSRefService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.fbs_ref.v0.FBSRefService/StartFbsServer',
-            fbs__ref__pb2.StartFBSObjectDBServiceRequest.SerializeToString,
-            fbs__ref__pb2.StartFBSObjectDBServiceResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.fbs_ref.v0.FbsClientService/StartFbsServer',
+            fbs__ref__pb2.StartFbsObjectDBServiceRequest.SerializeToString,
+            fbs__ref__pb2.StartFbsObjectDBServiceResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Create(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.fbs_ref.v0.FbsClientService/Create',
+            fbs__ref__pb2.CreateFbsClientRequest.SerializeToString,
+            fbs__ref__pb2.FbsClient.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

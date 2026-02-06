@@ -15,22 +15,28 @@ _sym_db = _symbol_database.Default()
 import ansys.grpc.dpf.base_pb2 as base__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rfbs_ref.proto\x12\x18\x61nsys.api.dpf.fbs_ref.v0\x1a\nbase.proto\"\x1c\n\nFBSRefData\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\"q\n\x06\x46\x42SRef\x12\x33\n\x02id\x18\x01 \x01(\x0b\x32\'.ansys.api.dpf.base.v0.EntityIdentifier\x12\x32\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32$.ansys.api.dpf.fbs_ref.v0.FBSRefData\"P\n\x1eStartFBSObjectDBServiceRequest\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\x05\x12\x14\n\x0cget_existing\x18\x03 \x01(\x08\"g\n\x1fStartFBSObjectDBServiceResponse\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x33\n\x02id\x18\x02 \x01(\x0b\x32\'.ansys.api.dpf.base.v0.EntityIdentifier2\xe9\x01\n\rFBSRefService\x12P\n\x06\x43reate\x12$.ansys.api.dpf.fbs_ref.v0.FBSRefData\x1a .ansys.api.dpf.fbs_ref.v0.FBSRef\x12\x85\x01\n\x0eStartFbsServer\x12\x38.ansys.api.dpf.fbs_ref.v0.StartFBSObjectDBServiceRequest\x1a\x39.ansys.api.dpf.fbs_ref.v0.StartFBSObjectDBServiceResponseB\x1a\xaa\x02\x17\x41nsys.Api.Dpf.FBSRef.V0b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rfbs_ref.proto\x12\x18\x61nsys.api.dpf.fbs_ref.v0\x1a\nbase.proto\"Q\n\nFbsRefData\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\x12\x33\n\x06\x63lient\x18\x02 \x01(\x0b\x32#.ansys.api.dpf.fbs_ref.v0.FbsClient\"q\n\x06\x46\x62sRef\x12\x33\n\x02id\x18\x01 \x01(\x0b\x32\'.ansys.api.dpf.base.v0.EntityIdentifier\x12\x32\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32$.ansys.api.dpf.fbs_ref.v0.FbsRefData\"Q\n\tFbsClient\x12\x33\n\x02id\x18\x01 \x01(\x0b\x32\'.ansys.api.dpf.base.v0.EntityIdentifier\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\t\"P\n\x1eStartFbsObjectDBServiceRequest\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\x05\x12\x14\n\x0cget_existing\x18\x03 \x01(\x08\"V\n\x1fStartFbsObjectDBServiceResponse\x12\x33\n\x06\x63lient\x18\x01 \x01(\x0b\x32#.ansys.api.dpf.fbs_ref.v0.FbsClient\")\n\x16\x43reateFbsClientRequest\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t2a\n\rFbsRefService\x12P\n\x06\x43reate\x12$.ansys.api.dpf.fbs_ref.v0.FbsRefData\x1a .ansys.api.dpf.fbs_ref.v0.FbsRef2\xfb\x01\n\x10\x46\x62sClientService\x12\x85\x01\n\x0eStartFbsServer\x12\x38.ansys.api.dpf.fbs_ref.v0.StartFbsObjectDBServiceRequest\x1a\x39.ansys.api.dpf.fbs_ref.v0.StartFbsObjectDBServiceResponse\x12_\n\x06\x43reate\x12\x30.ansys.api.dpf.fbs_ref.v0.CreateFbsClientRequest\x1a#.ansys.api.dpf.fbs_ref.v0.FbsClientB\x1a\xaa\x02\x17\x41nsys.Api.Dpf.FbsRef.V0b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'fbs_ref_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['DESCRIPTOR']._options = None
-  _globals['DESCRIPTOR']._serialized_options = b'\252\002\027Ansys.Api.Dpf.FBSRef.V0'
+  _globals['DESCRIPTOR']._serialized_options = b'\252\002\027Ansys.Api.Dpf.FbsRef.V0'
   _globals['_FBSREFDATA']._serialized_start=55
-  _globals['_FBSREFDATA']._serialized_end=83
-  _globals['_FBSREF']._serialized_start=85
-  _globals['_FBSREF']._serialized_end=198
-  _globals['_STARTFBSOBJECTDBSERVICEREQUEST']._serialized_start=200
-  _globals['_STARTFBSOBJECTDBSERVICEREQUEST']._serialized_end=280
-  _globals['_STARTFBSOBJECTDBSERVICERESPONSE']._serialized_start=282
-  _globals['_STARTFBSOBJECTDBSERVICERESPONSE']._serialized_end=385
-  _globals['_FBSREFSERVICE']._serialized_start=388
-  _globals['_FBSREFSERVICE']._serialized_end=621
+  _globals['_FBSREFDATA']._serialized_end=136
+  _globals['_FBSREF']._serialized_start=138
+  _globals['_FBSREF']._serialized_end=251
+  _globals['_FBSCLIENT']._serialized_start=253
+  _globals['_FBSCLIENT']._serialized_end=334
+  _globals['_STARTFBSOBJECTDBSERVICEREQUEST']._serialized_start=336
+  _globals['_STARTFBSOBJECTDBSERVICEREQUEST']._serialized_end=416
+  _globals['_STARTFBSOBJECTDBSERVICERESPONSE']._serialized_start=418
+  _globals['_STARTFBSOBJECTDBSERVICERESPONSE']._serialized_end=504
+  _globals['_CREATEFBSCLIENTREQUEST']._serialized_start=506
+  _globals['_CREATEFBSCLIENTREQUEST']._serialized_end=547
+  _globals['_FBSREFSERVICE']._serialized_start=549
+  _globals['_FBSREFSERVICE']._serialized_end=646
+  _globals['_FBSCLIENTSERVICE']._serialized_start=649
+  _globals['_FBSCLIENTSERVICE']._serialized_end=900
 # @@protoc_insertion_point(module_scope)
