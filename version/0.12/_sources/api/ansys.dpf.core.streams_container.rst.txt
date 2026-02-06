@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.streams_container
+   :inherited-members:

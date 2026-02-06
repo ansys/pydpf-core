@@ -1,0 +1,73 @@
+
+:orphan:
+
+.. _sphx_glr_examples_04-advanced_sg_execution_times:
+
+
+Computation times
+=================
+**02:19.249** total execution time for 13 files **from examples\04-advanced**:
+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr_examples_04-advanced_12-read_distributed_files.py` (``12-read_distributed_files.py``)
+     - 00:25.883
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_03-exchange_data_between_servers.py` (``03-exchange_data_between_servers.py``)
+     - 00:21.866
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_13-manage_licensing.py` (``13-manage_licensing.py``)
+     - 00:18.780
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_04-extrapolation_stress_3d.py` (``04-extrapolation_stress_3d.py``)
+     - 00:17.832
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_05-extrapolation_strain_2d.py` (``05-extrapolation_strain_2d.py``)
+     - 00:16.903
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_02-volume_averaged_stress.py` (``02-volume_averaged_stress.py``)
+     - 00:13.316
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_14-incremental_evaluation.py` (``14-incremental_evaluation.py``)
+     - 00:06.719
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_11-cycles_to_failure.py` (``11-cycles_to_failure.py``)
+     - 00:05.516
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_00-multistage_advanced_options.py` (``00-multistage_advanced_options.py``)
+     - 00:04.664
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_06-stress_gradient_path.py` (``06-stress_gradient_path.py``)
+     - 00:03.872
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_10-asme_secviii_divtwo.py` (``10-asme_secviii_divtwo.py``)
+     - 00:02.885
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_01-solve_harmonic_problem.py` (``01-solve_harmonic_problem.py``)
+     - 00:00.578
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_07-load_plugin.py` (``07-load_plugin.py``)
+     - 00:00.434
+     - 0.0

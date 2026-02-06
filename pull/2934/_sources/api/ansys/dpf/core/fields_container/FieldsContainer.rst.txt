@@ -1,0 +1,792 @@
+
+
+
+
+
+
+:class:`FieldsContainer`
+========================
+
+
+.. py:class:: ansys.dpf.core.fields_container.FieldsContainer(fields_container=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.collection_base.CollectionBase`\ [\ :py:obj:`ansys.dpf.core.field.Field`\ ]
+
+
+   Represents a fields container, which contains fields belonging to a common result.
+
+   A fields container is a set of fields ordered by labels and IDs. Each field
+   of the fields container has an ID for each label defining the given fields
+   container. These IDs allow splitting the fields on any criteria.
+
+   The most common fields container has the label ``"time"`` with IDs
+   corresponding to time sets. The label ``"complex"``, which is
+   used in a harmonic analysis for example, allows real parts (``id=0``)
+   to be separated from imaginary parts (``id=1``).
+
+   For more information, see the `Fields container and fields
+   <https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html>`_
+   documentation section.
+
+   :param fields_container:
+   :type fields_container: ansys.grpc.dpf.collection_message_pb2.Collection, ctypes.c_void_p,
+   :param FieldsContainer: Fields container created from either a collection message or by copying an existing
+                           fields container. The default is "None``.
+   :param optional: Fields container created from either a collection message or by copying an existing
+                    fields container. The default is "None``.
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: ansys.dpf.core.server, optional
+
+   .. rubric:: Examples
+
+   Extract a displacement fields container from a transient result file.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> disp = model.results.displacement()
+   >>> disp.inputs.time_scoping.connect([1,5])
+   >>> fields_container = disp.outputs.fields_container()
+   >>> field_set_5 =fields_container.get_fields_by_time_complex_ids(5)
+   >>> #print(fields_container)
+
+   Create a fields container from scratch.
+
+   >>> from ansys.dpf import core as dpf
+   >>> fc= dpf.FieldsContainer()
+   >>> fc.labels =['time','complex']
+   >>> for i in range(0,20): #real fields
+   ...     mscop = {"time":i+1,"complex":0}
+   ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
+   >>> for i in range(0,20): #imaginary fields
+   ...     mscop = {"time":i+1,"complex":1}
+   ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: FieldsContainer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~create_subtype`
+            - Create a field subtype.
+          * - :py:attr:`~get_fields_by_time_complex_ids`
+            - Retrieve fields at a requested time ID or complex ID.
+          * - :py:attr:`~get_field_by_time_complex_ids`
+            - Retrieve a field at a requested time ID or complex ID.
+          * - :py:attr:`~get_fields`
+            - Retrieve the fields at a requested index or label space.
+          * - :py:attr:`~get_field`
+            - Retrieve the field at a requested index or label space.
+          * - :py:attr:`~get_field_by_time_id`
+            - Retrieve the complex field at a requested time.
+          * - :py:attr:`~get_imaginary_fields`
+            - Retrieve the complex fields at a requested time.
+          * - :py:attr:`~get_imaginary_field`
+            - Retrieve the complex field at a requested time.
+          * - :py:attr:`~add_field`
+            - Add or update a field at a requested label space.
+          * - :py:attr:`~add_field_by_time_id`
+            - Add or update a field at a requested time ID.
+          * - :py:attr:`~add_imaginary_field`
+            - Add or update an imaginary field at a requested time ID.
+          * - :py:attr:`~select_component`
+            - Select fields containing only the component index.
+          * - :py:attr:`~deep_copy`
+            - Create a deep copy of the fields container's data (and its fields) on a given server.
+          * - :py:attr:`~get_time_scoping`
+            - Retrieve the time scoping containing the time sets.
+          * - :py:attr:`~plot`
+            - Plot the fields in the FieldsContainer for the given LabelSpace.
+          * - :py:attr:`~animate`
+            - Create an animation based on the Fields contained in the FieldsContainer.
+          * - :py:attr:`~set_labels`
+            - Set labels for scoping the collection.
+          * - :py:attr:`~add_label`
+            - Add the requested label to scope the collection.
+          * - :py:attr:`~has_label`
+            - Check if a collection has a specified label.
+          * - :py:attr:`~get_entries_indices`
+            - Retrieve the indices of the entries corresponding a requested label space .
+          * - :py:attr:`~get_label_space`
+            - Retrieve the label space of an entry at a requested index.
+          * - :py:attr:`~get_available_ids_for_label`
+            - Retrieve the IDs assigned to an input label.
+          * - :py:attr:`~get_label_scoping`
+            - Retrieve the scoping for an input label.
+          * - :py:attr:`~set_support`
+            - Set the support of the collection for a given label.
+          * - :py:attr:`~get_support`
+            - Get the support of the collection for a given label.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_freq_support`
+            - Time frequency support.
+          * - :py:attr:`~name`
+            - Name of the Collection.
+          * - :py:attr:`~labels`
+            - Provides for getting scoping labels as a property.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~entries_type`
+            - 
+          * - :py:attr:`~owned`
+            - 
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~integral_collection`
+            - Create a collection of integral type with a list.
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__time_complex_label_space__`
+            - Return a label space dictionary mapping scoping to given id.
+          * - :py:attr:`~__getitem__`
+            - Retrieve the field at a requested index.
+          * - :py:attr:`~__add__`
+            - Add two fields or two fields containers.
+          * - :py:attr:`~__sub__`
+            - Subtract two fields or two fields containers.
+          * - :py:attr:`~__pow__`
+            - Compute element-wise field[i]^2.
+          * - :py:attr:`~__mul__`
+            - Multiply two fields or two fields containers.
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+          * - :py:attr:`~__len__`
+            - Retrieve the number of entries.
+          * - :py:attr:`~__del__`
+            - Delete the entry.
+          * - :py:attr:`~__iter__`
+            - Return iterator.
+          * - :py:attr:`~__next__`
+            - Return next element in iteration.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.fields_container import FieldsContainer
+
+Property detail
+---------------
+
+.. py:property:: time_freq_support
+
+   Time frequency support.
+
+.. py:property:: name
+
+   Name of the Collection.
+
+   .. rubric:: Notes
+
+   Available starting with DPF 2024 R2 pre0.
+
+   :rtype: str
+
+.. py:property:: labels
+   :type: List[str]
+
+
+   Provides for getting scoping labels as a property.
+
+   :returns: List of labels scoping the collection.
+   :rtype: List[str]
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: entries_type
+   :type:  Optional[type[TYPE]]
+
+.. py:attribute:: owned
+   :value: False
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: create_subtype(obj_by_copy)
+
+   Create a field subtype.
+
+
+.. py:method:: get_fields_by_time_complex_ids(timeid=None, complexid=None)
+
+   Retrieve fields at a requested time ID or complex ID.
+
+   :param timeid: Time ID or frequency ID, which is the one-based index of the
+                  result set.
+   :type timeid: int, optional
+   :param complexid: Complex ID, where ``1`` is for imaginary and ``0`` is for real.
+   :type complexid: int, optional
+
+   :returns: **fields** -- Fields corresponding to the request.
+   :rtype: list[Field]
+
+   .. rubric:: Examples
+
+   Extract the fifth time set of a transient analysis.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> len(model.metadata.time_freq_support.time_frequencies)
+   35
+   >>> disp = model.results.displacement()
+   >>> disp.inputs.time_scoping.connect([1,5])
+   >>> fields_container = disp.outputs.fields_container()
+   >>> field_set_5 =fields_container.get_fields_by_time_complex_ids(5)
+
+
+.. py:method:: get_field_by_time_complex_ids(timeid=None, complexid=None)
+
+   Retrieve a field at a requested time ID or complex ID.
+
+   An exception is raised if the number of fields matching the request is
+   greater than one.
+
+   :param timeid: Time ID or frequency ID, which is the one-based index of the
+                  result set.
+   :type timeid: int, optional
+   :param complexid: Complex ID, where ``1`` is for imaginary and ``0`` is for real.
+   :type complexid: int, optional
+
+   :returns: **fields** -- Field corresponding to the request
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   Extract the fifth time set of a transient analysis.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> len(model.metadata.time_freq_support.time_frequencies)
+   35
+   >>> disp = model.results.displacement()
+   >>> disp.inputs.time_scoping.connect([1,5])
+   >>> fields_container = disp.outputs.fields_container()
+   >>> field_set_5 =fields_container.get_fields_by_time_complex_ids(5)
+
+
+.. py:method:: __time_complex_label_space__(timeid=None, complexid=None)
+
+   Return a label space dictionary mapping scoping to given id.
+
+   :param timeid: time based id, by default None
+   :type timeid: int, optional
+   :param complexid: complex id, by default None
+   :type complexid: int, optional
+
+   :returns: mapping of space type to given id.
+   :rtype: dict[str,int]
+
+
+.. py:method:: get_fields(label_space)
+
+   Retrieve the fields at a requested index or label space.
+
+   :param label_space: Scoping of the requested fields. For example,
+                       ``{"time": 1, "complex": 0}``.
+   :type label_space: dict[str,int]
+
+   :returns: **fields** -- Fields corresponding to the request.
+   :rtype: list[Field]
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> fc= dpf.FieldsContainer()
+   >>> fc.labels =['time','complex']
+   >>> #real fields
+   >>> for i in range(0,20):
+   ...     mscop = {"time":i+1,"complex":0}
+   ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
+   >>> #imaginary fields
+   >>> for i in range(0,20):
+   ...     mscop = {"time":i+1,"complex":1}
+   ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
+
+   >>> fields = fc.get_fields({"time":2})
+   >>> # imaginary and real fields of time 2
+   >>> len(fields)
+   2
+
+
+.. py:method:: get_field(label_space_or_index)
+
+   Retrieve the field at a requested index or label space.
+
+   An exception is raised if the number of fields matching the request is
+   greater than one.
+
+   :param label_space_or_index: Scoping of the requested fields. For example,
+                                ``{"time": 1, "complex": 0}`` or the index of the field.
+   :type label_space_or_index: dict[str,int], int
+
+   :returns: **field** -- Field corresponding to the request.
+   :rtype: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> fc = dpf.fields_container_factory.over_time_freq_fields_container(
+   ...     [dpf.Field(nentities=10)]
+   ... )
+   >>> field = fc.get_field({"time":1})
+
+
+.. py:method:: get_field_by_time_id(timeid=None)
+
+   Retrieve the complex field at a requested time.
+
+   :param timeid: Time ID, which is the one-based index of the result set.
+   :type timeid: int, optional
+
+   :returns: **fields** -- Fields corresponding to the request.
+   :rtype: Field
+
+
+.. py:method:: get_imaginary_fields(timeid=None)
+
+   Retrieve the complex fields at a requested time.
+
+   :param timeid: Time ID, which is the one-based index of the result set.
+   :type timeid: int, optional
+
+   :returns: **fields** -- Fields corresponding to the request.
+   :rtype: list[Field]
+
+
+.. py:method:: get_imaginary_field(timeid=None)
+
+   Retrieve the complex field at a requested time.
+
+   :param timeid: Time ID, which is the one-based index of the result set.
+   :type timeid: int, optional
+
+   :returns: **fields** -- Field corresponding to the request.
+   :rtype: Field
+
+
+.. py:method:: __getitem__(key) -> ansys.dpf.core.field.Field
+
+   Retrieve the field at a requested index.
+
+   :param key: Index.
+   :type key: int
+
+   :returns: **field** -- Field corresponding to the request.
+   :rtype: Field
+
+
+.. py:method:: add_field(label_space, field)
+
+   Add or update a field at a requested label space.
+
+   :param label_space: Label space of the requested field. For example,
+                       {"time":1, "complex":0}.
+   :type label_space: dict[str,int]
+   :param field: DPF field to add or update.
+   :type field: Field
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> fc= dpf.FieldsContainer()
+   >>> fc.labels =['time','complex']
+   >>> for i in range(0,20): #real fields
+   ...     mscop = {"time":i+1,"complex":0}
+   ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
+   >>> for i in range(0,20): #imaginary fields
+   ...     mscop = {"time":i+1,"complex":1}
+   ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
+
+
+.. py:method:: add_field_by_time_id(field, timeid=1)
+
+   Add or update a field at a requested time ID.
+
+   :param field: DPF field to add or update.
+   :type field: Field
+   :param timeid: Time ID for the requested time set. The default is ``1``.
+   :type timeid: int, optional
+
+
+.. py:method:: add_imaginary_field(field, timeid=1)
+
+   Add or update an imaginary field at a requested time ID.
+
+   :param field: DPF field to add or update.
+   :type field: Field
+   :param timeid: Time ID for the requested time set. The default is ``1``.
+   :type timeid: int, optional
+
+
+.. py:method:: select_component(index)
+
+   Select fields containing only the component index.
+
+   Fields can be selected only by component index as multiple fields may
+   contain a different number of components.
+
+   :param index: Index of the component.
+   :type index: int
+
+   :returns: **fields** -- Fields container with one component selected in each field.
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   Select using a component index.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> disp = model.results.displacement()
+   >>> disp.inputs.time_scoping.connect([1,5])
+   >>> fields_container = disp.outputs.fields_container()
+   >>> disp_x_fields = fields_container.select_component(0)
+   >>> my_field = disp_x_fields[0]
+
+
+.. py:method:: deep_copy(server=None)
+
+   Create a deep copy of the fields container's data (and its fields) on a given server.
+
+   This method is useful for passing data from one server instance to another.
+
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: ansys.dpf.core.server, optional
+
+   :returns: **fields_container_copy**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> disp = model.results.displacement()
+   >>> disp.inputs.time_scoping.connect([1,5])
+   >>> fields_container = disp.outputs.fields_container()
+   >>> other_server = dpf.start_local_server(as_global=False)
+   >>> deep_copy = fields_container.deep_copy(server=other_server)
+
+
+.. py:method:: get_time_scoping()
+
+   Retrieve the time scoping containing the time sets.
+
+   :returns: **scoping** -- Scoping containing the time set IDs available in the fields container.
+   :rtype: Scoping
+
+
+.. py:method:: plot(label_space: dict = None, **kwargs)
+
+   Plot the fields in the FieldsContainer for the given LabelSpace.
+
+   Check the labels available for the FieldsContainer with
+   :func:`~fields_container.FieldsContainer.labels`.
+
+   :param label_space: A dictionary (LabelSpace) of labels of the :class:`FieldsContainer` with associated
+                       values to select for plotting.
+                       This is used to filter the data to plot, for example:
+                       - if ``label_space={'time': 10}``: a single time step (mandatory for transient)
+                       - if ``label_space={'complex': 0, 'part': 12}``: real part of complex data for a part
+                       See :func:`~fields_container.FieldsContainer.get_fields`.
+                       If None is given, it renders all fields available, which may not make sense.
+   :param \*\*kwargs: For more information on accepted keyword arguments, see :func:`~field.Field.plot` and
+                      :class:`~plotter.DpfPlotter`.
+
+
+.. py:method:: animate(save_as: str = None, deform_by: Union[FieldsContainer, ansys.dpf.core.Result, ansys.dpf.core.Operator] = None, scale_factor: Union[float, Sequence[float]] = 1.0, shell_layer: ansys.dpf.core.common.shell_layers = shell_layers.top, **kwargs)
+
+   Create an animation based on the Fields contained in the FieldsContainer.
+
+   This method creates a movie or a gif based on the time ids of a FieldsContainer.
+   For kwargs see pyvista.Plotter.open_movie/add_text/show.
+
+   :param save_as: Path of file to save the animation to. Defaults to None. Can be of any format
+                   supported by pyvista.Plotter.write_frame (.gif, .mp4, ...).
+   :param deform_by: Used to deform the plotted mesh. Must return a FieldsContainer of the same length as
+                     self, containing 3D vector Fields of distances.
+                     Defaults to None, which takes self if possible. Set as False to force static animation.
+   :param scale_factor: Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
+                        scaling frequency-dependent.
+   :type scale_factor: float, list, optional
+   :param shell_layer: Enum used to set the shell layer if the field to plot
+                       contains shell elements. Defaults to top layer.
+   :param \*\*kwargs: Additional keyword arguments for the animator.
+                      Used by :func:`pyvista.Plotter` (off_screen, cpos, ...),
+                      or by :func:`pyvista.Plotter.open_movie`
+                      (framerate, quality, ...)
+
+
+.. py:method:: __add__(fields_b)
+
+   Add two fields or two fields containers.
+
+   :returns: **add**
+   :rtype: operators.math.add_fc
+
+
+.. py:method:: __sub__(fields_b)
+
+   Subtract two fields or two fields containers.
+
+   :returns: **minus**
+   :rtype: operators.math.minus_fc
+
+
+.. py:method:: __pow__(value)
+
+   Compute element-wise field[i]^2.
+
+
+.. py:method:: __mul__(value)
+
+   Multiply two fields or two fields containers.
+
+   :returns: **mul**
+   :rtype: operators.math.generalized_inner_product_fc
+
+
+.. py:method:: integral_collection(inpt, server: ansys.dpf.core.server_types.BaseServer = None)
+   :staticmethod:
+
+
+   Create a collection of integral type with a list.
+
+   The collection of integral is the equivalent of an array of
+   data sent server side. It can be used to efficiently stream
+   large data to the server.
+
+   :param inpt: list to transfer server side
+   :type inpt: list[float], list[int], numpy.array
+
+   :rtype: IntegralCollection
+
+   .. rubric:: Notes
+
+   Used by default by the ``'Operator'`` and the``'Workflow'`` when a
+   list is connected or returned.
+
+
+.. py:method:: set_labels(labels)
+
+   Set labels for scoping the collection.
+
+   :param labels: Labels to scope entries to. For example, ``["time", "complex"]``.
+   :type labels: list[str], optional
+
+
+.. py:method:: add_label(label, default_value=None)
+
+   Add the requested label to scope the collection.
+
+   :param label: Labels to scope the entries to. For example, ``"time"``.
+   :type label: str
+   :param default_value: Default value for existing fields in the collection. The default
+                         is ``None``.
+   :type default_value: int, optional
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> coll = dpf.FieldsContainer()
+   >>> coll.add_label('time')
+
+
+.. py:method:: has_label(label) -> bool
+
+   Check if a collection has a specified label.
+
+   :param label: Label to search for. For example, ``"time"``.
+   :type label: str
+
+   :returns: ``True`` when successful, ``False`` when failed.
+   :rtype: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> coll = dpf.FieldsContainer()
+   >>> coll.add_label('time')
+   >>> coll.has_label('time')
+   True
+
+   >>> coll.has_label('complex')
+   False
+
+
+.. py:method:: get_entries_indices(label_space)
+
+   Retrieve the indices of the entries corresponding a requested label space .
+
+   .. rubric:: Notes
+
+   Available starting with DPF 2025R1.
+
+   :param label_space: Label space or index. For example,
+                       ``{"time": 1, "complex": 0}`` or the index of the field.
+   :type label_space: dict[str,int]
+
+   :returns: **indices** -- Indices of the entries corresponding to the request.
+   :rtype: list[int], list[Field], list[MeshedRegion]
+
+
+.. py:method:: get_label_space(index)
+
+   Retrieve the label space of an entry at a requested index.
+
+   :param index: Index of the entry.
+   :type index: int
+
+   :returns: **label_space** -- Scoping of the requested entry. For example,
+             ``{"time": 1, "complex": 0}``.
+   :rtype: dict(str:int)
+
+
+.. py:method:: get_available_ids_for_label(label='time')
+
+   Retrieve the IDs assigned to an input label.
+
+   :param label: Name of the input label. The default is ``"time"``.
+   :type label: str
+
+   :returns: **ids** -- List of IDs assigned to the input label.
+   :rtype: list[int]
+
+
+.. py:method:: get_label_scoping(label='time')
+
+   Retrieve the scoping for an input label.
+
+   This method allows you to retrieve a list of IDs for a given input label in the
+   collection. For example, if the label ``el_type`` exists in the collection, you
+   can use the `get_lable_scoping` method to retrieve a list of IDS with this label.
+   You can then use these IDs to request a given entity inside the collection.
+
+   :param label: Name of the input label.
+   :type label: str
+
+   :returns: **scoping** -- IDs scoped to the input label.
+   :rtype: Scoping
+
+
+.. py:method:: set_support(label: str, support: ansys.dpf.core.support.Support) -> None
+
+   Set the support of the collection for a given label.
+
+   .. rubric:: Notes
+
+   Available starting with DPF 2023 R1.
+
+
+.. py:method:: get_support(label: str) -> ansys.dpf.core.support.Support
+
+   Get the support of the collection for a given label.
+
+   .. rubric:: Notes
+
+   Available starting with DPF 2023 R1.
+
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: **description** -- Description of the entity.
+   :rtype: str
+
+
+.. py:method:: __len__()
+
+   Retrieve the number of entries.
+
+
+.. py:method:: __del__()
+
+   Delete the entry.
+
+
+.. py:method:: __iter__()
+
+   Return iterator.
+
+
+.. py:method:: __next__() -> TYPE
+
+   Return next element in iteration.
+
+
+
+
+

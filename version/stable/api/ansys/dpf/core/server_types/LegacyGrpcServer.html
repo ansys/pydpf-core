@@ -1,0 +1,1352 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>LegacyGrpcServer &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles\ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css?v=f3be7b20" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../../../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../../../../_static/documentation_options.js?v=52d5597a"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys/dpf/core/server_types/LegacyGrpcServer';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.15';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../../../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="The session.py module" href="../session/index.html" />
+    <link rel="prev" title="InProcessServer" href="InProcessServer.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.15.0" />
+  <meta property="og:site_name" content="PyAnsys" />
+  <meta name="physics" content="Structures" />
+  <link rel="canonical" href="https://dpf.docs.pyansys.com/version/stable/api/ansys/dpf/core/server_types/LegacyGrpcServer.html" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Starting with PyDPF-Core 0.15.0, gRPC communication with the DPF server defaults to requiring mTLS authentication.
+Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dpf_server.html#run-dpf-server-in-secure-mode-with-mtls'>this page</a> for more information.</div>
+</aside>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../../../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API reference
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html"><span class="nf nf-md-package"></span> ansys.dpf.core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../documentation/index.html"> <span class="nf nf-md-package"></span> documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html"> <span class="nf nf-md-package"></span> examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../helpers/index.html"> <span class="nf nf-md-package"></span> helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../operators/index.html"> <span class="nf nf-md-package"></span> operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflow_topology/index.html"> <span class="nf nf-md-package"></span> workflow_topology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../animation/index.html"> <span class="nf nf-fa-file"></span> animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../animator/index.html"> <span class="nf nf-fa-file"></span> animator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../any/index.html"> <span class="nf nf-fa-file"></span> any</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../available_result/index.html"> <span class="nf nf-fa-file"></span> available_result</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog/index.html"> <span class="nf nf-fa-file"></span> changelog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collection/index.html"> <span class="nf nf-fa-file"></span> collection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collection_base/index.html"> <span class="nf nf-fa-file"></span> collection_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../common/index.html"> <span class="nf nf-fa-file"></span> common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config/index.html"> <span class="nf nf-fa-file"></span> config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html"> <span class="nf nf-fa-file"></span> core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../custom_container_base/index.html"> <span class="nf nf-fa-file"></span> custom_container_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../custom_fields_container/index.html"> <span class="nf nf-fa-file"></span> custom_fields_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../custom_operator/index.html"> <span class="nf nf-fa-file"></span> custom_operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../custom_type_field/index.html"> <span class="nf nf-fa-file"></span> custom_type_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cyberchannel/index.html"> <span class="nf nf-fa-file"></span> cyberchannel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cyclic_support/index.html"> <span class="nf nf-fa-file"></span> cyclic_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_sources/index.html"> <span class="nf nf-fa-file"></span> data_sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_tree/index.html"> <span class="nf nf-fa-file"></span> data_tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dimensionality/index.html"> <span class="nf nf-fa-file"></span> dimensionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dpf_array/index.html"> <span class="nf nf-fa-file"></span> dpf_array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dpf_operator/index.html"> <span class="nf nf-fa-file"></span> dpf_operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../element_descriptor/index.html"> <span class="nf nf-fa-file"></span> element_descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../elements/index.html"> <span class="nf nf-fa-file"></span> elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../errors/index.html"> <span class="nf nf-fa-file"></span> errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faces/index.html"> <span class="nf nf-fa-file"></span> faces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../field/index.html"> <span class="nf nf-fa-file"></span> field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../field_definition/index.html"> <span class="nf nf-fa-file"></span> field_definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fields_container/index.html"> <span class="nf nf-fa-file"></span> fields_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fields_container_factory/index.html"> <span class="nf nf-fa-file"></span> fields_container_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fields_factory/index.html"> <span class="nf nf-fa-file"></span> fields_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generic_data_container/index.html"> <span class="nf nf-fa-file"></span> generic_data_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generic_support/index.html"> <span class="nf nf-fa-file"></span> generic_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geometry/index.html"> <span class="nf nf-fa-file"></span> geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geometry_factory/index.html"> <span class="nf nf-fa-file"></span> geometry_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../incremental/index.html"> <span class="nf nf-fa-file"></span> incremental</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inputs/index.html"> <span class="nf nf-fa-file"></span> inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mesh_info/index.html"> <span class="nf nf-fa-file"></span> mesh_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mesh_scoping_factory/index.html"> <span class="nf nf-fa-file"></span> mesh_scoping_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../meshed_region/index.html"> <span class="nf nf-fa-file"></span> meshed_region</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../meshes_container/index.html"> <span class="nf nf-fa-file"></span> meshes_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../model/index.html"> <span class="nf nf-fa-file"></span> model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes/index.html"> <span class="nf nf-fa-file"></span> nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../operator_specification/index.html"> <span class="nf nf-fa-file"></span> operator_specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../outputs/index.html"> <span class="nf nf-fa-file"></span> outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../path_utilities/index.html"> <span class="nf nf-fa-file"></span> path_utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plotter/index.html"> <span class="nf nf-fa-file"></span> plotter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugins/index.html"> <span class="nf nf-fa-file"></span> plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../property_field/index.html"> <span class="nf nf-fa-file"></span> property_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../property_fields_container/index.html"> <span class="nf nf-fa-file"></span> property_fields_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../result_info/index.html"> <span class="nf nf-fa-file"></span> result_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../results/index.html"> <span class="nf nf-fa-file"></span> results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runtime_config/index.html"> <span class="nf nf-fa-file"></span> runtime_config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scoping/index.html"> <span class="nf nf-fa-file"></span> scoping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scopings_container/index.html"> <span class="nf nf-fa-file"></span> scopings_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../server/index.html"> <span class="nf nf-fa-file"></span> server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../server_context/index.html"> <span class="nf nf-fa-file"></span> server_context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../server_factory/index.html"> <span class="nf nf-fa-file"></span> server_factory</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html"> <span class="nf nf-fa-file"></span> server_types</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="GhostServer.html"> <span class="nf nf-cod-symbol_class"></span> GhostServer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BaseServer.html"> <span class="nf nf-cod-symbol_class"></span> BaseServer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CServer.html"> <span class="nf nf-cod-symbol_class"></span> CServer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GrpcClient.html"> <span class="nf nf-cod-symbol_class"></span> GrpcClient</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GrpcServer.html"> <span class="nf nf-cod-symbol_class"></span> GrpcServer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="InProcessServer.html"> <span class="nf nf-cod-symbol_class"></span> InProcessServer</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#"> <span class="nf nf-cod-symbol_class"></span> LegacyGrpcServer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../session/index.html"> <span class="nf nf-fa-file"></span> session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings/index.html"> <span class="nf nf-fa-file"></span> settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../streams_container/index.html"> <span class="nf nf-fa-file"></span> streams_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../string_field/index.html"> <span class="nf nf-fa-file"></span> string_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support/index.html"> <span class="nf nf-fa-file"></span> support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../time_freq_scoping_factory/index.html"> <span class="nf nf-fa-file"></span> time_freq_scoping_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../time_freq_support/index.html"> <span class="nf nf-fa-file"></span> time_freq_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit_system/index.html"> <span class="nf nf-fa-file"></span> unit_system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflow/index.html"> <span class="nf nf-fa-file"></span> workflow</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../../../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../../../index.html" class="nav-link">API reference</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../index.html" class="nav-link">The <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> library</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">The <code class="docutils literal notranslate"><span class="pre">server_types.py</span></code> module</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><code class="xref py py-class docutils literal notranslate"><span class="pre">LegacyGrpcServer</span></code></span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="legacygrpcserver">
+<h1><code class="xref py py-class docutils literal notranslate"><span class="pre">LegacyGrpcServer</span></code><a class="headerlink" href="#legacygrpcserver" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server_types.</span></span><span class="sig-name descname"><span class="pre">LegacyGrpcServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ansys_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">LOCALHOST</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">DPF_DEFAULT_PORT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_global</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_operators</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">launch_server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docker_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../server_factory/DockerConfig.html#ansys.dpf.core.server_factory.DockerConfig" title="ansys.dpf.core.server_factory.DockerConfig"><span class="pre">ansys.dpf.core.server_factory.DockerConfig</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">RUNNING_DOCKER</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_pypim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../server_context/ServerContext.html#ansys.dpf.core.server_context.ServerContext" title="ansys.dpf.core.server_context.ServerContext"><span class="pre">ansys.dpf.core.server_context.ServerContext</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">server_context.SERVER_CONTEXT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grpc_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../server_factory/GrpcMode.html#ansys.dpf.core.server_factory.GrpcMode" title="ansys.dpf.core.server_factory.GrpcMode"><span class="pre">ansys.dpf.core.server_factory.GrpcMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">server_factory.DEFAULT_GRPC_MODE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">certificates_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseServer</span></code></p>
+<p>Provides an instance of the DPF server using InProcess gRPC.</p>
+<p>Kept for backward-compatibility with dpf servers <0.5.0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ansys_path</strong> – Path for the DPF executable.</p></li>
+<li><p><strong>ip</strong> – IP address of the remote or local instance to connect to. The
+default is <code class="docutils literal notranslate"><span class="pre">&quot;LOCALHOST&quot;</span></code>.</p></li>
+<li><p><strong>port</strong> – Port to connect to the remote instance on. The default is
+<code class="docutils literal notranslate"><span class="pre">&quot;DPF_DEFAULT_PORT&quot;</span></code>, which is 50054.</p></li>
+<li><p><strong>timeout</strong> – Maximum number of seconds for the initialization attempt.
+The default is <code class="docutils literal notranslate"><span class="pre">10</span></code>. Once the specified number of seconds
+passes, the connection fails.</p></li>
+<li><p><strong>as_global</strong> – Global variable that stores the IP address and port for the DPF
+module. All DPF objects created in this Python session will
+use this IP and port. The default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>load_operators</strong> – Whether to automatically load the operators. The default
+is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>launch_server</strong> – Whether to launch the server on Windows.</p></li>
+<li><p><strong>docker_config</strong> – To start DPF server as a docker, specify the docker name here.</p></li>
+<li><p><strong>use_pypim</strong> – Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
+Defaults to True.</p></li>
+<li><p><strong>context</strong> – Context to apply to DPF server when launching it.</p></li>
+<li><p><strong>grpc_mode</strong> – Grpc mode to use when launching DPF server.
+Can be one of the members of <a class="reference internal" href="../server_factory/GrpcMode.html#ansys.dpf.core.server_factory.GrpcMode" title="ansys.dpf.core.server_factory.GrpcMode"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_factory.GrpcMode</span></code></a>.
+Defaults to mTLS authenticated mode.</p></li>
+<li><p><strong>certificates_dir</strong> – Path to a directory containing the certificates to use for mTLS authentication.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Methods</label><div class="sd-tab-content docutils">
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.get_api_for_type" title="LegacyGrpcServer.get_api_for_type"><code class="xref py py-attr docutils literal notranslate"><span class="pre">get_api_for_type</span></code></a></p></td>
+<td><p>Get the API for the given type.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.create_stub_if_necessary" title="LegacyGrpcServer.create_stub_if_necessary"><code class="xref py py-attr docutils literal notranslate"><span class="pre">create_stub_if_necessary</span></code></a></p></td>
+<td><p>Create and store a gRPC stub if it doesn’t already exist.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.get_stub" title="LegacyGrpcServer.get_stub"><code class="xref py py-attr docutils literal notranslate"><span class="pre">get_stub</span></code></a></p></td>
+<td><p>Retrieve the gRPC stub for the given name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.shutdown" title="LegacyGrpcServer.shutdown"><code class="xref py py-attr docutils literal notranslate"><span class="pre">shutdown</span></code></a></p></td>
+<td><p>Shutdown server instance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.set_as_global" title="LegacyGrpcServer.set_as_global"><code class="xref py py-attr docutils literal notranslate"><span class="pre">set_as_global</span></code></a></p></td>
+<td><p>Set the current server as global if necessary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.has_client" title="LegacyGrpcServer.has_client"><code class="xref py py-attr docutils literal notranslate"><span class="pre">has_client</span></code></a></p></td>
+<td><p>Check if server has a connected client.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.release" title="LegacyGrpcServer.release"><code class="xref py py-attr docutils literal notranslate"><span class="pre">release</span></code></a></p></td>
+<td><p>Clear the available Operators and Releases licenses when necessary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.apply_context" title="LegacyGrpcServer.apply_context"><code class="xref py py-attr docutils literal notranslate"><span class="pre">apply_context</span></code></a></p></td>
+<td><p>Define the settings that will be used to load DPF’s plugins.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.check_version" title="LegacyGrpcServer.check_version"><code class="xref py py-attr docutils literal notranslate"><span class="pre">check_version</span></code></a></p></td>
+<td><p>Check if the server version matches with a required version.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.meet_version" title="LegacyGrpcServer.meet_version"><code class="xref py py-attr docutils literal notranslate"><span class="pre">meet_version</span></code></a></p></td>
+<td><p>Check if the server version matches with a required version.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Properties</label><div class="sd-tab-content docutils">
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.client" title="LegacyGrpcServer.client"><code class="xref py py-attr docutils literal notranslate"><span class="pre">client</span></code></a></p></td>
+<td><p>Get the client instance for the server.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.available_api_types" title="LegacyGrpcServer.available_api_types"><code class="xref py py-attr docutils literal notranslate"><span class="pre">available_api_types</span></code></a></p></td>
+<td><p>Get the list of available API types for the server.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.ip" title="LegacyGrpcServer.ip"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ip</span></code></a></p></td>
+<td><p>IP address of the server.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.port" title="LegacyGrpcServer.port"><code class="xref py py-attr docutils literal notranslate"><span class="pre">port</span></code></a></p></td>
+<td><p>Port of the server.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.external_ip" title="LegacyGrpcServer.external_ip"><code class="xref py py-attr docutils literal notranslate"><span class="pre">external_ip</span></code></a></p></td>
+<td><p>Public IP address of the server.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.external_port" title="LegacyGrpcServer.external_port"><code class="xref py py-attr docutils literal notranslate"><span class="pre">external_port</span></code></a></p></td>
+<td><p>Public Port of the server.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.version" title="LegacyGrpcServer.version"><code class="xref py py-attr docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
+<td><p>Version of the server.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.os" title="LegacyGrpcServer.os"><code class="xref py py-attr docutils literal notranslate"><span class="pre">os</span></code></a></p></td>
+<td><p>Get the operating system of the server.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.info" title="LegacyGrpcServer.info"><code class="xref py py-attr docutils literal notranslate"><span class="pre">info</span></code></a></p></td>
+<td><p>Return information about the server instance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.local_server" title="LegacyGrpcServer.local_server"><code class="xref py py-attr docutils literal notranslate"><span class="pre">local_server</span></code></a></p></td>
+<td><p>Get whether the server is running locally.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.config" title="LegacyGrpcServer.config"><code class="xref py py-attr docutils literal notranslate"><span class="pre">config</span></code></a></p></td>
+<td><p>Get the server configuration for the LegacyGrpcServer server.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.plugins" title="LegacyGrpcServer.plugins"><code class="xref py py-attr docutils literal notranslate"><span class="pre">plugins</span></code></a></p></td>
+<td><p>Return the list of plugins loaded on the server.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.session" title="LegacyGrpcServer.session"><code class="xref py py-attr docutils literal notranslate"><span class="pre">session</span></code></a></p></td>
+<td><p>Plan event callbacks from the server, such as progress bars during workflow execution and logging.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.on_docker" title="LegacyGrpcServer.on_docker"><code class="xref py py-attr docutils literal notranslate"><span class="pre">on_docker</span></code></a></p></td>
+<td><p>Whether the DPF server should be started in a Docker Container by default.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.docker_config" title="LegacyGrpcServer.docker_config"><code class="xref py py-attr docutils literal notranslate"><span class="pre">docker_config</span></code></a></p></td>
+<td><p>Return the docker config associated with the server.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.context" title="LegacyGrpcServer.context"><code class="xref py py-attr docutils literal notranslate"><span class="pre">context</span></code></a></p></td>
+<td><p>Returns the settings used to load DPF’s plugins.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Attributes</label><div class="sd-tab-content docutils">
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.live" title="LegacyGrpcServer.live"><code class="xref py py-attr docutils literal notranslate"><span class="pre">live</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.channel" title="LegacyGrpcServer.channel"><code class="xref py py-attr docutils literal notranslate"><span class="pre">channel</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.ansys_path" title="LegacyGrpcServer.ansys_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ansys_path</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.__slots__" title="LegacyGrpcServer.__slots__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__slots__</span></code></a></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+Special methods</label><div class="sd-tab-content docutils">
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.__eq__" title="LegacyGrpcServer.__eq__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__eq__</span></code></a></p></td>
+<td><p>Return true, if the ip and the port are equals.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.__del__" title="LegacyGrpcServer.__del__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__del__</span></code></a></p></td>
+<td><p>Clean up resources associated with the instance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#LegacyGrpcServer.__str__" title="LegacyGrpcServer.__str__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__str__</span></code></a></p></td>
+<td><p>Return string representation of the instance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#LegacyGrpcServer.__ne__" title="LegacyGrpcServer.__ne__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__ne__</span></code></a></p></td>
+<td><p>Return true, if the servers are not equal.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="import-detail">
+<h2>Import detail<a class="headerlink" href="#import-detail" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.server_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">LegacyGrpcServer</span>
+</pre></div>
+</div>
+</section>
+<section id="property-detail">
+<h2>Property detail<a class="headerlink" href="#property-detail" title="Link to this heading">#</a></h2>
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.client">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#LegacyGrpcServer.client" title="Link to this definition">#</a></dt>
+<dd><p>Get the client instance for the server.</p>
+<p>This property returns the current instance of the server itself as the client,
+providing access to the server’s functionalities through the <cite>LegacyGrpcServer</cite> instance.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.available_api_types">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">available_api_types</span></span><a class="headerlink" href="#LegacyGrpcServer.available_api_types" title="Link to this definition">#</a></dt>
+<dd><p>Get the list of available API types for the server.</p>
+<p>This property returns the list of API types that are available through
+the current server instance, which are stored in the <cite>_stubs</cite> attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of available API types (stub objects) for the server.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.ip">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">ip</span></span><a class="headerlink" href="#LegacyGrpcServer.ip" title="Link to this definition">#</a></dt>
+<dd><p>IP address of the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ip</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.port">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">port</span></span><a class="headerlink" href="#LegacyGrpcServer.port" title="Link to this definition">#</a></dt>
+<dd><p>Port of the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>port</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.external_ip">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">external_ip</span></span><a class="headerlink" href="#LegacyGrpcServer.external_ip" title="Link to this definition">#</a></dt>
+<dd><p>Public IP address of the server.</p>
+<p>Is the same as  <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.LegacyGrpcServer.ip()</span></code> in all cases except
+for servers using a gateway:
+for example, servers running in Docker Images might have an internal
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.LegacyGrpcServer.ip()</span></code> different from the public
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.LegacyGrpcServer.external_ip()</span></code>, the latter should be used to get
+connected to the server from outside the Docker Image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>external_ip</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.external_port">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">external_port</span></span><a class="headerlink" href="#LegacyGrpcServer.external_port" title="Link to this definition">#</a></dt>
+<dd><p>Public Port of the server.</p>
+<p>Is the same as  <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.LegacyGrpcServer.port()</span></code> in all cases except
+for servers using a gateway:
+for example, servers running in Docker Images might have an internal
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.LegacyGrpcServer.port()</span></code> different from the public
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.LegacyGrpcServer.external_port()</span></code>, the latter should be used to get
+connected to the server from outside the Docker Image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>port</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.version">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#LegacyGrpcServer.version" title="Link to this definition">#</a></dt>
+<dd><p>Version of the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>version</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.os">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">os</span></span><a class="headerlink" href="#LegacyGrpcServer.os" title="Link to this definition">#</a></dt>
+<dd><p>Get the operating system of the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>os</strong> – “nt” or “posix”</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.info">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#LegacyGrpcServer.info" title="Link to this definition">#</a></dt>
+<dd><p>Return information about the server instance.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.local_server">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">local_server</span></span><a class="headerlink" href="#LegacyGrpcServer.local_server" title="Link to this definition">#</a></dt>
+<dd><p>Get whether the server is running locally.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>local_server</strong> – True if the server is running locally, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.config">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#LegacyGrpcServer.config" title="Link to this definition">#</a></dt>
+<dd><p>Get the server configuration for the LegacyGrpcServer server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> – The server configuration for the LegacyGrpcServer server from the AvailableServerConfigs.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="../server_factory/AvailableServerConfigs.html#ansys.dpf.core.server_factory.AvailableServerConfigs" title="ansys.dpf.core.server_factory.AvailableServerConfigs">AvailableServerConfigs</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.plugins">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">plugins</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#LegacyGrpcServer.plugins" title="Link to this definition">#</a></dt>
+<dd><p>Return the list of plugins loaded on the server.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.session">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">session</span></span><a class="headerlink" href="#LegacyGrpcServer.session" title="Link to this definition">#</a></dt>
+<dd><p>Plan event callbacks from the server, such as progress bars during workflow execution and logging.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../session/Session.html#ansys.dpf.core.session.Session" title="ansys.dpf.core.session.Session">ansys.dpf.core.session.Session</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.on_docker">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">on_docker</span></span><a class="headerlink" href="#LegacyGrpcServer.on_docker" title="Link to this definition">#</a></dt>
+<dd><p>Whether the DPF server should be started in a Docker Container by default.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.docker_config">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">docker_config</span></span><a class="headerlink" href="#LegacyGrpcServer.docker_config" title="Link to this definition">#</a></dt>
+<dd><p>Return the docker config associated with the server.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="LegacyGrpcServer.context">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">context</span></span><a class="headerlink" href="#LegacyGrpcServer.context" title="Link to this definition">#</a></dt>
+<dd><p>Returns the settings used to load DPF’s plugins.</p>
+<p>To update the context server side, use
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.BaseServer.server_types.apply_context()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../server_context/ServerContext.html#ansys.dpf.core.server_context.ServerContext" title="ansys.dpf.core.server_context.ServerContext">ServerContext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="attribute-detail">
+<h2>Attribute detail<a class="headerlink" href="#attribute-detail" title="Link to this heading">#</a></h2>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="LegacyGrpcServer.live">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">live</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#LegacyGrpcServer.live" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="LegacyGrpcServer.channel">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">channel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#LegacyGrpcServer.channel" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="LegacyGrpcServer.ansys_path">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">ansys_path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#LegacyGrpcServer.ansys_path" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="LegacyGrpcServer.__slots__">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">__slots__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">()</span></em><a class="headerlink" href="#LegacyGrpcServer.__slots__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="method-detail">
+<h2>Method detail<a class="headerlink" href="#method-detail" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.get_api_for_type">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">get_api_for_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">capi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grpcapi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.get_api_for_type" title="Link to this definition">#</a></dt>
+<dd><p>Get the API for the given type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.create_stub_if_necessary">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">create_stub_if_necessary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stub_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stub_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.create_stub_if_necessary" title="Link to this definition">#</a></dt>
+<dd><p>Create and store a gRPC stub if it doesn’t already exist.</p>
+<p>This method checks if the specified stub (by <cite>stub_name</cite>) exists. If not, it creates
+the stub using the given <cite>stub_type</cite> and stores it in the <cite>_stubs</cite> dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.get_stub">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">get_stub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stub_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.get_stub" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve the gRPC stub for the given name.</p>
+<p>This method checks if the stub corresponding to <cite>stub_name</cite> exists in the <cite>_stubs</cite>
+dictionary and returns it. If the stub does not exist, it returns <cite>None</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.shutdown">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">shutdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.shutdown" title="Link to this definition">#</a></dt>
+<dd><p>Shutdown server instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.__eq__">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other_server</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.__eq__" title="Link to this definition">#</a></dt>
+<dd><p>Return true, if the ip and the port are equals.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.__del__">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">__del__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.__del__" title="Link to this definition">#</a></dt>
+<dd><p>Clean up resources associated with the instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Warning</strong> – If an exception occurs while attempting to delete resources.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.set_as_global">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">set_as_global</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">as_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.set_as_global" title="Link to this definition">#</a></dt>
+<dd><p>Set the current server as global if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>as_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – Global variable that stores the IP address and port for the DPF
+module. All DPF objects created in this Python session will
+use this IP and port. The default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.has_client">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">has_client</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.has_client" title="Link to this definition">#</a></dt>
+<dd><p>Check if server has a connected client.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.release">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">release</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.release" title="Link to this definition">#</a></dt>
+<dd><p>Clear the available Operators and Releases licenses when necessary.</p>
+<p class="rubric">Notes</p>
+<p>Available with server’s version starting at 6.0 (Ansys 2023R2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.apply_context">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">apply_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.apply_context" title="Link to this definition">#</a></dt>
+<dd><p>Define the settings that will be used to load DPF’s plugins.</p>
+<p>A DPF xml file can be used to list the plugins and set up variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> (<a class="reference internal" href="../server_context/ServerContext.html#ansys.dpf.core.server_context.ServerContext" title="ansys.dpf.core.server_context.ServerContext"><em>ServerContext</em></a>) – The context allows to choose which capabilities are available server side.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Available with server’s version starting at 6.0 (Ansys 2023R2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.check_version">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">check_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.check_version" title="Link to this definition">#</a></dt>
+<dd><p>Check if the server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>required_version</strong> (<em>str</em>) – Required version to compare with the server version.</p></li>
+<li><p><strong>msg</strong> (<em>str</em><em>, </em><em>optional</em>) – Message for the raised exception if version requirements do not match.</p></li>
+</ul>
+</dd>
+</dl>
+<p>:raises dpf_errors : errors: errors.DpfVersionNotSupported is raised if failure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the server version meets the requirement.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.meet_version">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">meet_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.meet_version" title="Link to this definition">#</a></dt>
+<dd><p>Check if the server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>required_version</strong> (<em>str</em>) – Required version to compare with the server version.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the server version meets the requirement.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.__str__">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.__str__" title="Link to this definition">#</a></dt>
+<dd><p>Return string representation of the instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="LegacyGrpcServer.__ne__">
+<span class="sig-prename descclassname"><span class="pre">LegacyGrpcServer.</span></span><span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other_server</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#LegacyGrpcServer.__ne__" title="Link to this definition">#</a></dt>
+<dd><p>Return true, if the servers are not equal.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer"><code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.server_types.LegacyGrpcServer</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-detail">Import detail</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#property-detail">Property detail</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.client"><code class="docutils literal notranslate"><span class="pre">client</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.available_api_types"><code class="docutils literal notranslate"><span class="pre">available_api_types</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.ip"><code class="docutils literal notranslate"><span class="pre">ip</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.port"><code class="docutils literal notranslate"><span class="pre">port</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.external_ip"><code class="docutils literal notranslate"><span class="pre">external_ip</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.external_port"><code class="docutils literal notranslate"><span class="pre">external_port</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.version"><code class="docutils literal notranslate"><span class="pre">version</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.os"><code class="docutils literal notranslate"><span class="pre">os</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.info"><code class="docutils literal notranslate"><span class="pre">info</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.local_server"><code class="docutils literal notranslate"><span class="pre">local_server</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.config"><code class="docutils literal notranslate"><span class="pre">config</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.plugins"><code class="docutils literal notranslate"><span class="pre">plugins</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.session"><code class="docutils literal notranslate"><span class="pre">session</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.on_docker"><code class="docutils literal notranslate"><span class="pre">on_docker</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.docker_config"><code class="docutils literal notranslate"><span class="pre">docker_config</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.context"><code class="docutils literal notranslate"><span class="pre">context</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attribute-detail">Attribute detail</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.live"><code class="docutils literal notranslate"><span class="pre">live</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.channel"><code class="docutils literal notranslate"><span class="pre">channel</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.ansys_path"><code class="docutils literal notranslate"><span class="pre">ansys_path</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.__slots__"><code class="docutils literal notranslate"><span class="pre">__slots__</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-detail">Method detail</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.get_api_for_type"><code class="docutils literal notranslate"><span class="pre">get_api_for_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.create_stub_if_necessary"><code class="docutils literal notranslate"><span class="pre">create_stub_if_necessary()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.get_stub"><code class="docutils literal notranslate"><span class="pre">get_stub()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.shutdown"><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.__eq__"><code class="docutils literal notranslate"><span class="pre">__eq__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.__del__"><code class="docutils literal notranslate"><span class="pre">__del__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.set_as_global"><code class="docutils literal notranslate"><span class="pre">set_as_global()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.has_client"><code class="docutils literal notranslate"><span class="pre">has_client()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.release"><code class="docutils literal notranslate"><span class="pre">release()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.apply_context"><code class="docutils literal notranslate"><span class="pre">apply_context()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.check_version"><code class="docutils literal notranslate"><span class="pre">check_version()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.meet_version"><code class="docutils literal notranslate"><span class="pre">meet_version()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.__str__"><code class="docutils literal notranslate"><span class="pre">__str__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#LegacyGrpcServer.__ne__"><code class="docutils literal notranslate"><span class="pre">__ne__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../../../../_sources/api/ansys/dpf/core/server_types/LegacyGrpcServer.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../../../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../../../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../../../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.6.3. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

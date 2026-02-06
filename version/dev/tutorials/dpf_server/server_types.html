@@ -1,0 +1,1219 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Working with DPF server configurations &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles\ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=f3be7b20" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../_static/documentation_options.js?v=6bfb07f7"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/thebelab-helper.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/dpf_server/server_types';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Examples" href="../../examples/index.html" />
+    <link rel="prev" title="DPF server" href="index.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.15.1.dev0" />
+  <meta property="og:site_name" content="PyAnsys" />
+  <meta name="physics" content="Structures" />
+  <link rel="canonical" href="https://dpf.docs.pyansys.com/version/stable/tutorials/dpf_server/server_types.html" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Starting with PyDPF-Core 0.15.0, gRPC communication with the DPF server defaults to requiring mTLS authentication.
+Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dpf_server.html#run-dpf-server-in-secure-mode-with-mtls'>this page</a> for more information.</div>
+</aside>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../data_structures/index.html">DPF data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../post_processing_basics/index.html">Processing data basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../import_data/index.html">Import Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../animate/index.html">Animate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/index.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_operators_and_plugins/index.html">Custom Operators and Plugins</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">DPF server</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Working with DPF server configurations</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../index.html" class="nav-link">Tutorials</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">DPF server</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Working with DPF server configurations</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="working-with-dpf-server-configurations">
+<span id="user-guide-server-types"></span><h1>Working with DPF server configurations<a class="headerlink" href="#working-with-dpf-server-configurations" title="Link to this heading">#</a></h1>
+<p>This tutorial demonstrates how to work with different DPF server types and configurations
+to optimize your workflow based on your specific needs.</p>
+<p>DPF is based on a client-server architecture where PyDPF-Core acts as the Python client
+API communicating with a DPF Server. Understanding server types is essential for choosing
+the right configuration for your use case, whether you need maximum performance on a local
+machine, secure remote access with mTLS authentication, or distributed computation across a network.</p>
+<p><a class="reference download internal" download="" href="../../_downloads/1f188cae61001795b58f005df0cbc963/server_types.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Python</span> <span class="pre">script</span></code></a>
+<a class="reference download internal" download="" href="../../_downloads/9d6a4e58f4bd175ad4213c351c670de3/server_types.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Jupyter</span> <span class="pre">notebook</span></code></a></p>
+<section id="understanding-dpf-server-types">
+<h2>Understanding DPF server types<a class="headerlink" href="#understanding-dpf-server-types" title="Link to this heading">#</a></h2>
+<p>There are three main server configurations available in PyDPF-Core:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../api/ansys/dpf/core/server_types/InProcessServer.html#ansys.dpf.core.server_types.InProcessServer" title="ansys.dpf.core.server_types.InProcessServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">InProcessServer</span></code></a>: Direct communication
+within the same Python process (fastest, default since Ansys 2023 R1). Requires compatible
+runtime dependencies between Python packages and DPF plugins.</p></li>
+<li><p><a class="reference internal" href="../../api/ansys/dpf/core/server_types/GrpcServer.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code></a>: Network communication using
+gRPC protocol (enables remote and distributed computation). Process isolation prevents
+dependency conflicts with DPF plugins.</p></li>
+<li><p><a class="reference internal" href="../../api/ansys/dpf/core/server_types/LegacyGrpcServer.html#ansys.dpf.core.server_types.LegacyGrpcServer" title="ansys.dpf.core.server_types.LegacyGrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">LegacyGrpcServer</span></code></a>: Legacy gRPC
+communication for Ansys 2022 R1 and earlier versions</p></li>
+</ul>
+<p>The choice of server type impacts performance, memory usage, dependency management, and
+distributed computing capabilities.</p>
+</section>
+<section id="starting-a-local-inprocess-server">
+<h2>Starting a local InProcess server<a class="headerlink" href="#starting-a-local-inprocess-server" title="Link to this heading">#</a></h2>
+<p>The default and most efficient way to use PyDPF-Core is with an <a class="reference internal" href="../../api/ansys/dpf/core/server_types/InProcessServer.html#ansys.dpf.core.server_types.InProcessServer" title="ansys.dpf.core.server_types.InProcessServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">InProcessServer</span></code></a>.
+This configuration runs the DPF server directly within your Python process, eliminating data
+transfer overhead and providing the fastest performance.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While <a class="reference internal" href="../../api/ansys/dpf/core/server_types/InProcessServer.html#ansys.dpf.core.server_types.InProcessServer" title="ansys.dpf.core.server_types.InProcessServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">InProcessServer</span></code></a> offers the best
+performance, it requires that all runtime dependencies are compatible between your Python
+environment and DPF plugins. If any Python dependency clashes with a DPF plugin dependency,
+that plugin will not be loaded, resulting in lost capabilities.</p>
+<p><a class="reference internal" href="../../api/ansys/dpf/core/server_types/GrpcServer.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code></a> does not have this limitation
+because process isolation ensures dependency isolation between the client and server.</p>
+</div>
+<p>First, import the necessary modules:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the ansys.dpf.core module as ``dpf``</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+
+<span class="c1"># Import the examples module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>Start a local server using the default configuration:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start a local DPF server with default InProcess configuration</span>
+<span class="n">local_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">()</span>
+
+<span class="c1"># Display the server object</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">local_server</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Server: {&#39;server_ip&#39;: &#39;&#39;, &#39;server_port&#39;: None, &#39;server_process_id&#39;: 6756, &#39;server_version&#39;: &#39;12.0&#39;, &#39;os&#39;: &#39;nt&#39;, &#39;path&#39;: &#39;D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The server is now ready to be used for creating DPF objects.</p>
+</section>
+<section id="using-the-local-server">
+<h2>Using the local server<a class="headerlink" href="#using-the-local-server" title="Link to this heading">#</a></h2>
+<p>Once you have started a local <a class="reference internal" href="../../api/ansys/dpf/core/server_types/InProcessServer.html#ansys.dpf.core.server_types.InProcessServer" title="ansys.dpf.core.server_types.InProcessServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">InProcessServer</span></code></a>,
+you can pass it to any DPF object constructor to ensure operations run on that specific server.</p>
+<p>Create an <a href="#id1"><span class="problematic" id="id2">|Operator|</span></a> on the local server:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Instantiate a displacement Operator on the local server</span>
+<span class="n">local_operator</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">local_server</span><span class="p">)</span>
+
+<span class="c1"># Display the Operator</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">local_operator</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF U Operator: 
+  Read/compute nodal displacements by calling the readers defined by the datasources. 
+  Inputs:
+         time_scoping (optional) [scoping, int32, vector&lt;int32&gt;, double, field, vector&lt;double&gt;]: time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on &quot;TimeFreq_steps&quot;. Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1. 
+         mesh_scoping (optional) [scopings_container, scoping]: nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping&#39;s location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains 
+         fields_container (optional) [fields_container]: Fields container already allocated modified inplace 
+         streams_container (optional) [streams_container]: result file container allowed to be kept open to cache data 
+         data_sources [data_sources]: result file path container, used if no streams are set 
+         bool_rotate_to_global (optional) [bool]: Rotate the result to the global coordinate system if rotations are available (default true). Please check your results carefully if &#39;false&#39; is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect. 
+         mesh (optional) [abstract_meshed_region, meshes_container]: mesh. If cylic expansion is to be done, mesh of the base sector 
+         read_cyclic (optional) [enum dataProcessing::ECyclicReading, int32]: if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1) 
+         expanded_meshed_region (optional) [abstract_meshed_region, meshes_container]: mesh expanded, use if cyclic expansion is to be done. 
+         sectors_to_expand (optional) [vector&lt;int32&gt;, scoping, scopings_container]: sectors to expand (start at 0), for multistage: use scopings container with &#39;stage&#39; label, use if cyclic expansion is to be done. 
+         phi (optional) [double]: angle phi in degrees (default value 0.0), use if cyclic expansion is to be done. 
+  Outputs:
+         fields_container [fields_container] 
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Create a <a href="#id3"><span class="problematic" id="id4">|Model|</span></a> on the local server:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the result file path using an example file</span>
+<span class="n">result_file</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">find_simple_bar</span><span class="p">()</span>
+
+<span class="c1"># Instantiate a Model on the local server</span>
+<span class="n">local_model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">result_file</span><span class="p">,</span> <span class="n">server</span><span class="o">=</span><span class="n">local_server</span><span class="p">)</span>
+
+<span class="c1"># Display basic information about the Model</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">local_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+Static analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mechanical
+Available results:
+     -  node_orientations: Nodal Node Euler Angles
+     -  displacement: Nodal Displacement
+     -  element_nodal_forces: ElementalNodal Element nodal Forces
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  element_orientations: ElementalNodal Element Euler Angles
+     -  structural_temperature: ElementalNodal Structural temperature
+------------------------------
+DPF  Meshed Region: 
+  3751 nodes 
+  3000 elements 
+  Unit: m 
+  With solid (3D) elements
+------------------------------
+DPF  Time/Freq Support: 
+  Number of sets: 1 
+Cumulative     Time (s)       LoadStep       Substep         
+1              1.000000       1              1               
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="starting-a-grpc-server">
+<h2>Starting a gRPC server<a class="headerlink" href="#starting-a-grpc-server" title="Link to this heading">#</a></h2>
+<p>For distributed computation or remote access scenarios, use a <a class="reference internal" href="../../api/ansys/dpf/core/server_types/GrpcServer.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code></a>.
+This configuration enables network communication using the gRPC protocol, allowing you to
+connect from different machines or leverage distributed computing capabilities.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Starting with Ansys 2026 R1 (DPF 2026.1.0) and PyDPF-Core 0.15.0, DPF Server gRPC
+connections default to using authenticated mTLS (mutual TLS) transport for enhanced security.
+This change also applies to service packs for Ansys 2025 R2 SP03 and SP04, 2025 R1 SP04, and 2024 R2 SP05.</p>
+<p>For remote connections, you must configure mTLS certificates on both client and server machines.
+See <a class="reference internal" href="../../getting_started/dpf_server.html#ref-dpf-server-secure-mode"><span class="std std-ref">Run DPF Server in Secure mode with mTLS</span></a> for detailed information on certificate configuration.</p>
+</div>
+<p>Use the <a class="reference internal" href="../../api/ansys/dpf/core/server_factory/AvailableServerConfigs.html#ansys.dpf.core.server_factory.AvailableServerConfigs" title="ansys.dpf.core.server_factory.AvailableServerConfigs"><code class="xref py py-class docutils literal notranslate"><span class="pre">AvailableServerConfigs</span></code></a>
+class to specify the server configuration:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the GrpcServer configuration</span>
+<span class="n">grpc_server_config</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span>
+
+<span class="c1"># Start a local server with gRPC configuration</span>
+<span class="n">grpc_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">grpc_server_config</span><span class="p">)</span>
+
+<span class="c1"># Display the server object</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grpc_server</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50054, &#39;server_process_id&#39;: 1220, &#39;server_version&#39;: &#39;12.0&#39;, &#39;os&#39;: &#39;nt&#39;, &#39;path&#39;: &#39;D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Retrieve the server connection information:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the server IP address</span>
+<span class="n">server_ip</span> <span class="o">=</span> <span class="n">grpc_server</span><span class="o">.</span><span class="n">ip</span>
+
+<span class="c1"># Get the server port</span>
+<span class="n">server_port</span> <span class="o">=</span> <span class="n">grpc_server</span><span class="o">.</span><span class="n">port</span>
+
+<span class="c1"># Display connection information</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Server IP: </span><span class="si">{</span><span class="n">server_ip</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Server Port: </span><span class="si">{</span><span class="n">server_port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Server IP: 127.0.0.1
+Server Port: 50054
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="connecting-to-a-remote-grpc-server">
+<h2>Connecting to a remote gRPC server<a class="headerlink" href="#connecting-to-a-remote-grpc-server" title="Link to this heading">#</a></h2>
+<p>Once a <a class="reference internal" href="../../api/ansys/dpf/core/server_types/GrpcServer.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code></a> is running, you can connect
+to it from another machine or process using the <code class="xref py py-func docutils literal notranslate"><span class="pre">connect_to_server</span></code>
+function. This enables distributed computation where data processing occurs on a remote server.</p>
+<p>Connect to the gRPC server:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Connect to the remote gRPC server</span>
+<span class="n">remote_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">connect_to_server</span><span class="p">(</span><span class="n">ip</span><span class="o">=</span><span class="n">server_ip</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">server_port</span><span class="p">,</span> <span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Display the connected server object</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">remote_server</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50054, &#39;server_process_id&#39;: 1220, &#39;server_version&#39;: &#39;12.0&#39;, &#39;os&#39;: &#39;nt&#39;, &#39;path&#39;: None}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Create DPF objects on the remote server:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Instantiate an Operator on the remote server</span>
+<span class="n">remote_operator</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">remote_server</span><span class="p">)</span>
+
+<span class="c1"># Display the remote Operator</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">remote_operator</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF U Operator: 
+  Read/compute nodal displacements by calling the readers defined by the datasources. 
+  Inputs:
+         time_scoping (optional) [scoping, int32, vector&lt;int32&gt;, double, field, vector&lt;double&gt;]: time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on &quot;TimeFreq_steps&quot;. Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1. 
+         mesh_scoping (optional) [scopings_container, scoping]: nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping&#39;s location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains 
+         fields_container (optional) [fields_container]: Fields container already allocated modified inplace 
+         streams_container (optional) [streams_container]: result file container allowed to be kept open to cache data 
+         data_sources [data_sources]: result file path container, used if no streams are set 
+         bool_rotate_to_global (optional) [bool]: Rotate the result to the global coordinate system if rotations are available (default true). Please check your results carefully if &#39;false&#39; is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect. 
+         mesh (optional) [abstract_meshed_region, meshes_container]: mesh. If cylic expansion is to be done, mesh of the base sector 
+         read_cyclic (optional) [enum dataProcessing::ECyclicReading, int32]: if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1) 
+         expanded_meshed_region (optional) [abstract_meshed_region, meshes_container]: mesh expanded, use if cyclic expansion is to be done. 
+         sectors_to_expand (optional) [vector&lt;int32&gt;, scoping, scopings_container]: sectors to expand (start at 0), for multistage: use scopings container with &#39;stage&#39; label, use if cyclic expansion is to be done. 
+         phi (optional) [double]: angle phi in degrees (default value 0.0), use if cyclic expansion is to be done. 
+  Outputs:
+         fields_container [fields_container] 
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Instantiate a Model on the remote server</span>
+<span class="n">remote_model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">result_file</span><span class="p">,</span> <span class="n">server</span><span class="o">=</span><span class="n">remote_server</span><span class="p">)</span>
+
+<span class="c1"># Display basic information about the remote Model</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">remote_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+Static analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mechanical
+Available results:
+     -  node_orientations: Nodal Node Euler Angles
+     -  displacement: Nodal Displacement
+     -  element_nodal_forces: ElementalNodal Element nodal Forces
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  element_orientations: ElementalNodal Element Euler Angles
+     -  structural_temperature: ElementalNodal Structural temperature
+------------------------------
+DPF  Meshed Region: 
+  3751 nodes 
+  3000 elements 
+  Unit: m 
+  With solid (3D) elements
+------------------------------
+DPF  Time/Freq Support: 
+  Number of sets: 1 
+Cumulative     Time (s)       LoadStep       Substep         
+1              1.000000       1              1               
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Through the network using gRPC, a DPF server enables distributed computation capabilities.
+For examples of distributed workflows, see the gallery of examples.</p>
+</section>
+<section id="configuring-mtls-certificates-for-secure-grpc-connections">
+<h2>Configuring mTLS certificates for secure gRPC connections<a class="headerlink" href="#configuring-mtls-certificates-for-secure-grpc-connections" title="Link to this heading">#</a></h2>
+<p>When connecting to a remote gRPC server (starting with DPF 2026 R1 and PyDPF-Core 0.15.0),
+you need to configure mTLS certificates for secure communication. This applies to both the
+server machine and the client machine.</p>
+<section id="set-the-certificate-location-using-an-environment-variable">
+<h3>Set the certificate location using an environment variable<a class="headerlink" href="#set-the-certificate-location-using-an-environment-variable" title="Link to this heading">#</a></h3>
+<p>The location of mTLS certificates is specified using the <code class="docutils literal notranslate"><span class="pre">ANSYS_GRPC_CERTIFICATES</span></code> environment
+variable. This must be set on both the server machine and the client machine.</p>
+<p>On Windows:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the environment variable on Windows (run in PowerShell or Command Prompt)</span>
+<span class="c1"># os.environ[&#39;ANSYS_GRPC_CERTIFICATES&#39;] = r&#39;C:\path\to\certificates&#39;</span>
+<span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>On Linux:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the environment variable on Linux (run in terminal)</span>
+<span class="c1"># export ANSYS_GRPC_CERTIFICATES=/path/to/certificates</span>
+<span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>For detailed information on generating mTLS certificates, see the
+<a class="reference external" href="https://tools.docs.pyansys.com/version/stable/user_guide/secure_grpc.html#generating-certificates-for-mtls">Generating certificates for mTLS</a>
+documentation.</p>
+</section>
+<section id="disable-mtls-for-insecure-mode-not-recommended">
+<h3>Disable mTLS for insecure mode (not recommended)<a class="headerlink" href="#disable-mtls-for-insecure-mode-not-recommended" title="Link to this heading">#</a></h3>
+<p>If you need to disable mTLS authentication and fall back to the previous insecure behavior,
+you can set the <code class="docutils literal notranslate"><span class="pre">DPF_DEFAULT_GRPC_MODE</span></code> environment variable to <code class="docutils literal notranslate"><span class="pre">insecure</span></code> on both
+client and server sides.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Disabling mTLS removes authentication and encryption, making your connection vulnerable
+to security threats. Only use insecure mode in trusted, isolated network environments.</p>
+</div>
+<p>On Windows:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Disable mTLS on Windows (not recommended for production)</span>
+<span class="c1"># os.environ[&#39;DPF_DEFAULT_GRPC_MODE&#39;] = &#39;insecure&#39;</span>
+<span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>On Linux:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Disable mTLS on Linux (not recommended for production)</span>
+<span class="c1"># export DPF_DEFAULT_GRPC_MODE=insecure</span>
+<span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+</section>
+<section id="comparing-server-configurations">
+<h2>Comparing server configurations<a class="headerlink" href="#comparing-server-configurations" title="Link to this heading">#</a></h2>
+<p>You can explicitly choose different server configurations using the <a class="reference internal" href="../../api/ansys/dpf/core/server_factory/AvailableServerConfigs.html#ansys.dpf.core.server_factory.AvailableServerConfigs" title="ansys.dpf.core.server_factory.AvailableServerConfigs"><code class="xref py py-class docutils literal notranslate"><span class="pre">AvailableServerConfigs</span></code></a>
+class. This is useful when you need to test performance or compatibility with different server types.</p>
+<p>Start servers with different configurations:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get InProcessServer configuration</span>
+<span class="n">in_process_config</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">InProcessServer</span>
+
+<span class="c1"># Start an InProcess server</span>
+<span class="n">in_process_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">in_process_config</span><span class="p">,</span> <span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Display the InProcess server</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;InProcess server: </span><span class="si">{</span><span class="n">in_process_server</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>InProcess server: DPF Server: {&#39;server_ip&#39;: &#39;&#39;, &#39;server_port&#39;: None, &#39;server_process_id&#39;: 6756, &#39;server_version&#39;: &#39;12.0&#39;, &#39;os&#39;: &#39;nt&#39;, &#39;path&#39;: &#39;D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get GrpcServer configuration</span>
+<span class="n">grpc_config</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span>
+
+<span class="c1"># Start a gRPC server</span>
+<span class="n">grpc_server_2</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">grpc_config</span><span class="p">,</span> <span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Display the gRPC server</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;gRPC server: </span><span class="si">{</span><span class="n">grpc_server_2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>gRPC server: DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50055, &#39;server_process_id&#39;: 6228, &#39;server_version&#39;: &#39;12.0&#39;, &#39;os&#39;: &#39;nt&#39;, &#39;path&#39;: &#39;D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get LegacyGrpcServer configuration (for compatibility with older versions)</span>
+<span class="n">legacy_grpc_config</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">LegacyGrpcServer</span>
+
+<span class="c1"># Start a legacy gRPC server</span>
+<span class="n">legacy_grpc_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">legacy_grpc_config</span><span class="p">,</span> <span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Display the legacy gRPC server</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Legacy gRPC server: </span><span class="si">{</span><span class="n">legacy_grpc_server</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Legacy gRPC server: DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50056, &#39;server_process_id&#39;: 4884, &#39;server_version&#39;: &#39;12.0&#39;, &#39;os&#39;: &#39;nt&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="key-takeaways">
+<h2>Key takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<p>The choice of DPF server configuration depends on your specific requirements:</p>
+<ul class="simple">
+<li><p>Use <a class="reference internal" href="../../api/ansys/dpf/core/server_types/InProcessServer.html#ansys.dpf.core.server_types.InProcessServer" title="ansys.dpf.core.server_types.InProcessServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">InProcessServer</span></code></a> for local computations
+requiring maximum performance and minimal memory overhead (default since Ansys 2023 R1)</p>
+<ul>
+<li><p>Provides the fastest performance by eliminating data transfer between client and server</p></li>
+<li><p><strong>Limitation</strong>: Requires compatible runtime dependencies between Python packages and DPF plugins.
+Incompatibilities between dependencies can prevent plugins from loading</p></li>
+<li><p>Best suited for environments with controlled dependencies and standard DPF plugins</p></li>
+</ul>
+</li>
+<li><p>Use <a class="reference internal" href="../../api/ansys/dpf/core/server_types/GrpcServer.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code></a> when you need distributed
+computation, remote access, or when running DPF on a different machine (available since Ansys 2022 R2)</p>
+<ul>
+<li><p>Process isolation ensures dependency isolation, avoiding clashes between Python environment and plugins</p></li>
+<li><p>Starting with DPF 2026 R1, gRPC connections use mTLS authentication by default for enhanced security</p></li>
+<li><p>Configure <code class="docutils literal notranslate"><span class="pre">ANSYS_GRPC_CERTIFICATES</span></code> environment variable on both client and server for mTLS</p></li>
+<li><p>For more information, see <a class="reference internal" href="../../getting_started/dpf_server.html#ref-dpf-server-secure-mode"><span class="std std-ref">Run DPF Server in Secure mode with mTLS</span></a></p></li>
+</ul>
+</li>
+<li><p>Use <a class="reference internal" href="../../api/ansys/dpf/core/server_types/LegacyGrpcServer.html#ansys.dpf.core.server_types.LegacyGrpcServer" title="ansys.dpf.core.server_types.LegacyGrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">LegacyGrpcServer</span></code></a> only for compatibility
+with Ansys 2022 R1 and earlier versions</p></li>
+</ul>
+<p>All configurations use the same <code class="xref py py-func docutils literal notranslate"><span class="pre">start_local_server</span></code>
+function with different <a class="reference internal" href="../../api/ansys/dpf/core/server_factory/ServerConfig.html#ansys.dpf.core.server_factory.ServerConfig" title="ansys.dpf.core.server_factory.ServerConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ServerConfig</span></code></a> parameters,
+making it easy to switch between server types as your needs change.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-dpf-server-types">Understanding DPF server types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-a-local-inprocess-server">Starting a local InProcess server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-local-server">Using the local server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-a-grpc-server">Starting a gRPC server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-a-remote-grpc-server">Connecting to a remote gRPC server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-mtls-certificates-for-secure-grpc-connections">Configuring mTLS certificates for secure gRPC connections</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-certificate-location-using-an-environment-variable">Set the certificate location using an environment variable</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disable-mtls-for-insecure-mode-not-recommended">Disable mTLS for insecure mode (not recommended)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-server-configurations">Comparing server configurations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">Key takeaways</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/tutorials/dpf_server/server_types.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2026 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.6.4. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

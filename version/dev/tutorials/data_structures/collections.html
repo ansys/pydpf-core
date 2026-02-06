@@ -1,0 +1,1379 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>DPF Collections &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles\ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=f3be7b20" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../_static/documentation_options.js?v=6bfb07f7"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/thebelab-helper.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/data_structures/collections';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Processing data basics" href="../post_processing_basics/index.html" />
+    <link rel="prev" title="Data Arrays" href="data_arrays.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.15.1.dev0" />
+  <meta property="og:site_name" content="PyAnsys" />
+  <meta name="physics" content="Structures" />
+  <link rel="canonical" href="https://dpf.docs.pyansys.com/version/stable/tutorials/data_structures/collections.html" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Starting with PyDPF-Core 0.15.0, gRPC communication with the DPF server defaults to requiring mTLS authentication.
+Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dpf_server.html#run-dpf-server-in-secure-mode-with-mtls'>this page</a> for more information.</div>
+</aside>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">DPF data structures</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="data_arrays.html">Data Arrays</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">DPF Collections</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../post_processing_basics/index.html">Processing data basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../import_data/index.html">Import Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../animate/index.html">Animate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/index.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_operators_and_plugins/index.html">Custom Operators and Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dpf_server/index.html">DPF server</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../index.html" class="nav-link">Tutorials</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">DPF data structures</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">DPF Collections</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="dpf-collections">
+<span id="ref-tutorials-collections"></span><h1>DPF Collections<a class="headerlink" href="#dpf-collections" title="Link to this heading">#</a></h1>
+<p>This tutorial demonstrates how to create and work with some DPF collections: <a href="#id1"><span class="problematic" id="id2">|FieldsContainer|</span></a>, <a href="#id3"><span class="problematic" id="id4">|MeshesContainer|</span></a> and <a href="#id5"><span class="problematic" id="id6">|ScopingsContainer|</span></a>.</p>
+<p>You can store DPF entities of a given type as a DPF collection and further categorize them according to labels and associated values,
+which allows you to organize and keep track of data.
+Collections are essential for handling multiple time steps, frequency sets, or other labeled datasets in your analysis workflows.</p>
+<p><a class="reference download internal" download="" href="../../_downloads/2e9618debf73b836381a258c9cff3b95/collections.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Python</span> <span class="pre">script</span></code></a>
+<a class="reference download internal" download="" href="../../_downloads/01c94307ea406443ef3a3c112bc374c9/collections.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Jupyter</span> <span class="pre">notebook</span></code></a></p>
+<section id="what-you-ll-learn">
+<h2>What You’ll Learn<a class="headerlink" href="#what-you-ll-learn" title="Link to this heading">#</a></h2>
+<p>This tutorial covers the following topics:</p>
+<ul class="simple">
+<li><p>Working with <a href="#id7"><span class="problematic" id="id8">|FieldsContainer|</span></a>: Extract results across time steps, access individual fields, and create custom containers with multiple labels</p></li>
+<li><p>Working with <a href="#id9"><span class="problematic" id="id10">|ScopingsContainer|</span></a>: Create and manage selections, and use them with operators for targeted result extraction</p></li>
+<li><p>Working with <a href="#id11"><span class="problematic" id="id12">|MeshesContainer|</span></a>: Store and organize multiple mesh variations or time-dependent meshes</p></li>
+<li><p>Collection operations: Iterate through collections, filter by labels, and access metadata</p></li>
+<li><p>Advanced usage: Learn about other built-in collection types and create custom collections using the collection factory</p></li>
+</ul>
+<p>By the end of this tutorial, you’ll have a basic understanding of how to effectively organize and manipulate DPF data using collections in your analysis workflows.</p>
+</section>
+<section id="introduction-to-collections">
+<h2>Introduction to Collections<a class="headerlink" href="#introduction-to-collections" title="Link to this heading">#</a></h2>
+<p>Collections in DPF serve as containers that group related objects with labels. The main collection types are:</p>
+<ul class="simple">
+<li><p><a href="#id13"><span class="problematic" id="id14">|FieldsContainer|</span></a>: A collection of <a href="#id15"><span class="problematic" id="id16">|Field|</span></a> objects, typically representing results over multiple time steps or frequency sets</p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">|MeshesContainer|</span></a>: A collection of <a href="#id19"><span class="problematic" id="id20">|MeshedRegion|</span></a> objects for different cases or time steps</p></li>
+<li><p><a href="#id21"><span class="problematic" id="id22">|ScopingsContainer|</span></a>: A collection of <a href="#id23"><span class="problematic" id="id24">|Scoping|</span></a> objects for organizing entity selections</p></li>
+</ul>
+<p>Each collection provides methods to:</p>
+<ul class="simple">
+<li><p>Add, retrieve, and iterate over contained objects</p></li>
+<li><p>Access objects by label (time, frequency, set ID, and so on)</p></li>
+<li><p>Perform operations across all contained objects</p></li>
+</ul>
+<p>Collections are used in DPF workflows to provide operators with vectorized data,
+allowing you to process the data in bulk or to process it in parallel whenever possible.</p>
+<section id="the-labelspace">
+<h3>The LabelSpace<a class="headerlink" href="#the-labelspace" title="Link to this heading">#</a></h3>
+<p>DPF collections use <strong>labels</strong> to categorize and organize contained objects.</p>
+<p>Labels can be thought of as categories or dimensions along which the objects in the collection are organized.</p>
+<p>Each object in the collection is associated with an integer value for every label/category/dimension of the collection.</p>
+<p>A <strong>LabelSpace</strong> is a dictionary of one or more labels (e.g., “time”, “frequency”, “set ID”), each associated with specific values.</p>
+<p>The <strong>LabelSpace</strong> is used to identify and access the objects within the collection.</p>
+<p>It can be partial and target multiple objects in the collection,
+or it can be complete and define a value for each label of the collection, resulting in a unique object.</p>
+<p>It is similar to multi-dimensional indexing in arrays or dataframes, or to a filter or query in databases.</p>
+<p>Here are some examples:</p>
+<ul class="simple">
+<li><p>a collection of fields (a <a href="#id25"><span class="problematic" id="id26">|FieldsContainer|</span></a>) across time uses the label <strong>time</strong>
+with each field associated to a <strong>time</strong> integer value (the time step ID).
+The <strong>LabelSpace</strong> <code class="docutils literal notranslate"><span class="pre">{&quot;time&quot;:</span> <span class="pre">3}</span></code> would uniquely identify the field for time step 3.</p></li>
+<li><p>a collection of fields (a <a href="#id27"><span class="problematic" id="id28">|FieldsContainer|</span></a>) across frequency and stage uses the labels <strong>frequency</strong> and <strong>stage</strong>
+with each field associated to a <strong>frequency</strong> integer value (the frequency ID) and a <strong>stage</strong> integer value (the stage ID).
+The <strong>LabelSpace</strong> <code class="docutils literal notranslate"><span class="pre">{&quot;frequency&quot;:</span> <span class="pre">2,</span> <span class="pre">&quot;stage&quot;:</span> <span class="pre">1}</span></code> would uniquely identify the field for frequency ID 2 at stage ID 1.</p></li>
+<li><p>a collection of meshes (a <a href="#id29"><span class="problematic" id="id30">|MeshesContainer|</span></a>) across different parts, further split by element type, uses the labels <strong>part</strong> and <strong>element_type</strong>
+with each mesh associated to a <strong>part</strong> integer value (the part ID) and an <strong>element_type</strong> integer value (the element type code).
+The <strong>LabelSpace</strong> <code class="docutils literal notranslate"><span class="pre">{&quot;part&quot;:</span> <span class="pre">2,</span> <span class="pre">&quot;element_type&quot;:</span> <span class="pre">1}</span></code> would uniquely identify the mesh for part 2 with element type code 1.</p></li>
+<li><p>a collection of scopings (a <a href="#id31"><span class="problematic" id="id32">|ScopingsContainer|</span></a>) across different fluid zones for a transient analysis uses the labels <strong>zone</strong> and <strong>time</strong>
+with each scoping associated to a <strong>zone</strong> integer value (the zone ID) and a <strong>time</strong> integer value (the time step ID).
+The <strong>LabelSpace</strong> <code class="docutils literal notranslate"><span class="pre">{&quot;zone&quot;:</span> <span class="pre">1}</span></code> would identify the collection of scopings for zone 1 only, for all time steps.</p></li>
+</ul>
+</section>
+</section>
+<section id="load-an-example-file">
+<h2>Load an example file<a class="headerlink" href="#load-an-example-file" title="Link to this heading">#</a></h2>
+<p>First, import the required modules and load a transient analysis result file.</p>
+<p>A transient analysis is a typical example where collections are useful, as data is available at multiple time steps.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the ansys.dpf.core module</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dpf</span>
+
+<span class="c1"># Import the examples module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+
+<span class="c1"># Load a transient analysis with multiple time steps</span>
+<span class="n">result_file_path</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">find_msup_transient</span><span class="p">()</span>
+
+<span class="c1"># Create a DataSources object</span>
+<span class="n">data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">result_path</span><span class="o">=</span><span class="n">result_file_path</span><span class="p">)</span>
+
+<span class="c1"># Create a Model from the data sources</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">data_sources</span><span class="p">)</span>
+
+<span class="c1"># Display basic model information</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+Transient analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mechanical
+Available results:
+     -  node_orientations: Nodal Node Euler Angles
+     -  displacement: Nodal Displacement
+     -  velocity: Nodal Velocity      
+     -  acceleration: Nodal Acceleration
+     -  reaction_force: Nodal Force   
+     -  stress: ElementalNodal Stress 
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  elastic_strain: ElementalNodal Strain
+     -  elastic_strain_eqv: ElementalNodal Strain eqv
+------------------------------
+DPF  Meshed Region: 
+  393 nodes 
+  40 elements 
+  Unit: m 
+  With solid (3D) elements
+------------------------------
+DPF  Time/Freq Support: 
+  Number of sets: 20 
+Cumulative     Time (s)       LoadStep       Substep         
+1              0.010000       1              1               
+2              0.020000       1              2               
+3              0.030000       1              3               
+4              0.040000       1              4               
+5              0.050000       1              5               
+6              0.060000       1              6               
+7              0.070000       1              7               
+8              0.080000       1              8               
+9              0.090000       1              9               
+10             0.100000       1              10              
+11             0.110000       1              11              
+12             0.120000       1              12              
+13             0.130000       1              13              
+14             0.140000       1              14              
+15             0.150000       1              15              
+16             0.160000       1              16              
+17             0.170000       1              17              
+18             0.180000       1              18              
+19             0.190000       1              19              
+20             0.200000       1              20              
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="working-with-fieldscontainer">
+<h2>Working with FieldsContainer<a class="headerlink" href="#working-with-fieldscontainer" title="Link to this heading">#</a></h2>
+<p>A <a href="#id33"><span class="problematic" id="id34">|FieldsContainer|</span></a> is the most commonly used collection in DPF. It stores multiple <a href="#id35"><span class="problematic" id="id36">|Field|</span></a> objects, each associated with a label such as time step or frequency.</p>
+<section id="extract-results-into-a-fieldscontainer">
+<h3>Extract Results into a FieldsContainer<a class="headerlink" href="#extract-results-into-a-fieldscontainer" title="Link to this heading">#</a></h3>
+<p>Extract displacement results for all time steps, which will automatically create a <a href="#id37"><span class="problematic" id="id38">|FieldsContainer|</span></a>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get displacement results for all time steps</span>
+<span class="n">displacement_fc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="c1"># Display FieldsContainer information</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">displacement_fc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF displacement(s)Fields Container
+  with 20 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 3 components and 393 entities.
+  - field 1 {time:  2} with Nodal location, 3 components and 393 entities.
+  - field 2 {time:  3} with Nodal location, 3 components and 393 entities.
+  - field 3 {time:  4} with Nodal location, 3 components and 393 entities.
+  - field 4 {time:  5} with Nodal location, 3 components and 393 entities.
+  - field 5 {time:  6} with Nodal location, 3 components and 393 entities.
+  - field 6 {time:  7} with Nodal location, 3 components and 393 entities.
+  - field 7 {time:  8} with Nodal location, 3 components and 393 entities.
+  - field 8 {time:  9} with Nodal location, 3 components and 393 entities.
+  - field 9 {time:  10} with Nodal location, 3 components and 393 entities.
+  - field 10 {time:  11} with Nodal location, 3 components and 393 entities.
+  - field 11 {time:  12} with Nodal location, 3 components and 393 entities.
+  - field 12 {time:  13} with Nodal location, 3 components and 393 entities.
+  - field 13 {time:  14} with Nodal location, 3 components and 393 entities.
+  - field 14 {time:  15} with Nodal location, 3 components and 393 entities.
+  - field 15 {time:  16} with Nodal location, 3 components and 393 entities.
+  - field 16 {time:  17} with Nodal location, 3 components and 393 entities.
+  - field 17 {time:  18} with Nodal location, 3 components and 393 entities.
+  - field 18 {time:  19} with Nodal location, 3 components and 393 entities.
+  - field 19 {time:  20} with Nodal location, 3 components and 393 entities.
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="access-individual-fields-in-the-container">
+<h3>Access Individual Fields in the Container<a class="headerlink" href="#access-individual-fields-in-the-container" title="Link to this heading">#</a></h3>
+<p>You can access individual fields by their label or index.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Access field by index (first time step)</span>
+<span class="n">first_field</span> <span class="o">=</span> <span class="n">displacement_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First field info:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">first_field</span><span class="p">)</span>
+
+<span class="c1"># Access field by label (specific time step)</span>
+<span class="n">second_time_field</span> <span class="o">=</span> <span class="n">displacement_fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<span class="c1"># Equivalent to:</span>
+<span class="n">second_time_field</span> <span class="o">=</span> <span class="n">displacement_fc</span><span class="o">.</span><span class="n">get_field_by_time_id</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Second time step field:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">second_time_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>First field info:
+DPF displacement_0.01s Field
+  Location: Nodal
+  Unit: m
+  393 entities 
+  Data: 3 components and 393 elementary data 
+
+  Nodal
+  IDs                   data(m)
+  ------------          ----------
+  9                     1.623646e-14   1.476283e-04   1.964400e-06   
+                        
+  96                    2.676501e-08   1.477594e-04   1.966312e-06   
+                        
+  95                    2.906660e-08   1.669437e-04   1.868636e-06   
+                        
+  ...
+
+
+
+Second time step field:
+DPF displacement_0.02s Field
+  Location: Nodal
+  Unit: m
+  393 entities 
+  Data: 3 components and 393 elementary data 
+
+  Nodal
+  IDs                   data(m)
+  ------------          ----------
+  9                     8.622437e-14   5.809883e-04   9.631718e-06   
+                        
+  96                    -4.960618e-08  5.807333e-04   9.646653e-06   
+                        
+  95                    -2.174825e-08  6.778664e-04   9.752991e-06   
+                        
+  ...
+
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-a-custom-fieldscontainer">
+<h3>Create a Custom FieldsContainer<a class="headerlink" href="#create-a-custom-fieldscontainer" title="Link to this heading">#</a></h3>
+<p>You can create your own <a href="#id39"><span class="problematic" id="id40">|FieldsContainer|</span></a> and add fields with custom labels.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an empty FieldsContainer</span>
+<span class="n">custom_fc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">FieldsContainer</span><span class="p">()</span>
+
+<span class="c1"># Set up labels for the container</span>
+<span class="n">custom_fc</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;zone&quot;</span><span class="p">]</span>
+
+<span class="c1"># Create sample fields for different time steps and zones</span>
+<span class="n">field1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">,</span> <span class="n">nature</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">natures</span><span class="o">.</span><span class="n">scalar</span><span class="p">)</span>
+<span class="n">field2</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">,</span> <span class="n">nature</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">natures</span><span class="o">.</span><span class="n">scalar</span><span class="p">)</span>
+<span class="n">field3</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">,</span> <span class="n">nature</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">natures</span><span class="o">.</span><span class="n">scalar</span><span class="p">)</span>
+<span class="n">field4</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">,</span> <span class="n">nature</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">natures</span><span class="o">.</span><span class="n">scalar</span><span class="p">)</span>
+
+<span class="c1"># Add some sample nodes and data</span>
+<span class="n">field1</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">field1</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+<span class="n">field2</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">field2</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+<span class="n">field3</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">field3</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+<span class="n">field4</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">field4</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+
+<span class="c1"># Add field to container with labels</span>
+<span class="n">custom_fc</span><span class="o">.</span><span class="n">add_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;zone&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="n">field1</span><span class="p">)</span>
+<span class="n">custom_fc</span><span class="o">.</span><span class="n">add_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;zone&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="n">field2</span><span class="p">)</span>
+<span class="n">custom_fc</span><span class="o">.</span><span class="n">add_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;zone&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="n">field3</span><span class="p">)</span>
+<span class="n">custom_fc</span><span class="o">.</span><span class="n">add_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;zone&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="n">field4</span><span class="p">)</span>
+
+<span class="c1"># Display the custom FieldsContainer</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">custom_fc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Fields Container
+  with 4 field(s)
+  defined on labels: time zone 
+
+  with:
+  - field 0 {time:  1, zone:  1} with Nodal location, 1 components and 5 entities.
+  - field 1 {time:  2, zone:  1} with Nodal location, 1 components and 5 entities.
+  - field 2 {time:  1, zone:  2} with Nodal location, 1 components and 5 entities.
+  - field 3 {time:  2, zone:  2} with Nodal location, 1 components and 5 entities.
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="working-with-scopingscontainer">
+<h2>Working with ScopingsContainer<a class="headerlink" href="#working-with-scopingscontainer" title="Link to this heading">#</a></h2>
+<p>A <a href="#id41"><span class="problematic" id="id42">|ScopingsContainer|</span></a> holds multiple <a href="#id43"><span class="problematic" id="id44">|Scoping|</span></a> objects, which define sets of entity IDs (nodes, elements, etc.).</p>
+<section id="create-and-populate-a-scopingscontainer">
+<h3>Create and Populate a ScopingsContainer<a class="headerlink" href="#create-and-populate-a-scopingscontainer" title="Link to this heading">#</a></h3>
+<p>Create different node selections and organize them in a <a href="#id45"><span class="problematic" id="id46">|ScopingsContainer|</span></a>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the mesh from our model</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+
+<span class="c1"># Create a ScopingsContainer</span>
+<span class="n">scopings_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">ScopingsContainer</span><span class="p">()</span>
+
+<span class="c1"># Set labels for different selections</span>
+<span class="n">scopings_container</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;selection_type&quot;</span><span class="p">]</span>
+
+<span class="c1"># Selection 1: First 10 nodes</span>
+<span class="n">first_nodes</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
+<span class="n">first_nodes</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+<span class="n">scopings_container</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">(</span><span class="n">label_space</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;selection_type&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="n">scoping</span><span class="o">=</span><span class="n">first_nodes</span><span class="p">)</span>
+
+<span class="c1"># Selection 2: Every 10th node (sample)</span>
+<span class="n">all_node_ids</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>
+<span class="n">every_tenth</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
+<span class="n">every_tenth</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="n">all_node_ids</span><span class="p">[::</span><span class="mi">10</span><span class="p">]</span>  <span class="c1"># Every 10th node</span>
+<span class="n">scopings_container</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">(</span><span class="n">label_space</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;selection_type&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="n">scoping</span><span class="o">=</span><span class="n">every_tenth</span><span class="p">)</span>
+
+<span class="c1"># Selection 3: Last 10 nodes</span>
+<span class="n">last_nodes</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
+<span class="n">last_nodes</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="n">all_node_ids</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">:]</span>
+<span class="n">scopings_container</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">(</span><span class="n">label_space</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;selection_type&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="n">scoping</span><span class="o">=</span><span class="n">last_nodes</span><span class="p">)</span>
+
+<span class="c1"># Display ScopingsContainer information</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">scopings_container</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Scopings Container
+  with 3 scoping(s)
+  defined on labels: selection_type 
+
+  with:
+  - scoping 0 {selection_type:  0, } located on Nodal 10 entities.
+  - scoping 1 {selection_type:  1, } located on Nodal 40 entities.
+  - scoping 2 {selection_type:  2, } located on Nodal 10 entities.
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="use-scopingscontainer-with-operators">
+<h3>Use ScopingsContainer with Operators<a class="headerlink" href="#use-scopingscontainer-with-operators" title="Link to this heading">#</a></h3>
+<p><a href="#id47"><span class="problematic" id="id48">|ScopingsContainer|</span></a> objects can be used with operators to apply operations to multiple selections.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an operator to extract displacement on specific node sets</span>
+<span class="n">displacement_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="c1"># Connect the data source</span>
+<span class="n">displacement_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">(</span><span class="n">data_sources</span><span class="p">)</span>
+<span class="c1"># Connect the scopings container which defines the node selections</span>
+<span class="n">displacement_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="p">(</span><span class="n">scopings_container</span><span class="p">)</span>
+
+<span class="c1"># Evaluate to get results for all scopings</span>
+<span class="n">scoped_displacements</span> <span class="o">=</span> <span class="n">displacement_op</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Displacement results for different node selections:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">scoped_displacements</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Displacement results for different node selections:
+DPF displacement(s)Fields Container
+  with 3 field(s)
+  defined on labels: selection_type time 
+
+  with:
+  - field 0 {selection_type:  0, time:  20} with Nodal location, 3 components and 10 entities.
+  - field 1 {selection_type:  1, time:  20} with Nodal location, 3 components and 40 entities.
+  - field 2 {selection_type:  2, time:  20} with Nodal location, 3 components and 10 entities.
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="working-with-meshescontainer">
+<h2>Working with MeshesContainer<a class="headerlink" href="#working-with-meshescontainer" title="Link to this heading">#</a></h2>
+<p>A <a href="#id49"><span class="problematic" id="id50">|MeshesContainer|</span></a> stores multiple <a href="#id51"><span class="problematic" id="id52">|MeshedRegion|</span></a> objects. This is useful when working with different mesh variations or time-dependent meshes.</p>
+<section id="create-a-meshescontainer">
+<h3>Create a MeshesContainer<a class="headerlink" href="#create-a-meshescontainer" title="Link to this heading">#</a></h3>
+<p>Create a <a href="#id53"><span class="problematic" id="id54">|MeshesContainer|</span></a> with mesh data for different cases.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a MeshesContainer</span>
+<span class="n">meshes_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">MeshesContainer</span><span class="p">()</span>
+
+<span class="c1"># Set labels for different mesh variations</span>
+<span class="n">meshes_container</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;variation&quot;</span><span class="p">]</span>
+
+<span class="c1"># Get the original mesh</span>
+<span class="n">original_mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+
+<span class="c1"># Add original mesh</span>
+<span class="n">meshes_container</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">({</span><span class="s2">&quot;variation&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="n">original_mesh</span><span class="p">)</span>
+
+<span class="c1"># Create a modified mesh (example: subset of elements)</span>
+<span class="c1"># Get element scoping for first half of elements</span>
+<span class="n">all_element_ids</span> <span class="o">=</span> <span class="n">original_mesh</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>
+<span class="n">subset_element_ids</span> <span class="o">=</span> <span class="n">all_element_ids</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">all_element_ids</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c1"># Create element scoping for subset</span>
+<span class="n">element_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental</span><span class="p">)</span>
+<span class="n">element_scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="n">subset_element_ids</span>
+
+<span class="c1"># Extract subset mesh using an operator</span>
+<span class="n">mesh_extract_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">from_scoping</span><span class="p">()</span>
+<span class="n">mesh_extract_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">(</span><span class="n">original_mesh</span><span class="p">)</span>
+<span class="n">mesh_extract_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">scoping</span><span class="p">(</span><span class="n">element_scoping</span><span class="p">)</span>
+<span class="n">subset_mesh</span> <span class="o">=</span> <span class="n">mesh_extract_op</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="c1"># Add subset mesh to container</span>
+<span class="n">meshes_container</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">({</span><span class="s2">&quot;variation&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="n">subset_mesh</span><span class="p">)</span>
+
+<span class="c1"># Display MeshesContainer information</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">meshes_container</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Meshes Container
+  with 2 mesh(es)
+  defined on labels: variation 
+
+  with:
+  - mesh 0 {variation:  0, } with 393 nodes and 40 elements.
+  - mesh 1 {variation:  1, } with 203 nodes and 20 elements.
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="collection-operations-and-iteration">
+<h2>Collection Operations and Iteration<a class="headerlink" href="#collection-operations-and-iteration" title="Link to this heading">#</a></h2>
+<p>Collections support various operations for data manipulation and analysis.</p>
+<section id="iterate-through-collections">
+<h3>Iterate Through Collections<a class="headerlink" href="#iterate-through-collections" title="Link to this heading">#</a></h3>
+<p>You can iterate through collections using different methods.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Iterate through a FieldsContainer</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iterating through displacement fields by index:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>  <span class="c1"># Show the first three fields in the collection</span>
+    <span class="c1"># Get the field at index i</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="n">displacement_fc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="c1"># Get the label space for the field at index i</span>
+    <span class="n">label_space</span> <span class="o">=</span> <span class="n">displacement_fc</span><span class="o">.</span><span class="n">get_label_space</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="c1"># Print field information</span>
+    <span class="n">max_value</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Field </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">label_space</span><span class="si">}</span><span class="s2">, max value: </span><span class="si">{</span><span class="n">max_value</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Enumerate the scopings in a ScopingsContainer</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Enumerate the scopings in a ScopingsContainer:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">scoping</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scopings_container</span><span class="p">):</span>
+    <span class="c1"># Get the label space for the scoping at index i</span>
+    <span class="n">label_space</span> <span class="o">=</span> <span class="n">scopings_container</span><span class="o">.</span><span class="n">get_label_space</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="c1"># Print scoping information</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Scoping </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">label_space</span><span class="si">}</span><span class="s2">, size: </span><span class="si">{</span><span class="n">scoping</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Iterating through displacement fields by index:
+  Field 0: {&#39;time&#39;: 1}, max value: 0.000315
+  Field 1: {&#39;time&#39;: 2}, max value: 0.001632
+  Field 2: {&#39;time&#39;: 3}, max value: 0.004094
+
+Enumerate the scopings in a ScopingsContainer:
+  Scoping 0: {&#39;selection_type&#39;: 0}, size: 10
+  Scoping 1: {&#39;selection_type&#39;: 1}, size: 40
+  Scoping 2: {&#39;selection_type&#39;: 2}, size: 10
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="filter-and-select-from-collections">
+<h3>Filter and Select from Collections<a class="headerlink" href="#filter-and-select-from-collections" title="Link to this heading">#</a></h3>
+<p>You can filter collections based on label values.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get specific fields from a FieldsContainer with criteria on label values</span>
+<span class="c1"># Get all fields of ``custom_fc`` where ``zone=1``</span>
+<span class="n">zone_1_fields</span> <span class="o">=</span> <span class="n">custom_fc</span><span class="o">.</span><span class="n">get_fields</span><span class="p">({</span><span class="s2">&quot;zone&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Fields in custom_fc with zone=1:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">zone_1_fields</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
+Fields in custom_fc with zone=1:
+DPF  Field
+  Location: Nodal
+  Unit: 
+  5 entities 
+  Data: 1 components and 5 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     1.000000e+00   
+                        
+  2                     2.000000e+00   
+                        
+  3                     3.000000e+00   
+                        
+  ...
+
+
+DPF  Field
+  Location: Nodal
+  Unit: 
+  5 entities 
+  Data: 1 components and 5 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     2.000000e+00   
+                        
+  2                     4.000000e+00   
+                        
+  3                     6.000000e+00   
+                        
+  ...
+
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="other-built-in-collection-types">
+<h2>Other Built-in Collection Types<a class="headerlink" href="#other-built-in-collection-types" title="Link to this heading">#</a></h2>
+<p>DPF provides several built-in collection types for common DPF objects, implemented in their respective modules:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.fields_container.FieldsContainer</span></code></a> for fields</p></li>
+<li><p><a class="reference internal" href="../../api/ansys/dpf/core/meshes_container/MeshesContainer.html#ansys.dpf.core.meshes_container.MeshesContainer" title="ansys.dpf.core.meshes_container.MeshesContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.meshes_container.MeshesContainer</span></code></a> for meshes</p></li>
+<li><p><a class="reference internal" href="../../api/ansys/dpf/core/scopings_container/ScopingsContainer.html#ansys.dpf.core.scopings_container.ScopingsContainer" title="ansys.dpf.core.scopings_container.ScopingsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.scopings_container.ScopingsContainer</span></code></a> for scopings</p></li>
+</ul>
+<p>Additionally, the following specialized collection types are available (from <code class="docutils literal notranslate"><span class="pre">collection_base.py</span></code>):</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../api/ansys/dpf/core/collection_base/IntegralCollection.html#ansys.dpf.core.collection_base.IntegralCollection" title="ansys.dpf.core.collection_base.IntegralCollection"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.collection_base.IntegralCollection</span></code></a> for integral types</p></li>
+<li><p><a class="reference internal" href="../../api/ansys/dpf/core/collection_base/IntCollection.html#ansys.dpf.core.collection_base.IntCollection" title="ansys.dpf.core.collection_base.IntCollection"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.collection_base.IntCollection</span></code></a> for integers</p></li>
+<li><p><a class="reference internal" href="../../api/ansys/dpf/core/collection_base/FloatCollection.html#ansys.dpf.core.collection_base.FloatCollection" title="ansys.dpf.core.collection_base.FloatCollection"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.collection_base.FloatCollection</span></code></a> for floats</p></li>
+<li><p><a class="reference internal" href="../../api/ansys/dpf/core/collection_base/StringCollection.html#ansys.dpf.core.collection_base.StringCollection" title="ansys.dpf.core.collection_base.StringCollection"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.collection_base.StringCollection</span></code></a> for strings</p></li>
+</ul>
+<p>These built-in collections are optimized for their respective DPF types and should be used when working with fields, meshes, scopings, or basic types.
+For other supported types, you can use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">ansys.dpf.core.collection.Collection.collection_factory()</span></code> method to create a custom collection class at runtime.</p>
+</section>
+<section id="using-the-collection-factory">
+<h2>Using the Collection Factory<a class="headerlink" href="#using-the-collection-factory" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Collections can only be made for types supported by DPF. Attempting to use unsupported or arbitrary Python types will result in an error.</p>
+</div>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">ansys.dpf.core.collection.Collection.collection_factory()</span></code> method allows you to create a collection class for any supported DPF type at runtime.
+This is useful when you want to group and manage objects that are not covered by the built-in collection types (such as FieldsContainer, MeshesContainer, or ScopingsContainer).</p>
+<p>For example, you can create a collection for <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.DataSources</span></code> objects:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataSources</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.collection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Collection</span>
+
+<span class="c1"># Create a collection class for DataSources</span>
+<span class="n">DataSourcesCollection</span> <span class="o">=</span> <span class="n">Collection</span><span class="o">.</span><span class="n">collection_factory</span><span class="p">(</span><span class="n">DataSources</span><span class="p">)</span>
+<span class="n">ds_collection</span> <span class="o">=</span> <span class="n">DataSourcesCollection</span><span class="p">()</span>
+<span class="n">ds_collection</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;case&quot;</span><span class="p">]</span>
+
+<span class="c1"># Add DataSources objects to the collection</span>
+<span class="n">ds1</span> <span class="o">=</span> <span class="n">DataSources</span><span class="p">(</span><span class="s2">&quot;path/to/first/result/file.rst&quot;</span><span class="p">)</span>
+<span class="n">ds2</span> <span class="o">=</span> <span class="n">DataSources</span><span class="p">(</span><span class="s2">&quot;path/to/second/result/file.rst&quot;</span><span class="p">)</span>
+<span class="n">ds_collection</span><span class="o">.</span><span class="n">add_entry</span><span class="p">({</span><span class="s2">&quot;case&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="n">ds1</span><span class="p">)</span>
+<span class="n">ds_collection</span><span class="o">.</span><span class="n">add_entry</span><span class="p">({</span><span class="s2">&quot;case&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="n">ds2</span><span class="p">)</span>
+
+<span class="c1"># Show the collection</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ds_collection</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF   Collection
+  with 2 DataSources(s) 
+  defined on labels: case 
+
+  with:
+  - data_sources 0 {case:  0} with . 
+  - data_sources 1 {case:  1} with . 
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>This approach allows you to leverage the powerful labeling and grouping features of DPF collections for any supported DPF type,
+making your workflows more flexible and organized.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-you-ll-learn">What You’ll Learn</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-collections">Introduction to Collections</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-labelspace">The LabelSpace</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-an-example-file">Load an example file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-fieldscontainer">Working with FieldsContainer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-results-into-a-fieldscontainer">Extract Results into a FieldsContainer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#access-individual-fields-in-the-container">Access Individual Fields in the Container</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-custom-fieldscontainer">Create a Custom FieldsContainer</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-scopingscontainer">Working with ScopingsContainer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-and-populate-a-scopingscontainer">Create and Populate a ScopingsContainer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-scopingscontainer-with-operators">Use ScopingsContainer with Operators</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-meshescontainer">Working with MeshesContainer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-meshescontainer">Create a MeshesContainer</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collection-operations-and-iteration">Collection Operations and Iteration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iterate-through-collections">Iterate Through Collections</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-and-select-from-collections">Filter and Select from Collections</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-built-in-collection-types">Other Built-in Collection Types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-collection-factory">Using the Collection Factory</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/tutorials/data_structures/collections.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2026 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.6.4. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.metadata.property_field_provider_by_name
+   :inherited-members:

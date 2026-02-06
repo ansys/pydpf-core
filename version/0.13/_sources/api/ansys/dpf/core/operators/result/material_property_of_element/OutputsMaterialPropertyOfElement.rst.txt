@@ -1,0 +1,105 @@
+
+
+
+
+
+
+:class:`OutputsMaterialPropertyOfElement`
+=========================================
+
+.. py:class:: ansys.dpf.core.operators.result.material_property_of_element.OutputsMaterialPropertyOfElement(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   material_property_of_element operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.material_property_of_element()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_material_properties = op.outputs.material_properties()
+
+
+
+
+
+.. py:currentmodule:: OutputsMaterialPropertyOfElement
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~material_properties`
+            - Allows to get material_properties output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.material_property_of_element import OutputsMaterialPropertyOfElement
+
+Property detail
+---------------
+
+.. py:property:: material_properties
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get material_properties output of the operator
+
+   material properties
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.material_property_of_element()
+   >>> # Get the output from op.outputs. ...
+   >>> result_material_properties = op.outputs.material_properties()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

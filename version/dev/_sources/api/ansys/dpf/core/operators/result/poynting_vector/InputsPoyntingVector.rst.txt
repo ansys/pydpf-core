@@ -1,0 +1,238 @@
+
+
+
+
+
+
+:class:`InputsPoyntingVector`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.result.poynting_vector.InputsPoyntingVector(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   poynting_vector operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.poynting_vector()
+   >>> my_fields_containerA = dpf.FieldsContainer()
+   >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+   >>> my_fields_containerB = dpf.FieldsContainer()
+   >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+   >>> my_fields_containerC = dpf.FieldsContainer()
+   >>> op.inputs.fields_containerC.connect(my_fields_containerC)
+   >>> my_fields_containerD = dpf.FieldsContainer()
+   >>> op.inputs.fields_containerD.connect(my_fields_containerD)
+   >>> my_abstract_meshed_region = dpf.MeshedRegion()
+   >>> op.inputs.abstract_meshed_region.connect(my_abstract_meshed_region)
+   >>> my_int32 = int()
+   >>> op.inputs.int32.connect(my_int32)
+
+
+
+
+
+
+.. py:currentmodule:: InputsPoyntingVector
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_containerA`
+            - Allows to connect fields_containerA input to the operator.
+          * - :py:attr:`~fields_containerB`
+            - Allows to connect fields_containerB input to the operator.
+          * - :py:attr:`~fields_containerC`
+            - Allows to connect fields_containerC input to the operator.
+          * - :py:attr:`~fields_containerD`
+            - Allows to connect fields_containerD input to the operator.
+          * - :py:attr:`~abstract_meshed_region`
+            - Allows to connect abstract_meshed_region input to the operator.
+          * - :py:attr:`~int32`
+            - Allows to connect int32 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.poynting_vector import InputsPoyntingVector
+
+Property detail
+---------------
+
+.. py:property:: fields_containerA
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect fields_containerA input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.poynting_vector()
+   >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+   >>> # or
+   >>> op.inputs.fields_containerA(my_fields_containerA)
+
+.. py:property:: fields_containerB
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect fields_containerB input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.poynting_vector()
+   >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+   >>> # or
+   >>> op.inputs.fields_containerB(my_fields_containerB)
+
+.. py:property:: fields_containerC
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect fields_containerC input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.poynting_vector()
+   >>> op.inputs.fields_containerC.connect(my_fields_containerC)
+   >>> # or
+   >>> op.inputs.fields_containerC(my_fields_containerC)
+
+.. py:property:: fields_containerD
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect fields_containerD input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.poynting_vector()
+   >>> op.inputs.fields_containerD.connect(my_fields_containerD)
+   >>> # or
+   >>> op.inputs.fields_containerD(my_fields_containerD)
+
+.. py:property:: abstract_meshed_region
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.meshed_region.MeshedRegion]
+
+
+   Allows to connect abstract_meshed_region input to the operator.
+
+   the mesh region in this pin have to be boundary or skin mesh
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.poynting_vector()
+   >>> op.inputs.abstract_meshed_region.connect(my_abstract_meshed_region)
+   >>> # or
+   >>> op.inputs.abstract_meshed_region(my_abstract_meshed_region)
+
+.. py:property:: int32
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect int32 input to the operator.
+
+   load step number, if it's specified, the Poynting Vector is computed only on the substeps of this step
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.poynting_vector()
+   >>> op.inputs.int32.connect(my_int32)
+   >>> # or
+   >>> op.inputs.int32(my_int32)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

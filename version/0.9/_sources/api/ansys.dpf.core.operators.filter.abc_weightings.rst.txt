@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.filter.abc_weightings
+   :inherited-members:

@@ -1,0 +1,166 @@
+
+
+
+
+
+
+:class:`ServerConfig`
+=====================
+
+
+.. py:class:: ansys.dpf.core.server_factory.ServerConfig(protocol: str = DEFAULT_COMMUNICATION_PROTOCOL, legacy: bool = DEFAULT_LEGACY, grpc_mode: str = DEFAULT_GRPC_MODE, certificates_dir: pathlib.Path = DEFAULT_CERTIFICATES_DIR)
+
+   Provides an instance of ServerConfig object to manage the server type used.
+
+   .. warning::
+       Starting with DPF 2026 R1 and PyDPF 0.15.0, the default gRPC server uses mTLS authentication.
+       Please refer to :ref:`ref_dpf_server_secure_mode` for more information on how to set up the
+       certificates and configure the server and client accordingly.
+       See the ``config`` parameter for more details.
+
+   The default parameters can be overwritten using the DPF_SERVER_TYPE environment
+   variable. DPF_SERVER_TYPE=INPROCESS, DPF_SERVER_TYPE=GRPC,
+   DPF_SERVER_TYPE=LEGACYGRPC can be used.
+
+   :param protocol: Communication protocol for DPF server (e.g. InProcess, gRPC)
+   :param legacy: If legacy is set to True, the server will be using ansys-grpc-dpf
+                  Python module. If not, it will communicate with DPF binaries using ctypes
+                  and DPF CLayer calls.
+   :param grpc_mode: Grpc mode to use when launching DPF server.
+                     Can be one of the members of :class:`ansys.dpf.core.server_factory.GrpcMode`.
+                     Defaults to mTLS authenticated mode.
+                     More information available at :ref:`ref_dpf_server_secure_mode`.
+   :param certificates_dir: Path to a directory containing the certificates to use for mTLS authentication.
+                            More information available at :ref:`ref_dpf_server_secure_mode`.
+
+   .. rubric:: Examples
+
+   Use constructor parameters to manually create servers.
+
+   >>> from ansys.dpf import core as dpf
+   >>> in_process_config = dpf.ServerConfig(
+   ...     protocol=dpf.server_factory.CommunicationProtocols.InProcess, legacy=False)
+   >>> grpc_config = dpf.ServerConfig(
+   ...     protocol=dpf.server_factory.CommunicationProtocols.gRPC, legacy=False)
+   >>> legacy_grpc_config = dpf.ServerConfig(
+   ...     protocol=dpf.server_factory.CommunicationProtocols.gRPC, legacy=True)
+   >>> in_process_server = dpf.start_local_server(config=in_process_config, as_global=False)  # doctest: +SKIP
+   >>> grpc_server = dpf.start_local_server(config=grpc_config, as_global=False)  # doctest: +SKIP
+   >>> legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config, as_global=False)  # doctest: +SKIP
+
+   Use the environment variable to set the default server configuration.
+
+   >>> import os
+   >>> os.environ["DPF_SERVER_TYPE"] = "INPROCESS"
+   >>> dpf.start_local_server()  # doctest: +SKIP
+   <ansys.dpf.core.server_types.InProcessServer object at ...>
+
+
+
+
+
+
+.. py:currentmodule:: ServerConfig
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~legacy`
+            - 
+          * - :py:attr:`~certificates_dir`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Return a string representation of the ServerConfig instance.
+          * - :py:attr:`~__eq__`
+            - Check if two ServerConfig instances are equal.
+          * - :py:attr:`~__ne__`
+            - Check if two ServerConfig instances are not equal.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.server_factory import ServerConfig
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: legacy
+   :value: False
+
+
+.. py:attribute:: certificates_dir
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+   Return a string representation of the ServerConfig instance.
+
+   This method provides a human-readable string summarizing the server configuration,
+   including the protocol and whether it's using legacy gRPC.
+
+   :returns: String representation of the ServerConfig instance.
+   :rtype: str
+
+
+.. py:method:: __eq__(other: ServerConfig)
+
+   Check if two ServerConfig instances are equal.
+
+   Compares the current ServerConfig instance with another one to check if they have
+   the same protocol and legacy status.
+
+   :param other: The other ServerConfig instance to compare with.
+   :type other: ServerConfig
+
+   :returns: True if the instances have the same protocol and legacy status, False otherwise.
+   :rtype: bool
+
+
+.. py:method:: __ne__(other)
+
+   Check if two ServerConfig instances are not equal.
+
+   Compares the current ServerConfig instance with another one to check if they have
+   different protocol or legacy status.
+
+   :param other: The other ServerConfig instance to compare with.
+   :type other: ServerConfig
+
+   :returns: True if the instances have different protocol or legacy status, False otherwise.
+   :rtype: bool
+
+
+
+
+

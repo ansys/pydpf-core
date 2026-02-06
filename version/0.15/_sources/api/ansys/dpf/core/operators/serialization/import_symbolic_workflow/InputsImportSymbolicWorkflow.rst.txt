@@ -1,0 +1,152 @@
+
+
+
+
+
+
+:class:`InputsImportSymbolicWorkflow`
+=====================================
+
+
+.. py:class:: ansys.dpf.core.operators.serialization.import_symbolic_workflow.InputsImportSymbolicWorkflow(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   import_symbolic_workflow operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.import_symbolic_workflow()
+   >>> my_string_or_path = str()
+   >>> op.inputs.string_or_path.connect(my_string_or_path)
+   >>> my_format = int()
+   >>> op.inputs.format.connect(my_format)
+
+
+
+
+
+
+.. py:currentmodule:: InputsImportSymbolicWorkflow
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~string_or_path`
+            - Allows to connect string_or_path input to the operator.
+          * - :py:attr:`~format`
+            - Allows to connect format input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.import_symbolic_workflow import InputsImportSymbolicWorkflow
+
+Property detail
+---------------
+
+.. py:property:: string_or_path
+   :type: ansys.dpf.core.inputs.Input[str | ansys.dpf.core.data_sources.DataSources]
+
+
+   Allows to connect string_or_path input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.import_symbolic_workflow()
+   >>> op.inputs.string_or_path.connect(my_string_or_path)
+   >>> # or
+   >>> op.inputs.string_or_path(my_string_or_path)
+
+.. py:property:: format
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect format input to the operator.
+
+   -1 is auto-detection, 0 is ASCII format, 1 is binary, 2 is json, default is -1 (auto-detection).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.import_symbolic_workflow()
+   >>> op.inputs.format.connect(my_format)
+   >>> # or
+   >>> op.inputs.format(my_format)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

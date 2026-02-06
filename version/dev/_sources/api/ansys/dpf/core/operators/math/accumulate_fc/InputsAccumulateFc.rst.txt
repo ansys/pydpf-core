@@ -1,0 +1,182 @@
+
+
+
+
+
+
+:class:`InputsAccumulateFc`
+===========================
+
+
+.. py:class:: ansys.dpf.core.operators.math.accumulate_fc.InputsAccumulateFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   accumulate_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate_fc()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_weights = dpf.Field()
+   >>> op.inputs.weights.connect(my_weights)
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+
+
+
+
+
+
+
+.. py:currentmodule:: InputsAccumulateFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~weights`
+            - Allows to connect weights input to the operator.
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getattr__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.accumulate_fc import InputsAccumulateFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect fields_container input to the operator.
+
+   field or fields container with only one field is expected
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate_fc()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: weights
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field]
+
+
+   Allows to connect weights input to the operator.
+
+   Field containing weights, one weight per entity
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate_fc()
+   >>> op.inputs.weights.connect(my_weights)
+   >>> # or
+   >>> op.inputs.weights(my_weights)
+
+.. py:property:: time_scoping
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to connect time_scoping input to the operator.
+
+   time_scoping
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.accumulate_fc()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getattr__(name)
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

@@ -1,0 +1,434 @@
+
+
+
+
+
+
+:class:`ScopingsContainer`
+==========================
+
+
+.. py:class:: ansys.dpf.core.scopings_container.ScopingsContainer(scopings_container=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.collection_base.CollectionBase`\ [\ :py:obj:`ansys.dpf.core.scoping.Scoping`\ ]
+
+
+   A class used to represent a ScopingsContainer which contains scopings split on a given space.
+
+   :param scopings_container:                  ansys.dpf.core.ScopingsContainer, optional
+                              Create a scopings container from a Collection message or create
+                              a copy from an existing scopings container
+   :type scopings_container: ansys.grpc.dpf.collection_message_pb2.Collection or
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: ScopingsContainer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~create_subtype`
+            - Create a Scoping subtype.
+          * - :py:attr:`~get_scopings`
+            - Return the scopings at a requested label space.
+          * - :py:attr:`~get_scoping`
+            - Return the scoping at a requested index or label space.
+          * - :py:attr:`~add_scoping`
+            - Update or add the scoping at a requested label space.
+          * - :py:attr:`~plot`
+            - Plot the entities of the mesh or meshes corresponding to the scopings.
+          * - :py:attr:`~set_labels`
+            - Set labels for scoping the collection.
+          * - :py:attr:`~add_label`
+            - Add the requested label to scope the collection.
+          * - :py:attr:`~has_label`
+            - Check if a collection has a specified label.
+          * - :py:attr:`~get_entries_indices`
+            - Retrieve the indices of the entries corresponding a requested label space .
+          * - :py:attr:`~get_label_space`
+            - Retrieve the label space of an entry at a requested index.
+          * - :py:attr:`~get_available_ids_for_label`
+            - Retrieve the IDs assigned to an input label.
+          * - :py:attr:`~get_label_scoping`
+            - Retrieve the scoping for an input label.
+          * - :py:attr:`~set_support`
+            - Set the support of the collection for a given label.
+          * - :py:attr:`~get_support`
+            - Get the support of the collection for a given label.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~name`
+            - Name of the Collection.
+          * - :py:attr:`~labels`
+            - Provides for getting scoping labels as a property.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~entries_type`
+            - 
+          * - :py:attr:`~owned`
+            - 
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~integral_collection`
+            - Create a collection of integral type with a list.
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - Return the scoping at a requested index.
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+          * - :py:attr:`~__len__`
+            - Retrieve the number of entries.
+          * - :py:attr:`~__del__`
+            - Delete the entry.
+          * - :py:attr:`~__iter__`
+            - Provide for looping through entry items.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.scopings_container import ScopingsContainer
+
+Property detail
+---------------
+
+.. py:property:: name
+
+   Name of the Collection.
+
+   .. rubric:: Notes
+
+   Available starting with DPF 2024 R2 pre0.
+
+   :rtype: str
+
+.. py:property:: labels
+   :type: List[str]
+
+
+   Provides for getting scoping labels as a property.
+
+   :returns: List of labels scoping the collection.
+   :rtype: List[str]
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: entries_type
+
+.. py:attribute:: owned
+   :value: False
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: create_subtype(obj_by_copy)
+
+   Create a Scoping subtype.
+
+
+.. py:method:: get_scopings(label_space)
+
+   Return the scopings at a requested label space.
+
+   :param label_space_or_index: Scopings corresponding to the filter (label space) in input, for example:
+                                ``{"elshape":1, "body":12}``
+   :type label_space_or_index: dict[str,int] , int
+
+   :returns: **scopings** -- scopings corresponding to the request
+   :rtype: list[Scoping]
+
+
+.. py:method:: get_scoping(label_space_or_index)
+
+   Return the scoping at a requested index or label space.
+
+   Throws if the request returns several scoping
+
+   :param label_space_or_index: Scopings corresponding to the filter (label space) in input, for example:
+                                ``{"elshape":1, "body":12}``
+                                or Index of the scoping.
+   :type label_space_or_index: dict[str,int] , int
+
+   :returns: **scopings** -- scoping corresponding to the request
+   :rtype: Scoping
+
+
+.. py:method:: __getitem__(key)
+
+   Return the scoping at a requested index.
+
+   :param key: the index
+   :type key: int
+
+   :returns: **scoping** -- scoping corresponding to the request
+   :rtype: Scoping
+
+
+.. py:method:: add_scoping(label_space, scoping)
+
+   Update or add the scoping at a requested label space.
+
+   :param label_space: label_space of the requested scopings, ex : {"elshape":1, "body":12}
+   :type label_space: dict[str,int]
+   :param scoping: DPF scoping to add.
+   :type scoping: Scoping
+
+
+.. py:method:: plot(mesh: ansys.dpf.core.MeshedRegion | ansys.dpf.core.MeshesContainer, show_mesh: bool = False, colors: list[str] = None, **kwargs)
+
+   Plot the entities of the mesh or meshes corresponding to the scopings.
+
+   :param mesh: Mesh or meshes to use to translate the scopings into mesh entities.
+                Associates each scoping to a mesh using labels if ``mesh`` is a MeshesContainer.
+   :param show_mesh: Whether to also show the mesh with low opacity.
+   :param colors: List of colors to use for the scoping entities.
+   :param \*\*kwargs: Additional keyword arguments for the plotter. More information
+                      are available at :func:`pyvista.plot`.
+   :type \*\*kwargs: optional
+
+   :returns: Returns what the pyvista.show() method returns based on arguments.
+   :rtype: (cpos, image)
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.download_cfx_mixing_elbow())
+   >>> mesh = model.metadata.meshed_region
+   >>> node_scoping_1 = dpf.Scoping(
+   ...    location=dpf.locations.nodal,
+   ...    ids=mesh.nodes.scoping.ids[0:100]
+   ... )
+   >>> node_scoping_2 = dpf.Scoping(
+   ...    location=dpf.locations.nodal,
+   ...    ids=mesh.nodes.scoping.ids[300:400]
+   ... )
+   >>> node_sc = dpf.ScopingsContainer()
+   >>> node_sc.add_label(label="scoping", default_value=1)
+   >>> node_sc.add_scoping(label_space={"scoping": 1}, scoping=node_scoping_1)
+   >>> node_sc.add_scoping(label_space={"scoping": 2}, scoping=node_scoping_2)
+   >>> node_sc.plot(mesh=mesh, show_mesh=True)
+   (None, <pyvista.plotting.plotter.Plotter ...>)
+
+
+.. py:method:: integral_collection(inpt, server: ansys.dpf.core.server_types.BaseServer = None)
+   :staticmethod:
+
+
+   Create a collection of integral type with a list.
+
+   The collection of integral is the equivalent of an array of
+   data sent server side. It can be used to efficiently stream
+   large data to the server.
+
+   :param inpt: list to transfer server side
+   :type inpt: list[float], list[int], numpy.array
+
+   :rtype: IntegralCollection
+
+   .. rubric:: Notes
+
+   Used by default by the ``'Operator'`` and the``'Workflow'`` when a
+   list is connected or returned.
+
+
+.. py:method:: set_labels(labels)
+
+   Set labels for scoping the collection.
+
+   :param labels: Labels to scope entries to. For example, ``["time", "complex"]``.
+   :type labels: list[str], optional
+
+
+.. py:method:: add_label(label, default_value=None)
+
+   Add the requested label to scope the collection.
+
+   :param label: Labels to scope the entries to. For example, ``"time"``.
+   :type label: str
+   :param default_value: Default value for existing fields in the collection. The default
+                         is ``None``.
+   :type default_value: int, optional
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> coll = dpf.FieldsContainer()
+   >>> coll.add_label('time')
+
+
+.. py:method:: has_label(label) -> bool
+
+   Check if a collection has a specified label.
+
+   :param label: Label to search for. For example, ``"time"``.
+   :type label: str
+
+   :returns: ``True`` when successful, ``False`` when failed.
+   :rtype: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> coll = dpf.FieldsContainer()
+   >>> coll.add_label('time')
+   >>> coll.has_label('time')
+   True
+
+   >>> coll.has_label('complex')
+   False
+
+
+.. py:method:: get_entries_indices(label_space)
+
+   Retrieve the indices of the entries corresponding a requested label space .
+
+   .. rubric:: Notes
+
+   Available starting with DPF 2025R1.
+
+   :param label_space: Label space or index. For example,
+                       ``{"time": 1, "complex": 0}`` or the index of the field.
+   :type label_space: dict[str,int]
+
+   :returns: **indices** -- Indices of the entries corresponding to the request.
+   :rtype: list[int], list[Field], list[MeshedRegion]
+
+
+.. py:method:: get_label_space(index)
+
+   Retrieve the label space of an entry at a requested index.
+
+   :param index: Index of the entry.
+   :type index: int
+
+   :returns: **label_space** -- Scoping of the requested entry. For example,
+             ``{"time": 1, "complex": 0}``.
+   :rtype: dict(str:int)
+
+
+.. py:method:: get_available_ids_for_label(label='time')
+
+   Retrieve the IDs assigned to an input label.
+
+   :param label: Name of the input label. The default is ``"time"``.
+   :type label: str
+
+   :returns: **ids** -- List of IDs assigned to the input label.
+   :rtype: list[int]
+
+
+.. py:method:: get_label_scoping(label='time')
+
+   Retrieve the scoping for an input label.
+
+   This method allows you to retrieve a list of IDs for a given input label in the
+   collection. For example, if the label ``el_type`` exists in the collection, you
+   can use the `get_lable_scoping` method to retrieve a list of IDS with this label.
+   You can then use these IDs to request a given entity inside the collection.
+
+   :param label: Name of the input label.
+   :type label: str
+
+   :returns: **scoping** -- IDs scoped to the input label.
+   :rtype: Scoping
+
+
+.. py:method:: set_support(label: str, support: ansys.dpf.core.support.Support) -> None
+
+   Set the support of the collection for a given label.
+
+   .. rubric:: Notes
+
+   Available starting with DPF 2023 R1.
+
+
+.. py:method:: get_support(label: str) -> ansys.dpf.core.support.Support
+
+   Get the support of the collection for a given label.
+
+   .. rubric:: Notes
+
+   Available starting with DPF 2023 R1.
+
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: **description** -- Description of the entity.
+   :rtype: str
+
+
+.. py:method:: __len__()
+
+   Retrieve the number of entries.
+
+
+.. py:method:: __del__()
+
+   Delete the entry.
+
+
+.. py:method:: __iter__()
+
+   Provide for looping through entry items.
+
+
+
+
+

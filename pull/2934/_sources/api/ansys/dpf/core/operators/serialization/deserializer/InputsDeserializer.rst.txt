@@ -1,0 +1,154 @@
+
+
+
+
+
+
+:class:`InputsDeserializer`
+===========================
+
+
+.. py:class:: ansys.dpf.core.operators.serialization.deserializer.InputsDeserializer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   deserializer operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.deserializer()
+   >>> my_stream_type = int()
+   >>> op.inputs.stream_type.connect(my_stream_type)
+   >>> my_file_path = str()
+   >>> op.inputs.file_path.connect(my_file_path)
+
+
+
+
+
+
+.. py:currentmodule:: InputsDeserializer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~stream_type`
+            - Allows to connect stream_type input to the operator.
+          * - :py:attr:`~file_path`
+            - Allows to connect file_path input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.deserializer import InputsDeserializer
+
+Property detail
+---------------
+
+.. py:property:: stream_type
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect stream_type input to the operator.
+
+   0 for ASCII (default), and 1 for binary
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.deserializer()
+   >>> op.inputs.stream_type.connect(my_stream_type)
+   >>> # or
+   >>> op.inputs.stream_type(my_stream_type)
+
+.. py:property:: file_path
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect file_path input to the operator.
+
+   file path
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.deserializer()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> # or
+   >>> op.inputs.file_path(my_file_path)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

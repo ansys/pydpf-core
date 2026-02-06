@@ -1,0 +1,434 @@
+.. _contributing_as_a_developer:
+
+.. include:: ../../links.rst
+
+Contributing as a developer
+###########################
+
+You can contribute to PyDPF-Core by fixing bugs, adding new features, and improving the codebase.
+To do so, you must set up the repository on your local machine by following the steps below:
+
+- :ref:`clone-the-repository`
+- :ref:`install-for-developers`
+- :ref:`run-tests`
+
+.. _clone-the-repository:
+
+Clone the repository
+====================
+
+Clone the latest version of PyDPF-Core in
+development mode by running this code:
+
+.. code-block:: bash
+
+    git clone https://github.com/ansys/pydpf-core
+
+.. _install-for-developers:
+
+Install for developers
+======================
+
+Installing PyDPF-Core in development mode allows you to perform changes to the code
+and see the changes reflected in your environment without having to reinstall
+the library every time you make a change.
+
+To do so, follow the steps below.
+
+Virtual environment
+-------------------
+
+First, set up a new virtual environment.
+
+Start by navigating to the project's root directory by running:
+
+.. code-block:: bash
+
+    cd pydpf-core
+
+Then, create a new virtual environment named ``.venv`` to isolate your system's
+Python environment by running:
+
+.. code-block:: bash
+
+    python -m venv .venv
+
+Finally, activate this environment by running:
+
+.. tab-set::
+
+    .. tab-item:: Windows
+
+        .. tab-set::
+
+            .. tab-item:: CMD
+
+                .. code-block:: bash
+
+                    .venv\Scripts\activate.bat
+
+            .. tab-item:: PowerShell
+
+                .. code-block:: text
+
+                    .venv\Scripts\Activate.ps1
+
+    .. tab-item:: macOS/Linux/UNIX
+
+        .. code-block:: text
+
+            source .venv/bin/activate
+
+Development mode
+----------------
+
+Now, install PyDPF-Core in editable mode by running:
+
+.. code-block:: text
+
+    python -m pip install --editable .
+
+Verify the installation by checking the version of the library:
+
+
+.. code-block:: python
+
+    from ansys.dpf.core import __version__
+
+
+    print(f"PyDPF-Core version is {__version__}")
+
+.. jinja::
+
+    .. code-block:: bash
+
+       >>> PyDPF-Core version is {{ PYDPF_CORE_VERSION }}
+
+Install Tox
+-----------
+
+Once the project is installed, you can install `Tox`_. This is a cross-platform
+automation tool. The main advantage of Tox is that it eases routine tasks like project
+testing, documentation generation, and wheel building in separate and isolated Python
+virtual environments.
+
+To install Tox, run:
+
+.. code-block:: text
+
+    python -m pip install tox tox-uv
+
+Finally, verify the installation by listing all the different environments
+(automation rules) for PyDPF-Core:
+
+.. code-block:: text
+
+    python -m tox list
+
+.. jinja:: toxenvs
+
+    .. dropdown:: Default Tox environments
+        :animate: fade-in
+        :icon: three-bars
+
+        .. list-table::
+            :header-rows: 1
+            :widths: auto
+
+            * - Environment
+              - Description
+            {% for environment in envs %}
+            {% set name, description  = environment.split("->") %}
+            * - {{ name }}
+              - {{ description }}
+            {% endfor %}
+
+.. _code-style:
+
+Code style
+==========
+
+PyDPF-Core follows the PyAnsys coding style guidelines to ensure consistent,
+readable, and maintainable code across the project. All contributors must
+adhere to these standards.
+
+Code formatting tools
+---------------------
+
+PyDPF-Core uses `Ruff`_ as its primary code formatting and linting tool.
+Ruff is a fast Python linter and formatter that combines the functionality
+of multiple tools (like Black, isort, and Flake8) into a single package.
+
+The project configuration is defined in the ``pyproject.toml`` file with the
+following key settings:
+
+- **Line length**: 100 characters maximum
+- **Quote style**: Double quotes
+- **Import sorting**: Using isort rules with Ansys as a known first-party package
+- **Docstring convention**: NumPy style
+
+Pre-commit hooks
+----------------
+
+PyDPF-Core uses `pre-commit`_ hooks to automatically check and format code
+before each commit. These hooks ensure that code styling rules are applied
+consistently across all contributions.
+
+To set up pre-commit hooks, install pre-commit and activate it:
+
+.. code-block:: bash
+
+    python -m pip install pre-commit
+    pre-commit install
+
+Once installed, the hooks will run automatically on ``git commit``. The following
+checks are performed:
+
+- **Ruff**: Linting and formatting
+- **Codespell**: Spell checking
+- **License headers**: Ensures all files have proper copyright headers
+- **Merge conflicts**: Detects merge conflict markers
+- **Debug statements**: Identifies leftover debug code
+
+You can also run pre-commit manually on all files:
+
+.. code-block:: bash
+
+    pre-commit run --all-files
+
+Manual code formatting
+----------------------
+
+If you prefer to format code manually without committing, you can run Ruff
+directly:
+
+.. code-block:: bash
+
+    # Format code
+    python -m ruff format .
+
+    # Check and fix linting issues
+    python -m ruff check --fix .
+
+    # Check without fixing
+    python -m ruff check .
+
+PEP 8 compliance
+----------------
+
+PyDPF-Core follows `PEP 8 <https://peps.python.org/pep-0008/>`_ style guidelines,
+which are the official Python style guide. Ruff enforces most PEP 8 rules
+automatically.
+
+Key PEP 8 principles include:
+
+- Use 4 spaces for indentation (never tabs)
+- Limit line length to 100 characters (project-specific)
+- Use meaningful variable and function names
+- Follow naming conventions:
+
+  - ``lowercase_with_underscores`` for functions and variables
+  - ``CapitalizedWords`` for class names
+  - ``UPPERCASE_WITH_UNDERSCORES`` for constants
+
+- Add appropriate whitespace around operators and after commas
+- Use docstrings for all public modules, functions, classes, and methods
+
+For complete details on PEP 8 and formatting best practices, refer to:
+
+- `PyAnsys Coding Style - PEP 8 Guidelines <https://dev.docs.pyansys.com/coding-style/pep8.html>`_
+- `PyAnsys Coding Style - Formatting Tools <https://dev.docs.pyansys.com/coding-style/formatting-tools.html>`_
+
+Docstring style
+---------------
+
+PyDPF-Core uses the `NumPy docstring convention <https://numpydoc.readthedocs.io/en/latest/format.html>`_
+for all documentation strings. This convention is enforced by Ruff's pydocstyle
+rules.
+
+Example of a properly formatted function docstring:
+
+.. code-block:: python
+
+    def calculate_stress(field, mesh, location="Nodal"):
+        """Calculate stress values at specified locations.
+
+        Parameters
+        ----------
+        field : Field
+            Input field containing stress data.
+        mesh : MeshedRegion
+            Mesh region for the calculation.
+        location : str, optional
+            Location where stress is calculated. Default is ``"Nodal"``.
+
+        Returns
+        -------
+        Field
+            Calculated stress field.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> stress_field = calculate_stress(field, mesh)
+
+        """
+        # Implementation here
+        pass
+
+Type hints
+----------
+
+While not strictly enforced, using type hints is encouraged for better code
+clarity and IDE support. PyDPF-Core uses type hints extensively in its
+public API.
+
+Example with type hints:
+
+.. code-block:: python
+
+    from typing import Optional
+    from ansys.dpf.core import Field, MeshedRegion
+
+    def process_field(
+        field: Field,
+        mesh: Optional[MeshedRegion] = None
+    ) -> Field:
+        """Process a field with optional mesh support."""
+        # Implementation here
+        pass
+
+Continuous integration checks
+------------------------------
+
+All pull requests are automatically checked for code style compliance using
+GitHub Actions. Your code must pass these checks before it can be merged:
+
+- Ruff formatting and linting
+- Codespell checks
+- License header verification
+- Test suite execution
+
+If the CI checks fail, review the error messages and apply the necessary fixes
+before requesting a review.
+
+.. _run-tests:
+
+Run the tests
+=============
+
+Once you have made your changes, you can run the tests to verify that your
+modifications did not break the project.
+
+PyDPF-Core tests are organized into groups and require additional steps
+during execution to ensure tests run as expected without errors, therefore, PyDPF-Core tox configuration
+supports different markers to account for this. These markers are associated with a
+dedicated `Tox`_ environment.
+
+To also allow flexibility required during development, a specific DPF Server installation
+can also be used as explained in the subsections that follow.
+
+Unified DPF Server installation or specific DPF Server installation using ANSYS_DPF_PATH environment variable
+-------------------------------------------------------------------------------------------------------------
+
+These two installation DPF Server installation methods i.e. (unified or via ANSYS_DPF_PATH) require no special handling.
+Individual test groups can be simply run with the following commands:
+
+.. jinja:: toxenvs
+
+    .. dropdown:: Testing individual groups
+        :animate: fade-in
+        :icon: three-bars
+
+        .. list-table::
+            :header-rows: 1
+            :widths: auto
+
+            * - Environment
+              - Command
+            {% for environment in envs %}
+            {% set name, description  = environment.split("->") %}
+            {% if name.startswith("test-")%}
+            * - {{ name }}
+              - python -m tox -e pretest,{{ name }},posttest,kill-servers
+            {% endif %}
+            {% endfor %}
+
+Multiple tests can be run in different ways by specifying appropriate tox command:
+
+.. dropdown:: Testing more than one group sequentially
+    :animate: fade-in
+    :icon: three-bars
+
+    .. list-table::
+        :header-rows: 1
+        :widths: auto
+
+        * - Command
+          - Description
+        * - python -m tox
+          - Run all test groups sequentially
+        * - python -m tox -e pretest,test-api,test-launcher,posttest,kill-servers
+          - run specific selection of tests sequentially
+
+To save testing time, the ``--parallel`` flag can be passed when running multiple environments at once.
+Some test groups are incompatible for parallel runs by nature of their configuration. Some labels have
+been added to the tox configuration for compatible tests to make running them easier.
+The following commands are thus recommended when you wish to take advantage of parallel runs.
+
+.. dropdown:: Testing more than one group in parallel
+    :animate: fade-in
+    :icon: three-bars
+
+    .. list-table::
+        :header-rows: 1
+        :widths: auto
+
+        * - Command
+          - Description
+        * - python -m tox -m localparalleltests --parallel
+          - Run all compatible test groups in parallel
+        * - python -m tox -e othertests
+          - Run incompatible test groups sequentially
+        * - python -m pretest,test-api,test-launcher,posttest,kill-servers --parallel
+          - Run specific selection of tests in parallel
+
+Standalone DPF Server installation
+----------------------------------
+Standalone DPF Server is usually `installed in editable mode <https://dpf.docs.pyansys.com/version/dev/getting_started/dpf_server.html#install-dpf-server>`_.
+Accordingly, tox commands need to be adjusted for installation of standalone DPF Server in the isolated python environments
+tox creates to run these tests in. This is achieved by adding ``-x testenv.deps+="-e <path/to/dpf/standalone>"``
+to any of the previous tox commands.
+
+For example, to run compatible parallel tests while using a Standalone DPF Server whose path is ``ansys_dpf_server_lin_v2025.1.pre0``, simply run:
+
+.. code-block:: bash
+
+    python -m tox -m localparalleltests --parallel -x testenv.deps+="-e ansys_dpf_server_lin_v2025.1.pre0"
+
+.. warning::
+    When the ANSYS_DPF_PATH environment variable is set, the server pointed to
+    `takes precedence <https://dpf.docs.pyansys.com/version/dev/getting_started/dpf_server.html#manage-multiple-dpf-server-installations>`_
+    over any other DPF Server installation method. Therefore, a standalone DPF Server installed in editable mode, in the
+    presence of ANSYS_DPF_PATH environment variable, will be ignored.
+
+    With tox, a simple workaround is not setting this environment variable at the operating system level but passing it explicitly only when
+    required. This is achived by adding ``-x testenv.setenv+="ANSYS_DPF_PATH=<path/to/valid/DPF/Server/installation>"`` to any tox command.
+
+    Alternatively, when set at the operating system level, commenting out the line where this environment variable is passed in the tox
+    configuration file will ensure that it is ignored within the tox environments.
+
+    .. image:: tox.png
+
+Testing on Linux via WSL
+------------------------
+Some system dependencies required for VTK to run properly might be missing when running tests on linux via WSL (or even linux in general).
+The identified workaround for this is to install the OSMesa wheel variant that leverages offscreen rendering with OSMesa.
+This wheel is being built for both Linux and Windows at this time and bundles all of the necessary libraries into the wheel. This is
+achieved by adding ``-x testenv.commands_pre="uv pip install --index-url https://wheels.vtk.org vtk-osmesa==<version>"``
+
+For example, to run all tests sequentially on linux, while using a Standalone DPF Server whose path is ``ansys_dpf_server_lin_v2025.1.pre0``, simply run:
+
+.. code-block:: text
+
+    python -m tox --parallel -x testenv.deps+="-e ansys_dpf_server_lin_v2025.1.pre0" -x testenv.commands_pre="uv pip install --index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"

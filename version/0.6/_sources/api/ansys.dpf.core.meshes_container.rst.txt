@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.meshes_container
+   :inherited-members:

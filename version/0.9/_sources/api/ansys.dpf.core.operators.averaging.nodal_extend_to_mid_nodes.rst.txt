@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.averaging.nodal_extend_to_mid_nodes
+   :inherited-members:

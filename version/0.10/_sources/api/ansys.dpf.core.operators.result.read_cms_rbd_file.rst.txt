@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.read_cms_rbd_file
+   :inherited-members:

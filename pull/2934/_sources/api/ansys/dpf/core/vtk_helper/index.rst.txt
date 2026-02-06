@@ -1,0 +1,365 @@
+
+
+
+
+
+
+The ``vtk_helper.py`` module
+============================
+
+.. py:module:: ansys.dpf.core.vtk_helper
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: vtk_helper
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.vtk_helper.VTKMeshValidity`
+            - Dataclass containing the results of a call to vtk_mesh_is_valid.
+
+
+
+
+    .. tab-item:: Exceptions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.vtk_helper.PyVistaImportError`
+            - Error raised when PyVista could not be imported during plotting.
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~dpf_mesh_to_vtk`
+            - Return a pyvista UnstructuredGrid given a MeshedRegion.
+
+
+          * - :py:obj:`~vtk_mesh_is_valid`
+            - Run a vtk.CellValidator filter on the input grid.
+
+
+          * - :py:obj:`~vtk_update_coordinates`
+            - Update coordinates in vtk.
+
+
+          * - :py:obj:`~dpf_meshes_to_vtk`
+            - Return a pyvista UnstructuredGrid given a MeshedRegion.
+
+
+          * - :py:obj:`~dpf_field_to_vtk`
+            - Return a pyvista UnstructuredGrid given a DPF Field.
+
+
+          * - :py:obj:`~dpf_fieldscontainer_to_vtk`
+            - Return a pyvista UnstructuredGrid given a DPF FieldsContainer.
+
+
+          * - :py:obj:`~dpf_property_field_to_vtk`
+            - Return a pyvista UnstructuredGrid given a DPF PropertyField.
+
+
+          * - :py:obj:`~append_field_to_grid`
+            - Append field data to a VTK UnstructuredGrid based on a MeshedRegion.
+
+
+          * - :py:obj:`~append_fieldscontainer_to_grid`
+            - Append fields data to a VTK UnstructuredGrid based on a MeshedRegion.
+
+
+
+
+    .. tab-item:: Constants
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~VTK9`
+            - 
+
+
+          * - :py:obj:`~VTK_MAPPING`
+            - 
+
+
+          * - :py:obj:`~VTK_LINEAR_MAPPING`
+            - 
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> VTKMeshValidity</api/ansys/dpf/core/vtk_helper/VTKMeshValidity>
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-md-lightning_bolt"></span> PyVistaImportError</api/ansys/dpf/core/vtk_helper/PyVistaImportError>
+
+
+
+
+
+
+
+Description
+-----------
+
+Helpers for interactions between DPF and VTK.
+
+This module provides functions and utilities for converting DPF mesh and field data to VTK/PyVista formats for visualization and analysis. It includes mappings between DPF element types and VTK cell types, mesh and field conversion routines, mesh validity checking, and helpers for appending DPF data to VTK grids.
+
+Main features:
+- Conversion of DPF MeshedRegion, Field, FieldsContainer, PropertyField, and MeshesContainer to PyVista UnstructuredGrid.
+- Mapping between DPF element types and VTK cell types (linear and quadratic).
+- Mesh validity checking using VTK's CellValidator.
+- Utilities for updating coordinates and appending field data to VTK grids.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: dpf_mesh_to_vtk(mesh: ansys.dpf.core.MeshedRegion, nodes: ansys.dpf.core.Field = None, as_linear: bool = True, check_validity: bool = False) -> pyvista.UnstructuredGrid
+
+   Return a pyvista UnstructuredGrid given a MeshedRegion.
+
+   :param mesh: Meshed Region to export to pyVista format.
+   :param nodes: Field containing the node coordinates of the mesh (useful to get a deformed geometry).
+   :param as_linear: Export quadratic surface elements as linear.
+   :param check_validity: Whether to run the VTK cell validity check on the generated mesh and warn if not valid.
+
+   :returns: UnstructuredGrid corresponding to the DPF mesh.
+   :rtype: grid
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
+   >>> model = dpf.Model(examples.find_simple_bar())
+   >>> mesh = model.metadata.meshed_region
+   >>> grid = dpf_mesh_to_vtk(mesh)
+
+
+.. py:function:: vtk_mesh_is_valid(grid: pyvista.UnstructuredGrid, verbose: bool = False) -> VTKMeshValidity
+
+   Run a vtk.CellValidator filter on the input grid.
+
+   :param grid: A vtk mesh to validate.
+   :param verbose: Whether to print the complete validation.
+
+   :returns: A dataclass containing the results of the validator.
+   :rtype: validity
+
+
+.. py:function:: vtk_update_coordinates(vtk_grid: pyvista.UnstructuredGrid, coordinates_array: numpy.ndarray)
+
+   Update coordinates in vtk.
+
+
+.. py:function:: dpf_meshes_to_vtk(meshes_container: ansys.dpf.core.MeshesContainer, nodes: ansys.dpf.core.FieldsContainer = None, as_linear: bool = True) -> pyvista.UnstructuredGrid
+
+   Return a pyvista UnstructuredGrid given a MeshedRegion.
+
+   :param meshes_container: MeshesContainer to export to pyVista format.
+   :param nodes: FieldsContainer containing the node coordinates for each mesh
+                 (useful to get a deformed geometry). The labels must match a field to a mesh.
+   :param as_linear: Export quadratic surface elements as linear.
+   :type as_linear: bool, optional
+
+   :returns: UnstructuredGrid corresponding to the DPF meshes.
+   :rtype: grid
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> from ansys.dpf.core.vtk_helper import dpf_meshes_to_vtk
+   >>> model = dpf.Model(examples.download_all_kinds_of_complexity())
+   >>> meshes = dpf.operators.mesh.split_mesh(
+   ...     mesh=model.metadata.meshed_region,
+   ...     property=dpf.elements.elemental_properties.element_type
+   ... ).eval()
+   >>> grid = dpf_meshes_to_vtk(meshes)
+
+
+.. py:function:: dpf_field_to_vtk(field: ansys.dpf.core.Field, meshed_region: ansys.dpf.core.MeshedRegion = None, nodes: ansys.dpf.core.Field = None, as_linear: bool = True, field_name: str = '') -> pyvista.UnstructuredGrid
+
+   Return a pyvista UnstructuredGrid given a DPF Field.
+
+   :param field: Field to export to pyVista format.
+   :param meshed_region: Mesh to associate to the field.
+                         Useful for fluid results where the field is not automatically associated to its mesh.
+   :param nodes: Field containing the node coordinates of the mesh (useful to get a deformed geometry).
+   :param as_linear: Export quadratic surface elements as linear.
+   :param field_name: Override the default field name with this.
+
+   :returns: UnstructuredGrid corresponding to the DPF Field.
+   :rtype: grid
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> from ansys.dpf.core.vtk_helper import dpf_field_to_vtk
+   >>> model = dpf.Model(examples.find_simple_bar())
+   >>> field = model.results.displacement().eval()[0]
+   >>> grid = dpf_field_to_vtk(field, field_name="displacement")
+
+
+.. py:function:: dpf_fieldscontainer_to_vtk(fields_container: ansys.dpf.core.FieldsContainer, meshes_container: ansys.dpf.core.MeshesContainer = None, nodes: ansys.dpf.core.Field = None, as_linear: bool = True, field_name: str = '') -> pyvista.UnstructuredGrid
+
+   Return a pyvista UnstructuredGrid given a DPF FieldsContainer.
+
+   If the fields have different mesh supports, a global merged mesh support is created.
+
+   :param fields_container: FieldsContainer to export to pyVista format.
+   :param meshes_container: MeshesContainer with meshes to associate to the fields in the FieldsContainer.
+                            Useful for fluid results where the fields are not automatically associated to their mesh.
+   :param nodes: Field containing the node coordinates of the mesh (useful to get a deformed geometry).
+   :param as_linear: Export quadratic surface elements as linear.
+   :param field_name: Override the default field name with this.
+
+   :returns: UnstructuredGrid corresponding to the DPF Field.
+   :rtype: grid
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> from ansys.dpf.core.vtk_helper import dpf_field_to_vtk
+   >>> model = dpf.Model(examples.download_transient_result())
+   >>> fc = model.results.displacement().eval()
+   >>> grid = dpf_fieldscontainer_to_vtk(fc, field_name="displacement")
+
+
+.. py:function:: dpf_property_field_to_vtk(property_field: ansys.dpf.core.PropertyField, meshed_region: ansys.dpf.core.MeshedRegion, nodes: ansys.dpf.core.Field = None, as_linear: bool = True, field_name: str = '') -> pyvista.UnstructuredGrid
+
+   Return a pyvista UnstructuredGrid given a DPF PropertyField.
+
+   ..note:
+       Available starting with DPF 2024.2.pre1.
+
+   :param property_field: PropertyField to export to pyVista format.
+   :param meshed_region: Mesh to associate to the property field.
+   :param nodes: Field containing the node coordinates of the mesh (useful to get a deformed geometry).
+   :param as_linear: Export quadratic surface elements as linear.
+   :param field_name: Override the default field name with this.
+
+   :returns: UnstructuredGrid corresponding to the DPF PropertyField.
+   :rtype: grid
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> from ansys.dpf.core.vtk_helper import dpf_property_field_to_vtk
+   >>> model = dpf.Model(examples.find_simple_bar())
+   >>> prop_field = model.metadata.meshed_region.property_field("eltype")
+   >>> grid = dpf_property_field_to_vtk(prop_field, model.metadata.meshed_region)
+
+
+.. py:function:: append_field_to_grid(field: ansys.dpf.core.Field | ansys.dpf.core.PropertyField, meshed_region: ansys.dpf.core.MeshedRegion, grid: pyvista.UnstructuredGrid, field_name: str = '') -> pyvista.UnstructuredGrid
+
+   Append field data to a VTK UnstructuredGrid based on a MeshedRegion.
+
+   :param field: Field to append to the VTK UnstructuredGrid.
+   :param meshed_region: MeshedRegion corresponding to the grid.
+   :param grid: VTK UnstructuredGrid to append the field data to.
+   :param field_name: Override the default field name with this.
+
+   :returns: Updated UnstructuredGrid with the field data appended.
+   :rtype: grid
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
+   >>> model = dpf.Model(examples.find_simple_bar())
+   >>> mesh = model.metadata.meshed_region
+   >>> grid = dpf_mesh_to_vtk(mesh)
+   >>> field = model.results.displacement().eval()[0]
+   >>> grid = append_field_to_grid(field, mesh, grid, field_name="displacement")
+
+
+.. py:function:: append_fieldscontainer_to_grid(fields_container: ansys.dpf.core.FieldsContainer, meshed_region: ansys.dpf.core.MeshedRegion, grid: pyvista.UnstructuredGrid, field_name: str = '') -> pyvista.UnstructuredGrid
+
+   Append fields data to a VTK UnstructuredGrid based on a MeshedRegion.
+
+   :param fields_container: FieldsContainer to append to the VTK UnstructuredGrid.
+   :param meshed_region: MeshedRegion corresponding to the grid.
+   :param grid: VTK UnstructuredGrid to append the fields data to.
+   :param field_name: Override the default field name with this.
+                      The final field name is a combination of this base name and the label space of the field.
+
+   :returns: Updated UnstructuredGrid with the fields data appended.
+   :rtype: grid
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk, append_fieldscontainer_to_grid
+   >>> model = dpf.Model(examples.find_simple_bar())
+   >>> mesh = model.metadata.meshed_region
+   >>> grid = dpf_mesh_to_vtk(mesh)
+   >>> fc = model.results.displacement().eval()
+   >>> grid = append_fieldscontainer_to_grid(fc, mesh, grid, field_name="displacement")
+
+
+.. py:data:: VTK9
+
+.. py:data:: VTK_MAPPING
+
+.. py:data:: VTK_LINEAR_MAPPING
+
+
+

@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`OutputsMergeTimeFreqSupports`
+=====================================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_time_freq_supports.OutputsMergeTimeFreqSupports(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   merge_time_freq_supports operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_time_freq_supports()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_merged_support = op.outputs.merged_support()
+
+
+
+
+
+.. py:currentmodule:: OutputsMergeTimeFreqSupports
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~merged_support`
+            - Allows to get merged_support output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_time_freq_supports import OutputsMergeTimeFreqSupports
+
+Property detail
+---------------
+
+.. py:property:: merged_support
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.time_freq_support.TimeFreqSupport]
+
+
+   Allows to get merged_support output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_time_freq_supports()
+   >>> # Get the output from op.outputs. ...
+   >>> result_merged_support = op.outputs.merged_support()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

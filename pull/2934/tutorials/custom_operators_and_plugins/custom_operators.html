@@ -1,0 +1,1043 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Custom operators &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles\ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=f3be7b20" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../_static/documentation_options.js?v=6bfb07f7"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/thebelab-helper.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/custom_operators_and_plugins/custom_operators';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="DPF server" href="../dpf_server/index.html" />
+    <link rel="prev" title="Custom Operators and Plugins" href="index.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.15.1.dev0" />
+  <meta property="og:site_name" content="PyAnsys" />
+  <meta name="physics" content="Structures" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Starting with PyDPF-Core 0.15.0, gRPC communication with the DPF server defaults to requiring mTLS authentication.
+Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dpf_server.html#run-dpf-server-in-secure-mode-with-mtls'>this page</a> for more information.</div>
+</aside>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../data_structures/index.html">DPF data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../post_processing_basics/index.html">Processing data basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../import_data/index.html">Import Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../animate/index.html">Animate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/index.html">Mathematics</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Custom Operators and Plugins</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Custom operators</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../dpf_server/index.html">DPF server</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../index.html" class="nav-link">Tutorials</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">Custom Operators and Plugins</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Custom operators</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="custom-operators">
+<span id="tutorials-custom-operators-and-plugins-custom-operator"></span><h1>Custom operators<a class="headerlink" href="#custom-operators" title="Link to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This tutorial requires DPF 7.1 or above (2024 R1).</p>
+</div>
+<p>This tutorial shows the basics of creating a custom operator in Python and loading it ont a server for use.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can create custom operators in CPython using PyDPF-Core for use with DPF in Ansys 2023 R1 and later.</p>
+</div>
+<p>It first presents how to <a class="reference internal" href="#tutorials-custom-operators-and-plugins-custom-operator-create-custom-operator"><span class="std std-ref">create a custom DPF operator</span></a>
+in Python using PyDPF-Core.</p>
+<p>It then shows how to <a class="reference internal" href="#tutorials-custom-operators-and-plugins-custom-operator-create-custom-plugin"><span class="std std-ref">make a plugin</span></a>
+out of this single operator.</p>
+<p>The next step is to <a class="reference internal" href="#tutorials-custom-operators-and-plugins-custom-operator-load-the-plugin"><span class="std std-ref">load the plugin on the server</span></a> to record its operators.</p>
+<p>The final step is to instantiate the custom operator from the client API and <a class="reference internal" href="#tutorials-custom-operators-and-plugins-custom-operator-use-the-custom-operator"><span class="std std-ref">use it</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In this tutorial the DPF client API used is PyDPF-Core but, once recorded on the server,
+you can call the operators of the plugin using any of the DPF client APIs
+(C++, CPython, IronPython), as you would any other operator.</p>
+</div>
+<p><a class="reference download internal" download="" href="../../_downloads/d6d70f2310b20c758d38cd58b68e43f9/custom_operators.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Python</span> <span class="pre">script</span></code></a>
+<a class="reference download internal" download="" href="../../_downloads/7a1d2bde725f2df52bfaf8aebfdd1670/custom_operators.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Jupyter</span> <span class="pre">notebook</span></code></a></p>
+<section id="create-a-custom-operator">
+<span id="tutorials-custom-operators-and-plugins-custom-operator-create-custom-operator"></span><h2>Create a custom operator<a class="headerlink" href="#create-a-custom-operator" title="Link to this heading">#</a></h2>
+<p>To create a custom DPF operator using PyDPF-Core, define a custom operator class inheriting from
+the <a class="reference internal" href="../../api/ansys/dpf/core/custom_operator/CustomOperatorBase.html#ansys.dpf.core.custom_operator.CustomOperatorBase" title="ansys.dpf.core.custom_operator.CustomOperatorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomOperatorBase</span></code></a> class in a dedicated Python file.</p>
+<p>The following are sections of a file named <cite>custom_operator_example.py</cite> available under <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core.examples.python_plugins</span></code>:</p>
+<p>First declare the custom operator class, with necessary imports and a first property to define the operator scripting name:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.</span>
+<span class="c1"># SPDX-License-Identifier: MIT</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1"># furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in all</span>
+<span class="c1"># copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span>
+<span class="c1"># SOFTWARE.</span>
+
+<span class="sd">&quot;&quot;&quot;Example of a custom DPF operator in Python.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.custom_operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">CustomOperatorBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.operator_specification</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CustomSpecification</span><span class="p">,</span>
+    <span class="n">PinSpecification</span><span class="p">,</span>
+    <span class="n">SpecificationProperties</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomOperator</span><span class="p">(</span><span class="n">CustomOperatorBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Example of a custom DPF operator coded in Python.&quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the scripting name of the operator in Snake Case.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;my_custom_operator&quot;</span>
+</pre></div>
+</div>
+<p>Next, set the <cite>specification</cite> property of your operator with:</p>
+<ul class="simple">
+<li><p>a description of what the operator does</p></li>
+<li><p>a dictionary for each input and output pin. This dictionary includes the name, a list of supported types, a description,
+and whether it is optional and/or ellipsis (meaning that the specification is valid for pins going from pin
+number <em>x</em> to infinity)</p></li>
+<li><p>a list for operator properties, including name to use in the documentation and code generation and the
+operator category. The optional <code class="docutils literal notranslate"><span class="pre">license</span></code> property lets you define a required license to check out
+when running the operator. Set it equal to <code class="docutils literal notranslate"><span class="pre">any_dpf_supported_increments</span></code> to allow any license
+currently accepted by DPF (see <a class="reference internal" href="../../getting_started/licensing.html#target-to-ansys-license-increments-list"><span class="std std-ref">here</span></a>)</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">specification</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CustomSpecification</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the specification of the custom operator.</span>
+
+<span class="sd">        The specification declares:</span>
+<span class="sd">            - the description of the operator</span>
+<span class="sd">            - the inputs of the operator</span>
+<span class="sd">            - the outputs of the operator</span>
+<span class="sd">            - the properties of the operator (a username, a category, a required license)</span>
+<span class="sd">            - the changelog of the operator (starting with DPF 2026 R1)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Instantiate the custom specification</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">CustomSpecification</span><span class="p">()</span>
+        <span class="c1"># Set the description of the operator</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;What the Operator does. You can use MarkDown and LaTeX in descriptions.&quot;</span>
+        <span class="c1"># Define the inputs of the operator if any</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;input_0&quot;</span><span class="p">,</span>
+                <span class="n">type_names</span><span class="o">=</span><span class="p">[</span><span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">FieldsContainer</span><span class="p">],</span>
+                <span class="n">document</span><span class="o">=</span><span class="s2">&quot;Describe input pin 0.&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">}</span>
+        <span class="c1"># Define the outputs of the operator if any</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;output_0&quot;</span><span class="p">,</span> <span class="n">type_names</span><span class="o">=</span><span class="p">[</span><span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">],</span> <span class="n">document</span><span class="o">=</span><span class="s2">&quot;Describe output pin 0.&quot;</span>
+            <span class="p">),</span>
+        <span class="p">}</span>
+        <span class="c1"># Define the properties of the operator if any</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="n">SpecificationProperties</span><span class="p">(</span>
+            <span class="n">user_name</span><span class="o">=</span><span class="s2">&quot;my custom operator&quot;</span><span class="p">,</span>  <span class="c1"># Optional, defaults to the scripting name with spaces</span>
+            <span class="n">category</span><span class="o">=</span><span class="s2">&quot;my_category&quot;</span><span class="p">,</span>  <span class="c1"># Optional, defaults to &#39;other&#39;</span>
+            <span class="n">license</span><span class="o">=</span><span class="s2">&quot;any_dpf_supported_increments&quot;</span><span class="p">,</span>  <span class="c1"># Optional, defaults to None</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Operator changelog and versioning is only available after DPF 2025R2</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.changelog</span><span class="w"> </span><span class="kn">import</span> <span class="n">Changelog</span>
+
+            <span class="c1"># Set the changelog of the operator to track changes</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">set_changelog</span><span class="p">(</span>
+                <span class="n">Changelog</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">patch_bump</span><span class="p">(</span><span class="s2">&quot;Describe a patch bump.&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">major_bump</span><span class="p">(</span><span class="s2">&quot;Describe a major bump.&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">minor_bump</span><span class="p">(</span><span class="s2">&quot;Describe a minor bump.&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">expect_version</span><span class="p">(</span><span class="s2">&quot;1.1.0&quot;</span><span class="p">)</span>  <span class="c1"># Checks the resulting version is as expected</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ModuleNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;ansys.dpf.core.changelog&quot;</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">msg</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">e</span>
+
+        <span class="k">return</span> <span class="n">spec</span>
+</pre></div>
+</div>
+<p>Next, implement the operator behavior in its <cite>run</cite> method:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the operator and execute the logic implemented here.</span>
+
+<span class="sd">        This method defines the behavior of the operator.</span>
+
+<span class="sd">        Request the inputs with the method ``get_input``,</span>
+<span class="sd">        perform operations on the data,</span>
+<span class="sd">        then set the outputs with the method ``set_output``,</span>
+<span class="sd">        and finally call ``set_succeeded``.</span>
+
+<span class="sd">        In this example, the operator changes the name of a Field.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># First get the field in input by calling get_input for the different types supported</span>
+        <span class="c1"># # Try requesting the input as a Field</span>
+        <span class="n">field</span><span class="p">:</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">)</span>
+        <span class="c1"># # If function returns None, there is no Field connected to this input</span>
+        <span class="k">if</span> <span class="n">field</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># # Try requesting the input as a FieldsContainer</span>
+            <span class="n">field</span><span class="p">:</span> <span class="n">dpf</span><span class="o">.</span><span class="n">FieldsContainer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">FieldsContainer</span><span class="p">)</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># # If the input is optional, set its default value</span>
+        <span class="c1"># # If the input is not optional and empty, raise an error</span>
+        <span class="k">if</span> <span class="n">field</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;my_custom_operator: mandatory input &#39;input_0&#39; is empty or of an unsupported type.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Perform some operations on the data</span>
+        <span class="n">field</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;new_field_name&quot;</span>
+
+        <span class="c1"># Set the output of the operator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+
+        <span class="c1"># And declare the operator run a success</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_succeeded</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <cite>CustomOperator</cite> class is now ready for packaging into any DPF Python plugin.</p>
+</section>
+<section id="package-as-a-plugin">
+<span id="tutorials-custom-operators-and-plugins-custom-operator-create-custom-plugin"></span><h2>Package as a plugin<a class="headerlink" href="#package-as-a-plugin" title="Link to this heading">#</a></h2>
+<p>You must package your custom operator as a <cite>plugin</cite>,
+which is what you can later load onto a running DPF server,
+or configure your installation to automatically load when starting a DPF server.</p>
+<p>A DPF plugin contains Python modules with declarations of custom Python operators such as seen above.
+However, it also has to define an entry-point for the DPF server to call,
+which records the operators of the plugin into the server registry of available operators.</p>
+<p>This is done by defining a function (DPF looks for a function named <code class="docutils literal notranslate"><span class="pre">load_operators</span></code> by default)
+somewhere in the plugin with signature <code class="docutils literal notranslate"><span class="pre">*args</span></code> and a call to the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">record_operator()</span></code> method for each custom operator.</p>
+<p>In this tutorial, the plugin is made of a single operator, in a single Python file.
+You can transform this single Python file into a DPF Python plugin very easily by adding
+<code class="docutils literal notranslate"><span class="pre">load_operators(*args)</span></code> function with a call to the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">record_operator()</span></code> method at the end of the file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">load_operators</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mandatory entry-point for the server to record the operators of the plugin.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.custom_operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">record_operator</span>
+
+    <span class="n">record_operator</span><span class="p">(</span><span class="n">CustomOperator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>PS: You can declare several custom operator classes in the same file, with as many calls to
+<code class="xref py py-func docutils literal notranslate"><span class="pre">record_operator()</span></code> as necessary.</p>
+</section>
+<section id="load-the-plugin">
+<span id="tutorials-custom-operators-and-plugins-custom-operator-load-the-plugin"></span><h2>Load the plugin<a class="headerlink" href="#load-the-plugin" title="Link to this heading">#</a></h2>
+<p>First, start a server in gRPC mode, which is the only server type supported for custom Python plugins.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dpf</span>
+
+<span class="c1"># Python plugins are not supported in process.</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span><span class="p">,</span> <span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>With the server and custom plugin ready, use the <code class="xref py py-func docutils literal notranslate"><span class="pre">load_library()</span></code> method in a PyDPF-Core script to load it.</p>
+<ul class="simple">
+<li><p>The first argument is the path to the directory with the plugin.</p></li>
+<li><p>The second argument is <code class="docutils literal notranslate"><span class="pre">py_&lt;plugin&gt;</span></code>, where &lt;plugin&gt; is the name identifying the plugin (the name of the Python file for a single file).</p></li>
+<li><p>The third argument is the name of the function in the plugin which records operators (<code class="docutils literal notranslate"><span class="pre">load_operators</span></code> by default).</p></li>
+</ul>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the path to the example plugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.examples.python_plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">custom_operator_example</span>
+<span class="n">custom_operator_folder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">custom_operator_example</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
+
+<span class="c1"># Load it on the server</span>
+<span class="n">dpf</span><span class="o">.</span><span class="n">load_library</span><span class="p">(</span>
+    <span class="n">filename</span><span class="o">=</span><span class="n">custom_operator_folder</span><span class="p">,</span>  <span class="c1"># Path to the plugin directory</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;py_custom_operator_example&quot;</span><span class="p">,</span>  <span class="c1"># Look for a Python file named &#39;custom_operator_example.py&#39;</span>
+    <span class="n">symbol</span><span class="o">=</span><span class="s2">&quot;load_operators&quot;</span><span class="p">,</span>  <span class="c1"># Look for the entry-point where operators are recorded</span>
+    <span class="n">server</span><span class="o">=</span><span class="n">server</span><span class="p">,</span>  <span class="c1"># Load the plugin on the server previously started</span>
+    <span class="n">generate_operators</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># Do not generate the Python module for this operator</span>
+<span class="p">)</span>
+
+<span class="c1"># You can verify the operator is now in the list of available operators on the server</span>
+<span class="k">assert</span> <span class="s2">&quot;my_custom_operator&quot;</span> <span class="ow">in</span> <span class="n">dpf</span><span class="o">.</span><span class="n">dpf_operator</span><span class="o">.</span><span class="n">available_operator_names</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">server</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="use-the-custom-operator">
+<span id="tutorials-custom-operators-and-plugins-custom-operator-use-the-custom-operator"></span><h2>Use the custom operator<a class="headerlink" href="#use-the-custom-operator" title="Link to this heading">#</a></h2>
+<p>Once the plugin is loaded, you can instantiate the custom operator based on its name.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_custom_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_custom_operator&quot;</span><span class="p">,</span> <span class="n">server</span><span class="o">=</span><span class="n">server</span><span class="p">)</span> <span class="c1"># as returned by the ``name`` property</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_custom_op</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF my_custom_operator Operator: 
+  What the Operator does. You can use MarkDown and LaTeX in descriptions. 
+  Inputs:
+         input_0 [field, fields_container]: Describe input pin 0. 
+  Outputs:
+         output_0 [field]: Describe output pin 0. 
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, run it as any other operator.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a bogus field to use as input</span>
+<span class="n">in_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">server</span><span class="p">)</span>
+<span class="c1"># Give it a name</span>
+<span class="n">in_field</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;initial name&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">in_field</span><span class="p">)</span>
+<span class="c1"># Set it as input of the operator</span>
+<span class="n">my_custom_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">input_0</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">in_field</span><span class="p">)</span>
+<span class="c1"># Run the operator by requesting its output</span>
+<span class="n">out_field</span> <span class="o">=</span> <span class="n">my_custom_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">output_0</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">out_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF initial name Field
+  Location: Nodal
+  Unit: 
+  0 entities 
+  Data: 3 components and 0 elementary data 
+
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF new_field_name Field
+  Location: Nodal
+  Unit: 
+  0 entities 
+  Data: 3 components and 0 elementary data 
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<p>For more information, see <span class="xref std std-ref">ref_custom_operator</span> in the <strong>API reference</strong>
+and <a class="reference internal" href="../../examples/08-python-operators/index.html#python-operators"><span class="std std-ref">Examples of creating custom operator plugins</span></a> in <strong>Examples</strong>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-custom-operator">Create a custom operator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-as-a-plugin">Package as a plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-plugin">Load the plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-custom-operator">Use the custom operator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/tutorials/custom_operators_and_plugins/custom_operators.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2026 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.6.4. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

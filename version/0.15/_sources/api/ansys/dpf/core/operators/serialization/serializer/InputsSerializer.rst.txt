@@ -1,0 +1,198 @@
+
+
+
+
+
+
+:class:`InputsSerializer`
+=========================
+
+
+.. py:class:: ansys.dpf.core.operators.serialization.serializer.InputsSerializer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   serializer operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serializer()
+   >>> my_stream_type = int()
+   >>> op.inputs.stream_type.connect(my_stream_type)
+   >>> my_file_path = str()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> my_any_input1 = dpf.Any()
+   >>> op.inputs.any_input1.connect(my_any_input1)
+   >>> my_any_input2 = dpf.Any()
+   >>> op.inputs.any_input2.connect(my_any_input2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsSerializer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~stream_type`
+            - Allows to connect stream_type input to the operator.
+          * - :py:attr:`~file_path`
+            - Allows to connect file_path input to the operator.
+          * - :py:attr:`~any_input1`
+            - Allows to connect any_input1 input to the operator.
+          * - :py:attr:`~any_input2`
+            - Allows to connect any_input2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.serializer import InputsSerializer
+
+Property detail
+---------------
+
+.. py:property:: stream_type
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect stream_type input to the operator.
+
+   0 for ASCII (default), and 1 for binary
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serializer()
+   >>> op.inputs.stream_type.connect(my_stream_type)
+   >>> # or
+   >>> op.inputs.stream_type(my_stream_type)
+
+.. py:property:: file_path
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect file_path input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serializer()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> # or
+   >>> op.inputs.file_path(my_file_path)
+
+.. py:property:: any_input1
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.any.Any]
+
+
+   Allows to connect any_input1 input to the operator.
+
+   any input
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serializer()
+   >>> op.inputs.any_input1.connect(my_any_input1)
+   >>> # or
+   >>> op.inputs.any_input1(my_any_input1)
+
+.. py:property:: any_input2
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.any.Any]
+
+
+   Allows to connect any_input2 input to the operator.
+
+   any input
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serializer()
+   >>> op.inputs.any_input2.connect(my_any_input2)
+   >>> # or
+   >>> op.inputs.any_input2(my_any_input2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.compression.zfp_decompress
+   :inherited-members:

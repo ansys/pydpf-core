@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.custom_type_field
+   :inherited-members:

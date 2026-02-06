@@ -1,0 +1,181 @@
+
+
+
+
+
+
+:class:`InputsRecordReader`
+===========================
+
+
+.. py:class:: ansys.dpf.core.operators.result.record_reader.InputsRecordReader(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   record_reader operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.record_reader()
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_record_name = dpf.()
+   >>> op.inputs.record_name.connect(my_record_name)
+
+
+
+
+
+
+.. py:currentmodule:: InputsRecordReader
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~streams`
+            - Allows to connect streams input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~record_name`
+            - Allows to connect record_name input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.record_reader import InputsRecordReader
+
+Property detail
+---------------
+
+.. py:property:: streams
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.streams_container.StreamsContainer]
+
+
+   Allows to connect streams input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.record_reader()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> # or
+   >>> op.inputs.streams(my_streams)
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.data_sources.DataSources]
+
+
+   Allows to connect data_sources input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.record_reader()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: record_name
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect record_name input to the operator.
+
+   Name of the record that must be extracted from the file.
+
+   For example to read the nodal solution of the 4th set, input should be **RST::DSI::SET4::NSL**
+
+   The MAPDL records tree can be found in the following links:
+
+   - [Ansys Help - Retrieving Data from the Results File](https://ansyshelp.ansys.com/public/account/secured?returnurl=//////Views/Secured/corp/v252/en/ans_prog/datafromRST.html)
+
+   - [Ansys Help - Description of the Results File](https://ansyshelp.ansys.com/public/account/secured?returnurl=/Views/Secured/corp/v252/en/ans_prog/Hlp_P_INT1_2.html)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.record_reader()
+   >>> op.inputs.record_name.connect(my_record_name)
+   >>> # or
+   >>> op.inputs.record_name(my_record_name)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

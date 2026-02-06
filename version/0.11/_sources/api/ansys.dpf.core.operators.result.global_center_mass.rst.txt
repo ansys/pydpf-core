@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.global_center_mass
+   :inherited-members:

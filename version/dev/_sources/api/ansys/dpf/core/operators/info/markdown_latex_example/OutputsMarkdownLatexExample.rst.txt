@@ -1,0 +1,192 @@
+
+
+
+
+
+
+:class:`OutputsMarkdownLatexExample`
+====================================
+
+
+.. py:class:: ansys.dpf.core.operators.info.markdown_latex_example.OutputsMarkdownLatexExample(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   markdown_latex_example operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.info.markdown_latex_example()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_bogus_output = op.outputs.bogus_output()
+
+
+
+
+
+.. py:currentmodule:: OutputsMarkdownLatexExample
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~bogus_output`
+            - Allows to get bogus_output output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.info.markdown_latex_example import OutputsMarkdownLatexExample
+
+Property detail
+---------------
+
+.. py:property:: bogus_output
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get bogus_output output of the operator
+
+   This pin showcases the use of Markdown and LaTeX in pin descriptions:
+   # Headings
+   ## h2
+   ### h3
+   #### h4
+   ##### h5
+
+   # Text
+   This should result in a paragraph
+   it's that simple.
+
+
+   *italic*, **bold**
+
+   # Lists
+   * an *unordered list*
+     * with **some hierarchy**
+       1. and an ordered
+       2. mixed
+       * list
+       * directly
+     * inside
+
+   # Code
+   ## Code block
+   ```c
+   std::string a = 'test';
+   ```
+   ```js
+   var a = 'test';
+   ```
+   ```python
+   a: str = 'test'
+   ```
+   ## Inline code
+   And well `inline code` should also work.
+
+   # Quotes
+
+   > A Quote
+   >
+   > With *some text* **blocks inside**
+   >
+   > * even a list
+   > * should be
+   > * possible
+
+   ## Links
+   Links such as [link](https://docs.pyansys.com/).
+
+   ## Images
+   ![an image](https://docs.pyansys.com/version/dev/_static/pyansys_logo_transparent_white.png)
+
+
+   ## Separations
+
+   ---
+
+   ## Checklists
+
+   - [ ] how
+   - [ ] about
+     - [ ] a
+     - [x] nice
+   - [x] check
+   - [ ] list
+
+   ## Tables
+
+   | Left header | middle header | last header |
+   |-------------|---------------|-------------|
+   | cell 1      | cell **2**    | cell 3      |
+   | cell 4      | cell 5        | cell 6      |
+
+
+   ## LaTeX
+
+   An inline equation $x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$ using LaTeX dollar delimiters.
+
+   An inline equation \(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\) using LaTeX parenthesis delimiters.
+
+   An equation on its own using dollar delimiters:
+   $$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$$
+
+   An equation on its own using square bracket delimiters:
+   \[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\]
+
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.info.markdown_latex_example()
+   >>> # Get the output from op.outputs. ...
+   >>> result_bogus_output = op.outputs.bogus_output()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

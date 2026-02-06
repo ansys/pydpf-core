@@ -1,0 +1,85 @@
+
+
+
+
+
+
+The ``plugins.py`` module
+=========================
+
+.. py:module:: ansys.dpf.core.plugins
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: plugins
+.. tab-set::
+
+
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~load_plugin_on_server`
+            - Load a DPF Python plugin on the global or given DPF server.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Python DPF plugins utilities.
+
+Contains the utilities specific to installing and using Python DPF plugins.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: load_plugin_on_server(plugin: str | pathlib.Path, server: ansys.dpf.core.AnyServerType = None, symbol: str = 'load_operators', generate_operators: bool = False)
+
+   Load a DPF Python plugin on the global or given DPF server.
+
+   :param plugin: Path to the DPF Python plugin to load.
+   :param server: DPF server to load the plugin onto.
+   :param symbol: Name of the function recording the operators in the plugin.
+   :param generate_operators: Whether to generate the Python code for the operators in the plugin.
+
+
+
+
