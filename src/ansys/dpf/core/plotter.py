@@ -30,6 +30,7 @@ Contains classes used to plot a mesh and a fields container using PyVista.
 
 from __future__ import annotations
 
+import importlib.util
 from pathlib import Path
 import sys
 import tempfile
@@ -89,12 +90,10 @@ class _InternalPlotterFactory:
         elif plotter_type == PLOTTER_TYPE_VISUALIZATION_INTERFACE:
             return _VisualizationInterfacePlotter
         elif plotter_type == PLOTTER_TYPE_AUTO:
-            try:
-                # Try to import visualization interface
-                from ansys.tools.visualization_interface import Plotter  # noqa: F401
-
+            # Check if visualization interface is available
+            if importlib.util.find_spec("ansys.tools.visualization_interface") is not None:
                 return _VisualizationInterfacePlotter
-            except ImportError:
+            else:
                 # Fall back to legacy plotter if visualization-interface is not installed
                 return _PyVistaPlotter
         else:
