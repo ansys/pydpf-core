@@ -33,7 +33,7 @@ from __future__ import annotations
 from pathlib import Path
 import sys
 import tempfile
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
 import warnings
 
 import numpy as np
@@ -49,6 +49,7 @@ if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Operator, Result
     from ansys.dpf.core.field import Field
     from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.helpers import Streamlines, StreamlinesSource
     from ansys.dpf.core.meshed_region import MeshedRegion
 
 
@@ -536,7 +537,7 @@ class _VisualizationInterfacePlotter:
     enabling future backend flexibility.
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """Initialize the visualization interface plotter.
 
         Parameters
@@ -551,7 +552,7 @@ class _VisualizationInterfacePlotter:
         self._backend = PyVistaBackend(**kwargs)
         self._plotter = Plotter(backend=self._backend)
 
-    def add_scale_factor_legend(self, scale_factor, **kwargs):
+    def add_scale_factor_legend(self, scale_factor: float, **kwargs: Any) -> None:
         """Add a scale factor legend text to the plotter.
 
         Parameters
@@ -567,7 +568,7 @@ class _VisualizationInterfacePlotter:
             font_size=12,
         )
 
-    def add_points(self, points, field, **kwargs):
+    def add_points(self, points: Any, field: Optional[Field], **kwargs: Any) -> None:
         """Add points to the plotter.
 
         Parameters
@@ -589,7 +590,7 @@ class _VisualizationInterfacePlotter:
         else:
             self._plotter.add_points(points, **kwargs)
 
-    def add_line(self, points, field=None, **kwargs):
+    def add_line(self, points: Any, field: Optional[Field] = None, **kwargs: Any) -> None:
         """Add a line to the plotter.
 
         Parameters
@@ -610,7 +611,7 @@ class _VisualizationInterfacePlotter:
         else:
             self._plotter.add_lines(points, **kwargs)
 
-    def add_plane(self, plane, field=None, **kwargs):
+    def add_plane(self, plane: Any, field: Optional[Field] = None, **kwargs: Any) -> None:
         """Add a plane to the plotter.
 
         Parameters
@@ -636,7 +637,14 @@ class _VisualizationInterfacePlotter:
             plane_plot[f"{field.name}"] = field.data
         self._plotter.add_mesh(plane_plot, **kwargs)
 
-    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, as_linear=True, **kwargs):
+    def add_mesh(
+        self,
+        meshed_region: MeshedRegion,
+        deform_by: Optional[Field] = None,
+        scale_factor: float = 1.0,
+        as_linear: bool = True,
+        **kwargs: Any,
+    ) -> None:
         """Add a DPF mesh to the plotter.
 
         Parameters
@@ -710,8 +718,8 @@ class _VisualizationInterfacePlotter:
         List
             List of label actors.
         """
-        import pyvista as pv
         from packaging.version import parse
+        import pyvista as pv
 
         label_actors = []
         if isinstance(nodes, Nodes):
@@ -777,8 +785,8 @@ class _VisualizationInterfacePlotter:
         scoping: core.Scoping,
         mesh: core.MeshedRegion,
         show_mesh: bool = False,
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         """Add a scoping visualization to the plotter.
 
         Parameters
@@ -815,19 +823,19 @@ class _VisualizationInterfacePlotter:
 
     def add_field(
         self,
-        field,
-        meshed_region=None,
-        show_max=False,
-        show_min=False,
-        label_text_size=30,
-        label_point_size=20,
-        deform_by=None,
-        scale_factor=1.0,
-        scale_factor_legend=None,
-        as_linear=True,
-        shell_layer=eshell_layers.top,
-        **kwargs,
-    ):
+        field: Field,
+        meshed_region: Optional[MeshedRegion] = None,
+        show_max: bool = False,
+        show_min: bool = False,
+        label_text_size: int = 30,
+        label_point_size: int = 20,
+        deform_by: Optional[Field] = None,
+        scale_factor: float = 1.0,
+        scale_factor_legend: Optional[float] = None,
+        as_linear: bool = True,
+        shell_layer: eshell_layers = eshell_layers.top,
+        **kwargs: Any,
+    ) -> None:
         """Add a field visualization to the plotter.
 
         Parameters
@@ -1008,7 +1016,13 @@ class _VisualizationInterfacePlotter:
                 point_size=label_point_size,
             )
 
-    def add_streamlines(self, streamlines, source=None, radius=1.0, **kwargs):
+    def add_streamlines(
+        self,
+        streamlines: Streamlines,
+        source: Optional[StreamlinesSource] = None,
+        radius: float = 1.0,
+        **kwargs: Any,
+    ) -> None:
         """Add streamlines to the plotter.
 
         Parameters
@@ -1028,15 +1042,13 @@ class _VisualizationInterfacePlotter:
         streamlines_vtk = streamlines._as_pyvista_data_set()
         if not (permissive and streamlines_vtk.n_points == 0):
             self._plotter.add_mesh(
-                streamlines_vtk.tube(radius=radius),
-                scalar_bar_args=sargs,
-                **kwargs
+                streamlines_vtk.tube(radius=radius), scalar_bar_args=sargs, **kwargs
             )
         if source is not None:
             src = source._as_pyvista_data_set()
             self._plotter.add_mesh(src, **kwargs)
 
-    def show_figure(self, **kwargs):
+    def show_figure(self, **kwargs: Any) -> Tuple[Any, Any]:
         """Show the figure.
 
         Parameters
@@ -1085,7 +1097,7 @@ class _VisualizationInterfacePlotter:
         return result, self._backend.base_plotter
 
     @staticmethod
-    def _set_scalar_bar_title(kwargs):
+    def _set_scalar_bar_title(kwargs: Dict[str, Any]) -> Dict[str, Any]:
         """Set the scalar bar title from kwargs.
 
         Parameters
