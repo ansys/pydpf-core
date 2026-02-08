@@ -60,7 +60,6 @@ if TYPE_CHECKING:  # pragma: no cover
 import logging
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel("DEBUG")
 DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 50054))
 LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
 RUNNING_DOCKER = server_factory.create_default_docker_config()
@@ -773,6 +772,8 @@ class CServer(BaseServer, ABC):
 
 class GrpcClient:
     """Client using the gRPC communication protocol."""
+
+    _internal_obj = None
 
     def __init__(self):
         from ansys.dpf.gate import client_capi

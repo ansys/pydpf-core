@@ -66,7 +66,7 @@ print("".rjust(40, '*'))
 
 # Build ignore pattern
 ignored_pattern = r"(ignore"
-for example in sorted(glob(r"../../examples/**/*.py")):
+for example in sorted(glob(r"../sphinx_gallery_examples/**/*.py")):
     minimum_version_str = get_example_required_minimum_dpf_version(example)
     if float(server_version) - float(minimum_version_str) < -0.05:
         example_name = example.split(os.path.sep)[-1]
@@ -125,7 +125,6 @@ extensions = [
     "sphinx_design",
     "sphinx_jinja",
     'sphinx_reredirects',
-    "jupyter_sphinx",
 ]
 
 redirects = {
@@ -187,7 +186,7 @@ sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
     # path to your examples scripts
-    "examples_dirs": ["../../examples"],
+    "examples_dirs": ["../sphinx_gallery_examples"],
     # abort build at first example error
     'abort_on_example_error': True,
     # path where to save gallery generated examples
@@ -405,12 +404,6 @@ envs.remove("default environments:")
 envs.remove("additional environments:")
 envs.remove("")
 
-jinja_contexts = {
-    "toxenvs" : {
-        "envs": envs,
-    }
-}
-
 # Optionally exclude api or example documentation generation.
 BUILD_API = True if os.environ.get("BUILD_API", "true") == "true" else False
 if BUILD_API:
@@ -419,6 +412,21 @@ if BUILD_API:
 BUILD_EXAMPLES = True if os.environ.get("BUILD_EXAMPLES", "true") == "true" else False
 if BUILD_EXAMPLES:
     extensions.extend(["sphinx_gallery.gen_gallery"])
+
+BUILD_TUTORIALS = True if os.environ.get("BUILD_TUTORIALS", "true") == "true" else False
+if BUILD_TUTORIALS:
+    extensions.extend(["jupyter_sphinx"])
+
+jinja_contexts = {
+    "toxenvs" : {
+        "envs": envs,
+    },
+    "toctree" : {
+        "build_api": BUILD_API,
+        "build_examples": BUILD_EXAMPLES,
+        "build_tutorials": BUILD_TUTORIALS,
+    },
+}
 
 print(f"{extensions=}")
 

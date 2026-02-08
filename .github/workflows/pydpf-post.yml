@@ -57,7 +57,7 @@ jobs:
         python-version: ["3.10"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: "Set licensing if necessary"
         if: ${{ (inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) > '231' }}
@@ -68,12 +68,14 @@ jobs:
           echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
 
       - name: "Setup Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: "Install ansys-dpf-core build requirements"
-        run: pip install -r requirements/requirements_build.txt
+        run: |
+          pip install -U pip
+          pip install --group build
 
       - name: "Build ansys-dpf-core wheel"
         shell: bash
@@ -136,7 +138,7 @@ jobs:
           ls
 
       - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
+        uses: ansys/pydpf-actions/prepare_tests@v2.3
         with:
           DEBUG: true
           working-directory: pydpf-post

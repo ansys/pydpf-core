@@ -497,6 +497,9 @@ def vtk_mesh_is_valid(grid: pv.UnstructuredGrid, verbose: bool = False) -> VTKMe
 
     # Run the cell validator
     cell_validator = vtkCellValidator()
+    # For VTK 9.5.3 and above, use auto tolerance for polyhedron convexity testing
+    if hasattr(cell_validator, "AutoToleranceOn"):  # pragma: nocover
+        cell_validator.AutoToleranceOn()
     cell_validator.SetInputData(grid)
     cell_validator.Update()
     # Get the states for all cells as a numpy array

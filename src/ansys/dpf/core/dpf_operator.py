@@ -65,9 +65,6 @@ if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.inputs import _Inputs
     from ansys.dpf.core.server import AnyServerType
 
-LOG = logging.getLogger(__name__)
-LOG.setLevel("DEBUG")
-
 
 class _SubOperator:
     def __init__(self, op_name, op_to_connect):

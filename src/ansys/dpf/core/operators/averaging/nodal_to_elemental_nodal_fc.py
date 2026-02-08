@@ -30,6 +30,8 @@ class nodal_to_elemental_nodal_fc(Operator):
     fields_container: FieldsContainer
     mesh: MeshedRegion, optional
     mesh_scoping: Scoping, optional
+    extend_to_mid_nodes: bool, optional
+        Copy values from midside nodes to ElementalNodal field. Default: false
 
     Outputs
     -------
@@ -49,12 +51,15 @@ class nodal_to_elemental_nodal_fc(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.averaging.nodal_to_elemental_nodal_fc(
     ...     fields_container=my_fields_container,
     ...     mesh=my_mesh,
     ...     mesh_scoping=my_mesh_scoping,
+    ...     extend_to_mid_nodes=my_extend_to_mid_nodes,
     ... )
 
     >>> # Get output data
@@ -66,6 +71,7 @@ class nodal_to_elemental_nodal_fc(Operator):
         fields_container=None,
         mesh=None,
         mesh_scoping=None,
+        extend_to_mid_nodes=None,
         config=None,
         server=None,
     ):
@@ -82,6 +88,8 @@ class nodal_to_elemental_nodal_fc(Operator):
             self.inputs.mesh.connect(mesh)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
+        if extend_to_mid_nodes is not None:
+            self.inputs.extend_to_mid_nodes.connect(extend_to_mid_nodes)
 
     @staticmethod
     def _spec() -> Specification:
@@ -107,6 +115,12 @@ class nodal_to_elemental_nodal_fc(Operator):
                     type_names=["scoping"],
                     optional=True,
                     document=r"""""",
+                ),
+                4: PinSpecification(
+                    name="extend_to_mid_nodes",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""Copy values from midside nodes to ElementalNodal field. Default: false""",
                 ),
             },
             map_output_pin_spec={
@@ -180,6 +194,8 @@ class InputsNodalToElementalNodalFc(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
     """
 
     def __init__(self, op: Operator):
@@ -196,6 +212,10 @@ class InputsNodalToElementalNodalFc(_Inputs):
             nodal_to_elemental_nodal_fc._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._mesh_scoping)
+        self._extend_to_mid_nodes: Input[bool] = Input(
+            nodal_to_elemental_nodal_fc._spec().input_pin(4), 4, op, -1
+        )
+        self._inputs.append(self._extend_to_mid_nodes)
 
     @property
     def fields_container(self) -> Input[FieldsContainer]:
@@ -253,6 +273,27 @@ class InputsNodalToElementalNodalFc(_Inputs):
         >>> op.inputs.mesh_scoping(my_mesh_scoping)
         """
         return self._mesh_scoping
+
+    @property
+    def extend_to_mid_nodes(self) -> Input[bool]:
+        r"""Allows to connect extend_to_mid_nodes input to the operator.
+
+        Copy values from midside nodes to ElementalNodal field. Default: false
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.nodal_to_elemental_nodal_fc()
+        >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
+        >>> # or
+        >>> op.inputs.extend_to_mid_nodes(my_extend_to_mid_nodes)
+        """
+        return self._extend_to_mid_nodes
 
 
 class OutputsNodalToElementalNodalFc(_Outputs):

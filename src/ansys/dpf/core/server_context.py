@@ -35,6 +35,8 @@ variable.
 ANSYS_DPF_SERVER_CONTEXT=ENTRY and ANSYS_DPF_SERVER_CONTEXT=PREMIUM can be used.
 """
 
+from __future__ import annotations
+
 from enum import Enum
 import os
 import warnings
@@ -267,6 +269,29 @@ class ServerContext:
         str
         """
         return self._xml_path
+
+    @xml_path.setter
+    def xml_path(self, xml_path: str | os.PathLike):
+        r"""Set the path to the xml file defining default plugins to load at server start.
+
+        Parameters
+        ----------
+        xml_path:
+            Path to the XML file to use at server start. Useful to target a custom XML file.
+
+        Examples
+        --------
+        Create a ServerContext targeting a custom XML file.
+
+        >>> import ansys.dpf.core as dpf
+        >>> # Create a custom server context
+        >>> custom_server_context = dpf.AvailableServerContexts.no_context
+        >>> # Set the XML path
+        >>> custom_server_context.xml_path = r'\path\to\file'
+        >>> # Start a DPF server using this context
+        >>> # server = dpf.start_local_server(context=custom_server_context)
+        """
+        self._xml_path = str(xml_path)
 
     def __str__(self):
         """Return string representation of the ServerContext instance."""

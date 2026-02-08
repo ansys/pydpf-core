@@ -24,7 +24,7 @@ jobs:
     name: "Deploy examples for Ansys Lab"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ env.DESTINATION_BRANCH_NAME }}
 
@@ -39,7 +39,7 @@ jobs:
             print(f"Deleted {example}")
 
       - name: "Download Release Asset - HTML"
-        uses: dsaltares/fetch-gh-release-asset@1.1.0
+        uses: dsaltares/fetch-gh-release-asset@1.1.2
         with:
           file: HTML-doc-ansys-dpf-core.zip
           token: ${{ secrets.GITHUB_TOKEN }}

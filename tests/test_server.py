@@ -43,7 +43,7 @@ from ansys.dpf.core.server import (
 )
 from ansys.dpf.core.server_factory import CommunicationProtocols, GrpcMode, ServerConfig
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     raises_for_servers_version_under,
     remove_none_available_config,
     running_docker,
@@ -57,11 +57,6 @@ server_configs, server_configs_names = remove_none_available_config(
         ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
         ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
         ServerConfig(protocol=None, legacy=False),
-    ]
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
-    else [
-        None,
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
     ],
     [
         "none",
@@ -70,11 +65,6 @@ server_configs, server_configs_names = remove_none_available_config(
         "grpc",
         "in process",
         "None protocol",
-    ]
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
-    else [
-        "none",
-        "legacy grpc",
     ],
 )
 
@@ -181,6 +171,20 @@ class TestServer:
 
 
 @pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="not working properly before 25R2"
+)
+@pytest.mark.skipif(running_docker, reason="server start using custom xml not working on Docker")
+def test_server_context_custom_xml(remote_config_server_type, testfiles_dir):
+    from pathlib import Path
+
+    context = dpf.core.AvailableServerContexts.no_context
+    context.xml_path = Path(testfiles_dir) / "DpfCustomDefinedTest.xml"
+    server_plugins = start_local_server(config=remote_config_server_type, context=context).plugins
+    ref = ["grpc", "native"]
+    assert sorted(list(server_plugins.keys())) == ref
+
+
+@pytest.mark.skipif(
     os.name == "posix" or running_docker,
     reason="lin issue: 2 processes can be run with same port",
 )
@@ -219,10 +223,6 @@ def test_docker_busy_port(remote_config_server_type, clean_up):
     platform.system() == "Linux" and platform.python_version().startswith("3.7"),
     reason="Known failure in the GitHub pipeline for 3.7 on Ubuntu",
 )
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Not working for server version lower than 4.0",
-)
 def test_shutting_down_when_deleted_legacy():
     num_dpf_exe = 0
     for proc in psutil.process_iter():
@@ -246,10 +246,6 @@ def test_shutting_down_when_deleted_legacy():
     assert num_dpf_exe >= new_num_dpf_exe
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Not existing in version lower than 4.0",
-)
 def test_shutting_down_when_deleted():
     num_dpf_exe = 0
     for proc in psutil.process_iter():
@@ -318,10 +314,6 @@ def test_connect_to_remote_server(remote_config_server_type):
     # assert server.config == remote_config_server_type
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Not existing in version lower than 4.0",
-)
 def test_go_away_server():
     for _ in range(0, 5):
         s = start_local_server(config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False)
@@ -329,10 +321,6 @@ def test_go_away_server():
         assert field._internal_obj is not None
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Not existing in version lower than 4.0",
-)
 @pytest.mark.skipif(running_docker, reason="Unstable on Docker")
 def test_start_after_shutting_down_server():
     remote_server = start_local_server(
