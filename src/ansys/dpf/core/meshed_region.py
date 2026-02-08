@@ -24,7 +24,6 @@
 
 from __future__ import annotations
 
-from optparse import Option
 from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:  # pragma: nocover
