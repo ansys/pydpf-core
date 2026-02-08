@@ -33,11 +33,10 @@ from __future__ import annotations
 from pathlib import Path
 import sys
 import tempfile
-from typing import TYPE_CHECKING, List, Optional, Union
+from typing import TYPE_CHECKING, List, Union
 import warnings
 
 import numpy as np
-from pyvista import UnstructuredGrid
 
 from ansys import dpf
 from ansys.dpf import core
@@ -46,28 +45,62 @@ from ansys.dpf.core.common import DefinitionLabels, locations, shell_layers as e
 from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core.nodes import Node, Nodes
 
-# Temporary
-from ansys.tools.visualization_interface import Plotter as VizPlotter
-from ansys.tools.visualization_interface.backends.plotly.plotly_interface import PlotlyBackend
-from ansys.tools.visualization_interface.backends.pyvista import PyVistaBackend
-
 if TYPE_CHECKING:  # pragma: no cover
-    from ansys.dpf.core import Operator
+    from ansys.dpf.core import Operator, Result
     from ansys.dpf.core.field import Field
     from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.meshed_region import MeshedRegion
-    from ansys.dpf.core.results import Result
 
-    # Temporary
-    from ansys.tools.visualization_interface.backends._base import BaseBackend
+
+# Plotter type constants
+PLOTTER_TYPE_VISUALIZATION_INTERFACE = "visualization_interface"
+PLOTTER_TYPE_PYVISTA = "pyvista"
+PLOTTER_TYPE_AUTO = "auto"  # Auto-detect: prefer visualization_interface, fallback to pyvista
 
 
 class _InternalPlotterFactory:
-    """Factory for _InternalPlotter based on the backend."""
+    """Factory for _InternalPlotter based on the backend.
+
+    By default, uses the new _VisualizationInterfacePlotter which is based on
+    ansys-tools-visualization-interface. Use the plotter_type parameter to
+    select a specific plotter implementation.
+    """
 
     @staticmethod
-    def get_plotter_class():
-        return _PyVistaPlotter
+    def get_plotter_class(plotter_type=PLOTTER_TYPE_AUTO):
+        """Get the plotter class based on the specified type.
+
+        Parameters
+        ----------
+        plotter_type : str, optional
+            The type of plotter to use. Options are:
+            - "auto" (default): Prefer visualization_interface, fallback to pyvista
+            - "visualization_interface": Use _VisualizationInterfacePlotter
+            - "pyvista": Use legacy _PyVistaPlotter
+
+        Returns
+        -------
+        type
+            The plotter class to instantiate.
+        """
+        if plotter_type == PLOTTER_TYPE_PYVISTA:
+            return _PyVistaPlotter
+        elif plotter_type == PLOTTER_TYPE_VISUALIZATION_INTERFACE:
+            return _VisualizationInterfacePlotter
+        elif plotter_type == PLOTTER_TYPE_AUTO:
+            try:
+                # Try to import visualization interface
+                from ansys.tools.visualization_interface import Plotter  # noqa: F401
+
+                return _VisualizationInterfacePlotter
+            except ImportError:
+                # Fall back to legacy plotter if visualization-interface is not installed
+                return _PyVistaPlotter
+        else:
+            raise ValueError(
+                f"Invalid plotter_type '{plotter_type}'. "
+                f"Must be one of: '{PLOTTER_TYPE_AUTO}', '{PLOTTER_TYPE_VISUALIZATION_INTERFACE}', '{PLOTTER_TYPE_PYVISTA}'"
+            )
 
 
 class _PyVistaPlotter:
@@ -495,101 +528,141 @@ class _PyVistaPlotter:
         return kwargs
 
 
-class _VizPlotter(VizPlotter):
-    """Internal plotter using ansys-tools-visualization-interface backend.
+class _VisualizationInterfacePlotter:
+    """Plotter based on ansys-tools-visualization-interface.
 
-    This class provides a plotting interface that wraps the Visualization
-    Interface Tool plotter, enabling switching between PyVista
-    and Plotly backends.
-
-    Parameters
-    ----------
-    backend : PyVistaBackend, PlotlyBackend, optional
-        Visualization backend to use. If None, defaults to PyVistaBackend.
+    This class provides the same interface as _PyVistaPlotter but uses
+    the ansys-tools-visualization-interface Plotter class for rendering,
+    enabling future backend flexibility.
     """
 
-    def __init__(self, backend=None):
-        """Initialize the visualization plotter.
+    def __init__(self, **kwargs):
+        """Initialize the visualization interface plotter.
 
         Parameters
         ----------
-        backend : PyVistaBackend, PlotlyBackend, optional
-            Visualization backend to use. If None, defaults to PyVistaBackend.
+        **kwargs : dict
+            Keyword arguments passed to the PyVistaBackend constructor.
         """
-        super().__init__(backend)
+        from ansys.tools.visualization_interface import Plotter
+        from ansys.tools.visualization_interface.backends.pyvista import PyVistaBackend
 
-    # Needs high level API in viz to avoid customization
+        # Create the backend with filtered kwargs
+        self._backend = PyVistaBackend(**kwargs)
+        self._plotter = Plotter(backend=self._backend)
+
     def add_scale_factor_legend(self, scale_factor, **kwargs):
-        """Add a scale factor legend to the plot.
+        """Add a scale factor legend text to the plotter.
 
         Parameters
         ----------
         scale_factor : float
-            Scale factor value to display in the legend.
+            The scale factor value to display.
         **kwargs : dict
-            Additional keyword arguments for legend customization.
-
-        Notes
-        -----
-        Implementation is backend-specific. PyVista uses add_text while
-        Plotly uses add_annotation.
+            Additional keyword arguments (unused, for compatibility).
         """
-        if isinstance(self.backend, PyVistaBackend):
-            kwargs_in = _sort_supported_kwargs(
-                bound_method=self.backend.base_plotter.add_text, **kwargs
-            )
-            self.backend.base_plotter.add_text(
-                f"Scale factor: {scale_factor}",
-                position="upper_right",
-                font_size=12,
-                **kwargs_in,
-            )
-        elif isinstance(self.backend, PlotlyBackend):
-            kwargs_in = _sort_supported_kwargs(self.backend._fig.add_annotation, **kwargs)
-            self.backend._fig.add_annotation(
-                text=f"Scale factor: {scale_factor}",
-                xref="paper",
-                xanchor="right",
-                yref="paper",
-                yanchor="top",
-            )
+        self._plotter.add_text(
+            text=f"Scale factor: {scale_factor}",
+            position="upper_right",
+            font_size=12,
+        )
 
-    def add_mesh(
-        self,
-        meshed_region: MeshedRegion,
-        deform_by: Union[Field, FieldsContainer, Result, Operator] = None,
-        scale_factor: Optional[float] = 1.0,
-        as_linear: Optional[bool] = True,
-        **plotter_kwargs,
-    ):
-        """Add a meshed region to the plotter.
+    def add_points(self, points, field, **kwargs):
+        """Add points to the plotter.
+
+        Parameters
+        ----------
+        points : array-like
+            Point coordinates as Nx3 array.
+        field : Field, optional
+            Field containing scalar data for coloring.
+        **kwargs : dict
+            Additional keyword arguments for add_points.
+        """
+        import pyvista as pv
+
+        point_cloud = pv.PolyData(points)
+        if field:
+            point_cloud[f"{field.name}"] = field.data
+            # Use add_mesh for colored points
+            self._plotter.add_mesh(point_cloud, **kwargs)
+        else:
+            self._plotter.add_points(points, **kwargs)
+
+    def add_line(self, points, field=None, **kwargs):
+        """Add a line to the plotter.
+
+        Parameters
+        ----------
+        points : array-like
+            Point coordinates defining the line.
+        field : Field, optional
+            Field containing scalar data for coloring.
+        **kwargs : dict
+            Additional keyword arguments.
+        """
+        import pyvista as pv
+
+        line_field = pv.PolyData(np.array(points))
+        if field:
+            line_field[f"{field.name}"] = field.data
+            self._plotter.add_mesh(line_field, **kwargs)
+        else:
+            self._plotter.add_lines(points, **kwargs)
+
+    def add_plane(self, plane, field=None, **kwargs):
+        """Add a plane to the plotter.
+
+        Parameters
+        ----------
+        plane : object
+            Plane object with center, normal_dir, width, height, n_cells_x, n_cells_y.
+        field : Field, optional
+            Field containing scalar data for coloring.
+        **kwargs : dict
+            Additional keyword arguments.
+        """
+        import pyvista as pv
+
+        plane_plot = pv.Plane(
+            center=plane.center,
+            direction=plane.normal_dir,
+            i_size=plane.width,
+            j_size=plane.height,
+            i_resolution=plane.n_cells_x,
+            j_resolution=plane.n_cells_y,
+        )
+        if field:
+            plane_plot[f"{field.name}"] = field.data
+        self._plotter.add_mesh(plane_plot, **kwargs)
+
+    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, as_linear=True, **kwargs):
+        """Add a DPF mesh to the plotter.
 
         Parameters
         ----------
         meshed_region : MeshedRegion
-            Mesh to add to the plot.
-        deform_by : Field, FieldsContainer, Result, or Operator, optional
-            Field used to deform the mesh. Must output a 3D vector field.
+            The DPF mesh to plot.
+        deform_by : Field, optional
+            Field to use for mesh deformation.
         scale_factor : float, optional
-            Scaling factor for mesh deformation. Default is 1.0.
+            Scale factor for deformation. Default is 1.0.
         as_linear : bool, optional
-            Whether to plot quadratic elements as linear. Default is True.
-        **plotter_kwargs : dict
-            Additional plotting options passed to the backend.
+            Whether to treat elements as linear. Default is True.
+        **kwargs : dict
+            Additional keyword arguments.
         """
-        plotter_kwargs = self._set_scalar_bar_title(plotter_kwargs)
+        kwargs = self._set_scalar_bar_title(kwargs)
 
-        # Set backend defaults for PyDPF
-        self._apply_backend_default_options(plotter_kwargs)
+        # Set defaults for PyDPF
+        kwargs.setdefault("show_edges", True)
+        kwargs.setdefault("nan_color", "grey")
 
-        # If deformed geometry, add the scale_factor
+        # If deformed geometry, print the scale_factor
         if deform_by:
-            self.add_scale_factor_legend(scale_factor, **plotter_kwargs)
+            self.add_scale_factor_legend(scale_factor, **kwargs)
 
-        # Pass the mesh to the Plotter
-        # Have to remove any active scalar field from the pre-existing grid object,
-        # otherwise we get two scalar bars when calling several plot_contour on the same mesh
-        # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
+        # Get the grid
         if not deform_by:
             if as_linear != meshed_region.as_linear:
                 grid = meshed_region._as_vtk(
@@ -603,52 +676,186 @@ class _VizPlotter(VizPlotter):
             grid = meshed_region._as_vtk(
                 meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
             )
-        grid.set_active_scalars(None)
 
-        self.plot(grid, **plotter_kwargs)
+        # show axes
+        show_axes = kwargs.pop("show_axes", None)
+        if show_axes:
+            self._backend.base_plotter.add_axes()
+
+        grid.set_active_scalars(None)
+        self._plotter.add_mesh(grid, **kwargs)
+
+    def add_point_labels(
+        self,
+        nodes: Union[Nodes, List[Node], List[int]],
+        meshed_region: MeshedRegion,
+        labels: Union[List[str], None] = None,
+        **kwargs,
+    ) -> List:
+        """Add labels at node locations.
+
+        Parameters
+        ----------
+        nodes : Nodes, List[Node], or List[int]
+            Nodes to label (as object, list of Node objects, or list of node IDs).
+        meshed_region : MeshedRegion
+            The mesh containing the nodes.
+        labels : List[str], optional
+            Custom labels. If None, uses scalar values or node IDs.
+        **kwargs : dict
+            Additional keyword arguments for add_point_labels.
+
+        Returns
+        -------
+        List
+            List of label actors.
+        """
+        import pyvista as pv
+        from packaging.version import parse
+
+        label_actors = []
+        if isinstance(nodes, Nodes):
+            nodes = nodes.scoping.ids
+        elif isinstance(nodes, list):
+            if isinstance(nodes[0], Node):
+                nodes = [node.id for node in nodes]
+        node_indexes = [meshed_region.nodes.mapping_id_to_index.get(node_id) for node_id in nodes]
+        grid_points = [meshed_region.grid.points[node_index] for node_index in node_indexes]
+
+        def get_label_at_grid_point(index):
+            try:
+                label = labels[index]
+            except:
+                label = None
+            return label
+
+        # The scalar data used will be the one of the last field added.
+        active_scalars = None
+        if parse(pv.__version__) >= parse("0.42.0"):
+            # Get actors of active renderer
+            actors = list(self._backend.base_plotter.actors.values())
+            for actor in actors:
+                mapper = actor.mapper if hasattr(actor, "mapper") else None
+                if mapper:
+                    dataset = mapper.dataset
+                    if type(dataset) is pv.core.pointset.UnstructuredGrid:
+                        active_scalars = dataset.active_scalars
+                        break
+        elif parse(pv.__version__) >= parse("0.35.2"):
+            for data_set in self._backend.base_plotter._datasets:
+                if type(data_set) is pv.core.pointset.UnstructuredGrid:
+                    active_scalars = data_set.active_scalars
+        else:
+            active_scalars = meshed_region.grid.active_scalars
+        if active_scalars is None:
+            self.add_mesh(meshed_region=meshed_region)
+
+        # For all grid_points given
+        for index, grid_point in enumerate(grid_points):
+            # Check for existing label at that point
+            label_at_grid_point = get_label_at_grid_point(index)
+            if label_at_grid_point:
+                # If there is already a label, create the associated actor
+                label_actors.append(
+                    self._plotter.add_point_labels([grid_point], [labels[index]], **kwargs)
+                )
+            else:
+                if active_scalars is not None:
+                    # get the value of the current scalar field if present
+                    scalar_at_index = active_scalars[node_indexes[index]]
+                    value = f"{scalar_at_index:.2f}"
+                else:
+                    # if no scalar field is present, print the node id
+                    value = nodes[index]
+                label_actors.append(
+                    self._plotter.add_point_labels([grid_point], [str(value)], **kwargs)
+                )
+        return label_actors
+
+    def add_scoping(
+        self,
+        scoping: core.Scoping,
+        mesh: core.MeshedRegion,
+        show_mesh: bool = False,
+        **kwargs,
+    ):
+        """Add a scoping visualization to the plotter.
+
+        Parameters
+        ----------
+        scoping : Scoping
+            The scoping to visualize.
+        mesh : MeshedRegion
+            The mesh containing the entities.
+        show_mesh : bool, optional
+            Whether to show the base mesh with low opacity. Default is False.
+        **kwargs : dict
+            Additional keyword arguments.
+        """
+        # Add the mesh to the scene with low opacity
+        if show_mesh:
+            self._plotter.add_mesh(mesh.grid, opacity=0.3)
+
+        scoping_mesh = None
+
+        # If the scoping is nodal, use the add_points_label method
+        if scoping.location == locations.nodal:
+            node_indexes = np.where(np.isin(mesh.nodes.scoping.ids, scoping.ids))[0]
+            scoping_mesh = mesh.grid.extract_points(ind=node_indexes, include_cells=False)
+        # If the scoping is elemental, extract their edges and use active scalars to color them
+        if scoping.location == locations.elemental:
+            element_indexes = np.where(np.isin(mesh.elements.scoping.ids, scoping.ids))[0]
+            scoping_mesh = mesh.grid.extract_cells(ind=element_indexes)
+
+        # If the scoping is faces, raise not implemented
+        if scoping.location == locations.faces:
+            raise NotImplementedError("Cannot plot a face scoping.")
+
+        self._plotter.add_mesh(scoping_mesh, **kwargs)
 
     def add_field(
         self,
-        field: Field,
-        meshed_region: Optional[MeshedRegion] = None,
+        field,
+        meshed_region=None,
         show_max=False,
         show_min=False,
-        # label_text_size=30,
-        # label_point_size=20,
-        deform_by: Union[Field, FieldsContainer, Result, Operator] = None,
+        label_text_size=30,
+        label_point_size=20,
+        deform_by=None,
         scale_factor=1.0,
         scale_factor_legend=None,
         as_linear=True,
         shell_layer=eshell_layers.top,
         **kwargs,
     ):
-        """Add a field with data to the plotter.
+        """Add a field visualization to the plotter.
 
         Parameters
         ----------
         field : Field
-            Field containing data to plot.
+            The field to plot.
         meshed_region : MeshedRegion, optional
-            Mesh to plot the field on. If None, uses field.meshed_region.
+            The mesh to plot on. If None, uses the field's mesh.
         show_max : bool, optional
-            Whether to label the maximum value point. Default is False.
-            (Currently not implemented in _VizPlotter).
+            Whether to show maximum value label. Default is False.
         show_min : bool, optional
-            Whether to label the minimum value point. Default is False.
-            (Currently not implemented in _VizPlotter).
-        deform_by : Field, FieldsContainer, Result, or Operator, optional
-            Field used to deform the mesh. Must output a 3D vector field.
+            Whether to show minimum value label. Default is False.
+        label_text_size : int, optional
+            Font size for min/max labels. Default is 30.
+        label_point_size : int, optional
+            Point size for min/max labels. Default is 20.
+        deform_by : Field, optional
+            Field to use for mesh deformation.
         scale_factor : float, optional
-            Scaling factor for mesh deformation. Default is 1.0.
-        scale_factor_legend : float or None or False, optional
+            Scale factor for deformation. Default is 1.0.
+        scale_factor_legend : float, optional
             Custom scale factor for legend. If None, uses scale_factor.
-            If False, no legend is shown.
         as_linear : bool, optional
-            Whether to plot quadratic elements as linear. Default is True.
-        shell_layer : eshell_layers, optional
-            Shell layer to plot for shell elements. Default is top layer.
+            Whether to treat elements as linear. Default is True.
+        shell_layer : shell_layers, optional
+            Shell layer to use. Default is top.
         **kwargs : dict
-            Additional plotting options passed to the backend.
+            Additional keyword arguments.
         """
         # Get the field name
         name = field.name.split("_")[0]
@@ -657,8 +864,13 @@ class _VizPlotter(VizPlotter):
 
         kwargs = self._set_scalar_bar_title(kwargs)
 
-        # Set backend defaults for PyDPF
-        self._apply_backend_default_options(kwargs)
+        kwargs.setdefault("show_edges", True)
+        kwargs.setdefault("nan_color", "grey")
+
+        # show axes
+        show_axes = kwargs.pop("show_axes", None)
+        if show_axes:
+            self._backend.base_plotter.add_axes()
 
         # get the meshed region location
         if meshed_region is None:
@@ -749,8 +961,8 @@ class _VizPlotter(VizPlotter):
                 grid = meshed_region.grid
         if location == locations.elemental_nodal:
             grid = grid.shrink(1.0)
-        grid.point_data[name] = overall_data
         grid.set_active_scalars(None)
+        self._plotter.add_mesh(grid, scalars=overall_data, **kwargs)
 
         # If deformed geometry, print the scale_factor
         if deform_by and scale_factor_legend is not False:
@@ -758,73 +970,134 @@ class _VizPlotter(VizPlotter):
                 scale_factor_legend = scale_factor
             self.add_scale_factor_legend(scale_factor_legend, **kwargs)
 
-        kwargs.update({"scalars": overall_data})
-
-        self.plot(grid, **kwargs)
-
-        # if show_max or show_min:
-        #     # Get Min-Max for the field
-        #     min_max = core.operators.min_max.min_max()
-        #     min_max.inputs.connect(field)
+        if show_max or show_min:
+            # Get Min-Max for the field
+            min_max = core.operators.min_max.min_max()
+            min_max.inputs.connect(field)
 
         # Add Min and Max Labels
-        # labels = []
-        # grid_points = []
-        # if show_max:
-        #     max_field = min_max.outputs.field_max()
-        #     # Get Node ID at max.
-        #     node_id_at_max = max_field.scoping.id(0)
-        #     labels.append(f"Max: {max_field.data[0]:.2f}\nNodeID: {node_id_at_max}")
-        #     # Get Node index at max value.
-        #     node_index_at_max = meshed_region.nodes.scoping.index(node_id_at_max)
-        #     # Append the corresponding Grid Point.
-        #     grid_points.append(meshed_region.grid.points[node_index_at_max])
+        labels = []
+        node_ids = []
+        if show_max:
+            max_field = min_max.outputs.field_max()
+            # Get Node ID at max.
+            node_id_at_max = max_field.scoping.id(0)
+            labels.append(
+                f"Max: {((max_field.data ** 2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_max}"
+            )
+            # Get Node index at max value.
+            node_ids.append(node_id_at_max)
 
-        # if show_min:
-        #     min_field = min_max.outputs.field_min()
-        #     # Get Node ID at min.
-        #     node_id_at_min = min_field.scoping.id(0)
-        #     labels.append(f"Min: {min_field.data[0]:.2f}\nNodeID: {node_id_at_min}")
-        #     # Get Node index at min. value.
-        #     node_index_at_min = meshed_region.nodes.scoping.index(node_id_at_min)
-        #     # Append the corresponding Grid Point.
-        #     grid_points.append(meshed_region.grid.points[node_index_at_min])
+        if show_min:
+            min_field = min_max.outputs.field_min()
+            # Get Node ID at min.
+            node_id_at_min = min_field.scoping.id(0)
+            labels.append(
+                f"Min: {((min_field.data ** 2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_min}"
+            )
+            # Get Node index at min. value.
+            node_ids.append(node_id_at_min)
 
         # Plot labels:
-        # for index, grid_point in enumerate(grid_points):
-        #     self._plotter.add_point_labels(
-        #         grid_point,
-        #         [labels[index]],
-        #         font_size=label_text_size,
-        #         point_size=label_point_size,
-        #     )
+        for index, node_id in enumerate(node_ids):
+            self.add_point_labels(
+                [node_id],
+                meshed_region,
+                [labels[index]],
+                font_size=label_text_size,
+                point_size=label_point_size,
+            )
+
+    def add_streamlines(self, streamlines, source=None, radius=1.0, **kwargs):
+        """Add streamlines to the plotter.
+
+        Parameters
+        ----------
+        streamlines : Streamlines
+            The streamlines object to plot.
+        source : StreamlinesSource, optional
+            The source object for streamlines.
+        radius : float, optional
+            Tube radius for streamlines. Default is 1.0.
+        **kwargs : dict
+            Additional keyword arguments.
+        """
+        permissive = kwargs.pop("permissive", True)
+        # set streamline on plotter
+        sargs = dict(vertical=False)
+        streamlines_vtk = streamlines._as_pyvista_data_set()
+        if not (permissive and streamlines_vtk.n_points == 0):
+            self._plotter.add_mesh(
+                streamlines_vtk.tube(radius=radius),
+                scalar_bar_args=sargs,
+                **kwargs
+            )
+        if source is not None:
+            src = source._as_pyvista_data_set()
+            self._plotter.add_mesh(src, **kwargs)
 
     def show_figure(self, **kwargs):
-        """Display the accumulated plots.
+        """Show the figure.
 
         Parameters
         ----------
         **kwargs : dict
-            Additional keyword arguments for the show method.
+            Keyword arguments including:
+            - text: Text to display at lower edge
+            - background: Background color
+            - show_axes: Whether to show axes
+            - parallel_projection: Whether to use parallel projection
+            - cpos: Camera position
+            - zoom: Zoom factor
 
-        Notes
-        -----
-        This method triggers the actual plotting of all accumulated meshes
-        and fields using the backend's plot_iter and show methods.
+        Returns
+        -------
+        tuple
+            (result of show(), plotter object)
         """
-        self.show(**kwargs)
+        text = kwargs.pop("text", None)
+        if text is not None:
+            self._plotter.add_text(text, position="lower_edge")
 
-    def _apply_backend_default_options(self, kwargs: dict):
-        """Apply backend-specific default options."""
-        # pyvista defaults for PyDPF
-        if isinstance(self._backend, PyVistaBackend):
-            kwargs.setdefault("show_edges", True)
-        # place-holder for plotly-specific defaults
-        elif isinstance(self._backend, PlotlyBackend):
-            pass
+        background = kwargs.pop("background", None)
+        if background is not None:
+            self._backend.base_plotter.set_background(background)
+
+        # show result
+        show_axes = kwargs.pop("show_axes", None)
+        if show_axes:
+            self._backend.base_plotter.add_axes()
+
+        if kwargs.pop("parallel_projection", False):
+            self._backend.base_plotter.parallel_projection = True
+
+        # Set cpos
+        cpos = kwargs.pop("cpos", None)
+        if cpos is not None:
+            self._backend.base_plotter.camera_position = cpos
+
+        zoom = kwargs.pop("zoom", None)
+        if zoom is not None:
+            self._backend.base_plotter.camera.zoom(zoom)
+
+        # Show
+        result = self._plotter.show(**kwargs)
+        return result, self._backend.base_plotter
 
     @staticmethod
-    def _set_scalar_bar_title(kwargs: dict) -> dict:
+    def _set_scalar_bar_title(kwargs):
+        """Set the scalar bar title from kwargs.
+
+        Parameters
+        ----------
+        kwargs : dict
+            Keyword arguments containing 'stitle' or 'scalar_bar_args'.
+
+        Returns
+        -------
+        dict
+            Updated kwargs with scalar_bar_args set.
+        """
         stitle = kwargs.pop("stitle", None)
         # use scalar_bar_args
         scalar_bar_args = kwargs.pop("scalar_bar_args", None)
@@ -846,7 +1119,7 @@ class DpfPlotter:
     available at :class:`pyvista.Plotter`.
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, plotter_type=PLOTTER_TYPE_AUTO, **kwargs):
         """Create a DpfPlotter object.
 
         The current DpfPlotter is a PyVista based object.
@@ -859,6 +1132,11 @@ class DpfPlotter:
 
         Parameters
         ----------
+        plotter_type : str, optional
+            The type of plotter to use. Options are:
+            - "auto" (default): Prefer visualization_interface, fallback to pyvista
+            - "visualization_interface": Use the new visualization interface plotter
+            - "pyvista": Use legacy PyVista-based plotter
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :class:`pyvista.Plotter`.
@@ -868,8 +1146,13 @@ class DpfPlotter:
         >>> from ansys.dpf.core.plotter import DpfPlotter
         >>> pl = DpfPlotter(notebook=False)
 
+        Use the legacy PyVista plotter:
+
+        >>> from ansys.dpf.core.plotter import DpfPlotter, PLOTTER_TYPE_PYVISTA
+        >>> pl = DpfPlotter(plotter_type=PLOTTER_TYPE_PYVISTA)
+
         """
-        _InternalPlotterClass = _InternalPlotterFactory.get_plotter_class()
+        _InternalPlotterClass = _InternalPlotterFactory.get_plotter_class(plotter_type)
         self._internal_plotter = _InternalPlotterClass(**kwargs)
         self._labels = []
 
@@ -1229,7 +1512,7 @@ class Plotter:
     """
 
     def __init__(self, mesh, **kwargs):
-        _InternalPlotterClass = _InternalPlotterFactory.get_plotter_class()
+        _InternalPlotterClass = _InternalPlotterFactory.get_plotter_class(PLOTTER_TYPE_PYVISTA)
         self._internal_plotter = _InternalPlotterClass(mesh=mesh, **kwargs)
         self._mesh = mesh
 
