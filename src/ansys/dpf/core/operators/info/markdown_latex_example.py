@@ -17,7 +17,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 class markdown_latex_example(Operator):
     r"""This operator showcases the use of Markdown and LaTeX in operator and
-    pin descriptions: # Headings ## h2 ### h3 #### h4 ##### h5
+    pin descriptions: # Headings ## h2 ### h3
 
     Text
     ====
@@ -122,15 +122,16 @@ class markdown_latex_example(Operator):
     An inline equation :math:`x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.` using
     LaTeX dollar delimiters.
 
-    An inline equation (x = :raw-latex:`\frac{-b \pm \sqrt{b^2-4ac}}{2a}`.)
-    using LaTeX parenthesis delimiters.
+    An inline equation \\(x =
+    :raw-latex:`\frac{-b \pm \sqrt{b^2-4ac}}{2a}`.\\) using LaTeX
+    parenthesis delimiters.
 
     An equation on its own using dollar delimiters:
 
     .. math:: x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.
 
-    An equation on its own using square bracket delimiters: [x =
-    :raw-latex:`\frac{-b \pm \sqrt{b^2-4ac}}{2a}`.]
+    An equation on its own using square bracket delimiters: \\[x =
+    :raw-latex:`\frac{-b \pm \sqrt{b^2-4ac}}{2a}`.\\]
 
 
     Inputs
@@ -140,8 +141,6 @@ class markdown_latex_example(Operator):
         # Headings
         ## h2
         ### h3
-        #### h4
-        ##### h5
 
         # Text
         This should result in a paragraph
@@ -215,13 +214,13 @@ class markdown_latex_example(Operator):
 
         An inline equation $x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$ using LaTeX dollar delimiters.
 
-        An inline equation \(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\) using LaTeX parenthesis delimiters.
+        An inline equation \\(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\\) using LaTeX parenthesis delimiters.
 
         An equation on its own using dollar delimiters:
         $$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$$
 
         An equation on its own using square bracket delimiters:
-        \[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\]
+        \\[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\\]
 
 
     Outputs
@@ -231,8 +230,6 @@ class markdown_latex_example(Operator):
         # Headings
         ## h2
         ### h3
-        #### h4
-        ##### h5
 
         # Text
         This should result in a paragraph
@@ -306,13 +303,13 @@ class markdown_latex_example(Operator):
 
         An inline equation $x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$ using LaTeX dollar delimiters.
 
-        An inline equation \(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\) using LaTeX parenthesis delimiters.
+        An inline equation \\(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\\) using LaTeX parenthesis delimiters.
 
         An equation on its own using dollar delimiters:
         $$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$$
 
         An equation on its own using square bracket delimiters:
-        \[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\]
+        \\[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\\]
 
 
     Examples
@@ -349,7 +346,7 @@ class markdown_latex_example(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""This operator showcases the use of Markdown and LaTeX in operator and
-pin descriptions: # Headings ## h2 ### h3 #### h4 ##### h5
+pin descriptions: # Headings ## h2 ### h3
 
 Text
 ====
@@ -454,15 +451,16 @@ LaTeX
 An inline equation :math:`x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.` using
 LaTeX dollar delimiters.
 
-An inline equation (x = :raw-latex:`\frac{-b \pm \sqrt{b^2-4ac}}{2a}`.)
-using LaTeX parenthesis delimiters.
+An inline equation \\(x =
+:raw-latex:`\frac{-b \pm \sqrt{b^2-4ac}}{2a}`.\\) using LaTeX
+parenthesis delimiters.
 
 An equation on its own using dollar delimiters:
 
 .. math:: x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.
 
-An equation on its own using square bracket delimiters: [x =
-:raw-latex:`\frac{-b \pm \sqrt{b^2-4ac}}{2a}`.]
+An equation on its own using square bracket delimiters: \\[x =
+:raw-latex:`\frac{-b \pm \sqrt{b^2-4ac}}{2a}`.\\]
 """
         spec = Specification(
             description=description,
@@ -475,8 +473,6 @@ An equation on its own using square bracket delimiters: [x =
 # Headings
 ## h2
 ### h3
-#### h4
-##### h5
 
 # Text
 This should result in a paragraph
@@ -550,13 +546,13 @@ Links such as [link](https://docs.pyansys.com/).
 
 An inline equation $x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$ using LaTeX dollar delimiters.
 
-An inline equation \(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\) using LaTeX parenthesis delimiters.
+An inline equation \\(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\\) using LaTeX parenthesis delimiters.
 
 An equation on its own using dollar delimiters:
 $$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$$
 
 An equation on its own using square bracket delimiters:
-\[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\]
+\\[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\\]
 """,
                 ),
             },
@@ -568,8 +564,6 @@ An equation on its own using square bracket delimiters:
 # Headings
 ## h2
 ### h3
-#### h4
-##### h5
 
 # Text
 This should result in a paragraph
@@ -643,13 +637,13 @@ Links such as [link](https://docs.pyansys.com/).
 
 An inline equation $x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$ using LaTeX dollar delimiters.
 
-An inline equation \(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\) using LaTeX parenthesis delimiters.
+An inline equation \\(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\\) using LaTeX parenthesis delimiters.
 
 An equation on its own using dollar delimiters:
 $$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$$
 
 An equation on its own using square bracket delimiters:
-\[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\]
+\\[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\\]
 """,
                 ),
             },
@@ -727,8 +721,6 @@ class InputsMarkdownLatexExample(_Inputs):
         # Headings
         ## h2
         ### h3
-        #### h4
-        ##### h5
 
         # Text
         This should result in a paragraph
@@ -802,13 +794,13 @@ class InputsMarkdownLatexExample(_Inputs):
 
         An inline equation $x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$ using LaTeX dollar delimiters.
 
-        An inline equation \(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\) using LaTeX parenthesis delimiters.
+        An inline equation \\(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\\) using LaTeX parenthesis delimiters.
 
         An equation on its own using dollar delimiters:
         $$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$$
 
         An equation on its own using square bracket delimiters:
-        \[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\]
+        \\[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\\]
 
 
         Returns
@@ -854,8 +846,6 @@ class OutputsMarkdownLatexExample(_Outputs):
         # Headings
         ## h2
         ### h3
-        #### h4
-        ##### h5
 
         # Text
         This should result in a paragraph
@@ -929,13 +919,13 @@ class OutputsMarkdownLatexExample(_Outputs):
 
         An inline equation $x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$ using LaTeX dollar delimiters.
 
-        An inline equation \(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\) using LaTeX parenthesis delimiters.
+        An inline equation \\(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\\) using LaTeX parenthesis delimiters.
 
         An equation on its own using dollar delimiters:
         $$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$$
 
         An equation on its own using square bracket delimiters:
-        \[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\]
+        \\[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.\\]
 
 
         Returns
