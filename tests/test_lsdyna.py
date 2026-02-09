@@ -375,8 +375,8 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
 
     assert np.allclose(ke_fc[0].data[39], ke_mod[0].data[39])
     if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
-        assert ke_fc[0].unit == "lbf*ft"
-        assert ke_mod[0].unit == "lbf*ft"
+        assert ke_fc[0].unit == "ft*lbf"
+        assert ke_mod[0].unit == "ft*lbf"
     else:
         assert ke_fc[0].unit == "ft^2*slug*s^-2"
         assert ke_mod[0].unit == "ft^2*slug*s^-2"
@@ -398,8 +398,8 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
         part_eroded_kinetic_energy_model[0].data[39],
     )
     if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
-        assert part_eroded_kinetic_energy_fc[0].unit == "lbf*ft"
-        assert part_eroded_kinetic_energy_model[0].unit == "lbf*ft"
+        assert part_eroded_kinetic_energy_fc[0].unit == "ft*lbf"
+        assert part_eroded_kinetic_energy_model[0].unit == "ft*lbf"
     else:
         assert part_eroded_kinetic_energy_fc[0].unit == "ft^2*slug*s^-2"
         assert part_eroded_kinetic_energy_model[0].unit == "ft^2*slug*s^-2"
@@ -418,8 +418,8 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
 
     assert np.allclose(ie_fc[0].data[39], ie_mod[0].data[39])
     if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
-        assert ie_fc[0].unit == "lbf*ft"
-        assert ie_mod[0].unit == "lbf*ft"
+        assert ie_fc[0].unit == "ft*lbf"
+        assert ie_mod[0].unit == "ft*lbf"
     else:
         assert ie_fc[0].unit == "ft^2*slug*s^-2"
         assert ie_mod[0].unit == "ft^2*slug*s^-2"
@@ -438,8 +438,8 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
 
     assert np.allclose(erie_fc[0].data[39], erie_mod[0].data[39])
     if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
-        assert erie_fc[0].unit == "lbf*ft"
-        assert erie_mod[0].unit == "lbf*ft"
+        assert erie_fc[0].unit == "ft*lbf"
+        assert erie_mod[0].unit == "ft*lbf"
     else:
         assert erie_fc[0].unit == "ft^2*slug*s^-2"
         assert erie_mod[0].unit == "ft^2*slug*s^-2"
