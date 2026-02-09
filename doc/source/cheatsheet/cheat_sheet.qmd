@@ -9,6 +9,8 @@ footerlinks:
     text: Documentation
   - urls: 'https://dpf.docs.pyansys.com/version/stable/getting_started/index.html'
     text: Getting started
+  - urls: 'https://dpf.docs.pyansys.com/version/stable/tutorials/index.html'
+    text: Tutorials
   - urls: 'https://dpf.docs.pyansys.com/version/stable/examples/index.html'
     text: Examples
   - urls: 'https://dpf.docs.pyansys.com/version/stable/api/index.html'
@@ -104,7 +106,7 @@ Get field by Time ID = 1:
 
 ```{python}
 #| eval: false
-disp_1 = disp.get_field_by_time_id(1).data
+disp_1 = disp.get_field_by_time_id(1)
 print(disp_1)
 ```
 
