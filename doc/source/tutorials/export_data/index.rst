@@ -20,8 +20,8 @@ Learn how to export data to [VTK formats](https://docs.vtk.org/en/latest/vtk_fil
     :padding: 2
     :margin: 2
 
-    .. grid-item-card:: Export result files to VTU
-       :link: ref_tutorials_export_to_vtu
+    .. grid-item-card:: Translate result files to VTU
+       :link: ref_tutorials_migrate_to_vtu
        :link-type: ref
        :text-align: center
 
@@ -32,7 +32,7 @@ Learn how to export data to [VTK formats](https://docs.vtk.org/en/latest/vtk_fil
        :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
     .. grid-item-card:: Export DPF objects to VTU
-       :link: ref_tutorials_export_vtu_with_dpf_objects
+       :link: ref_tutorials_vtu_export
        :link-type: ref
        :text-align: center
 
@@ -62,6 +62,6 @@ Other Export Formats
     :maxdepth: 2
     :hidden:
 
-    export_to_vtu.rst
-    export_vtu_with_dpf_objects.rst
+    migrate_to_vtu.rst
+    vtu_export.rst
 

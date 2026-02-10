@@ -1,4 +1,4 @@
-.. _ref_tutorials_export_vtu_with_dpf_objects:
+.. _ref_tutorials_vtu_export:
 
 ============================
 Export VTU using DPF objects

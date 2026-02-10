@@ -1,7 +1,7 @@
-.. _ref_tutorials_export_to_vtu:
+.. _ref_tutorials_migrate_to_vtu:
 
 ====================================
-Export simulation data to VTU format
+Translate result files to VTU format
 ====================================
 
 :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
@@ -11,7 +11,7 @@ Export simulation data to VTU format
 .. |DataSources| replace:: :class:`DataSources <ansys.dpf.core.data_sources.DataSources>`
 .. |Scoping| replace:: :class:`Scoping <ansys.dpf.core.scoping.Scoping>`
 
-Export simulation data to [VTU format](https://docs.vtk.org/en/latest/vtk_file_formats/vtkxml_file_format.html#unstructuredgrid) for visualization and analysis in
+Translate result files to [VTU format](https://docs.vtk.org/en/latest/vtk_file_formats/vtkxml_file_format.html#unstructuredgrid) for visualization and analysis in
 VTK-compatible tools like ParaView.
 
 VTU (VTK Unstructured Grid) is the most common VTK file format for unstructured
