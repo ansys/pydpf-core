@@ -544,11 +544,16 @@ class _VisualizationInterfacePlotter:
         **kwargs : dict
             Keyword arguments passed to the PyVistaBackend constructor.
         """
+        import pyvista as pv
+
         from ansys.tools.visualization_interface import Plotter
         from ansys.tools.visualization_interface.backends.pyvista import PyVistaBackend
 
+        # Filter kwargs for pv.Plotter.__init__ (final destination)
+        kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.__init__, **kwargs)
+
         # Create the backend with filtered kwargs
-        self._backend = PyVistaBackend(**kwargs)
+        self._backend = PyVistaBackend(**kwargs_in)
         self._plotter = Plotter(backend=self._backend)
 
     def add_scale_factor_legend(self, scale_factor: float, **kwargs: Any) -> None:
@@ -581,13 +586,16 @@ class _VisualizationInterfacePlotter:
         """
         import pyvista as pv
 
+        # Filter kwargs for pv.Plotter.add_mesh (final destination for both paths)
+        kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.add_mesh, **kwargs)
+
         point_cloud = pv.PolyData(points)
         if field:
             point_cloud[f"{field.name}"] = field.data
-            # Use add_mesh for colored points
-            self._plotter.add_mesh(point_cloud, **kwargs)
+            # Use plot for colored points
+            self._plotter.plot(point_cloud, **kwargs_in)
         else:
-            self._plotter.add_points(points, **kwargs)
+            self._plotter.add_points(points, **kwargs_in)
 
     def add_line(self, points: Any, field: Optional[Field] = None, **kwargs: Any) -> None:
         """Add a line to the plotter.
@@ -603,12 +611,15 @@ class _VisualizationInterfacePlotter:
         """
         import pyvista as pv
 
+        # Filter kwargs for pv.Plotter.add_mesh (final destination for both paths)
+        kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.add_mesh, **kwargs)
+
         line_field = pv.PolyData(np.array(points))
         if field:
             line_field[f"{field.name}"] = field.data
-            self._plotter.add_mesh(line_field, **kwargs)
+            self._plotter.plot(line_field, **kwargs_in)
         else:
-            self._plotter.add_lines(points, **kwargs)
+            self._plotter.add_lines(points, **kwargs_in)
 
     def add_plane(self, plane: Any, field: Optional[Field] = None, **kwargs: Any) -> None:
         """Add a plane to the plotter.
@@ -624,6 +635,9 @@ class _VisualizationInterfacePlotter:
         """
         import pyvista as pv
 
+        # Filter kwargs for pv.Plotter.add_mesh (final destination)
+        kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.add_mesh, **kwargs)
+
         plane_plot = pv.Plane(
             center=plane.center,
             direction=plane.normal_dir,
@@ -634,7 +648,7 @@ class _VisualizationInterfacePlotter:
         )
         if field:
             plane_plot[f"{field.name}"] = field.data
-        self._plotter.add_mesh(plane_plot, **kwargs)
+        self._plotter.plot(plane_plot, **kwargs_in)
 
     def add_mesh(
         self,
@@ -689,8 +703,12 @@ class _VisualizationInterfacePlotter:
         if show_axes:
             self._backend.base_plotter.add_axes()
 
+        # Filter kwargs for pv.Plotter.add_mesh (final destination)
+        import pyvista as pv
+        kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.add_mesh, **kwargs)
+
         grid.set_active_scalars(None)
-        self._plotter.add_mesh(grid, **kwargs)
+        self._plotter.plot(grid, **kwargs_in)
 
     def add_point_labels(
         self,
@@ -719,6 +737,9 @@ class _VisualizationInterfacePlotter:
         """
         from packaging.version import parse
         import pyvista as pv
+
+        # Filter kwargs for pv.Plotter.add_point_labels (final destination)
+        kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.add_point_labels, **kwargs)
 
         label_actors = []
         if isinstance(nodes, Nodes):
@@ -764,7 +785,7 @@ class _VisualizationInterfacePlotter:
             if label_at_grid_point:
                 # If there is already a label, create the associated actor
                 label_actors.append(
-                    self._plotter.add_point_labels([grid_point], [labels[index]], **kwargs)
+                    self._plotter.add_point_labels([grid_point], [labels[index]], **kwargs_in)
                 )
             else:
                 if active_scalars is not None:
@@ -775,7 +796,7 @@ class _VisualizationInterfacePlotter:
                     # if no scalar field is present, print the node id
                     value = nodes[index]
                 label_actors.append(
-                    self._plotter.add_point_labels([grid_point], [str(value)], **kwargs)
+                    self._plotter.add_point_labels([grid_point], [str(value)], **kwargs_in)
                 )
         return label_actors
 
@@ -799,9 +820,14 @@ class _VisualizationInterfacePlotter:
         **kwargs : dict
             Additional keyword arguments.
         """
+        import pyvista as pv
+
+        # Filter kwargs for pv.Plotter.add_mesh (final destination)
+        kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.add_mesh, **kwargs)
+
         # Add the mesh to the scene with low opacity
         if show_mesh:
-            self._plotter.add_mesh(mesh.grid, opacity=0.3)
+            self._plotter.plot(mesh.grid, opacity=0.3)
 
         scoping_mesh = None
 
@@ -818,7 +844,7 @@ class _VisualizationInterfacePlotter:
         if scoping.location == locations.faces:
             raise NotImplementedError("Cannot plot a face scoping.")
 
-        self._plotter.add_mesh(scoping_mesh, **kwargs)
+        self._plotter.plot(scoping_mesh, **kwargs_in)
 
     def add_field(
         self,
@@ -969,7 +995,11 @@ class _VisualizationInterfacePlotter:
         if location == locations.elemental_nodal:
             grid = grid.shrink(1.0)
         grid.set_active_scalars(None)
-        self._plotter.add_mesh(grid, scalars=overall_data, **kwargs)
+
+        # Filter kwargs for pv.Plotter.add_mesh (final destination)
+        import pyvista as pv
+        kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.add_mesh, **kwargs)
+        self._plotter.plot(grid, scalars=overall_data, **kwargs_in)
 
         # If deformed geometry, print the scale_factor
         if deform_by and scale_factor_legend is not False:
@@ -1035,17 +1065,23 @@ class _VisualizationInterfacePlotter:
         **kwargs : dict
             Additional keyword arguments.
         """
+        import pyvista as pv
+
         permissive = kwargs.pop("permissive", True)
+
+        # Filter kwargs for pv.Plotter.add_mesh (final destination)
+        kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.add_mesh, **kwargs)
+
         # set streamline on plotter
         sargs = dict(vertical=False)
         streamlines_vtk = streamlines._as_pyvista_data_set()
         if not (permissive and streamlines_vtk.n_points == 0):
-            self._plotter.add_mesh(
-                streamlines_vtk.tube(radius=radius), scalar_bar_args=sargs, **kwargs
+            self._plotter.plot(
+                streamlines_vtk.tube(radius=radius), scalar_bar_args=sargs, **kwargs_in
             )
         if source is not None:
             src = source._as_pyvista_data_set()
-            self._plotter.add_mesh(src, **kwargs)
+            self._plotter.plot(src, **kwargs_in)
 
     def show_figure(self, **kwargs: Any) -> Tuple[Any, Any]:
         """Show the figure.
@@ -1091,8 +1127,12 @@ class _VisualizationInterfacePlotter:
         if zoom is not None:
             self._backend.base_plotter.camera.zoom(zoom)
 
+        # Filter remaining kwargs for pv.Plotter.show (final destination)
+        import pyvista as pv
+        kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.show, **kwargs)
+
         # Show
-        result = self._plotter.show(**kwargs)
+        result = self._plotter.show(**kwargs_in)
         return result, self._backend.base_plotter
 
     @staticmethod
