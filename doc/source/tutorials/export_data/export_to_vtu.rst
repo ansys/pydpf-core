@@ -26,8 +26,15 @@ By exporting to VTU, you can leverage the powerful visualization capabilities of
 ParaView, VisIt, or any VTK-based application.
 
 The |migrate_to_vtu| operator provides a streamlined workflow to export complete
-simulation results to VTU format. It automatically handles mesh conversion, field
-mapping, and time series organization.
+simulation results to VTU format directly from result files. It automatically
+handles mesh conversion, field mapping, and time series organization.
+
+.. note::
+
+    **When to use this operator:**
+
+    - Use |migrate_to_vtu| for quick export of entire result files (this tutorial)
+    - Use ``vtu_export`` when working with processed DPF objects (see :ref:`ref_tutorials_export_vtu_with_dpf_objects`)
 
 :jupyter-download-script:`Download tutorial as Python script<export_to_vtu>`
 :jupyter-download-notebook:`Download tutorial as Jupyter notebook<export_to_vtu>`
@@ -292,6 +299,28 @@ and stress), you can specify which results to export using the ``result1`` and
 ``result2`` input pins. For additional results beyond the first two, use the
 ``Operator.connect()`` method with pin numbers starting at 30.
 
+Discover available results
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Before exporting specific results, you can query the result file to see what
+results are available and their corresponding operator names.
+
+.. jupyter-execute::
+
+    # Get the result information from the model
+    result_info = model.metadata.result_info
+
+    # Display all available results and the corresponding operator names
+    for result in result_info.available_results:
+        # Get the operator name for this result
+        operator_name = result.operator_name
+        # Get the result name (user-friendly name)
+        result_name = result.name
+        # Get number of components
+        n_components = result.n_components
+
+        print(f"{result_name:<30} {operator_name:<20} {n_components}")
+
 .. note::
 
     The result names correspond to DPF operator names. Common result names include:
@@ -301,7 +330,14 @@ and stress), you can specify which results to export using the ``result1`` and
     - ``EPEL`` for elastic strain
     - ``TEMP`` for temperature
     - ``V`` or ``velocity`` for velocity
-    - Result pins start at pin 30, so additional results use pins 30, 31, 32, etc.
+
+    Use the operator name when specifying which results to export.
+
+Export specific results
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Now that you know the available results and their operator names, you can
+select specific results to export.
 
 .. jupyter-execute::
 
@@ -318,7 +354,7 @@ and stress), you can specify which results to export using the ``result1`` and
     )
 
     # Connect specific results using the result pins
-    # Export only displacement (U) and stress (S)
+    # Export displacement (U) and stress (S)
     migrate_op_selective.inputs.result1.connect("U")
     migrate_op_selective.inputs.result2.connect("S")
     # Connect additional results using the Operator.connect method (results start at pin 30)
