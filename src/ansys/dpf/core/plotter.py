@@ -705,6 +705,7 @@ class _VisualizationInterfacePlotter:
 
         # Filter kwargs for pv.Plotter.add_mesh (final destination)
         import pyvista as pv
+
         kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.add_mesh, **kwargs)
 
         grid.set_active_scalars(None)
@@ -998,6 +999,7 @@ class _VisualizationInterfacePlotter:
 
         # Filter kwargs for pv.Plotter.add_mesh (final destination)
         import pyvista as pv
+
         kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.add_mesh, **kwargs)
         self._plotter.plot(grid, scalars=overall_data, **kwargs_in)
 
@@ -1129,6 +1131,7 @@ class _VisualizationInterfacePlotter:
 
         # Filter remaining kwargs for pv.Plotter.show (final destination)
         import pyvista as pv
+
         kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.show, **kwargs)
 
         # Show
