@@ -81,8 +81,8 @@ Export a mesh and field data that you've already loaded or processed in DPF.
     output_paths = export_op.eval()
 
     # Display information
-    print(f"Exported {output_paths.num_paths()} VTU file(s)")
-    for path in output_paths.result_file_paths()[:3]:  # Show first 3
+    print(f"Exported {len(output_paths.result_files)} VTU file(s)")
+    for path in output_paths.result_files[:3]:  # Show first 3
         print(f"  {path}")
 
 Export multiple field types
@@ -113,7 +113,7 @@ in a single VTU file.
     # Execute the export
     output_multi = export_multi.eval()
 
-    print(f"Exported {output_multi.num_paths()} VTU file(s) with displacement and stress")
+    print(f"Exported {len(output_multi.result_files)} VTU file(s) with displacement and stress")
 
 Export processed data
 ---------------------
@@ -144,7 +144,7 @@ filtering, or custom transformations.
 
     output_processed = export_processed.eval()
 
-    print(f"Exported processed Von Mises stress to {output_processed.num_paths()} VTU file(s)")
+    print(f"Exported processed Von Mises stress to {len(output_processed.result_files)} VTU file(s)")
 
 Export a single time step
 --------------------------
@@ -177,7 +177,7 @@ instead of |FieldsContainer| objects.
 
     output_single = export_single.eval()
 
-    print(f"Exported single time step to {output_single.num_paths()} VTU file")
+    print(f"Exported single time step to {len(output_single.result_files)} VTU file(s)")
 
 Export with property fields
 ----------------------------
@@ -207,7 +207,7 @@ Include mesh property fields (element type, material ID, etc.) in the export.
 
     output_props = export_props.eval()
 
-    print(f"Exported results with material properties to {output_props.num_paths()} VTU file(s)")
+    print(f"Exported results with material properties to {len(output_props.result_files)} VTU file(s)")
 
 Control output format
 ---------------------
@@ -246,8 +246,8 @@ Choose different VTU write modes for your specific needs.
     output_binary = export_binary.eval()
 
     # Compare file sizes
-    ascii_file = output_ascii.result_file_paths()[0]
-    binary_file = output_binary.result_file_paths()[0]
+    ascii_file = output_ascii.result_files[0]
+    binary_file = output_binary.result_files[0]
 
     print(f"ASCII file size: {os.path.getsize(ascii_file) / 1024:.2f} KB")
     print(f"Compressed binary file size: {os.path.getsize(binary_file) / 1024:.2f} KB")
@@ -277,7 +277,7 @@ Export mesh nodes as a point cloud without element connectivity.
 
     output_cloud = export_cloud.eval()
 
-    print(f"Exported point cloud to {output_cloud.num_paths()} VTU file")
+    print(f"Exported point cloud to {len(output_cloud.result_files)} VTU file")
     print("Note: File contains only point data without element connectivity")
 
 Working with custom data
@@ -314,7 +314,7 @@ Create and export completely custom field data.
 
     output_custom = export_custom.eval()
 
-    print(f"Exported custom field to {output_custom.num_paths()} VTU file")
+    print(f"Exported custom field to {len(output_custom.result_files)} VTU file")
 
 Summary
 -------
