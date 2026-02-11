@@ -84,9 +84,9 @@ time steps.
     output_paths = migrate_op.eval()
 
     # Display information about exported files
-    print(f"Number of VTU files exported: {output_paths.num_paths()}")
+    print(f"Number of VTU files exported: {len(output_paths.result_files)}")
     print("\nExported files:")
-    for path in output_paths.result_file_paths():
+    for path in output_paths.result_files:
         print(f"  {path}")
 
 Export specific time steps
@@ -118,7 +118,7 @@ useful when you only need specific time points from a transient analysis.
     output_paths_filtered = migrate_op_filtered.eval()
 
     # Display information
-    print(f"Exported {output_paths_filtered.num_paths()} file(s) for time step 1")
+    print(f"Exported {len(output_paths_filtered.result_files)} file(s) for time step 1")
 
 Customize output file naming
 -----------------------------
@@ -146,7 +146,7 @@ you want meaningful file names.
 
     # Display the custom file names
     print("Exported files with custom naming:")
-    for path in output_paths_custom.result_file_paths():
+    for path in output_paths_custom.result_files:
         print(f"  {os.path.basename(path)}")
 
 Control output format
@@ -182,8 +182,8 @@ Available write modes:
     output_paths_ascii = migrate_op_ascii.eval()
 
     # Compare file sizes
-    binary_file = output_paths_filtered.result_file_paths()[0]
-    ascii_file = output_paths_ascii.result_file_paths()[0]
+    binary_file = output_paths_filtered.result_files[0]
+    ascii_file = output_paths_ascii.result_files[0]
 
     print(f"Binary file size: {os.path.getsize(binary_file) / 1024:.2f} KB")
     print(f"ASCII file size: {os.path.getsize(ascii_file) / 1024:.2f} KB")
@@ -228,7 +228,7 @@ simulation results to VTU format for visualization in ParaView.
             mapdl_output = mapdl_migrate.eval()
 
             # Display summary
-            print(f"\nExported {mapdl_output.num_paths()} VTU file(s)")
+            print(f"\nExported {len(mapdl_output.result_files)} VTU file(s)")
             print(f"Output directory: {mapdl_output_dir}")
             print("\nTo visualize in ParaView:")
             print(f"  1. Open ParaView")
@@ -259,7 +259,7 @@ simulation results to VTU format for visualization in ParaView.
             dyna_output = dyna_migrate.eval()
 
             # Display summary
-            print(f"Exported {dyna_output.num_paths()} VTU file(s)")
+            print(f"Exported {len(dyna_output.result_files)} VTU file(s)")
             print(f"Output directory: {dyna_output_dir}")
 
     .. tab-item:: Fluent
@@ -287,7 +287,7 @@ simulation results to VTU format for visualization in ParaView.
             fluent_output = fluent_migrate.eval()
 
             # Display summary
-            print(f"Exported {fluent_output.num_paths()} VTU file(s)")
+            print(f"Exported {len(fluent_output.result_files)} VTU file(s)")
             print(f"Output directory: {fluent_output_dir}")
 
 Export selected results
@@ -363,7 +363,7 @@ select specific results to export.
     # Execute the export
     output_paths_selective = migrate_op_selective.eval()
 
-    print(f"Exported {output_paths_selective.num_paths()} file(s) with selected results")
+    print(f"Exported {len(output_paths_selective.result_files)} file(s) with selected results")
     print("Included results: Displacement (U), Stress (S), and Velocity X (VX)")
 
 Summary
