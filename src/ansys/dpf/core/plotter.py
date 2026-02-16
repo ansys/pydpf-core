@@ -572,7 +572,7 @@ class _VisualizationInterfacePlotter:
             font_size=12,
         )
 
-    def add_points(self, points: Any, field: Optional[Field], **kwargs: Any) -> None:
+    def add_points(self, points: Any, field: Optional[Field], point_size: float = 10.0, **kwargs: Any) -> None:
         """Add points to the plotter.
 
         Parameters
@@ -581,6 +581,8 @@ class _VisualizationInterfacePlotter:
             Point coordinates as Nx3 array.
         field : Field, optional
             Field containing scalar data for coloring.
+        point_size : float, default: 10.0
+            Size of the point markers in pixels or display units
         **kwargs : dict
             Additional keyword arguments for add_points.
         """
@@ -595,7 +597,7 @@ class _VisualizationInterfacePlotter:
             # Use plot for colored points
             self._plotter.plot(point_cloud, **kwargs_in)
         else:
-            self._plotter.add_points(points, **kwargs_in)
+            self._plotter.add_points(points, size=point_size, **kwargs_in)
 
     def add_line(self, points: Any, field: Optional[Field] = None, **kwargs: Any) -> None:
         """Add a line to the plotter.
