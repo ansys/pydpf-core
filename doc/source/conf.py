@@ -258,7 +258,13 @@ Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dp
         "ignore": autoapi_ignore_list,
         "add_toctree_entry": True,
         "member_order": "bysource",
-    }
+    },
+    "cheatsheet": {
+        "file": "cheatsheet/cheat_sheet.qmd",
+        "pages": ["index", "getting_started/index", "tutorials/index", "user_guide/index"],
+        "title": "PyDPF-Core cheat sheet",
+        "version": __version__,
+    },
 }
 
 # Configuration for Sphinx autoapi
@@ -416,6 +422,10 @@ if BUILD_EXAMPLES:
 BUILD_TUTORIALS = True if os.environ.get("BUILD_TUTORIALS", "true") == "true" else False
 if BUILD_TUTORIALS:
     extensions.extend(["jupyter_sphinx"])
+
+BUILD_CHEATSHEET = True if os.environ.get("BUILD_CHEATSHEET", "true") == "true" else False
+if not BUILD_CHEATSHEET:
+    html_theme_options.pop("cheatsheet")
 
 jinja_contexts = {
     "toxenvs" : {
