@@ -949,9 +949,9 @@ def test_plot_polyhedron():
     mesh.set_property_field("faces_type", faces_types_f)
 
     # Set the "elements_faces_reversed" PropertyField
-    elements_faces_reversed_f = core.PropertyField(location=core.locations.faces)
-    for face_index, face_type in enumerate(faces_types):
-        elements_faces_reversed_f.append([0], face_index)
+    elements_faces_reversed_f = core.PropertyField(location=core.locations.elemental)
+    for element_index, element_faces in enumerate(elements_faces):
+        elements_faces_reversed_f.append([0] * len(element_faces), element_index)
     mesh.set_property_field("elements_faces_reversed", elements_faces_reversed_f)
 
     # Plot the MeshedRegion
