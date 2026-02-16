@@ -572,7 +572,9 @@ class _VisualizationInterfacePlotter:
             font_size=12,
         )
 
-    def add_points(self, points: Any, field: Optional[Field], point_size: float = 10.0, **kwargs: Any) -> None:
+    def add_points(
+        self, points: Any, field: Optional[Field], point_size: float = 10.0, **kwargs: Any
+    ) -> None:
         """Add points to the plotter.
 
         Parameters
@@ -599,7 +601,9 @@ class _VisualizationInterfacePlotter:
         else:
             self._plotter.add_points(points, size=point_size, **kwargs_in)
 
-    def add_line(self, points: Any, field: Optional[Field] = None, width: float = 1.0, **kwargs: Any) -> None:
+    def add_line(
+        self, points: Any, field: Optional[Field] = None, width: float = 1.0, **kwargs: Any
+    ) -> None:
         """Add a line to the plotter.
 
         Parameters
