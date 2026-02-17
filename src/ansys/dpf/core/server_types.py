@@ -923,7 +923,6 @@ class GrpcServer(CServer):
                 )
                 self._local_server = True
 
-        from ansys.dpf.core import settings
         client_config = settings.get_runtime_client_config(server=self)
 
         if self._grpc_mode == server_factory.GrpcMode.Insecure:
