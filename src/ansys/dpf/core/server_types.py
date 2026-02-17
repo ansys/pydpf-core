@@ -923,13 +923,15 @@ class GrpcServer(CServer):
                 )
                 self._local_server = True
 
-        local_client_config = settings.get_runtime_client_config()
+        from ansys.dpf.core import settings
+        client_config = settings.get_runtime_client_config(server=self)
+
         if self._grpc_mode == server_factory.GrpcMode.Insecure:
-            local_client_config.grpc_mode = "insecure"
+            client_config.grpc_mode = "insecure"
         elif self._grpc_mode == server_factory.GrpcMode.mTLS:
-            local_client_config.grpc_mode = "mtls"
+            client_config.grpc_mode = "mtls"
             if self._certs_dir is not None and len(str(self._certs_dir)) > 0:
-                local_client_config.grpc_certs_dir = str(self._certs_dir)
+                client_config.grpc_certs_dir = str(self._certs_dir)
 
         # store port and ip for later reference
         self._client.set_address(address, self)
