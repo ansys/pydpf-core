@@ -794,7 +794,7 @@ class _VisualizationInterfacePlotter:
             if label_at_grid_point:
                 # If there is already a label, create the associated actor
                 label_actors.append(
-                    self._plotter.add_point_labels([grid_point], [labels[index]], **kwargs_in)
+                    self._plotter.add_labels([grid_point], [labels[index]], **kwargs_in)
                 )
             else:
                 if active_scalars is not None:
@@ -805,7 +805,7 @@ class _VisualizationInterfacePlotter:
                     # if no scalar field is present, print the node id
                     value = nodes[index]
                 label_actors.append(
-                    self._plotter.add_point_labels([grid_point], [str(value)], **kwargs_in)
+                    self._plotter.add_labels([grid_point], [str(value)], **kwargs_in)
                 )
         return label_actors
 
