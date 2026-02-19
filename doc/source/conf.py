@@ -77,7 +77,7 @@ ignored_pattern += "|06-distributed_stress_averaging.py"
 ignored_pattern += r")"
 
 exclude_patterns = []
-for tutorial_file in glob(str(Path("user_guide")/"tutorials"/"**"/"*.rst")):
+for tutorial_file in glob(str(Path("tutorials")/"**"/"*.rst")):
     if Path(tutorial_file).name == "index.rst":
         continue
     minimum_version_str = get_tutorial_version_requirements(tutorial_file)

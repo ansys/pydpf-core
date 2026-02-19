@@ -10,7 +10,7 @@ Explore a mesh metadata
 
     This tutorial requires DPF 9.1 or above (2025 R1).
 
-.. include:: ../../../links_and_refs.rst
+.. include:: ../../links_and_refs.rst
 
 This tutorial explains how to read a mesh metadata (data about the elements, nodes, faces, region, zone ...)
 before extracting the mesh from a result file.
