@@ -6,7 +6,7 @@ Narrow down data
 
 :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
-.. include:: ../../../links_and_refs.rst
+.. include:: ../../links_and_refs.rst
 .. |location| replace:: :class:`location<ansys.dpf.core.common.locations>`
 .. |time_freq_scoping_factory| replace:: :mod:`time_freq_scoping_factory<ansys.dpf.core.time_freq_scoping_factory>`
 .. |mesh_scoping_factory| replace:: :mod:`mesh_scoping_factory<ansys.dpf.core.mesh_scoping_factory>`
@@ -57,7 +57,7 @@ a result, but you can also filter them.
 
 In conclusion, the essence of a scoping is to specify a set of time or mesh entities by defining a range of IDs:
 
-.. image:: ../../../images/drawings/scoping-eg.png
+.. image:: ../../images/drawings/scoping-eg.png
    :align: center
 
 Create a |Scoping| object from scratch

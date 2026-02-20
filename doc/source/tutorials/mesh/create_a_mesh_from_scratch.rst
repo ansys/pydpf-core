@@ -4,7 +4,7 @@
 Create a mesh from scratch
 ==========================
 
-.. include:: ../../../links_and_refs.rst
+.. include:: ../../links_and_refs.rst
 
 This tutorial demonstrates how to build a |MeshedRegion| from scratch.
 
