@@ -30,6 +30,7 @@ Contains classes used to plot a mesh and a fields container using PyVista.
 
 from __future__ import annotations
 
+from enum import Enum, unique
 import importlib.util
 from pathlib import Path
 import sys
@@ -54,10 +55,21 @@ if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.meshed_region import MeshedRegion
 
 
-# Plotter type constants
-PLOTTER_TYPE_VISUALIZATION_INTERFACE = "visualization_interface"
-PLOTTER_TYPE_PYVISTA = "pyvista"
-PLOTTER_TYPE_AUTO = "auto"  # Auto-detect: prefer visualization_interface, fallback to pyvista
+@unique
+class PlotterBackend(Enum):
+    """Plotter backend types for DPF visualization.
+
+    Specifies which plotting backend to use for mesh and field visualization.
+    """
+
+    AUTO = "auto"
+    """Automatically select backend: prefer visualization_interface if available, fallback to pyvista."""
+
+    PYVISTA = "pyvista"
+    """Use the legacy PyVista-based plotter directly."""
+
+    VISUALIZATION_INTERFACE = "visualization_interface"
+    """Use ansys-tools-visualization-interface Plotter with PyVista backend."""
 
 
 class _InternalPlotterFactory:
@@ -69,27 +81,24 @@ class _InternalPlotterFactory:
     """
 
     @staticmethod
-    def get_plotter_class(plotter_type=PLOTTER_TYPE_AUTO):
+    def get_plotter_class(plotter_type: PlotterBackend = PlotterBackend.AUTO):
         """Get the plotter class based on the specified type.
 
         Parameters
         ----------
-        plotter_type : str, optional
-            The type of plotter to use. Options are:
-            - "auto" (default): Prefer visualization_interface, fallback to pyvista
-            - "visualization_interface": Use _VisualizationInterfacePlotter
-            - "pyvista": Use legacy _PyVistaPlotter
+        plotter_type : PlotterBackend, optional
+            The type of plotter to use.
 
         Returns
         -------
         type
             The plotter class to instantiate.
         """
-        if plotter_type == PLOTTER_TYPE_PYVISTA:
+        if plotter_type == PlotterBackend.PYVISTA:
             return _PyVistaPlotter
-        elif plotter_type == PLOTTER_TYPE_VISUALIZATION_INTERFACE:
+        elif plotter_type == PlotterBackend.VISUALIZATION_INTERFACE:
             return _VisualizationInterfacePlotter
-        elif plotter_type == PLOTTER_TYPE_AUTO:
+        elif plotter_type == PlotterBackend.AUTO:
             # Check if visualization interface is available
             if importlib.util.find_spec("ansys.tools.visualization_interface") is not None:
                 return _VisualizationInterfacePlotter
@@ -99,7 +108,7 @@ class _InternalPlotterFactory:
         else:
             raise ValueError(
                 f"Invalid plotter_type '{plotter_type}'. "
-                f"Must be one of: '{PLOTTER_TYPE_AUTO}', '{PLOTTER_TYPE_VISUALIZATION_INTERFACE}', '{PLOTTER_TYPE_PYVISTA}'"
+                f"Must be one of: {[e.name for e in PlotterBackend]}"
             )
 
 
@@ -1181,7 +1190,7 @@ class DpfPlotter:
     available at :class:`pyvista.Plotter`.
     """
 
-    def __init__(self, plotter_type=PLOTTER_TYPE_AUTO, **kwargs):
+    def __init__(self, plotter_type: PlotterBackend | str = PlotterBackend.AUTO, **kwargs):
         """Create a DpfPlotter object.
 
         The current DpfPlotter is a PyVista based object.
@@ -1194,11 +1203,9 @@ class DpfPlotter:
 
         Parameters
         ----------
-        plotter_type : str, optional
-            The type of plotter to use. Options are:
-            - "auto" (default): Prefer visualization_interface, fallback to pyvista
-            - "visualization_interface": Use the new visualization interface plotter
-            - "pyvista": Use legacy PyVista-based plotter
+        plotter_type : PlotterBackend or str, optional
+            The type of plotter to use. Can be a ``PlotterBackend`` enum value or
+            its string equivalent.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :class:`pyvista.Plotter`.
@@ -1207,13 +1214,18 @@ class DpfPlotter:
         --------
         >>> from ansys.dpf.core.plotter import DpfPlotter
         >>> pl = DpfPlotter(notebook=False)
-
-        Use the legacy PyVista plotter:
-
-        >>> from ansys.dpf.core.plotter import DpfPlotter, PLOTTER_TYPE_PYVISTA
-        >>> pl = DpfPlotter(plotter_type=PLOTTER_TYPE_PYVISTA)
-
         """
+        if isinstance(plotter_type, str):
+            try:
+                plotter_type = PlotterBackend(plotter_type)
+            except ValueError as e:
+                raise ValueError(f"Unsupported value for plotter_type: {plotter_type!r}") from e
+
+        if not isinstance(plotter_type, PlotterBackend):
+            raise ValueError(
+                f"plotter_type must be an instance of PlotterBackend or str, got {type(plotter_type)}"
+            )
+
         _InternalPlotterClass = _InternalPlotterFactory.get_plotter_class(plotter_type)
         self._internal_plotter = _InternalPlotterClass(**kwargs)
         self._labels = []
@@ -1574,7 +1586,7 @@ class Plotter:
     """
 
     def __init__(self, mesh, **kwargs):
-        _InternalPlotterClass = _InternalPlotterFactory.get_plotter_class(PLOTTER_TYPE_PYVISTA)
+        _InternalPlotterClass = _InternalPlotterFactory.get_plotter_class(PlotterBackend.PYVISTA)
         self._internal_plotter = _InternalPlotterClass(mesh=mesh, **kwargs)
         self._mesh = mesh
 
