@@ -6,7 +6,7 @@ Extract a mesh in split parts
 
 :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
-.. include:: ../../../links_and_refs.rst
+.. include:: ../../links_and_refs.rst
 
 .. |meshes_provider| replace:: :class:`meshes_provider <ansys.dpf.core.operators.mesh.meshes_provider.meshes_provider>`
 

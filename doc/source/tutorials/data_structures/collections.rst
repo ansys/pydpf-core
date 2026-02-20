@@ -4,7 +4,7 @@
 DPF Collections
 ###############
 
-.. include:: ../../../links_and_refs.rst
+.. include:: ../../links_and_refs.rst
 
 This tutorial demonstrates how to create and work with some DPF collections: |FieldsContainer|, |MeshesContainer| and |ScopingsContainer|.
 
