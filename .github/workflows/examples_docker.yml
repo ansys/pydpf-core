@@ -58,7 +58,7 @@ jobs:
     steps:
       - id: set_array
         env:
-          PYTHON_VERSIONS: ${{ toJSON(inputs.python_versions) }}
+          PYTHON_VERSIONS: ${{ inputs.python_versions }}
         run: |
           echo "python_versions=${PYTHON_VERSIONS}" >> $GITHUB_OUTPUT
 
