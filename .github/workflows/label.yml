@@ -7,6 +7,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions: {}
+
 jobs:
 
   labeler:
@@ -18,13 +20,13 @@ jobs:
 
     # Label based on modified files
     - name: "Label based on changed files"
-      uses: actions/labeler@v6
+      uses: actions/labeler@634933edcd8ababfe52f92936142cc22ac488b1b # v6.0.1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         sync-labels: ''
 
     # Label based on branch name
-    - uses: actions-ecosystem/action-add-labels@v1
+    - uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf # v1.0.0
       if: |
         startsWith(github.event.pull_request.head.ref, 'doc') || 
         startsWith(github.event.pull_request.head.ref, 'docs')
@@ -32,14 +34,14 @@ jobs:
         labels: documentation
 
     # Label based on branch name
-    - uses: actions-ecosystem/action-add-labels@v1
+    - uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf # v1.0.0
       if: |
         startsWith(github.event.pull_request.head.ref, 'example') || 
         startsWith(github.event.pull_request.head.ref, 'examples')
       with:
         labels: examples
 
-    - uses: actions-ecosystem/action-add-labels@v1
+    - uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf # v1.0.0
       if: |
         startsWith(github.event.pull_request.head.ref, 'docker') ||
         startsWith(github.event.pull_request.head.ref, 'no-ci') ||
@@ -47,18 +49,18 @@ jobs:
       with:
         labels: CI/CD
 
-    - uses: actions-ecosystem/action-add-labels@v1
+    - uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf # v1.0.0
       if: startsWith(github.event.pull_request.head.ref, 'maint')
       with:
         labels: maintenance
 
-    - uses: actions-ecosystem/action-add-labels@v1
+    - uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf # v1.0.0
       if: startsWith(github.event.pull_request.head.ref, 'feat')
       with:
         labels: |
           enhancement
 
-    - uses: actions-ecosystem/action-add-labels@v1
+    - uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf # v1.0.0
       if: |
         startsWith(github.event.pull_request.head.ref, 'fix') ||
         startsWith(github.event.pull_request.head.ref, 'patch')
@@ -67,10 +69,12 @@ jobs:
 
   commenter:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     needs: labeler
     steps:
     - name: Suggest to add labels
-      uses: peter-evans/create-or-update-comment@v5
+      uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
       # Execute only when no labels have been applied to the pull request
       if: toJSON(github.event.pull_request.labels.*.name) == '[]'
       with:

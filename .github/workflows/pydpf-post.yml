@@ -46,10 +46,15 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
 
+permissions: {}
+
 jobs:
   Clone_and_Test:
     name: Clone and Test
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      pull-requests: write
     strategy:
       fail-fast: false
       matrix:
@@ -57,7 +62,9 @@ jobs:
         python-version: ["3.10"]
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: "Set licensing if necessary"
         if: ${{ (inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) > '231' }}
@@ -68,7 +75,7 @@ jobs:
           echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
 
       - name: "Setup Python"
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -79,8 +86,10 @@ jobs:
 
       - name: "Build ansys-dpf-core wheel"
         shell: bash
+        env:
+          MATRIX_OS: ${{ matrix.os }}
         run: |
-          if [[ ${{ matrix.os }} == *"ubuntu"* ]]; then
+          if [[ "${MATRIX_OS}" == *"ubuntu"* ]]; then
               export platform="manylinux_2_17"
           else
               export platform="win"
@@ -119,9 +128,11 @@ jobs:
 
       - name: "Clone PyDPF-Post"
         shell: bash
+        env:
+          POST_BRANCH: ${{ inputs.post_branch }}
         run: |
           REPO="https://github.com/ansys/pydpf-post.git"
-          BranchName=${{ inputs.post_branch }}
+          BranchName="${POST_BRANCH}"
           echo branch="$BranchName"
           if [ "$BranchName" = 'latest' ];
           then
@@ -158,7 +169,7 @@ jobs:
         timeout-minutes: 12
         continue-on-error: true
         
-      - uses: mainmatter/continue-on-error-comment@v1
+      - uses: mainmatter/continue-on-error-comment@b2606cc5ef2525ec21692999676a19f047e3e082 # v1.2.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           outcome: ${{ steps.docstrings.outcome }}
@@ -174,7 +185,7 @@ jobs:
         timeout-minutes: 60
         continue-on-error: true
 
-      - uses: mainmatter/continue-on-error-comment@v1
+      - uses: mainmatter/continue-on-error-comment@b2606cc5ef2525ec21692999676a19f047e3e082 # v1.2.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           outcome: ${{ steps.api.outcome }}

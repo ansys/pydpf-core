@@ -27,6 +27,12 @@ on:
 #│ │ │ │ │
 #* * * * *
 
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
 
@@ -42,6 +48,8 @@ jobs:
   style:
     name: "Style Check"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: ansys/actions/code-style@v8
         with:
@@ -50,8 +58,12 @@ jobs:
   build_linux1:
     name: "Build linux1 wheel"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: "Install requirements"
         run: |
@@ -70,7 +82,7 @@ jobs:
           cd ..
 
       - name: "Upload wheel any as artifact"
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
@@ -185,15 +197,17 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     needs: [style, tests, docs, examples, tests-retro, docker_tests]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required for creating releases
     steps:
       - name: "Download artifacts"
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
 
       - name: "Display downloaded files"
         run: ls -R
 
       - name: "Create draft release"
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631 # v2.2.2
         with:
           files: |
             ./**/*.whl
