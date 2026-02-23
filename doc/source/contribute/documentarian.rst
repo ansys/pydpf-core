@@ -200,6 +200,9 @@ Three environment variables are available for the documentation build:
 - ``BUILD_TUTORIALS``: if set to ``true``, the tutorials are built. This is the
   default behavior. When set to ``false``, the tutorials are not built.
 
+- ``BUILD_CHEATSHEET``: if set to ``true``, the cheatsheet is built. This is
+  the default behavior. When set to ``false``, the cheatsheet is not built.
+
 By using these environment variables, you can speed up the build process. This
 allows to shorten the build time when only certain parts of the documentation
 are modified.
@@ -213,7 +216,7 @@ are modified.
 
     .. code-block:: text
 
-        python -m tox -e doc-html -x testenv:doc-html.setenv+="BUILD_API=false" -x testenv:doc-html.setenv+="BUILD_EXAMPLES=false" -x testenv:doc-html.setenv+="BUILD_TUTORIALS=false"
+        python -m tox -e doc-html -x testenv:doc-html.setenv+="BUILD_API=false" -x testenv:doc-html.setenv+="BUILD_EXAMPLES=false" -x testenv:doc-html.setenv+="BUILD_TUTORIALS=false" -x testenv:doc-html.setenv+="BUILD_CHEATSHEET=false"
 
 .. toctree::
     :hidden:

@@ -20,10 +20,14 @@ This operator supports the following keys ([file formats](../../index.md#overvie
 {% endif %}
 ## Inputs
 
-| Pin number | Name | Expected type(s) |
-|-------|-------|------------------|
+This table lists the input pins for this operator. Input pins define the data that the operator requires to perform its operation.
+Some inputs are required, while others are optional and provide additional configuration.
+Each parameter is detailed in the sections that follow the table.
+
+| Pin number | Name | Status | Expected type(s) |
+|------------|------|--------|------------------|
 {%- for input in inputs %}
-| {% if not input.optional %}<strong>{{ input.pin_number }}</strong> <span style="background-color:#d93025; color:white; padding:2px 6px; border-radius:3px; font-size:0.75em;">Required</span>{% else %}<strong>{{ input.pin_number }}</strong>{% endif %}|  [{{ input.name }}](#input_{{ input.pin_number }}) |
+| <strong>{{ input.pin_number }}</strong> | [{{ input.name }}](#input_{{ input.pin_number }}) | {% if not input.optional %} <span style="background-color:#d93025; color:white; padding:2px 6px; border-radius:3px; font-size:0.75em;" title="This pin is required">Required</span>{% else %} {% endif %}|
 {%- for t in input.types -%}{% if "::" in t or t == "materials_container" or t == "materials" or t == "binary_operation_enum" or t == "umap<int32,int32>" or t == "stream" or t == "vector<shared_ptr<any_collection>>" or t == "vector<shared_ptr<field>>" or t == "umap<string,shared_ptr<abstract_field_support>>" or t == "vector<shared_ptr<abstract_meshed_region>>" or t == "vector<shared_ptr<materials>>" or t == "ans_dispatch_holder" or t == "struct IAnsDispatch" or t == "abstract_field_support" or t == "vector<shared_ptr<fields_container>>" or t == "vector<shared_ptr<data_tree>>" or t == "vector<shared_ptr<generic_data_container>>" or t == "vector<shared_ptr<time_freq_support>>" or t == "mesh_selection_manager" or t == "vector<shared_ptr<abstract_field_support>>" or t == "vector<shared_ptr<string_field>>" or t == "vector<shared_ptr<scopings_container>>" or t == "vector<shared_ptr<scoping>>" or t == "vector<shared_ptr<result_info>>" or t == "vector<shared_ptr<meshes_container>>" or t == "vector<shared_ptr<property_field>>" %}`{{ t }}`{% elif t == "int32" or t == "bool" or t == "char" or t == "double" or t == "string" or t == "uint32" or t == "uint64" or t == "vector<int32>" or t == "vector<bool>" or t == "vector<char>" or t == "vector<double>" or t == "vector<string>" or t == "vector<float>" %}[`{{ t }}`](../../core-concepts/dpf-types.md#standard-types){% elif t.startswith("abstract_") %}[`{{ t }}`](../../core-concepts/dpf-types.md#{{ t | replace("abstract_", "") | replace("_", "-") | replace (" ", "-") | lower}}){% else %}[`{{ t }}`](../../core-concepts/dpf-types.md#{{ t | replace("_", "-") | replace(" ", "-") | lower}}){% endif %}{% if not loop.last %}, {% endif %}{%- endfor %} |
 {%- endfor %}
 
@@ -38,6 +42,10 @@ This operator supports the following keys ([file formats](../../index.md#overvie
 {% endfor %}
 
 ## Outputs
+
+This table lists the output pins for this operator.
+Output pins provide the results of the operator's computation and can be connected to inputs of other operators or retrieved for further processing.
+Each output is detailed in the sections that follow the table.
 
 | Pin number |  Name | Expected type(s) |
 |-------|------|------------------|
@@ -57,8 +65,10 @@ This operator supports the following keys ([file formats](../../index.md#overvie
 
 ## Configurations
 
+This operator supports [configuration options](../../core-concepts/operator-configurations.md) that modify its behavior.
+
 {% for configuration in configurations %}
-### {{ configuration.name }}
+### [{{ configuration.name }}](../../core-concepts/operator-configurations.md#{{ configuration.name }})
 
 - **Expected type(s):** {% for t in configuration.types -%}{% if '::' in t or t in ['materials_container','materials','binary_operation_enum','umap<int32,int32>','stream','vector<shared_ptr<any_collection>>','vector<shared_ptr<field>>','umap<string,shared_ptr<abstract_field_support>>','vector<shared_ptr<abstract_meshed_region>>','vector<shared_ptr<materials>>','ans_dispatch_holder','struct IAnsDispatch','abstract_field_support','vector<shared_ptr<fields_container>>','vector<shared_ptr<data_tree>>','vector<shared_ptr<generic_data_container>>','vector<shared_ptr<time_freq_support>>','mesh_selection_manager','vector<shared_ptr<abstract_field_support>>','vector<shared_ptr<string_field>>','vector<shared_ptr<scopings_container>>','vector<shared_ptr<scoping>>','vector<shared_ptr<result_info>>','vector<shared_ptr<meshes_container>>','vector<shared_ptr<property_field>>'] %}`{{ t }}`{% elif t in ['int32','bool','char','double','string','uint32','uint64','vector<int32>','vector<bool>','vector<char>','vector<double>','vector<string>','vector<float>'] %}[`{{ t }}`](../../core-concepts/dpf-types.md#standard-types){% elif t.startswith('abstract_') %}[`{{ t }}`](../../core-concepts/dpf-types.md#{{ t | replace('abstract_','') | replace('_','-') | replace(' ','-') | lower}}){% else %}[`{{ t }}`](../../core-concepts/dpf-types.md#{{ t | replace('_','-') | replace(' ','-') | lower}}){% endif %}{% if not loop.last %}, {% endif %}{%- endfor %}
 - **Default value:** {{ configuration.default_value }}
@@ -68,6 +78,8 @@ This operator supports the following keys ([file formats](../../index.md#overvie
 
 
 ## Scripting
+
+This operator can be accessed through scripting interfaces using these identifiers.
 
  **Category**: {{ scripting_info.category }}
 
@@ -82,6 +94,9 @@ This operator supports the following keys ([file formats](../../index.md#overvie
  **License**: {{ scripting_info.license }}
 
 ## Examples
+
+These examples demonstrate how to use this operator in different programming environments.
+Each example shows how to instantiate the operator, connect the required inputs, and retrieve the output.
 
 <details>
 <summary>C++</summary>

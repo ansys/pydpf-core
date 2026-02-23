@@ -34,7 +34,11 @@ from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import locations, shell_layers
 from ansys.dpf.gate.errors import DPFServerException, DpfVersionNotSupported
 import conftest
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, running_docker
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
+    running_docker,
+)
 
 
 @pytest.fixture()
@@ -499,7 +503,10 @@ def test_shell_layers_2(velocity_acceleration):
     model = dpf.core.Model(velocity_acceleration)
     stress = model.results.stress()
     f = stress.outputs.fields_container()[0]
-    assert f.shell_layers == shell_layers.nonelayer
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        assert f.shell_layers == shell_layers.top
+    else:
+        assert f.shell_layers == shell_layers.nonelayer
 
 
 def test_mesh_support_field_model(allkindofcomplexity):

@@ -24,17 +24,25 @@ class quantization_fc(Operator):
     r"""Scales all the fields of a fields container to a given precision
     threshold, then rounds all the values to the unit.
 
+    The output of the quantization operation is : \\[q(x) =
+    :raw-latex:`\left`:raw-latex:`\lfloor`:raw-latex:`\frac{x}{2\varepsilon}`
+    + :raw-latex:`\frac{1}{2}`:raw-latex:`\right`:raw-latex:`\rfloor `\\]
+    The truncated value in the original scale has to be computed by doing
+    \\(2:raw-latex:`\varepsilon `q(x) \\).
+
+    To truncate a number to \\(n\\) decimal places, the threshold must be
+    chosen as \\(10^{-n}\\).
+
 
     Inputs
     ------
     input_fc: FieldsContainer
-        Fields container to be quantized.
+        Fields container to quantized.
     threshold: float or Field or FieldsContainer
         Precision threshold desired.
-        Case double : the threshold is applied on all the fields of the input fields container.
-        Case field with one, numComp or input size values : the threshold is used for each field of the input fields container.
-        Case fields container : the corresponding threshold field is found by matching label.
-
+        - Case double : the threshold is applied on all the fields of the input fields container.
+        - Case field with one, numComp or input size values : the threshold is used for each field of the input fields container.
+        - Case fields container : the corresponding threshold field is found by matching label.
 
     Outputs
     -------
@@ -81,6 +89,15 @@ class quantization_fc(Operator):
     def _spec() -> Specification:
         description = r"""Scales all the fields of a fields container to a given precision
 threshold, then rounds all the values to the unit.
+
+The output of the quantization operation is : \\[q(x) =
+:raw-latex:`\left`:raw-latex:`\lfloor`:raw-latex:`\frac{x}{2\varepsilon}`
++ :raw-latex:`\frac{1}{2}`:raw-latex:`\right`:raw-latex:`\rfloor `\\]
+The truncated value in the original scale has to be computed by doing
+\\(2:raw-latex:`\varepsilon `q(x) \\).
+
+To truncate a number to \\(n\\) decimal places, the threshold must be
+chosen as \\(10^{-n}\\).
 """
         spec = Specification(
             description=description,
@@ -89,17 +106,16 @@ threshold, then rounds all the values to the unit.
                     name="input_fc",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container to be quantized.""",
+                    document=r"""Fields container to quantized.""",
                 ),
                 1: PinSpecification(
                     name="threshold",
                     type_names=["double", "field", "fields_container"],
                     optional=False,
                     document=r"""Precision threshold desired.
-Case double : the threshold is applied on all the fields of the input fields container.
-Case field with one, numComp or input size values : the threshold is used for each field of the input fields container.
-Case fields container : the corresponding threshold field is found by matching label.
-""",
+- Case double : the threshold is applied on all the fields of the input fields container.
+- Case field with one, numComp or input size values : the threshold is used for each field of the input fields container.
+- Case fields container : the corresponding threshold field is found by matching label.""",
                 ),
             },
             map_output_pin_spec={
@@ -186,7 +202,7 @@ class InputsQuantizationFc(_Inputs):
     def input_fc(self) -> Input[FieldsContainer]:
         r"""Allows to connect input_fc input to the operator.
 
-        Fields container to be quantized.
+        Fields container to quantized.
 
         Returns
         -------
@@ -208,10 +224,9 @@ class InputsQuantizationFc(_Inputs):
         r"""Allows to connect threshold input to the operator.
 
         Precision threshold desired.
-        Case double : the threshold is applied on all the fields of the input fields container.
-        Case field with one, numComp or input size values : the threshold is used for each field of the input fields container.
-        Case fields container : the corresponding threshold field is found by matching label.
-
+        - Case double : the threshold is applied on all the fields of the input fields container.
+        - Case field with one, numComp or input size values : the threshold is used for each field of the input fields container.
+        - Case fields container : the corresponding threshold field is found by matching label.
 
         Returns
         -------
