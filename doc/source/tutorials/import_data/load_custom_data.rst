@@ -4,7 +4,7 @@
 Load custom data in DPF
 =======================
 
-.. include:: ../../../links_and_refs.rst
+.. include:: ../../links_and_refs.rst
 .. |Field.append| replace:: :func:`append()<ansys.dpf.core.field.Field.append>`
 .. |Field.data| replace:: :attr:`Field.data<ansys.dpf.core.field_base._FieldBase.data>`
 .. |fields_factory| replace:: :mod:`fields_factory<ansys.dpf.core.fields_factory>`

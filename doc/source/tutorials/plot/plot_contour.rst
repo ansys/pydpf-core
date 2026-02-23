@@ -4,7 +4,7 @@
 Plot contours
 =============
 
-.. include:: ../../../links_and_refs.rst
+.. include:: ../../links_and_refs.rst
 
 .. |Field.plot| replace:: :py:meth:`Field.plot() <ansys.dpf.core.field.Field.plot>`
 .. |MeshedRegion.plot| replace:: :py:meth:`MeshedRegion.plot() <ansys.dpf.core.meshed_region.MeshedRegion.plot>`
