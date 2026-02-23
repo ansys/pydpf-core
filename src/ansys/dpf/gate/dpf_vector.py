@@ -8,7 +8,6 @@ from ansys.dpf.gate.generated import dpf_vector_capi
 from ansys.dpf.gate.integral_types import MutableListInt32, MutableInt32, MutableListDouble, \
     MutableListString, MutableListChar
 
-_logger = logging.getLogger(__name__)
 
 def get_size_of_list(list):
     if isinstance(list, (np.generic, np.ndarray)):
