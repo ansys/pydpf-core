@@ -71,9 +71,11 @@ jobs:
       - name: "Set licensing if necessary"
         if: ${{ (inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) > '231' }}
         shell: bash
+        env:
+          LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
-          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
+          echo "ANSYSLMD_LICENSE_FILE=1055@${LICENSE_SERVER}" >> $GITHUB_ENV
           echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
 
       - name: "Setup Python"
@@ -114,8 +116,10 @@ jobs:
 
       - name: "Test import"
         shell: bash
+        env:
+          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
         run: |
-          python -m pip install dist/${{ steps.wheel.outputs.wheel_name }}
+          python -m pip install dist/${WHEEL_NAME}
           python -c "from ansys.dpf import core"
 
       - name: "Setup headless display"
@@ -172,8 +176,10 @@ jobs:
 
       - name: "Build HTML Documentation"
         shell: bash
+        env:
+          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
         run: |
-          tox -e doc-html --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
+          tox -e doc-html --installpkg dist/${WHEEL_NAME} -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
 
       - name: "Save doc-build cache"
         id: cache-doc-build-save
@@ -187,7 +193,7 @@ jobs:
       - name: "Zip HTML Documentation"
         shell: pwsh
         run: |
-          Compress-Archive -Path doc/build/html/* -Destination HTML-doc-${{env.PACKAGE_NAME}}.zip
+          Compress-Archive -Path doc/build/html/* -Destination HTML-doc-$env:PACKAGE_NAME.zip
         if: always()
 
       - name: "Upload HTML Documentation"

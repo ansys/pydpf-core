@@ -108,8 +108,10 @@ jobs:
 
       - name: "Install package wheel"
         shell: bash
+        env:
+          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
         run: |
-          pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
+          pip install dist/${WHEEL_NAME}[graphics]
 
       - name: "Install DPF"
         id: set-server-path

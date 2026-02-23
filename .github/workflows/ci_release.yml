@@ -38,6 +38,7 @@ env:
 
 jobs:
   debug:
+    name: "Debug"
     runs-on: ubuntu-latest
     steps:
     - name: Show the Github context for the triggered event

@@ -75,9 +75,11 @@ jobs:
       - name: "Set licensing if necessary"
         if: ${{ (inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) > '231' }}
         shell: bash
+        env:
+          LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
-          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
+          echo "ANSYSLMD_LICENSE_FILE=1055@${LICENSE_SERVER}" >> $GITHUB_ENV
           echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
 
       - name: "Setup Python"
@@ -113,8 +115,10 @@ jobs:
 
       - name: "Install package wheel"
         shell: bash
+        env:
+          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
         run: |
-          pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
+          pip install dist/${WHEEL_NAME}[graphics]
 
       - name: "Install DPF"
         id: set-server-path

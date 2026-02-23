@@ -86,8 +86,10 @@ jobs:
 
       - name: "Install package wheel"
         shell: bash
+        env:
+          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
         run: |
-          pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
+          pip install dist/${WHEEL_NAME}[graphics]
 
       - name: "Install DPF"
         id: set-server-path
@@ -123,7 +125,7 @@ jobs:
       - name: "Set pytest arguments"
         shell: bash
         run: |
-          echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
+          echo "COVERAGE=--cov=ansys.dpf.${MODULE} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
           echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
 
           echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV

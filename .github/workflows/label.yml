@@ -12,6 +12,7 @@ permissions: {}
 jobs:
 
   labeler:
+    name: "Label PR"
     permissions:
       contents: read
       pull-requests: write
@@ -68,6 +69,7 @@ jobs:
         labels: bug
 
   commenter:
+    name: "Suggest Labels"
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
