@@ -127,6 +127,8 @@ jobs:
 
   tests-latest:
     name: "Test ${{ matrix.test-any == 'true' && 'any' || 'platform-specific' }} wheel against latest DPF version"
+    permissions:
+      contents: read # Required by tests.yml jobs
     strategy:
       fail-fast: false
       matrix:
@@ -148,6 +150,8 @@ jobs:
 
   docker_tests:
     name: "Build and Test on Docker"
+    permissions:
+      contents: read # Required by test_docker.yml jobs
     uses: ./.github/workflows/test_docker.yml
     needs: pick_server_suffix
     with:
@@ -160,6 +164,8 @@ jobs:
 
   docker_examples:
     name: "Run examples on Docker"
+    permissions:
+      contents: read # Required by examples_docker.yml jobs
     uses: ./.github/workflows/examples_docker.yml
     needs: pick_server_suffix
     with:
@@ -173,6 +179,9 @@ jobs:
   docs:
     if: |
       (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+    permissions:
+      contents: read # Required by docs.yml jobs
+      pull-requests: write # Required by doc-style job
     uses: ./.github/workflows/docs.yml
     needs: pick_server_suffix
     with:
@@ -226,6 +235,8 @@ jobs:
   examples:
     if: |
       (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+    permissions:
+      contents: read # Required by examples.yml jobs
     uses: ./.github/workflows/examples.yml
     needs: pick_server_suffix
     with:
@@ -240,6 +251,9 @@ jobs:
     name: "PyDPF-Post"
     if: |
       (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+    permissions:
+      contents: read # Required by pydpf-post.yml jobs
+      pull-requests: write # Required for posting test outcome comments
     uses: ./.github/workflows/pydpf-post.yml
     needs: pick_server_suffix
     with:
@@ -255,6 +269,8 @@ jobs:
     name: "Test DPF ${{ matrix.version.version }}${{ matrix.version.patch }} compatibility"
     if: |
       (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+    permissions:
+      contents: read # Required by tests.yml jobs
     strategy:
       fail-fast: false
       matrix:

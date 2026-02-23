@@ -90,6 +90,8 @@ jobs:
 
   tests:
     name: "Test ${{ matrix.test_any && 'any' || 'platform-specific' }} wheel"
+    permissions:
+      contents: read # Required by tests.yml jobs
     uses: ./.github/workflows/tests.yml
     strategy:
       fail-fast: false
@@ -129,6 +131,9 @@ jobs:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   docs:
+    permissions:
+      contents: read # Required by docs.yml jobs
+      pull-requests: write # Required by doc-style job
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).version }}
@@ -139,6 +144,8 @@ jobs:
       PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
 
   examples:
+    permissions:
+      contents: read # Required by examples.yml jobs
     uses: ./.github/workflows/examples.yml
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).version }}
@@ -150,6 +157,8 @@ jobs:
 
   tests-retro:
     name: "Test DPF ${{ matrix.version.version }}${{ matrix.version.patch }} compatibility"
+    permissions:
+      contents: read # Required by tests.yml jobs
     strategy:
       fail-fast: false
       matrix:
@@ -168,6 +177,9 @@ jobs:
 
   tests-pydpf-post:
     name: "Test PyDPF-Post with ${{ matrix.version.version }}${{ matrix.version.patch }}"
+    permissions:
+      contents: read # Required by pydpf-post.yml jobs
+      pull-requests: write # Required for posting test outcome comments
     strategy:
       fail-fast: false
       matrix:
@@ -190,6 +202,8 @@ jobs:
 
   docker_tests:
     name: "Build and Test on Docker"
+    permissions:
+      contents: read # Required by test_docker.yml jobs
     uses: ./.github/workflows/test_docker.yml
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).version }}
@@ -201,6 +215,8 @@ jobs:
 
   docker_examples:
     name: "Run examples on Docker"
+    permissions:
+      contents: read # Required by examples_docker.yml jobs
     uses: ./.github/workflows/examples_docker.yml
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).version }}

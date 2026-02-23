@@ -105,6 +105,8 @@ jobs:
           bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
 
   update_ansys_lab_examples:
+    permissions:
+      contents: write # Required by ansys_lab.yml deploy_examples job for git push
     uses: ./.github/workflows/ansys_lab.yml
     needs: get_latest_tag
     with:
