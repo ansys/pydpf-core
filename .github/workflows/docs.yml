@@ -1,4 +1,4 @@
-name: docs
+name: docs # zizmor: ignore[concurrency-limits]
 
 on:
 # Can be called by the CI

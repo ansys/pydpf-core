@@ -1,4 +1,4 @@
-name: Update generated code
+name: Update generated code # zizmor: ignore[concurrency-limits]
 
 on:
 # Can be called manually or remotely

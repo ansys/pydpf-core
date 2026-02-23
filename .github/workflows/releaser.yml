@@ -16,6 +16,10 @@ env:
 
 permissions: {}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
 
   get_latest_tag:
@@ -57,7 +61,7 @@ jobs:
           extract: false
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: "Upload to Public PyPI"
+      - name: "Upload to Public PyPI" # zizmor: ignore[use-trusted-publishing] , to be removed soon
         run: |
           pip install twine==6.0.1
           twine upload --skip-existing assets/*

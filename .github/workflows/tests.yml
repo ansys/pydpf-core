@@ -1,4 +1,4 @@
-name: tests
+name: tests # zizmor: ignore[concurrency-limits] , this is a reusable workflow
 
 on:
 # Can be called by the CI

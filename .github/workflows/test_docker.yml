@@ -1,4 +1,4 @@
-name: test_docker
+name: test_docker # zizmor: ignore[concurrency-limits] , this is a reusable workflow
 
 on:
 # Can be called by the CI
