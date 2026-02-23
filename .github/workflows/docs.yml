@@ -21,6 +21,11 @@ on:
         required: true
         type: string
         default: ''
+    secrets:
+      LICENSE_SERVER:
+        required: true
+      PYANSYS_CI_BOT_TOKEN:
+        required: true
 # Can be called manually
   workflow_dispatch:
     inputs:

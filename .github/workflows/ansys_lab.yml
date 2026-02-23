@@ -8,6 +8,9 @@ on:
         description: "Release version as 'vX.Y.Z'"
         type: string
         required: true
+    secrets:
+      PYANSYS_CI_BOT_TOKEN:
+        required: true
 # Can be called manually
   workflow_dispatch:
     inputs:

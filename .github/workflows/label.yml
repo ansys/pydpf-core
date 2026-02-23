@@ -14,8 +14,8 @@ jobs:
   labeler:
     name: "Label PR"
     permissions:
-      contents: read
-      pull-requests: write
+      contents: read # Required for actions/labeler to read changed files
+      pull-requests: write # Required for adding labels to pull requests
     runs-on: ubuntu-latest
     steps:
 
@@ -72,7 +72,7 @@ jobs:
     name: "Suggest Labels"
     runs-on: ubuntu-latest
     permissions:
-      pull-requests: write
+      pull-requests: write # Required for posting label suggestion comments
     needs: labeler
     steps:
     - name: Suggest to add labels

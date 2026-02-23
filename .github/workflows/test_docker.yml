@@ -12,6 +12,13 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
+    secrets:
+      LICENSE_SERVER:
+        required: true
+      PYANSYS_CI_BOT_TOKEN:
+        required: true
+      CODECOV_TOKEN:
+        required: false
 # Can be called manually
   workflow_dispatch:
     inputs:

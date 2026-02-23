@@ -33,6 +33,13 @@ on:
         required: false
         type: string
         default: 'false'
+    secrets:
+      LICENSE_SERVER:
+        required: true
+      PYANSYS_CI_BOT_TOKEN:
+        required: true
+      CODECOV_TOKEN:
+        required: false
 # Can be called manually
   workflow_dispatch:
     inputs:

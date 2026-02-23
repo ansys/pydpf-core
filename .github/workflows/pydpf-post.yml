@@ -20,6 +20,11 @@ on:
         required: false
         type: string
         default: "false"
+    secrets:
+      LICENSE_SERVER:
+        required: true
+      PYANSYS_CI_BOT_TOKEN:
+        required: true
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -53,8 +58,8 @@ jobs:
     name: Clone and Test
     runs-on: ${{ matrix.os }}
     permissions:
-      contents: read
-      pull-requests: write
+      contents: read # Required for checkout
+      pull-requests: write # Required for posting test outcome comments
     strategy:
       fail-fast: false
       matrix:
