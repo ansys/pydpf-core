@@ -262,7 +262,7 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox -e test-api_entry,kill-servers ${TOX_EXTRA_ARG}
+            tox -e test-api_entry,kill-servers "${TOX_EXTRA_ARG}"
 
       - name: "Run compatible tests in parallel"
         uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
@@ -274,7 +274,7 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox run-parallel -m ciparalleltests ${TOX_EXTRA_ARG}
+            tox run-parallel -m ciparalleltests "${TOX_EXTRA_ARG}"
 
       - name: "Test API test_server"
         uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
@@ -286,7 +286,7 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox -e test-server,kill-servers ${TOX_EXTRA_ARG}
+            tox -e test-server,kill-servers "${TOX_EXTRA_ARG}"
 
       - name: "Test API test_remote_workflow"
         uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
@@ -298,7 +298,7 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox -e test-remote_workflow,kill-servers ${TOX_EXTRA_ARG}
+            tox -e test-remote_workflow,kill-servers "${TOX_EXTRA_ARG}"
 
       - name: "Test API test_remote_operator"
         shell: bash
@@ -306,7 +306,7 @@ jobs:
           TOX_EXTRA_ARG: ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
         run: |
           export DPF_DEFAULT_GRPC_MODE=insecure
-          tox -e test-remote_operator,kill-servers ${TOX_EXTRA_ARG}
+          tox -e test-remote_operator,kill-servers "${TOX_EXTRA_ARG}"
 
       - name: "Test API test_workflow"
         uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
@@ -318,7 +318,7 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox -e test-workflow,kill-servers ${TOX_EXTRA_ARG}
+            tox -e test-workflow,kill-servers "${TOX_EXTRA_ARG}"
 
       - name: "Test API test_service"
         uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
@@ -330,7 +330,7 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox -e test-service,kill-servers ${TOX_EXTRA_ARG}
+            tox -e test-service,kill-servers "${TOX_EXTRA_ARG}"
 
       - name: "Combine coverage results"
         shell: bash
