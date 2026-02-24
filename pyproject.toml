@@ -119,7 +119,7 @@ install = [
   "numpy==2.4.1",
   "packaging==26.0",
   "psutil==7.2.2",
-  "tqdm==4.67.2",
+  "tqdm==4.67.3",
 ]
 
 [project.urls]
