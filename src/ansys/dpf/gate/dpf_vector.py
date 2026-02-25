@@ -1,6 +1,4 @@
-from contextlib import suppress
 import ctypes
-import logging
 import numpy as np
 
 from ansys.dpf.core.check_version import server_meet_version
