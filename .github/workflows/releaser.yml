@@ -51,7 +51,7 @@ jobs:
       contents: read
     steps:
       - name: "Download Release Assets"
-        uses: robinraju/release-downloader@daf26c55d821e836577a15f77d86ddc078948b05 # v1.12.0
+        uses: robinraju/release-downloader@daf26c55d821e836577a15f77d86ddc078948b05 # v1.12
         with:
           tag: ${{ github.event.inputs.release_tag || needs.get_latest_tag.outputs.version }}
           fileName: "*.whl"
@@ -95,7 +95,7 @@ jobs:
           path: HTML-doc-ansys-dpf-core.zip
 
       - name: "Deploy the stable documentation"
-        uses: ansys/actions/doc-deploy-stable@v8
+        uses: ansys/actions/doc-deploy-stable@571fb2b8c7d6ad8c8b18e50bd20fb00f125dcfb6 # v10.2.6
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
