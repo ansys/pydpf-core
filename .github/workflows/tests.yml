@@ -242,7 +242,7 @@ jobs:
           ANSYS_VERSION_INPUT: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
         run: |
           if [ $MODE == 'PIP' ]; then
-            echo "TOX_EXTRA_ARG=--installpkg dist/${WHEEL_NAME} -x testenv.deps+=-e dpf-standalone/v${ANSYS_VERSION_INPUT}" >> "$GITHUB_OUTPUT"
+            echo "TOX_EXTRA_ARG=--installpkg dist/${WHEEL_NAME} -x testenv.deps+='-e dpf-standalone/v${ANSYS_VERSION_INPUT}'" >> "$GITHUB_OUTPUT"
           else
             echo "TOX_EXTRA_ARG=--installpkg dist/${WHEEL_NAME}" >> "$GITHUB_OUTPUT"
           fi
