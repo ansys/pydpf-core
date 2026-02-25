@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -37,6 +37,19 @@ def test_cff_model(server_type, fluent_multi_species):
     assert model is not None
     mesh = model.metadata.meshed_region
     assert "faces" in str(mesh)
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    reason="Bug due to gatebin incompatibilities for servers <26.1",
+)
+def test_cff_model_flprj(server_type, fluent_axial_comp_flprj):
+    ds = fluent_axial_comp_flprj(server_type)
+    model = dpf.Model(ds, server=server_type)
+    assert model is not None
+    assert "fluid" in str(model)
+    mesh_info = model.metadata.mesh_info
+    assert "faces" in str(mesh_info)
 
 
 @pytest.mark.skipif(

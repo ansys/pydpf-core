@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -29,7 +29,6 @@ from ansys.dpf import core
 from ansys.dpf.core import Model, Operator, element_types, errors as dpf_errors, misc
 from ansys.dpf.core.plotter import plot_chart
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     running_docker,
@@ -865,10 +864,6 @@ def test_plot_warped_mesh(multishells):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="Polygons are supported starting server version 5.0",
-)
 def test_plot_polygon():
     # Define polygon points
     polygon_points = [
@@ -889,10 +884,6 @@ def test_plot_polygon():
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="Polyhedrons are supported starting server version 5.0",
-)
 def test_plot_polyhedron():
     # Define the coordinates
     polyhedron_points = [
@@ -934,28 +925,34 @@ def test_plot_polyhedron():
     mesh.elements.add_solid_element(0, element_connectivity)
 
     # Set the "cell_types" PropertyField
-    cell_types_f = core.PropertyField()
+    cell_types_f = core.PropertyField(location=core.locations.elemental)
     for cell_index, cell_type in enumerate(cell_types):
         cell_types_f.append(cell_type, cell_index)
     mesh.set_property_field("eltype", cell_types_f)
 
     # Set the "faces_nodes_connectivity" PropertyField
-    connectivity_f = core.PropertyField()
+    connectivity_f = core.PropertyField(location=core.locations.faces)
     for face_index, face_connectivity in enumerate(faces_connectivity):
         connectivity_f.append(face_connectivity, face_index)
     mesh.set_property_field("faces_nodes_connectivity", connectivity_f)
 
     # Set the "elements_faces_connectivity" PropertyField
-    elements_faces_f = core.PropertyField()
+    elements_faces_f = core.PropertyField(location=core.locations.elemental)
     for element_index, element_faces in enumerate(elements_faces):
         elements_faces_f.append(element_faces, element_index)
     mesh.set_property_field("elements_faces_connectivity", elements_faces_f)
 
     # Set the "faces_types" PropertyField
-    faces_types_f = core.PropertyField()
+    faces_types_f = core.PropertyField(location=core.locations.faces)
     for face_index, face_type in enumerate(faces_types):
         faces_types_f.append(face_type, face_index)
     mesh.set_property_field("faces_type", faces_types_f)
+
+    # Set the "elements_faces_reversed" PropertyField
+    elements_faces_reversed_f = core.PropertyField(location=core.locations.elemental)
+    for element_index, element_faces in enumerate(elements_faces):
+        elements_faces_reversed_f.append([0] * len(element_faces), element_index)
+    mesh.set_property_field("elements_faces_reversed", elements_faces_reversed_f)
 
     # Plot the MeshedRegion
     mesh.plot()

@@ -22,8 +22,8 @@ class producer_consumer_for_each(Operator):
     These 2 parts will run asynchronously on 2 threads.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     producer_consumer_iterableq:
         The result of the make_producer_consumer_for_each_iterator operator.
     forward1:
@@ -31,7 +31,7 @@ class producer_consumer_for_each(Operator):
     forward2:
         output of the last operators of the workflow
 
-    Returns
+    Outputs
     -------
     empty:
     output1:
@@ -74,10 +74,12 @@ class producer_consumer_for_each(Operator):
         server=None,
     ):
         super().__init__(
-            name="producer_consumer_for_each", config=config, server=server
+            name="producer_consumer_for_each",
+            config=config,
+            server=server,
+            inputs_type=InputsProducerConsumerForEach,
+            outputs_type=OutputsProducerConsumerForEach,
         )
-        self._inputs = InputsProducerConsumerForEach(self)
-        self._outputs = OutputsProducerConsumerForEach(self)
         if producer_consumer_iterableq is not None:
             self.inputs.producer_consumer_iterableq.connect(producer_consumer_iterableq)
         if forward1 is not None:
@@ -164,7 +166,7 @@ These 2 parts will run asynchronously on 2 threads.
         inputs:
             An instance of InputsProducerConsumerForEach.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsProducerConsumerForEach:
@@ -175,7 +177,7 @@ These 2 parts will run asynchronously on 2 threads.
         outputs:
             An instance of OutputsProducerConsumerForEach.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsProducerConsumerForEach(_Inputs):
@@ -196,15 +198,15 @@ class InputsProducerConsumerForEach(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(producer_consumer_for_each._spec().inputs, op)
-        self._producer_consumer_iterableq = Input(
+        self._producer_consumer_iterableq: Input = Input(
             producer_consumer_for_each._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._producer_consumer_iterableq)
-        self._forward1 = Input(
+        self._forward1: Input = Input(
             producer_consumer_for_each._spec().input_pin(3), 3, op, 0
         )
         self._inputs.append(self._forward1)
-        self._forward2 = Input(
+        self._forward2: Input = Input(
             producer_consumer_for_each._spec().input_pin(4), 4, op, 1
         )
         self._inputs.append(self._forward2)
@@ -289,11 +291,17 @@ class OutputsProducerConsumerForEach(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(producer_consumer_for_each._spec().outputs, op)
-        self._empty = Output(producer_consumer_for_each._spec().output_pin(0), 0, op)
+        self._empty: Output = Output(
+            producer_consumer_for_each._spec().output_pin(0), 0, op
+        )
         self._outputs.append(self._empty)
-        self._output1 = Output(producer_consumer_for_each._spec().output_pin(3), 3, op)
+        self._output1: Output = Output(
+            producer_consumer_for_each._spec().output_pin(3), 3, op
+        )
         self._outputs.append(self._output1)
-        self._output2 = Output(producer_consumer_for_each._spec().output_pin(4), 4, op)
+        self._output2: Output = Output(
+            producer_consumer_for_each._spec().output_pin(4), 4, op
+        )
         self._outputs.append(self._output2)
 
     @property

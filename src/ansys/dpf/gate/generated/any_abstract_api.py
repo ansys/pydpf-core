@@ -136,6 +136,10 @@ class AnyAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def any_get_as_label_space(any):
+		raise NotImplementedError
+
+	@staticmethod
 	def any_make_obj_as_any(dpf_object):
 		raise NotImplementedError
 

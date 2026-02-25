@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -23,13 +23,16 @@
 """Outputs."""
 
 import re
+from typing import Generic, TypeVar
 
 from ansys.dpf.core.common import types
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.operator_specification import PinSpecification
 
+T = TypeVar("T")
 
-class Output:
+
+class Output(Generic[T]):
     """
     Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
 
@@ -56,7 +59,7 @@ class Output:
             self._python_expected_types.append(map_types_to_python[cpp_type])
         self.aliases = self._spec.aliases
 
-    def get_data(self):
+    def get_data(self) -> T:
         """Retrieve the output of the operator."""
         type_output = self._spec.type_names[0]
 
@@ -82,6 +85,8 @@ class Output:
         output = self._operator.get_output(self._pin, type_output)
 
         type_output_derive_class = self._spec.name_derived_class
+        if isinstance(type_output_derive_class, list):
+            type_output_derive_class = type_output_derive_class[0]
         if type_output_derive_class == "":
             return output
 
@@ -98,7 +103,7 @@ class Output:
         ]
         return derived_types[0][0](output)
 
-    def __call__(self):
+    def __call__(self) -> T:
         """Allow instances of the class to be callable for data retrieval purposes."""
         return self.get_data()
 

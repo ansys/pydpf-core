@@ -236,6 +236,10 @@ class DataProcessingAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def data_processing_get_grpc_client_server_version(major, minor):
+		raise NotImplementedError
+
+	@staticmethod
 	def data_processing_get_server_ip_and_port(client, port):
 		raise NotImplementedError
 

@@ -56,7 +56,7 @@ jobs:
     name: "Documentation"
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: "Set licensing if necessary"
         if: ${{ (inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) > '231' }}
@@ -64,9 +64,10 @@ jobs:
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
+          echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
 
       - name: "Setup Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ inputs.python_version }}
 
@@ -79,7 +80,7 @@ jobs:
       - name: "Build the wheel"
         shell: pwsh
         run: |
-          tox -e build-wheel
+          tox -e build-wheel -- "any"
 
       - name: "Expose the wheel"
         shell: bash
@@ -108,7 +109,7 @@ jobs:
           python -c "from ansys.dpf import core"
 
       - name: "Setup headless display"
-        uses: pyvista/setup-headless-display-action@48066dd0b79cf46babc16223a1dce3aa4803ec43 # v4.0
+        uses: pyvista/setup-headless-display-action@7d84ae825e6d9297a8e99bdbbae20d1b919a0b19 # v4.2
 
       - name: "Setup Graphviz"
         uses: ts-graphviz/setup-graphviz@v2
@@ -117,9 +118,36 @@ jobs:
         run: |
           choco install pandoc
 
+      - name: "Setup Quarto"
+        uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2.2.0
+        with:
+          version: 1.6.43
+
+      - name: Check Quarto Version
+        shell: bash
+        run: |
+          quarto --version
+
+      - name: "Install Poppler for PDF to PNG conversion"
+        shell: powershell
+        run: |
+          choco install poppler -y
+          echo "C:\Program Files\poppler\bin" | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
+
+      - name: Install Miktex and update PATH with Miktex binaries
+        shell: powershell
+        run: |
+          choco install miktex -y
+          echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
+
+      - name: Set up Miktex to automatically install packages
+        shell: powershell
+        run: |
+          initexmf --set-config-value [MPM]AutoInstall=1
+
       - name: "Restore doc build cache"
         id: cache-doc-build-restore
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             doc/source/examples
@@ -136,16 +164,9 @@ jobs:
         run: |
           tox -e doc-html --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
 
-      - name: "Upload Documentation Build log"
-        uses: actions/upload-artifact@v4
-        with:
-          name: doc-${{env.PACKAGE_NAME}}-log
-          path: doc/*.txt
-        if: always()
-
       - name: "Save doc-build cache"
         id: cache-doc-build-save
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: |
             doc/build
@@ -159,7 +180,7 @@ jobs:
         if: always()
 
       - name: "Upload HTML Documentation"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: HTML-doc-${{env.PACKAGE_NAME}}.zip
           path: HTML-doc-${{env.PACKAGE_NAME}}.zip

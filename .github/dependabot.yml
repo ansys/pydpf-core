@@ -1,11 +1,19 @@
 version: 2
 updates:
   - package-ecosystem: "pip" # See documentation for possible values
-    directory: "requirements/" # Location of package manifests
-    insecure-external-code-execution: allow
+    directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
     # Allow up to 10 open pull requests for pip dependencies
+    cooldown:
+      default-days: 5 # Fallback cooldown if no specific rule applies
+      semver-major-days: 30 # Cooldown for major version updates
+      semver-minor-days: 7 # Cooldown for minor version updates
+      semver-patch-days: 3 # Cooldown for patch updates
+      exclude:
+        - "ansys-platform-instancemanagement"
+        - "ansys-sphinx-theme"
+        - "ansys-tools-common"
     open-pull-requests-limit: 10
     labels:
       - "maintenance"
@@ -20,3 +28,20 @@ updates:
     labels:
       - "maintenance"
       - "CI/CD"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    cooldown:
+      default-days: 7 # semver-* options are not applicable for GitHub Actions
+      exclude:
+        - "ansys/actions/*"
+    labels:
+      - "maintenance"
+    commit-message:
+      prefix: "ci"
+    groups:
+      actions:
+        patterns:
+          - "*"

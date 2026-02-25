@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -72,10 +72,6 @@ def test_createby_message_copy_meshes_container(server_type_legacy_grpc):
     assert mc._internal_obj == meshes_container2._internal_obj
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
 def test_createbycopy_meshes_container(server_type):
     mc = MeshesContainer(server=server_type)
     meshes_container2 = MeshesContainer(meshes_container=mc)

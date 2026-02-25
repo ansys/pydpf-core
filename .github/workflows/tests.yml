@@ -98,7 +98,7 @@ jobs:
         os: ["windows-latest", "ubuntu-latest"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: "Set licensing if necessary"
         if: ${{ (inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) > '231' }}
@@ -108,7 +108,7 @@ jobs:
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV      
 
       - name: "Setup Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -144,7 +144,7 @@ jobs:
 
       - name: "Upload wheel to artifacts"
         if: (inputs.wheel == 'true') && !( (inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest') )
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
@@ -164,14 +164,14 @@ jobs:
 
       - name: "Zip wheelhouse"
         if: inputs.wheelhouse == 'true'
-        uses: vimtor/action-zip@v1.1
+        uses: vimtor/action-zip@v1.2
         with:
           files: dist
           dest: ${{ steps.wheelhouse.outputs.name }}
 
       - name: "Upload wheelhouse to artifacts"
         if: inputs.wheelhouse == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ steps.wheelhouse.outputs.name }}
           path: ${{ steps.wheelhouse.outputs.name }}
@@ -195,16 +195,17 @@ jobs:
           python -c "from ansys.dpf import core"
 
       - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
+        uses: ansys/pydpf-actions/prepare_tests@v2.3
         with:
           DEBUG: true
+          install-from-dependency-groups: "true"
           
       - name: "Test Docstrings"
         if: (inputs.DOCSTRING == 'true')
         uses: ansys/pydpf-actions/test_docstrings@v2.3
         with:
           MODULE: ${{env.MODULE}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.standalone_suffix }}
           working-directory: src
 
       - name: "Set tox extra CLI arguments"
@@ -229,15 +230,17 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox -e test-api_entry,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Run compatible tests in parallel"
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 15
+          timeout_minutes: 20
           max_attempts: 2
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox run-parallel -m ciparalleltests ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_server"
@@ -247,6 +250,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox -e test-server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_remote_workflow"
@@ -256,11 +260,13 @@ jobs:
           max_attempts: 3
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox -e test-remote_workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_remote_operator"
         shell: bash
         run: |
+          export DPF_DEFAULT_GRPC_MODE=insecure
           tox -e test-remote_operator,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_workflow"
@@ -270,6 +276,7 @@ jobs:
           max_attempts: 4
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox -e test-workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Test API test_service"
@@ -279,6 +286,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox -e test-service,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
 
       - name: "Combine coverage results"
@@ -287,23 +295,25 @@ jobs:
           tox -e covreport
 
       - name: "Upload Test Results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
           path: tests/junit/test-results.xml
 
       - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
-          file: ./.tox/.cov/coverage.xml
+          report_type: coverage
+          files: ./.tox/.cov/coverage.xml
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}.xml
           flags: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
 
       - name: "Upload test analytics results to Codecov"
         if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          report_type: test_results
           name: test_results_${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
           flags: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}

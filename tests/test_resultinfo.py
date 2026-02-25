@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -25,19 +25,14 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import Model, examples
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
 )
-
-if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
-    mechanical = "mechanical"
-else:
-    mechanical = "mecanic"  # codespell:ignore mecanic
 
 
 @pytest.fixture()
@@ -80,7 +75,7 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
             assert result in available_results_names
 
     assert "m, kg, N, s, V, A" in res.unit_system
-    assert res.physics_type == mechanical
+    assert res.physics_type == "mechanical"
 
 
 def test_get_resultinfo(model):
@@ -113,7 +108,7 @@ def test_get_resultinfo(model):
             assert result in available_results_names
 
     assert "m, kg, N, s, V, A" in res.unit_system
-    assert res.physics_type == mechanical
+    assert res.physics_type == "mechanical"
     assert "Static analysis" in str(res)
 
 
@@ -126,7 +121,10 @@ def test_get_resultinfo_2(simple_bar, server_type):
     assert res.solver_time == 170340
     assert res.user_name == "afaure"
     assert res.job_name == "file_Static22_0"
-    assert res.product_name == "FULL"
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0:
+        assert res.product_name == "MAPDL"
+    else:
+        assert res.product_name == "FULL"
     assert "unsaved_project--Static" in res.main_title
     assert res.cyclic_support is None
 
@@ -138,7 +136,10 @@ def test_byitem_resultinfo(model):
 
 
 def test_get_result_resultinfo_from_index(model):
-    res = model.metadata.result_info[2]
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0:
+        res = model.metadata.result_info[3]
+    else:
+        res = model.metadata.result_info[2]
     assert res.name == "acceleration"
     assert res.n_components == 3
     assert res.dimensionality == "vector"
@@ -164,7 +165,18 @@ def test_repr_available_results_list(model):
 )
 def test_print_available_result_with_qualifiers(cfx_heating_coil, server_type):
     model = Model(cfx_heating_coil(server=server_type), server=server_type)
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        ref = """DPF Result
+----------
+specific_heat
+Operator name: "CP"
+Number of components: 1
+Dimensionality: scalar
+Homogeneity: specific_heat
+Units: J/kg/dK
+Location: Nodal
+Available qualifier labels:"""  # noqa: E501
+    elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0:
         ref = """DPF Result
 ----------
 specific_heat
@@ -299,17 +311,10 @@ Physics Type: Mechanical
 Available results:
      -  scripting_name: Nodal Scripting Name
 """
-        elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
-            ref = """Static analysis
-Unit system: 
-Physics Type: Mechanical
-Available results:
-     -  scripting_name: Nodal Scripting Name
-"""
         else:
             ref = """Static analysis
 Unit system: 
-Physics Type: Mecanic
+Physics Type: Mechanical
 Available results:
      -  scripting_name: Nodal Scripting Name
 """

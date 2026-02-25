@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -504,6 +504,8 @@ class _FieldBase:
 
     @data.setter
     def data(self, data):
+        if isinstance(data, (np.ndarray, np.generic)) and data.base is not None:
+            data = data.copy()
         self._set_data(data)
 
     @abstractmethod
