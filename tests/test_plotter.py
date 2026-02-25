@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import importlib.util
 from pathlib import Path
 
 import pytest
@@ -41,6 +42,40 @@ if misc.module_exists("pyvista"):
     from ansys.dpf.core.plotter import DpfPlotter, Plotter
 else:
     HAS_PYVISTA = False
+
+if importlib.util.find_spec("ansys.tools.visualization_interface") is not None:
+    HAS_VIZ_INTERFACE = True
+else:
+    HAS_VIZ_INTERFACE = False
+
+
+@pytest.fixture(
+    autouse=True,
+    params=["pyvista", "viz_interface"],
+    ids=["pyvista", "viz_interface"],
+)
+def plotter_backend(request, monkeypatch):
+    """Fixture to test both plotter backends.
+
+    Automatically applied to all tests in this module. Controls which backend
+    the factory selects by making ansys-tools-visualization-interface unavailable
+    for the pyvista case.
+    """
+    if request.param == "viz_interface":
+        # Skip if visualization-interface is not installed
+        if not HAS_VIZ_INTERFACE:
+            pytest.skip("ansys-tools-visualization-interface is not installed")
+        # Otherwise, do nothing - allow normal imports
+    elif request.param == "pyvista":
+        # Mock find_spec to hide visualization-interface, forcing PyVista backend
+        original_find_spec = importlib.util.find_spec
+
+        def mock_find_spec(name, package=None):
+            if name == "ansys.tools.visualization_interface":
+                return None
+            return original_find_spec(name, package)
+
+        monkeypatch.setattr(importlib.util, "find_spec", mock_find_spec)
 
 
 def remove_picture(picture):
