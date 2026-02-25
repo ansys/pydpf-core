@@ -1,6 +1,7 @@
 from datetime import datetime
 from glob import glob
 import os
+import shutil
 import sys
 from pathlib import Path
 import subprocess
@@ -381,6 +382,24 @@ epub_title = project
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
 
+def _copy_labels_images(app, exception):
+    """Override sphinx-gallery images for 03-labels.py example.
+
+    The images captured during CI run do not show the labels as expected,
+    and the behavior is not reproducible locally. This hook replaces whatever
+    sphinx-gallery generated during the CI run.
+    """
+    _LABELS_IMAGES_SRC = Path(__file__).parent / "images" / "plotting"
+    _LABELS_IMAGES_PATTERN = "sphx_glr_03-labels"
+    if exception:
+        return
+    target_dir = Path(app.outdir) / "_images"
+    if not target_dir.exists():
+        return
+    for src in _LABELS_IMAGES_SRC.glob(f"{_LABELS_IMAGES_PATTERN}*"):
+        dst = target_dir / src.name
+        shutil.copy2(src, dst)
+
 # Define custom docutils roles for solver badges
 from sphinx_design.badges_buttons import BadgeRole
 
@@ -393,7 +412,9 @@ def setup(app):
     }
 
     for role_name, color in badge_roles.items():
-        app.add_role(name=role_name, role=BadgeRole(color=color))
+        app.add_role(name=role_name, role=BadgeRole(color))
+
+    app.connect("build-finished", _copy_labels_images)
 
 # Common content for every RST file such us links
 rst_epilog = ""
