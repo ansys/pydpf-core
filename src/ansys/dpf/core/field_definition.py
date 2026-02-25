@@ -112,9 +112,29 @@ class FieldDefinition:
 
         Returns
         -------
+        str
+            Units of the field.
+        """
+        unit = integral_types.MutableString(256)
+        unused = [
+            integral_types.MutableInt32(),
+            integral_types.MutableInt32(),
+            integral_types.MutableDouble(),
+            integral_types.MutableDouble(),
+        ]
+        self._api.csfield_definition_fill_unit(self, unit, *unused)
+        return str(unit)
+
+    @property
+    @version_requires("11.0")
+    def unit_metadata(self):
+        """Metadata Units of the field.
+
+        Returns
+        -------
         str or tuple
             Units of the field. If the field has a dimensionless homogeneity with a named unit
-            (requires DPF 11.0 / 2026 R1 or above), returns a tuple of 
+            (requires DPF 11.0 / 2026 R1 or above), returns a tuple of
             ``(Homogeneity.dimensionless, unit_name)``. Otherwise, returns the unit string.
         """
         unit = integral_types.MutableString(256)
@@ -130,10 +150,10 @@ class FieldDefinition:
         # If so, return tuple to preserve the dimensionless + named unit information
         try:
             if homogeneity_id.val.value == Homogeneity.dimensionless.value and unit_str:
-                return (Homogeneity.dimensionless, unit_str)
+                unit_str = (Homogeneity.dimensionless, unit_str)
         except (ValueError, AttributeError):
             pass
-        
+
         return unit_str
 
     @property
@@ -294,7 +314,7 @@ class FieldDefinition:
         field_definition_copy : FieldDefinition
         """
         out = FieldDefinition(server=server)
-        out.unit = self.unit
+        out.unit = self.unit_metadata
         out.location = self.location
         out.dimensionality = self.dimensionality
         out.shell_layers = self.shell_layers

@@ -1427,3 +1427,25 @@ def test_set_units(server_type):
     # use wrong type of arguments
     with pytest.raises(ValueError):
         field.unit = 1.0
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
+    reason="Available for servers >=12.0 (2027 R1)",
+)
+def test_deep_copy_field_with_dimensionless_unit(server_type):
+    """Test that a field with dimensionless unit can be deep copied successfully."""
+    # Create a simple field with some data
+    my_field = dpf.core.Field(nentities=3, server=server_type)
+    my_field.scoping.ids = [1, 2, 3]
+    my_field.data = [1.0, 2.0, 3.0]
+
+    # Set a field's unit as dimensionless with a custom unit name
+    my_field.unit = (Homogeneity.dimensionless, "some_unit")
+
+    # Attempt to create a deep copy
+    my_field_copy = my_field.deep_copy()
+
+    # Verify the copy was successful
+    assert my_field_copy is not None
+    assert my_field_copy.unit == my_field.unit

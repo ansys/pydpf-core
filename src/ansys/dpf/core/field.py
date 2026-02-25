@@ -663,6 +663,29 @@ class Field(_FieldBase):
         self.field_definition.unit = value
 
     @property
+    def unit_metadata(self):
+        """Units for the field.
+
+        Returns
+        -------
+        str
+           Units for the field.
+
+        Examples
+        --------
+        Units for a displacement field.
+
+        >>> from ansys.dpf import core as dpf
+        >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
+        >>> my_field.unit = "m"
+        >>> my_field.unit
+        'm'
+
+        """
+        if self.field_definition:
+            return self.field_definition.unit_metadata
+
+    @property
     def dimensionality(self):
         """Dimensionality represents the shape of the elementary data contained in the field.
 
@@ -936,7 +959,6 @@ class Field(_FieldBase):
         )
         f.scoping = self.scoping.deep_copy(server)
         f.data = self.data
-        f.unit = self.unit
         f.location = self.location
         f.field_definition = self.field_definition.deep_copy(server)
         try:
