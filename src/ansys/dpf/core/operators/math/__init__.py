@@ -47,6 +47,7 @@ from .invert import invert
 from .invert_fc import invert_fc
 from .kronecker_prod import kronecker_prod
 from .linear_combination import linear_combination
+from .linearized_stress import linearized_stress
 from .ln import ln
 from .ln_fc import ln_fc
 from .mac import mac
