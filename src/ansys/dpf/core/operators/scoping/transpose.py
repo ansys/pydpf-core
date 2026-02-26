@@ -35,6 +35,8 @@ class transpose(Operator):
     meshed_region: MeshedRegion or MeshesContainer
     inclusive: int, optional
         if inclusive == 1 then all the elements/faces adjacent to the nodes/faces ids in input are added, if inclusive == 0, only the elements/faces which have all their nodes/faces in the scoping are included
+    extend_midside_nodes: bool, optional
+        This pin only affects nodal to elemental transposition. If true, the neighbour corner nodes of every input midside node are also considered in the input scoping. As a result, the output scoping also contains the elements connected to corner nodes that may not be in the input scoping. It is false by default.
     requested_location: str, optional
         Output scoping location for meshes with nodes, faces and elements. By default, elemental and faces scopings transpose to nodal, and nodal scopings transpose to elemental.
 
@@ -57,6 +59,8 @@ class transpose(Operator):
     >>> op.inputs.meshed_region.connect(my_meshed_region)
     >>> my_inclusive = int()
     >>> op.inputs.inclusive.connect(my_inclusive)
+    >>> my_extend_midside_nodes = bool()
+    >>> op.inputs.extend_midside_nodes.connect(my_extend_midside_nodes)
     >>> my_requested_location = str()
     >>> op.inputs.requested_location.connect(my_requested_location)
 
@@ -65,6 +69,7 @@ class transpose(Operator):
     ...     mesh_scoping=my_mesh_scoping,
     ...     meshed_region=my_meshed_region,
     ...     inclusive=my_inclusive,
+    ...     extend_midside_nodes=my_extend_midside_nodes,
     ...     requested_location=my_requested_location,
     ... )
 
@@ -77,6 +82,7 @@ class transpose(Operator):
         mesh_scoping=None,
         meshed_region=None,
         inclusive=None,
+        extend_midside_nodes=None,
         requested_location=None,
         config=None,
         server=None,
@@ -94,6 +100,8 @@ class transpose(Operator):
             self.inputs.meshed_region.connect(meshed_region)
         if inclusive is not None:
             self.inputs.inclusive.connect(inclusive)
+        if extend_midside_nodes is not None:
+            self.inputs.extend_midside_nodes.connect(extend_midside_nodes)
         if requested_location is not None:
             self.inputs.requested_location.connect(requested_location)
 
@@ -122,6 +130,12 @@ Nodal, or Nodal —> Elemental/Faces), based on the input mesh region.
                     type_names=["int32"],
                     optional=True,
                     document=r"""if inclusive == 1 then all the elements/faces adjacent to the nodes/faces ids in input are added, if inclusive == 0, only the elements/faces which have all their nodes/faces in the scoping are included""",
+                ),
+                3: PinSpecification(
+                    name="extend_midside_nodes",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""This pin only affects nodal to elemental transposition. If true, the neighbour corner nodes of every input midside node are also considered in the input scoping. As a result, the output scoping also contains the elements connected to corner nodes that may not be in the input scoping. It is false by default.""",
                 ),
                 9: PinSpecification(
                     name="requested_location",
@@ -199,6 +213,8 @@ class InputsTranspose(_Inputs):
     >>> op.inputs.meshed_region.connect(my_meshed_region)
     >>> my_inclusive = int()
     >>> op.inputs.inclusive.connect(my_inclusive)
+    >>> my_extend_midside_nodes = bool()
+    >>> op.inputs.extend_midside_nodes.connect(my_extend_midside_nodes)
     >>> my_requested_location = str()
     >>> op.inputs.requested_location.connect(my_requested_location)
     """
@@ -215,6 +231,10 @@ class InputsTranspose(_Inputs):
         self._inputs.append(self._meshed_region)
         self._inclusive: Input[int] = Input(transpose._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._inclusive)
+        self._extend_midside_nodes: Input[bool] = Input(
+            transpose._spec().input_pin(3), 3, op, -1
+        )
+        self._inputs.append(self._extend_midside_nodes)
         self._requested_location: Input[str] = Input(
             transpose._spec().input_pin(9), 9, op, -1
         )
@@ -280,6 +300,27 @@ class InputsTranspose(_Inputs):
         >>> op.inputs.inclusive(my_inclusive)
         """
         return self._inclusive
+
+    @property
+    def extend_midside_nodes(self) -> Input[bool]:
+        r"""Allows to connect extend_midside_nodes input to the operator.
+
+        This pin only affects nodal to elemental transposition. If true, the neighbour corner nodes of every input midside node are also considered in the input scoping. As a result, the output scoping also contains the elements connected to corner nodes that may not be in the input scoping. It is false by default.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.scoping.transpose()
+        >>> op.inputs.extend_midside_nodes.connect(my_extend_midside_nodes)
+        >>> # or
+        >>> op.inputs.extend_midside_nodes(my_extend_midside_nodes)
+        """
+        return self._extend_midside_nodes
 
     @property
     def requested_location(self) -> Input[str]:
