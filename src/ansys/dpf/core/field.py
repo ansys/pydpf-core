@@ -664,23 +664,14 @@ class Field(_FieldBase):
 
     @property
     def unit_metadata(self):
-        """Units for the field.
+        """Metadata Units of the field.
 
         Returns
         -------
-        str
-           Units for the field.
-
-        Examples
-        --------
-        Units for a displacement field.
-
-        >>> from ansys.dpf import core as dpf
-        >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
-        >>> my_field.unit = "m"
-        >>> my_field.unit
-        'm'
-
+        str or tuple
+            Metadata Units of the field. If the field has a dimensionless homogeneity with a named unit
+            (requires DPF 11.0 / 2026 R1 or above), returns a tuple of
+            ``(Homogeneity.dimensionless, unit_name)``. Otherwise, returns the unit string.
         """
         if self.field_definition:
             return self.field_definition.unit_metadata

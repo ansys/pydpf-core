@@ -29,7 +29,11 @@ import warnings
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.available_result import Homogeneity
-from ansys.dpf.core.check_version import server_meet_version_and_raise, version_requires
+from ansys.dpf.core.check_version import (
+    server_meet_version,
+    server_meet_version_and_raise,
+    version_requires,
+)
 from ansys.dpf.core.common import natures, shell_layers
 from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.gate import (
@@ -126,14 +130,13 @@ class FieldDefinition:
         return str(unit)
 
     @property
-    @version_requires("11.0")
     def unit_metadata(self):
         """Metadata Units of the field.
 
         Returns
         -------
         str or tuple
-            Units of the field. If the field has a dimensionless homogeneity with a named unit
+            Metadata Units of the field. If the field has a dimensionless homogeneity with a named unit
             (requires DPF 11.0 / 2026 R1 or above), returns a tuple of
             ``(Homogeneity.dimensionless, unit_name)``. Otherwise, returns the unit string.
         """
@@ -148,13 +151,14 @@ class FieldDefinition:
 
         # Check if homogeneity is dimensionless
         # If so, return tuple to preserve the dimensionless + named unit information
-        try:
-            if homogeneity_id.val.value == Homogeneity.dimensionless.value and unit_str:
-                unit_str = (Homogeneity.dimensionless, unit_str)
-        except (ValueError, AttributeError):
-            pass
-
-        return unit_str
+        if (
+            server_meet_version("11.0", self._server)
+            and homogeneity_id.val.value == Homogeneity.dimensionless.value
+            and unit_str
+        ):
+            return (Homogeneity.dimensionless, unit_str)
+        else:
+            return unit_str
 
     @property
     def shell_layers(self):

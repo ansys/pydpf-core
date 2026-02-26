@@ -36,6 +36,7 @@ from ansys.dpf.gate.errors import DPFServerException, DpfVersionNotSupported
 import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
     running_docker,
 )
@@ -1430,8 +1431,8 @@ def test_set_units(server_type):
 
 
 @pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
-    reason="Available for servers >=12.0 (2027 R1)",
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    reason="Available for servers >=11.0 (2026 R1)",
 )
 def test_deep_copy_field_with_dimensionless_unit(server_type):
     """Test that a field with dimensionless unit can be deep copied successfully."""
@@ -1449,3 +1450,4 @@ def test_deep_copy_field_with_dimensionless_unit(server_type):
     # Verify the copy was successful
     assert my_field_copy is not None
     assert my_field_copy.unit == my_field.unit
+    assert my_field_copy.unit == "some_unit"
