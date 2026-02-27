@@ -1,4 +1,4 @@
-name: examples_docker
+name: examples_docker # zizmor: ignore[concurrency-limits] , this is a reusable workflow
 
 on:
 # Can be called by the CI
@@ -16,6 +16,11 @@ on:
         required: false
         type: string
         default: ''
+    secrets:
+      LICENSE_SERVER:
+        required: true
+      PYANSYS_CI_BOT_TOKEN:
+        required: true
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -40,22 +45,30 @@ env:
   ANSYS_DPF_ACCEPT_LA: Y
   ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
 
+permissions: {}
+
 jobs:
   setup:
     name: "Setup"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       python_versions: ${{ steps.set_array.outputs.python_versions }}
     steps:
       - id: set_array
+        env:
+          PYTHON_VERSIONS: ${{ inputs.python_versions }}
         run: |
-          echo "python_versions=${{ toJSON(inputs.python_versions) }}" >> $GITHUB_OUTPUT
+          echo "python_versions=${PYTHON_VERSIONS}" >> $GITHUB_OUTPUT
 
   examples:
     name: "Run Examples"
     needs: setup
     runs-on: ${{ matrix.os }}
     timeout-minutes: 40
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -63,10 +76,12 @@ jobs:
         os: ["ubuntu-latest"]
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: "Setup Python"
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -77,8 +92,10 @@ jobs:
 
       - name: "Build the wheel"
         shell: bash
+        env:
+          MATRIX_OS: ${{ matrix.os }}
         run: |
-          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
+          if [ "${MATRIX_OS}" == "ubuntu-latest" ]; then
               export platform="manylinux_2_17"
           else
               export platform="win"
@@ -96,19 +113,21 @@ jobs:
 
       - name: "Install package wheel"
         shell: bash
+        env:
+          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
         run: |
-          pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
+          pip install dist/${WHEEL_NAME}[graphics]
 
       - name: "Install DPF"
         id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-docker@v2.3
+        uses: ansys/pydpf-actions/install-dpf-docker@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         with:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
 
       - name: "Check licences of packages"
-        uses: ansys/pydpf-actions/check-licenses@v2.3
+        uses: ansys/pydpf-actions/check-licenses@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
 
       - name: "Test import"
         shell: bash
@@ -116,7 +135,7 @@ jobs:
         run: python -c "from ansys.dpf import core"
 
       - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@v2.3
+        uses: ansys/pydpf-actions/prepare_tests@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         with:
           DEBUG: true
           install-from-dependency-groups: "true"

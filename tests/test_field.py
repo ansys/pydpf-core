@@ -504,10 +504,7 @@ def test_shell_layers_2(velocity_acceleration):
     model = dpf.core.Model(velocity_acceleration)
     stress = model.results.stress()
     f = stress.outputs.fields_container()[0]
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
-        assert f.shell_layers == shell_layers.top
-    else:
-        assert f.shell_layers == shell_layers.nonelayer
+    assert f.shell_layers == shell_layers.nonelayer
 
 
 def test_mesh_support_field_model(allkindofcomplexity):
