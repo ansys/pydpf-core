@@ -1407,7 +1407,7 @@ def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
 
 def test_set_units(server_type):
     data = np.random.random(100)
-    field = dpf.core.field_from_array(data)
+    field = dpf.core.field_from_array(data, server=server_type)
     # use string setter with recognized string
     field.unit = "m"
     assert field.unit == "m"
@@ -1442,7 +1442,7 @@ def test_deep_copy_field_with_dimensionless_unit(server_type):
     my_field.data = [1.0, 2.0, 3.0]
 
     # Set a field's unit as dimensionless with a custom unit name
-    my_field.unit = (Homogeneity.dimensionless, "some_unit")
+    my_field.unit = (Homogeneity.dimensionless, "some_units")
 
     # Attempt to create a deep copy
     my_field_copy = my_field.deep_copy()
@@ -1450,4 +1450,4 @@ def test_deep_copy_field_with_dimensionless_unit(server_type):
     # Verify the copy was successful
     assert my_field_copy is not None
     assert my_field_copy.unit == my_field.unit
-    assert my_field_copy.unit == "some_unit"
+    assert my_field_copy.unit == "some_units"
