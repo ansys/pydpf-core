@@ -50,7 +50,7 @@ else:
 
 
 @pytest.fixture(
-    autouse=False,
+    autouse=True,
     params=["pyvista", "viz_interface"],
     ids=["pyvista", "viz_interface"],
 )
