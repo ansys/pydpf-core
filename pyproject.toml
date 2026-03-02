@@ -43,7 +43,6 @@ graphics = [
     # 2D chart plotting
     "matplotlib>=3.2",
     # 3D plotting
-    "ansys-tools-visualization-interface==1.0.0a1",
     "pyvista>=0.32.0",
     "vtk!=9.4.0",
     # Animations
@@ -55,7 +54,6 @@ plotting = [
     # 2D chart plotting
     "matplotlib>=3.2",
     # 3D plotting
-    "ansys-tools-visualization-interface==1.0.0a1",
     "pyvista>=0.32.0",
     "vtk",
     # Animations
@@ -72,7 +70,6 @@ operator_doc = [
 
 doc = [
   "ansys-sphinx-theme[autoapi]==1.7.0",
-  "ansys-tools-visualization-interface==1.0.0a1",
   "enum-tools[sphinx]==0.13.0",
   "graphviz==0.21",
   "imageio==2.37.2",
