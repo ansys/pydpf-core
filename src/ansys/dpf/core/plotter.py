@@ -75,9 +75,9 @@ class PlotterBackend(Enum):
 class _InternalPlotterFactory:
     """Factory for _InternalPlotter based on the backend.
 
-    By default, uses the new _VisualizationInterfacePlotter which is based on
-    ansys-tools-visualization-interface. Use the plotter_type parameter to
-    select a specific plotter implementation.
+    By default, uses the new _VisualizationInterfacePlotter if ansys-tools-visualization-interface
+    is available, otherwise falls back to the legacy _PyVistaPlotter. Use the plotter_type parameter
+    to explicitly select a specific plotter implementation.
     """
 
     @staticmethod
