@@ -174,15 +174,13 @@ def _run_launch_server_process(
 def _wait_and_check_server_connection(
     process, port, timeout, lines, current_errors, stderr=None, stdout=None
 ):
-    lock = Lock()
     if not stderr:
 
         def read_stderr():
             with io.TextIOWrapper(process.stderr, encoding="utf-8") as log_err:
                 for line in log_err:
                     LOG.debug(line)
-                    with lock:
-                        current_errors.append(line)
+                    current_errors.append(line)
 
         stderr = read_stderr
         # check to see if the service started
@@ -192,8 +190,7 @@ def _wait_and_check_server_connection(
             with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
                 for line in log_out:
                     LOG.debug(line)
-                    with lock:
-                        lines.append(line)
+                    lines.append(line)
 
         stdout = read_stdout
     # must be in the background since the process reader is blocking
@@ -203,12 +200,9 @@ def _wait_and_check_server_connection(
     t_timeout = time.time() + timeout
     started = False
     timedout = False
-    while True:
-        with lock:
-            has_errors = len(current_errors) > 0
-            started = any("server started" in line for line in lines)
-        if started or has_errors:
-            break
+    while not started and len(current_errors) == 0:
+        # print(lines)
+        started = any("server started" in line for line in lines)
 
         if time.time() > t_timeout:
             if timedout:
@@ -218,14 +212,12 @@ def _wait_and_check_server_connection(
 
     # verify there were no errors
     time.sleep(0.01)
-    with lock:
-        snapshot_errors = list(current_errors)
-    if snapshot_errors:
+    if current_errors:
         try:
             process.kill()
         except PermissionError:
             pass
-        errstr = "\n".join(snapshot_errors)
+        errstr = "\n".join(current_errors)
         if (
             "Only one usage of each socket address" in errstr
             or "port is already allocated" in errstr

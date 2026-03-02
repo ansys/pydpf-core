@@ -93,7 +93,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         ... )
         >>> disp_fc = disp_op.outputs.fields_container()
         >>> meshes_cont.plot(disp_fc)
-        ([], <pyvista.plotting.plotter.Plotter ...>)
+        (None, <pyvista.plotting.plotter.Plotter ...>)
 
         """
         # DPF defaults

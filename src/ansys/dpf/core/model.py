@@ -255,7 +255,7 @@ class Model:
         >>> transient = examples.download_transient_result()
         >>> model = Model(transient)
         >>> model.plot()
-        ([], <pyvista.plotting.plotter.Plotter ...>)
+        (None, <pyvista.plotting.plotter.Plotter ...>)
 
         """
         from ansys.dpf.core.plotter import DpfPlotter
