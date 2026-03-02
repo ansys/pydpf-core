@@ -520,13 +520,13 @@ class Scoping:
         ...    ids=mesh.nodes.scoping.ids[0:100]
         ... )
         >>> node_scoping.plot(mesh=mesh, color="red")
-        (None, <pyvista.plotting.plotter.Plotter ...>)
+        ([], <pyvista.plotting.plotter.Plotter ...>)
         >>> element_scoping = dpf.Scoping(
         ...    location=dpf.locations.elemental,
         ...    ids=mesh.elements.scoping.ids[0:100]
         ... )
         >>> element_scoping.plot(mesh=mesh, color="green")
-        (None, <pyvista.plotting.plotter.Plotter ...>)
+        ([], <pyvista.plotting.plotter.Plotter ...>)
         """
         from ansys.dpf.core.plotter import DpfPlotter
 
