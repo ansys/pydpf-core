@@ -71,6 +71,7 @@ if running_docker:
         "/tmp/test_files"
     )
 
+
 def pytest_collection_modifyitems(session, config, items):
     def sort_key(item):
         # Module grouping first
@@ -88,6 +89,7 @@ def pytest_collection_modifyitems(session, config, items):
         return (param_id, module, func_name)
 
     items.sort(key=sort_key)
+
 
 @pytest.hookimpl()
 def pytest_sessionfinish(session, exitstatus):
