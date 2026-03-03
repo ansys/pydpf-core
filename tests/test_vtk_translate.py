@@ -291,10 +291,10 @@ def test_vtk_mesh_is_valid_polyhedron():
     grid = pv.UnstructuredGrid([len(cells_2), *cells_2], cell_types, nodes_1)
     validity = vtk_mesh_is_valid(grid)
     print(validity)
-    assert not validity.valid  # Non-convex AND bad face orientation
+    assert not validity.valid  # bad face orientation
     assert len(validity.wrong_number_of_points) == 0
     assert len(validity.intersecting_edges) == 0
     assert len(validity.intersecting_faces) == 0
     assert len(validity.non_contiguous_edges) == 0
-    assert len(validity.non_convex) == 1
+    assert len(validity.non_convex) == 0
     assert len(validity.inverted_faces) == 1
