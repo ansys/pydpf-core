@@ -42,7 +42,7 @@ from ansys.dpf.gate import (
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf import core as dpf
-    from ansys.dpf.core import server_types
+    from ansys.dpf.core import LabelSpace, server_types
     from ansys.dpf.core.server_types import AnyServerType
     from ansys.grpc.dpf import data_sources_pb2
 
@@ -705,6 +705,11 @@ class DataSources:
             plugin when a result is requested by an operator.
         """
         return self._api.data_sources_get_namespace(self, result_key)
+
+    def label_space_for_path(self, index: int) -> LabelSpace:
+        from ansys.dpf.core import LabelSpace
+
+        return LabelSpace(self._api.data_sources_get_label_space_by_path_index(self, index))
 
     @property
     def streams_container(self) -> dpf.StreamsContainer:

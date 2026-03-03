@@ -30,11 +30,14 @@ Contains classes associated with the DPF StreamsContainer.
 import traceback
 import warnings
 
-from ansys.dpf.core import data_sources, errors, server as server_module
+from ansys.dpf.core import errors, server as server_module
+from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.server_types import BaseServer
+from ansys.dpf.core.stream import Stream
 from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
+    integral_types,
     streams_capi,
 )
 
@@ -60,7 +63,11 @@ class StreamsContainer:
     >>> sc = streams_provider.outputs.streams_container()
     """
 
-    def __init__(self, streams_container=None, server: BaseServer = None):
+    def __init__(
+        self,
+        streams_container=None,
+        server: BaseServer = None,
+    ):
         # step 1: get server
         self._server = server_module.get_or_create_server(
             streams_container._server if isinstance(streams_container, StreamsContainer) else server
@@ -105,7 +112,7 @@ class StreamsContainer:
     @property
     def datasources(self):
         """Return the data sources."""
-        return data_sources.DataSources(data_sources=self._api.streams_get_data_sources(self))
+        return DataSources(data_sources=self._api.streams_get_data_sources(self))
 
     def release_handles(self):
         """Release the streams."""
@@ -119,3 +126,30 @@ class StreamsContainer:
                 self._deleter_func[0](self._deleter_func[1](self))
         except:  # pylint: disable=bare-except
             warnings.warn(traceback.format_exc())
+
+    def add_stream(self, stream: Stream, label_space: dict = None):
+        """Add a stream to the container."""
+        import ctypes
+
+        release_func_type = ctypes.CFUNCTYPE(None, ctypes.c_void_p)
+        delete_func_type = ctypes.CFUNCTYPE(None, ctypes.c_void_p)
+        stream_type_name = integral_types.MutableString(stream.stream_type_name)
+        if label_space:
+            self._api.streams_add_external_stream_with_label_space(
+                self,
+                streamTypeName=stream_type_name,
+                filePath=stream.file_path,
+                releaseFileFunc=release_func_type(stream.release),
+                deleteFunc=delete_func_type(stream.__delete__),
+                var1=stream,
+                labelspace=label_space,
+            )
+        else:
+            self._api.streams_add_external_stream(
+                self,
+                streamTypeName=stream_type_name,
+                filePath=stream.file_path,
+                releaseFileFunc=release_func_type(stream.release),
+                deleteFunc=delete_func_type(stream.__delete__),
+                var1=stream,
+            )

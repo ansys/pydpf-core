@@ -100,3 +100,30 @@ def test_retrieve_ip(server_in_process):
     # but not 0.0.0:0, 9999.999.999.999:999, 0.0.0.0
     ip_addr_regex = r"([0-9]{1,3}\.){3}[0-9]{1,3}:[0-9]{1,5}"
     assert re.match(ip_addr_regex, addr) != None
+
+
+from ansys.dpf.core.stream import Stream
+
+
+class DummyStream(Stream):
+    def __init__(self, file_path=None, server=None):
+        super().__init__(file_path=file_path)
+        self._server = server
+
+    @property
+    def time_freq_support(self) -> dpf.core.TimeFreqSupport:
+        return dpf.core.TimeFreqSupport()
+
+    @property
+    def result_info(self) -> dpf.core.ResultInfo:
+        return dpf.core.ResultInfo()
+
+    def stream_type_name(self) -> str:
+        return "dummy_stream"
+
+
+def test_streams_container_add_stream(server_in_process, simple_bar):
+    dummy_stream = DummyStream(file_path=simple_bar)
+
+    sc = dpf.core.StreamsContainer(server=server_in_process)
+    sc.add_stream(stream=dummy_stream, label_space={"dummy": "1"})
