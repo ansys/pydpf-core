@@ -663,20 +663,6 @@ class Field(_FieldBase):
         self.field_definition.unit = value
 
     @property
-    def unit_metadata(self):
-        """Metadata Units of the field.
-
-        Returns
-        -------
-        str or tuple
-            Metadata Units of the field. If the field has a dimensionless homogeneity with a named unit
-            (requires DPF 11.0 / 2026 R1 or above), returns a tuple of
-            ``(Homogeneity.dimensionless, unit_name)``. Otherwise, returns the unit string.
-        """
-        if self.field_definition:
-            return self.field_definition.unit_metadata
-
-    @property
     def dimensionality(self):
         """Dimensionality represents the shape of the elementary data contained in the field.
 

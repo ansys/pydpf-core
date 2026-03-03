@@ -1412,7 +1412,7 @@ def test_set_units(server_type):
     if server_meet_version("11.0", server_type):
         # use tuple(Homogeneity, string) setter
         field.unit = (Homogeneity.dimensionless, "sones")
-        assert field.unit == "sones"
+        assert field.unit == (Homogeneity.dimensionless, "sones")
     else:
         with pytest.raises(DpfVersionNotSupported):
             # use tuple(Homogeneity, string) setter
@@ -1447,4 +1447,4 @@ def test_deep_copy_field_with_dimensionless_unit(server_type):
     # Verify the copy was successful
     assert my_field_copy is not None
     assert my_field_copy.unit == my_field.unit
-    assert my_field_copy.unit == "some_units"
+    assert my_field_copy.unit == (Homogeneity.dimensionless, "some_units")
