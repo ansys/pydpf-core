@@ -118,7 +118,7 @@ class FieldDefinition:
         -------
         str or tuple
             Units of the field. If the field has a dimensionless homogeneity with a named unit
-            (requires DPF 11.0 / 2026 R1 or above), returns a tuple of 
+            (requires DPF 11.0 / 2026 R1 or above), returns a tuple of
             ``(Homogeneity.dimensionless, unit_name)``. Otherwise, returns the unit string.
         """
         unit = integral_types.MutableString(256)
