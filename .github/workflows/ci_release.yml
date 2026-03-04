@@ -102,7 +102,7 @@ jobs:
             wheelhouse: true
             DOCSTRING: true
             test_any: false
-          - python_versions: '["3.11", "3.12", "3.13"]'
+          - python_versions: '["3.11", "3.12", "3.13", "3.14"]'
             wheel: false
             wheelhouse: true
             DOCSTRING: false
@@ -112,7 +112,7 @@ jobs:
             wheelhouse: false
             DOCSTRING: false
             test_any: true
-          - python_versions: '["3.11", "3.12", "3.13"]'
+          - python_versions: '["3.11", "3.12", "3.13", "3.14"]'
             wheel: false
             wheelhouse: false
             DOCSTRING: false
@@ -149,7 +149,7 @@ jobs:
     uses: ./.github/workflows/examples.yml
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).version }}
-      python_versions: '["3.10", "3.11", "3.12", "3.13"]'
+      python_versions: '["3.10", "3.11", "3.12", "3.13", "3.14"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).patch }}
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
@@ -220,7 +220,7 @@ jobs:
     uses: ./.github/workflows/examples_docker.yml
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).version }}
-      python_versions: '["3.10", "3.11", "3.12", "3.13"]'
+      python_versions: '["3.10", "3.11", "3.12", "3.13", "3.14"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).patch }}
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}

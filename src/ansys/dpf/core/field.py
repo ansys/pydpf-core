@@ -936,7 +936,6 @@ class Field(_FieldBase):
         )
         f.scoping = self.scoping.deep_copy(server)
         f.data = self.data
-        f.unit = self.unit
         f.location = self.location
         f.field_definition = self.field_definition.deep_copy(server)
         try:
