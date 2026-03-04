@@ -79,7 +79,7 @@ doc = [
   "nbsphinx==0.9.8",
   "pypandoc==1.16.2",
   "pytest-sphinx==0.7.1",
-  "pyvista==0.47.0",
+  "pyvista==0.47.1",
   "quarto-cli==1.8.27",
   "sphinx==8.2.3",
   "sphinx-copybutton==0.5.2",
@@ -89,11 +89,11 @@ doc = [
   "sphinx-reredirects==0.1.6",
   "sphinx_design==0.7.0",
   "sphinxcontrib-napoleon==0.7",
-  "vtk==9.4.2",
+  "vtk==9.6.0",
 ]
 test = [
   "ansys-platform-instancemanagement==1.1.2",
-  "ansys-tools-common==0.4.3",
+  "ansys-tools-common==0.4.4",
   "coverage==7.13.4",
   "graphviz==0.21",
   "imageio==2.37.2",
@@ -104,8 +104,8 @@ test = [
   "pytest-cov==7.0.0",
   "pytest-order==1.3.0",
   "pytest-rerunfailures==16.1",
-  "pyvista==0.47.0",
-  "vtk==9.4.2",
+  "pyvista==0.47.1",
+  "vtk==9.6.0",
 ]
 build = [
   "black==26.1.0",
@@ -119,7 +119,7 @@ install = [
   "numpy==2.4.1",
   "packaging==26.0",
   "psutil==7.2.2",
-  "tqdm==4.67.2",
+  "tqdm==4.67.3",
 ]
 
 [project.urls]
