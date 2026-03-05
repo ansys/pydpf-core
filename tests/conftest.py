@@ -72,25 +72,6 @@ if running_docker:
     )
 
 
-def pytest_collection_modifyitems(session, config, items):
-    def sort_key(item):
-        # Module grouping first
-        module = str(item.fspath)
-
-        # Base function name (without param)
-        func_name = getattr(item, "originalname", item.name)
-
-        # Parameter id (None for non-parametrized tests)
-        if hasattr(item, "callspec"):
-            param_id = item.callspec.id
-        else:
-            param_id = ""
-
-        return (param_id, module, func_name)
-
-    items.sort(key=sort_key)
-
-
 @pytest.hookimpl()
 def pytest_sessionfinish(session, exitstatus):
     if os.name == "posix":
