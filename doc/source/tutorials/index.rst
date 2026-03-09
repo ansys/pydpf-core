@@ -160,4 +160,4 @@ of basic features and concepts so you can start coding right away.
     mathematics/index.rst
     custom_operators_and_plugins/index.rst
     dpf_server/index.rst
-    mapping/index.rst
+    mapping/mapping.rst
