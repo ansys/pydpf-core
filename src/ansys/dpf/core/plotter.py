@@ -778,15 +778,21 @@ class _VisualizationInterfacePlotter:
         # The scalar data used will be the one of the last field added.
         active_scalars = None
         if parse(pv.__version__) >= parse("0.42.0"):
-            # Get actors of active renderer
+            # Get actors of active renderer.
+            # base_plotter.actors may return raw VTK actors (not PyVista Actor
+            # wrappers), so use GetMapper()/GetInput() for VTK-level access.
             actors = list(self._backend.base_plotter.actors.values())
             for actor in actors:
-                mapper = actor.mapper if hasattr(actor, "mapper") else None
-                if mapper:
-                    dataset = mapper.dataset
-                    if type(dataset) is pv.core.pointset.UnstructuredGrid:
-                        active_scalars = dataset.active_scalars
-                        break
+                vtk_mapper = actor.GetMapper() if hasattr(actor, "GetMapper") else None
+                if vtk_mapper is None:
+                    continue
+                vtk_input = vtk_mapper.GetInput()
+                if vtk_input is None:
+                    continue
+                dataset = pv.wrap(vtk_input)
+                if type(dataset) is pv.core.pointset.UnstructuredGrid:
+                    active_scalars = dataset.active_scalars
+                    break
         elif parse(pv.__version__) >= parse("0.35.2"):
             for data_set in self._backend.base_plotter._datasets:
                 if type(data_set) is pv.core.pointset.UnstructuredGrid:
@@ -1385,7 +1391,7 @@ class DpfPlotter:
         ...        radius=0.001,
         ...        )
         >>> pl.show_figure(show_axes=True)
-        (None, <pyvista.plotting.plotter.Plotter ...>)
+        ([], <pyvista.plotting.plotter.Plotter ...>)
         """
         self._internal_plotter.add_streamlines(
             streamlines=streamlines,
@@ -1505,7 +1511,7 @@ class DpfPlotter:
         >>> plt.add_scoping(node_scoping, mesh, show_mesh=True, color="red")
         >>> plt.add_scoping(element_scoping, mesh, color="green")
         >>> plt.show_figure()
-        (None, <pyvista.plotting.plotter.Plotter ...>)
+        ([], <pyvista.plotting.plotter.Plotter ...>)
         """
         self._internal_plotter.add_scoping(
             scoping=scoping, mesh=mesh, show_mesh=show_mesh, **kwargs
@@ -1531,7 +1537,7 @@ class DpfPlotter:
         >>> pl = DpfPlotter()
         >>> pl.add_field(field, mesh)
         >>> pl.show_figure()
-        (None, <pyvista.plotting.plotter.Plotter ...>)
+        ([], <pyvista.plotting.plotter.Plotter ...>)
         """
         if "notebook" in kwargs.keys():
             warnings.simplefilter("once")
