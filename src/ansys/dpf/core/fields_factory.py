@@ -296,7 +296,7 @@ def create_vector_field(
 
 
 def create_overall_field(
-    value: float,
+    value: float | list[float],
     nature: natures = natures.scalar,
     num_entities: int = 1,
     num_comp: int = 1,

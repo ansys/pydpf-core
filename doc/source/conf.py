@@ -66,7 +66,7 @@ print("".rjust(40, '*'))
 
 # Build ignore pattern
 ignored_pattern = r"(ignore"
-for example in sorted(glob(r"../../examples/**/*.py")):
+for example in sorted(glob(r"../sphinx_gallery_examples/**/*.py")):
     minimum_version_str = get_example_required_minimum_dpf_version(example)
     if float(server_version) - float(minimum_version_str) < -0.05:
         example_name = example.split(os.path.sep)[-1]
@@ -77,7 +77,7 @@ ignored_pattern += "|06-distributed_stress_averaging.py"
 ignored_pattern += r")"
 
 exclude_patterns = []
-for tutorial_file in glob(str(Path("user_guide")/"tutorials"/"**"/"*.rst")):
+for tutorial_file in glob(str(Path("tutorials")/"**"/"*.rst")):
     if Path(tutorial_file).name == "index.rst":
         continue
     minimum_version_str = get_tutorial_version_requirements(tutorial_file)
@@ -125,7 +125,6 @@ extensions = [
     "sphinx_design",
     "sphinx_jinja",
     'sphinx_reredirects',
-    "jupyter_sphinx",
 ]
 
 redirects = {
@@ -187,7 +186,7 @@ sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
     # path to your examples scripts
-    "examples_dirs": ["../../examples"],
+    "examples_dirs": ["../sphinx_gallery_examples"],
     # abort build at first example error
     'abort_on_example_error': True,
     # path where to save gallery generated examples
@@ -259,7 +258,13 @@ Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dp
         "ignore": autoapi_ignore_list,
         "add_toctree_entry": True,
         "member_order": "bysource",
-    }
+    },
+    "cheatsheet": {
+        "file": "cheatsheet/cheat_sheet.qmd",
+        "pages": ["index", "getting_started/index", "tutorials/index", "user_guide/index"],
+        "title": "PyDPF-Core cheat sheet",
+        "version": __version__,
+    },
 }
 
 # Configuration for Sphinx autoapi
@@ -405,12 +410,6 @@ envs.remove("default environments:")
 envs.remove("additional environments:")
 envs.remove("")
 
-jinja_contexts = {
-    "toxenvs" : {
-        "envs": envs,
-    }
-}
-
 # Optionally exclude api or example documentation generation.
 BUILD_API = True if os.environ.get("BUILD_API", "true") == "true" else False
 if BUILD_API:
@@ -419,6 +418,25 @@ if BUILD_API:
 BUILD_EXAMPLES = True if os.environ.get("BUILD_EXAMPLES", "true") == "true" else False
 if BUILD_EXAMPLES:
     extensions.extend(["sphinx_gallery.gen_gallery"])
+
+BUILD_TUTORIALS = True if os.environ.get("BUILD_TUTORIALS", "true") == "true" else False
+if BUILD_TUTORIALS:
+    extensions.extend(["jupyter_sphinx"])
+
+BUILD_CHEATSHEET = True if os.environ.get("BUILD_CHEATSHEET", "true") == "true" else False
+if not BUILD_CHEATSHEET:
+    html_theme_options.pop("cheatsheet")
+
+jinja_contexts = {
+    "toxenvs" : {
+        "envs": envs,
+    },
+    "toctree" : {
+        "build_api": BUILD_API,
+        "build_examples": BUILD_EXAMPLES,
+        "build_tutorials": BUILD_TUTORIALS,
+    },
+}
 
 print(f"{extensions=}")
 

@@ -35,92 +35,92 @@ class num_surface_status_changes(Operator):
     - Once the need for averaging has been detected, the behavior of the
     combined connection of the ‘split_shells’ and ‘shell_layer’ pins is:
 
-    +-------------------+-------------------+-------------+---------------+
-    | Averaging is      | ‘split_shells’    | ‘s          | Expected      |
-    | needed            |                   | hell_layer’ | output        |
-    +===================+===================+=============+===============+
-    | No                | Not               | Not         | Location as   |
-    |                   | connected/false   | connected   | in the result |
-    |                   |                   |             | file. Fields  |
-    |                   |                   |             | with all      |
-    |                   |                   |             | element       |
-    |                   |                   |             | shapes        |
-    |                   |                   |             | combined. All |
-    |                   |                   |             | shell layers  |
-    |                   |                   |             | present.      |
-    +-------------------+-------------------+-------------+---------------+
-    | No                | true              | Not         | Location as   |
-    |                   |                   | connected   | in the result |
-    |                   |                   |             | file. Fields  |
-    |                   |                   |             | split         |
-    |                   |                   |             | according to  |
-    |                   |                   |             | element       |
-    |                   |                   |             | shapes. All   |
-    |                   |                   |             | shell layers  |
-    |                   |                   |             | present.      |
-    +-------------------+-------------------+-------------+---------------+
-    | No                | true              | Connected   | Location as   |
-    |                   |                   |             | in the result |
-    |                   |                   |             | file. Fields  |
-    |                   |                   |             | split         |
-    |                   |                   |             | according to  |
-    |                   |                   |             | element       |
-    |                   |                   |             | shapes. Only  |
-    |                   |                   |             | the requested |
-    |                   |                   |             | shell layer   |
-    |                   |                   |             | present.      |
-    +-------------------+-------------------+-------------+---------------+
-    | No                | Not               | Connected   | Location as   |
-    |                   | connected/false   |             | in the result |
-    |                   |                   |             | file. Fields  |
-    |                   |                   |             | with all      |
-    |                   |                   |             | element       |
-    |                   |                   |             | shapes        |
-    |                   |                   |             | combined.     |
-    |                   |                   |             | Only the      |
-    |                   |                   |             | requested     |
-    |                   |                   |             | shell layer   |
-    |                   |                   |             | present.      |
-    +-------------------+-------------------+-------------+---------------+
-    | Yes               | Not               | Not         | Location as   |
-    |                   | connected/true    | connected   | requested.    |
-    |                   |                   |             | Fields split  |
-    |                   |                   |             | according to  |
-    |                   |                   |             | element       |
-    |                   |                   |             | shapes. All   |
-    |                   |                   |             | shell layers  |
-    |                   |                   |             | present.      |
-    +-------------------+-------------------+-------------+---------------+
-    | Yes               | false             | Not         | Location as   |
-    |                   |                   | connected   | requested.    |
-    |                   |                   |             | Fields with   |
-    |                   |                   |             | all element   |
-    |                   |                   |             | shapes        |
-    |                   |                   |             | combined. All |
-    |                   |                   |             | shell layers  |
-    |                   |                   |             | present.      |
-    +-------------------+-------------------+-------------+---------------+
-    | Yes               | false             | Connected   | Location as   |
-    |                   |                   |             | requested.    |
-    |                   |                   |             | Fields with   |
-    |                   |                   |             | all element   |
-    |                   |                   |             | shapes        |
-    |                   |                   |             | combined.     |
-    |                   |                   |             | Only the      |
-    |                   |                   |             | requested     |
-    |                   |                   |             | shell layer   |
-    |                   |                   |             | present.      |
-    +-------------------+-------------------+-------------+---------------+
-    | Yes               | Not               | Connected   | Location as   |
-    |                   | connected/true    |             | requested.    |
-    |                   |                   |             | Fields split  |
-    |                   |                   |             | according to  |
-    |                   |                   |             | element       |
-    |                   |                   |             | shapes. Only  |
-    |                   |                   |             | the requested |
-    |                   |                   |             | shell layer   |
-    |                   |                   |             | present.      |
-    +-------------------+-------------------+-------------+---------------+
+    +-------------------+-------------------+---------------+---------------+
+    | Averaging is      | ‘split_shells’    | ‘shell_layer’ | Expected      |
+    | needed            |                   |               | output        |
+    +===================+===================+===============+===============+
+    | No                | Not               | Not connected | Location as   |
+    |                   | connected/false   |               | in the result |
+    |                   |                   |               | file. Fields  |
+    |                   |                   |               | with all      |
+    |                   |                   |               | element       |
+    |                   |                   |               | shapes        |
+    |                   |                   |               | combined. All |
+    |                   |                   |               | shell layers  |
+    |                   |                   |               | present.      |
+    +-------------------+-------------------+---------------+---------------+
+    | No                | true              | Not connected | Location as   |
+    |                   |                   |               | in the result |
+    |                   |                   |               | file. Fields  |
+    |                   |                   |               | split         |
+    |                   |                   |               | according to  |
+    |                   |                   |               | element       |
+    |                   |                   |               | shapes. All   |
+    |                   |                   |               | shell layers  |
+    |                   |                   |               | present.      |
+    +-------------------+-------------------+---------------+---------------+
+    | No                | true              | Connected     | Location as   |
+    |                   |                   |               | in the result |
+    |                   |                   |               | file. Fields  |
+    |                   |                   |               | split         |
+    |                   |                   |               | according to  |
+    |                   |                   |               | element       |
+    |                   |                   |               | shapes. Only  |
+    |                   |                   |               | the requested |
+    |                   |                   |               | shell layer   |
+    |                   |                   |               | present.      |
+    +-------------------+-------------------+---------------+---------------+
+    | No                | Not               | Connected     | Location as   |
+    |                   | connected/false   |               | in the result |
+    |                   |                   |               | file. Fields  |
+    |                   |                   |               | with all      |
+    |                   |                   |               | element       |
+    |                   |                   |               | shapes        |
+    |                   |                   |               | combined.     |
+    |                   |                   |               | Only the      |
+    |                   |                   |               | requested     |
+    |                   |                   |               | shell layer   |
+    |                   |                   |               | present.      |
+    +-------------------+-------------------+---------------+---------------+
+    | Yes               | Not               | Not connected | Location as   |
+    |                   | connected/true    |               | requested.    |
+    |                   |                   |               | Fields split  |
+    |                   |                   |               | according to  |
+    |                   |                   |               | element       |
+    |                   |                   |               | shapes. All   |
+    |                   |                   |               | shell layers  |
+    |                   |                   |               | present.      |
+    +-------------------+-------------------+---------------+---------------+
+    | Yes               | false             | Not connected | Location as   |
+    |                   |                   |               | requested.    |
+    |                   |                   |               | Fields with   |
+    |                   |                   |               | all element   |
+    |                   |                   |               | shapes        |
+    |                   |                   |               | combined. All |
+    |                   |                   |               | shell layers  |
+    |                   |                   |               | present.      |
+    +-------------------+-------------------+---------------+---------------+
+    | Yes               | false             | Connected     | Location as   |
+    |                   |                   |               | requested.    |
+    |                   |                   |               | Fields with   |
+    |                   |                   |               | all element   |
+    |                   |                   |               | shapes        |
+    |                   |                   |               | combined.     |
+    |                   |                   |               | Only the      |
+    |                   |                   |               | requested     |
+    |                   |                   |               | shell layer   |
+    |                   |                   |               | present.      |
+    +-------------------+-------------------+---------------+---------------+
+    | Yes               | Not               | Connected     | Location as   |
+    |                   | connected/true    |               | requested.    |
+    |                   |                   |               | Fields split  |
+    |                   |                   |               | according to  |
+    |                   |                   |               | element       |
+    |                   |                   |               | shapes. Only  |
+    |                   |                   |               | the requested |
+    |                   |                   |               | shell layer   |
+    |                   |                   |               | present.      |
+    +-------------------+-------------------+---------------+---------------+
 
     - The available ‘elshape’ values are:
 
@@ -310,92 +310,92 @@ output fields have a ‘Nodal’, ‘ElementalNodal’ or ‘Elemental’ locati
 - Once the need for averaging has been detected, the behavior of the
 combined connection of the ‘split_shells’ and ‘shell_layer’ pins is:
 
-+-------------------+-------------------+-------------+---------------+
-| Averaging is      | ‘split_shells’    | ‘s          | Expected      |
-| needed            |                   | hell_layer’ | output        |
-+===================+===================+=============+===============+
-| No                | Not               | Not         | Location as   |
-|                   | connected/false   | connected   | in the result |
-|                   |                   |             | file. Fields  |
-|                   |                   |             | with all      |
-|                   |                   |             | element       |
-|                   |                   |             | shapes        |
-|                   |                   |             | combined. All |
-|                   |                   |             | shell layers  |
-|                   |                   |             | present.      |
-+-------------------+-------------------+-------------+---------------+
-| No                | true              | Not         | Location as   |
-|                   |                   | connected   | in the result |
-|                   |                   |             | file. Fields  |
-|                   |                   |             | split         |
-|                   |                   |             | according to  |
-|                   |                   |             | element       |
-|                   |                   |             | shapes. All   |
-|                   |                   |             | shell layers  |
-|                   |                   |             | present.      |
-+-------------------+-------------------+-------------+---------------+
-| No                | true              | Connected   | Location as   |
-|                   |                   |             | in the result |
-|                   |                   |             | file. Fields  |
-|                   |                   |             | split         |
-|                   |                   |             | according to  |
-|                   |                   |             | element       |
-|                   |                   |             | shapes. Only  |
-|                   |                   |             | the requested |
-|                   |                   |             | shell layer   |
-|                   |                   |             | present.      |
-+-------------------+-------------------+-------------+---------------+
-| No                | Not               | Connected   | Location as   |
-|                   | connected/false   |             | in the result |
-|                   |                   |             | file. Fields  |
-|                   |                   |             | with all      |
-|                   |                   |             | element       |
-|                   |                   |             | shapes        |
-|                   |                   |             | combined.     |
-|                   |                   |             | Only the      |
-|                   |                   |             | requested     |
-|                   |                   |             | shell layer   |
-|                   |                   |             | present.      |
-+-------------------+-------------------+-------------+---------------+
-| Yes               | Not               | Not         | Location as   |
-|                   | connected/true    | connected   | requested.    |
-|                   |                   |             | Fields split  |
-|                   |                   |             | according to  |
-|                   |                   |             | element       |
-|                   |                   |             | shapes. All   |
-|                   |                   |             | shell layers  |
-|                   |                   |             | present.      |
-+-------------------+-------------------+-------------+---------------+
-| Yes               | false             | Not         | Location as   |
-|                   |                   | connected   | requested.    |
-|                   |                   |             | Fields with   |
-|                   |                   |             | all element   |
-|                   |                   |             | shapes        |
-|                   |                   |             | combined. All |
-|                   |                   |             | shell layers  |
-|                   |                   |             | present.      |
-+-------------------+-------------------+-------------+---------------+
-| Yes               | false             | Connected   | Location as   |
-|                   |                   |             | requested.    |
-|                   |                   |             | Fields with   |
-|                   |                   |             | all element   |
-|                   |                   |             | shapes        |
-|                   |                   |             | combined.     |
-|                   |                   |             | Only the      |
-|                   |                   |             | requested     |
-|                   |                   |             | shell layer   |
-|                   |                   |             | present.      |
-+-------------------+-------------------+-------------+---------------+
-| Yes               | Not               | Connected   | Location as   |
-|                   | connected/true    |             | requested.    |
-|                   |                   |             | Fields split  |
-|                   |                   |             | according to  |
-|                   |                   |             | element       |
-|                   |                   |             | shapes. Only  |
-|                   |                   |             | the requested |
-|                   |                   |             | shell layer   |
-|                   |                   |             | present.      |
-+-------------------+-------------------+-------------+---------------+
++-------------------+-------------------+---------------+---------------+
+| Averaging is      | ‘split_shells’    | ‘shell_layer’ | Expected      |
+| needed            |                   |               | output        |
++===================+===================+===============+===============+
+| No                | Not               | Not connected | Location as   |
+|                   | connected/false   |               | in the result |
+|                   |                   |               | file. Fields  |
+|                   |                   |               | with all      |
+|                   |                   |               | element       |
+|                   |                   |               | shapes        |
+|                   |                   |               | combined. All |
+|                   |                   |               | shell layers  |
+|                   |                   |               | present.      |
++-------------------+-------------------+---------------+---------------+
+| No                | true              | Not connected | Location as   |
+|                   |                   |               | in the result |
+|                   |                   |               | file. Fields  |
+|                   |                   |               | split         |
+|                   |                   |               | according to  |
+|                   |                   |               | element       |
+|                   |                   |               | shapes. All   |
+|                   |                   |               | shell layers  |
+|                   |                   |               | present.      |
++-------------------+-------------------+---------------+---------------+
+| No                | true              | Connected     | Location as   |
+|                   |                   |               | in the result |
+|                   |                   |               | file. Fields  |
+|                   |                   |               | split         |
+|                   |                   |               | according to  |
+|                   |                   |               | element       |
+|                   |                   |               | shapes. Only  |
+|                   |                   |               | the requested |
+|                   |                   |               | shell layer   |
+|                   |                   |               | present.      |
++-------------------+-------------------+---------------+---------------+
+| No                | Not               | Connected     | Location as   |
+|                   | connected/false   |               | in the result |
+|                   |                   |               | file. Fields  |
+|                   |                   |               | with all      |
+|                   |                   |               | element       |
+|                   |                   |               | shapes        |
+|                   |                   |               | combined.     |
+|                   |                   |               | Only the      |
+|                   |                   |               | requested     |
+|                   |                   |               | shell layer   |
+|                   |                   |               | present.      |
++-------------------+-------------------+---------------+---------------+
+| Yes               | Not               | Not connected | Location as   |
+|                   | connected/true    |               | requested.    |
+|                   |                   |               | Fields split  |
+|                   |                   |               | according to  |
+|                   |                   |               | element       |
+|                   |                   |               | shapes. All   |
+|                   |                   |               | shell layers  |
+|                   |                   |               | present.      |
++-------------------+-------------------+---------------+---------------+
+| Yes               | false             | Not connected | Location as   |
+|                   |                   |               | requested.    |
+|                   |                   |               | Fields with   |
+|                   |                   |               | all element   |
+|                   |                   |               | shapes        |
+|                   |                   |               | combined. All |
+|                   |                   |               | shell layers  |
+|                   |                   |               | present.      |
++-------------------+-------------------+---------------+---------------+
+| Yes               | false             | Connected     | Location as   |
+|                   |                   |               | requested.    |
+|                   |                   |               | Fields with   |
+|                   |                   |               | all element   |
+|                   |                   |               | shapes        |
+|                   |                   |               | combined.     |
+|                   |                   |               | Only the      |
+|                   |                   |               | requested     |
+|                   |                   |               | shell layer   |
+|                   |                   |               | present.      |
++-------------------+-------------------+---------------+---------------+
+| Yes               | Not               | Connected     | Location as   |
+|                   | connected/true    |               | requested.    |
+|                   |                   |               | Fields split  |
+|                   |                   |               | according to  |
+|                   |                   |               | element       |
+|                   |                   |               | shapes. Only  |
+|                   |                   |               | the requested |
+|                   |                   |               | shell layer   |
+|                   |                   |               | present.      |
++-------------------+-------------------+---------------+---------------+
 
 - The available ‘elshape’ values are:
 

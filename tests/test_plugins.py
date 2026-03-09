@@ -21,11 +21,13 @@
 # SOFTWARE.
 
 from pathlib import Path
+import sys
 
 import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
+from ansys.dpf.core import errors, examples
+import conftest
 
 
 @pytest.fixture()
@@ -121,3 +123,31 @@ def test_vtk(server_type, tmpdir):
     #     print(e)
     #     pass
     # assert os.path.exists(tmp_path)
+
+
+@pytest.mark.xfail(raises=errors.DpfVersionNotSupported)
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="Use of custom XML broken before 252",
+)
+@pytest.mark.skipif(
+    conftest.running_docker,
+    reason="server start using custom XML not working on Docker",
+)
+def test_load_library_default_name(remote_config_server_type, testfiles_dir):
+    # Test only for remote server configs as InProcess already ran and loaded plugins at this point
+    server_context = dpf.AvailableServerContexts.no_context
+    server_context.xml_path = Path(testfiles_dir) / "DpfCustomDefinedTest.xml"
+    server = dpf.start_local_server(
+        config=remote_config_server_type, context=server_context, as_global=False
+    )
+    assert len(server.plugins) == 2  # Only grpc and native are loaded
+    assert "grpc" in server.plugins.keys()
+    assert "native" in server.plugins.keys()
+    if sys.platform.startswith("linux"):
+        lib_name = "libmeshOperatorsCore.so"
+    else:
+        lib_name = "meshOperatorsCore.dll"
+    dpf.load_library(filename=lib_name, server=server)
+    assert len(server.plugins) == 3
+    assert lib_name.split(".")[0] in server.plugins.keys()

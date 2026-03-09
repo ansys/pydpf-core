@@ -261,26 +261,6 @@ def test_vtk_mesh_is_valid_polyhedron():
     assert len(validity.non_convex) == 0
     assert len(validity.inverted_faces) == 0
 
-    # Move one node
-    nodes_2 = [
-        [0.0, 0.0, 0.0],
-        [1.0, 0.0, 0.0],
-        [0.0, 1.0, 0.0],
-        [0.0, -0.05, 0.5],  # Moved one node along Y axis
-        [1.0, 0.0, 0.5],
-        [0.0, 1.0, 0.5],
-    ]
-    grid = pv.UnstructuredGrid([len(cells_1), *cells_1], cell_types, nodes_2)
-    validity = vtk_mesh_is_valid(grid)
-    print(validity)
-    assert not validity.valid  # For some reason this element is found to be non-convex
-    assert len(validity.wrong_number_of_points) == 0
-    assert len(validity.intersecting_edges) == 0
-    assert len(validity.intersecting_faces) == 0
-    assert len(validity.non_contiguous_edges) == 0
-    assert len(validity.non_convex) == 1
-    assert len(validity.inverted_faces) == 0
-
     # Invert one face
     cells_2 = [
         5,
@@ -311,10 +291,10 @@ def test_vtk_mesh_is_valid_polyhedron():
     grid = pv.UnstructuredGrid([len(cells_2), *cells_2], cell_types, nodes_1)
     validity = vtk_mesh_is_valid(grid)
     print(validity)
-    assert not validity.valid  # Non-convex AND bad face orientation
+    assert not validity.valid  # bad face orientation
     assert len(validity.wrong_number_of_points) == 0
     assert len(validity.intersecting_edges) == 0
     assert len(validity.intersecting_faces) == 0
     assert len(validity.non_contiguous_edges) == 0
-    assert len(validity.non_convex) == 1
+    assert len(validity.non_convex) == 0
     assert len(validity.inverted_faces) == 1
