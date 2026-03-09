@@ -52,7 +52,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: ansys/actions/code-style@571fb2b8c7d6ad8c8b18e50bd20fb00f125dcfb6 # v10.2.6
+      - uses: ansys/actions/code-style@1f4f0896a8e49d3aec2f02ced215b04a32c85f28 # v10.2.7
         with:
           use-python-cache: false
 
@@ -83,7 +83,7 @@ jobs:
           cd ..
 
       - name: "Upload wheel any as artifact"
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
