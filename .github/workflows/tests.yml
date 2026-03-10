@@ -164,7 +164,7 @@ jobs:
 
       - name: "Upload wheel to artifacts"
         if: (inputs.wheel == 'true') && !( (inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest') )
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
@@ -195,7 +195,7 @@ jobs:
 
       - name: "Upload wheelhouse to artifacts"
         if: inputs.wheelhouse == 'true'
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: ${{ steps.wheelhouse.outputs.name }}
           path: ${{ steps.wheelhouse.outputs.name }}
@@ -266,19 +266,6 @@ jobs:
             export DPF_DEFAULT_GRPC_MODE=insecure
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-api_entry,kill-servers
 
-      - name: "Run compatible tests in parallel"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
-        env:
-          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
-          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
-        with:
-          timeout_minutes: 20
-          max_attempts: 2
-          shell: bash
-          command: |
-            export DPF_DEFAULT_GRPC_MODE=insecure
-            tox run-parallel --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -m ciparalleltests
-
       - name: "Test API test_server"
         uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
         env:
@@ -340,13 +327,39 @@ jobs:
             export DPF_DEFAULT_GRPC_MODE=insecure
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-service,kill-servers
 
+      - name: "Run compatible tests in parallel"
+        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        env:
+          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
+          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+        with:
+          timeout_minutes: 20
+          max_attempts: 2
+          shell: bash
+          command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
+            tox run-parallel --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -m ciparalleltests
+
+      - name: "Run api and launcher tests in parallel"
+        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        env:
+          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
+          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+        with:
+          timeout_minutes: 20
+          max_attempts: 2
+          shell: bash
+          command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
+            tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e pretest,test-api,test-launcher,posttest,kill-servers
+
       - name: "Combine coverage results"
         shell: bash
         run: |
           tox -e covreport
 
       - name: "Upload Test Results"
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
           path: tests/junit/test-results.xml
