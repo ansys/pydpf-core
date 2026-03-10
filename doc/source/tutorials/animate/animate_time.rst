@@ -6,7 +6,7 @@ Animate data over time
 
 :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
-.. include:: ../../../links_and_refs.rst
+.. include:: ../../links_and_refs.rst
 .. |Animator| replace:: :class:`Animator<ansys.dpf.core.animator.Animator>`
 .. |animate| replace:: :func:`FieldsContainer.animate() <ansys.dpf.core.fields_container.FieldsContainer.animate>`
 .. |Workflow| replace:: :class:`Workflow<ansys.dpf.core.workflow.Workflow>`

@@ -4,7 +4,7 @@
 Plot a graph using matplotlib
 =============================
 
-.. include:: ../../../links_and_refs.rst
+.. include:: ../../links_and_refs.rst
 
 .. |Line| replace:: :class:`Line <ansys.dpf.core.geometry.Line>`
 .. |on_coordinates| replace:: :class:`on_coordinates <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`

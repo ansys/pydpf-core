@@ -4,7 +4,7 @@
 Plot mesh scopings
 ==================
 
-.. include:: ../../../links_and_refs.rst
+.. include:: ../../links_and_refs.rst
 .. |add_scoping| replace:: :py:meth:`DpfPlotter.add_scoping() <ansys.dpf.core.plotter.DpfPlotter.add_scoping>`
 
 This tutorial shows different commands for plotting mesh entities targeted by mesh scopings.

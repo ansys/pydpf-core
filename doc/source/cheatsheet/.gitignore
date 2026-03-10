@@ -2,3 +2,4 @@
 !cheat_sheet.qmd
 !.gitignore
 /.quarto/
+**/*.quarto_ipynb
