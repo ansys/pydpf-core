@@ -81,7 +81,7 @@ points = Points(
 
 ###############################################################################
 # Show points together with the mesh
-points.plot(mesh, cpos=cpos, point_size=15, color="blue")
+points.plot(mesh, cpos=cpos, point_size=25, color="blue")
 
 ###############################################################################
 # Create line passing through the geometry's diagonal:
@@ -89,7 +89,7 @@ line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
 
 ###############################################################################
 # Show line with the 3D mesh
-line.plot(mesh, cpos=cpos, color="black")
+line.plot(mesh, cpos=cpos, color="black", width=5.0)
 
 ###############################################################################
 # Create vertical plane passing through the mid point:
@@ -150,7 +150,7 @@ field_plane = fields_mapped[0]
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 3D plot of Points and display mesh:
 pl = DpfPlotter()
-pl.add_field(field_points, render_points_as_spheres=True, point_size=10)
+pl.add_field(field_points, render_points_as_spheres=True, point_size=25)
 pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
 pl.show_figure(show_axes=True, cpos=cpos)
 
@@ -159,7 +159,7 @@ pl.show_figure(show_axes=True, cpos=cpos)
 # Note that the line is only displayed if some points are found inside the mesh:
 pl = DpfPlotter()
 if not len(field_line) == 0:
-    pl.add_field(field_line, line.mesh, line_width=5)
+    pl.add_field(field_line, line.mesh, line_width=10)
 pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
 pl.show_figure(show_axes=True, cpos=cpos)
 
