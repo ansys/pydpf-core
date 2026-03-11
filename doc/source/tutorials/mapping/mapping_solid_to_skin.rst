@@ -119,7 +119,7 @@ Map stress data from solid elements to skin elements.
 .. jupyter-execute::
 
     # Get elemental stress on solid elements
-    stress_elemental_fc = model.results.stress(location=dpf.locations.elemental).eval()
+    stress_elemental_fc = model.results.stress.on_location(dpf.locations.elemental).eval()
     stress_elemental_field = stress_elemental_fc[0]
 
     # Print elemental stress field
@@ -181,24 +181,24 @@ Map nodal field data from the solid mesh to the skin mesh.
     print(f"\nOriginal field scoping size: {len(displacement_field.scoping)}")
     print(f"Mapped field scoping size: {len(mapped_displacement_field.scoping)}")
 
-Map elementalnodal results to skin mesh
+Map elemental-nodal results to skin mesh
 ----------------------------------------
 
-Map elementalnodal field data from solid to skin mesh.
+Map elemental-nodal field data from solid to skin mesh.
 
 .. jupyter-execute::
 
-    # Get elementalnodal stress
-    stress_en_fc = model.results.stress(location=dpf.locations.elemental_nodal).eval()
+    # Get elemental-nodal stress
+    stress_en_fc = model.results.stress.on_location(dpf.locations.elemental_nodal).eval()
     stress_en_field = stress_en_fc[0]
 
-    # Print elementalnodal stress field
+    # Print elemental-nodal stress field
     print("ElementalNodal stress field on solid mesh:")
     print(stress_en_field)
 
 .. jupyter-execute::
 
-    # Map the elementalnodal stress to the skin mesh
+    # Map the elemental-nodal stress to the skin mesh
     mapped_stress_en_op = ops.mapping.solid_to_skin(
         field=stress_en_field,
         mesh=skin_mesh,
