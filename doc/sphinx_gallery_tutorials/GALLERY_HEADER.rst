@@ -145,7 +145,6 @@ of basic features and concepts so you can start coding right away.
     :maxdepth: 2
     :hidden:
 
-    post_processing_basics/index
     operators_and_workflows/index
     import_data/index
     mesh/index
