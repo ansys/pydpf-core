@@ -402,7 +402,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         """Retrieve a mesh with solid element shapes.
 
         Filters the mesh collection to return a mesh containing solid elements
-        based on the provided label space criteria. Raises an exception if 
+        based on the provided label space criteria. Raises an exception if
         multiple meshes match the criteria.
 
         Parameters
@@ -466,7 +466,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         """Retrieve a mesh with shell element shapes.
 
         Filters the mesh collection to return a mesh containing shell elements
-        based on the provided label space criteria. Raises an exception if 
+        based on the provided label space criteria. Raises an exception if
         multiple meshes match the criteria.
 
         Parameters
@@ -530,7 +530,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         """Retrieve a mesh with beam element shapes.
 
         Filters the mesh collection to return a mesh containing beam elements
-        based on the provided label space criteria. Raises an exception if 
+        based on the provided label space criteria. Raises an exception if
         multiple meshes match the criteria.
 
         Parameters
