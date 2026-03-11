@@ -215,11 +215,201 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
             )
         return plt.show_figure(**kwargs)
 
+    def solid_scopings(self, label_space=None):
+        """Retrieve a list of all scopings with solid element shapes.
+
+        Filters the scoping collection to return scopings containing solid elements
+        based on the provided label space criteria.
+
+        Parameters
+        ----------
+        label_space : dict[str, int], optional
+            Dictionary containing label-value pairs for filtering scopings.
+            Additional labels like timeid, complexid can be specified.
+            If None, only the elshape filter will be applied.
+
+        Returns
+        -------
+        list[:class:`Scoping <ansys.dpf.core.scoping.Scoping>`]
+            List of scopings corresponding to the request with solid elements.
+
+        Raises
+        ------
+        ValueError
+            If no labels exist in the container, if no elshape label exists,
+            or if a specified label is not found in the container.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.common import types as dpf_types
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> mesh_container = model.metadata.meshes_container
+        >>> assert(len(mesh_container) == 1)
+        >>> split_scop_op = dpf.Operator("scoping::by_property")
+        >>> split_scop_op.connect(7, mesh_container[0])
+        >>> split_scop_op.connect(13, "elshape")
+        >>> splitted_scopings = split_scop_op.get_output(0, dpf_types.scopings_container)
+        >>> assert(len(splitted_scopings) == 6)
+        >>> solid_scopings = splitted_scopings.solid_scopings()
+        """
+        if label_space is None:
+            label_space = {}
+        else:
+            label_space = label_space.copy()
+
+        existing_labels = self.labels
+        if existing_labels is None:
+            raise ValueError("No labels in this scoping container")
+        if "elshape" not in existing_labels:
+            raise ValueError("No elshape label in this scoping container")
+
+        invalid_labels = [label for label in label_space if label not in existing_labels]
+        if invalid_labels:
+            raise ValueError(
+                f"The following labels are not in this scoping container: {invalid_labels}"
+            )
+
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_technology.SOLID.value
+        else:
+            label_space["elshape"] = elements._element_shapes.SOLID.value
+
+        return self.get_scopings(label_space)
+
+    def shell_scopings(self, label_space=None):
+        """Retrieve a list of all scopings with shell element shapes.
+
+        Filters the scoping collection to return scopings containing shell elements
+        based on the provided label space criteria.
+
+        Parameters
+        ----------
+        label_space : dict[str, int], optional
+            Dictionary containing label-value pairs for filtering scopings.
+            Additional labels like timeid, complexid can be specified.
+            If None, only the elshape filter will be applied.
+
+        Returns
+        -------
+        list[:class:`Scoping <ansys.dpf.core.scoping.Scoping>`]
+            List of scopings corresponding to the request with shell elements.
+
+        Raises
+        ------
+        ValueError
+            If no labels exist in the container, if no elshape label exists,
+            or if a specified label is not found in the container.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.common import types as dpf_types
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> mesh_container = model.metadata.meshes_container
+        >>> assert(len(mesh_container) == 1)
+        >>> split_scop_op = dpf.Operator("scoping::by_property")
+        >>> split_scop_op.connect(7, mesh_container[0])
+        >>> split_scop_op.connect(13, "elshape")
+        >>> splitted_scopings = split_scop_op.get_output(0, dpf_types.scopings_container)
+        >>> assert(len(splitted_scopings) == 6)
+        >>> shell_scopings = splitted_scopings.shell_scopings()
+        """
+        if label_space is None:
+            label_space = {}
+        else:
+            label_space = label_space.copy()
+
+        existing_labels = self.labels
+        if existing_labels is None:
+            raise ValueError("No labels in this scoping container")
+        if "elshape" not in existing_labels:
+            raise ValueError("No elshape label in this scoping container")
+
+        invalid_labels = [label for label in label_space if label not in existing_labels]
+        if invalid_labels:
+            raise ValueError(
+                f"The following labels are not in this scoping container: {invalid_labels}"
+            )
+
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_technology.SHELL.value
+        else:
+            label_space["elshape"] = elements._element_shapes.SHELL.value
+
+        return self.get_scopings(label_space)
+
+    def beam_scopings(self, label_space=None):
+        """Retrieve a list of all scopings with beam element shapes.
+
+        Filters the scoping collection to return scopings containing beam elements
+        based on the provided label space criteria.
+
+        Parameters
+        ----------
+        label_space : dict[str, int], optional
+            Dictionary containing label-value pairs for filtering scopings.
+            Additional labels like timeid, complexid can be specified.
+            If None, only the elshape filter will be applied.
+
+        Returns
+        -------
+        list[:class:`Scoping <ansys.dpf.core.scoping.Scoping>`]
+            List of scopings corresponding to the request with beam elements.
+
+        Raises
+        ------
+        ValueError
+            If no labels exist in the container, if no elshape label exists,
+            or if a specified label is not found in the container.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.common import types as dpf_types
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> mesh_container = model.metadata.meshes_container
+        >>> assert(len(mesh_container) == 1)
+        >>> split_scop_op = dpf.Operator("scoping::by_property")
+        >>> split_scop_op.connect(7, mesh_container[0])
+        >>> split_scop_op.connect(13, "elshape")
+        >>> splitted_scopings = split_scop_op.get_output(0, dpf_types.scopings_container)
+        >>> assert(len(splitted_scopings) == 6)
+        >>> beam_scopings = splitted_scopings.beam_scopings()
+        """
+        if label_space is None:
+            label_space = {}
+        else:
+            label_space = label_space.copy()
+
+        existing_labels = self.labels
+        if existing_labels is None:
+            raise ValueError("No labels in this scoping container")
+        if "elshape" not in existing_labels:
+            raise ValueError("No elshape label in this scoping container")
+
+        invalid_labels = [label for label in label_space if label not in existing_labels]
+        if invalid_labels:
+            raise ValueError(
+                f"The following labels are not in this scoping container: {invalid_labels}"
+            )
+
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_technology.BEAM.value
+        else:
+            label_space["elshape"] = elements._element_shapes.BEAM.value
+
+        return self.get_scopings(label_space)
+
     def solid_scoping(self, label_space=None):
         """Retrieve a scoping with solid element shapes.
 
         Filters the scoping collection to return a scoping containing solid elements
-        based on the provided label space criteria.
+        based on the provided label space criteria. Raises an exception if
+        multiple scopings match the criteria.
 
         Parameters
         ----------
@@ -238,6 +428,21 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         ValueError
             If no labels exist in the container, if no elshape label exists,
             or if a specified label is not found in the container.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.common import types as dpf_types
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> mesh_container = model.metadata.meshes_container
+        >>> assert(len(mesh_container) == 1)
+        >>> split_scop_op = dpf.Operator("scoping::by_property")
+        >>> split_scop_op.connect(7, mesh_container[0])
+        >>> split_scop_op.connect(13, "elshape")
+        >>> splitted_scopings = split_scop_op.get_output(0, dpf_types.scopings_container)
+        >>> assert(len(splitted_scopings) == 6)
+        >>> solid_scoping = splitted_scopings.solid_scoping()
         """
         if label_space is None:
             label_space = {}
@@ -267,7 +472,8 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         """Retrieve a scoping with shell element shapes.
 
         Filters the scoping collection to return a scoping containing shell elements
-        based on the provided label space criteria.
+        based on the provided label space criteria. Raises an exception if
+        multiple scopings match the criteria.
 
         Parameters
         ----------
@@ -286,6 +492,21 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         ValueError
             If no labels exist in the container, if no elshape label exists,
             or if a specified label is not found in the container.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.common import types as dpf_types
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> mesh_container = model.metadata.meshes_container
+        >>> assert(len(mesh_container) == 1)
+        >>> split_scop_op = dpf.Operator("scoping::by_property")
+        >>> split_scop_op.connect(7, mesh_container[0])
+        >>> split_scop_op.connect(13, "elshape")
+        >>> splitted_scopings = split_scop_op.get_output(0, dpf_types.scopings_container)
+        >>> assert(len(splitted_scopings) == 6)
+        >>> shell_scoping = splitted_scopings.shell_scoping()
         """
         if label_space is None:
             label_space = {}
@@ -315,7 +536,8 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         """Retrieve a scoping with beam element shapes.
 
         Filters the scoping collection to return a scoping containing beam elements
-        based on the provided label space criteria.
+        based on the provided label space criteria. Raises an exception if
+        multiple scopings match the criteria.
 
         Parameters
         ----------
@@ -334,6 +556,21 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         ValueError
             If no labels exist in the container, if no elshape label exists,
             or if a specified label is not found in the container.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.common import types as dpf_types
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> mesh_container = model.metadata.meshes_container
+        >>> assert(len(mesh_container) == 1)
+        >>> split_scop_op = dpf.Operator("scoping::by_property")
+        >>> split_scop_op.connect(7, mesh_container[0])
+        >>> split_scop_op.connect(13, "elshape")
+        >>> splitted_scopings = split_scop_op.get_output(0, dpf_types.scopings_container)
+        >>> assert(len(splitted_scopings) == 6)
+        >>> beam_scoping = splitted_scopings.beam_scoping()
         """
         if label_space is None:
             label_space = {}

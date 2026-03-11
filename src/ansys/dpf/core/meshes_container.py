@@ -209,11 +209,201 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         """
         return super()._add_entry(label_space, mesh)
 
+    def solid_meshes(self, label_space=None):
+        """Retrieve a list of all meshes with solid element shapes.
+
+        Filters the mesh collection to return meshes containing solid elements
+        based on the provided label space criteria.
+
+        Parameters
+        ----------
+        label_space : dict[str, int], optional
+            Dictionary containing label-value pairs for filtering meshes.
+            Additional labels like timeid, complexid can be specified.
+            If None, only the elshape filter will be applied.
+
+        Returns
+        -------
+        list[:class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`]
+            List of meshes corresponding to the request with solid elements.
+
+        Raises
+        ------
+        ValueError
+            If no labels exist in the container, if no elshape label exists,
+            or if a specified label is not found in the container.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.common import types as dpf_types
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> mesh_container = model.metadata.meshes_container
+        >>> assert(len(mesh_container) == 1)
+        >>> split_mesh_op = dpf.Operator("split_mesh")
+        >>> split_mesh_op.connect(7, mesh_container[0])
+        >>> split_mesh_op.connect(13, "elshape")
+        >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
+        >>> assert(len(splitted_meshes) == 6)
+        >>> solid_meshes = splitted_meshes.solid_meshes({"body": 1})
+        """
+        if label_space is None:
+            label_space = {}
+        else:
+            label_space = label_space.copy()
+
+        existing_labels = self.labels
+        if existing_labels is None:
+            raise ValueError("No labels in this mesh container")
+        if "elshape" not in existing_labels:
+            raise ValueError("No elshape label in this mesh container")
+
+        invalid_labels = [label for label in label_space if label not in existing_labels]
+        if invalid_labels:
+            raise ValueError(
+                f"The following labels are not in this mesh container: {invalid_labels}"
+            )
+
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_technology.SOLID.value
+        else:
+            label_space["elshape"] = elements._element_shapes.SOLID.value
+
+        return self.get_meshes(label_space)
+
+    def shell_meshes(self, label_space=None):
+        """Retrieve a list of all meshes with shell element shapes.
+
+        Filters the mesh collection to return meshes containing shell elements
+        based on the provided label space criteria.
+
+        Parameters
+        ----------
+        label_space : dict[str, int], optional
+            Dictionary containing label-value pairs for filtering meshes.
+            Additional labels like timeid, complexid can be specified.
+            If None, only the elshape filter will be applied.
+
+        Returns
+        -------
+        list[:class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`]
+            List of meshes corresponding to the request with shell elements.
+
+        Raises
+        ------
+        ValueError
+            If no labels exist in the container, if no elshape label exists,
+            or if a specified label is not found in the container.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.common import types as dpf_types
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> mesh_container = model.metadata.meshes_container
+        >>> assert(len(mesh_container) == 1)
+        >>> split_mesh_op = dpf.Operator("split_mesh")
+        >>> split_mesh_op.connect(7, mesh_container[0])
+        >>> split_mesh_op.connect(13, "elshape")
+        >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
+        >>> assert(len(splitted_meshes) == 6)
+        >>> shell_meshes = splitted_meshes.shell_meshes({"body": 1})
+        """
+        if label_space is None:
+            label_space = {}
+        else:
+            label_space = label_space.copy()
+
+        existing_labels = self.labels
+        if existing_labels is None:
+            raise ValueError("No labels in this mesh container")
+        if "elshape" not in existing_labels:
+            raise ValueError("No elshape label in this mesh container")
+
+        invalid_labels = [label for label in label_space if label not in existing_labels]
+        if invalid_labels:
+            raise ValueError(
+                f"The following labels are not in this mesh container: {invalid_labels}"
+            )
+
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_technology.SHELL.value
+        else:
+            label_space["elshape"] = elements._element_shapes.SHELL.value
+
+        return self.get_meshes(label_space)
+
+    def beam_meshes(self, label_space=None):
+        """Retrieve a list of all meshes with beam element shapes.
+
+        Filters the mesh collection to return meshes containing beam elements
+        based on the provided label space criteria.
+
+        Parameters
+        ----------
+        label_space : dict[str, int], optional
+            Dictionary containing label-value pairs for filtering meshes.
+            Additional labels like timeid, complexid can be specified.
+            If None, only the elshape filter will be applied.
+
+        Returns
+        -------
+        list[:class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`]
+            List of meshes corresponding to the request with beam elements.
+
+        Raises
+        ------
+        ValueError
+            If no labels exist in the container, if no elshape label exists,
+            or if a specified label is not found in the container.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.common import types as dpf_types
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> mesh_container = model.metadata.meshes_container
+        >>> assert(len(mesh_container) == 1)
+        >>> split_mesh_op = dpf.Operator("split_mesh")
+        >>> split_mesh_op.connect(7, mesh_container[0])
+        >>> split_mesh_op.connect(13, "elshape")
+        >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
+        >>> assert(len(splitted_meshes) == 6)
+        >>> beam_meshes = splitted_meshes.beam_meshes({"body": 1})
+        """
+        if label_space is None:
+            label_space = {}
+        else:
+            label_space = label_space.copy()
+
+        existing_labels = self.labels
+        if existing_labels is None:
+            raise ValueError("No labels in this mesh container")
+        if "elshape" not in existing_labels:
+            raise ValueError("No elshape label in this mesh container")
+
+        invalid_labels = [label for label in label_space if label not in existing_labels]
+        if invalid_labels:
+            raise ValueError(
+                f"The following labels are not in this mesh container: {invalid_labels}"
+            )
+
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_technology.BEAM.value
+        else:
+            label_space["elshape"] = elements._element_shapes.BEAM.value
+
+        return self.get_meshes(label_space)
+
     def solid_mesh(self, label_space=None):
         """Retrieve a mesh with solid element shapes.
 
         Filters the mesh collection to return a mesh containing solid elements
-        based on the provided label space criteria.
+        based on the provided label space criteria. Raises an exception if 
+        multiple meshes match the criteria.
 
         Parameters
         ----------
@@ -235,13 +425,18 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
 
         Examples
         --------
-        >>> from ansys.dpf.core.common import DefinitionLabels
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.common import types as dpf_types
         >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
         >>> mesh_container = model.metadata.meshes_container
-        >>> solid_mesh = mesh_container.solid_mesh({DefinitionLabels.time: 1})
-
+        >>> assert(len(mesh_container) == 1)
+        >>> split_mesh_op = dpf.Operator("split_mesh")
+        >>> split_mesh_op.connect(7, mesh_container[0])
+        >>> split_mesh_op.connect(13, "elshape")
+        >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
+        >>> assert(len(splitted_meshes) == 6)
+        >>> solid_mesh = splitted_meshes.solid_mesh({"body": 1})
         """
         if label_space is None:
             label_space = {}
@@ -271,7 +466,8 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         """Retrieve a mesh with shell element shapes.
 
         Filters the mesh collection to return a mesh containing shell elements
-        based on the provided label space criteria.
+        based on the provided label space criteria. Raises an exception if 
+        multiple meshes match the criteria.
 
         Parameters
         ----------
@@ -283,7 +479,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         Returns
         -------
         :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
-            Mesh corresponding to the request with solid elements.
+            Mesh corresponding to the request with shell elements.
 
         Raises
         ------
@@ -293,13 +489,18 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
 
         Examples
         --------
-        >>> from ansys.dpf.core.common import DefinitionLabels
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.common import types as dpf_types
         >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
         >>> mesh_container = model.metadata.meshes_container
-        >>> shell_mesh = mesh_container.shell_mesh({DefinitionLabels.time: 1})
-
+        >>> assert(len(mesh_container) == 1)
+        >>> split_mesh_op = dpf.Operator("split_mesh")
+        >>> split_mesh_op.connect(7, mesh_container[0])
+        >>> split_mesh_op.connect(13, "elshape")
+        >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
+        >>> assert(len(splitted_meshes) == 6)
+        >>> shell_mesh = splitted_meshes.shell_mesh({"body": 1})
         """
         if label_space is None:
             label_space = {}
@@ -329,7 +530,8 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         """Retrieve a mesh with beam element shapes.
 
         Filters the mesh collection to return a mesh containing beam elements
-        based on the provided label space criteria.
+        based on the provided label space criteria. Raises an exception if 
+        multiple meshes match the criteria.
 
         Parameters
         ----------
@@ -341,7 +543,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         Returns
         -------
         :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
-            Mesh corresponding to the request with solid elements.
+            Mesh corresponding to the request with beam elements.
 
         Raises
         ------
@@ -351,13 +553,18 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
 
         Examples
         --------
-        >>> from ansys.dpf.core.common import DefinitionLabels
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.common import types as dpf_types
         >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
         >>> mesh_container = model.metadata.meshes_container
-        >>> beam_mesh = mesh_container.beam_mesh({DefinitionLabels.time: 1})
-
+        >>> assert(len(mesh_container) == 1)
+        >>> split_mesh_op = dpf.Operator("split_mesh")
+        >>> split_mesh_op.connect(7, mesh_container[0])
+        >>> split_mesh_op.connect(13, "elshape")
+        >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
+        >>> assert(len(splitted_meshes) == 6)
+        >>> beam_mesh = splitted_meshes.beam_mesh({"body": 1})
         """
         if label_space is None:
             label_space = {}
