@@ -145,9 +145,7 @@ you want meaningful file names.
     output_paths_custom = migrate_op_custom.eval()
 
     # Display the custom file names
-    print("Exported files with custom naming:")
-    for path in output_paths_custom.result_files:
-        print(f"  {os.path.basename(path)}")
+    print(f"Exported {len(output_paths_custom.result_files)} file(s)")
 
 Control output format
 ---------------------
