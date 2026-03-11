@@ -211,12 +211,12 @@ pygments_style = None
 
 def _read_order(filepath):
     """Return the integer declared by ``# _order: N`` (py files) or
-    ``.. # _order: N`` (README.txt files) in the first 30 lines, or inf.
+    ``.. # _order: N`` (GALLERY_HEADER.rst files) in the first 30 lines, or inf.
 
     This is the only thing that controls gallery ordering. To set the order
     of a tutorial, add ``# _order: N`` just before the module docstring
     (right after the copyright block). To set the order of a subsection,
-    add ``.. # _order: N`` as the first line of the subsection README.txt.
+    add ``.. # _order: N`` as the first line of the subsection GALLERY_HEADER.rst.
     """
     import re
     _patt = re.compile(r"_order:\s*(\d+)")
@@ -236,10 +236,10 @@ def _read_order(filepath):
 
 class _TutorialSubsectionOrder:
     """For sphinx_gallery_conf['subsection_order']: reads ``.. # _order: N``
-    from each subsection's README.txt."""
+    from each subsection's GALLERY_HEADER.rst."""
 
     def __call__(self, section_dir):
-        return _read_order(Path(section_dir) / "README.txt")
+        return _read_order(Path(section_dir) / "GALLERY_HEADER.rst")
 
 
 class _TutorialFileOrder:
