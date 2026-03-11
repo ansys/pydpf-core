@@ -1,10 +1,12 @@
+.. # _order: 5
+
 .. _ref_tutorials_plot:
 
 ====
 Plot
 ====
 
-These tutorials demonstrate different ways one can visualize the data in plots using PyDPF-Core.
+These tutorials demonstrate different ways to visualize data in plots using PyDPF-Core.
 
 .. grid:: 1 1 3 3
     :gutter: 2
@@ -16,42 +18,37 @@ These tutorials demonstrate different ways one can visualize the data in plots u
        :link-type: ref
        :text-align: center
 
-       This tutorial shows several ways to plot meshes.
+       This tutorial shows different commands for plotting a mesh without data.
 
-    .. grid-item-card:: Add deformation
+    .. grid-item-card:: Plot with mesh deformation
        :link: ref_tutorials_plot_deformed_mesh
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to add deformation to plots.
+       This tutorial shows different commands for plotting a deformed mesh.
 
     .. grid-item-card:: Plot contours
        :link: ref_tutorials_plot_contour
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot contours.
+       This tutorial shows different commands for plotting data contours on meshes.
 
     .. grid-item-card:: Plot a graph
        :link: ref_tutorials_plot_graph
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot graphs using matplotlib.
+       This tutorial explains how to plot a graph with data from DPF using matplotlib.
 
     .. grid-item-card:: Plot mesh scopings
        :link: ref_tutorials_plot_mesh_scopings
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to plot mesh scopings.
+       This tutorial shows different commands for plotting mesh entities targeted by
+       mesh scopings.
 
-.. toctree::
-    :maxdepth: 2
-    :hidden:
+.. raw:: html
 
-    plot_mesh.rst
-    plot_deformed_mesh.rst
-    plot_contour.rst
-    plot_a_graph.rst
-    plot_mesh_scopings.rst
+   <style>.sphx-glr-thumbnails { display: none; }</style>
