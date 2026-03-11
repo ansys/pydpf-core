@@ -520,12 +520,10 @@ class Result:
         >>> model = dpf.Model(examples.download_all_kinds_of_complexity())
         >>> disp = model.results.displacement
         >>> fc_disp = disp.split_by_shape.eval()
-        >>> len(fc_disp)
-        4
-
         >>> shell_disp = fc_disp.shell_field()
         >>> solid_disp = fc_disp.solid_field()
-
+        >>> len(shell_disp)
+        4458
         """
         self._specific_fc_type = "shape"
         return self._add_split_on_property_type("elshape")

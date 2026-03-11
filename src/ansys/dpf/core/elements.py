@@ -1321,3 +1321,10 @@ class _element_shapes(Enum):
     SOLID = 1
     BEAM = 2
     UNKNOWN_SHAPE = 3
+
+
+class _element_technology(Enum):
+    UNKNOWN_SHAPE = 0
+    SHELL = 1
+    SOLID = 2
+    BEAM = 3

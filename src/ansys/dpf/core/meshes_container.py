@@ -29,7 +29,8 @@ Contains classes associated with the DPF MeshesContainer.
 
 from __future__ import annotations
 
-from ansys.dpf.core import errors as dpf_errors, meshed_region
+from ansys.dpf.core import elements, errors as dpf_errors, meshed_region
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.plotter import DpfPlotter
 
@@ -207,3 +208,177 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
             DPF mesh to add or update.
         """
         return super()._add_entry(label_space, mesh)
+
+    def solid_mesh(self, label_space=None):
+        """Retrieve a mesh with solid element shapes.
+
+        Filters the mesh collection to return a mesh containing solid elements
+        based on the provided label space criteria.
+
+        Parameters
+        ----------
+        label_space : dict[str, int], optional
+            Dictionary containing label-value pairs for filtering meshes.
+            Additional labels like timeid, complexid can be specified.
+            If None, only the elshape filter will be applied.
+
+        Returns
+        -------
+        :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
+            Mesh corresponding to the request with solid elements.
+
+        Raises
+        ------
+        ValueError
+            If no labels exist in the container, if no elshape label exists,
+            or if a specified label is not found in the container.
+
+        Examples
+        --------
+        >>> from ansys.dpf.core.common import DefinitionLabels
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> mesh_container = model.metadata.meshes_container
+        >>> solid_mesh = mesh_container.solid_mesh({DefinitionLabels.time: 1})
+
+        """
+        if label_space is None:
+            label_space = {}
+        else:
+            label_space = label_space.copy()
+
+        existing_labels = self.labels
+        if existing_labels is None:
+            raise ValueError("No labels in this mesh container")
+        if "elshape" not in existing_labels:
+            raise ValueError("No elshape label in this mesh container")
+
+        invalid_labels = [label for label in label_space if label not in existing_labels]
+        if invalid_labels:
+            raise ValueError(
+                f"The following labels are not in this mesh container: {invalid_labels}"
+            )
+
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_technology.SOLID.value
+        else:
+            label_space["elshape"] = elements._element_shapes.SOLID.value
+
+        return self.get_mesh(label_space)
+
+    def shell_mesh(self, label_space=None):
+        """Retrieve a mesh with shell element shapes.
+
+        Filters the mesh collection to return a mesh containing shell elements
+        based on the provided label space criteria.
+
+        Parameters
+        ----------
+        label_space : dict[str, int], optional
+            Dictionary containing label-value pairs for filtering meshes.
+            Additional labels like timeid, complexid can be specified.
+            If None, only the elshape filter will be applied.
+
+        Returns
+        -------
+        :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
+            Mesh corresponding to the request with solid elements.
+
+        Raises
+        ------
+        ValueError
+            If no labels exist in the container, if no elshape label exists,
+            or if a specified label is not found in the container.
+
+        Examples
+        --------
+        >>> from ansys.dpf.core.common import DefinitionLabels
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> mesh_container = model.metadata.meshes_container
+        >>> shell_mesh = mesh_container.shell_mesh({DefinitionLabels.time: 1})
+
+        """
+        if label_space is None:
+            label_space = {}
+        else:
+            label_space = label_space.copy()
+
+        existing_labels = self.labels
+        if existing_labels is None:
+            raise ValueError("No labels in this mesh container")
+        if "elshape" not in existing_labels:
+            raise ValueError("No elshape label in this mesh container")
+
+        invalid_labels = [label for label in label_space if label not in existing_labels]
+        if invalid_labels:
+            raise ValueError(
+                f"The following labels are not in this mesh container: {invalid_labels}"
+            )
+
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_technology.SHELL.value
+        else:
+            label_space["elshape"] = elements._element_shapes.SHELL.value
+
+        return self.get_mesh(label_space)
+
+    def beam_mesh(self, label_space=None):
+        """Retrieve a mesh with beam element shapes.
+
+        Filters the mesh collection to return a mesh containing beam elements
+        based on the provided label space criteria.
+
+        Parameters
+        ----------
+        label_space : dict[str, int], optional
+            Dictionary containing label-value pairs for filtering meshes.
+            Additional labels like timeid, complexid can be specified.
+            If None, only the elshape filter will be applied.
+
+        Returns
+        -------
+        :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>`
+            Mesh corresponding to the request with solid elements.
+
+        Raises
+        ------
+        ValueError
+            If no labels exist in the container, if no elshape label exists,
+            or if a specified label is not found in the container.
+
+        Examples
+        --------
+        >>> from ansys.dpf.core.common import DefinitionLabels
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> mesh_container = model.metadata.meshes_container
+        >>> beam_mesh = mesh_container.beam_mesh({DefinitionLabels.time: 1})
+
+        """
+        if label_space is None:
+            label_space = {}
+        else:
+            label_space = label_space.copy()
+
+        existing_labels = self.labels
+        if existing_labels is None:
+            raise ValueError("No labels in this mesh container")
+        if "elshape" not in existing_labels:
+            raise ValueError("No elshape label in this mesh container")
+
+        invalid_labels = [label for label in label_space if label not in existing_labels]
+        if invalid_labels:
+            raise ValueError(
+                f"The following labels are not in this mesh container: {invalid_labels}"
+            )
+
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_technology.BEAM.value
+        else:
+            label_space["elshape"] = elements._element_shapes.BEAM.value
+
+        return self.get_mesh(label_space)

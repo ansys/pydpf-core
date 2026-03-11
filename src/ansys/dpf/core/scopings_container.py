@@ -33,7 +33,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import ansys.dpf.core as dpf
-from ansys.dpf.core import scoping
+from ansys.dpf.core import elements, scoping
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.collection_base import CollectionBase
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -213,3 +214,147 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
                 **kwargs,
             )
         return plt.show_figure(**kwargs)
+
+    def solid_scoping(self, label_space=None):
+        """Retrieve a scoping with solid element shapes.
+
+        Filters the scoping collection to return a scoping containing solid elements
+        based on the provided label space criteria.
+
+        Parameters
+        ----------
+        label_space : dict[str, int], optional
+            Dictionary containing label-value pairs for filtering scopings.
+            Additional labels like timeid, complexid can be specified.
+            If None, only the elshape filter will be applied.
+
+        Returns
+        -------
+        :class:`Scoping <ansys.dpf.core.scoping.Scoping>`
+            Scoping corresponding to the request with solid elements.
+
+        Raises
+        ------
+        ValueError
+            If no labels exist in the container, if no elshape label exists,
+            or if a specified label is not found in the container.
+        """
+        if label_space is None:
+            label_space = {}
+        else:
+            label_space = label_space.copy()
+
+        existing_labels = self.labels
+        if existing_labels is None:
+            raise ValueError("No labels in this scoping container")
+        if "elshape" not in existing_labels:
+            raise ValueError("No elshape label in this scoping container")
+
+        invalid_labels = [label for label in label_space if label not in existing_labels]
+        if invalid_labels:
+            raise ValueError(
+                f"The following labels are not in this scoping container: {invalid_labels}"
+            )
+
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_technology.SOLID.value
+        else:
+            label_space["elshape"] = elements._element_shapes.SOLID.value
+
+        return self.get_scoping(label_space)
+
+    def shell_scoping(self, label_space=None):
+        """Retrieve a scoping with shell element shapes.
+
+        Filters the scoping collection to return a scoping containing shell elements
+        based on the provided label space criteria.
+
+        Parameters
+        ----------
+        label_space : dict[str, int], optional
+            Dictionary containing label-value pairs for filtering scopings.
+            Additional labels like timeid, complexid can be specified.
+            If None, only the elshape filter will be applied.
+
+        Returns
+        -------
+        :class:`Scoping <ansys.dpf.core.scoping.Scoping>`
+            Scoping corresponding to the request with shell elements.
+
+        Raises
+        ------
+        ValueError
+            If no labels exist in the container, if no elshape label exists,
+            or if a specified label is not found in the container.
+        """
+        if label_space is None:
+            label_space = {}
+        else:
+            label_space = label_space.copy()
+
+        existing_labels = self.labels
+        if existing_labels is None:
+            raise ValueError("No labels in this scoping container")
+        if "elshape" not in existing_labels:
+            raise ValueError("No elshape label in this scoping container")
+
+        invalid_labels = [label for label in label_space if label not in existing_labels]
+        if invalid_labels:
+            raise ValueError(
+                f"The following labels are not in this scoping container: {invalid_labels}"
+            )
+
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_technology.SHELL.value
+        else:
+            label_space["elshape"] = elements._element_shapes.SHELL.value
+
+        return self.get_scoping(label_space)
+
+    def beam_scoping(self, label_space=None):
+        """Retrieve a scoping with beam element shapes.
+
+        Filters the scoping collection to return a scoping containing beam elements
+        based on the provided label space criteria.
+
+        Parameters
+        ----------
+        label_space : dict[str, int], optional
+            Dictionary containing label-value pairs for filtering scopings.
+            Additional labels like timeid, complexid can be specified.
+            If None, only the elshape filter will be applied.
+
+        Returns
+        -------
+        :class:`Scoping <ansys.dpf.core.scoping.Scoping>`
+            Scoping corresponding to the request with beam elements.
+
+        Raises
+        ------
+        ValueError
+            If no labels exist in the container, if no elshape label exists,
+            or if a specified label is not found in the container.
+        """
+        if label_space is None:
+            label_space = {}
+        else:
+            label_space = label_space.copy()
+
+        existing_labels = self.labels
+        if existing_labels is None:
+            raise ValueError("No labels in this scoping container")
+        if "elshape" not in existing_labels:
+            raise ValueError("No elshape label in this scoping container")
+
+        invalid_labels = [label for label in label_space if label not in existing_labels]
+        if invalid_labels:
+            raise ValueError(
+                f"The following labels are not in this scoping container: {invalid_labels}"
+            )
+
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_technology.BEAM.value
+        else:
+            label_space["elshape"] = elements._element_shapes.BEAM.value
+
+        return self.get_scoping(label_space)
