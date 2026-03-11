@@ -1,13 +1,15 @@
+.. # _order: 4
+
 .. _ref_tutorials_mesh:
 
 ======
 Meshes
 ======
 
-The mesh in DPF is represented by the :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>` entity.
+The mesh in DPF is represented by the
+:class:`MeshedRegion<ansys.dpf.core.meshed_region.MeshedRegion>` entity.
 
-These tutorials explains how to explore different attributes of a given mesh with PyDPF-Core.
-
+These tutorials explain how to explore different attributes of a given mesh with PyDPF-Core.
 
 .. grid:: 1 1 3 3
     :gutter: 2
@@ -19,7 +21,7 @@ These tutorials explains how to explore different attributes of a given mesh wit
        :link-type: ref
        :text-align: center
 
-       This tutorial demonstrates how to build a mesh from the scratch.
+       This tutorial demonstrates how to build a mesh from scratch.
 
     .. grid-item-card:: Get a mesh from a result file
        :link: ref_tutorials_get_mesh_from_result_file
@@ -35,11 +37,8 @@ These tutorials explains how to explore different attributes of a given mesh wit
        :link: ref_tutorials_explore_mesh_metadata
        :link-type: ref
        :text-align: center
-       :class-card: sd-bg-light
-       :class-header: sd-bg-light sd-text-dark
-       :class-footer: sd-bg-light sd-text-dark
 
-       This tutorial explains how to explore a mesh metadata before
+       This tutorial explains how to explore mesh metadata before
        extracting the mesh from a result file.
 
        +++
@@ -51,7 +50,7 @@ These tutorials explains how to explore different attributes of a given mesh wit
        :link-type: ref
        :text-align: center
 
-       This tutorial explains how to access a mesh data and metadata
+       This tutorial explains how to access mesh data and metadata
        so it can be manipulated.
 
        +++
@@ -77,13 +76,6 @@ These tutorials explains how to explore different attributes of a given mesh wit
        +++
        :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
-.. toctree::
-    :maxdepth: 2
-    :hidden:
+.. raw:: html
 
-    create_a_mesh_from_scratch.rst
-    get_mesh_from_result_file.rst
-    explore_mesh_metadata.rst
-    explore_mesh.rst
-    extract_mesh_in_split_parts.rst
-    split_mesh.rst
+   <style>.sphx-glr-thumbnails { display: none; }</style>

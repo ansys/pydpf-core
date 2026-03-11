@@ -145,7 +145,6 @@ of basic features and concepts so you can start coding right away.
     :maxdepth: 2
     :hidden:
 
-    mesh/index
     plot/index
     animate/index
     mathematics/index
