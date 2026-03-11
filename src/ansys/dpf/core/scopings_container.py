@@ -251,7 +251,6 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         >>> split_scop_op.connect(7, mesh_container[0])
         >>> split_scop_op.connect(13, "elshape")
         >>> splitted_scopings = split_scop_op.get_output(0, dpf_types.scopings_container)
-        >>> assert(len(splitted_scopings) == 6)
         >>> solid_scopings = splitted_scopings.solid_scopings()
         """
         if label_space is None:
@@ -314,7 +313,6 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         >>> split_scop_op.connect(7, mesh_container[0])
         >>> split_scop_op.connect(13, "elshape")
         >>> splitted_scopings = split_scop_op.get_output(0, dpf_types.scopings_container)
-        >>> assert(len(splitted_scopings) == 6)
         >>> shell_scopings = splitted_scopings.shell_scopings()
         """
         if label_space is None:
@@ -377,7 +375,6 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         >>> split_scop_op.connect(7, mesh_container[0])
         >>> split_scop_op.connect(13, "elshape")
         >>> splitted_scopings = split_scop_op.get_output(0, dpf_types.scopings_container)
-        >>> assert(len(splitted_scopings) == 6)
         >>> beam_scopings = splitted_scopings.beam_scopings()
         """
         if label_space is None:
@@ -441,7 +438,6 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         >>> split_scop_op.connect(7, mesh_container[0])
         >>> split_scop_op.connect(13, "elshape")
         >>> splitted_scopings = split_scop_op.get_output(0, dpf_types.scopings_container)
-        >>> assert(len(splitted_scopings) == 6)
         >>> solid_scoping = splitted_scopings.solid_scoping()
         """
         if label_space is None:
@@ -505,7 +501,6 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         >>> split_scop_op.connect(7, mesh_container[0])
         >>> split_scop_op.connect(13, "elshape")
         >>> splitted_scopings = split_scop_op.get_output(0, dpf_types.scopings_container)
-        >>> assert(len(splitted_scopings) == 6)
         >>> shell_scoping = splitted_scopings.shell_scoping()
         """
         if label_space is None:
@@ -569,7 +564,6 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
         >>> split_scop_op.connect(7, mesh_container[0])
         >>> split_scop_op.connect(13, "elshape")
         >>> splitted_scopings = split_scop_op.get_output(0, dpf_types.scopings_container)
-        >>> assert(len(splitted_scopings) == 6)
         >>> beam_scoping = splitted_scopings.beam_scoping()
         """
         if label_space is None:

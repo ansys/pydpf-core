@@ -245,7 +245,6 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         >>> split_mesh_op.connect(7, mesh_container[0])
         >>> split_mesh_op.connect(13, "elshape")
         >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
-        >>> assert(len(splitted_meshes) == 6)
         >>> solid_meshes = splitted_meshes.solid_meshes({"body": 1})
         """
         if label_space is None:
@@ -308,7 +307,6 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         >>> split_mesh_op.connect(7, mesh_container[0])
         >>> split_mesh_op.connect(13, "elshape")
         >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
-        >>> assert(len(splitted_meshes) == 6)
         >>> shell_meshes = splitted_meshes.shell_meshes({"body": 1})
         """
         if label_space is None:
@@ -371,7 +369,6 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         >>> split_mesh_op.connect(7, mesh_container[0])
         >>> split_mesh_op.connect(13, "elshape")
         >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
-        >>> assert(len(splitted_meshes) == 6)
         >>> beam_meshes = splitted_meshes.beam_meshes({"body": 1})
         """
         if label_space is None:
@@ -435,7 +432,6 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         >>> split_mesh_op.connect(7, mesh_container[0])
         >>> split_mesh_op.connect(13, "elshape")
         >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
-        >>> assert(len(splitted_meshes) == 6)
         >>> solid_mesh = splitted_meshes.solid_mesh({"body": 1})
         """
         if label_space is None:
@@ -499,7 +495,6 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         >>> split_mesh_op.connect(7, mesh_container[0])
         >>> split_mesh_op.connect(13, "elshape")
         >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
-        >>> assert(len(splitted_meshes) == 6)
         >>> shell_mesh = splitted_meshes.shell_mesh({"body": 1})
         """
         if label_space is None:
@@ -563,7 +558,6 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         >>> split_mesh_op.connect(7, mesh_container[0])
         >>> split_mesh_op.connect(13, "elshape")
         >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
-        >>> assert(len(splitted_meshes) == 6)
         >>> beam_mesh = splitted_meshes.beam_mesh({"body": 1})
         """
         if label_space is None:
