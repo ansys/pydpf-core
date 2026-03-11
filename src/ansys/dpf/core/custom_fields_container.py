@@ -101,9 +101,9 @@ class ElShapeFieldsContainer(FieldsContainer):
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
         if server_meet_version("12.0", self._server):
-            label_space["elshape"] = elements._element_technology.SOLID.value
-        else:
             label_space["elshape"] = elements._element_shapes.SOLID.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.SOLID.value
         return self.get_fields(label_space)
 
     def shell_fields(self, timeid=None, complexid=None):
@@ -139,9 +139,9 @@ class ElShapeFieldsContainer(FieldsContainer):
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
         if server_meet_version("12.0", self._server):
-            label_space["elshape"] = elements._element_technology.SHELL.value
-        else:
             label_space["elshape"] = elements._element_shapes.SHELL.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.SHELL.value
         return self.get_fields(label_space)
 
     def beam_fields(self, timeid=None, complexid=None):
@@ -177,9 +177,9 @@ class ElShapeFieldsContainer(FieldsContainer):
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
         if server_meet_version("12.0", self._server):
-            label_space["elshape"] = elements._element_technology.BEAM.value
-        else:
             label_space["elshape"] = elements._element_shapes.BEAM.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.BEAM.value
         return self.get_fields(label_space)
 
     def solid_field(self, timeid=None, complexid=None):
@@ -212,9 +212,9 @@ class ElShapeFieldsContainer(FieldsContainer):
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
         if server_meet_version("12.0", self._server):
-            label_space["elshape"] = elements._element_technology.SOLID.value
-        else:
             label_space["elshape"] = elements._element_shapes.SOLID.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.SOLID.value
         return self.get_field(label_space)
 
     def shell_field(self, timeid=None, complexid=None):
@@ -248,9 +248,9 @@ class ElShapeFieldsContainer(FieldsContainer):
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
         if server_meet_version("12.0", self._server):
-            label_space["elshape"] = elements._element_technology.SHELL.value
-        else:
             label_space["elshape"] = elements._element_shapes.SHELL.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.SHELL.value
         return self.get_field(label_space)
 
     def beam_field(self, timeid=None, complexid=None):
@@ -283,9 +283,9 @@ class ElShapeFieldsContainer(FieldsContainer):
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
         if server_meet_version("12.0", self._server):
-            label_space["elshape"] = elements._element_technology.BEAM.value
-        else:
             label_space["elshape"] = elements._element_shapes.BEAM.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.BEAM.value
         return self.get_field(label_space)
 
 

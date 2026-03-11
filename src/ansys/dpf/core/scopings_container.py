@@ -271,9 +271,9 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
             )
 
         if server_meet_version("12.0", self._server):
-            label_space["elshape"] = elements._element_technology.SOLID.value
-        else:
             label_space["elshape"] = elements._element_shapes.SOLID.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.SOLID.value
 
         return self.get_scopings(label_space)
 
@@ -333,9 +333,9 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
             )
 
         if server_meet_version("12.0", self._server):
-            label_space["elshape"] = elements._element_technology.SHELL.value
-        else:
             label_space["elshape"] = elements._element_shapes.SHELL.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.SHELL.value
 
         return self.get_scopings(label_space)
 
@@ -395,9 +395,9 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
             )
 
         if server_meet_version("12.0", self._server):
-            label_space["elshape"] = elements._element_technology.BEAM.value
-        else:
             label_space["elshape"] = elements._element_shapes.BEAM.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.BEAM.value
 
         return self.get_scopings(label_space)
 
@@ -458,9 +458,9 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
             )
 
         if server_meet_version("12.0", self._server):
-            label_space["elshape"] = elements._element_technology.SOLID.value
-        else:
             label_space["elshape"] = elements._element_shapes.SOLID.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.SOLID.value
 
         return self.get_scoping(label_space)
 
@@ -521,9 +521,9 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
             )
 
         if server_meet_version("12.0", self._server):
-            label_space["elshape"] = elements._element_technology.SHELL.value
-        else:
             label_space["elshape"] = elements._element_shapes.SHELL.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.SHELL.value
 
         return self.get_scoping(label_space)
 
@@ -584,8 +584,8 @@ class ScopingsContainer(CollectionBase[scoping.Scoping]):
             )
 
         if server_meet_version("12.0", self._server):
-            label_space["elshape"] = elements._element_technology.BEAM.value
-        else:
             label_space["elshape"] = elements._element_shapes.BEAM.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.BEAM.value
 
         return self.get_scoping(label_space)

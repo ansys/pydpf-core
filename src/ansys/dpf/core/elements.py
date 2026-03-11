@@ -232,7 +232,7 @@ class Element:
         """Retrieve the element shape."""
         shape = integral_types.MutableInt32()
         self._mesh._api.meshed_region_get_element_shape(self._mesh, self.id, shape, self.index)
-        for name in _element_shapes:
+        for name in _element_shapes_legacy:
             if name.value == int(shape):
                 return name.name.lower()
 
@@ -371,7 +371,7 @@ class Elements:
         for i in range(0, num):
             add = ElementAdder()
             yield add
-            shape_id = _element_shapes[add.shape.upper()].value
+            shape_id = _element_shapes_legacy[add.shape.upper()].value
             self._mesh._api.meshed_region_add_element_by_shape(
                 self._mesh, add.id, len(add.connectivity), add.connectivity, shape_id
             )
@@ -447,7 +447,7 @@ class Elements:
             List of the node indices to connect to the new element.
 
         """
-        shape_id = _element_shapes[shape.upper()].value
+        shape_id = _element_shapes_legacy[shape.upper()].value
         self._mesh._api.meshed_region_add_element_by_shape(
             self._mesh, id, len(connectivity), connectivity, shape_id
         )
@@ -1314,7 +1314,7 @@ class element_types(Enum):
         return descriptor
 
 
-class _element_shapes(Enum):
+class _element_shapes_legacy(Enum):
     # NODAL = 0
     # ELEMENTAL = 1
     SHELL = 0
@@ -1323,7 +1323,7 @@ class _element_shapes(Enum):
     UNKNOWN_SHAPE = 3
 
 
-class _element_technology(Enum):
+class _element_shapes(Enum):
     UNKNOWN_SHAPE = 0
     SHELL = 1
     SOLID = 2
