@@ -36,8 +36,6 @@ class on_property(Operator):
         property_id or vector of property ids
     streams_container: StreamsContainer, optional
     data_sources: DataSources
-    inclusive: int, optional
-        If element scoping is requested on a nodal named selection, if inclusive == 1 then all the elements/faces adjacent to the nodes/faces ids in input are added, if inclusive == 0, only the elements/faces which have all their nodes/faces in the scoping are included
 
     Outputs
     -------
@@ -62,8 +60,6 @@ class on_property(Operator):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_inclusive = int()
-    >>> op.inputs.inclusive.connect(my_inclusive)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.scoping.on_property(
@@ -72,7 +68,6 @@ class on_property(Operator):
     ...     property_id=my_property_id,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
-    ...     inclusive=my_inclusive,
     ... )
 
     >>> # Get output data
@@ -86,7 +81,6 @@ class on_property(Operator):
         property_id=None,
         streams_container=None,
         data_sources=None,
-        inclusive=None,
         config=None,
         server=None,
     ):
@@ -107,8 +101,6 @@ class on_property(Operator):
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
-        if inclusive is not None:
-            self.inputs.inclusive.connect(inclusive)
 
     @staticmethod
     def _spec() -> Specification:
@@ -147,12 +139,6 @@ and a property number.
                     type_names=["data_sources"],
                     optional=False,
                     document=r"""""",
-                ),
-                5: PinSpecification(
-                    name="inclusive",
-                    type_names=["int32"],
-                    optional=True,
-                    document=r"""If element scoping is requested on a nodal named selection, if inclusive == 1 then all the elements/faces adjacent to the nodes/faces ids in input are added, if inclusive == 0, only the elements/faces which have all their nodes/faces in the scoping are included""",
                 ),
             },
             map_output_pin_spec={
@@ -228,8 +214,6 @@ class InputsOnProperty(_Inputs):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_inclusive = int()
-    >>> op.inputs.inclusive.connect(my_inclusive)
     """
 
     def __init__(self, op: Operator):
@@ -254,8 +238,6 @@ class InputsOnProperty(_Inputs):
             on_property._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
-        self._inclusive: Input[int] = Input(on_property._spec().input_pin(5), 5, op, -1)
-        self._inputs.append(self._inclusive)
 
     @property
     def requested_location(self) -> Input[str]:
@@ -357,27 +339,6 @@ class InputsOnProperty(_Inputs):
         >>> op.inputs.data_sources(my_data_sources)
         """
         return self._data_sources
-
-    @property
-    def inclusive(self) -> Input[int]:
-        r"""Allows to connect inclusive input to the operator.
-
-        If element scoping is requested on a nodal named selection, if inclusive == 1 then all the elements/faces adjacent to the nodes/faces ids in input are added, if inclusive == 0, only the elements/faces which have all their nodes/faces in the scoping are included
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.scoping.on_property()
-        >>> op.inputs.inclusive.connect(my_inclusive)
-        >>> # or
-        >>> op.inputs.inclusive(my_inclusive)
-        """
-        return self._inclusive
 
 
 class OutputsOnProperty(_Outputs):
