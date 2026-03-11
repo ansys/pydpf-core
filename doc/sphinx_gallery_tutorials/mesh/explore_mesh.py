@@ -47,20 +47,22 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples, operators as ops
 
 ###############################################################################
-# Define the mesh — MAPDL
-# ------------------------
+# Define the mesh
+# ---------------
 #
 # For this tutorial, we get a
 # :class:`MeshedRegion<ansys.dpf.core.meshed_region.MeshedRegion>` from a result
 # file. For more information see the :ref:`ref_tutorials_get_mesh_from_result_file`
 # tutorial.
 
+###############################################################################
+# MAPDL
 result_file_path_1 = examples.find_static_rst()
 model_1 = dpf.Model(data_sources=result_file_path_1)
 meshed_region_1 = model_1.metadata.meshed_region
 
 ###############################################################################
-# Define the mesh — LS-DYNA
+# LS-DYNA
 
 result_file_path_2 = examples.download_d3plot_beam()
 ds_2 = dpf.DataSources()
@@ -70,14 +72,14 @@ model_2 = dpf.Model(data_sources=ds_2)
 meshed_region_2 = model_2.metadata.meshed_region
 
 ###############################################################################
-# Define the mesh — Fluent
+# Fluent
 
 result_file_path_3 = examples.download_fluent_axial_comp()["flprj"]
 model_3 = dpf.Model(data_sources=result_file_path_3)
 meshed_region_3 = model_3.metadata.meshed_region
 
 ###############################################################################
-# Define the mesh — CFX
+# CFX
 
 result_file_path_4 = examples.download_cfx_mixing_elbow()
 model_4 = dpf.Model(data_sources=result_file_path_4)
