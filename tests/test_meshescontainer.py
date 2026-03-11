@@ -29,9 +29,6 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import MeshesContainer
 import conftest
-from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
-)
 
 
 # TO DO: add server type
@@ -51,7 +48,7 @@ def elshape_body_mc(dummy_mesh):
     mc = MeshesContainer(server=dummy_mesh._server)
     mc.labels = ["elshape", "body"]
     for i in range(0, 20):
-        mscop = {"elshape": i + 1, "body": 0}
+        mscop = {"elshape": i, "body": 0}
         mc.add_mesh(mscop, dummy_mesh)
     return mc
 
@@ -83,7 +80,7 @@ def test_createbycopy_meshes_container(server_type):
 
 def test_set_get_mesh_meshes_container(elshape_body_mc):
     mc = elshape_body_mc
-    assert mc.get_available_ids_for_label("elshape") == list(range(1, 21))
+    assert mc.get_available_ids_for_label("elshape") == list(range(0, 20))
     for i in range(0, 20):
         mesh = mc.get_mesh({"elshape": i + 1, "body": 0})._internal_obj
         assert mesh is not None
@@ -94,7 +91,7 @@ def test_set_get_mesh_meshes_container(elshape_body_mc):
 
 def test_set_get_mesh_meshes_container_new_label(elshape_body_mc, dummy_mesh):
     mc = elshape_body_mc
-    assert mc.get_available_ids_for_label("elshape") == list(range(1, 21))
+    assert mc.get_available_ids_for_label("elshape") == list(range(0, 20))
     for i in range(0, 20):
         mesh = mc.get_mesh({"elshape": i + 1, "body": 0})._internal_obj
         assert mesh is not None
@@ -139,15 +136,13 @@ def test_str_meshes_container(elshape_body_mc):
     assert "body" in str(mc)
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0, reason="Available with DPF starting 12.0"
-)
 def test_get_mesh_by_elshape_APIS(elshape_body_mc):
     import numpy as np
 
     mc = elshape_body_mc
 
     shell_meshes = mc.shell_meshes()
+
     assert len(shell_meshes) == 1, f"Expected 1 shell mesh, got {len(shell_meshes)}"
 
     solid_meshes = mc.solid_meshes()

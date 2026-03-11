@@ -28,9 +28,6 @@ import pytest
 
 from ansys.dpf.core import Scoping, ScopingsContainer
 import conftest
-from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
-)
 
 
 @pytest.fixture()
@@ -39,7 +36,7 @@ def elshape_body_sc(server_type):
     sc = ScopingsContainer(server=server_type)
     sc.labels = ["elshape", "body"]
     for i in range(0, 20):
-        mscop = {"elshape": i + 1, "body": 0}
+        mscop = {"elshape": i, "body": 0}
         scop = Scoping(server=server_type)
         scop.ids = range(0, i + 1)
         sc.add_scoping(mscop, scop)
@@ -73,7 +70,7 @@ def test_createbycopy_scopings_container(server_type):
 
 def test_set_get_scoping_scopings_container(elshape_body_sc):
     sc = elshape_body_sc
-    assert sc.get_available_ids_for_label("elshape") == list(range(1, 21))
+    assert sc.get_available_ids_for_label("elshape") == list(range(0, 20))
     for i in range(0, 20):
         scopingid = sc.get_scoping({"elshape": i + 1, "body": 0})._internal_obj is not None
         assert scopingid != 0
@@ -85,7 +82,7 @@ def test_set_get_scoping_scopings_container(elshape_body_sc):
 
 def test_set_get_scoping_scopings_container_new_label(elshape_body_sc):
     sc = elshape_body_sc
-    assert sc.get_available_ids_for_label("elshape") == list(range(1, 21))
+    assert sc.get_available_ids_for_label("elshape") == list(range(0, 20))
     for i in range(0, 20):
         scopingid = sc.get_scoping({"elshape": i + 1, "body": 0})._internal_obj
         assert scopingid is not None
@@ -137,9 +134,6 @@ def test_str_scopings_container(elshape_body_sc):
     assert "body" in str(sc)
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0, reason="Available with DPF starting 12.0"
-)
 def test_get_scoping_by_elshape_APIS(elshape_body_sc):
     sc = elshape_body_sc
 
