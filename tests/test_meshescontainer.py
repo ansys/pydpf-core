@@ -134,3 +134,51 @@ def test_delete_meshes_container():
 def test_str_meshes_container(elshape_body_mc):
     mc = elshape_body_mc
     assert "body" in str(mc)
+
+
+def test_get_mesh_by_elshape_APIS(elshape_body_mc):
+    import numpy as np
+
+    mc = elshape_body_mc
+
+    shell_meshes = mc.shell_meshes()
+    assert len(shell_meshes) == 1, f"Expected 1 shell mesh, got {len(shell_meshes)}"
+
+    solid_meshes = mc.solid_meshes()
+    assert len(solid_meshes) == 1, f"Expected 1 solid mesh, got {len(solid_meshes)}"
+
+    beam_meshes = mc.beam_meshes()
+    assert len(beam_meshes) == 1, f"Expected 1 beam mesh, got {len(beam_meshes)}"
+
+    shell_mesh = mc.shell_mesh(label_space={"body": 0})
+    assert np.array_equal(
+        shell_meshes[0].nodes.scoping.ids, shell_mesh.nodes.scoping.ids
+    ), "Shell meshes should have same node ids"
+    assert np.array_equal(
+        shell_meshes[0].elements.scoping.ids, shell_mesh.elements.scoping.ids
+    ), "Shell meshes should have same element ids"
+    assert (
+        shell_meshes[0].available_property_fields == shell_mesh.available_property_fields
+    ), "Shell meshes should have same property fields"
+
+    solid_mesh = mc.solid_mesh(label_space={"body": 0})
+    assert np.array_equal(
+        solid_meshes[0].nodes.scoping.ids, solid_mesh.nodes.scoping.ids
+    ), "Solid meshes should have same node ids"
+    assert np.array_equal(
+        solid_meshes[0].elements.scoping.ids, solid_mesh.elements.scoping.ids
+    ), "Solid meshes should have same element ids"
+    assert (
+        solid_meshes[0].available_property_fields == solid_mesh.available_property_fields
+    ), "Solid meshes should have same property fields"
+
+    beam_mesh = mc.beam_mesh(label_space={"body": 0})
+    assert np.array_equal(
+        beam_meshes[0].nodes.scoping.ids, beam_mesh.nodes.scoping.ids
+    ), "Beam meshes should have same node ids"
+    assert np.array_equal(
+        beam_meshes[0].elements.scoping.ids, beam_mesh.elements.scoping.ids
+    ), "Beam meshes should have same element ids"
+    assert (
+        beam_meshes[0].available_property_fields == beam_mesh.available_property_fields
+    ), "Beam meshes should have same property fields"
