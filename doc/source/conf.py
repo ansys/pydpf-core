@@ -67,11 +67,14 @@ print("".rjust(40, '*'))
 
 # Build ignore pattern
 ignored_pattern = r"(ignore"
-for example in sorted(glob(r"../sphinx_gallery_examples/**/*.py")):
+for example in sorted(
+    glob(r"../sphinx_gallery_examples/**/*.py") +
+    glob(r"../sphinx_gallery_tutorials/**/*.py")
+):
     minimum_version_str = get_example_required_minimum_dpf_version(example)
     if float(server_version) - float(minimum_version_str) < -0.05:
         example_name = example.split(os.path.sep)[-1]
-        print(f"Example {example_name} skipped as it requires DPF {minimum_version_str}.")
+        print(f"Example/tutorial {example_name} skipped as it requires DPF {minimum_version_str}.")
         ignored_pattern += f"|{example_name}"
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
@@ -85,6 +88,17 @@ for tutorial_file in glob(str(Path("tutorials")/"**"/"*.rst")):
     if float(server_version) - float(minimum_version_str) < -0.05:
         print(f"Tutorial {Path(tutorial_file).name} skipped as it requires DPF {minimum_version_str}.")
         exclude_patterns.append(tutorial_file.replace("\\", "/"))
+
+if os.environ.get("BUILD_API", "true") != "true":
+    exclude_patterns.append("api/**")
+    print("BUILD_API=false: skipping api/ source tree.")
+
+if os.environ.get("BUILD_TUTORIALS", "true") != "true":
+    # Exclude all old RST tutorial content files (keep index.rst files for navigation)
+    for tutorial_file in glob(str(Path("tutorials") / "**" / "*.rst")):
+        if Path(tutorial_file).name != "index.rst":
+            exclude_patterns.append(tutorial_file.replace("\\", "/"))
+    print("BUILD_TUTORIALS=false: skipping old RST tutorial content files.")
 
 # Autoapi ignore pattern
 autoapi_ignore_list = [
@@ -187,11 +201,11 @@ sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
     # path to your examples scripts
-    "examples_dirs": ["../sphinx_gallery_examples"],
+    "examples_dirs": ["../sphinx_gallery_examples", "../sphinx_gallery_tutorials"],
     # abort build at first example error
     'abort_on_example_error': True,
     # path where to save gallery generated examples
-    "gallery_dirs": ["examples"],
+    "gallery_dirs": ["examples", "tutorials_sg"],
     # Pattern to search for example files
     "filename_pattern": r"\.py",
     # Pattern to search for example files to be ignored
@@ -276,7 +290,8 @@ suppress_warnings = [
     "design.fa-build",
     "autosectionlabel.*",
     "ref.python",
-    "toc.not_included"
+    "toc.not_included",
+    "toc.excluded"
 ]
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -443,6 +458,18 @@ if BUILD_EXAMPLES:
 BUILD_TUTORIALS = True if os.environ.get("BUILD_TUTORIALS", "true") == "true" else False
 if BUILD_TUTORIALS:
     extensions.extend(["jupyter_sphinx"])
+
+# When tutorials SG is active but examples gallery is not, ensure sphinx-gallery is loaded.
+BUILD_TUTORIALS_SG = True if os.environ.get("BUILD_TUTORIALS_SG", "true") == "true" else False
+if BUILD_TUTORIALS_SG and not BUILD_EXAMPLES:
+    extensions.extend(["sphinx_gallery.gen_gallery"])
+    # Restrict to tutorials only when examples gallery is disabled
+    sphinx_gallery_conf["examples_dirs"] = ["../sphinx_gallery_tutorials"]
+    sphinx_gallery_conf["gallery_dirs"] = ["tutorials_sg"]
+elif not BUILD_TUTORIALS_SG:
+    # Remove tutorials from the combined gallery when tutorials SG is disabled
+    sphinx_gallery_conf["examples_dirs"] = ["../sphinx_gallery_examples"]
+    sphinx_gallery_conf["gallery_dirs"] = ["examples"]
 
 BUILD_CHEATSHEET = True if os.environ.get("BUILD_CHEATSHEET", "true") == "true" else False
 if not BUILD_CHEATSHEET:
