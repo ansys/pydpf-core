@@ -141,12 +141,6 @@ of basic features and concepts so you can start coding right away.
         +++
         Coming soon
 
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-
-    dpf_server/index
-
 .. raw:: html
 
    <style>.sphx-glr-thumbnails { display: none; }</style>
