@@ -29,6 +29,9 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import MeshesContainer
 import conftest
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
+)
 
 
 # TO DO: add server type
@@ -136,6 +139,9 @@ def test_str_meshes_container(elshape_body_mc):
     assert "body" in str(mc)
 
 
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0, reason="Available with DPF starting 12.0"
+)
 def test_get_mesh_by_elshape_APIS(elshape_body_mc):
     import numpy as np
 

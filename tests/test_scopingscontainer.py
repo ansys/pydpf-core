@@ -28,6 +28,9 @@ import pytest
 
 from ansys.dpf.core import Scoping, ScopingsContainer
 import conftest
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
+)
 
 
 @pytest.fixture()
@@ -134,6 +137,9 @@ def test_str_scopings_container(elshape_body_sc):
     assert "body" in str(sc)
 
 
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0, reason="Available with DPF starting 12.0"
+)
 def test_get_scoping_by_elshape_APIS(elshape_body_sc):
     sc = elshape_body_sc
 
