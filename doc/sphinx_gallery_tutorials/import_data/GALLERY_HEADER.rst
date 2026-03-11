@@ -1,14 +1,13 @@
+.. # _order: 3
+
 .. _ref_tutorials_import_data:
 
 ===========
 Import Data
 ===========
 
-These tutorials demonstrate how to represent data in DPF: either from manual input either
-form simulation result files.
-
-From user input
-***************
+These tutorials demonstrate how to represent data in DPF: either from manual input or
+from simulation result files.
 
 .. grid:: 1 1 3 3
     :gutter: 2
@@ -21,14 +20,6 @@ From user input
        :text-align: center
 
        Learn how to build DPF data storage structures from custom data.
-
-From result files
-*****************
-
-.. grid:: 1 1 3 3
-    :gutter: 2
-    :padding: 2
-    :margin: 2
 
     .. grid-item-card:: Import a result file in DPF
        :link: ref_tutorials_import_result_file
@@ -45,8 +36,7 @@ From result files
        :link-type: ref
        :text-align: center
 
-       This tutorial shows how to extract and explore results metadata (analysis type,
-       physics type, unit system...) from a result file.
+       This tutorial shows how to extract and explore results metadata from a result file.
 
        +++
        :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
@@ -62,22 +52,15 @@ From result files
        :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
     .. grid-item-card:: Narrow down data
-       :link: reft_tutorials_narrow_down_data
+       :link: ref_tutorials_narrow_down_data
        :link-type: ref
        :text-align: center
 
-       This tutorial explains how to scope (get a spatial and/or temporal subset of
-       the simulation data) your results.
+       This tutorial explains how to scope your results over time and mesh domains.
 
        +++
        :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
-.. toctree::
-    :maxdepth: 2
-    :hidden:
+.. raw:: html
 
-    load_custom_data.rst
-    import_result_file.rst
-    extract_and_explore_results_metadata.rst
-    extract_and_explore_results_data.rst
-    narrow_down_data.rst
+   <style>.sphx-glr-thumbnails { display: none; }</style>
