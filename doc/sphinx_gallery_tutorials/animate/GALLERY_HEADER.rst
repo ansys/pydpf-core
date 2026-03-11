@@ -1,10 +1,12 @@
+.. # _order: 6
+
 .. _ref_tutorials_animate:
 
 =======
 Animate
 =======
 
-These tutorials demonstrate how to visualize the data as an animation.
+These tutorials demonstrate how to visualize data as an animation.
 
 .. grid:: 1 1 3 3
     :gutter: 2
@@ -17,11 +19,10 @@ These tutorials demonstrate how to visualize the data as an animation.
        :text-align: center
 
        This tutorial shows how to animate your results data over time.
+
        +++
        :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
-.. toctree::
-    :maxdepth: 2
-    :hidden:
+.. raw:: html
 
-    animate_time.rst
+   <style>.sphx-glr-thumbnails { display: none; }</style>

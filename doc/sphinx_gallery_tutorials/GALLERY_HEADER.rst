@@ -145,7 +145,6 @@ of basic features and concepts so you can start coding right away.
     :maxdepth: 2
     :hidden:
 
-    animate/index
     mathematics/index
     custom_operators_and_plugins/index
     dpf_server/index
