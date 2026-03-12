@@ -452,7 +452,7 @@ class Elements:
             self._mesh, id, len(connectivity), connectivity, shape_id
         )
 
-    def __get_element(self, elementindex=None, elementid=None):
+    def __get_element(self, elementindex=None, elementid=None): 
         """
         Retrieve the element by ID or index.
 
