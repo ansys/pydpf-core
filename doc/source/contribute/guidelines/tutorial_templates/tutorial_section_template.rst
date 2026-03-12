@@ -1,10 +1,12 @@
-.. _ref_tutorial_new_section_template:
+.. # _order: N
 
-=============
-Section title
-=============
+.. _ref_tutorials_new_section_name:
 
-These tutorials demonstrate how to ...
+=================
+New section title
+=================
+
+Description of what the tutorials in this section cover.
 
 .. grid:: 1 1 3 3
     :gutter: 2
@@ -12,17 +14,12 @@ These tutorials demonstrate how to ...
     :margin: 2
 
     .. grid-item-card:: Tutorial title
-       :link: ref
+       :link: ref_tutorial_name
        :link-type: ref
        :text-align: center
 
        This tutorial ...
 
-       +++
-       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+.. raw:: html
 
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-
-    tutorial_file.rst
+   <style>.sphx-glr-thumbnails { display: none; }</style>

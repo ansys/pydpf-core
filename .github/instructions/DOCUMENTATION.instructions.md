@@ -30,13 +30,18 @@ PyDPF-Core uses **Sphinx** with **reStructuredText (reST)** for documentation ge
 ```
 pydpf-core/
 ├── doc/
+│   ├── sphinx_gallery_tutorials/   # Source tutorial Python scripts
+│   │   ├── GALLERY_HEADER.rst      # Tutorials landing page
+│   │   └── section_name/           # Tutorial section folder
+│   │       ├── GALLERY_HEADER.rst  # Section landing page
+│   │       └── tutorial_name.py    # Tutorial script
 │   ├── source/
 │   │   ├── api/                    # Auto-generated API documentation
-│   │   ├── examples/               # Sphinx-Gallery examples
+│   │   ├── tutorials/              # Auto-generated tutorial pages (sphinx-gallery output)
+│   │   ├── examples/               # Auto-generated example pages (sphinx-gallery output)
 │   │   ├── getting_started/        # Getting started guides
 │   │   │   └── contribute/         # Contribution guidelines
 │   │   ├── user_guide/             # Main user documentation
-│   │   │   ├── tutorials/          # Tutorial sections
 │   │   │   └── concepts/           # Conceptual explanations
 │   │   ├── _static/                # Static assets (images, CSS)
 │   │   ├── conf.py                 # Sphinx configuration
@@ -44,7 +49,6 @@ pydpf-core/
 │   │   └── links_and_refs.rst      # Shared references and substitutions
 │   ├── styles/                     # Documentation styling
 │   └── make.bat                    # Windows build script
-└── examples/                       # Source example Python files
 ```
 
 ## Prerequisites
@@ -85,28 +89,41 @@ make.bat clean  # Clean previous builds
 
 ## Adding Tutorials
 
-### 1. Creating a New Tutorial Section
+Tutorials are Python scripts processed by [Sphinx-Gallery](https://sphinx-gallery.github.io/).
+They live in `doc/sphinx_gallery_tutorials/` and are auto-converted to HTML pages, Jupyter notebooks,
+and downloadable Python scripts during the build. **No manual toctree entries are ever needed** —
+sphinx-gallery manages the navigation automatically.
 
-Use when adding a completely new category of tutorials.
+### 1. Creating a new tutorial section
 
-**Location**: `doc/source/tutorials/new_section_name/`
+A tutorial **section** is a sub-folder of `doc/sphinx_gallery_tutorials/` that groups related tutorials.
+Each section must contain a `GALLERY_HEADER.rst` file.
+
+**Location**: `doc/sphinx_gallery_tutorials/new_section_name/`
 
 **Steps**:
 
-1. **Create section directory**:
+1. **Create the section directory**:
    ```
-   doc/source/tutorials/new_section_name/
+   doc/sphinx_gallery_tutorials/new_section_name/
    ```
 
-2. **Create `index.rst`** using the template:
+2. **Create `GALLERY_HEADER.rst`**:
+
+   The very first line must be `.. # _order: N` where `N` is a unique integer that sets the
+   position of this section among all tutorial sections. Pick the next available integer after
+   the existing sections (currently 1–13).
+
    ```rst
-   .. _ref_tutorial_new_section_template:
+   .. # _order: 14
 
-   =============
-   Section title
-   =============
+   .. _ref_tutorials_new_section_name:
 
-   These tutorials demonstrate how to ...
+   =================
+   New section title
+   =================
+
+   Description of what the tutorials in this section cover.
 
    .. grid:: 1 1 3 3
        :gutter: 2
@@ -118,209 +135,165 @@ Use when adding a completely new category of tutorials.
           :link-type: ref
           :text-align: center
 
-          This tutorial shows how to...
+          Brief description of the tutorial.
 
-          +++
-          :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+   .. raw:: html
 
-   .. toctree::
-       :maxdepth: 2
-       :hidden:
-
-       tutorial_file.rst
+      <style>.sphx-glr-thumbnails { display: none; }</style>
    ```
 
-3. **Add to main toctree** in `doc/source/user_guide/index.rst`:
+   The `<style>` block hides the auto-generated thumbnail row that sphinx-gallery adds;
+   the grid cards above already serve as the section landing page navigation.
+
+3. **Add a card** to `doc/sphinx_gallery_tutorials/GALLERY_HEADER.rst` linking to the new section
+   using the same `.. grid-item-card::` format as the existing sections.
+
+### 2. Creating a new tutorial
+
+Tutorials are Python scripts named `tutorial_name.py` in the corresponding section folder.
+
+**Location**: `doc/sphinx_gallery_tutorials/section_name/tutorial_name.py`
+
+**File structure** (in order):
+
+1. **MIT license header** (21 lines — copy verbatim from any existing tutorial, updating the year range if needed).
+
+2. **Ordering comment** (immediately after the blank line following the license):
+   ```python
+   # _order: 1
+   ```
+   Sets the position of this tutorial within its section (must be unique within the section).
+
+3. **Module docstring** — the tutorial header:
+   ```python
+   """
+   .. _ref_tutorial_name:
+
+   Tutorial Title
+   ==============
+
+   Single sentence describing the tutorial goal (same as the card description).
+
+   Longer introduction providing context and what the reader will learn.
+   """
+   ```
+
+4. **Content cells** — separated by a line of exactly 79 `#` characters:
+   ```python
+   ###############################################################################
+   # First Step
+   # ----------
+   #
+   # First, you import the required modules and set up initial data.
+
+   # Import required modules
+   from ansys.dpf import core as dpf
+
+   # Define the result file path
+   result_url = dpf.core.examples.find_simple_bar()
+
+   # Create a DataSources object
+   ds = dpf.DataSources(result_path=result_url)
+
+   # Create a Model
+   my_model = dpf.Model(data_sources=ds)
+
+   ###############################################################################
+   # Second Step
+   # -----------
+   #
+   # Then, you extract what you need from the model.
+
+   # Get displacement results
+   displacement_fc = my_model.results.displacement.eval()
+   print(displacement_fc)
+
+   ###############################################################################
+   # Final Step
+   # ----------
+   #
+   # Finally, you achieve the tutorial objective.
+
+   # Plot the first displacement field
+   displacement_fc[0].plot()
+   ```
+
+   In sphinx-gallery:
+   - A cell separator (`###...`) followed by `# Title` / `# -----` lines becomes an RST section heading.
+   - Consecutive `# `-prefixed lines in a cell (with no executable code between them) become RST prose.
+   - Lines **without** a leading `#` are executed as Python code.
+
+5. **Add a card** to the section's `GALLERY_HEADER.rst`:
    ```rst
-   .. toctree::
-       :maxdepth: 2
-       :hidden:
-       :caption: Tutorials
+   .. grid-item-card:: Tutorial Title
+      :link: ref_tutorial_name
+      :link-type: ref
+      :text-align: center
 
-       tutorials/existing_section/index.rst
-       tutorials/new_section_name/index.rst
+      Brief description of what this tutorial teaches.
    ```
-
-### 2. Creating a New Tutorial
-
-**Location**: `doc/source/tutorials/section_name/tutorial_name.rst`
-
-**Template Structure**:
-```rst
-.. _ref_tutorial_name:
-
-==============
-Tutorial Title
-==============
-
-.. |api_name| replace:: :class:`ansys.dpf.core.class_name`
-
-Single sentence describing the tutorial goal (matches card description).
-
-Introduction providing context and foundational information.
-
-:jupyter-download-script:`Download tutorial as Python script<tutorial_name>`
-:jupyter-download-notebook:`Download tutorial as Jupyter notebook<tutorial_name>`
-
-First Step
-----------
-
-First, you import the required modules and set up initial data...
-
-.. jupyter-execute::
-
-    # Import required modules
-    from ansys.dpf import core as dpf
-    
-    # Define the result file path
-    result_file_path = '/path/to/result.rst'
-
-Second Step
------------
-
-Then, you create the necessary DPF objects...
-
-.. jupyter-execute::
-
-    # Create a DataSources object
-    ds = dpf.DataSources(result_path=result_file_path)
-    
-    # Create a Model
-    my_model = dpf.Model(data_sources=ds)
-
-Final Step
-----------
-
-Finally, you achieve the tutorial objective...
-
-.. jupyter-execute::
-
-    # Get the results
-    stress_fc = my_model.results.stress.eval()
-    
-    # Display information
-    print(stress_fc)
-```
-
-**Add tutorial card** to section `index.rst`:
-```rst
-.. grid-item-card:: Tutorial Title
-   :link: ref_tutorial_name
-   :link-type: ref
-   :text-align: center
-
-   Brief description of what the tutorial teaches.
-
-   +++
-   :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA`
-```
-
-**Add to toctree** in section `index.rst`:
-```rst
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-
-    existing_tutorial.rst
-    tutorial_name.rst
-```
 
 ### Tutorial Writing Guidelines
 
-#### Code Blocks
-- **Use `jupyter-execute`** for executable code blocks:
-  ```rst
-  .. jupyter-execute::
-
-      # Comment explaining the code
-      from ansys.dpf import core as dpf
-  ```
-
-- **Add comments** to clarify each line:
+#### Code style
+- **Comment each logical block** with a `#` line above it:
   ```python
   # Define the DataSources object
-  ds = dpf.DataSources(result_path=result_file_path)
+  ds = dpf.DataSources(result_path=result_url)
   ```
 
-- **Name arguments explicitly**:
+- **Name arguments explicitly** when calling PyDPF-Core APIs:
   ```python
   # Correct
-  stress_fc = model.results.stress(time_scoping=time_steps).eval()
-  
+  stress_fc = my_model.results.stress(time_scoping=time_steps).eval()
+
   # Incorrect
-  stress_fc = model.results.stress(time_steps).eval()
+  stress_fc = my_model.results.stress(time_steps).eval()
   ```
 
-- **Use proper API naming** in comments:
+- **Use proper API names** in comments (capital letters for DPF class names):
   ```python
-  # Define the DataSources object  # Correct
-  # Define the data sources object  # Incorrect
+  # Define the DataSources object   ← correct
+  # Define the data sources object  ← incorrect
   ```
 
-- **Add blank lines** between logical code sections:
+- **Add blank lines** between logical groups of code lines.
+
+- **Avoid naming variables** the same as a DPF class or argument name:
   ```python
-  # Define the result file path
-  result_file_path = '/tmp/file.rst'
+  # Correct
+  my_model = dpf.Model(data_sources=ds)
 
-  # Define the DataSources object
-  ds = dpf.DataSources(result_path=result_file_path)
-
-  # Create a Model
-  model = dpf.Model(data_sources=ds)
+  # Incorrect
+  model = dpf.Model(data_sources=model)
   ```
 
-#### Text Formatting
-- **Use API references** with substitution text:
-  ```rst
-  Here we use the |MeshedRegion| object...
+#### Text prose (RST comment blocks)
+Prose before a code block is written as `# `-prefixed lines after the cell separator.
+Full reStructuredText syntax is supported:
+
+- **API cross-references** — use `|SubstitutionText|` from `doc/source/links_and_refs.rst`:
+  ```python
+  # Work with the |MeshedRegion| to extract nodal coordinates.
   ```
 
-- **Use bullet lists** for enumerations:
-  ```rst
-  This operator accepts:
-  
-  - A Result
-  - An Operator  
-  - A FieldsContainer
+- **Bullet lists**:
+  ```python
+  # The operator accepts:
+  #
+  # - A Result
+  # - An Operator
+  # - A FieldsContainer
   ```
 
-- **Use numbered lists** for sequential steps:
-  ```rst
-  To extract the mesh:
-  
-  #. Get the result file
-  #. Create a Model
-  #. Get the MeshedRegion
+- **Numbered lists** for sequential steps:
+  ```python
+  # To extract the mesh:
+  #
+  # #. Get the result file
+  # #. Create a Model
+  # #. Get the MeshedRegion
   ```
-
-#### Solver-Specific Content
-Use tabs for solver-specific implementations:
-
-```rst
-.. tab-set::
-
-    .. tab-item:: MAPDL
-
-        For MAPDL results...
-
-        .. jupyter-execute::
-
-            # MAPDL-specific code
-
-    .. tab-item:: LS-DYNA
-
-        For LS-DYNA results...
-
-        .. jupyter-execute::
-
-            # LS-DYNA-specific code
-```
-
-#### Available Solver Badges
-- `:bdg-mapdl:`MAPDL``
-- `:bdg-lsdyna:`LS-DYNA``
-- `:bdg-fluent:`FLUENT``
-- `:bdg-cfx:`CFX``
 
 ## Adding Examples
 
@@ -444,9 +417,8 @@ Common PyDPF-Core references are available in `doc/source/links_and_refs.rst`:
 - [ ] All internal links work correctly
 - [ ] Images display properly
 - [ ] Tutorial cards render correctly
-- [ ] Toctrees include all new files
-- [ ] Solver badges display correctly
-- [ ] Download links work for tutorials
+- [ ] Solver badges display correctly (if used)
+- [ ] Downloads (`.py` and `.ipynb`) work for tutorials
 
 ## Submission Process
 
