@@ -176,14 +176,6 @@ class _Outputs:
         return docstr
 
 
-def _clearRepeatedMessage(message):
-    try:
-        while True:
-            message.pop(len(message) - 1)
-    except:
-        pass
-
-
 def _make_printable_type(type):
     """Remove characters not allowed in function names in Python."""
     chars_to_remove = ["<", ">", "-", "!", "?", "."]
