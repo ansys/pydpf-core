@@ -99,9 +99,7 @@ def test_set_get_scoping_scopings_container_new_label(elshape_body_sc):
         sc.add_scoping(mscop, scop)
     assert len(sc.get_scopings({"elshape": i, "body": 0})) == 2
     for i in range(0, 20):
-        scopingid = (
-            sc.get_scoping({"elshape": i, "body": 0, "time": 1})._internal_obj is not None
-        )
+        scopingid = sc.get_scoping({"elshape": i, "body": 0, "time": 1})._internal_obj is not None
         assert scopingid != 0
         assert sc.get_scoping(i + 20)._internal_obj is not None
         assert sc[i]._internal_obj is not None
@@ -110,9 +108,7 @@ def test_set_get_scoping_scopings_container_new_label(elshape_body_sc):
             sc.get_scoping({"elshape": i, "body": 0, "time": 1}).ids,
             list(range(0, i + 10)),
         )
-        assert np.allclose(
-            sc.get_scoping({"elshape": i, "time": 1}).ids, list(range(0, i + 10))
-        )
+        assert np.allclose(sc.get_scoping({"elshape": i, "time": 1}).ids, list(range(0, i + 10)))
 
 
 def test_get_item_scoping_scopings_container(elshape_body_sc):
