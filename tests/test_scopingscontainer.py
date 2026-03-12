@@ -38,7 +38,7 @@ def elshape_body_sc(server_type):
     for i in range(0, 20):
         mscop = {"elshape": i, "body": 0}
         scop = Scoping(server=server_type)
-        scop.ids = range(0, i + 1)
+        scop.ids = range(0, i)
         sc.add_scoping(mscop, scop)
     return sc
 
@@ -72,11 +72,11 @@ def test_set_get_scoping_scopings_container(elshape_body_sc):
     sc = elshape_body_sc
     assert sc.get_available_ids_for_label("elshape") == list(range(0, 20))
     for i in range(0, 20):
-        scopingid = sc.get_scoping({"elshape": i + 1, "body": 0})._internal_obj is not None
+        scopingid = sc.get_scoping({"elshape": i, "body": 0})._internal_obj is not None
         assert scopingid != 0
         assert sc.get_scoping(i)._internal_obj is not None
-        assert sc.get_scoping({"elshape": i + 1, "body": 0})._internal_obj is not None
-        assert np.allclose(sc.get_scoping({"elshape": i + 1, "body": 0}).ids, list(range(0, i + 1)))
+        assert sc.get_scoping({"elshape": i, "body": 0})._internal_obj is not None
+        assert np.allclose(sc.get_scoping({"elshape": i, "body": 0}).ids, list(range(0, i)))
         assert sc[i]._internal_obj is not None
 
 
@@ -84,34 +84,34 @@ def test_set_get_scoping_scopings_container_new_label(elshape_body_sc):
     sc = elshape_body_sc
     assert sc.get_available_ids_for_label("elshape") == list(range(0, 20))
     for i in range(0, 20):
-        scopingid = sc.get_scoping({"elshape": i + 1, "body": 0})._internal_obj
+        scopingid = sc.get_scoping({"elshape": i, "body": 0})._internal_obj
         assert scopingid is not None
         assert sc.get_scoping(i)._internal_obj is not None
-        assert sc.get_scoping({"elshape": i + 1, "body": 0})._internal_obj is not None
+        assert sc.get_scoping({"elshape": i, "body": 0})._internal_obj is not None
         assert sc[i]._internal_obj is not None
-        assert sc.get_label_space(i) == {"elshape": i + 1, "body": 0}
-        assert np.allclose(sc.get_scoping({"elshape": i + 1, "body": 0}).ids, list(range(0, i + 1)))
+        assert sc.get_label_space(i) == {"elshape": i, "body": 0}
+        assert np.allclose(sc.get_scoping({"elshape": i, "body": 0}).ids, list(range(0, i)))
     sc.add_label("time")
     for i in range(0, 20):
-        mscop = {"elshape": i + 1, "body": 0, "time": 1}
+        mscop = {"elshape": i, "body": 0, "time": 1}
         scop = Scoping(server=sc._server)
         scop.ids = range(0, i + 10)
         sc.add_scoping(mscop, scop)
-    assert len(sc.get_scopings({"elshape": i + 1, "body": 0})) == 2
+    assert len(sc.get_scopings({"elshape": i, "body": 0})) == 2
     for i in range(0, 20):
         scopingid = (
-            sc.get_scoping({"elshape": i + 1, "body": 0, "time": 1})._internal_obj is not None
+            sc.get_scoping({"elshape": i, "body": 0, "time": 1})._internal_obj is not None
         )
         assert scopingid != 0
         assert sc.get_scoping(i + 20)._internal_obj is not None
         assert sc[i]._internal_obj is not None
-        assert sc.get_label_space(i + 20) == {"elshape": i + 1, "body": 0, "time": 1}
+        assert sc.get_label_space(i + 20) == {"elshape": i, "body": 0, "time": 1}
         assert np.allclose(
-            sc.get_scoping({"elshape": i + 1, "body": 0, "time": 1}).ids,
+            sc.get_scoping({"elshape": i, "body": 0, "time": 1}).ids,
             list(range(0, i + 10)),
         )
         assert np.allclose(
-            sc.get_scoping({"elshape": i + 1, "time": 1}).ids, list(range(0, i + 10))
+            sc.get_scoping({"elshape": i, "time": 1}).ids, list(range(0, i + 10))
         )
 
 
@@ -119,7 +119,7 @@ def test_get_item_scoping_scopings_container(elshape_body_sc):
     sc = elshape_body_sc
     for i in range(0, 20):
         assert sc[i]._internal_obj is not None
-        assert np.allclose(sc[i].ids, list(range(0, i + 1)))
+        assert np.allclose(sc[i].ids, list(range(0, i)))
 
 
 def test_delete_scopings_container(server_type):
