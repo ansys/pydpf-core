@@ -35,6 +35,7 @@ import pytest
 
 from ansys import dpf
 from ansys.dpf.core import errors, operators as ops
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import derived_class_name_to_type, record_derived_class
 from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.misc import get_ansys_path
@@ -493,9 +494,17 @@ def test_inputs_outputs_scopings_container(allkindofcomplexity):
     op = dpf.core.Operator("scoping::by_property")
     op.inputs.mesh.connect(model.metadata.meshed_region)
     sc = op.outputs.mesh_scoping()
-    assert len(sc) == 4
+
+    if server_meet_version("12.0", model._server):
+        assert len(sc) == 5
+    else:
+        assert len(sc) == 4
+
     assert sc.labels == ["elshape"]
-    scop = sc.get_scoping({"elshape": 1})
+    if server_meet_version("12.0", model._server):
+        scop = sc.get_scoping({"elshape": 2})
+    else:
+        scop = sc.get_scoping({"elshape": 1})
     assert len(scop.ids) == 9052
     assert scop.location == dpf.core.locations.elemental
 
@@ -507,17 +516,26 @@ def test_inputs_outputs_scopings_container(allkindofcomplexity):
         stress.inputs.connect(op.outputs)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["elshape", "time"]
-    assert len(fc) == 4
+    if server_meet_version("12.0", model._server):
+        assert len(fc) == 5
+    else:
+        assert len(fc) == 4
 
     stress.inputs.connect(sc)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["elshape", "time"]
-    assert len(fc) == 4
+    if server_meet_version("12.0", model._server):
+        assert len(fc) == 5
+    else:
+        assert len(fc) == 4
 
     stress.inputs.connect(op.outputs.mesh_scoping)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["elshape", "time"]
-    assert len(fc) == 4
+    if server_meet_version("12.0", model._server):
+        assert len(fc) == 5
+    else:
+        assert len(fc) == 4
 
 
 def test_connection_to_input_is_ambiguous():
@@ -551,9 +569,17 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
     op.inputs.mesh.connect(model.metadata.meshed_region)
     op.inputs.property("elshape")
     mc = op.get_output(0, dpf.core.types.meshes_container)
-    assert len(mc) == 4
+    if server_meet_version("12.0", model._server):
+        assert len(mc) == 5
+    else:
+        assert len(mc) == 4
+
     assert mc.labels == ["body", "elshape"]
-    mesh = mc.get_mesh({"elshape": 1})
+    if server_meet_version("12.0", model._server):
+        mesh = mc.get_mesh({"elshape": 2})
+    else:
+        mesh = mc.get_mesh({"elshape": 1})
+
     assert len(mesh.nodes.scoping.ids) == 14826
 
     opsc = dpf.core.Operator("scoping::by_property")
@@ -574,12 +600,18 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
         stress.inputs.connect(opsc.outputs)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["body", "elshape", "time"]
-    assert len(fc) == 4
-
+    if server_meet_version("12.0", model._server):
+        assert len(fc) == 5
+    else:
+        assert len(fc) == 4
     stress.inputs.connect(mc)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["body", "elshape", "time"]
-    assert len(fc) == 4
+    if server_meet_version("12.0", model._server):
+        assert len(fc) == 5
+    else:
+        assert len(fc) == 4
+
     if hasattr(op.outputs, "mesh_controller"):
         stress.inputs.connect(op.outputs.mesh_controller)
     else:
@@ -587,7 +619,10 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
 
     fc = stress.outputs.fields_container()
     assert fc.labels == ["body", "elshape", "time"]
-    assert len(fc) == 4
+    if server_meet_version("12.0", model._server):
+        assert len(fc) == 5
+    else:
+        assert len(fc) == 4
 
 
 def test_inputs_connect_op(allkindofcomplexity, server_type):

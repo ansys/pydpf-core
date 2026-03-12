@@ -40,6 +40,18 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
 
+  vulnerabilities:
+    name: Vulnerabilities
+    runs-on: ubuntu-latest
+    steps:
+      - name: PyAnsys Vulnerability check (on ${{ github.ref == 'refs/heads/main' && 'main' || 'dev mode' }})
+        uses: ansys/actions/check-vulnerabilities@571fb2b8c7d6ad8c8b18e50bd20fb00f125dcfb6 # v10.2.6
+        with:
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}
+          python-package-name: "ansys-dpf-core"
+          token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+          dev-mode: ${{ github.ref != 'refs/heads/main' }}
+
   check-actions-security:
     name: "Check Actions Security"
     runs-on: ubuntu-latest

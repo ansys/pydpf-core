@@ -507,8 +507,8 @@ class FieldsContainer(CollectionBase["field.Field"]):
             fc.add_field(self.get_label_space(i), f.deep_copy(server))
         try:
             fc.time_freq_support = self.time_freq_support.deep_copy(server)
-        except:
-            pass
+        except Exception as e:
+            raise e
         return fc
 
     def get_time_scoping(self):
