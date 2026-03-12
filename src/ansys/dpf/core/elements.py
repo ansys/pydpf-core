@@ -447,12 +447,12 @@ class Elements:
             List of the node indices to connect to the new element.
 
         """
-        shape_id = _element_shapes[shape.upper()].value
+        shape_id = _element_shapes[shape.upper()].value 
         self._mesh._api.meshed_region_add_element_by_shape(
             self._mesh, id, len(connectivity), connectivity, shape_id
         )
 
-    def __get_element(self, elementindex=None, elementid=None): 
+    def __get_element(self, elementindex=None, elementid=None):
         """
         Retrieve the element by ID or index.
 
