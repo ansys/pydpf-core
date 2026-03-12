@@ -24,24 +24,86 @@ if TYPE_CHECKING:
 
 
 class find_reduced_coordinates(Operator):
-    r"""Finds the elements corresponding to the given coordinates in input and
-    computes their reduced coordinates in those elements.
+    r"""Performs the inverse isoparametric mapping from physical (global)
+    coordinates to reduced (natural/parametric) coordinates within finite
+    elements. This is the first stage in field interpolation workflows,
+    determining which element contains each query point and computing its
+    local coordinates within that element.
+
+    Mathematical formulation
+    ------------------------
+
+    For a query point :math:`\mathbf{x}_q` in physical space, this operator
+    finds the element :math:`e` containing the point and solves the inverse
+    mapping:
+
+    .. math:: \mathbf{x}_q = \sum_{i=1}^{N_{nodes}} N_i(\boldsymbol{\xi}) \cdot \mathbf{x}_i^{(e)}
+
+    to compute the reduced coordinates
+    :math:`\boldsymbol{\xi} = (\xi, \eta, \zeta)` where: -
+    :math:`N_i(\boldsymbol{\xi})` are the element shape functions -
+    :math:`\mathbf{x}_i^{(e)}` are the nodal coordinates of element
+    :math:`e` - :math:`\boldsymbol{\xi}` are the parametric coordinates in
+    the reference element space (typically :math:`[-1, 1]` for most
+    elements)
+
+    Output format
+    -------------
+
+    The operator produces two synchronized outputs: - **Reduced
+    coordinates**: 3D vectors in parametric space, stored with the same
+    labels/scoping structure as input coordinates - **Element IDs**:
+    Corresponding element identifiers, enabling subsequent interpolation
+    operations
+
+    This operator is typically paired with ``on_reduced_coordinates`` to
+    complete field interpolation: first find where points are located
+    (``find_reduced_coordinates``), then evaluate field values at those
+    locations (``on_reduced_coordinates``).
 
 
     Inputs
     ------
     coordinates: Field or FieldsContainer or MeshedRegion or MeshesContainer
+        Physical (global) coordinates at which reduced coordinates and element associations should be computed. Each coordinate is a 3D vector ($x$, $y$, $z$).
+
+        **Supported input types**:
+        - **Field**: Single field containing coordinate vectors. Field location is ignored; the field is treated as a set of query points. The field's support mesh defines the search domain if the `mesh` pin is not provided.
+        - **FieldsContainer**: Multiple coordinate fields, typically organized by time step or spatial region. Each field is processed independently.
+        - **MeshedRegion**: Node coordinates of the mesh are used as query points. Useful for evaluating fields at mesh nodes.
+        - **MeshesContainer**: Multiple meshes whose node coordinates are used as query points.
     mesh: MeshedRegion or MeshesContainer, optional
-        If the first field in input has no mesh in support, then the mesh in this pin is expected (default is false). If a meshes container with several meshes is set, it should be on the same label spaces as the coordinates fields container.
+        Mesh(es) defining the finite element domain where elements are searched. The operator searches for elements containing the query coordinates within this mesh.
+
+        If not provided, the mesh is automatically extracted from:
+        - Field support (if input is a Field)
+        - Field supports of the Fields in the FieldsContainer (if input is a FieldsContainer)
+        - The mesh itself (if input is a MeshedRegion or MeshesContainer)
+
+        **Label matching**: When both `coordinates` and `mesh` have labels (e.g., time steps), the operator matches fields to meshes with corresponding labels. If a mesh label doesn't exist in `coordinates`, it's added to the output structure.
     use_quadratic_elements: bool, optional
-        If this pin is set to true, reduced coordinates are computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false.
+        Controls whether quadratic (second-order) nodes are included in the element search and coordinate transformation.
+
+        **Default**: `false` (uses only corner nodes)
+        **When `true`**: Includes midside nodes in the element geometry, improving accuracy for curved elements and quadratic shape functions at the price of lower performance.
+
 
     Outputs
     -------
     reduced_coordinates: FieldsContainer
-        coordinates in the reference elements
+        Reduced (natural/parametric) coordinates $\boldsymbol{\xi} = (\xi, \eta, \zeta)$ for each query point in its containing element's reference frame.
+
+        Each output field contains 3D vectors representing the local coordinates within the reference element. The range of valid reduced coordinates depends on element type:
+        - **Hexahedra/Quadrilaterals**: $-1 \leq \xi, \eta, \zeta \leq 1$
+        - **Tetrahedra/Triangles**: $0 \leq \xi, \eta, \zeta$ and $\xi + \eta + \zeta \leq 1$
+
+        The output structure (labels, field count) matches the input coordinates structure. The number of entities in each output field may be less than the number of input coordinates: query points that do not lie within or sufficiently close to any element in the mesh are omitted from the output. Points near element boundaries are included with permissive tolerance.
     element_ids: ScopingsContainer
-        Ids of the elements where each set of reduced coordinates is found
+        Element IDs corresponding to each successfully located query coordinate, identifying the element associated with each point.
+
+        The scoping container structure matches the input coordinates structure. Each scoping is parallel to the corresponding field in `reduced_coordinates`: `element_ids[i]` is the element containing the point whose parametric location is `reduced_coordinates[i]`.
+
+        These element IDs are required by the `on_reduced_coordinates` operator to perform the actual field interpolation.
 
     Examples
     --------
@@ -94,8 +156,42 @@ class find_reduced_coordinates(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Finds the elements corresponding to the given coordinates in input and
-computes their reduced coordinates in those elements.
+        description = r"""Performs the inverse isoparametric mapping from physical (global)
+coordinates to reduced (natural/parametric) coordinates within finite
+elements. This is the first stage in field interpolation workflows,
+determining which element contains each query point and computing its
+local coordinates within that element.
+
+Mathematical formulation
+------------------------
+
+For a query point :math:`\mathbf{x}_q` in physical space, this operator
+finds the element :math:`e` containing the point and solves the inverse
+mapping:
+
+.. math:: \mathbf{x}_q = \sum_{i=1}^{N_{nodes}} N_i(\boldsymbol{\xi}) \cdot \mathbf{x}_i^{(e)}
+
+to compute the reduced coordinates
+:math:`\boldsymbol{\xi} = (\xi, \eta, \zeta)` where: -
+:math:`N_i(\boldsymbol{\xi})` are the element shape functions -
+:math:`\mathbf{x}_i^{(e)}` are the nodal coordinates of element
+:math:`e` - :math:`\boldsymbol{\xi}` are the parametric coordinates in
+the reference element space (typically :math:`[-1, 1]` for most
+elements)
+
+Output format
+-------------
+
+The operator produces two synchronized outputs: - **Reduced
+coordinates**: 3D vectors in parametric space, stored with the same
+labels/scoping structure as input coordinates - **Element IDs**:
+Corresponding element identifiers, enabling subsequent interpolation
+operations
+
+This operator is typically paired with ``on_reduced_coordinates`` to
+complete field interpolation: first find where points are located
+(``find_reduced_coordinates``), then evaluate field values at those
+locations (``on_reduced_coordinates``).
 """
         spec = Specification(
             description=description,
@@ -109,19 +205,36 @@ computes their reduced coordinates in those elements.
                         "meshes_container",
                     ],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Physical (global) coordinates at which reduced coordinates and element associations should be computed. Each coordinate is a 3D vector ($x$, $y$, $z$).
+
+**Supported input types**:
+- **Field**: Single field containing coordinate vectors. Field location is ignored; the field is treated as a set of query points. The field's support mesh defines the search domain if the `mesh` pin is not provided.
+- **FieldsContainer**: Multiple coordinate fields, typically organized by time step or spatial region. Each field is processed independently.
+- **MeshedRegion**: Node coordinates of the mesh are used as query points. Useful for evaluating fields at mesh nodes.
+- **MeshesContainer**: Multiple meshes whose node coordinates are used as query points.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
-                    document=r"""If the first field in input has no mesh in support, then the mesh in this pin is expected (default is false). If a meshes container with several meshes is set, it should be on the same label spaces as the coordinates fields container.""",
+                    document=r"""Mesh(es) defining the finite element domain where elements are searched. The operator searches for elements containing the query coordinates within this mesh.
+
+If not provided, the mesh is automatically extracted from:
+- Field support (if input is a Field)
+- Field supports of the Fields in the FieldsContainer (if input is a FieldsContainer)
+- The mesh itself (if input is a MeshedRegion or MeshesContainer)
+
+**Label matching**: When both `coordinates` and `mesh` have labels (e.g., time steps), the operator matches fields to meshes with corresponding labels. If a mesh label doesn't exist in `coordinates`, it's added to the output structure.""",
                 ),
                 200: PinSpecification(
                     name="use_quadratic_elements",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""If this pin is set to true, reduced coordinates are computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false.""",
+                    document=r"""Controls whether quadratic (second-order) nodes are included in the element search and coordinate transformation.
+
+**Default**: `false` (uses only corner nodes)
+**When `true`**: Includes midside nodes in the element geometry, improving accuracy for curved elements and quadratic shape functions at the price of lower performance.
+""",
                 ),
             },
             map_output_pin_spec={
@@ -129,13 +242,23 @@ computes their reduced coordinates in those elements.
                     name="reduced_coordinates",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""coordinates in the reference elements""",
+                    document=r"""Reduced (natural/parametric) coordinates $\boldsymbol{\xi} = (\xi, \eta, \zeta)$ for each query point in its containing element's reference frame.
+
+Each output field contains 3D vectors representing the local coordinates within the reference element. The range of valid reduced coordinates depends on element type:
+- **Hexahedra/Quadrilaterals**: $-1 \leq \xi, \eta, \zeta \leq 1$
+- **Tetrahedra/Triangles**: $0 \leq \xi, \eta, \zeta$ and $\xi + \eta + \zeta \leq 1$
+
+The output structure (labels, field count) matches the input coordinates structure. The number of entities in each output field may be less than the number of input coordinates: query points that do not lie within or sufficiently close to any element in the mesh are omitted from the output. Points near element boundaries are included with permissive tolerance.""",
                 ),
                 1: PinSpecification(
                     name="element_ids",
                     type_names=["scopings_container"],
                     optional=False,
-                    document=r"""Ids of the elements where each set of reduced coordinates is found""",
+                    document=r"""Element IDs corresponding to each successfully located query coordinate, identifying the element associated with each point.
+
+The scoping container structure matches the input coordinates structure. Each scoping is parallel to the corresponding field in `reduced_coordinates`: `element_ids[i]` is the element containing the point whose parametric location is `reduced_coordinates[i]`.
+
+These element IDs are required by the `on_reduced_coordinates` operator to perform the actual field interpolation.""",
                 ),
             },
         )
@@ -222,6 +345,14 @@ class InputsFindReducedCoordinates(_Inputs):
     ) -> Input[Field | FieldsContainer | MeshedRegion | MeshesContainer]:
         r"""Allows to connect coordinates input to the operator.
 
+        Physical (global) coordinates at which reduced coordinates and element associations should be computed. Each coordinate is a 3D vector ($x$, $y$, $z$).
+
+        **Supported input types**:
+        - **Field**: Single field containing coordinate vectors. Field location is ignored; the field is treated as a set of query points. The field's support mesh defines the search domain if the `mesh` pin is not provided.
+        - **FieldsContainer**: Multiple coordinate fields, typically organized by time step or spatial region. Each field is processed independently.
+        - **MeshedRegion**: Node coordinates of the mesh are used as query points. Useful for evaluating fields at mesh nodes.
+        - **MeshesContainer**: Multiple meshes whose node coordinates are used as query points.
+
         Returns
         -------
         input:
@@ -241,7 +372,14 @@ class InputsFindReducedCoordinates(_Inputs):
     def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
-        If the first field in input has no mesh in support, then the mesh in this pin is expected (default is false). If a meshes container with several meshes is set, it should be on the same label spaces as the coordinates fields container.
+        Mesh(es) defining the finite element domain where elements are searched. The operator searches for elements containing the query coordinates within this mesh.
+
+        If not provided, the mesh is automatically extracted from:
+        - Field support (if input is a Field)
+        - Field supports of the Fields in the FieldsContainer (if input is a FieldsContainer)
+        - The mesh itself (if input is a MeshedRegion or MeshesContainer)
+
+        **Label matching**: When both `coordinates` and `mesh` have labels (e.g., time steps), the operator matches fields to meshes with corresponding labels. If a mesh label doesn't exist in `coordinates`, it's added to the output structure.
 
         Returns
         -------
@@ -262,7 +400,11 @@ class InputsFindReducedCoordinates(_Inputs):
     def use_quadratic_elements(self) -> Input[bool]:
         r"""Allows to connect use_quadratic_elements input to the operator.
 
-        If this pin is set to true, reduced coordinates are computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false.
+        Controls whether quadratic (second-order) nodes are included in the element search and coordinate transformation.
+
+        **Default**: `false` (uses only corner nodes)
+        **When `true`**: Includes midside nodes in the element geometry, improving accuracy for curved elements and quadratic shape functions at the price of lower performance.
+
 
         Returns
         -------
@@ -308,7 +450,13 @@ class OutputsFindReducedCoordinates(_Outputs):
     def reduced_coordinates(self) -> Output[FieldsContainer]:
         r"""Allows to get reduced_coordinates output of the operator
 
-        coordinates in the reference elements
+        Reduced (natural/parametric) coordinates $\boldsymbol{\xi} = (\xi, \eta, \zeta)$ for each query point in its containing element's reference frame.
+
+        Each output field contains 3D vectors representing the local coordinates within the reference element. The range of valid reduced coordinates depends on element type:
+        - **Hexahedra/Quadrilaterals**: $-1 \leq \xi, \eta, \zeta \leq 1$
+        - **Tetrahedra/Triangles**: $0 \leq \xi, \eta, \zeta$ and $\xi + \eta + \zeta \leq 1$
+
+        The output structure (labels, field count) matches the input coordinates structure. The number of entities in each output field may be less than the number of input coordinates: query points that do not lie within or sufficiently close to any element in the mesh are omitted from the output. Points near element boundaries are included with permissive tolerance.
 
         Returns
         -------
@@ -328,7 +476,11 @@ class OutputsFindReducedCoordinates(_Outputs):
     def element_ids(self) -> Output[ScopingsContainer]:
         r"""Allows to get element_ids output of the operator
 
-        Ids of the elements where each set of reduced coordinates is found
+        Element IDs corresponding to each successfully located query coordinate, identifying the element associated with each point.
+
+        The scoping container structure matches the input coordinates structure. Each scoping is parallel to the corresponding field in `reduced_coordinates`: `element_ids[i]` is the element containing the point whose parametric location is `reduced_coordinates[i]`.
+
+        These element IDs are required by the `on_reduced_coordinates` operator to perform the actual field interpolation.
 
         Returns
         -------
