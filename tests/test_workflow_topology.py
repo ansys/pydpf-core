@@ -49,9 +49,9 @@ def workflow_forward(server_type) -> dpf.core.Workflow:
 
     workflow.add_operators([forward_op_1, forward_op_2, forward_op_3])
 
-    workflow.set_input_name("Input 0", forward_op_1.inputs.any)
-    workflow.set_output_name("Output 0", forward_op_2.outputs.any)
-    workflow.set_output_name("Output 1", forward_op_3.outputs.any)
+    workflow.set_input_name("Input 0", forward_op_1.inputs.any1)
+    workflow.set_output_name("Output 0", forward_op_2.outputs.any1)
+    workflow.set_output_name("Output 1", forward_op_3.outputs.any1)
 
     return workflow
 

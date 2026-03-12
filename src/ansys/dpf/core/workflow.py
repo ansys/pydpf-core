@@ -766,11 +766,11 @@ class Workflow:
         >>> import ansys.dpf.core as dpf
         >>> left_wf = dpf.Workflow()
         >>> op1 = dpf.operators.utility.forward()
-        >>> left_wf.set_input_name("op1_input", op1.inputs.any)
-        >>> left_wf.set_output_name("op1_output", op1.outputs.any)
+        >>> left_wf.set_input_name("op1_input", op1.inputs.any1)
+        >>> left_wf.set_output_name("op1_output", op1.outputs.any1)
         >>> op2 = dpf.operators.utility.forward()
-        >>> left_wf.set_input_name("op2_input", op2.inputs.any)
-        >>> left_wf.set_output_name("op2_output", op2.outputs.any)
+        >>> left_wf.set_input_name("op2_input", op2.inputs.any1)
+        >>> left_wf.set_output_name("op2_output", op2.outputs.any1)
         >>> left_wf.add_operators([op1, op2])
         >>> print(f"{left_wf.input_names=}")
         left_wf.input_names=['op1_input', 'op2_input']
@@ -778,11 +778,11 @@ class Workflow:
         left_wf.output_names=['op1_output', 'op2_output']
         >>> current_wf = dpf.Workflow()
         >>> op3 = dpf.operators.utility.forward()
-        >>> current_wf.set_input_name("op3_input", op3.inputs.any)
-        >>> current_wf.set_output_name("op3_output", op3.outputs.any)
+        >>> current_wf.set_input_name("op3_input", op3.inputs.any1)
+        >>> current_wf.set_output_name("op3_output", op3.outputs.any1)
         >>> op4 = dpf.operators.utility.forward()
-        >>> current_wf.set_input_name("op4_input", op4.inputs.any)
-        >>> current_wf.set_output_name("op4_output", op4.outputs.any)
+        >>> current_wf.set_input_name("op4_input", op4.inputs.any1)
+        >>> current_wf.set_output_name("op4_output", op4.outputs.any1)
         >>> current_wf.add_operators([op3, op4])
         >>> print(f"{current_wf.input_names=}")
         current_wf.input_names=['op3_input', 'op4_input']

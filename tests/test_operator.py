@@ -1515,7 +1515,7 @@ def test_operator_id(server_type):
 def test_operator_find_outputs_corresponding_pins_any(server_type):
     f1 = ops.utility.forward()
     f2 = ops.utility.forward()
-    f2.inputs.any.connect(f1.outputs.any)
+    f2.inputs.any1.connect(f1.outputs.any1)
 
 
 @conftest.raises_for_servers_version_under("11.0")
