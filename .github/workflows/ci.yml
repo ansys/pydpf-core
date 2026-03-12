@@ -234,7 +234,7 @@ jobs:
 
   examples:
     if: |
-      (startsWith(github.head_ref, 'main')) #|| github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+      (startsWith(github.head_ref, 'main'))
     permissions:
       contents: read # Required by examples.yml jobs
     uses: ./.github/workflows/examples.yml
