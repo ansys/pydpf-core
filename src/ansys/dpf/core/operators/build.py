@@ -193,15 +193,18 @@ def build_pin_data(pins, output=False):
             # properties, just different names, ids, ellipsis and aliases
             # values
             pin_data["name"] = pin_name + "1"
+            if pin_data["has_aliases"]:
+                pin_data["aliases_list"] = [dict([("alias", alias + "1")]) for alias in specification.aliases],
+                pin_data["aliases"] = str([alias + "1" for alias in specification.aliases]),
             data.append(pin_data)
 
             second_pin_data = copy.deepcopy(pin_data)
             second_pin_data["name"] = pin_name + "2"
             second_pin_data["id"] = id + 1
             second_pin_data["ellipsis"] = 1
-            second_pin_data["has_aliases"] = False
-            second_pin_data["aliases_list"] = []
-            second_pin_data["aliases"] = ""
+            if second_pin_data["has_aliases"]:
+                second_pin_data["aliases_list"] = [dict([("alias", alias + "2")]) for alias in specification.aliases],
+                second_pin_data["aliases"] = str([alias + "2" for alias in specification.aliases]),
             data.append(second_pin_data)
         else:
             data.append(pin_data)
