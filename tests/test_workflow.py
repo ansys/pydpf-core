@@ -69,14 +69,14 @@ def test_workflow_view(server_in_process, remove_dot_file):
     pre_wf = dpf.core.Workflow(server=server_in_process)
     pre_op = dpf.core.operators.utility.forward(server=server_in_process)
     pre_wf.add_operator(pre_op)
-    pre_wf.set_input_name("prewf_input", pre_op.inputs.any1)
-    pre_wf.set_output_name("prewf_output", pre_op.outputs.any1)
+    pre_wf.set_input_name("prewf_input", pre_op.inputs.any)
+    pre_wf.set_output_name("prewf_output", pre_op.outputs.any)
 
     wf = dpf.core.Workflow(server=server_in_process)
     forward_op = dpf.core.operators.utility.forward(server=server_in_process)
     wf.add_operator(forward_op)
-    wf.set_input_name("wf_input", forward_op.inputs.any1)
-    wf.set_output_name("wf_output", forward_op.outputs.any1)
+    wf.set_input_name("wf_input", forward_op.inputs.any)
+    wf.set_output_name("wf_output", forward_op.outputs.any)
 
     wf.connect_with(pre_wf, {"prewf_output": "wf_input"})
     wf.view(off_screen=True, title="test1")
@@ -526,8 +526,8 @@ def test_connect_get_output_data_tree_operator(server_type):
     wf = dpf.core.Workflow(server=server_type)
     wf.progress_bar = False
     op = dpf.core.operators.utility.forward(server=server_type)
-    wf.set_input_name("in", op.inputs.any1)
-    wf.set_output_name("out", op.outputs.any1)
+    wf.set_input_name("in", op.inputs.any)
+    wf.set_output_name("out", op.outputs.any)
     wf.connect("in", d)
     d_out = wf.get_output("out", dpf.core.types.data_tree)
     assert d_out.get_as("name") == "Paul"
@@ -538,8 +538,8 @@ def test_connect_get_output_generic_data_container_operator(server_type):
     inpt = dpf.core.GenericDataContainer(server=server_type)
     wf = dpf.core.Workflow(server=server_type)
     op = dpf.core.operators.utility.forward(server=server_type)
-    wf.set_input_name("in", op.inputs.any1)
-    wf.set_output_name("out", op.outputs.any1)
+    wf.set_input_name("in", op.inputs.any)
+    wf.set_output_name("out", op.outputs.any)
     wf.connect("in", inpt)
     d_out = wf.get_output("out", dpf.core.types.generic_data_container)
     assert type(d_out) == dpf.core.GenericDataContainer
@@ -687,11 +687,11 @@ def test_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds, server_type):
 def test_workflow_connect_raise_wrong_label(server_type):
     workflow1 = dpf.core.Workflow()
     forward_1 = dpf.core.operators.utility.forward()
-    workflow1.set_output_name("output", forward_1.outputs.any1)
+    workflow1.set_output_name("output", forward_1.outputs.any)
 
     workflow2 = dpf.core.Workflow()
     forward_2 = dpf.core.operators.utility.forward()
-    workflow2.set_input_name("input", forward_2.inputs.any1)
+    workflow2.set_input_name("input", forward_2.inputs.any)
 
     with pytest.raises(
         ValueError, match="Cannot connect workflow output 'out'. Exposed outputs are:\n"
@@ -707,11 +707,11 @@ def test_workflow_connect_raise_wrong_label(server_type):
 def test_workflow_connect_with_permissive(server_type):
     workflow1 = dpf.core.Workflow()
     forward_1 = dpf.core.operators.utility.forward()
-    workflow1.set_output_name("output", forward_1.outputs.any1)
+    workflow1.set_output_name("output", forward_1.outputs.any)
 
     workflow2 = dpf.core.Workflow()
     forward_2 = dpf.core.operators.utility.forward()
-    workflow2.set_input_name("input", forward_2.inputs.any1)
+    workflow2.set_input_name("input", forward_2.inputs.any)
 
     workflow2.connect_with(workflow1, output_input_names={"out": "input"})
 
