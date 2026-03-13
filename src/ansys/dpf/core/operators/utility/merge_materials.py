@@ -74,13 +74,13 @@ class merge_materials(Operator):
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="materials",
+                    name="materials1",
                     type_names=["materials"],
                     optional=False,
                     document=r"""A vector of materials to merge or materials from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="materials",
+                    name="materials2",
                     type_names=["materials"],
                     optional=False,
                     document=r"""A vector of materials to merge or materials from pin 0 to ...""",

@@ -218,13 +218,13 @@ class hdf5dpf_generate_result_file(Operator):
                     document=r"""defines the unit system the results are exported with. A Result info can be input to also export Physics Type and Analysis Type.""",
                 ),
                 4: PinSpecification(
-                    name="input_name",
+                    name="input_name1",
                     type_names=["string", "any"],
                     optional=True,
                     document=r"""Set of even and odd pins to serialize results. Odd pins (4, 6, 8...) are strings, and they represent the names of the results to be serialized. Even pins (5, 7, 9...) are DPF types, and they represent the results to be serialized. They should go in pairs (for each result name, there should be a result) and connected sequentially.""",
                 ),
                 5: PinSpecification(
-                    name="input_name",
+                    name="input_name2",
                     type_names=["string", "any"],
                     optional=True,
                     document=r"""Set of even and odd pins to serialize results. Odd pins (4, 6, 8...) are strings, and they represent the names of the results to be serialized. Even pins (5, 7, 9...) are DPF types, and they represent the results to be serialized. They should go in pairs (for each result name, there should be a result) and connected sequentially.""",

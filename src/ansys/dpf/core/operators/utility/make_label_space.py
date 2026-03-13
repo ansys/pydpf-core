@@ -114,13 +114,13 @@ class make_label_space(Operator):
                     document=r"""""",
                 ),
                 2: PinSpecification(
-                    name="label_value",
+                    name="label_value1",
                     type_names=["int32"],
                     optional=False,
                     document=r"""""",
                 ),
                 3: PinSpecification(
-                    name="label_value",
+                    name="label_value2",
                     type_names=["int32"],
                     optional=False,
                     document=r"""""",

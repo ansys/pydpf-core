@@ -150,19 +150,19 @@ weight on the sum of the fields.
                     document=r"""Already merged fields containers support.""",
                 ),
                 0: PinSpecification(
-                    name="fields_containers",
+                    name="fields_containers1",
                     type_names=["fields_container"],
                     optional=False,
                     document=r"""A vector of fields containers to merge or fields containers from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="fields_containers",
+                    name="fields_containers2",
                     type_names=["fields_container"],
                     optional=False,
                     document=r"""A vector of fields containers to merge or fields containers from pin 0 to ...""",
                 ),
                 1000: PinSpecification(
-                    name="weights",
+                    name="weights1",
                     type_names=[
                         "class dataProcessing::DpfTypeCollection<class dataProcessing::CPropertyField>"
                     ],
@@ -170,7 +170,7 @@ weight on the sum of the fields.
                     document=r"""Weights to apply to each field from pin 1000 to ...""",
                 ),
                 1001: PinSpecification(
-                    name="weights",
+                    name="weights2",
                     type_names=[
                         "class dataProcessing::DpfTypeCollection<class dataProcessing::CPropertyField>"
                     ],

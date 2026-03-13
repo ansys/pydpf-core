@@ -88,13 +88,13 @@ cannot be merged, first instance found will be maintained in the result.
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="generic_data_container",
+                    name="generic_data_container1",
                     type_names=["generic_data_container"],
                     optional=False,
                     document=r"""Either a vector of generic data containers (sharing the same data types) or generic data containers from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.""",
                 ),
                 1: PinSpecification(
-                    name="generic_data_container",
+                    name="generic_data_container2",
                     type_names=["generic_data_container"],
                     optional=False,
                     document=r"""Either a vector of generic data containers (sharing the same data types) or generic data containers from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.""",

@@ -82,13 +82,13 @@ Operator.
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="any",
+                    name="any1",
                     type_names=["any"],
                     optional=False,
                     document=r"""Either a vector of objects (sharing the same data types) or objects from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.""",
                 ),
                 1: PinSpecification(
-                    name="any",
+                    name="any2",
                     type_names=["any"],
                     optional=False,
                     document=r"""Either a vector of objects (sharing the same data types) or objects from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.""",

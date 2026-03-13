@@ -99,13 +99,13 @@ class min_by_component(Operator):
                     document=r"""use_absolute_value""",
                 ),
                 1: PinSpecification(
-                    name="field",
+                    name="field1",
                     type_names=["field", "fields_container"],
                     optional=False,
                     document=r"""field or fields container with only one field is expected""",
                 ),
                 2: PinSpecification(
-                    name="field",
+                    name="field2",
                     type_names=["field", "fields_container"],
                     optional=False,
                     document=r"""field or fields container with only one field is expected""",

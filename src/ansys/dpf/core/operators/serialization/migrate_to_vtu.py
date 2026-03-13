@@ -179,13 +179,13 @@ All connected inputs are forwarded to the result provider operators.
                     document=r"""vtu base file name, (default is file)""",
                 ),
                 30: PinSpecification(
-                    name="result",
+                    name="result1",
                     type_names=["string"],
                     optional=True,
                     document=r"""if Operator's names are connected to this Pin, only these results are exported (else all available results are exported)""",
                 ),
                 31: PinSpecification(
-                    name="result",
+                    name="result2",
                     type_names=["string"],
                     optional=True,
                     document=r"""if Operator's names are connected to this Pin, only these results are exported (else all available results are exported)""",

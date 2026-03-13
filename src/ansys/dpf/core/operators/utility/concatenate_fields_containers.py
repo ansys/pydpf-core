@@ -143,13 +143,13 @@ If -1 all scopings will be merged, if -2 all scopings will be intersected. Defau
                     document=r"""Support of the output fields container's fields. By default each field has the support of the corresponding field of the first fields container.""",
                 ),
                 0: PinSpecification(
-                    name="fields_containers",
+                    name="fields_containers1",
                     type_names=["any"],
                     optional=False,
                     document=r"""A vector of fields containers to merge from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="fields_containers",
+                    name="fields_containers2",
                     type_names=["any"],
                     optional=False,
                     document=r"""A vector of fields containers to merge from pin 0 to ...""",

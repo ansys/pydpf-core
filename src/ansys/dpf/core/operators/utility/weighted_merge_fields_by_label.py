@@ -142,13 +142,13 @@ same label value.
                     document=r"""Default is false. If true, redundant quantities are summed instead of being ignored.""",
                 ),
                 1000: PinSpecification(
-                    name="weights",
+                    name="weights1",
                     type_names=["property_field"],
                     optional=False,
                     document=r"""Weights to apply to each field from pin 1000 to ...""",
                 ),
                 1001: PinSpecification(
-                    name="weights",
+                    name="weights2",
                     type_names=["property_field"],
                     optional=False,
                     document=r"""Weights to apply to each field from pin 1000 to ...""",

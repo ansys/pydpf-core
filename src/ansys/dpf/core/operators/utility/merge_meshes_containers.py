@@ -80,13 +80,13 @@ class merge_meshes_containers(Operator):
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="meshes_containers",
+                    name="meshes_containers1",
                     type_names=["meshes_container"],
                     optional=False,
                     document=r"""a vector of meshes containers to merge or meshes containers from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="meshes_containers",
+                    name="meshes_containers2",
                     type_names=["meshes_container"],
                     optional=False,
                     document=r"""a vector of meshes containers to merge or meshes containers from pin 0 to ...""",

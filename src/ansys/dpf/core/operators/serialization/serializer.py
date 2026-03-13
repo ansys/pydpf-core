@@ -111,13 +111,13 @@ class serializer(Operator):
                     document=r"""""",
                 ),
                 1: PinSpecification(
-                    name="any_input",
+                    name="any_input1",
                     type_names=["any"],
                     optional=False,
                     document=r"""any input""",
                 ),
                 2: PinSpecification(
-                    name="any_input",
+                    name="any_input2",
                     type_names=["any"],
                     optional=False,
                     document=r"""any input""",

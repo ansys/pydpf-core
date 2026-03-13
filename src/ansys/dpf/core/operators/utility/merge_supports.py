@@ -96,13 +96,13 @@ class merge_supports(Operator):
                     document=r"""For some result files (such as RST), the scoping on names selection is duplicated through all the distributed files.If this pin is false, the merging process is skipped. If it is true, this scoping is merged. Default is true.""",
                 ),
                 0: PinSpecification(
-                    name="supports",
+                    name="supports1",
                     type_names=["abstract_field_support"],
                     optional=False,
                     document=r"""A vector of supports to merge or supports from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="supports",
+                    name="supports2",
                     type_names=["abstract_field_support"],
                     optional=False,
                     document=r"""A vector of supports to merge or supports from pin 0 to ...""",
