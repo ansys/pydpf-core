@@ -72,7 +72,7 @@ class forward(Operator):
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="any1",
+                    name="any",
                     type_names=["any"],
                     optional=False,
                     document=r"""any type of input""",
