@@ -216,7 +216,7 @@ def build_pin_data(pins, output=False, special_ellipsis_aliases= {}):
                 second_pin_data["aliases"] = str([alias + "2" for alias in specification.aliases]),
             data.append(second_pin_data)
 
-            # Correction after havbing created second_pin_data
+            # Correction after having created second_pin_data
             if pin_data["name"] in special_ellipsis_aliases:
                 pin_data["has_aliases"] = True
                 pin_data["aliases_list"] = [dict([("alias", alias)]) for alias in special_ellipsis_aliases[pin_data["name"]]]
