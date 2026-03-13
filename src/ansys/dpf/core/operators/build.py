@@ -48,6 +48,15 @@ TYPES_WITHOUT_PYTHON_IMPLEMENTATION = (
     "Char",
 )
 
+# In case we have aliases to use for only the first pin in an ellipsis
+# TODO: refactor when ellipsis pins are refactored
+SPECIAL_ELLIPSIS_ALIASES = {
+    "forward": {
+        "inputs" : {"any1": ["any"]},
+        "outputs" : {"any1": ["any"]}
+    },
+}
+
 _logger = logging.getLogger(__name__)
 
 
@@ -122,7 +131,7 @@ def update_type_names_for_ellipsis(type_names):
     return new_types
 
 
-def build_pin_data(pins, output=False):
+def build_pin_data(pins, output=False, special_ellipsis_aliases= {}):
     """Build pin data for use within template."""
     pin_ids = [pin for pin in pins]
     pin_ids.sort()
@@ -190,15 +199,28 @@ def build_pin_data(pins, output=False):
 
         if specification.ellipsis:
             # Create two pins for ellipsis field with exactly the same
-            # properties, just different names, ids, and ellipsis values
+            # properties, just different names, ids, ellipsis and aliases
+            # values
             pin_data["name"] = pin_name + "1"
+            if pin_data["has_aliases"]:
+                pin_data["aliases_list"] = [dict([("alias", alias + "1")]) for alias in specification.aliases],
+                pin_data["aliases"] = str([alias + "1" for alias in specification.aliases]),
             data.append(pin_data)
 
             second_pin_data = copy.deepcopy(pin_data)
             second_pin_data["name"] = pin_name + "2"
             second_pin_data["id"] = id + 1
             second_pin_data["ellipsis"] = 1
+            if second_pin_data["has_aliases"]:
+                second_pin_data["aliases_list"] = [dict([("alias", alias + "2")]) for alias in specification.aliases],
+                second_pin_data["aliases"] = str([alias + "2" for alias in specification.aliases]),
             data.append(second_pin_data)
+
+            # Correction after having created second_pin_data
+            if pin_data["name"] in special_ellipsis_aliases:
+                pin_data["has_aliases"] = True
+                pin_data["aliases_list"] = [dict([("alias", alias)]) for alias in special_ellipsis_aliases[pin_data["name"]]]
+                pin_data["aliases"] = str(special_ellipsis_aliases[pin_data["name"]])
         else:
             data.append(pin_data)
 
@@ -215,12 +237,12 @@ def build_operator(
 ):
     input_pins = []
     if specification.inputs:
-        input_pins = build_pin_data(specification.inputs)
+        input_pins = build_pin_data(specification.inputs, special_ellipsis_aliases=SPECIAL_ELLIPSIS_ALIASES[operator_name]["inputs"] if operator_name in SPECIAL_ELLIPSIS_ALIASES else {})
     has_input_aliases = any(len(pin["aliases_list"]) > 0 for pin in input_pins)
 
     output_pins = []
     if specification.outputs:
-        output_pins = build_pin_data(specification.outputs, output=True)
+        output_pins = build_pin_data(specification.outputs, output=True, special_ellipsis_aliases=SPECIAL_ELLIPSIS_ALIASES[operator_name]["outputs"] if operator_name in SPECIAL_ELLIPSIS_ALIASES else {})
     multiple_output_types = any(pin["multiple_types"] for pin in output_pins)
     has_output_aliases = any(len(pin["aliases_list"]) > 0 for pin in output_pins)
 
