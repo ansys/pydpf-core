@@ -214,27 +214,6 @@ class InputsForward(_Inputs):
         return self._any1
 
     @property
-    def any1(self) -> Input[Any]:
-        r"""Allows to connect any1 input to the operator.
-
-        any type of input
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.forward()
-        >>> op.inputs.any1.connect(my_any1)
-        >>> # or
-        >>> op.inputs.any1(my_any1)
-        """
-        return self._any1
-
-    @property
     def any2(self) -> Input[Any]:
         r"""Allows to connect any2 input to the operator.
 
@@ -287,26 +266,6 @@ class OutputsForward(_Outputs):
         self._outputs.append(self._any1)
         self._any2: Output[Any] = Output(forward._spec().output_pin(1), 1, op)
         self._outputs.append(self._any2)
-
-    @property
-    def any1(self) -> Output[Any]:
-        r"""Allows to get any1 output of the operator
-
-        same types as inputs
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.forward()
-        >>> # Get the output from op.outputs. ...
-        >>> result_any1 = op.outputs.any1()
-        """
-        return self._any1
 
     @property
     def any1(self) -> Output[Any]:

@@ -217,8 +217,6 @@ def build_operator(
     category,
     specification_description,
 ):
-    if operator_name == "forward":
-        i = 0
     input_pins = []
     if specification.inputs:
         input_pins = build_pin_data(specification.inputs)
