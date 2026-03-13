@@ -133,7 +133,7 @@ class {{class_name}}(Operator):
             map_input_pin_spec={
                 {{#input_pins}}
                 {{id}}: PinSpecification(
-                    name="{{pin_name}}",
+                    name="{{name}}",
                     {{#has_types}}
                     type_names={{{types}}},
                     {{/has_types}}
