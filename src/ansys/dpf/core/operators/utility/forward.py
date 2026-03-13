@@ -61,7 +61,14 @@ class forward(Operator):
     >>> result_any2 = op.outputs.any2()
     """
 
-    def __init__(self, any1=None, any2=None, config=None, server=None):
+    def __init__(
+        self,
+        any1=None,
+        any2=None,
+        config=None,
+        server=None,
+        any=None,
+    ):
         super().__init__(
             name="forward",
             config=config,
@@ -71,6 +78,13 @@ class forward(Operator):
         )
         if any1 is not None:
             self.inputs.any1.connect(any1)
+        elif any is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator forward: Input name "any" is deprecated in favor of "any1".'
+                )
+            )
+            self.inputs.any1.connect(any)
         if any2 is not None:
             self.inputs.any2.connect(any2)
 
@@ -86,6 +100,7 @@ class forward(Operator):
                     type_names=["any"],
                     optional=False,
                     document=r"""any type of input""",
+                    aliases=["any"],
                 ),
                 1: PinSpecification(
                     name="any",
@@ -100,6 +115,7 @@ class forward(Operator):
                     type_names=["any"],
                     optional=False,
                     document=r"""same types as inputs""",
+                    aliases=["any"],
                 ),
                 1: PinSpecification(
                     name="any2",
@@ -198,6 +214,27 @@ class InputsForward(_Inputs):
         return self._any1
 
     @property
+    def any1(self) -> Input[Any]:
+        r"""Allows to connect any1 input to the operator.
+
+        any type of input
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.forward()
+        >>> op.inputs.any1.connect(my_any1)
+        >>> # or
+        >>> op.inputs.any1(my_any1)
+        """
+        return self._any1
+
+    @property
     def any2(self) -> Input[Any]:
         r"""Allows to connect any2 input to the operator.
 
@@ -217,6 +254,18 @@ class InputsForward(_Inputs):
         >>> op.inputs.any2(my_any2)
         """
         return self._any2
+
+    def __getattr__(self, name):
+        if name in ["any"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator forward: Input name "{name}" is deprecated in favor of "any1".'
+                )
+            )
+            return self.any1
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsForward(_Outputs):
@@ -260,6 +309,26 @@ class OutputsForward(_Outputs):
         return self._any1
 
     @property
+    def any1(self) -> Output[Any]:
+        r"""Allows to get any1 output of the operator
+
+        same types as inputs
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.forward()
+        >>> # Get the output from op.outputs. ...
+        >>> result_any1 = op.outputs.any1()
+        """
+        return self._any1
+
+    @property
     def any2(self) -> Output[Any]:
         r"""Allows to get any2 output of the operator
 
@@ -278,3 +347,15 @@ class OutputsForward(_Outputs):
         >>> result_any2 = op.outputs.any2()
         """
         return self._any2
+
+    def __getattr__(self, name):
+        if name in ["any"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator forward: Output name "{name}" is deprecated in favor of "any1".'
+                )
+            )
+            return self.any1
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
