@@ -122,13 +122,13 @@ class for_each(Operator):
                     document=r"""""",
                 ),
                 3: PinSpecification(
-                    name="forward",
+                    name="forward1",
                     type_names=["any"],
                     optional=False,
                     document=r"""""",
                 ),
                 4: PinSpecification(
-                    name="forward",
+                    name="forward2",
                     type_names=["any"],
                     optional=False,
                     document=r"""""",

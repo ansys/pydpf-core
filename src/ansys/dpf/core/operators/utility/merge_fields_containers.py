@@ -147,13 +147,13 @@ class merge_fields_containers(Operator):
                     document=r"""Already merged fields containers support.""",
                 ),
                 0: PinSpecification(
-                    name="fields_containers",
+                    name="fields_containers1",
                     type_names=["fields_container"],
                     optional=False,
                     document=r"""A vector of fields containers to merge or fields containers from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="fields_containers",
+                    name="fields_containers2",
                     type_names=["fields_container"],
                     optional=False,
                     document=r"""A vector of fields containers to merge or fields containers from pin 0 to ...""",

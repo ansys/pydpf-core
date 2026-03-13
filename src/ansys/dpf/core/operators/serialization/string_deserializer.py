@@ -102,13 +102,13 @@ DPF’s entities.
                     document=r"""0 for string (default), and 1 for binary""",
                 ),
                 0: PinSpecification(
-                    name="serialized_string",
+                    name="serialized_string1",
                     type_names=["string"],
                     optional=False,
                     document=r"""""",
                 ),
                 1: PinSpecification(
-                    name="serialized_string",
+                    name="serialized_string2",
                     type_names=["string"],
                     optional=False,
                     document=r"""""",

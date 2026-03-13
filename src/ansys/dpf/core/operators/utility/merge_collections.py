@@ -74,13 +74,13 @@ class merge_collections(Operator):
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="collections",
+                    name="collections1",
                     type_names=["any_collection"],
                     optional=False,
                     document=r"""a vector of collections to merge or collections from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="collections",
+                    name="collections2",
                     type_names=["any_collection"],
                     optional=False,
                     document=r"""a vector of collections to merge or collections from pin 0 to ...""",

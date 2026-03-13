@@ -121,13 +121,13 @@ Serialize the inputs in an hdf5 format.
                     document=r"""if true, vectors and matrices data are exported flat (x1,y1,z1,x2,y2,z2..) (default is false)""",
                 ),
                 3: PinSpecification(
-                    name="data",
+                    name="data1",
                     type_names=["any"],
                     optional=False,
                     document=r"""only the data set explicitly to export is exported""",
                 ),
                 4: PinSpecification(
-                    name="data",
+                    name="data2",
                     type_names=["any"],
                     optional=False,
                     document=r"""only the data set explicitly to export is exported""",

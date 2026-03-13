@@ -81,13 +81,13 @@ accross data tree instances.
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="data_tree",
+                    name="data_tree1",
                     type_names=["data_tree"],
                     optional=False,
                     document=r"""Either a vector of data trees or data trees from pin 0 to ... to merge.""",
                 ),
                 1: PinSpecification(
-                    name="data_tree",
+                    name="data_tree2",
                     type_names=["data_tree"],
                     optional=False,
                     document=r"""Either a vector of data trees or data trees from pin 0 to ... to merge.""",

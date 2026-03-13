@@ -163,13 +163,13 @@ class make_for_each_range(Operator):
                     document=r"""""",
                 ),
                 5: PinSpecification(
-                    name="valueC",
+                    name="valueC1",
                     type_names=["any"],
                     optional=False,
                     document=r"""""",
                 ),
                 6: PinSpecification(
-                    name="valueC",
+                    name="valueC2",
                     type_names=["any"],
                     optional=False,
                     document=r"""""",

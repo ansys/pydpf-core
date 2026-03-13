@@ -96,14 +96,14 @@ class forward(Operator):
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="any",
+                    name="any1",
                     type_names=["any"],
                     optional=False,
                     document=r"""any type of input""",
                     aliases=["any"],
                 ),
                 1: PinSpecification(
-                    name="any",
+                    name="any2",
                     type_names=["any"],
                     optional=False,
                     document=r"""any type of input""",
