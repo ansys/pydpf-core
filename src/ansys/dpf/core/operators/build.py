@@ -190,7 +190,8 @@ def build_pin_data(pins, output=False):
 
         if specification.ellipsis:
             # Create two pins for ellipsis field with exactly the same
-            # properties, just different names, ids, and ellipsis values
+            # properties, just different names, ids, ellipsis and aliases
+            # values
             pin_data["name"] = pin_name + "1"
             data.append(pin_data)
 
@@ -198,6 +199,9 @@ def build_pin_data(pins, output=False):
             second_pin_data["name"] = pin_name + "2"
             second_pin_data["id"] = id + 1
             second_pin_data["ellipsis"] = 1
+            second_pin_data["has_aliases"] = False
+            second_pin_data["aliases_list"] = []
+            second_pin_data["aliases"] = ""
             data.append(second_pin_data)
         else:
             data.append(pin_data)
@@ -213,6 +217,8 @@ def build_operator(
     category,
     specification_description,
 ):
+    if operator_name == "forward":
+        i = 0
     input_pins = []
     if specification.inputs:
         input_pins = build_pin_data(specification.inputs)
