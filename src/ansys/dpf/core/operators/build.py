@@ -219,7 +219,7 @@ def build_pin_data(pins, output=False, special_ellipsis_aliases= {}):
             # Correction after havbing created second_pin_data
             if pin_data["name"] in special_ellipsis_aliases:
                 pin_data["has_aliases"] = True
-                pin_data["aliases_list"] = [dict([("alias", alias)]) for alias in special_ellipsis_aliases[pin_data["name"]]],
+                pin_data["aliases_list"] = [dict([("alias", alias)]) for alias in special_ellipsis_aliases[pin_data["name"]]]
                 pin_data["aliases"] = str(special_ellipsis_aliases[pin_data["name"]])
         else:
             data.append(pin_data)
@@ -235,16 +235,14 @@ def build_operator(
     category,
     specification_description,
 ):
-    if operator_name == "forward":
-        i = 0
     input_pins = []
     if specification.inputs:
-        input_pins = build_pin_data(specification.inputs, special_ellipsis_aliases=SPECIAL_ELLIPSIS_ALIASES[operator_name] if operator_name in SPECIAL_ELLIPSIS_ALIASES else {})
+        input_pins = build_pin_data(specification.inputs, special_ellipsis_aliases=SPECIAL_ELLIPSIS_ALIASES[operator_name]["inputs"] if operator_name in SPECIAL_ELLIPSIS_ALIASES else {})
     has_input_aliases = any(len(pin["aliases_list"]) > 0 for pin in input_pins)
 
     output_pins = []
     if specification.outputs:
-        output_pins = build_pin_data(specification.outputs, output=True, special_ellipsis_aliases=SPECIAL_ELLIPSIS_ALIASES[operator_name] if operator_name in SPECIAL_ELLIPSIS_ALIASES else {})
+        output_pins = build_pin_data(specification.outputs, output=True, special_ellipsis_aliases=SPECIAL_ELLIPSIS_ALIASES[operator_name]["outputs"] if operator_name in SPECIAL_ELLIPSIS_ALIASES else {})
     multiple_output_types = any(pin["multiple_types"] for pin in output_pins)
     has_output_aliases = any(len(pin["aliases_list"]) > 0 for pin in output_pins)
 
