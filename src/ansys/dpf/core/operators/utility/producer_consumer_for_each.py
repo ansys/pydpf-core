@@ -104,13 +104,13 @@ These 2 parts will run asynchronously on 2 threads.
                     document=r"""The result of the make_producer_consumer_for_each_iterator operator.""",
                 ),
                 3: PinSpecification(
-                    name="forward",
+                    name="forward1",
                     type_names=["any"],
                     optional=False,
                     document=r"""output of the last operators of the workflow""",
                 ),
                 4: PinSpecification(
-                    name="forward",
+                    name="forward2",
                     type_names=["any"],
                     optional=False,
                     document=r"""output of the last operators of the workflow""",

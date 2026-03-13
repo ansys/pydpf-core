@@ -171,13 +171,13 @@ cyclic and multistage models, the expansion will be automatically done.
                     document=r"""""",
                 ),
                 5: PinSpecification(
-                    name="named_selection",
+                    name="named_selection1",
                     type_names=["string"],
                     optional=True,
                     document=r"""Named Selections. Intersection of all  Named Selections with the master scoping will be done.""",
                 ),
                 6: PinSpecification(
-                    name="named_selection",
+                    name="named_selection2",
                     type_names=["string"],
                     optional=True,
                     document=r"""Named Selections. Intersection of all  Named Selections with the master scoping will be done.""",

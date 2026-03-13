@@ -79,13 +79,13 @@ class merge_scopings(Operator):
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="scopings",
+                    name="scopings1",
                     type_names=["scoping", "scopings_container"],
                     optional=False,
                     document=r"""Either a scopings container, a vector of scopings to merge, or scopings from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="scopings",
+                    name="scopings2",
                     type_names=["scoping", "scopings_container"],
                     optional=False,
                     document=r"""Either a scopings container, a vector of scopings to merge, or scopings from pin 0 to ...""",

@@ -137,13 +137,13 @@ If -1 all scopings will be merged, if -2 all scopings will be intersected. Defau
                     document=r"""Support of the output field.""",
                 ),
                 0: PinSpecification(
-                    name="fields",
+                    name="fields1",
                     type_names=["any"],
                     optional=False,
                     document=r"""A vector of fields to merge from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="fields",
+                    name="fields2",
                     type_names=["any"],
                     optional=False,
                     document=r"""A vector of fields to merge from pin 0 to ...""",

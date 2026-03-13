@@ -182,13 +182,13 @@ class specific_heat(Operator):
                     document=r"""region id (integer) or vector of region ids (vector) or region scoping (scoping) of the model (region corresponds to zone for Fluid results or part for LSDyna results).""",
                 ),
                 1000: PinSpecification(
-                    name="qualifiers",
+                    name="qualifiers1",
                     type_names=["label_space"],
                     optional=True,
                     document=r"""(for Fluid results only) LabelSpace with combination of zone, phases or species ids""",
                 ),
                 1001: PinSpecification(
-                    name="qualifiers",
+                    name="qualifiers2",
                     type_names=["label_space"],
                     optional=True,
                     document=r"""(for Fluid results only) LabelSpace with combination of zone, phases or species ids""",

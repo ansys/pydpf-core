@@ -149,13 +149,13 @@ scopings container with those split scopings.
                     document=r"""set to 0: to have skin elements in their own group, 1: merge skin and solid elements, 2: merge skin and shell elements (default)""",
                 ),
                 13: PinSpecification(
-                    name="label",
+                    name="label1",
                     type_names=["string"],
                     optional=True,
                     document=r"""properties to apply the filtering 'mat' and/or 'elshape' (since 2025R1 it supports any property name contained in the mesh property fields) (default is 'elshape')""",
                 ),
                 14: PinSpecification(
-                    name="label",
+                    name="label2",
                     type_names=["string"],
                     optional=True,
                     document=r"""properties to apply the filtering 'mat' and/or 'elshape' (since 2025R1 it supports any property name contained in the mesh property fields) (default is 'elshape')""",

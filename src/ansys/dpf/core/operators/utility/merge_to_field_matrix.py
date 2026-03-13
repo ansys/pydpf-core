@@ -79,13 +79,13 @@ class merge_to_field_matrix(Operator):
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="fields",
+                    name="fields1",
                     type_names=["field", "fields_container"],
                     optional=False,
                     document=r"""Either a fields container, a vector of fields to merge, or fields from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="fields",
+                    name="fields2",
                     type_names=["field", "fields_container"],
                     optional=False,
                     document=r"""Either a fields container, a vector of fields to merge, or fields from pin 0 to ...""",

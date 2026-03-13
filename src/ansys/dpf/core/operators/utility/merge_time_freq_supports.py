@@ -84,13 +84,13 @@ class merge_time_freq_supports(Operator):
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="time_freq_supports",
+                    name="time_freq_supports1",
                     type_names=["time_freq_support"],
                     optional=False,
                     document=r"""A vector of time/frequency supports to merge or time/frequency supports from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="time_freq_supports",
+                    name="time_freq_supports2",
                     type_names=["time_freq_support"],
                     optional=False,
                     document=r"""A vector of time/frequency supports to merge or time/frequency supports from pin 0 to ...""",

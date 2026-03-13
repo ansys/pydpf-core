@@ -103,13 +103,13 @@ class serializer_to_string(Operator):
                     document=r"""0 for string (default), 1 for binary, 2 for binary with chunked output (the output string will be returned in several chunks to prevent string memory overflows).""",
                 ),
                 1: PinSpecification(
-                    name="any_input",
+                    name="any_input1",
                     type_names=["any"],
                     optional=False,
                     document=r"""any input""",
                 ),
                 2: PinSpecification(
-                    name="any_input",
+                    name="any_input2",
                     type_names=["any"],
                     optional=False,
                     document=r"""any input""",

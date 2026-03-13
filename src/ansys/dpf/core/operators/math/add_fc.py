@@ -84,7 +84,7 @@ doubles, are put in input they are added to all the fields.
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="fields_container",
+                    name="fields_container1",
                     type_names=[
                         "fields_container",
                         "field",
@@ -95,7 +95,7 @@ doubles, are put in input they are added to all the fields.
                     document=r"""""",
                 ),
                 1: PinSpecification(
-                    name="fields_container",
+                    name="fields_container2",
                     type_names=[
                         "fields_container",
                         "field",

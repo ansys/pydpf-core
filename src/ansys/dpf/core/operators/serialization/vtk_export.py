@@ -125,13 +125,13 @@ class vtk_export(Operator):
                     document=r"""necessary if the first field or fields container don't have a mesh in their support""",
                 ),
                 2: PinSpecification(
-                    name="fields",
+                    name="fields1",
                     type_names=["fields_container", "field"],
                     optional=False,
                     document=r"""fields exported""",
                 ),
                 3: PinSpecification(
-                    name="fields",
+                    name="fields2",
                     type_names=["fields_container", "field"],
                     optional=False,
                     document=r"""fields exported""",

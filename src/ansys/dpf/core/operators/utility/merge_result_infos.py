@@ -80,13 +80,13 @@ class merge_result_infos(Operator):
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="result_infos",
+                    name="result_infos1",
                     type_names=["result_info"],
                     optional=False,
                     document=r"""A vector of result info containers to merge or result infos from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="result_infos",
+                    name="result_infos2",
                     type_names=["result_info"],
                     optional=False,
                     document=r"""A vector of result info containers to merge or result infos from pin 0 to ...""",

@@ -177,13 +177,13 @@ visualization tools.
                     document=r"""mesh""",
                 ),
                 3: PinSpecification(
-                    name="fields",
+                    name="fields1",
                     type_names=["field", "fields_container", "property_field"],
                     optional=False,
                     document=r"""Nodal, Face, or Elemental field, fields container (over time), or property field to export. When there is no support available in the exported mesh, that data is ignored.""",
                 ),
                 4: PinSpecification(
-                    name="fields",
+                    name="fields2",
                     type_names=["field", "fields_container", "property_field"],
                     optional=False,
                     document=r"""Nodal, Face, or Elemental field, fields container (over time), or property field to export. When there is no support available in the exported mesh, that data is ignored.""",

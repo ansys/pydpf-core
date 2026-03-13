@@ -139,13 +139,13 @@ class merge_meshes(Operator):
                     document=r"""For certain types of files (such as RST), scoping from names selection does not need to be merged.If this pin is true, the merge occurs. If this pin is false, the merge does not occur. Default is true.""",
                 ),
                 0: PinSpecification(
-                    name="meshes",
+                    name="meshes1",
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=False,
                     document=r"""A vector of meshed region to merge or meshed region from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="meshes",
+                    name="meshes2",
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=False,
                     document=r"""A vector of meshed region to merge or meshed region from pin 0 to ...""",

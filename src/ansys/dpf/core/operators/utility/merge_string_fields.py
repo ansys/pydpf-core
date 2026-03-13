@@ -80,13 +80,13 @@ class merge_string_fields(Operator):
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="string_fields",
+                    name="string_fields1",
                     type_names=["string_field"],
                     optional=False,
                     document=r"""Either a a vector of string fields to merge or string fields from pin 0 to ...""",
                 ),
                 1: PinSpecification(
-                    name="string_fields",
+                    name="string_fields2",
                     type_names=["string_field"],
                     optional=False,
                     document=r"""Either a a vector of string fields to merge or string fields from pin 0 to ...""",
