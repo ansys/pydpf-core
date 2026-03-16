@@ -26,7 +26,7 @@ import pytest
 
 from ansys import dpf
 from ansys.dpf import core
-from ansys.dpf.core import Model, Operator, element_types, errors as dpf_errors, misc
+from ansys.dpf.core import Model, Operator, element_types, errors as dpf_errors, misc, MeshedRegion
 from ansys.dpf.core.plotter import plot_chart
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
@@ -359,6 +359,7 @@ def test_field_plot_raise_empty_mesh(simple_bar):
     stream_prov = core.operators.metadata.streams_provider(data_sources=ds)
     result_op = core.operators.result.displacement(streams_container=stream_prov)
     field = result_op.outputs.fields_container()[0]
+    field.meshed_region = MeshedRegion()
     with pytest.raises(dpf_errors.EmptyMeshPlottingError):
         field.plot()
 
