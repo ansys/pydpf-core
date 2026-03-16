@@ -112,7 +112,7 @@ test = [
   "vtk==9.6.0",
 ]
 build = [
-  "black==26.1.0",
+  "black==26.3.0",
   "build==1.4.0",
   "chevron==0.14.0",
   "pypandoc_binary==1.16.2",
@@ -174,6 +174,7 @@ known-first-party = ["ansys"]
 
 [tool.coverage.run]
 source = ["ansys.dpf.core"]
+patch = ["subprocess"]
 
 [tool.coverage.report]
 show_missing = true

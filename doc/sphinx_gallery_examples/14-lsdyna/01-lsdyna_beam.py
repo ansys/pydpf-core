@@ -77,8 +77,8 @@ my_meshes = ops.mesh.split_mesh(
 ).eval()
 
 # - Define the meshes for each body in separate variables
-ball_mesh = my_meshes.get_mesh(label_space_or_index={"body": 1, "elshape": 1})
-plate_mesh = my_meshes.get_mesh(label_space_or_index={"body": 2, "elshape": 2})
+ball_mesh = my_meshes.solid_mesh(label_space={"body": 1})
+plate_mesh = my_meshes.beam_mesh(label_space={"body": 2})
 
 print(my_meshes)
 
@@ -103,8 +103,8 @@ my_meshes_scoping = ops.scoping.split_on_property_type(mesh=my_meshed_region).ev
 
 ###############################################################################
 # - Define the mesh scoping for each body/element shape in separate variables
-ball_scoping = my_meshes_scoping.get_scoping(label_space_or_index={"elshape": 1})
-plate_scoping = my_meshes_scoping.get_scoping(label_space_or_index={"elshape": 2})
+ball_scoping = my_meshes_scoping.solid_scoping()
+plate_scoping = my_meshes_scoping.beam_scoping()
 
 ###############################################################################
 # - We will plot the results in a mesh deformed by the displacement.
