@@ -31,7 +31,7 @@ PyDPF-Core uses **Sphinx** with **reStructuredText (reST)** for documentation ge
 pydpf-core/
 ├── doc/
 │   ├── sphinx_gallery_tutorials/   # Source tutorial Python scripts
-│   │   ├── GALLERY_HEADER.rst      # Tutorials landing page
+│   │   ├── index.rst               # Tutorials landing page
 │   │   └── section_name/           # Tutorial section folder
 │   │       ├── GALLERY_HEADER.rst  # Section landing page
 │   │       └── tutorial_name.py    # Tutorial script
@@ -145,8 +145,11 @@ Each section must contain a `GALLERY_HEADER.rst` file.
    The `<style>` block hides the auto-generated thumbnail row that sphinx-gallery adds;
    the grid cards above already serve as the section landing page navigation.
 
-3. **Add a card** to `doc/sphinx_gallery_tutorials/GALLERY_HEADER.rst` linking to the new section
-   using the same `.. grid-item-card::` format as the existing sections.
+3. **Add a card** to `doc/sphinx_gallery_tutorials/index.rst` linking to the new section
+   using the same `.. grid-item-card::` format as the existing sections and you
+   must also add a toctree entry for the new section to the same file
+   following the same ``tutorials/<section-name>/index`` pattern as the existing
+   toctree entries.
 
 ### 2. Creating a new tutorial
 

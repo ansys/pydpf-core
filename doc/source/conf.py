@@ -248,6 +248,8 @@ class _TutorialFileOrder:
 sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
+    # copy index.rst files provided by the user into the gallery output
+    "copyfile_regex": r"index\.rst",
     # path to your examples scripts
     "examples_dirs": ["../sphinx_gallery_examples", "../sphinx_gallery_tutorials"],
     # abort build at first example error

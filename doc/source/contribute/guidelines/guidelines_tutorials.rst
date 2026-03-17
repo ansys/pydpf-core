@@ -25,7 +25,7 @@ You also need to understand the structure of the ``doc`` directory on the PyDPF-
     .
     ├── doc
     │   ├── sphinx_gallery_tutorials
-    │   │   ├── GALLERY_HEADER.rst       <- Tutorials landing page
+    │   │   ├── index.rst                <- Tutorials landing page
     │   │   └── section_name
     │   │       ├── GALLERY_HEADER.rst   <- Section landing page
     │   │       └── tutorial_name.py     <- Tutorial script
@@ -91,9 +91,12 @@ The ``_order`` value must be a unique integer. Existing sections use values 1-13
 
 .. literalinclude:: tutorial_templates/tutorial_section_template.rst
 
-You must also add a card linking to the new section in the top-level
-``doc/sphinx_gallery_tutorials/GALLERY_HEADER.rst``, following the same
-``.. grid-item-card::`` pattern as the existing sections.
+You must add a card linking to the new section in the top-level
+``doc/sphinx_gallery_tutorials/index.rst``, following the same
+``.. grid-item-card::`` pattern as the existing sections; and you
+must also add a toctree entry for the new section to the same file
+following the same ``<section-name>/index`` pattern as the existing
+toctree entries.
 
 No toctree entries are needed anywhere.
 

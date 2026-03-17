@@ -5,6 +5,8 @@ description: >
   Specialist agent for writing PyDPF-Core sphinx-gallery tutorials from a description prompt.
   Researches the relevant API, follows the exact Python file format required by sphinx-gallery,
   and produces a ready-to-commit tutorial script plus the corresponding GALLERY_HEADER.rst card.
+  For new *sections*, add a card to the top-level `index.rst` instead, with a corresponding
+  entry in the toctree.
 argument-hint: >
   Describe the tutorial you want to write. Include: what the user will learn, the DPF feature or
   workflow to demonstrate, and optionally the section it belongs to (data_structures,
