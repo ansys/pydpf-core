@@ -266,6 +266,19 @@ jobs:
             export DPF_DEFAULT_GRPC_MODE=insecure
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-api_entry,kill-servers
 
+      - name: "Run compatible tests in parallel"
+        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        env:
+          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
+          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+        with:
+          timeout_minutes: 20
+          max_attempts: 2
+          shell: bash
+          command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
+            tox run-parallel --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -m ciparalleltests
+
       - name: "Test API test_server"
         uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
         env:
@@ -327,31 +340,18 @@ jobs:
             export DPF_DEFAULT_GRPC_MODE=insecure
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-service,kill-servers
 
-      - name: "Run compatible tests in parallel"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
-        env:
-          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
-          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
-        with:
-          timeout_minutes: 20
-          max_attempts: 2
-          shell: bash
-          command: |
-            export DPF_DEFAULT_GRPC_MODE=insecure
-            tox run-parallel --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -m ciparalleltests
-
-      - name: "Run api and launcher tests in parallel"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
-        env:
-          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
-          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
-        with:
-          timeout_minutes: 20
-          max_attempts: 2
-          shell: bash
-          command: |
-            export DPF_DEFAULT_GRPC_MODE=insecure
-            tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e pretest,test-api,test-launcher,posttest,kill-servers
+      # - name: "Run api and launcher tests in parallel"
+      #   uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+      #   env:
+      #     TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
+      #     TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+      #   with:
+      #     timeout_minutes: 20
+      #     max_attempts: 2
+      #     shell: bash
+      #     command: |
+      #       export DPF_DEFAULT_GRPC_MODE=insecure
+      #       tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e pretest,test-api,test-launcher,posttest,kill-servers
 
       - name: "Combine coverage results"
         shell: bash

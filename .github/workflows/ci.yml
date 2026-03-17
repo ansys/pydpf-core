@@ -190,7 +190,7 @@ jobs:
 
   docs:
     if: |
-      (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+      (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || github.event.pull_request.draft)
     permissions:
       contents: read # Required by docs.yml jobs
       pull-requests: write # Required by doc-style job
@@ -246,7 +246,7 @@ jobs:
 
   examples:
     if: |
-      (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+      (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || github.event.pull_request.draft)
     permissions:
       contents: read # Required by examples.yml jobs
     uses: ./.github/workflows/examples.yml
@@ -262,7 +262,7 @@ jobs:
   pydpf-post:
     name: "PyDPF-Post"
     if: |
-      (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+      (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || github.event.pull_request.draft)
     permissions:
       contents: read # Required by pydpf-post.yml jobs
       pull-requests: write # Required for posting test outcome comments
@@ -280,7 +280,7 @@ jobs:
   tests-retro:
     name: "Test DPF ${{ matrix.version.version }}${{ matrix.version.patch }} compatibility"
     if: |
-      (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
+      (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || github.event.pull_request.draft)
     permissions:
       contents: read # Required by tests.yml jobs
     strategy:
