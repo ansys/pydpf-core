@@ -6,7 +6,7 @@ Explore a mesh
 
 :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
-.. include:: ../../../links_and_refs.rst
+.. include:: ../../links_and_refs.rst
 .. |element_types| replace:: :class:`list of available element types in a DPF mesh<ansys.dpf.core.elements.element_types>`
 
 This tutorial explains how to access a mesh data and metadata so it can be manipulated.

@@ -6,7 +6,7 @@ Split a mesh
 
 :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LSDYNA` :bdg-fluent:`Fluent` :bdg-cfx:`CFX`
 
-.. include:: ../../../links_and_refs.rst
+.. include:: ../../links_and_refs.rst
 
 .. |split_mesh| replace:: :class:`split_mesh <ansys.dpf.core.operators.mesh.split_mesh.split_mesh>`
 .. |split_on_property_type| replace:: :class:`split_on_property_type <ansys.dpf.core.operators.scoping.split_on_property_type.split_on_property_type>`

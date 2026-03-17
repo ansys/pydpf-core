@@ -8,7 +8,7 @@ Basic maths
 
     This tutorial requires DPF 9.1 or above (2025 R1).
 
-.. include:: ../../../links_and_refs.rst
+.. include:: ../../links_and_refs.rst
 .. |math operators| replace:: :mod:`math operators <ansys.dpf.core.operators.math>`
 .. |fields_factory| replace:: :mod:`fields_factory<ansys.dpf.core.fields_factory>`
 .. |fields_container_factory| replace:: :mod:`fields_container_factory<ansys.dpf.core.fields_container_factory>`
