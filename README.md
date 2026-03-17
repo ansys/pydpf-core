@@ -8,7 +8,6 @@
 [![MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![pypidl](https://img.shields.io/pypi/dm/ansys-dpf-core.svg?label=PyPI%20downloads)](https://pypi.org/project/ansys-dpf-core/)
 [![cov](https://codecov.io/gh/ansys/pydpf-core/branch/main/graph/badge.svg)](https://codecov.io/gh/ansys/pydpf-core)
-[![codacy](https://app.codacy.com/project/badge/Grade/61b6a519aea64715ad1726b3955fcf98)](https://www.codacy.com/gh/ansys/pydpf-core/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ansys/pydpf-core&amp;utm_campaign=Badge_Grade)
 
 Ansys Data Processing Framework (DPF) provides numerical simulation 
 users and engineers with a toolbox for accessing and transforming simulation 

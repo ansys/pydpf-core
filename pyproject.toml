@@ -112,7 +112,7 @@ test = [
   "vtk==9.6.0",
 ]
 build = [
-  "black==26.3.0",
+  "black==26.3.1",
   "build==1.4.0",
   "chevron==0.14.0",
   "pypandoc_binary==1.16.2",
