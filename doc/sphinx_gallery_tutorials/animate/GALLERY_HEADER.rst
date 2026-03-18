@@ -1,5 +1,3 @@
-.. # _order: 8
-
 .. _ref_tutorials_animate:
 
 =======

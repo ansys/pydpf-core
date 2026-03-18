@@ -196,17 +196,13 @@ pygments_style = None
 
 # Absolute path to the directory containing conf.py, used to resolve
 # gallery sub-section paths which sphinx-gallery passes relative to srcdir.
-_CONF_DIR = Path(__file__).parent
-
-
 def _read_order(filepath):
-    """Return the integer declared by ``# _order: N`` (py files) or
-    ``.. # _order: N`` (GALLERY_HEADER.rst files) in the first 30 lines, or inf.
+    """Return the integer declared by ``# _order: N`` in the first 30 lines, or inf.
 
-    This is the only thing that controls gallery ordering. To set the order
-    of a tutorial, add ``# _order: N`` just before the module docstring
-    (right after the copyright block). To set the order of a subsection,
-    add ``.. # _order: N`` as the first line of the subsection GALLERY_HEADER.rst.
+    To set the order of a tutorial within its section, add ``# _order: N``
+    just before the module docstring (right after the copyright block).
+    Subsection ordering is controlled by the toctree in
+    ``doc/sphinx_gallery_tutorials/index.rst``.
     """
     import re
     _patt = re.compile(r"_order:\s*(\d+)")
@@ -222,17 +218,6 @@ def _read_order(filepath):
     except OSError:
         pass
     return float("inf")
-
-
-class _TutorialSubsectionOrder:
-    """For sphinx_gallery_conf['subsection_order']: reads ``.. # _order: N``
-    from each subsection's GALLERY_HEADER.rst."""
-
-    def __call__(self, section_dir):
-        # section_dir is relative to srcdir (doc/source); resolve it using
-        # _CONF_DIR so the file can be opened regardless of the cwd.
-        return _read_order((_CONF_DIR / section_dir / "GALLERY_HEADER.rst").resolve())
-
 
 class _TutorialFileOrder:
     """For sphinx_gallery_conf['within_subsection_order']: reads ``# _order: N``
@@ -263,7 +248,6 @@ sphinx_gallery_conf = {
     # Remove the "Download all examples" button from the top level gallery
     "download_all_examples": False,
     # Order subsections and files within subsections explicitly
-    "subsection_order": _TutorialSubsectionOrder(),
     "within_subsection_order": _TutorialFileOrder,
     # directory where function granular galleries are stored
     "backreferences_dir": None,

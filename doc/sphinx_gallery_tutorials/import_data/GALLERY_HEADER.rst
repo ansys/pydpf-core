@@ -1,5 +1,3 @@
-.. # _order: 3
-
 .. _ref_tutorials_import_data:
 
 ===========

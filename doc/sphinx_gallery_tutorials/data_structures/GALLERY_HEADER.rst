@@ -1,5 +1,3 @@
-.. # _order: 1
-
 .. _ref_tutorials_data_structures:
 
 ===================

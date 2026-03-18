@@ -110,13 +110,7 @@ Each section must contain a `GALLERY_HEADER.rst` file.
 
 2. **Create `GALLERY_HEADER.rst`**:
 
-   The very first line must be `.. # _order: N` where `N` is a unique integer that sets the
-   position of this section among all tutorial sections. Pick the next available integer after
-   the existing sections (currently 1–13).
-
    ```rst
-   .. # _order: 14
-
    .. _ref_tutorials_new_section_name:
 
    =================

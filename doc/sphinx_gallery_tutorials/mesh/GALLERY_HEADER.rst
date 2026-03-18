@@ -1,5 +1,3 @@
-.. # _order: 4
-
 .. _ref_tutorials_mesh:
 
 ======

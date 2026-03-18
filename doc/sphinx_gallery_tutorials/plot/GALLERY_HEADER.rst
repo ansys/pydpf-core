@@ -1,5 +1,3 @@
-.. # _order: 7
-
 .. _ref_tutorials_plot:
 
 ====

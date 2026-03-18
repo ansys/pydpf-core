@@ -1,5 +1,3 @@
-.. # _order: 2
-
 .. _ref_tutorials_processing_basics:
 
 ======================

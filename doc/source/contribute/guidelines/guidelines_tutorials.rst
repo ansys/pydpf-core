@@ -15,8 +15,10 @@ To do so, you must follow the guidelines presented here.
 
 Tutorials are Python scripts processed by `sphinx-gallery`_ and live in the
 ``doc/sphinx_gallery_tutorials/`` directory. During the build, sphinx-gallery automatically
-converts them to HTML pages, Jupyter notebooks, and downloadable Python scripts.
-**No manual toctree entries are needed** — sphinx-gallery manages all navigation.
+converts them to HTML pages, Jupyter notebooks, and downloadable Python scripts. Manual toctree
+entries are only needed in the ``doc/sphinx_gallery_tutorials/index.rst`` file to link the section
+landing pages, but not for individual tutorials. `sphinx-gallery`_ manages the toctree for individual
+tutorials.
 
 You also need to understand the structure of the ``doc`` directory on the PyDPF-Core library:
 
@@ -79,15 +81,11 @@ Structure
 
 The section folder must contain a ``GALLERY_HEADER.rst`` file with:
 
-- an ``_order`` directive on the very first line, which sets the position of this section
-  among all tutorial sections in the gallery,
 - a reference label for cross-referencing this section from other parts of the documentation,
 - a section title,
 - a general description of the topics covered in the tutorials in this section,
 - grid cards with links, titles, and descriptions for the tutorials in the section.
 
-The ``_order`` value must be a unique integer. Existing sections use values 1-13; use 14
-(or higher) for a new section.
 
 .. literalinclude:: tutorial_templates/tutorial_section_template.rst
 
@@ -95,10 +93,8 @@ You must add a card linking to the new section in the top-level
 ``doc/sphinx_gallery_tutorials/index.rst``, following the same
 ``.. grid-item-card::`` pattern as the existing sections; and you
 must also add a toctree entry for the new section to the same file
-following the same ``<section-name>/index`` pattern as the existing
+following the same ``tutorials/<section-name>/index.rst`` pattern as the existing
 toctree entries.
-
-No toctree entries are needed anywhere.
 
 ----
 

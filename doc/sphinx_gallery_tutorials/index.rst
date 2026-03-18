@@ -63,6 +63,8 @@ of basic features and concepts so you can start coding right away.
         Learn how to interact with meshes in PyDPF-Core.
 
     .. grid-item-card:: Processing data with operators and workflows
+        :link: ref_tutorials_operators_and_workflows
+        :link-type: ref
         :text-align: center
         :class-card: sd-bg-light
         :class-header: sd-bg-light sd-text-dark
@@ -74,6 +76,8 @@ of basic features and concepts so you can start coding right away.
         Coming soon
 
     .. grid-item-card:: Exporting data
+        :link: ref_tutorials_export_data
+        :link-type: ref
         :text-align: center
         :class-card: sd-bg-light
         :class-header: sd-bg-light sd-text-dark
@@ -113,6 +117,8 @@ of basic features and concepts so you can start coding right away.
         Discover how to enhance DPF capabilities with custom operators and plugins.
 
     .. grid-item-card:: Processing distributed files
+        :link: ref_tutorials_distributed_files
+        :link-type: ref
         :text-align: center
         :class-card: sd-bg-light
         :class-header: sd-bg-light sd-text-dark
@@ -131,6 +137,8 @@ of basic features and concepts so you can start coding right away.
         Learn about the DPF client-server architecture and management of local and remote servers.
 
     .. grid-item-card:: Manage licensing
+        :link: ref_tutorials_licensing
+        :link-type: ref
         :text-align: center
         :class-card: sd-bg-light
         :class-header: sd-bg-light sd-text-dark
@@ -152,12 +160,12 @@ of basic features and concepts so you can start coding right away.
    /tutorials/post_processing_basics/index.rst
    /tutorials/import_data/index.rst
    /tutorials/mesh/index.rst
-   /tutorials/dpf_server/index.rst
+   /tutorials/operators_and_workflows/index.rst
    /tutorials/export_data/index.rst
    /tutorials/plot/index.rst
    /tutorials/animate/index.rst
    /tutorials/mathematics/index.rst
    /tutorials/custom_operators_and_plugins/index.rst
-   /tutorials/operators_and_workflows/index.rst
    /tutorials/distributed_files/index.rst
+   /tutorials/dpf_server/index.rst
    /tutorials/licensing/index.rst

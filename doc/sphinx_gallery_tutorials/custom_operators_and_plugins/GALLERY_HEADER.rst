@@ -1,5 +1,3 @@
-.. # _order: 10
-
 .. _ref_tutorials_custom_operators_and_plugins:
 
 ============================

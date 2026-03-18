@@ -1,5 +1,3 @@
-.. # _order: 9
-
 .. _ref_tutorials_mathematics:
 
 ===========

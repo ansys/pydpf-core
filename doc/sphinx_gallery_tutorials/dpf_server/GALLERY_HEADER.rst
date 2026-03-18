@@ -1,5 +1,3 @@
-.. # _order: 11
-
 .. _ref_tutorials_dpf_server:
 
 ==========

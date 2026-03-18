@@ -1,5 +1,3 @@
-.. # _order: N
-
 .. _ref_tutorials_new_section_name:
 
 =================
