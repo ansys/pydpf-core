@@ -109,6 +109,8 @@ from .electric_flux_density_Z import electric_flux_density_Z
 from .electric_potential import electric_potential
 from .element_centroids import element_centroids
 from .element_nodal_forces import element_nodal_forces
+from .element_nodal_heat import element_nodal_heat
+from .element_nodal_moments import element_nodal_moments
 from .element_orientations import element_orientations
 from .element_orientations_X import element_orientations_X
 from .element_orientations_Y import element_orientations_Y

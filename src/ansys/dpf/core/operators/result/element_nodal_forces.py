@@ -142,6 +142,10 @@ class element_nodal_forces(Operator):
     13      Pretension
     ======= ======================================================
 
+    ENF fields contain STATIC, DAMPING and INERTIA forces stored as
+    components (when available). STATIC: components 0 -> 2. DAMPING:
+    components 3 -> 5. INERTIA components 6 -> 8
+
 
     Inputs
     ------
@@ -177,8 +181,6 @@ class element_nodal_forces(Operator):
         If connected, this pin allows you to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.
     extend_to_mid_nodes: bool, optional
         Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True
-    split_force_components: bool, optional
-        If this pin is set to true, the output fields container splits the ENF by degree of freedom ("dof" label, 0 for translation, 1 for rotation, 2 for temperature) and derivative order ("derivative_order" label, 0 for stiffness terms, 1 for damping terms and 2 for inertial terms). Default is false.
 
     Outputs
     -------
@@ -224,8 +226,6 @@ class element_nodal_forces(Operator):
     >>> op.inputs.shell_layer.connect(my_shell_layer)
     >>> my_extend_to_mid_nodes = bool()
     >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
-    >>> my_split_force_components = bool()
-    >>> op.inputs.split_force_components.connect(my_split_force_components)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.element_nodal_forces(
@@ -245,7 +245,6 @@ class element_nodal_forces(Operator):
     ...     split_shells=my_split_shells,
     ...     shell_layer=my_shell_layer,
     ...     extend_to_mid_nodes=my_extend_to_mid_nodes,
-    ...     split_force_components=my_split_force_components,
     ... )
 
     >>> # Get output data
@@ -270,7 +269,6 @@ class element_nodal_forces(Operator):
         split_shells=None,
         shell_layer=None,
         extend_to_mid_nodes=None,
-        split_force_components=None,
         config=None,
         server=None,
     ):
@@ -313,8 +311,6 @@ class element_nodal_forces(Operator):
             self.inputs.shell_layer.connect(shell_layer)
         if extend_to_mid_nodes is not None:
             self.inputs.extend_to_mid_nodes.connect(extend_to_mid_nodes)
-        if split_force_components is not None:
-            self.inputs.split_force_components.connect(split_force_components)
 
     @staticmethod
     def _spec() -> Specification:
@@ -432,6 +428,10 @@ elshape Related elements
 12      Multi-Point Constraint
 13      Pretension
 ======= ======================================================
+
+ENF fields contain STATIC, DAMPING and INERTIA forces stored as
+components (when available). STATIC: components 0 -> 2. DAMPING:
+components 3 -> 5. INERTIA components 6 -> 8
 """
         spec = Specification(
             description=description,
@@ -539,12 +539,6 @@ elshape Related elements
                     optional=True,
                     document=r"""Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True""",
                 ),
-                200: PinSpecification(
-                    name="split_force_components",
-                    type_names=["bool"],
-                    optional=True,
-                    document=r"""If this pin is set to true, the output fields container splits the ENF by degree of freedom ("dof" label, 0 for translation, 1 for rotation, 2 for temperature) and derivative order ("derivative_order" label, 0 for stiffness terms, 1 for damping terms and 2 for inertial terms). Default is false.""",
-                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -641,8 +635,6 @@ class InputsElementNodalForces(_Inputs):
     >>> op.inputs.shell_layer.connect(my_shell_layer)
     >>> my_extend_to_mid_nodes = bool()
     >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
-    >>> my_split_force_components = bool()
-    >>> op.inputs.split_force_components.connect(my_split_force_components)
     """
 
     def __init__(self, op: Operator):
@@ -711,10 +703,6 @@ class InputsElementNodalForces(_Inputs):
             element_nodal_forces._spec().input_pin(28), 28, op, -1
         )
         self._inputs.append(self._extend_to_mid_nodes)
-        self._split_force_components: Input[bool] = Input(
-            element_nodal_forces._spec().input_pin(200), 200, op, -1
-        )
-        self._inputs.append(self._split_force_components)
 
     @property
     def time_scoping(self) -> Input[Scoping | int | float | Field]:
@@ -1051,27 +1039,6 @@ class InputsElementNodalForces(_Inputs):
         >>> op.inputs.extend_to_mid_nodes(my_extend_to_mid_nodes)
         """
         return self._extend_to_mid_nodes
-
-    @property
-    def split_force_components(self) -> Input[bool]:
-        r"""Allows to connect split_force_components input to the operator.
-
-        If this pin is set to true, the output fields container splits the ENF by degree of freedom ("dof" label, 0 for translation, 1 for rotation, 2 for temperature) and derivative order ("derivative_order" label, 0 for stiffness terms, 1 for damping terms and 2 for inertial terms). Default is false.
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.element_nodal_forces()
-        >>> op.inputs.split_force_components.connect(my_split_force_components)
-        >>> # or
-        >>> op.inputs.split_force_components(my_split_force_components)
-        """
-        return self._split_force_components
 
 
 class OutputsElementNodalForces(_Outputs):
