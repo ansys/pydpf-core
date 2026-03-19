@@ -242,31 +242,6 @@ using ``# ``-prefixed comment lines:
     #
     # Finally, you plot ...
 
-Tabs
-~~~~
-
-Use tabs when a step requires a solver-specific implementation.
-Tabs are added inside a text cell as an RST ``.. tab-set::`` directive:
-
-.. code-block::
-
-    ###############################################################################
-    # Step with solver-specific code
-    # --------------------------------
-    #
-    # .. tab-set::
-    #
-    #     .. tab-item:: MAPDL
-    #
-    #         Explanation 1 ...
-
-    # MAPDL-specific code
-
-You can also use tabs to show different approaches to the same step where keeping the code blocks
-in separate tabs is clearer. You can see an example of this in the
-:ref:`ref_tutorials_animate_time` tutorial.
-
-
 Code blocks
 ~~~~~~~~~~~
 
