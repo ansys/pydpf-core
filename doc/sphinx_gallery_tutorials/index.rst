@@ -140,9 +140,6 @@ of basic features and concepts so you can start coding right away.
         :link: ref_tutorials_licensing
         :link-type: ref
         :text-align: center
-        :class-card: sd-bg-light
-        :class-header: sd-bg-light sd-text-dark
-        :class-footer: sd-bg-light sd-text-dark
 
         Learn how to manage licensing in PyDPF-Core.
 
