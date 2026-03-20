@@ -1,0 +1,269 @@
+
+
+
+
+
+
+:class:`InputsLinearizedStress`
+===============================
+
+
+.. py:class:: ansys.dpf.core.operators.math.linearized_stress.InputsLinearizedStress(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   linearized_stress operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linearized_stress()
+   >>> my_stress_comps = dpf.FieldsContainer()
+   >>> op.inputs.stress_comps.connect(my_stress_comps)
+   >>> my_iComp = int()
+   >>> op.inputs.iComp.connect(my_iComp)
+   >>> my_path_coords = dpf.Field()
+   >>> op.inputs.path_coords.connect(my_path_coords)
+   >>> my_rho = float()
+   >>> op.inputs.rho.connect(my_rho)
+   >>> my_kbr = int()
+   >>> op.inputs.kbr.connect(my_kbr)
+   >>> my_ksxbzro = int()
+   >>> op.inputs.ksxbzro.connect(my_ksxbzro)
+   >>> my_out_type = int()
+   >>> op.inputs.out_type.connect(my_out_type)
+
+
+
+
+
+
+.. py:currentmodule:: InputsLinearizedStress
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~stress_comps`
+            - Allows to connect stress_comps input to the operator.
+          * - :py:attr:`~iComp`
+            - Allows to connect iComp input to the operator.
+          * - :py:attr:`~path_coords`
+            - Allows to connect path_coords input to the operator.
+          * - :py:attr:`~rho`
+            - Allows to connect rho input to the operator.
+          * - :py:attr:`~kbr`
+            - Allows to connect kbr input to the operator.
+          * - :py:attr:`~ksxbzro`
+            - Allows to connect ksxbzro input to the operator.
+          * - :py:attr:`~out_type`
+            - Allows to connect out_type input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.linearized_stress import InputsLinearizedStress
+
+Property detail
+---------------
+
+.. py:property:: stress_comps
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect stress_comps input to the operator.
+
+   Stress tensor components evaluated at path points
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linearized_stress()
+   >>> op.inputs.stress_comps.connect(my_stress_comps)
+   >>> # or
+   >>> op.inputs.stress_comps(my_stress_comps)
+
+.. py:property:: iComp
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect iComp input to the operator.
+
+   Stress component index to linearize
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linearized_stress()
+   >>> op.inputs.iComp.connect(my_iComp)
+   >>> # or
+   >>> op.inputs.iComp(my_iComp)
+
+.. py:property:: path_coords
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field]
+
+
+   Allows to connect path_coords input to the operator.
+
+   Path point coordinates
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linearized_stress()
+   >>> op.inputs.path_coords.connect(my_path_coords)
+   >>> # or
+   >>> op.inputs.path_coords(my_path_coords)
+
+.. py:property:: rho
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect rho input to the operator.
+
+   Optional geometric parameter
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linearized_stress()
+   >>> op.inputs.rho.connect(my_rho)
+   >>> # or
+   >>> op.inputs.rho(my_rho)
+
+.. py:property:: kbr
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect kbr input to the operator.
+
+   Option flag controlling bending/reference behavior
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linearized_stress()
+   >>> op.inputs.kbr.connect(my_kbr)
+   >>> # or
+   >>> op.inputs.kbr(my_kbr)
+
+.. py:property:: ksxbzro
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect ksxbzro input to the operator.
+
+   Option flag controlling coordinate/zero-reference handling
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linearized_stress()
+   >>> op.inputs.ksxbzro.connect(my_ksxbzro)
+   >>> # or
+   >>> op.inputs.ksxbzro(my_ksxbzro)
+
+.. py:property:: out_type
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect out_type input to the operator.
+
+   Requested linearized stress output type.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linearized_stress()
+   >>> op.inputs.out_type.connect(my_out_type)
+   >>> # or
+   >>> op.inputs.out_type(my_out_type)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

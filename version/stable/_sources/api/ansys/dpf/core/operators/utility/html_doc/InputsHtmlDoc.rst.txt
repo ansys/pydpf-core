@@ -1,0 +1,154 @@
+
+
+
+
+
+
+:class:`InputsHtmlDoc`
+======================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.html_doc.InputsHtmlDoc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   html_doc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.html_doc()
+   >>> my_output_path = str()
+   >>> op.inputs.output_path.connect(my_output_path)
+   >>> my_exposure_level = int()
+   >>> op.inputs.exposure_level.connect(my_exposure_level)
+
+
+
+
+
+
+.. py:currentmodule:: InputsHtmlDoc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~output_path`
+            - Allows to connect output_path input to the operator.
+          * - :py:attr:`~exposure_level`
+            - Allows to connect exposure_level input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.html_doc import InputsHtmlDoc
+
+Property detail
+---------------
+
+.. py:property:: output_path
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect output_path input to the operator.
+
+   default is {working directory}/dataProcessingDoc.html
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.html_doc()
+   >>> op.inputs.output_path.connect(my_output_path)
+   >>> # or
+   >>> op.inputs.output_path(my_output_path)
+
+.. py:property:: exposure_level
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect exposure_level input to the operator.
+
+   Generate the documentation depending on exposure level : 0 (default) for public operators, 1 includes hidden operator, 2 includes private operator, 3 includes operator without specifications.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.html_doc()
+   >>> op.inputs.exposure_level.connect(my_exposure_level)
+   >>> # or
+   >>> op.inputs.exposure_level(my_exposure_level)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

@@ -1,0 +1,49 @@
+
+:orphan:
+
+.. _sphx_glr_tutorials_import_data_sg_execution_times:
+
+
+Computation times
+=================
+**00:02.440** total execution time for 5 files **from tutorials\import_data**:
+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr_tutorials_import_data_narrow_down_data.py` (``narrow_down_data.py``)
+     - 00:00.529
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_import_data_extract_and_explore_results_data.py` (``extract_and_explore_results_data.py``)
+     - 00:00.512
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_import_data_extract_and_explore_results_metadata.py` (``extract_and_explore_results_metadata.py``)
+     - 00:00.495
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_import_data_load_custom_data.py` (``load_custom_data.py``)
+     - 00:00.455
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_import_data_import_result_file.py` (``import_result_file.py``)
+     - 00:00.449
+     - 0.0

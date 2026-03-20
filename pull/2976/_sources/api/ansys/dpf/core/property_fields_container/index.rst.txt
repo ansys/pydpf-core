@@ -1,0 +1,80 @@
+
+
+
+
+
+
+The ``property_fields_container.py`` module
+===========================================
+
+.. py:module:: ansys.dpf.core.property_fields_container
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: property_fields_container
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.property_fields_container.PropertyFieldsContainer`
+            - Represents a property fields container, which is a collection of property fields.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> PropertyFieldsContainer</api/ansys/dpf/core/property_fields_container/PropertyFieldsContainer>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+PropertyFieldsContainer.
+
+Contains classes associated with the PropertyFieldsContainer.
+
+
+
+
+
+
+
+
