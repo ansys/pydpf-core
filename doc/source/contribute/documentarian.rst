@@ -197,8 +197,9 @@ Three environment variables are available for the documentation build:
   the default behavior. When set to ``false``, the API documentation is not
   built.
 
-- ``BUILD_TUTORIALS``: if set to ``true``, the tutorials are built. This is the
-  default behavior. When set to ``false``, the tutorials are not built.
+- ``BUILD_TUTORIALS``: if set to ``true``, the sphinx-gallery tutorial scripts are
+  processed and the tutorials section is built. This is the default behavior.
+  When set to ``false``, the tutorials are not built.
 
 - ``BUILD_CHEATSHEET``: if set to ``true``, the cheatsheet is built. This is
   the default behavior. When set to ``false``, the cheatsheet is not built.
