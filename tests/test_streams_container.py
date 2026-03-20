@@ -118,6 +118,7 @@ class DummyStream(Stream):
     def result_info(self) -> dpf.core.ResultInfo:
         return dpf.core.ResultInfo()
 
+    @property
     def stream_type_name(self) -> str:
         return "dummy_stream"
 
@@ -126,4 +127,12 @@ def test_streams_container_add_stream(server_in_process, simple_bar):
     dummy_stream = DummyStream(file_path=simple_bar)
 
     sc = dpf.core.StreamsContainer(server=server_in_process)
-    sc.add_stream(stream=dummy_stream, label_space={"dummy": "1"})
+    sc.add_stream(stream=dummy_stream, group=1, is_result=1, result=1)
+
+
+def test_streams_container_add_stream_from_datasources(server_in_process, simple_bar):
+    ds = dpf.core.DataSources(simple_bar, server=server_in_process)
+    sc = dpf.core.StreamsContainer(data_sources=ds, server=server_in_process)
+    dummy_stream = DummyStream(file_path=simple_bar)
+    # No labels needed: the file path is matched against the DataSources entries.
+    sc.add_stream(stream=dummy_stream)
