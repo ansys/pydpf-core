@@ -129,6 +129,7 @@ os.environ["QT_STYLE_OVERRIDE"] = ""
 
 SERVER = None
 SERVER_CONFIGURATION = None
+DEFAULT_SERVER_DEBUG = None
 
 _server_instances = []
 
