@@ -21,18 +21,15 @@ Learn how to export data to [VTK formats](https://docs.vtk.org/en/latest/vtk_fil
     :margin: 2
 
     .. grid-item-card:: Translate result files to VTU
-       :link: ref_tutorials_migrate_to_vtu
+       :link: ref_tutorials_export_data_migrate_to_vtu
        :link-type: ref
        :text-align: center
 
        Use the ``migrate_to_vtu`` operator to quickly export entire simulation
        result files to VTU format for visualization in ParaView.
 
-       +++
-       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
-
     .. grid-item-card:: Export DPF objects to VTU
-       :link: ref_tutorials_vtu_export
+       :link: ref_tutorials_export_data_vtu_export
        :link-type: ref
        :text-align: center
 
@@ -60,9 +57,3 @@ Other Export Formats
 
    <style>.sphx-glr-thumbnails { display: none; }</style>
 
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-
-    migrate_to_vtu.rst
-    vtu_export.rst
