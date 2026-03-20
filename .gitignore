@@ -202,3 +202,4 @@ src/ansys/grpc/
 doc/source/api
 doc/source/examples
 doc/source/images/auto-generated
+src/ansys/dpf/core/examples/result_files
