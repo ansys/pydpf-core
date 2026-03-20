@@ -149,6 +149,13 @@ of basic features and concepts so you can start coding right away.
         +++
         Coming soon
 
+    .. grid-item-card:: Mapping
+        :link: ref_tutorials_mapping
+        :link-type: ref
+        :text-align: center
+
+        Learn how to use mapping operators to transfer, interpolate, or project results.
+
 .. raw:: html
 
    <style>.sphx-glr-thumbnails { display: none; }</style>
@@ -169,3 +176,4 @@ of basic features and concepts so you can start coding right away.
    /tutorials/distributed_files/index.rst
    /tutorials/dpf_server/index.rst
    /tutorials/licensing/index.rst
+   tutorials/mapping/index
