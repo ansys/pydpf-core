@@ -108,7 +108,6 @@ autoapi_ignore_list = [
     "*/check_version.py",
     "*/operators/build.py",
     "*/operators/specification.py",
-    "*/label_space.py",
     "*/examples/python_plugins/*",
     "*/examples/examples.py",
     "*/gate/*",
