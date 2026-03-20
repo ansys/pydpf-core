@@ -31,6 +31,17 @@ componentized, and easily distributable custom operators.
        +++
        Requires DPF 7.1 or above (2024 R1).
 
+    .. grid-item-card:: Write a DPF Python plugin for a custom file format
+       :link: tutorials_custom_operators_and_plugins_python_plugin_for_custom_file_format
+       :link-type: ref
+       :text-align: center
+       :class-header: sd-bg-light sd-text-dark
+       :class-footer: sd-bg-light sd-text-dark
+
+       This tutorial shows how to implement a complete DPF Python plugin that reads data from a
+       custom file format, including a streams provider, result info provider,
+       time-frequency support provider, mesh provider, and result providers.
+
     .. grid-item-card:: Create a DPF plugin with multiple operators
         :text-align: center
         :class-header: sd-bg-light sd-text-dark
