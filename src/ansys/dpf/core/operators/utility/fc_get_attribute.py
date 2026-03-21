@@ -29,7 +29,7 @@ class fc_get_attribute(Operator):
     ------
     fields_container: FieldsContainer
     property_name: str
-        Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping", "base_name", "field_names and "field".
+        Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping", "base_name", "field_names" and "field".
     property_identifier: str or int, optional
         Additional pin for some property : the label name for "label_scoping" or "label_values", the field index (default 0) for "field_scoping" or "field".
 
@@ -105,7 +105,7 @@ container in input.
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document=r"""Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping", "base_name", "field_names and "field".""",
+                    document=r"""Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping", "base_name", "field_names" and "field".""",
                 ),
                 2: PinSpecification(
                     name="property_identifier",
@@ -234,7 +234,7 @@ class InputsFcGetAttribute(_Inputs):
     def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
-        Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping", "base_name", "field_names and "field".
+        Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping", "base_name", "field_names" and "field".
 
         Returns
         -------
