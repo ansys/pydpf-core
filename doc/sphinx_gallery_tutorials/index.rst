@@ -176,4 +176,4 @@ of basic features and concepts so you can start coding right away.
    /tutorials/distributed_files/index.rst
    /tutorials/dpf_server/index.rst
    /tutorials/licensing/index.rst
-   tutorials/mapping/index
+   /tutorials/mapping/index.rst
