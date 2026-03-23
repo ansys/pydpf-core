@@ -53,6 +53,7 @@ be reused for multiple field types without repeating the setup step.
 
 # Import the ``ansys.dpf.core`` module
 # Import NumPy for coordinate operations
+import matplotlib.pyplot as plt
 import numpy as np
 
 from ansys.dpf import core as dpf
@@ -97,10 +98,10 @@ output_mesh = ops.mesh.from_scoping(
     inclusive=1,
 ).eval()
 
-print("Output support (coarser mesh):")
-print(output_mesh)
-print(f"\nInput mesh:  {input_mesh.nodes.n_nodes} nodes, {input_mesh.elements.n_elements} elements")
+print(f"Input mesh:  {input_mesh.nodes.n_nodes} nodes, {input_mesh.elements.n_elements} elements")
 print(f"Output mesh: {output_mesh.nodes.n_nodes} nodes, {output_mesh.elements.n_elements} elements")
+input_mesh.plot(title="Source mesh")
+output_mesh.plot(title="Target mesh (coarser)")
 
 ###############################################################################
 # Prepare the mapping workflow
@@ -137,8 +138,7 @@ for i, name in enumerate(mapping_workflow.operator_names):
 
 displacement_fc = model.results.displacement.eval()
 displacement_field = displacement_fc[0]
-print("Input displacement field:")
-print(displacement_field)
+input_mesh.plot(field_or_fields_container=displacement_fc, title="Source displacement field")
 
 input_pin_name = "source"
 output_pin_name = "target"
@@ -148,20 +148,21 @@ mapped_displacement_field = mapping_workflow.get_output(
     pin_name=output_pin_name,
     output_type=dpf.types.field,
 )
-print("\nMapped displacement field:")
-print(mapped_displacement_field)
+output_mesh.plot(
+    field_or_fields_container=mapped_displacement_field, title="Mapped displacement field"
+)
 
 ###############################################################################
 # Compare input and output
 # -------------------------
 # The output field has as many entities as the output mesh has nodes.
 
-print(f"Input field size:  {len(displacement_field.data)}")
-print(f"Output field size: {len(mapped_displacement_field.data)}")
-print(f"\nSample input displacement (first 3 entities):")
-print(displacement_field.data[:3])
-print(f"\nSample mapped displacement (first 3 entities):")
-print(mapped_displacement_field.data[:3])
+print(f"Input field:  {len(displacement_field.data)} entities")
+print(f"Output field: {len(mapped_displacement_field.data)} entities")
+input_mesh.plot(field_or_fields_container=displacement_fc, title="Source displacement")
+output_mesh.plot(
+    field_or_fields_container=mapped_displacement_field, title="Mapped displacement (coarser mesh)"
+)
 
 ###############################################################################
 # Reuse the workflow for a different result type
@@ -177,10 +178,7 @@ mapped_stress_field = mapping_workflow.get_output(
     pin_name=output_pin_name,
     output_type=dpf.types.field,
 )
-print("Mapped stress field:")
-print(mapped_stress_field)
-print(f"\nSample mapped stress values:")
-print(mapped_stress_field.data[:2])
+output_mesh.plot(field_or_fields_container=mapped_stress_field, title="Mapped stress field")
 
 ###############################################################################
 # Add the influence box parameter
@@ -197,8 +195,13 @@ prepare_op_with_box = ops.mapping.prepare_mapping_workflow(
     influence_box=influence_box,
 )
 mapping_workflow_with_box = prepare_op_with_box.eval()
-print("Mapping workflow with influence box:")
-print(mapping_workflow_with_box)
+mapping_workflow_with_box.connect(pin_name=input_pin_name, inpt=displacement_field)
+mapped_disp_with_box = mapping_workflow_with_box.get_output(
+    pin_name=output_pin_name, output_type=dpf.types.field
+)
+output_mesh.plot(
+    field_or_fields_container=mapped_disp_with_box, title="Mapped displacement with influence box"
+)
 
 ###############################################################################
 # Effect of filter radius on mapping quality
@@ -208,6 +211,7 @@ print(mapping_workflow_with_box)
 
 filter_radii = [0.01, 0.02, 0.04]
 
+mean_mags = []
 for radius in filter_radii:
     prep_op = ops.mapping.prepare_mapping_workflow(
         input_support=input_mesh,
@@ -217,8 +221,14 @@ for radius in filter_radii:
     workflow = prep_op.eval()
     workflow.connect(pin_name=input_pin_name, inpt=displacement_field)
     result = workflow.get_output(pin_name=output_pin_name, output_type=dpf.types.field)
-    mean_mag = np.mean(np.linalg.norm(result.data, axis=1))
-    print(
-        f"filter_radius={radius}: mapped range [{result.min().data}, {result.max().data}], "
-        f"mean magnitude = {mean_mag:.6e}"
-    )
+    mean_mags.append(np.mean(np.linalg.norm(result.data, axis=1)))
+
+fig, ax = plt.subplots()
+ax.plot(filter_radii, mean_mags, "o-")
+ax.set_xlabel("Filter radius (m)")
+ax.set_ylabel("Mean displacement magnitude (m)")
+ax.set_title("Effect of filter radius on mapped displacement")
+for r, m in zip(filter_radii, mean_mags):
+    ax.annotate(f"{m:.2e}", (r, m), textcoords="offset points", xytext=(0, 8))
+plt.tight_layout()
+plt.show()

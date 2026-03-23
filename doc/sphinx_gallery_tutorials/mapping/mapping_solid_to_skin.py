@@ -96,8 +96,6 @@ print(f"Solid nodes:    {solid_mesh.nodes.n_nodes}")
 
 stress_elemental_fc = model.results.stress.on_location(dpf.locations.elemental).eval()
 stress_elemental_field = stress_elemental_fc[0]
-print("Elemental stress field on solid mesh:")
-print(stress_elemental_field)
 
 mapped_stress_op = ops.mapping.solid_to_skin(
     field=stress_elemental_field,
@@ -105,10 +103,12 @@ mapped_stress_op = ops.mapping.solid_to_skin(
     solid_mesh=solid_mesh,
 )
 mapped_stress_field = mapped_stress_op.eval()
-print("\nStress field mapped to skin mesh:")
-print(mapped_stress_field)
-print(f"\nOriginal field size: {len(stress_elemental_field.data)}")
-print(f"Mapped field size:   {len(mapped_stress_field.data)}")
+print(
+    f"Solid elements: {len(stress_elemental_field.data)}, skin elements: {len(mapped_stress_field.data)}"
+)
+skin_mesh.plot(
+    field_or_fields_container=mapped_stress_field, title="Elemental stress mapped to skin"
+)
 
 ###############################################################################
 # Map nodal displacement to the skin mesh
@@ -118,8 +118,6 @@ print(f"Mapped field size:   {len(mapped_stress_field.data)}")
 
 displacement_fc = model.results.displacement.eval()
 displacement_field = displacement_fc[0]
-print("Nodal displacement field on solid mesh:")
-print(displacement_field)
 
 mapped_displacement_op = ops.mapping.solid_to_skin(
     field=displacement_field,
@@ -127,10 +125,12 @@ mapped_displacement_op = ops.mapping.solid_to_skin(
     solid_mesh=solid_mesh,
 )
 mapped_displacement_field = mapped_displacement_op.eval()
-print("\nDisplacement field mapped to skin mesh:")
-print(mapped_displacement_field)
-print(f"\nOriginal scoping size: {len(displacement_field.scoping)}")
-print(f"Mapped scoping size:   {len(mapped_displacement_field.scoping)}")
+print(
+    f"Solid nodes: {len(displacement_field.scoping)}, skin nodes: {len(mapped_displacement_field.scoping)}"
+)
+skin_mesh.plot(
+    field_or_fields_container=mapped_displacement_field, title="Nodal displacement mapped to skin"
+)
 
 ###############################################################################
 # Map elemental-nodal stress to the skin mesh
@@ -140,25 +140,15 @@ print(f"Mapped scoping size:   {len(mapped_displacement_field.scoping)}")
 
 stress_en_fc = model.results.stress.on_location(dpf.locations.elemental_nodal).eval()
 stress_en_field = stress_en_fc[0]
-print("ElementalNodal stress on solid mesh:")
-print(stress_en_field)
 
 mapped_stress_en_field = ops.mapping.solid_to_skin(
     field=stress_en_field,
     mesh=skin_mesh,
     solid_mesh=solid_mesh,
 ).eval()
-print("\nElementalNodal stress mapped to skin mesh:")
-print(mapped_stress_en_field)
-
-###############################################################################
-# Visualize results on the skin mesh
-# -----------------------------------
-# Plot the mapped displacement and stress on the skin mesh.
-
-skin_mesh.plot(field_or_fields_container=mapped_displacement_field)
-
-skin_mesh.plot(field_or_fields_container=mapped_stress_field)
+skin_mesh.plot(
+    field_or_fields_container=mapped_stress_en_field, title="ElementalNodal stress mapped to skin"
+)
 
 ###############################################################################
 # Omit the solid mesh when it is available from the field support
@@ -173,8 +163,10 @@ mapped_stress_simple = ops.mapping.solid_to_skin(
     field=stress_field_solid,
     mesh=skin_mesh,
 ).eval()
-print("Stress mapped to skin mesh (solid mesh taken from field support):")
-print(mapped_stress_simple)
+skin_mesh.plot(
+    field_or_fields_container=mapped_stress_simple,
+    title="Stress mapped to skin (from field support)",
+)
 
 ###############################################################################
 # Use with FieldsContainer
@@ -192,19 +184,4 @@ mapped_fc = ops.mapping.solid_to_skin(
     mesh=skin_mesh,
     solid_mesh=solid_mesh,
 ).eval()
-print("Mapped field from FieldsContainer:")
-print(mapped_fc)
-
-###############################################################################
-# Compare original and mapped data
-# ----------------------------------
-# Compare sample stress values between the solid mesh and the skin mesh.
-
-print("Sample stress on solid mesh (first 5 entities):")
-print(stress_field_solid.data[:5])
-
-print("\nSample stress on skin mesh (first 5 entities):")
-print(mapped_stress_simple.data[:5])
-
-print(f"\nSolid - min: {stress_field_solid.min().data}, max: {stress_field_solid.max().data}")
-print(f"Skin  - min: {mapped_stress_simple.min().data}, max: {mapped_stress_simple.max().data}")
+skin_mesh.plot(field_or_fields_container=mapped_fc[0], title="Stress mapped from FieldsContainer")

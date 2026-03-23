@@ -51,6 +51,7 @@ Any target point outside the source mesh returns an empty value.
 
 # Import the ``ansys.dpf.core`` module
 # Import NumPy for coordinate manipulation
+import matplotlib.pyplot as plt
 import numpy as np
 
 from ansys.dpf import core as dpf
@@ -131,7 +132,7 @@ print(element_ids.ids)
 # reduced coordinates found in step 1.
 
 displacement_fc = model.results.displacement.eval()
-print(displacement_fc)
+mesh.plot(field_or_fields_container=displacement_fc, title="Displacement field")
 
 mapping_op = ops.mapping.on_reduced_coordinates(
     fields_container=displacement_fc,
@@ -140,7 +141,6 @@ mapping_op = ops.mapping.on_reduced_coordinates(
     mesh=mesh,
 )
 mapped_displacement_fc = mapping_op.eval()
-print(mapped_displacement_fc)
 
 ###############################################################################
 # Access mapped results
@@ -149,10 +149,23 @@ print(mapped_displacement_fc)
 
 mapped_field = mapped_displacement_fc[0]
 mapped_data = mapped_field.data
-print("\nInterpolated displacement values:")
-for i, point in enumerate(points):
-    elem_id = element_ids.ids[i]
-    print(f"  Point {i + 1} at {point} in element {elem_id}: {mapped_data[i]}")
+
+# Bar chart: displacement components at each target point
+labels = [f"Point {i + 1}" for i in range(len(points))]
+components = ["ux", "uy", "uz"]
+x = np.arange(len(labels))
+width = 0.25
+
+fig, ax = plt.subplots()
+for i, comp in enumerate(components):
+    ax.bar(x + i * width, mapped_data[:, i], width, label=comp)
+ax.set_xticks(x + width)
+ax.set_xticklabels(labels)
+ax.set_ylabel("Displacement (m)")
+ax.set_title("Interpolated displacement at reduced coordinates")
+ax.legend()
+plt.tight_layout()
+plt.show()
 
 ###############################################################################
 # Reuse reduced coordinates for stress
@@ -167,13 +180,23 @@ mapped_stress_fc = ops.mapping.on_reduced_coordinates(
     element_ids=element_ids_sc,
     mesh=mesh,
 ).eval()
-print(mapped_stress_fc[0])
-
 stress_data = mapped_stress_fc[0].data
-print("\nInterpolated stress values:")
-for i, point in enumerate(points):
-    elem_id = element_ids.ids[i]
-    print(f"  Point {i + 1} at {point} in element {elem_id}: {stress_data[i]}")
+
+# Bar chart: stress tensor components at each target point
+comp_names = ["s_xx", "s_yy", "s_zz", "s_xy", "s_yz", "s_xz"]
+x = np.arange(len(labels))
+width = 0.12
+
+fig, ax = plt.subplots(figsize=(8, 4))
+for i, comp in enumerate(comp_names):
+    ax.bar(x + i * width, stress_data[:, i], width, label=comp)
+ax.set_xticks(x + 2.5 * width)
+ax.set_xticklabels(labels)
+ax.set_ylabel("Stress (Pa)")
+ax.set_title("Interpolated stress at reduced coordinates")
+ax.legend(ncol=2)
+plt.tight_layout()
+plt.show()
 
 ###############################################################################
 # Use quadratic elements for higher precision
@@ -197,5 +220,22 @@ mapped_disp_quad_fc = ops.mapping.on_reduced_coordinates(
     use_quadratic_elements=True,
 ).eval()
 
-print("Displacement with quadratic interpolation:")
-print(mapped_disp_quad_fc[0].data)
+quad_data = mapped_disp_quad_fc[0].data
+
+# Side-by-side comparison: linear vs quadratic interpolation
+fig, axes = plt.subplots(1, 2, figsize=(10, 4), sharey=True)
+for ax, data, title in zip(
+    axes,
+    [mapped_data, quad_data],
+    ["Linear interpolation", "Quadratic interpolation"],
+):
+    for i, comp in enumerate(components):
+        ax.bar(x + i * width, data[:, i], width, label=comp)
+    ax.set_xticks(x + width)
+    ax.set_xticklabels(labels)
+    ax.set_ylabel("Displacement (m)")
+    ax.set_title(title)
+    ax.legend()
+plt.suptitle("Displacement: linear vs quadratic interpolation")
+plt.tight_layout()
+plt.show()
