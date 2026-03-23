@@ -136,3 +136,23 @@ def test_streams_container_add_stream_from_datasources(server_in_process, simple
     dummy_stream = DummyStream(file_path=simple_bar)
     # No labels needed: the file path is matched against the DataSources entries.
     sc.add_stream(stream=dummy_stream)
+
+
+def test_stream_release(server_in_process, simple_bar):
+    """Stream.release() must close the file handle and set _handle to None."""
+    dummy_stream = DummyStream(file_path=simple_bar)
+    assert dummy_stream._handle is not None
+    dummy_stream.release()
+    assert dummy_stream._handle is None
+
+
+def test_stream_release_frees_file(server_in_process, simple_bar):
+    """After Stream.release() the underlying file must be deletable (OS handle fully freed)."""
+    simple_bar = Path(simple_bar)
+    copy_path = simple_bar.parent / (simple_bar.stem + "_stream_rel" + simple_bar.suffix)
+    shutil.copyfile(simple_bar, copy_path)
+    dummy_stream = DummyStream(file_path=copy_path, server=server_in_process)
+    sc = dpf.core.StreamsContainer(server=server_in_process)
+    sc.add_stream(stream=dummy_stream, group=1, is_result=1, result=1)
+    dummy_stream.release()
+    copy_path.unlink()  # Would raise PermissionError on Windows if the handle were still open
