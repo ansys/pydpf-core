@@ -184,6 +184,7 @@ print(mapped_stress_simple)
 # a single field.
 
 single_field_fc = dpf.FieldsContainer()
+single_field_fc.labels = ["time"]
 single_field_fc.add_field(label_space={"time": 1}, field=stress_field_solid)
 
 mapped_fc = ops.mapping.solid_to_skin(
