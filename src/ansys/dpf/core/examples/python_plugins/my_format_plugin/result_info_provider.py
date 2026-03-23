@@ -119,7 +119,7 @@ class result_info_provider(CustomOperatorBase):
     @property
     def name(self) -> str:
         """Return the operator scripting name."""
-        return "myformat::result_info_provider"
+        return "myformat::myformat::result_info_provider"
 
 
 # ---------------------------------------------------------------------------
@@ -161,7 +161,7 @@ def _build_result_info(model: reader.MyFormatModel) -> dpf.ResultInfo:
         nature = _NATURE_MAP.get(res.num_components, dpf.natures.scalar)
 
         result_info.add_result(
-            operator_name=f"myformat::{res.name}",
+            operator_name=f"myformat::myformat::{res.name}",
             scripting_name=res.name,
             homogeneity=homogeneity,
             location=location,

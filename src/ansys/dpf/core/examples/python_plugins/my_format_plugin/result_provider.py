@@ -134,7 +134,7 @@ class displacement_provider(_result_provider):
     @property
     def name(self) -> str:
         """Return the operator scripting name."""
-        return "myformat::displacement"
+        return "myformat::myformat::displacement"
 
 
 class temperature_provider(_result_provider):
@@ -153,7 +153,7 @@ class temperature_provider(_result_provider):
     @property
     def name(self) -> str:
         """Return the operator scripting name."""
-        return "myformat::temperature"
+        return "myformat::myformat::temperature"
 
 
 # ---------------------------------------------------------------------------

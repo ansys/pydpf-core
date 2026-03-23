@@ -110,7 +110,7 @@ class mesh_provider(CustomOperatorBase):
     @property
     def name(self) -> str:
         """Return the operator scripting name."""
-        return "myformat::mesh_provider"
+        return "myformat::myformat::mesh_provider"
 
 
 def _build_mesh(model: reader.MyFormatModel) -> dpf.MeshedRegion:

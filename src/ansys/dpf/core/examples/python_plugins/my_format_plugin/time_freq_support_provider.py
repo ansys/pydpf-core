@@ -100,7 +100,7 @@ class time_freq_support_provider(CustomOperatorBase):
     @property
     def name(self) -> str:
         """Return the operator scripting name."""
-        return "myformat::time_freq_support_provider"
+        return "myformat::myformat::time_freq_support_provider"
 
 
 def _build_time_freq_support(model: reader.MyFormatModel) -> dpf.TimeFreqSupport:

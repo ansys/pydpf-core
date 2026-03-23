@@ -118,7 +118,7 @@ class mesh_info_provider(CustomOperatorBase):
     @property
     def name(self) -> str:
         """Return the operator scripting name."""
-        return "myformat::mesh_info_provider"
+        return "myformat::myformat::mesh_info_provider"
 
 
 def _build_mesh_info(model: reader.MyFormatModel) -> dpf.GenericDataContainer:

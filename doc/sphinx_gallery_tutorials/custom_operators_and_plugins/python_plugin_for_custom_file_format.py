@@ -180,7 +180,7 @@ All source files are provided under
 #
 #         @property
 #         def name(self):
-#             return "myformat::result_info_provider"
+#             return "myformat::myformat::result_info_provider"
 #
 #         def run(self):
 #             file_path = _get_file_path(self)       # helper: pin 3 or pin 4
@@ -220,7 +220,7 @@ All source files are provided under
 #
 #         @property
 #         def name(self):
-#             return "myformat::time_freq_support_provider"
+#             return "myformat::myformat::time_freq_support_provider"
 #
 #         def run(self):
 #             file_path = _get_file_path(self)
@@ -248,7 +248,7 @@ All source files are provided under
 #
 #         @property
 #         def name(self):
-#             return "myformat::mesh_provider"
+#             return "myformat::myformat::mesh_provider"
 #
 #         def run(self):
 #             file_path = _get_file_path(self)
@@ -308,7 +308,7 @@ All source files are provided under
 #
 #         @property
 #         def name(self):
-#             return "myformat::displacement"
+#             return "myformat::myformat::displacement"
 #
 #
 #     class temperature_provider(_result_provider):
@@ -316,7 +316,7 @@ All source files are provided under
 #
 #         @property
 #         def name(self):
-#             return "myformat::temperature"
+#             return "myformat::myformat::temperature"
 #
 
 ###############################################################################
@@ -391,62 +391,61 @@ myformat_ops = sorted(op for op in available if op.startswith("myformat"))
 print("Registered myformat operators:", myformat_ops)
 
 ###############################################################################
-# Open the result file
-# ---------------------
+# Open the result file with :class:`~ansys.dpf.core.model.Model`
+# ---------------------------------------------------------------
 #
 # Create a :class:`~ansys.dpf.core.data_sources.DataSources` pointing to the
-# sample ``.myf`` file. The ``key`` argument tells DPF which result type this
-# file belongs to.
+# sample ``.myf`` file. The ``key`` argument identifies the result type.
+# :meth:`~ansys.dpf.core.data_sources.DataSources.register_namespace` maps
+# that key to the operator namespace, so DPF's generic dispatcher operators
+# (``ResultInfoProvider``, ``TimeFreqSupportProvider``, ``mesh_provider``, …)
+# know to look for ``myformat::myformat::result_info_provider`` etc.
+#
+# .. note::
+#
+#    The naming convention for all providers **except** ``stream_provider`` is
+#    ``{namespace}::{key}::{operator_name}`` (two-level prefix). This mirrors
+#    how C++ plugins register their operators — for example, the CGNS plugin
+#    uses ``cgns::cgns::result_info_provider``. Only ``stream_provider`` uses a
+#    single-level name (``myformat::stream_provider``) because the C++ generic
+#    stream dispatcher looks it up differently.
 
 my_ds = dpf.DataSources(server=server)
 my_ds.set_result_file_path(str(my_format_plugin.sample_file), key="myformat")
+my_ds.register_namespace(result_key="myformat", namespace="myformat")
+
+my_model = dpf.Model(data_sources=my_ds, server=server)
+print(my_model)
 
 ###############################################################################
-# Inspect the result metadata
-# ----------------------------
+# Inspect the result metadata and time-frequency support
+# -------------------------------------------------------
 #
-# Call ``myformat::result_info_provider`` directly, passing the
-# :class:`~ansys.dpf.core.data_sources.DataSources` on pin 4. This returns a
-# :class:`~ansys.dpf.core.result_info.ResultInfo` describing all available
-# result quantities.
+# :attr:`~ansys.dpf.core.model.Model.metadata` exposes the
+# :class:`~ansys.dpf.core.result_info.ResultInfo` and the
+# :class:`~ansys.dpf.core.time_freq_support.TimeFreqSupport` through the
+# standard DPF metadata pipeline.
 
-ri_op = dpf.Operator("myformat::result_info_provider", server=server)
-ri_op.connect(4, my_ds)
-result_info = ri_op.get_output(0, dpf.ResultInfo)
-
+result_info = my_model.metadata.result_info
 print("Analysis type  :", result_info.analysis_type)
 print("Number of results:", result_info.n_results)
 for i in range(result_info.n_results):
     r = result_info.available_results[i]
     print(f"  [{i}] name={r.name!r:20s} location={r.native_location!r}")
 
-###############################################################################
-# Inspect the time-frequency support
-# ------------------------------------
-#
-# ``myformat::time_freq_support_provider`` returns a
-# :class:`~ansys.dpf.core.time_freq_support.TimeFreqSupport` with the
-# frequency axis from the ``FREQUENCIES`` block of the ``.myf`` file.
-
-tfs_op = dpf.Operator("myformat::time_freq_support_provider", server=server)
-tfs_op.connect(4, my_ds)
-tfs = tfs_op.get_output(0, dpf.TimeFreqSupport)
-
+tfs = my_model.metadata.time_freq_support
 print("Number of frequency sets:", tfs.n_sets)
 print("Frequencies [Hz]        :", tfs.time_frequencies.data)
 
 ###############################################################################
-# Retrieve the mesh
-# ------------------
+# Inspect the mesh
+# -----------------
 #
-# ``myformat::mesh_provider`` builds a
-# :class:`~ansys.dpf.core.meshed_region.MeshedRegion` from the node
-# coordinates and element connectivity in the file.
+# :attr:`~ansys.dpf.core.model.Model.metadata` also provides the
+# :class:`~ansys.dpf.core.meshed_region.MeshedRegion` through the
+# ``meshed_region`` property.
 
-mesh_op = dpf.Operator("myformat::mesh_provider", server=server)
-mesh_op.connect(4, my_ds)
-mesh = mesh_op.get_output(0, dpf.MeshedRegion)
-
+mesh = my_model.metadata.meshed_region
 print("Number of nodes   :", mesh.nodes.n_nodes)
 print("Number of elements:", mesh.elements.n_elements)
 
@@ -454,14 +453,14 @@ print("Number of elements:", mesh.elements.n_elements)
 # Extract displacement results
 # -----------------------------
 #
-# The ``myformat::displacement`` operator returns a
-# :class:`~ansys.dpf.core.fields_container.FieldsContainer` with one nodal
-# vector :class:`~ansys.dpf.core.field.Field` per frequency set, labelled by
-# ``"time"`` (the 1-based frequency-set id).
+# Result operators are called by their full ``{namespace}::{key}::{name}``
+# scripting name. Connect the
+# :class:`~ansys.dpf.core.data_sources.DataSources` on pin 4 and request the
+# output :class:`~ansys.dpf.core.fields_container.FieldsContainer`.
 # Use :meth:`~ansys.dpf.core.fields_container.FieldsContainer.get_label_space`
 # to retrieve the frequency-set label of each field.
 
-disp_op = dpf.Operator("myformat::displacement", server=server)
+disp_op = dpf.Operator("myformat::myformat::displacement", server=server)
 disp_op.connect(4, my_ds)
 disp_fc = disp_op.get_output(0, dpf.FieldsContainer)
 
@@ -479,11 +478,9 @@ for i in range(len(disp_fc)):
 # Extract temperature results
 # ----------------------------
 #
-# ``myformat::temperature`` returns an elemental scalar
-# :class:`~ansys.dpf.core.fields_container.FieldsContainer`, one field per
-# frequency set.
+# The same pattern applies for the elemental scalar temperature result.
 
-temp_op = dpf.Operator("myformat::temperature", server=server)
+temp_op = dpf.Operator("myformat::myformat::temperature", server=server)
 temp_op.connect(4, my_ds)
 temp_fc = temp_op.get_output(0, dpf.FieldsContainer)
 
