@@ -35,6 +35,7 @@ import importlib.util
 from pathlib import Path
 import sys
 import tempfile
+import traceback
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
 import warnings
 
@@ -496,6 +497,23 @@ class _PyVistaPlotter:
             src = source._as_pyvista_data_set()
             self._plotter.add_mesh(src, **kwargs_in)
 
+    def close(self):
+        """Close the underlying pyvista Plotter and release all VTK resources."""
+        if hasattr(self, "_plotter") and self._plotter is not None:
+            try:
+                self._plotter.close()
+            except Exception:
+                warnings.warn(traceback.format_exc())
+
+    def __del__(self):
+        """Ensure the pyvista Plotter is closed on garbage collection.
+
+        Calling ``close()`` eagerly here prevents DPF-allocated data held inside
+        VTK arrays from being freed at an unsafe time (e.g. while a new server is
+        loading its ctypes library), which would cause a segmentation fault.
+        """
+        self.close()
+
     def show_figure(self, **kwargs):
         text = kwargs.pop("text", None)
         if text is not None:
@@ -524,7 +542,13 @@ class _PyVistaPlotter:
 
         # Show depending on return_cpos option
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.show, **kwargs)
-        return self._plotter.show(**kwargs_in), self._plotter
+        result = self._plotter.show(**kwargs_in), self._plotter
+        # Eagerly release VTK resources (including DPF-allocated memory held in VTK
+        # arrays) so they are freed while the DPF server is still alive rather than
+        # during a later GC cycle that may race with server (re-)initialisation and
+        # cause a segmentation fault.
+        self._plotter.close()
+        return result
 
     @staticmethod
     def _set_scalar_bar_title(kwargs):
@@ -1159,7 +1183,32 @@ class _VisualizationInterfacePlotter:
 
         # Show
         result = self._plotter.show(**kwargs_in)
+        # Eagerly release VTK resources (including DPF-allocated memory held in VTK
+        # arrays) so they are freed while the DPF server is still alive rather than
+        # during a later GC cycle that may race with server (re-)initialisation and
+        # cause a segmentation fault.
+        try:
+            self._backend.base_plotter.close()
+        except Exception:
+            warnings.warn(traceback.format_exc())
         return result, self._backend.base_plotter
+
+    def close(self):
+        """Close the underlying pyvista Plotter and release all VTK resources."""
+        if hasattr(self, "_backend") and self._backend is not None:
+            try:
+                self._backend.base_plotter.close()
+            except Exception:
+                warnings.warn(traceback.format_exc())
+
+    def __del__(self):
+        """Ensure the pyvista Plotter is closed on garbage collection.
+
+        Calling ``close()`` eagerly here prevents DPF-allocated data held inside
+        VTK arrays from being freed at an unsafe time (e.g. while a new server is
+        loading its ctypes library), which would cause a segmentation fault.
+        """
+        self.close()
 
     @staticmethod
     def _set_scalar_bar_title(kwargs: Dict[str, Any]) -> Dict[str, Any]:
