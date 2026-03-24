@@ -122,7 +122,7 @@ jobs:
           LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
-          echo "ANSYSLMD_LICENSE_FILE=1055@${LICENSE_SERVER}" >> $GITHUB_ENV      
+          echo "ANSYSLMD_LICENSE_FILE=1055@${LICENSE_SERVER}" >> $GITHUB_ENV
 
       - name: "Setup Python"
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
@@ -145,7 +145,7 @@ jobs:
           MATRIX_OS: ${{ matrix.os }}
         run: |
           if [ "${TEST_ANY}" == 'true' ]; then
-              export platform="any" 
+              export platform="any"
           elif [ "${MATRIX_OS}" == "ubuntu-latest" ]; then
               export platform="manylinux_2_17"
           else
@@ -225,7 +225,7 @@ jobs:
         with:
           DEBUG: true
           install-from-dependency-groups: "true"
-          
+
       - name: "Test Docstrings"
         if: (inputs.DOCSTRING == 'true')
         uses: ansys/pydpf-actions/test_docstrings@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
@@ -339,19 +339,6 @@ jobs:
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-service,kill-servers
-
-      # - name: "Run api and launcher tests in parallel"
-      #   uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
-      #   env:
-      #     TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
-      #     TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
-      #   with:
-      #     timeout_minutes: 20
-      #     max_attempts: 2
-      #     shell: bash
-      #     command: |
-      #       export DPF_DEFAULT_GRPC_MODE=insecure
-      #       tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e pretest,test-api,test-launcher,posttest,kill-servers
 
       - name: "Combine coverage results"
         shell: bash
