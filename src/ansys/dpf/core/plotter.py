@@ -35,6 +35,7 @@ import importlib.util
 from pathlib import Path
 import sys
 import tempfile
+import traceback
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
 import warnings
 
@@ -502,7 +503,7 @@ class _PyVistaPlotter:
             try:
                 self._plotter.close()
             except Exception:
-                pass
+                warnings.warn(traceback.format_exc())
 
     def __del__(self):
         """Ensure the pyvista Plotter is closed on garbage collection.
