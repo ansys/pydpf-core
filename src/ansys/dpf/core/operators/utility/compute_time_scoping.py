@@ -28,6 +28,8 @@ class compute_time_scoping(Operator):
 
     Inputs
     ------
+    time_freq_precision: str, optional
+        Precision for time/frequency matching: "double" or "float" (default: "double")
     time_freq_values: float or Field or TimeFreqSupport
         List of frequencies or times needed. To specify load steps, put a field (and not a list) in input with a scoping located on "TimeFreq_steps".
     step: int, optional
@@ -50,6 +52,8 @@ class compute_time_scoping(Operator):
     >>> op = dpf.operators.utility.compute_time_scoping()
 
     >>> # Make input connections
+    >>> my_time_freq_precision = str()
+    >>> op.inputs.time_freq_precision.connect(my_time_freq_precision)
     >>> my_time_freq_values = float()
     >>> op.inputs.time_freq_values.connect(my_time_freq_values)
     >>> my_step = int()
@@ -61,6 +65,7 @@ class compute_time_scoping(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.compute_time_scoping(
+    ...     time_freq_precision=my_time_freq_precision,
     ...     time_freq_values=my_time_freq_values,
     ...     step=my_step,
     ...     interpolation_type=my_interpolation_type,
@@ -74,6 +79,7 @@ class compute_time_scoping(Operator):
 
     def __init__(
         self,
+        time_freq_precision=None,
         time_freq_values=None,
         step=None,
         interpolation_type=None,
@@ -88,6 +94,8 @@ class compute_time_scoping(Operator):
             inputs_type=InputsComputeTimeScoping,
             outputs_type=OutputsComputeTimeScoping,
         )
+        if time_freq_precision is not None:
+            self.inputs.time_freq_precision.connect(time_freq_precision)
         if time_freq_values is not None:
             self.inputs.time_freq_values.connect(time_freq_values)
         if step is not None:
@@ -105,6 +113,12 @@ interpolate on a list of time or frequencies.
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -1: PinSpecification(
+                    name="time_freq_precision",
+                    type_names=["string"],
+                    optional=True,
+                    document=r"""Precision for time/frequency matching: "double" or "float" (default: "double")""",
+                ),
                 0: PinSpecification(
                     name="time_freq_values",
                     type_names=[
@@ -204,6 +218,8 @@ class InputsComputeTimeScoping(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.compute_time_scoping()
+    >>> my_time_freq_precision = str()
+    >>> op.inputs.time_freq_precision.connect(my_time_freq_precision)
     >>> my_time_freq_values = float()
     >>> op.inputs.time_freq_values.connect(my_time_freq_values)
     >>> my_step = int()
@@ -216,6 +232,10 @@ class InputsComputeTimeScoping(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(compute_time_scoping._spec().inputs, op)
+        self._time_freq_precision: Input[str] = Input(
+            compute_time_scoping._spec().input_pin(-1), -1, op, -1
+        )
+        self._inputs.append(self._time_freq_precision)
         self._time_freq_values: Input[float | Field | TimeFreqSupport] = Input(
             compute_time_scoping._spec().input_pin(0), 0, op, -1
         )
@@ -232,6 +252,27 @@ class InputsComputeTimeScoping(_Inputs):
             compute_time_scoping._spec().input_pin(8), 8, op, -1
         )
         self._inputs.append(self._time_freq_support)
+
+    @property
+    def time_freq_precision(self) -> Input[str]:
+        r"""Allows to connect time_freq_precision input to the operator.
+
+        Precision for time/frequency matching: "double" or "float" (default: "double")
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.compute_time_scoping()
+        >>> op.inputs.time_freq_precision.connect(my_time_freq_precision)
+        >>> # or
+        >>> op.inputs.time_freq_precision(my_time_freq_precision)
+        """
+        return self._time_freq_precision
 
     @property
     def time_freq_values(self) -> Input[float | Field | TimeFreqSupport]:
