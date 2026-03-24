@@ -48,6 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: get_latest_tag
     permissions:
+      id-token: write # Required for OIDC authentication with PyPI
       contents: read
     steps:
       - name: "Download Release Assets"
@@ -61,13 +62,13 @@ jobs:
           extract: false
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: "Upload to Public PyPI" # zizmor: ignore[use-trusted-publishing] , to be removed soon
-        run: |
-          pip install twine==6.0.1
-          twine upload --skip-existing assets/*
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      - name: "Upload artifacts to PyPI using trusted publisher"
+        uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
+        with:
+          repository-url: "https://upload.pypi.org/legacy/"
+          print-hash: true
+          packages-dir: assets
+          skip-existing: true
 
   upload_docs_release:
     name: "Upload stable documentation"
