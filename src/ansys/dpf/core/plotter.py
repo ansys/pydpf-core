@@ -545,7 +545,7 @@ class _PyVistaPlotter:
         # Eagerly release VTK resources (including DPF-allocated memory held in VTK
         # arrays) so they are freed while the DPF server is still alive rather than
         # during a later GC cycle that may race with server (re-)initialisation and
-        # cause a segmentation fault in dpf_vector_double_free.
+        # cause a segmentation fault.
         self._plotter.close()
         return result
 
@@ -1185,7 +1185,7 @@ class _VisualizationInterfacePlotter:
         # Eagerly release VTK resources (including DPF-allocated memory held in VTK
         # arrays) so they are freed while the DPF server is still alive rather than
         # during a later GC cycle that may race with server (re-)initialisation and
-        # cause a segmentation fault in dpf_vector_double_free.
+        # cause a segmentation fault.
         try:
             self._backend.base_plotter.close()
         except Exception:
