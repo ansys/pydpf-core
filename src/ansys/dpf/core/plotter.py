@@ -1190,7 +1190,7 @@ class _VisualizationInterfacePlotter:
         try:
             self._backend.base_plotter.close()
         except Exception:
-            pass
+            warnings.warn(traceback.format_exc())
         return result, self._backend.base_plotter
 
     def close(self):
@@ -1199,7 +1199,7 @@ class _VisualizationInterfacePlotter:
             try:
                 self._backend.base_plotter.close()
             except Exception:
-                pass
+                warnings.warn(traceback.format_exc())
 
     def __del__(self):
         """Ensure the pyvista Plotter is closed on garbage collection.
