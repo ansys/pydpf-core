@@ -431,7 +431,7 @@ def generate_operator_doc(  # noqa: PLR0912, C901
                     else:
                         supported_file_types[namespace].append(key)
         for namespace, supported_keys in supported_file_types.items():
-            supported_file_types[namespace] = ", ".join(sorted(supported_keys))
+            supported_file_types[namespace] = sorted(supported_keys)
     else:
         operator_info["is_router"] = False
     operator_info["supported_file_types"] = supported_file_types

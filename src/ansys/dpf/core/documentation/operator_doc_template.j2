@@ -2,7 +2,9 @@
 category: {{ scripting_info.category }}
 plugin: {{ scripting_info.plugin }}
 license: {{ scripting_info.license }}
----
+{% if is_router and supported_file_types %}namespaces:
+{% for namespace, keys in supported_file_types.items() | sort %}  {{ namespace }}: [{{ keys | join(", ") }}]
+{% endfor %}{% endif %}---
 
 # {{ operator_name }}
 
@@ -16,7 +18,7 @@ license: {{ scripting_info.license }}
 
 This operator supports the following keys ([file formats](../../index.md#overview-of-dpf)) for each listed namespace (plugin/solver):
 {% for namespace, supported_files in supported_file_types.items() | sort %}
-- {{ namespace }}: {{ supported_files }} {% endfor %}
+- {{ namespace }}: {{ supported_files | join(", ") }} {% endfor %}
 {% endif %}
 ## Inputs
 
