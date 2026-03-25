@@ -5,10 +5,10 @@ requires = ["setuptools>=61.0.0", "wheel"]
 [project]
 # Check https://setuptools.pypa.io/en/stable/userguide/quickstart.html for all available sections
 name = "ansys-dpf-core"
-version = "0.14.3.dev0"
+version = "0.15.1.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
-requires-python = ">=3.9, <4"
+requires-python = ">=3.10, <4"
 license = {file = "LICENSE"}
 authors = [
     {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"},
@@ -27,6 +27,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 dependencies = [
+    "ansys-tools-common",
     "grpcio >=1.63.0",
     "importlib-metadata >=4.0",
     "numpy",
@@ -43,6 +44,7 @@ graphics = [
     "matplotlib>=3.2",
     # 3D plotting
     "pyvista>=0.32.0",
+    "ansys-tools-visualization-interface==1.0.0a1",
     "vtk!=9.4.0",
     # Animations
     "imageio",
@@ -54,6 +56,7 @@ plotting = [
     "matplotlib>=3.2",
     # 3D plotting
     "pyvista>=0.32.0",
+    "ansys-tools-visualization-interface==1.0.0a1",
     "vtk",
     # Animations
     "imageio",
@@ -63,6 +66,64 @@ plotting = [
 operator_doc = [
     # Operator documentation generation
     "jinja2",
+]
+
+[dependency-groups]
+
+doc = [
+  "ansys-sphinx-theme[autoapi]==1.7.2",
+  "ansys-tools-visualization-interface==1.0.0a1",
+  "enum-tools[sphinx]==0.13.0",
+  "graphviz==0.21",
+  "imageio==2.37.3",
+  "imageio-ffmpeg==0.6.0",
+  "jupyter_sphinx==0.5.3",
+  "pdf2image==1.17.0",
+  "nbsphinx==0.9.8",
+  "pypandoc==1.17",
+  "pytest-sphinx==0.7.1",
+  "pyvista==0.47.1",
+  "quarto-cli==1.8.27",
+  "sphinx==8.2.3",
+  "sphinx-copybutton==0.5.2",
+  "sphinx-gallery==0.20.0",
+  "sphinx-jinja==2.0.2",
+  "sphinx-notfound-page==1.1.0",
+  "sphinx-reredirects==0.1.6",
+  "sphinx_design==0.7.0",
+  "sphinxcontrib-napoleon==0.7",
+  "vtk==9.6.0",
+]
+test = [
+  "ansys-platform-instancemanagement==1.1.2",
+  "ansys-tools-common==0.5.0",
+  "ansys-tools-visualization-interface==1.0.0a1",
+  "coverage==7.13.5",
+  "graphviz==0.21",
+  "imageio==2.37.3",
+  "imageio-ffmpeg==0.6.0",
+  "jinja2==3.1.6",
+  "pypandoc_binary==1.17",
+  "pytest==9.0.2",
+  "pytest-cov==7.0.0",
+  "pytest-order==1.3.0",
+  "pytest-rerunfailures==16.1",
+  "pyvista==0.47.1",
+  "vtk==9.6.0",
+]
+build = [
+  "black==26.3.1",
+  "build==1.4.0",
+  "chevron==0.14.0",
+  "pypandoc_binary==1.17",
+  "wheel==0.46.3",
+]
+install = [
+  "importlib-metadata==8.7.1",
+  "numpy==2.4.1",
+  "packaging==26.0",
+  "psutil==7.2.2",
+  "tqdm==4.67.3",
 ]
 
 [project.urls]
@@ -113,6 +174,7 @@ known-first-party = ["ansys"]
 
 [tool.coverage.run]
 source = ["ansys.dpf.core"]
+patch = ["subprocess"]
 
 [tool.coverage.report]
 show_missing = true
@@ -125,3 +187,8 @@ where = ["src"]
 "ansys.dpf.gatebin" = ["*.so", "*.dll"]
 "ansys.dpf.core.documentation" = ["toc_template.j2", "operator_doc_template.j2"]
 
+[tool.pytest]
+#filterwarnings = ['ignore:Use explicit output-to-input connections:DeprecationWarning']
+norecursedirs = ["*"]
+doctest_optionflags = ["NORMALIZE_WHITESPACE", "ELLIPSIS"]
+markers = ["slow: mark a test as slow."]

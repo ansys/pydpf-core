@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -229,7 +229,6 @@ def test_local_property_field():
         assert np.allclose(f._data_pointer, data_pointer[0 : len(data_pointer)])
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_mutable_data_property_field(server_clayer, simple_bar):
     model = dpf.core.Model(simple_bar, server=server_clayer)
     mesh = model.metadata.meshed_region
@@ -256,10 +255,6 @@ def test_mutable_data_property_field(server_clayer, simple_bar):
     assert np.allclose(changed_data[0], data_copy[0] + 2)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="change in memory ownership in server 5.0",
-)
 def test_mutable_data_delete_property_field(server_clayer, simple_bar):
     model = dpf.core.Model(simple_bar, server=server_clayer)
     mesh = model.metadata.meshed_region
@@ -276,10 +271,6 @@ def test_mutable_data_delete_property_field(server_clayer, simple_bar):
     assert np.allclose(changed_data[0], 1)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="Copying data is " "supported starting server version 5.0",
-)
 def test_print_property_field(server_type):
     pfield = dpf.core.PropertyField(server=server_type)
     assert "Property Field" in str(pfield)

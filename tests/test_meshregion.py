@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -124,7 +124,6 @@ def test_get_coordinates_field_meshedregion(simple_bar_model):
     assert np.all(coordinates.meshed_region.nodes.scoping.ids == mesh.nodes.scoping.ids)
 
 
-@conftest.raises_for_servers_version_under("3.0")
 def test_set_coordinates_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     field_coordinates = mesh.nodes.coordinates_field
@@ -159,7 +158,6 @@ def test_get_element_types_field_meshedregion(simple_bar_model):
     assert field_element_types.component_count == 1
 
 
-@conftest.raises_for_servers_version_under("3.0")
 def test_set_element_types_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     field_element_types = mesh.elements.element_types_field
@@ -189,7 +187,6 @@ def test_get_materials_field_meshedregion(simple_bar_model):
     assert np.allclose(materials.data, field_mat.data)
 
 
-@conftest.raises_for_servers_version_under("3.0")
 def test_set_materials_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     materials = mesh.property_field(dpf.core.common.elemental_properties.material)
@@ -220,7 +217,6 @@ def test_get_connectivities_field_meshedregion(simple_bar_model):
     assert np.allclose(connectivity.data, field_connect.data)
 
 
-@conftest.raises_for_servers_version_under("3.0")
 def test_set_connectivities_field_meshed_region(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     connectivity = mesh.elements.connectivities_field
@@ -352,7 +348,6 @@ def test_named_selection_mesh(allkindofcomplexity, server_type):
     assert scop.location == dpf.core.locations().nodal
 
 
-@conftest.raises_for_servers_version_under("3.0")
 def test_set_named_selection_mesh(allkindofcomplexity, server_type):
     model = dpf.core.Model(allkindofcomplexity, server=server_type)
     mesh = model.metadata.meshed_region
@@ -643,13 +638,50 @@ def test_mesh_deep_copy2(simple_bar_model, server_type):
     )
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Bug in server version lower than 4.0",
-)
 def test_empty_mesh_get_scoping(server_type):
     mesh = dpf.core.MeshedRegion(server=server_type)
     okay = mesh.nodes.scoping is None or len(mesh.nodes.scoping) == 0
     assert okay
     okay = mesh.elements.scoping is None or len(mesh.elements.scoping) == 0
     assert okay
+
+
+def test_meshed_region_bounding_box(simple_bar_model):
+    """Test the bounding_box property of MeshedRegion."""
+    mesh = simple_bar_model.metadata.meshed_region
+
+    # Get the bounding box
+    bbox = mesh.bounding_box
+
+    # Verify it's a Field
+    assert isinstance(bbox, dpf.core.Field)
+
+    # Verify the field has nodal location
+    assert bbox.location == dpf.core.locations.overall
+
+    # Verify the field has 1 entity
+    assert len(bbox.scoping.ids) == 1
+
+    # Get all data as a 1x6 array
+    bbox_data = bbox.data
+    assert bbox_data.shape == (1, 6)
+
+    # First are min values, second are max values
+    min_coords = bbox_data[0, 0:3]
+    max_coords = bbox_data[0, 3:6]
+
+    # Verify min is less than or equal to max for each dimension
+    assert np.all(min_coords <= max_coords)
+
+    # Verify the bounding box matches the actual coordinate range
+    coords = mesh.nodes.coordinates_field.data
+    expected_min = np.min(coords, axis=0)
+    expected_max = np.max(coords, axis=0)
+
+    assert np.allclose(min_coords, expected_min)
+    assert np.allclose(max_coords, expected_max)
+
+    # Verify the unit is set correctly
+    coords_field = mesh.nodes.coordinates_field
+    if coords_field.unit:
+        assert bbox.unit == coords_field.unit

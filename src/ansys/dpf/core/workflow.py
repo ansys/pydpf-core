@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -52,9 +52,6 @@ from ansys.dpf.gate import (
     workflow_capi,
     workflow_grpcapi,
 )
-
-LOG = logging.getLogger(__name__)
-LOG.setLevel("DEBUG")
 
 
 class Workflow:

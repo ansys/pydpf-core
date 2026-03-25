@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -29,10 +29,6 @@ import conftest
 from conftest import local_servers, running_docker
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
 @pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_connect_remote_operators(simple_bar):
     data_sources1 = core.DataSources(simple_bar)
@@ -44,10 +40,6 @@ def test_connect_remote_operators(simple_bar):
     assert np.allclose(fc[0].data, 2 * op1.outputs.fields_container()[0].data)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
 @pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_connect_3remote_operators(simple_bar):
     data_sources1 = core.DataSources(simple_bar)
@@ -59,10 +51,6 @@ def test_connect_3remote_operators(simple_bar):
     assert np.allclose(fc[0].data, 2 * op1.outputs.fields_container()[0].data)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Connecting data from different servers is " "supported starting server version 4.0",
-)
 @pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_connect_remote_data_to_operator(simple_bar):
     data_sources1 = core.DataSources(simple_bar)

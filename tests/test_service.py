@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,9 +22,9 @@
 
 import datetime
 from importlib import reload
+from importlib.util import find_spec
 import os
 from pathlib import Path
-import pkgutil
 import platform
 
 import pytest
@@ -240,7 +240,7 @@ def test_uploadinfolder_emptyfolder(tmpdir, server_type_remote_process):
 def test_load_plugin_correctly(server_type):
     from ansys.dpf import core as dpf
 
-    actual_path = Path(pkgutil.get_loader("ansys.dpf.core").path).parent
+    actual_path = Path(find_spec("ansys.dpf.core").origin).parent
 
     base = dpf.BaseService(server=server_type)
     if server_type.os == "nt":
@@ -255,7 +255,6 @@ def test_load_plugin_correctly(server_type):
     assert num_lines >= 11
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_load_plugin_correctly_remote():
     from ansys.dpf import core as dpf
 
@@ -264,7 +263,7 @@ def test_load_plugin_correctly_remote():
         server.external_ip, server.external_port, as_global=False
     )
 
-    actual_path = Path(pkgutil.get_loader("ansys.dpf.core").path).parent
+    actual_path = Path(find_spec("ansys.dpf.core").origin).parent
 
     if server.os == "posix":
         dpf.load_library("libAns.Dpf.Math.so", "math_operators", server=server_connected)
@@ -289,10 +288,6 @@ def test_dpf_join(server_type):
 
 
 @pytest.mark.skipif(not conftest.IS_USING_GATEBIN, reason="This test must have gatebin installed")
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="GrpcServer class is " "supported starting server version 4.0",
-)
 def test_load_api_without_awp_root(restore_awp_root):
     from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 
@@ -321,10 +316,6 @@ def test_load_api_without_awp_root(restore_awp_root):
 
 
 @pytest.mark.skipif(not conftest.IS_USING_GATEBIN, reason="This test must have gatebin installed")
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="GrpcServer class is " "supported starting server version 4.0",
-)
 def test_load_api_with_awp_root():
     # with awp_root
     from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
@@ -340,10 +331,6 @@ def test_load_api_with_awp_root():
 
 
 @pytest.mark.skipif(not conftest.IS_USING_GATEBIN, reason="This test must have gatebin installed")
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="GrpcServer class is " "supported starting server version 4.0",
-)
 def test_load_api_with_awp_root_2():
     from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 
@@ -367,10 +354,6 @@ def test_load_api_with_awp_root_2():
 
 
 @pytest.mark.skipif(conftest.IS_USING_GATEBIN, reason="This test must not have gatebin installed")
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="GrpcServer class is " "supported starting server version 4.0",
-)
 def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
     from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 
@@ -401,10 +384,6 @@ def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
 
 
 @pytest.mark.skipif(conftest.IS_USING_GATEBIN, reason="This test must no have gatebin installed")
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="GrpcServer class is " "supported starting server version 4.0",
-)
 def test_load_api_with_awp_root_no_gatebin():
     # with awp_root
     from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
@@ -424,10 +403,6 @@ def test_load_api_with_awp_root_no_gatebin():
 
 
 @pytest.mark.skipif(conftest.IS_USING_GATEBIN, reason="This test must not have gatebin installed")
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="GrpcServer class is " "supported starting server version 4.0",
-)
 def test_load_api_with_awp_root_2_no_gatebin():
     from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 
@@ -470,7 +445,7 @@ def reset_context_environment_variable(request):
 
 
 @pytest.mark.skipif(
-    running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    running_docker,
     reason="AWP ROOT is not set with Docker",
 )
 @conftest.raises_for_servers_version_under("6.0")
@@ -517,7 +492,7 @@ def test_server_without_context(remote_config_server_type):
 
 @pytest.mark.order("last")
 @pytest.mark.skipif(
-    running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    running_docker,
     reason="AWP ROOT is not set with Docker",
 )
 @conftest.raises_for_servers_version_under("6.0")

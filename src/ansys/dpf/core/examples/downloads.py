@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -34,7 +34,7 @@ import warnings
 
 from ansys.dpf.core.examples.examples import find_files
 
-EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/master/"
+EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/main/"
 
 GITHUB_SOURCE_URL = (
     "https://github.com/ansys/pydpf-core/raw/"

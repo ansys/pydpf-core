@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -34,7 +34,12 @@ from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import locations, shell_layers
 from ansys.dpf.gate.errors import DPFServerException, DpfVersionNotSupported
 import conftest
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, running_docker
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
+    running_docker,
+)
 
 
 @pytest.fixture()
@@ -82,10 +87,6 @@ def test_append_scalar_data(server_type):
     assert np.allclose(field.data, list(range(0, 10)))
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
 def test_createbycopy_field(server_type):
     field = dpf.core.Field(server=server_type)
     field2 = dpf.core.Field(field=field)
@@ -564,7 +565,6 @@ def test_field_definition_quantity_type(server_type):
     assert fieldDef.is_of_quantity_type(qt)
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_create_and_set_get_name_field_definition(server_type):
     fieldDef = FieldDefinition(server=server_type)
     assert fieldDef is not None
@@ -970,7 +970,6 @@ def test_field_huge_amount_of_data(allkindofcomplexity):
     assert np.allclose(new_modif_data, modif_data)
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_field_mutable_data(server_clayer, allkindofcomplexity):
     # set data with a field created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
@@ -989,10 +988,6 @@ def test_field_mutable_data(server_clayer, allkindofcomplexity):
     assert np.allclose(changed_data[0], data_copy[0] + 2.0)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="change in memory ownership in server 5.0",
-)
 def test_field_mutable_data_delete(server_clayer, allkindofcomplexity):
     # set data with a field created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
@@ -1023,7 +1018,6 @@ def get_simple_field(server_clayer):
     return field
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_mutable_entity_data_contiguous_field(server_clayer):
     simple_field = get_simple_field(server_clayer)
     vec = simple_field.get_entity_data(0)
@@ -1048,10 +1042,6 @@ def test_mutable_entity_data_contiguous_field(server_clayer):
     assert np.allclose(simple_field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]))
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="change in memory ownership in server 5.0",
-)
 def test_field_mutable_entity_data_by_id_delete(server_clayer):
     simple_field = get_simple_field(server_clayer)
     data = simple_field.get_entity_data_by_id(2)
@@ -1062,10 +1052,6 @@ def test_field_mutable_entity_data_by_id_delete(server_clayer):
     assert np.allclose(data, np.array([0, 7, 8, 9, 10, 11]))
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="change in memory ownership in server 5.0",
-)
 def test_field_mutable_entity_data_delete(server_clayer):
     simple_field = get_simple_field(server_clayer)
     data = simple_field.get_entity_data(1)
@@ -1076,7 +1062,6 @@ def test_field_mutable_entity_data_delete(server_clayer):
     assert np.allclose(data, np.array([0, 7, 8, 9, 10, 11]))
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_mutable_entity_data_contiguous_field(server_clayer):
     field = dpf.core.Field(nentities=20, server=server_clayer)
     field_def = dpf.core.FieldDefinition(server=server_clayer)
@@ -1113,7 +1098,6 @@ def test_mutable_entity_data_contiguous_field(server_clayer):
     assert np.allclose(field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]))
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_field_mutable_data_pointer(server_clayer, allkindofcomplexity):
     # set data with a field created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
@@ -1132,10 +1116,6 @@ def test_field_mutable_data_pointer(server_clayer, allkindofcomplexity):
     assert np.allclose(changed_data[0], data_copy[0] + 2)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="change in memory ownership in server 5.0",
-)
 def test_field_mutable_data_pointer_delete(server_clayer, allkindofcomplexity):
     # set data with a field created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
@@ -1161,10 +1141,6 @@ def _deep_copy_test_identical_server(config):
     assert field.unit == copy.unit
 
 
-@pytest.mark.skipif(
-    running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="this server type does not exist before client" "dedicated to 4.0 server version",
-)
 def test_deep_copy_field_grpcclayer_to_grpcclayer():
     config = dpf.core.ServerConfig(
         protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=False
@@ -1177,17 +1153,6 @@ def test_deep_copy_field_grpclegacy_to_grpclegacy():
         protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=True
     )
     _deep_copy_test_identical_server(config)
-
-
-# @pytest.mark.skipif(
-#     running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-#     reason="this server type does not exist before client" "dedicated to 4.0 server version",
-# )
-# def test_deep_copy_field_inprocess_to_inprocess():
-#     config = dpf.core.ServerConfig(
-#         protocol=dpf.core.server_factory.CommunicationProtocols.InProcess, legacy=False
-#     )
-#     _deep_copy_test_identical_server(config)
 
 
 def test_deep_copy_field_2(plate_msup):
@@ -1439,7 +1404,7 @@ def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
 
 def test_set_units(server_type):
     data = np.random.random(100)
-    field = dpf.core.field_from_array(data)
+    field = dpf.core.field_from_array(data, server=server_type)
     # use string setter with recognized string
     field.unit = "m"
     assert field.unit == "m"
@@ -1447,7 +1412,7 @@ def test_set_units(server_type):
     if server_meet_version("11.0", server_type):
         # use tuple(Homogeneity, string) setter
         field.unit = (Homogeneity.dimensionless, "sones")
-        assert field.unit == "sones"
+        assert field.unit == (Homogeneity.dimensionless, "sones")
     else:
         with pytest.raises(DpfVersionNotSupported):
             # use tuple(Homogeneity, string) setter
@@ -1460,3 +1425,26 @@ def test_set_units(server_type):
     # use wrong type of arguments
     with pytest.raises(ValueError):
         field.unit = 1.0
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    reason="Available for servers >=11.0 (2026 R1)",
+)
+def test_deep_copy_field_with_dimensionless_unit(server_type):
+    """Test that a field with dimensionless unit can be deep copied successfully."""
+    # Create a simple field with some data
+    my_field = dpf.core.Field(nentities=3, server=server_type)
+    my_field.scoping.ids = [1, 2, 3]
+    my_field.data = [1.0, 2.0, 3.0]
+
+    # Set a field's unit as dimensionless with a custom unit name
+    my_field.unit = (Homogeneity.dimensionless, "some_units")
+
+    # Attempt to create a deep copy
+    my_field_copy = my_field.deep_copy()
+
+    # Verify the copy was successful
+    assert my_field_copy is not None
+    assert my_field_copy.unit == my_field.unit
+    assert my_field_copy.unit == (Homogeneity.dimensionless, "some_units")

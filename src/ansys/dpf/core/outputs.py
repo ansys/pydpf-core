@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -174,14 +174,6 @@ class _Outputs:
                     docstr += "{:<5}{:<4}{:<20}".format(*line)
                     docstr += "\n"
         return docstr
-
-
-def _clearRepeatedMessage(message):
-    try:
-        while True:
-            message.pop(len(message) - 1)
-    except:
-        pass
 
 
 def _make_printable_type(type):

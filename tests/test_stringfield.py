@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -28,7 +28,6 @@ from ansys.dpf.core.common import locations
 import conftest
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_scopingdata_string_field(server_type):
     pfield = dpf.core.StringField(server=server_type)
     list_ids = [1, 2, 4, 6, 7]
@@ -43,7 +42,6 @@ def test_scopingdata_string_field(server_type):
     assert pfield.data == list_data
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_set_get_data_string_field(server_type):
     field = dpf.core.StringField(nentities=20, server=server_type)
     data = []
@@ -55,7 +53,6 @@ def test_set_get_data_string_field(server_type):
     assert field.data != data
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_create_string_field_push_back(server_type):
     f_vec = core.StringField(1, server=server_type)
     vec = ["water", "oil", "gaz"]
@@ -80,7 +77,6 @@ def test_create_string_field_push_back(server_type):
     assert f_scal.data[2] == "blu"
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_entity_data_string_field(server_type):
     f_vec = core.StringField(1, server=server_type)
     vec = ["water", "oil", "gaz"]
@@ -97,7 +93,6 @@ def test_entity_data_string_field(server_type):
     assert f_vec.get_entity_data_by_id(3) == ["gaz"]
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_stream_large_data_string_field(server_type):
     nstring = 1000000
     field = dpf.core.StringField(nentities=nstring, server=server_type)
@@ -108,7 +103,6 @@ def test_stream_large_data_string_field(server_type):
     assert field.data == data
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_print_string_vector(server_type):
     field = dpf.core.StringField(nentities=20, server=server_type)
     data = []
@@ -132,7 +126,6 @@ def test_print_string_vector(server_type):
     d.__str__()
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_print_string_field(server_type):
     field = dpf.core.StringField(nentities=20, server=server_type)
     assert "String Field" in str(field)

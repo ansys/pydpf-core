@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -64,9 +64,6 @@ from ansys.dpf.gate import (
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.inputs import _Inputs
     from ansys.dpf.core.server import AnyServerType
-
-LOG = logging.getLogger(__name__)
-LOG.setLevel("DEBUG")
 
 
 class _SubOperator:

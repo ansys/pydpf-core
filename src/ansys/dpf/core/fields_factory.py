@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -296,7 +296,7 @@ def create_vector_field(
 
 
 def create_overall_field(
-    value: float,
+    value: float | list[float],
     nature: natures = natures.scalar,
     num_entities: int = 1,
     num_comp: int = 1,

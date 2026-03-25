@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -37,7 +37,7 @@ import io
 import os
 from pathlib import Path
 import socket
-import subprocess
+import subprocess  # nosec B404
 import sys
 from threading import Lock, Thread
 import time
@@ -60,7 +60,6 @@ if TYPE_CHECKING:  # pragma: no cover
 import logging
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel("DEBUG")
 DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 50054))
 LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
 RUNNING_DOCKER = server_factory.create_default_docker_config()
@@ -162,12 +161,9 @@ def _run_launch_server_process(
         run_cmd = " ".join(run_cmd)
     old_dir = Path.cwd()
     os.chdir(dpf_run_dir)
-    if not bShell:
-        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    else:
-        process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
-        )
+    process = subprocess.Popen(
+        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=bShell
+    )  # nosec B602
     os.chdir(old_dir)
     return process
 
@@ -774,6 +770,8 @@ class CServer(BaseServer, ABC):
 class GrpcClient:
     """Client using the gRPC communication protocol."""
 
+    _internal_obj = None
+
     def __init__(self):
         from ansys.dpf.gate import client_capi
 
@@ -922,13 +920,14 @@ class GrpcServer(CServer):
                 )
                 self._local_server = True
 
-        local_client_config = settings.get_runtime_client_config()
+        client_config = settings.get_runtime_client_config(server=self)
+
         if self._grpc_mode == server_factory.GrpcMode.Insecure:
-            local_client_config.grpc_mode = "insecure"
+            client_config.grpc_mode = "insecure"
         elif self._grpc_mode == server_factory.GrpcMode.mTLS:
-            local_client_config.grpc_mode = "mtls"
+            client_config.grpc_mode = "mtls"
             if self._certs_dir is not None and len(str(self._certs_dir)) > 0:
-                local_client_config.grpc_certs_dir = str(self._certs_dir)
+                client_config.grpc_certs_dir = str(self._certs_dir)
 
         # store port and ip for later reference
         self._client.set_address(address, self)
@@ -1396,7 +1395,7 @@ class LegacyGrpcServer(BaseServer):
             self_config = settings.get_runtime_client_config(server=self)
             misc.RUNTIME_CLIENT_CONFIG.copy_config(self_config)
 
-        from ansys.dpf.core import cyberchannel
+        from ansys.tools.common import cyberchannel
 
         if self._grpc_mode == server_factory.GrpcMode.Insecure:
             self.channel = cyberchannel.create_channel(

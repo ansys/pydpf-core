@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -24,7 +24,6 @@ from ansys.dpf import core as dpf
 import conftest
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_set_get_generic_support(server_type):
     support = dpf.GenericSupport("phase", server=server_type)
     field = dpf.Field(location="phase", nature=dpf.natures.scalar, server=server_type)

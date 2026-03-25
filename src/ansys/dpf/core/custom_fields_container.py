@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -30,6 +30,7 @@ results split by body or split by material.
 """
 
 from ansys.dpf.core import elements
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.fields_container import FieldsContainer
 
 
@@ -99,7 +100,10 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = elements._element_shapes.SOLID.value
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_shapes.SOLID.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.SOLID.value
         return self.get_fields(label_space)
 
     def shell_fields(self, timeid=None, complexid=None):
@@ -134,7 +138,10 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = elements._element_shapes.SHELL.value
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_shapes.SHELL.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.SHELL.value
         return self.get_fields(label_space)
 
     def beam_fields(self, timeid=None, complexid=None):
@@ -169,7 +176,10 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = elements._element_shapes.BEAM.value
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_shapes.BEAM.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.BEAM.value
         return self.get_fields(label_space)
 
     def solid_field(self, timeid=None, complexid=None):
@@ -201,7 +211,10 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = elements._element_shapes.SOLID.value
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_shapes.SOLID.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.SOLID.value
         return self.get_field(label_space)
 
     def shell_field(self, timeid=None, complexid=None):
@@ -234,7 +247,10 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = elements._element_shapes.SHELL.value
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_shapes.SHELL.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.SHELL.value
         return self.get_field(label_space)
 
     def beam_field(self, timeid=None, complexid=None):
@@ -266,7 +282,10 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = elements._element_shapes.BEAM.value
+        if server_meet_version("12.0", self._server):
+            label_space["elshape"] = elements._element_shapes.BEAM.value
+        else:
+            label_space["elshape"] = elements._element_shapes_legacy.BEAM.value
         return self.get_field(label_space)
 
 
