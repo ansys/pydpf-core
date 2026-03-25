@@ -262,7 +262,7 @@ The following table lists the Python versions supported by every PyDPF-Core rele
    * - 0.15.0
      - 3.10, 3.11, 3.12, 3.13
      - Can be installed on Python 3.9 but not tested
-   * - dev (main)
+   * - dev
      - 3.10, 3.11, 3.12, 3.13, 3.14
      - Can only be installed in development mode (see `Install in development mode <https://dpf.docs.pyansys.com/version/stable/getting_started/install.html#install-in-development-mode>`_)
 
