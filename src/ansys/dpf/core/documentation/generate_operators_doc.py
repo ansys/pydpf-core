@@ -400,7 +400,7 @@ def generate_operator_doc(
                     else:
                         supported_file_types[namespace].append(key)
         for namespace, supported_keys in supported_file_types.items():
-            supported_file_types[namespace] = ", ".join(sorted(supported_keys))
+            supported_file_types[namespace] = sorted(supported_keys)
     else:
         operator_info["is_router"] = False
     operator_info["supported_file_types"] = supported_file_types
@@ -590,6 +590,7 @@ def generate_operators_doc(
         Whether to print progress information.
 
     """
+    print("Toto")
     server = initialize_server(ansys_path, include_composites, include_sound, verbose)
     if desired_plugin is None:
         operators = available_operator_names(server)
