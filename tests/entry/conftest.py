@@ -77,12 +77,6 @@ SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1 = meets_version(
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0 = meets_version(
     get_server_version(core._global_server()), "8.0"
 )
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1 = meets_version(
-    get_server_version(core._global_server()), "6.1"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 = meets_version(
-    get_server_version(core._global_server()), "6.0"
-)
 
 
 def raises_for_servers_version_under(version):
@@ -93,7 +87,7 @@ def raises_for_servers_version_under(version):
 
     def decorator(func):
         @pytest.mark.xfail(
-            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 if version == "6.0" else True,
+            True,
             reason=f"Requires server version greater than or equal to {version}",
             raises=core.errors.DpfVersionNotSupported,
         )

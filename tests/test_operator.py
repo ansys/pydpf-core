@@ -43,7 +43,6 @@ from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.core.workflow_topology import WorkflowTopology
 import conftest
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
 )
@@ -249,10 +248,6 @@ def test_connect_operator_output_operator(server_type):
     assert len(fOut.data) == 3
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
-    reason="Connect an operator as an input is supported starting server version 6.2",
-)
 def test_connect_operator_as_input(server_type):
     op_for_each = dpf.core.Operator("for_each", server=server_type)
     fieldify = dpf.core.Operator("fieldify", server=server_type)
@@ -1302,7 +1297,7 @@ def test_generated_operator_config_specification_simple(server_type):
             "enum dataProcessing::EBinaryOperation"
             or "binary_operation_enum" in conf_spec["binary_operation"].type_names
         )
-    elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
+    else:
         assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
     assert conf_spec["binary_operation"].default_value_str == "1"
     assert "Intersection" in conf_spec["binary_operation"].document
@@ -1429,10 +1424,6 @@ def test_input_any(server_type):
     assert len(output.data_as_list) == len(data)
 
 
-@pytest.mark.skipif(
-    condition=not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="Input/output of Streams requires DPF 6.0 or above.",
-)
 def test_operator_input_output_streams(server_in_process, simple_bar):
     data_source = dpf.core.DataSources(simple_bar, server=server_in_process)
     streams_op = dpf.core.operators.metadata.streams_provider(server=server_in_process)
