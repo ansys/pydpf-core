@@ -4289,9 +4289,9 @@ def load_api(path):
 		dll.Support_isDomainMeshSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Support_isDomainMeshSupport.restype = ctypes.c_bool
 
-	if hasattr(dll, "Support_setAsDomainMeshSupport"):
-		dll.Support_setAsDomainMeshSupport.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.Support_setAsDomainMeshSupport.restype = None
+	if hasattr(dll, "Support_getType"):
+		dll.Support_getType.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Support_getType.restype = None
 
 	if hasattr(dll, "Support_getAsMeshedSupport"):
 		dll.Support_getAsMeshedSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -4304,6 +4304,10 @@ def load_api(path):
 	if hasattr(dll, "Support_getAsTimeFreqSupport"):
 		dll.Support_getAsTimeFreqSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Support_getAsTimeFreqSupport.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Support_getAsGenericSupport"):
+		dll.Support_getAsGenericSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Support_getAsGenericSupport.restype = ctypes.c_void_p
 
 	if hasattr(dll, "Support_getFieldSupportByProperty"):
 		dll.Support_getFieldSupportByProperty.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
