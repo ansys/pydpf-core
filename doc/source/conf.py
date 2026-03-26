@@ -308,6 +308,10 @@ Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dp
         "ignore": autoapi_ignore_list,
         "add_toctree_entry": True,
         "member_order": "bysource",
+        "examples_dirs": [
+            "../sphinx_gallery_examples",
+            "../sphinx_gallery_tutorials",
+        ],
     },
     "cheatsheet": {
         "file": "cheatsheet/cheat_sheet.qmd",
