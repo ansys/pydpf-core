@@ -43,7 +43,7 @@ When ``ansys-dpf-core`` is released, compatibility is officially ensured with al
 
 For example, ``ansys-dpf-core`` 0.16 supports:
 
-- DPF for Ansys 2026 R2 and R1 (Ansys 2026 R2 being the latest released version at that time)
+- DPF for Ansys 2026 R1 (Ansys 2026 R1 being the latest released version at that time)
 - DPF for Ansys 2025 R2 and R1
 - DPF for Ansys 2024 R2 and R1
 
