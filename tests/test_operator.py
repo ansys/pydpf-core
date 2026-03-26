@@ -1279,7 +1279,7 @@ def test_operator_config_specification_simple(server_type):
             "enum dataProcessing::EBinaryOperation"
             or "binary_operation_enum" in conf_spec["binary_operation"].type_names
         )
-    elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
+    else:
         assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
     assert conf_spec["binary_operation"].default_value_str == "1"
     assert "Intersection" in conf_spec["binary_operation"].document
