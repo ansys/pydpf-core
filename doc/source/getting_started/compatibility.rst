@@ -21,7 +21,7 @@ The compatibility table below shows the client-server (``ansys-dpf-core`` to ``D
 
 Here is a summary of the compatibility rules:
 
-- With DPF for Ansys 2024 R1 and later, you can use PyDPF-Core ``0.16`` and later.
+- With DPF for Ansys 2024 R1 and later, you can use PyDPF-Core ``0.10.1`` and later.
 - With DPF for Ansys 2023 R1 or R2, you can use PyDPF-Core version ``0.10`` up to ``0.15``.
 - With DPF for Ansys 2022 R2, you can use PyDPF-Core version ``0.10`` up to ``0.15``.
 - With DPF for Ansys 2021 R2 and 2022 R1, you can use PyDPF-Core version ``0.3`` up to ``0.9``.
@@ -59,7 +59,7 @@ previous to 2022 R2.
 
 Starting with version ``0.16`` of ``ansys-dpf-core``, support for DPF server versions 5.0 (Ansys
 2023 R1) and 6.x (Ansys 2023 R2) has been dropped. The minimum supported DPF server version is now
-7.0 (Ansys 2024 R1).
+7.1 (Ansys 2024 R1).
 
 **Ansys strongly encourages you to use the latest packages available**, as far they are compatible
 with the server version you want to run.
