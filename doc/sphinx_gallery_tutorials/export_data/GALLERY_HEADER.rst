@@ -36,6 +36,15 @@ Learn how to export data to [VTK formats](https://docs.vtk.org/en/latest/vtk_fil
        Use the ``vtu_export`` operator to export processed DPF data objects
        (meshes and fields) directly to VTU format with fine-grained control.
 
+    .. grid-item-card:: Convert DPF data to PyVista objects
+       :link: ref_tutorials_export_data_vtk_helper
+       :link-type: ref
+       :text-align: center
+
+       Convert DPF meshes, fields, and property fields to PyVista
+       ``UnstructuredGrid`` objects for in-memory manipulation and custom
+       visualization.
+
 Other Export Formats
 ********************
 
