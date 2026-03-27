@@ -115,8 +115,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: "Set licensing if necessary"
-        if: ${{ (inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) >= '241' }}
+      - name: "Set licensing"
         shell: bash
         env:
           LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
