@@ -84,10 +84,11 @@ def raises_for_servers_version_under(version):
     parameter. Else it makes sure that the test fails by raising a "DpfVersionNotSupported"
     error.
     """
+    server_meets_version = meets_version(get_server_version(core._global_server()), version)
 
     def decorator(func):
         @pytest.mark.xfail(
-            True,
+            not server_meets_version,
             reason=f"Requires server version greater than or equal to {version}",
             raises=core.errors.DpfVersionNotSupported,
         )

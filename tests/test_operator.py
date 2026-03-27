@@ -43,7 +43,6 @@ from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.core.workflow_topology import WorkflowTopology
 import conftest
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
 )
 
@@ -1405,10 +1404,6 @@ def test_output_any(server_type):
     assert output_field.scoping.size == 3
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="Input of Any requires DPF 7.0 or above.",
-)
 def test_input_any(server_type):
     field = dpf.core.Field(nentities=3, server=server_type)
     data = [1, 2, 3, 4, 5, 6, 7, 8, 9]

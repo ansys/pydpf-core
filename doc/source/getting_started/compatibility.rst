@@ -70,6 +70,11 @@ package should also be synchronized with the server version.
 Compatibility tables
 ^^^^^^^^^^^^^^^^^^^^
 
+The following tables list the client-server compatibility for recent and legacy DPF versions.
+
+Recent DPF versions
++++++++++++++++++++
+
 .. list-table:: Client-server compatibility for supported DPF versions
    :widths: 20 20
    :header-rows: 1
@@ -94,6 +99,90 @@ Compatibility tables
      - 0.11.0 and later
    * - 7.1 (2024 R1)
      - 0.10.1 and later
+
+Legacy DPF versions
++++++++++++++++++++
+
+.. list-table:: Client-server compatibility
+    :widths: 20 20 20 20 20
+    :header-rows: 1
+
+    * - Server version
+      - ``ansys.dpf.core`` Python module version
+      - ``ansys.grpc.dpf`` Python module version
+      - ``ansys.dpf.gatebin`` binaries Python module version
+      - ``ansys.dpf.gate`` Python module version
+    * - 7.0 (2024 R1 pre0)
+      - | 0.10.0 to 0.15.0
+        | 0.9.0
+      - | None
+        | 0.8.1
+      - | None
+        | 0.4.1
+      - | None
+        | 0.4.1
+    * - 6.2 (2023 R2)
+      - | 0.10.0 to 0.15.0
+        | 0.8.0 to 0.9.0
+      - | None
+        | 0.7.1 and later
+      - | None
+        | 0.3.1 and later
+      - | None
+        | 0.3.1 and later
+    * - 6.1 (2023 R2 pre1)
+      - | 0.10.0 to 0.15.0
+        | 0.8.0 to 0.9.0
+      - | None
+        | 0.7.1 and later
+      - | None
+        | 0.3.1 and later
+      - | None
+        | 0.3.1 and later
+    * - 6.0 (2023 R2 pre0)
+      - | 0.10.0 to 0.15.0
+        | 0.7.0 to 0.9.0
+      - | None
+        | 0.7.0 and later
+      - | None
+        | 0.3.0 and later
+      - | None
+        | 0.3.0 and later
+    * - 5.0 (2023 R1)
+      - | 0.10.0 to 0.15.0
+        | 0.6.0 to 0.9.0
+      - | None
+        | 0.6.0 and later
+      - | None
+        | 0.2.0 and later
+      - | None
+        | 0.2.0 and later
+    * - 4.0 (2022 R2)
+      - | 0.10.0 to 0.15.0
+        | 0.5.0 to 0.9.0
+      - | None
+        | 0.5.0 and later
+      - | None
+        | 0.1.0 and later
+      - | None
+        | 0.1.0 and later
+    * - 3.0 (2022 R1)
+      - 0.4.0 to 0.9.0
+      - 0.4.0
+      - None
+      - None
+    * - 2.0 (2021 R2)
+      - 0.3.0 to 0.9.0**
+      - 0.3.0
+      - None
+      - None
+    * - 1.0 (2021 R1)
+      - 0.2.*
+      - 0.2.2
+      - None
+      - None
+
+(** Compatibility of DPF 2.0 with ``ansys-dpf-core`` 0.5.0 to 0.9.0 is assumed but not certified.)
 
 Update Python environment
 -------------------------

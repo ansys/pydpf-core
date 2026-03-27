@@ -33,6 +33,34 @@ To install PyDPF-Core with its optional plotting functionalities, run this comma
 
 For more information about PyDPF-Core plotting capabilities, see :ref:`user_guide_plotting`.
 
+To use PyDPF-Core with Ansys 2022 R2 up to Ansys 2023 R2, install the latest compatible version
+with this command:
+
+.. code::
+
+   pip install ansys-dpf-core<0.16.0
+
+To use PyDPF-Core with Ansys 2022 R1, install the latest compatible version
+with this command:
+
+.. code::
+
+   pip install ansys-dpf-core<0.10.0
+
+To use PyDPF-Core with Ansys 2021 R2, install the latest compatible version
+with this command:
+
+.. code::
+
+   pip install ansys-grpc-dpf<0.4.0; pip install ansys-dpf-core<0.10.0
+
+To use PyDPF-Core with Ansys 2021 R1, install the latest compatible version
+with this command:
+
+.. code::
+
+   pip install ansys-grpc-dpf<0.3.0; pip install ansys-dpf-core<0.3.0
+
 Install without internet
 ------------------------
 
