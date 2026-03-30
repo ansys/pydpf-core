@@ -82,10 +82,6 @@ def test_update_empty_dpf_vector_field(server_type):
     assert np.allclose(field.get_entity_data(1), [0])
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="change in memory ownership in server 7.0",
-)
 def test_update_empty_dpf_vector_string_field(server_type):
     string_field = dpf.StringField(server=server_type)
     string_field.data = ["high", "goodbye", "hello"]

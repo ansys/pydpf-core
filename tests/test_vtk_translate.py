@@ -64,10 +64,7 @@ def test_dpf_mesh_to_vtk(simple_rst, server_type):
     pv.plot(ug)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="CFF source operators where not supported before 7.0,",
-)
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_dpf_field_to_vtk(simple_rst, fluent_mixing_elbow_steady_state, server_type):
     model = dpf.Model(simple_rst, server=server_type)
@@ -109,10 +106,7 @@ def test_dpf_field_to_vtk_errors(server_type):
         _ = dpf_field_to_vtk(field=field)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="CFF source operators where not supported before 7.0,",
-)
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_dpf_meshes_to_vtk(fluent_axial_comp, server_type):
     model = dpf.Model(fluent_axial_comp(server=server_type), server=server_type)
@@ -127,10 +121,7 @@ def test_dpf_meshes_to_vtk(fluent_axial_comp, server_type):
     pv.plot(ug)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="CFF source operators where not supported before 7.0,",
-)
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp, server_type):
     model = dpf.Model(fluent_axial_comp(server=server_type), server=server_type)

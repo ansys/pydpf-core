@@ -1357,7 +1357,7 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
         out = dpf.core.core._deep_copy(field_a, server_type_remote_process)
         assert np.allclose(out.data, data)
 
-elif conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0:
+elif conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
     # before server version 8.0 deep copying between a legacy grpc client and another client type
     # is not supported.
     @pytest.mark.skip
