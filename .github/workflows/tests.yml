@@ -188,7 +188,7 @@ jobs:
 
       - name: "Zip wheelhouse"
         if: inputs.wheelhouse == 'true'
-        uses: vimtor/action-zip@1379ea20d4c5705669ba81fd626dd01b1c738f26 # v1.2
+        uses: vimtor/action-zip@5407800dfb2b1b37d48df912330cb22f4ab6f422 # v1.3
         with:
           files: dist
           dest: ${{ steps.wheelhouse.outputs.name }}
@@ -254,7 +254,7 @@ jobs:
           tox -e pretest
 
       - name: "Test API test_entry"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
@@ -267,7 +267,7 @@ jobs:
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-api_entry,kill-servers
 
       - name: "Test API test_server"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
@@ -280,7 +280,7 @@ jobs:
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-server,kill-servers
 
       - name: "Test API test_remote_workflow"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
@@ -302,7 +302,7 @@ jobs:
           tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-remote_operator,kill-servers
 
       - name: "Test API test_workflow"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
@@ -315,7 +315,7 @@ jobs:
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-workflow,kill-servers
 
       - name: "Test API test_service"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
@@ -328,7 +328,7 @@ jobs:
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-service,kill-servers
 
       - name: "Run compatible tests in parallel"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
