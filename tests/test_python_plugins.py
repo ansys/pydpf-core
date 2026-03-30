@@ -39,7 +39,6 @@ from ansys.dpf.core.operator_specification import (
 )
 import conftest
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
 )
 
@@ -226,7 +225,6 @@ def test_data_tree(server_type_remote_process, testfiles_dir):
     assert dt.get_as("name") == "Paul"
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Requires DPF 7.0")
 def test_generic_data_container(server_clayer_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_clayer_remote_process, testfiles_dir)
     gdc = dpf.GenericDataContainer(server=server_clayer_remote_process)
@@ -283,9 +281,6 @@ def test_create_op_specification(server_in_process):
     assert spec.config_specification["work_by_index"].default_value_str == "false"
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_create_op_specification_with_derived_class(server_in_process):
     spec = CustomSpecification(server=server_in_process)
     spec.description = "Add derived class in op specification"

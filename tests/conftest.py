@@ -369,18 +369,6 @@ SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0 = meets_version(
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1 = meets_version(
     get_server_version(core._global_server()), "7.1"
 )
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0 = meets_version(
-    get_server_version(core._global_server()), "7.0"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2 = meets_version(
-    get_server_version(core._global_server()), "6.2"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1 = meets_version(
-    get_server_version(core._global_server()), "6.1"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 = meets_version(
-    get_server_version(core._global_server()), "6.0"
-)
 
 
 IS_USING_GATEBIN = _try_use_gatebin()
@@ -391,14 +379,11 @@ def raises_for_servers_version_under(version):
     parameter. Else it makes sure that the test fails by raising a "DpfVersionNotSupported"
     error.
     """
+    server_meets_version = meets_version(get_server_version(core._global_server()), version)
 
     def decorator(func):
         @pytest.mark.xfail(
-            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0
-            if version == "6.0"
-            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0
-            if version == "10.0"
-            else True,
+            not server_meets_version,
             reason=f"Requires server version greater than or equal to {version}",
             raises=core.errors.DpfVersionNotSupported,
         )
