@@ -13,7 +13,6 @@ The DPF Server is packaged within the **Ansys installer** in Ansys 2021 R1 and l
 It is also available as a standalone package that contains all the necessary files to run, enabling DPF capabilities.
 The standalone DPF Server is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_ of the Ansys Customer Portal.
 The first standalone version of DPF Server available is 6.0 (2023 R2).
-The minimum supported standalone DPF Server version for the current release of PyDPF-Core is 7.1 (2024 R1).
 
 The sections on this page describe how to install and use a standalone DPF Server.
 
