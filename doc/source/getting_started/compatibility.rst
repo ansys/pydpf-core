@@ -57,10 +57,6 @@ within ``ansys-dpf-core`` as modules. This introduced a breaking change to simpl
 and prevent synchronization issues between the PyDPF libraries, requiring to drop support for Ansys
 previous to 2022 R2.
 
-Starting with version ``0.16`` of ``ansys-dpf-core``, support for DPF server versions 5.0 (Ansys
-2023 R1) and 6.x (Ansys 2023 R2) has been dropped. The minimum supported DPF server version is now
-7.1 (Ansys 2024 R1).
-
 **Ansys strongly encourages you to use the latest packages available**, as far they are compatible
 with the server version you want to run.
 
