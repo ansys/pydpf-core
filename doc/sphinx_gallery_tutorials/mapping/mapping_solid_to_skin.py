@@ -40,6 +40,8 @@ The operator supports three field data locations:
 - **Elemental**: Values from solid elements are copied to the overlying skin elements.
 - **Nodal**: The field is rescoped to the nodes of the skin mesh.
 - **ElementalNodal**: Values are copied for each element face and its associated nodes.
+
+The example file used is a crankshaft model with 39 315 solid elements and 3 time steps.
 """
 
 ###############################################################################
@@ -56,22 +58,24 @@ from ansys.dpf.core import examples, operators as ops
 ###############################################################################
 # Load model
 # ----------
-# Download and load a result file, then create a
+# Download the crankshaft result file and create a
 # :class:`Model<ansys.dpf.core.model.Model>` object.
+# The model contains a static structural analysis of a crankshaft with
+# 39 315 solid elements and 3 time steps.
 
-result_file = examples.find_static_rst()
+result_file = examples.download_crankshaft()
 model = dpf.Model(data_sources=result_file)
 print(model)
 
 ###############################################################################
 # Extract the solid mesh
 # -----------------------
-# The solid mesh contains both volume and surface elements.
+# Retrieve the full volume mesh of the crankshaft and visualize its geometry.
 
 solid_mesh = model.metadata.meshed_region
-print(solid_mesh)
-print(f"\nTotal elements: {solid_mesh.elements.n_elements}")
+print(f"Total elements: {solid_mesh.elements.n_elements}")
 print(f"Total nodes:    {solid_mesh.nodes.n_nodes}")
+solid_mesh.plot(title="Crankshaft solid mesh")
 
 ###############################################################################
 # Create the skin mesh
@@ -83,16 +87,17 @@ print(f"Total nodes:    {solid_mesh.nodes.n_nodes}")
 
 skin_mesh_op = ops.mesh.skin(mesh=solid_mesh)
 skin_mesh = skin_mesh_op.outputs.mesh()
-print(skin_mesh)
-print(f"\nSkin elements:  {skin_mesh.elements.n_elements}")
+print(f"Skin elements:  {skin_mesh.elements.n_elements}")
 print(f"Solid elements: {solid_mesh.elements.n_elements}")
 print(f"Skin nodes:     {skin_mesh.nodes.n_nodes}")
 print(f"Solid nodes:    {solid_mesh.nodes.n_nodes}")
+skin_mesh.plot(title="Crankshaft skin mesh")
 
 ###############################################################################
 # Map elemental stress to the skin mesh
 # ---------------------------------------
 # Retrieve element-averaged stress on the solid mesh and transfer it to skin elements.
+# The result is evaluated at the last available time step (time set 3).
 
 stress_elemental_fc = model.results.stress.on_location(dpf.locations.elemental).eval()
 stress_elemental_field = stress_elemental_fc[0]
@@ -107,7 +112,7 @@ print(
     f"Solid elements: {len(stress_elemental_field.data)}, skin elements: {len(mapped_stress_field.data)}"
 )
 skin_mesh.plot(
-    field_or_fields_container=mapped_stress_field, title="Elemental stress mapped to skin"
+    field_or_fields_container=mapped_stress_field, title="Elemental stress on crankshaft skin"
 )
 
 ###############################################################################
@@ -129,7 +134,8 @@ print(
     f"Solid nodes: {len(displacement_field.scoping)}, skin nodes: {len(mapped_displacement_field.scoping)}"
 )
 skin_mesh.plot(
-    field_or_fields_container=mapped_displacement_field, title="Nodal displacement mapped to skin"
+    field_or_fields_container=mapped_displacement_field,
+    title="Nodal displacement on crankshaft skin",
 )
 
 ###############################################################################
@@ -147,14 +153,15 @@ mapped_stress_en_field = ops.mapping.solid_to_skin(
     solid_mesh=solid_mesh,
 ).eval()
 skin_mesh.plot(
-    field_or_fields_container=mapped_stress_en_field, title="ElementalNodal stress mapped to skin"
+    field_or_fields_container=mapped_stress_en_field,
+    title="ElementalNodal stress on crankshaft skin",
 )
 
 ###############################################################################
 # Omit the solid mesh when it is available from the field support
 # ---------------------------------------------------------------
-# If the field already carries the solid mesh in its support, the ``solid_mesh``
-# pin can be omitted.
+# If the field already carries its supporting mesh, the ``solid_mesh`` pin can
+# be omitted—the operator reads it directly from the field support.
 
 stress_fc = model.results.stress.eval()
 stress_field_solid = stress_fc[0]
@@ -165,23 +172,32 @@ mapped_stress_simple = ops.mapping.solid_to_skin(
 ).eval()
 skin_mesh.plot(
     field_or_fields_container=mapped_stress_simple,
-    title="Stress mapped to skin (from field support)",
+    title="Stress mapped to skin (mesh from field support)",
 )
 
 ###############################################################################
 # Use with FieldsContainer
 # -------------------------
 # The operator also accepts a
-# :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>` containing
-# a single field.
+# :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`
+# containing a single field.
+# This is useful when your workflow already produces a ``FieldsContainer``
+# (for example, from a preceding operator) and you want to pass it directly.
+
+# Retrieve all three time steps and pick the first one
+stress_fc_all = model.results.stress.on_all_time_freqs().eval()
+stress_field_t1 = stress_fc_all[0]
 
 single_field_fc = dpf.FieldsContainer()
 single_field_fc.labels = ["time"]
-single_field_fc.add_field(label_space={"time": 1}, field=stress_field_solid)
+single_field_fc.add_field(label_space={"time": 1}, field=stress_field_t1)
 
 mapped_fc = ops.mapping.solid_to_skin(
     field=single_field_fc,
     mesh=skin_mesh,
     solid_mesh=solid_mesh,
 ).eval()
-skin_mesh.plot(field_or_fields_container=mapped_fc, title="Stress mapped from FieldsContainer")
+skin_mesh.plot(
+    field_or_fields_container=mapped_fc,
+    title="Stress at time step 1 mapped from FieldsContainer",
+)
