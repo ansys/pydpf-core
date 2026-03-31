@@ -338,9 +338,6 @@ def test_unsupported_types_data_tree(server_type):
         data_tree.add(data1=(1, 2))
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_list_attributes_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
     with data_tree.to_fill() as to_fill:
@@ -356,9 +353,6 @@ def test_list_attributes_data_tree(server_type):
     assert ["double", "int", "list_double", "list_int", "list_string", "string"] == attributes
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_list_attributes_recursive_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
     with data_tree.to_fill() as to_fill:
@@ -383,9 +377,6 @@ def test_list_attributes_recursive_data_tree(server_type):
     assert {} == dic["sub_tree02"]
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_attribute_errors_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
     with pytest.raises(AttributeError, match="can't set attribute"):
