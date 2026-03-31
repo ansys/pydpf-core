@@ -68,38 +68,57 @@ Compatibility tables
 
 The following tables list the client-server compatibility for recent and legacy DPF versions.
 
-Recent DPF versions
-+++++++++++++++++++
+PyDPF-Core strives to follow `SPEC-0 <https://scientific-python.org/specs/spec-0000/>`_ for Python version support,
+as stated in the PyAnsys ecosystem `Python version support policy <https://docs.pyansys.com/version/stable/getting-started/prerequisites.html#supported-python-versions>`_.
+The "Supported Python versions" column lists the Python versions supported by the
+minimum compatible ``ansys-dpf-core`` version for each server release.
 
-.. list-table:: Client-server compatibility for supported DPF versions
-   :widths: 20 20
+Supported DPF versions
+++++++++++++++++++++++
+
+.. list-table:: Client-server and Python version compatibility for supported DPF versions
+   :widths: 20 20 20
    :header-rows: 1
 
    * - Server version
      - ``ansys.dpf.core`` Python module version
+     - Supported Python versions
    * - 12.0 (2026 R1)
      - 0.15.0 and later
+     - 3.10, 3.11, 3.12, 3.13
    * - 11.0 (2026 R1 pre0)
      - 0.14.0 and later
+     - 3.10, 3.11, 3.12, 3.13
    * - 10.0 (2025 R2)
      - 0.13.8 and later
+     - 3.10, 3.11, 3.12
    * - 9.1 (2025 R1)
      - 0.13.4 and later
+     - 3.9, 3.10, 3.11
    * - 9.0 (2025 R1 pre0)
      - 0.13.0 and later
+     - 3.9, 3.10, 3.11
    * - 8.2 (2024 R2)
      - 0.12.1 and later
+     - 3.9, 3.10, 3.11
    * - 8.1 (2024 R2 pre1)
      - 0.12.0 and later
+     - 3.9, 3.10, 3.11
    * - 8.0 (2024 R2 pre0)
      - 0.11.0 and later
+     - 3.9, 3.10, 3.11
    * - 7.1 (2024 R1)
      - 0.10.1 and later
+     - 3.9, 3.10, 3.11
+
+.. note::
+    
+    ``ansys-dpf-core`` versions 0.13.7 - 0.15.0 can be installed on Python 3.9 but compatibility is not tested.
 
 Legacy DPF versions
 +++++++++++++++++++
 
-.. list-table:: Client-server compatibility
+.. list-table:: Client-server compatibility for legacy DPF versions
     :widths: 20 20 20 20 20
     :header-rows: 1
 
