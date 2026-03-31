@@ -184,4 +184,4 @@ mapped_fc = ops.mapping.solid_to_skin(
     mesh=skin_mesh,
     solid_mesh=solid_mesh,
 ).eval()
-skin_mesh.plot(field_or_fields_container=mapped_fc[0], title="Stress mapped from FieldsContainer")
+skin_mesh.plot(field_or_fields_container=mapped_fc, title="Stress mapped from FieldsContainer")
