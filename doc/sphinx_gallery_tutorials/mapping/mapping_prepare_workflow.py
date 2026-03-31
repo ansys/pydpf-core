@@ -64,22 +64,27 @@ from ansys.dpf.core import examples, operators as ops
 ###############################################################################
 # Load model
 # ----------
-# Download and load a result file, then create a
+# Download the crankshaft result file and create a
 # :class:`Model<ansys.dpf.core.model.Model>` object.
 
-result_file = examples.find_static_rst()
+result_file = examples.download_crankshaft()
 model = dpf.Model(data_sources=result_file)
 print(model)
 
 ###############################################################################
 # Define the input support
 # ------------------------
-# The input support is the mesh from which results will be mapped. Here we use the
-# full solid mesh as the source.
+# The input support is the mesh from which results will be mapped. Use
+# :meth:`bounding_box<ansys.dpf.core.meshed_region.MeshedRegion.bounding_box>`
+# to inspect the spatial extent of the crankshaft before choosing a filter radius.
 
 input_mesh = model.metadata.meshed_region
-print("Input support (mesh):")
-print(input_mesh)
+bb_data = input_mesh.bounding_box.data[0]  # [xmin, ymin, zmin, xmax, ymax, zmax]
+print(
+    f"Bounding box: x=[{bb_data[0]:.4f}, {bb_data[3]:.4f}] "
+    f"y=[{bb_data[1]:.4f}, {bb_data[4]:.4f}] "
+    f"z=[{bb_data[2]:.4f}, {bb_data[5]:.4f}] m"
+)
 
 ###############################################################################
 # Define the output support
@@ -100,7 +105,7 @@ output_mesh = ops.mesh.from_scoping(
 
 print(f"Input mesh:  {input_mesh.nodes.n_nodes} nodes, {input_mesh.elements.n_elements} elements")
 print(f"Output mesh: {output_mesh.nodes.n_nodes} nodes, {output_mesh.elements.n_elements} elements")
-input_mesh.plot(title="Source mesh")
+input_mesh.plot(title="Source mesh (crankshaft)")
 output_mesh.plot(title="Target mesh (coarser)")
 
 ###############################################################################
@@ -138,7 +143,7 @@ for i, name in enumerate(mapping_workflow.operator_names):
 
 displacement_fc = model.results.displacement.eval()
 displacement_field = displacement_fc[0]
-input_mesh.plot(field_or_fields_container=displacement_fc, title="Source displacement field")
+input_mesh.plot(field_or_fields_container=displacement_fc, title="Source displacement (crankshaft)")
 
 input_pin_name = "source"
 output_pin_name = "target"
@@ -152,17 +157,8 @@ output_mesh.plot(
     field_or_fields_container=mapped_displacement_field, title="Mapped displacement field"
 )
 
-###############################################################################
-# Compare input and output
-# -------------------------
-# The output field has as many entities as the output mesh has nodes.
-
 print(f"Input field:  {len(displacement_field.data)} entities")
 print(f"Output field: {len(mapped_displacement_field.data)} entities")
-input_mesh.plot(field_or_fields_container=displacement_fc, title="Source displacement")
-output_mesh.plot(
-    field_or_fields_container=mapped_displacement_field, title="Mapped displacement (coarser mesh)"
-)
 
 ###############################################################################
 # Reuse the workflow for a different result type
@@ -186,7 +182,7 @@ output_mesh.plot(field_or_fields_container=mapped_stress_field, title="Mapped st
 # The influence box further limits the RBF search window and can improve performance
 # for sparse or asymmetric meshes.
 
-influence_box = 0.03
+influence_box = 0.01
 
 prepare_op_with_box = ops.mapping.prepare_mapping_workflow(
     input_support=input_mesh,
@@ -209,7 +205,7 @@ output_mesh.plot(
 # A larger filter radius produces smoother interpolation but may lose fine details.
 # Compare the displacement range across several radii.
 
-filter_radii = [0.01, 0.02, 0.04]
+filter_radii = [0.003, 0.005, 0.01]
 
 mean_mags = []
 for radius in filter_radii:

@@ -49,17 +49,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from ansys.dpf import core as dpf
-
-# Import the examples and operators modules
 from ansys.dpf.core import examples, operators as ops
+from ansys.dpf.core.geometry import Line
+from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Load model
 # ----------
-# Download and load a result file, then create a
+# Download the crankshaft result file and create a
 # :class:`Model<ansys.dpf.core.model.Model>` object.
 
-result_file = examples.find_static_rst()
+result_file = examples.download_crankshaft()
 model = dpf.Model(data_sources=result_file)
 print(model)
 
@@ -70,26 +70,49 @@ print(model)
 # :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>`.
 
 displacement_fc = model.results.displacement.eval()
-model.metadata.meshed_region.plot(
-    field_or_fields_container=displacement_fc, title="Displacement field"
-)
+mesh = model.metadata.meshed_region
+mesh.plot(field_or_fields_container=displacement_fc, title="Crankshaft displacement")
 
 ###############################################################################
 # Define coordinates of interest
 # --------------------------------
-# Define the spatial coordinates where field values should be interpolated, then
-# create a :class:`Field<ansys.dpf.core.field.Field>` from the array using
-# :mod:`fields_factory<ansys.dpf.core.fields_factory>`.
+# Define a line of 8 equally-spaced probe points along the crankshaft z-axis.
+# The range deliberately extends 10 mm beyond each end of the bounding box so
+# that the first and last points fall outside the model—demonstrating how
+# ``on_coordinates`` returns an empty value for coordinates with no containing
+# element.
 
-# Each row is one point with [x, y, z] coordinate values
-points = np.array(
-    [
-        [0.01, 0.04, 0.01],
-        [0.02, 0.05, 0.02],
-    ]
+bb_data = mesh.bounding_box.data[0]  # [xmin, ymin, zmin, xmax, ymax, zmax]
+print(
+    f"Bounding box: x=[{bb_data[0]:.4f}, {bb_data[3]:.4f}] "
+    f"y=[{bb_data[1]:.4f}, {bb_data[4]:.4f}] "
+    f"z=[{bb_data[2]:.4f}, {bb_data[5]:.4f}] m"
+)
+
+n_pts = 50
+z_pts = np.linspace(bb_data[2] - 0.01, bb_data[5] + 0.01, n_pts)
+points = np.column_stack(
+    [np.full(n_pts, 0.005), np.zeros(n_pts), z_pts]  # fixed x=5 mm, y=0
 )
 coords_field = dpf.fields_factory.field_from_array(arr=points)
-print(coords_field)
+print(
+    f"Probe line: {n_pts} points, z from {z_pts[0]:.4f} to {z_pts[-1]:.4f} m "
+    f"(bbox: [{bb_data[2]:.4f}, {bb_data[5]:.4f}])"
+)
+
+###############################################################################
+# Visualize probe line on the crankshaft
+# ----------------------------------------
+# Build a :class:`Line<ansys.dpf.core.geometry.Line>` from the two endpoints of
+# the probe path and overlay it on a transparent crankshaft mesh so the
+# spatial context is immediately visible.
+
+probe_line = Line([points[0], points[-1]], n_points=n_pts)
+
+pl = DpfPlotter()
+pl.add_mesh(probe_line.mesh, color="red", line_width=4)
+pl.add_mesh(mesh, style="surface", show_edges=False, color="w", opacity=0.2)
+pl.show_figure(show_axes=True)
 
 ###############################################################################
 # Map displacement to coordinates
@@ -106,25 +129,40 @@ mapped_displacement_fc = mapping_op.eval()
 ###############################################################################
 # Access mapped results
 # ----------------------
-# Extract and display the interpolated displacement values.
+# The output field only contains entities for probe points that were found
+# inside an element. Build a full ``(n_pts, 3)`` array—filling ``NaN`` for
+# coordinates outside the mesh—to keep a one-to-one correspondence with the
+# input probe line.
 
 mapped_field = mapped_displacement_fc[0]
 mapped_data = mapped_field.data
+found_ids = mapped_field.scoping.ids  # 1-based indices of found probe points
 
-# Bar chart: displacement components at each target point
-labels = [f"Point {i + 1}" for i in range(len(points))]
+full_disp = np.full((n_pts, 3), np.nan)
+for k, eid in enumerate(found_ids):
+    full_disp[eid - 1] = mapped_data[k]
+
+in_mesh = ~np.isnan(full_disp[:, 0])
+print(f"{in_mesh.sum()} of {n_pts} probe points are inside the mesh")
+
 components = ["ux", "uy", "uz"]
-x = np.arange(len(labels))
-width = 0.25
+x = z_pts  # use z-coordinate as the x-axis
 
-fig, ax = plt.subplots()
-for i, comp in enumerate(components):
-    ax.bar(x + i * width, mapped_data[:, i], width, label=comp)
-ax.set_xticks(x + width)
-ax.set_xticklabels(labels)
-ax.set_ylabel("Displacement (m)")
-ax.set_title("Interpolated displacement at coordinates")
-ax.legend()
+# Line plot: displacement components along the probe line.
+# Gaps appear where probe points fall outside the mesh.
+fig, axes = plt.subplots(3, 1, figsize=(10, 8), sharex=True)
+for j, (ax, comp) in enumerate(zip(axes, components)):
+    y_vals = np.where(in_mesh, full_disp[:, j], np.nan)
+    ax.plot(x, y_vals, "o-", ms=3, label=comp)
+    ax.axvspan(
+        x[0], bb_data[2], color="lightgray", alpha=0.4, label="Outside mesh" if j == 0 else ""
+    )
+    ax.axvspan(bb_data[5], x[-1], color="lightgray", alpha=0.4)
+    ax.set_ylabel("Displacement (m)")
+    ax.set_title(comp)
+    ax.legend(loc="upper right")
+axes[-1].set_xlabel("z coordinate (m)")
+plt.suptitle("Interpolated displacement along probe line\n(gray = outside mesh, NaN gaps)")
 plt.tight_layout()
 plt.show()
 
@@ -134,7 +172,6 @@ plt.show()
 # If the input fields do not have a mesh in their support, you can provide the
 # mesh explicitly via the ``mesh`` pin.
 
-mesh = model.metadata.meshed_region
 mapping_op_with_mesh = ops.mapping.on_coordinates(
     fields_container=displacement_fc,
     coordinates=coords_field,
@@ -166,18 +203,24 @@ mapped_stress_fc = ops.mapping.on_coordinates(
     coordinates=coords_field,
 ).eval()
 
-stress_data = mapped_stress_fc[0].data
-comp_names = ["s_xx", "s_yy", "s_zz", "s_xy", "s_yz", "s_xz"]
-x = np.arange(len(labels))
-width = 0.12
+stress_data_out = mapped_stress_fc[0].data
+found_stress_ids = mapped_stress_fc[0].scoping.ids
+full_stress = np.full((n_pts, 6), np.nan)
+for k, eid in enumerate(found_stress_ids):
+    full_stress[eid - 1] = stress_data_out[k]
 
-fig, ax = plt.subplots(figsize=(8, 4))
-for i, comp in enumerate(comp_names):
-    ax.bar(x + i * width, stress_data[:, i], width, label=comp)
-ax.set_xticks(x + 2.5 * width)
-ax.set_xticklabels(labels)
-ax.set_ylabel("Stress (Pa)")
-ax.set_title("Interpolated stress at coordinates")
-ax.legend(ncol=2)
+comp_names = ["s_xx", "s_yy", "s_zz", "s_xy", "s_yz", "s_xz"]
+
+fig, axes = plt.subplots(3, 2, figsize=(12, 9), sharex=True)
+for j, (ax, comp) in enumerate(zip(axes.flat, comp_names)):
+    y_vals = np.where(in_mesh, full_stress[:, j], np.nan)
+    ax.plot(x, y_vals, "o-", ms=3, label=comp)
+    ax.axvspan(x[0], bb_data[2], color="lightgray", alpha=0.4)
+    ax.axvspan(bb_data[5], x[-1], color="lightgray", alpha=0.4)
+    ax.set_ylabel("Stress (Pa)")
+    ax.set_title(comp)
+for ax in axes[-1]:
+    ax.set_xlabel("z coordinate (m)")
+plt.suptitle("Interpolated stress along probe line\n(gray = outside mesh, NaN gaps)")
 plt.tight_layout()
 plt.show()

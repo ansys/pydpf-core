@@ -58,14 +58,16 @@ from ansys.dpf import core as dpf
 
 # Import the examples and operators modules
 from ansys.dpf.core import examples, operators as ops
+from ansys.dpf.core.geometry import Line
+from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Load model
 # ----------
-# Download and load a result file, then create a
+# Download the crankshaft result file and create a
 # :class:`Model<ansys.dpf.core.model.Model>` object.
 
-result_file = examples.find_static_rst()
+result_file = examples.download_crankshaft()
 model = dpf.Model(data_sources=result_file)
 print(model)
 
@@ -74,25 +76,51 @@ print(model)
 # ----------------
 # The mesh is needed by both ``find_reduced_coordinates`` and
 # ``on_reduced_coordinates``.
+# Use :meth:`bounding_box<ansys.dpf.core.meshed_region.MeshedRegion.bounding_box>`
+# to confirm the spatial extent of the model before choosing probe points.
 
 mesh = model.metadata.meshed_region
-print(mesh)
+bb_data = mesh.bounding_box.data[0]  # [xmin, ymin, zmin, xmax, ymax, zmax]
+print(
+    f"Bounding box: x=[{bb_data[0]:.4f}, {bb_data[3]:.4f}] "
+    f"y=[{bb_data[1]:.4f}, {bb_data[4]:.4f}] "
+    f"z=[{bb_data[2]:.4f}, {bb_data[5]:.4f}] m"
+)
 
 ###############################################################################
 # Define target coordinates
 # --------------------------
-# Create a :class:`Field<ansys.dpf.core.field.Field>` that holds the points
-# at which field values should be interpolated.
+# Create a :class:`Field<ansys.dpf.core.field.Field>` that holds the probe
+# points at which field values should be interpolated.
+#
+# A line of 8 equally-spaced points is built along the crankshaft z-axis.
+# The range deliberately extends 10 mm beyond each end of the bounding box so
+# that the first and last points fall outside the model—demonstrating how the
+# reduced-coordinates workflow handles coordinates with no containing element.
 
-# Each row is one point with [x, y, z] coordinate values
-points = np.array(
-    [
-        [0.01, 0.04, 0.01],
-        [0.02, 0.05, 0.02],
-    ]
+n_pts = 50
+z_pts = np.linspace(bb_data[2] - 0.01, bb_data[5] + 0.01, n_pts)
+points = np.column_stack(
+    [np.full(n_pts, 0.005), np.zeros(n_pts), z_pts]  # fixed x=5 mm, y=0
 )
 coords_field = dpf.fields_factory.field_from_array(arr=points)
-print(coords_field)
+print(
+    f"Probe line: {n_pts} points, z from {z_pts[0]:.4f} to {z_pts[-1]:.4f} m "
+    f"(bbox: [{bb_data[2]:.4f}, {bb_data[5]:.4f}])"
+)
+
+###############################################################################
+# Visualize probe line on the crankshaft
+# ----------------------------------------
+# Build a :class:`Line<ansys.dpf.core.geometry.Line>` from the two endpoints of
+# the probe path and overlay it on a transparent crankshaft mesh.
+
+probe_line = Line([points[0], points[-1]], n_points=n_pts)
+
+pl = DpfPlotter()
+pl.add_mesh(probe_line.mesh, color="red", line_width=4)
+pl.add_mesh(mesh, style="surface", show_edges=False, color="w", opacity=0.2)
+pl.show_figure(show_axes=True)
 
 ###############################################################################
 # Step 1: Find reduced coordinates and element IDs
@@ -109,21 +137,17 @@ element_ids_sc = find_op.outputs.element_ids()
 
 print("Reduced coordinates:")
 print(reduced_coords_fc)
-print("\nElement IDs:")
+print("Element IDs:")
 print(element_ids_sc)
 
-###############################################################################
-# Examine the reduced coordinates
-# ---------------------------------
-# Reduced coordinates represent positions within the reference element coordinate system.
-
-reduced_coords_field = reduced_coords_fc[0]
-print("Reduced coordinates data:")
-print(reduced_coords_field.data)
-
-element_ids = element_ids_sc[0]
-print("\nElement IDs for each coordinate:")
-print(element_ids.ids)
+# The scoping of the reduced-coordinates field records which input probe
+# points were found inside an element; the rest fall outside the mesh.
+found_ids = reduced_coords_fc[0].scoping.ids  # 1-based input-point indices
+in_mesh = np.zeros(n_pts, dtype=bool)
+for eid in found_ids:
+    in_mesh[eid - 1] = True
+print(f"{in_mesh.sum()} of {n_pts} probe points are inside the mesh")
+x = z_pts  # use z-coordinate as the x-axis
 
 ###############################################################################
 # Step 2: Map displacement to reduced coordinates
@@ -132,7 +156,7 @@ print(element_ids.ids)
 # reduced coordinates found in step 1.
 
 displacement_fc = model.results.displacement.eval()
-mesh.plot(field_or_fields_container=displacement_fc, title="Displacement field")
+mesh.plot(field_or_fields_container=displacement_fc, title="Crankshaft displacement")
 
 mapping_op = ops.mapping.on_reduced_coordinates(
     fields_container=displacement_fc,
@@ -149,21 +173,30 @@ mapped_displacement_fc = mapping_op.eval()
 
 mapped_field = mapped_displacement_fc[0]
 mapped_data = mapped_field.data
+element_ids = element_ids_sc[0]
 
-# Bar chart: displacement components at each target point
-labels = [f"Point {i + 1}" for i in range(len(points))]
+# Build full arrays (NaN for outside-mesh points)
+full_disp = np.full((n_pts, 3), np.nan)
+for k, eid in enumerate(mapped_field.scoping.ids):
+    full_disp[eid - 1] = mapped_data[k]
+
+# Line plot: displacement components along the probe line.
+# Gaps appear where probe points fall outside the mesh.
 components = ["ux", "uy", "uz"]
-x = np.arange(len(labels))
-width = 0.25
 
-fig, ax = plt.subplots()
-for i, comp in enumerate(components):
-    ax.bar(x + i * width, mapped_data[:, i], width, label=comp)
-ax.set_xticks(x + width)
-ax.set_xticklabels(labels)
-ax.set_ylabel("Displacement (m)")
-ax.set_title("Interpolated displacement at reduced coordinates")
-ax.legend()
+fig, axes = plt.subplots(3, 1, figsize=(10, 8), sharex=True)
+for j, (ax, comp) in enumerate(zip(axes, components)):
+    y_vals = np.where(in_mesh, full_disp[:, j], np.nan)
+    ax.plot(x, y_vals, "o-", ms=3, label=comp)
+    ax.axvspan(
+        x[0], bb_data[2], color="lightgray", alpha=0.4, label="Outside mesh" if j == 0 else ""
+    )
+    ax.axvspan(bb_data[5], x[-1], color="lightgray", alpha=0.4)
+    ax.set_ylabel("Displacement (m)")
+    ax.set_title(comp)
+    ax.legend(loc="upper right")
+axes[-1].set_xlabel("z coordinate (m)")
+plt.suptitle("Interpolated displacement along probe line\n(gray = outside mesh, NaN gaps)")
 plt.tight_layout()
 plt.show()
 
@@ -180,21 +213,25 @@ mapped_stress_fc = ops.mapping.on_reduced_coordinates(
     element_ids=element_ids_sc,
     mesh=mesh,
 ).eval()
-stress_data = mapped_stress_fc[0].data
+stress_data_out = mapped_stress_fc[0].data
+full_stress = np.full((n_pts, 6), np.nan)
+for k, eid in enumerate(mapped_stress_fc[0].scoping.ids):
+    full_stress[eid - 1] = stress_data_out[k]
 
-# Bar chart: stress tensor components at each target point
+# Line plot: stress components along the probe line.
 comp_names = ["s_xx", "s_yy", "s_zz", "s_xy", "s_yz", "s_xz"]
-x = np.arange(len(labels))
-width = 0.12
 
-fig, ax = plt.subplots(figsize=(8, 4))
-for i, comp in enumerate(comp_names):
-    ax.bar(x + i * width, stress_data[:, i], width, label=comp)
-ax.set_xticks(x + 2.5 * width)
-ax.set_xticklabels(labels)
-ax.set_ylabel("Stress (Pa)")
-ax.set_title("Interpolated stress at reduced coordinates")
-ax.legend(ncol=2)
+fig, axes = plt.subplots(3, 2, figsize=(12, 9), sharex=True)
+for j, (ax, comp) in enumerate(zip(axes.flat, comp_names)):
+    y_vals = np.where(in_mesh, full_stress[:, j], np.nan)
+    ax.plot(x, y_vals, "o-", ms=3, label=comp)
+    ax.axvspan(x[0], bb_data[2], color="lightgray", alpha=0.4)
+    ax.axvspan(bb_data[5], x[-1], color="lightgray", alpha=0.4)
+    ax.set_ylabel("Stress (Pa)")
+    ax.set_title(comp)
+for ax in axes[-1]:
+    ax.set_xlabel("z coordinate (m)")
+plt.suptitle("Interpolated stress along probe line\n(gray = outside mesh, NaN gaps)")
 plt.tight_layout()
 plt.show()
 
@@ -220,22 +257,26 @@ mapped_disp_quad_fc = ops.mapping.on_reduced_coordinates(
     use_quadratic_elements=True,
 ).eval()
 
-quad_data = mapped_disp_quad_fc[0].data
+quad_data_out = mapped_disp_quad_fc[0].data
+full_quad = np.full((n_pts, 3), np.nan)
+for k, eid in enumerate(mapped_disp_quad_fc[0].scoping.ids):
+    full_quad[eid - 1] = quad_data_out[k]
 
-# Side-by-side comparison: linear vs quadratic interpolation
-fig, axes = plt.subplots(1, 2, figsize=(10, 4), sharey=True)
-for ax, data, title in zip(
-    axes,
-    [mapped_data, quad_data],
-    ["Linear interpolation", "Quadratic interpolation"],
-):
-    for i, comp in enumerate(components):
-        ax.bar(x + i * width, data[:, i], width, label=comp)
-    ax.set_xticks(x + width)
-    ax.set_xticklabels(labels)
+# Line plot comparison: linear vs quadratic interpolation
+fig, axes = plt.subplots(3, 1, figsize=(10, 8), sharex=True)
+for j, (ax, comp) in enumerate(zip(axes, components)):
+    y_lin = np.where(in_mesh, full_disp[:, j], np.nan)
+    y_quad = np.where(in_mesh, full_quad[:, j], np.nan)
+    ax.plot(x, y_lin, "o-", ms=2, label="Linear")
+    ax.plot(x, y_quad, "s--", ms=2, label="Quadratic")
+    ax.axvspan(
+        x[0], bb_data[2], color="lightgray", alpha=0.4, label="Outside mesh" if j == 0 else ""
+    )
+    ax.axvspan(bb_data[5], x[-1], color="lightgray", alpha=0.4)
     ax.set_ylabel("Displacement (m)")
-    ax.set_title(title)
-    ax.legend()
-plt.suptitle("Displacement: linear vs quadratic interpolation")
+    ax.set_title(comp)
+    ax.legend(loc="upper right")
+axes[-1].set_xlabel("z coordinate (m)")
+plt.suptitle("Displacement: linear vs quadratic interpolation along probe line")
 plt.tight_layout()
 plt.show()
