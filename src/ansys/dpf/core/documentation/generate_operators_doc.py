@@ -630,6 +630,16 @@ def generate_operators_doc(
         Missing or ``None`` entries default to the file stem of the corresponding path.
 
     """
+    if isinstance(custom_plugin_paths, str):
+        raise TypeError(
+            "'custom_plugin_paths' must be a list of path strings, not a plain string. "
+            "Wrap the single path in a list: custom_plugin_paths=[path]."
+        )
+    if isinstance(custom_plugin_names, str):
+        raise TypeError(
+            "'custom_plugin_names' must be a list of name strings, not a plain string. "
+            "Wrap the single name in a list: custom_plugin_names=[name]."
+        )
     server = initialize_server(
         ansys_path,
         include_composites,
