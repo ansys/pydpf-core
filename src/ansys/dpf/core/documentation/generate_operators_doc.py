@@ -387,6 +387,11 @@ def get_plugin_operators(server: dpf.AnyServerType, plugin_name: str) -> list[st
         spec = dpf.Operator.operator_specification(op_name=operator_name, server=server)
         if "plugin" in spec.properties and spec.properties["plugin"] == plugin_name:
             plugin_operators.append(operator_name)
+    if not plugin_operators:
+        warnings.warn(
+            f"No operators were found for plugin '{plugin_name}'. "
+            "The plugin may not be loaded on the server."
+        )
     return plugin_operators
 
 
@@ -652,6 +657,12 @@ def generate_operators_doc(
         operators = available_operator_names(server)
     else:
         operators = get_plugin_operators(server, desired_plugin)
+        if not operators:
+            raise ValueError(
+                f"No operators were found for plugin '{desired_plugin}'. "
+                "The plugin may not be loaded on the server. "
+                "If it is a custom plugin, use 'custom_plugin_paths' to load it first."
+            )
     if server.meet_version(required_version="11.0"):
         router_info = get_operator_routing_info(server)
     else:
