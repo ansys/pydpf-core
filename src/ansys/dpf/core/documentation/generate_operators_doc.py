@@ -58,8 +58,8 @@ def initialize_server(
     include_composites: bool = False,
     include_sound: bool = False,
     verbose: bool = False,
-    custom_plugin_path: str | os.PathLike = None,
-    custom_plugin_name: str = None,
+    custom_plugin_paths: list = None,
+    custom_plugin_names: list = None,
 ) -> dpf.AnyServerType:
     """Initialize a DPF server for a given installation folder by loading required plugins.
 
@@ -73,12 +73,14 @@ def initialize_server(
         Whether to generate documentation for operators of the Sound DPF plugin.
     verbose:
         Whether to print progress information.
-    custom_plugin_path:
-        Path to a custom plugin file (.dll or .so) to load into the server.
-        When provided, the plugin is loaded after the standard plugins.
-    custom_plugin_name:
-        Name alias to use when loading the custom plugin via ``load_library``.
-        Defaults to the file stem of ``custom_plugin_path`` when not provided.
+    custom_plugin_paths:
+        Paths to custom plugin files (.dll or .so) to load into the server.
+        Each plugin is loaded after the standard plugins.
+    custom_plugin_names:
+        Name aliases to use when loading the custom plugins via ``load_library``.
+        Each entry corresponds positionally to an entry in ``custom_plugin_paths``.
+        When an entry is ``None`` or the list is shorter than ``custom_plugin_paths``,
+        the name defaults to the file stem of the corresponding path.
 
     Returns
     -------
@@ -121,20 +123,23 @@ def initialize_server(
             )
         except Exception as e:
             warnings.warn("Could not load Acoustics plugin:" f"{e}")
-    if custom_plugin_path is not None:  # pragma: nocover
-        custom_plugin_path = Path(custom_plugin_path)
-        if custom_plugin_name is None:
+    for idx, plugin_path in enumerate(custom_plugin_paths or []):  # pragma: nocover
+        plugin_path = Path(plugin_path)
+        # Resolve the name: use the provided name if available, else derive from the file stem
+        plugin_names = custom_plugin_names or []
+        raw_name = plugin_names[idx] if idx < len(plugin_names) else None
+        if raw_name is None:
             # Strip leading "lib" prefix on Linux and drop the suffix to get a clean name
-            stem = custom_plugin_path.stem
+            stem = plugin_path.stem
             if stem.startswith("lib"):
                 stem = stem[3:]
-            custom_plugin_name = stem
+            raw_name = stem
         if verbose:
-            print(f"Loading custom plugin '{custom_plugin_name}' from {custom_plugin_path}")
+            print(f"Loading custom plugin '{raw_name}' from {plugin_path}")
         try:
-            load_library(filename=custom_plugin_path, name=custom_plugin_name)
+            load_library(filename=plugin_path, name=raw_name)
         except Exception as e:
-            warnings.warn(f"Could not load custom plugin '{custom_plugin_name}': {e}")
+            warnings.warn(f"Could not load custom plugin '{raw_name}': {e}")
     if verbose:  # pragma: nocover
         print(f"Loaded plugins: {list(server.plugins.keys())}")
     return server
@@ -587,8 +592,8 @@ def generate_operators_doc(
     include_private: bool = False,
     desired_plugin: str = None,
     verbose: bool = True,
-    custom_plugin_path: str | os.PathLike = None,
-    custom_plugin_name: str = None,
+    custom_plugin_paths: list = None,
+    custom_plugin_names: list = None,
 ):
     """Generate the Markdown source files for the DPF operator documentation.
 
@@ -610,18 +615,19 @@ def generate_operators_doc(
         Whether to include private operators.
     desired_plugin:
         Restrict documentation generation to the operators of this specific plugin.
-        Can be used together with ``custom_plugin_path`` to document only the operators
-        that belong to the loaded custom plugin.
+        Can be used together with ``custom_plugin_paths`` to document only the operators
+        that belong to one of the loaded custom plugins.
     verbose:
         Whether to print progress information.
-    custom_plugin_path:
-        Path to a custom plugin file (.dll or .so) to load before generating documentation.
-        When provided the plugin is loaded in addition to the standard set of plugins so that
-        its operators appear in the generated output.  Combine with ``desired_plugin`` to
-        restrict the output to only the operators of that plugin.
-    custom_plugin_name:
-        Name alias to register the custom plugin under when calling ``load_library``.
-        Defaults to the file stem of ``custom_plugin_path``.
+    custom_plugin_paths:
+        Paths to custom plugin files (.dll or .so) to load before generating documentation.
+        Each plugin is loaded in addition to the standard set of plugins so that its operators
+        appear in the generated output.  Combine with ``desired_plugin`` to restrict the output
+        to only the operators of a specific plugin.
+    custom_plugin_names:
+        Name aliases to register each custom plugin under when calling ``load_library``.
+        Each entry corresponds positionally to an entry in ``custom_plugin_paths``.
+        Missing or ``None`` entries default to the file stem of the corresponding path.
 
     """
     server = initialize_server(
@@ -629,8 +635,8 @@ def generate_operators_doc(
         include_composites,
         include_sound,
         verbose,
-        custom_plugin_path=custom_plugin_path,
-        custom_plugin_name=custom_plugin_name,
+        custom_plugin_paths=custom_plugin_paths,
+        custom_plugin_names=custom_plugin_names,
     )
     if desired_plugin is None:
         operators = available_operator_names(server)
@@ -671,19 +677,25 @@ def run_with_args():  # pragma: nocover
     parser.add_argument("--plugin", help="Restrict to the given plugin.")
     parser.add_argument(
         "--custom_plugin_path",
+        nargs="+",
         default=None,
+        metavar="PATH",
         help=(
-            "Path to a custom plugin file (.dll or .so) to load before generating documentation. "
-            "The plugin's operators are added to the documentation output. "
-            "Combine with --plugin to restrict the output to only that plugin's operators."
+            "Path(s) to custom plugin files (.dll or .so) to load before generating documentation. "
+            "Accepts one or more paths separated by spaces. "
+            "Each plugin's operators are added to the documentation output. "
+            "Combine with --plugin to restrict the output to only a specific plugin's operators."
         ),
     )
     parser.add_argument(
         "--custom_plugin_name",
+        nargs="+",
         default=None,
+        metavar="NAME",
         help=(
-            "Name alias to register the custom plugin under when loading it. "
-            "Defaults to the file stem of --custom_plugin_path."
+            "Name alias(es) to register the custom plugin(s) under when loading them. "
+            "Each entry corresponds positionally to a --custom_plugin_path entry. "
+            "Defaults to the file stem of the corresponding path."
         ),
     )
     parser.add_argument(
@@ -702,8 +714,8 @@ def run_with_args():  # pragma: nocover
         include_sound=args.include_sound,
         include_private=args.include_private,
         desired_plugin=args.plugin,
-        custom_plugin_path=args.custom_plugin_path,
-        custom_plugin_name=args.custom_plugin_name,
+        custom_plugin_paths=args.custom_plugin_path,
+        custom_plugin_names=args.custom_plugin_name,
     )
 
 
