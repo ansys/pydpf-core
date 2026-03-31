@@ -70,7 +70,7 @@ The following tables list the client-server compatibility for recent and legacy 
 
 PyDPF-Core strives to follow `SPEC-0 <https://scientific-python.org/specs/spec-0000/>`_ for Python version support,
 as stated in the PyAnsys ecosystem `Python version support policy <https://docs.pyansys.com/version/stable/getting-started/prerequisites.html#supported-python-versions>`_.
-The "Supported Python versions" column in each table lists the Python versions supported by the
+The "Supported Python versions" column lists the Python versions supported by the
 minimum compatible ``ansys-dpf-core`` version for each server release.
 
 Supported DPF versions
@@ -110,6 +110,10 @@ Supported DPF versions
    * - 7.1 (2024 R1)
      - 0.10.1 and later
      - 3.9, 3.10, 3.11
+
+.. note::
+    
+    ``ansys-dpf-core`` versions 0.13.7 - 0.15.0 can be installed on Python 3.9 but compatibility is not tested.
 
 Legacy DPF versions
 +++++++++++++++++++
