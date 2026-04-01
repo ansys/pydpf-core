@@ -52,9 +52,8 @@ be reused for multiple field types without repeating the setup step.
 # Import the required modules and load a result file.
 
 # Import the ``ansys.dpf.core`` module
-# Import NumPy for coordinate operations
+# Import Matplotlib for plotting
 import matplotlib.pyplot as plt
-import numpy as np
 
 from ansys.dpf import core as dpf
 
@@ -89,24 +88,36 @@ print(
 ###############################################################################
 # Define the output support
 # --------------------------
-# The output support is the target mesh where results should be evaluated. To demonstrate
-# RBF mapping between non-conforming meshes, a coarser mesh is built by selecting every
-# third node from the original mesh and extracting the connected elements.
+# The output support is the target mesh onto which results will be mapped.
+# To demonstrate RBF mapping between non-conforming meshes with genuinely
+# different topologies, the output mesh is built in two steps:
+#
+# 1. Extract the external surface of the crankshaft using the ``skin`` operator.
+# 2. Decimate that surface to ~30 % of its original faces using
+#    :class:`decimate_mesh<ansys.dpf.core.operators.mesh.decimate_mesh>`,
+#    which produces a coarser triangulated mesh.
+#
+# This gives a source (solid, hexahedral) / target (surface, triangulated)
+# pair with entirely different topology — exactly the scenario RBF-based
+# mapping is designed for.
 
-original_node_ids = input_mesh.nodes.scoping.ids
-coarse_node_ids = original_node_ids[::3]
+skin_mesh = ops.mesh.skin(mesh=input_mesh).outputs.mesh()
+output_mesh = ops.mesh.decimate_mesh(
+    mesh=skin_mesh,
+    preservation_ratio=0.3,
+).outputs.mesh()
 
-coarse_node_scoping = dpf.Scoping(ids=coarse_node_ids, location=dpf.locations.nodal)
-output_mesh = ops.mesh.from_scoping(
-    mesh=input_mesh,
-    scoping=coarse_node_scoping,
-    inclusive=1,
-).eval()
-
-print(f"Input mesh:  {input_mesh.nodes.n_nodes} nodes, {input_mesh.elements.n_elements} elements")
-print(f"Output mesh: {output_mesh.nodes.n_nodes} nodes, {output_mesh.elements.n_elements} elements")
-input_mesh.plot(title="Source mesh (crankshaft)")
-output_mesh.plot(title="Target mesh (coarser)")
+print(
+    f"Source mesh:          {input_mesh.nodes.n_nodes} nodes, {input_mesh.elements.n_elements} elements (solid)"
+)
+print(
+    f"Skin mesh:            {skin_mesh.nodes.n_nodes} nodes, {skin_mesh.elements.n_elements} elements (surface)"
+)
+print(
+    f"Decimated target mesh:{output_mesh.nodes.n_nodes} nodes, {output_mesh.elements.n_elements} elements (triangles)"
+)
+input_mesh.plot(title="Source mesh (crankshaft solid)")
+output_mesh.plot(title="Target mesh (decimated surface)")
 
 ###############################################################################
 # Prepare the mapping workflow
@@ -114,8 +125,10 @@ output_mesh.plot(title="Target mesh (coarser)")
 # Call ``prepare_mapping_workflow`` to build an RBF-based
 # :class:`Workflow<ansys.dpf.core.workflow.Workflow>` that maps fields from the input
 # support to the output support. The filter radius controls the RBF smoothing scale.
+# A value of 5 mm (0.005 m) is appropriate for the crankshaft which spans ~60 mm
+# in its narrowest dimension.
 
-filter_radius = 0.02
+filter_radius = 0.005
 
 prepare_op = ops.mapping.prepare_mapping_workflow(
     input_support=input_mesh,
@@ -123,6 +136,7 @@ prepare_op = ops.mapping.prepare_mapping_workflow(
     filter_radius=filter_radius,
 )
 mapping_workflow = prepare_op.eval()
+mapping_workflow.progress_bar = False
 print("Generated mapping workflow:")
 print(mapping_workflow)
 
@@ -154,11 +168,12 @@ mapped_displacement_field = mapping_workflow.get_output(
     output_type=dpf.types.field,
 )
 output_mesh.plot(
-    field_or_fields_container=mapped_displacement_field, title="Mapped displacement field"
+    field_or_fields_container=mapped_displacement_field,
+    title="Mapped displacement on decimated surface",
 )
 
-print(f"Input field:  {len(displacement_field.data)} entities")
-print(f"Output field: {len(mapped_displacement_field.data)} entities")
+print(f"Source field:  {len(displacement_field.data)} entities (solid nodes)")
+print(f"Mapped field:  {len(mapped_displacement_field.data)} entities (surface nodes)")
 
 ###############################################################################
 # Reuse the workflow for a different result type
@@ -174,7 +189,9 @@ mapped_stress_field = mapping_workflow.get_output(
     pin_name=output_pin_name,
     output_type=dpf.types.field,
 )
-output_mesh.plot(field_or_fields_container=mapped_stress_field, title="Mapped stress field")
+output_mesh.plot(
+    field_or_fields_container=mapped_stress_field, title="Mapped stress on decimated surface"
+)
 
 ###############################################################################
 # Add the influence box parameter
@@ -191,12 +208,14 @@ prepare_op_with_box = ops.mapping.prepare_mapping_workflow(
     influence_box=influence_box,
 )
 mapping_workflow_with_box = prepare_op_with_box.eval()
+mapping_workflow_with_box.progress_bar = False
 mapping_workflow_with_box.connect(pin_name=input_pin_name, inpt=displacement_field)
 mapped_disp_with_box = mapping_workflow_with_box.get_output(
     pin_name=output_pin_name, output_type=dpf.types.field
 )
 output_mesh.plot(
-    field_or_fields_container=mapped_disp_with_box, title="Mapped displacement with influence box"
+    field_or_fields_container=mapped_disp_with_box,
+    title="Mapped displacement with influence box (decimated surface)",
 )
 
 ###############################################################################
@@ -204,27 +223,70 @@ output_mesh.plot(
 # -------------------------------------------
 # A larger filter radius produces smoother interpolation but may lose fine details.
 # Compare the displacement range across several radii.
+#
+# A reference value is first obtained by running the mapping without setting
+# ``filter_radius``, so the operator uses its built-in default.  The swept
+# values are then plotted against this untuned baseline.
 
-filter_radii = [0.003, 0.005, 0.01]
+ref_prep_op = ops.mapping.prepare_mapping_workflow(
+    input_support=input_mesh,
+    output_support=output_mesh,
+)
+ref_workflow: dpf.Workflow = ref_prep_op.eval()
+ref_workflow.progress_bar = False
+ref_workflow.connect(pin_name=input_pin_name, inpt=displacement_field)
+ref_result = ref_workflow.get_output(pin_name=output_pin_name, output_type=dpf.types.field)
+
+filter_radii = [0.001, 0.003, 0.006, 0.01, 0.02, 0.03, 0.04, 0.05]
 
 mean_mags = []
+min_mags = []
+max_mags = []
 for radius in filter_radii:
     prep_op = ops.mapping.prepare_mapping_workflow(
         input_support=input_mesh,
         output_support=output_mesh,
         filter_radius=radius,
     )
-    workflow = prep_op.eval()
+    workflow: dpf.Workflow = prep_op.eval()
     workflow.connect(pin_name=input_pin_name, inpt=displacement_field)
+    workflow.progress_bar = False
     result = workflow.get_output(pin_name=output_pin_name, output_type=dpf.types.field)
-    mean_mags.append(np.mean(np.linalg.norm(result.data, axis=1)))
+    norm_field = ops.math.norm(field=result).outputs.field()
+    min_max_op = ops.min_max.min_max(field=norm_field)
+    min_mags.append(min_max_op.outputs.field_min().data[0])
+    max_mags.append(min_max_op.outputs.field_max().data[0])
+    mean_mags.append(
+        ops.math.accumulate(fieldA=norm_field).outputs.field().data[0] / norm_field.scoping.size
+    )
+
+ref_norm_field = ops.math.norm(field=ref_result).outputs.field()
+ref_min_max_op = ops.min_max.min_max(field=ref_norm_field)
+ref_min_mag = ref_min_max_op.outputs.field_min().data[0]
+ref_max_mag = ref_min_max_op.outputs.field_max().data[0]
+reference_mean_mag = (
+    ops.math.accumulate(fieldA=ref_norm_field).outputs.field().data[0] / ref_norm_field.scoping.size
+)
+print(f"Reference mean displacement magnitude (no filter_radius set): {reference_mean_mag:.4e} m")
 
 fig, ax = plt.subplots()
-ax.plot(filter_radii, mean_mags, "o-")
+ax.fill_between(filter_radii, min_mags, max_mags, alpha=0.2, label="Min-max range")
+ax.plot(filter_radii, mean_mags, "o-", label="Mean magnitude")
+ax.plot(filter_radii, min_mags, "v--", color="tab:blue", alpha=0.6, label="Min magnitude")
+ax.plot(filter_radii, max_mags, "^--", color="tab:blue", alpha=0.6, label="Max magnitude")
+ax.axhline(
+    reference_mean_mag,
+    color="gray",
+    linestyle="-",
+    label=f"Default - mean ({reference_mean_mag:.2e} m)",
+)
+ax.axhline(ref_min_mag, color="gray", linestyle=":", label=f"Default - min ({ref_min_mag:.2e} m)")
+ax.axhline(ref_max_mag, color="gray", linestyle=":", label=f"Default - max ({ref_max_mag:.2e} m)")
 ax.set_xlabel("Filter radius (m)")
-ax.set_ylabel("Mean displacement magnitude (m)")
-ax.set_title("Effect of filter radius on mapped displacement")
-for r, m in zip(filter_radii, mean_mags):
-    ax.annotate(f"{m:.2e}", (r, m), textcoords="offset points", xytext=(0, 8))
+ax.set_ylabel("Displacement magnitude (m)")
+ax.set_title(
+    "Effect of filter radius on mapped displacement\n(narrowing min-max band = loss of fine detail)"
+)
+ax.legend(fontsize="small")
 plt.tight_layout()
 plt.show()
