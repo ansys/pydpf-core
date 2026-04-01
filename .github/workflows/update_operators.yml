@@ -25,6 +25,7 @@ env:
   ANSYSLMD_LICENSE_FILE: 1055@${{ secrets.LICENSE_SERVER }}
   ANSYS_DPF_ACCEPT_LA: Y
   DPF_DEFAULT_GRPC_MODE: insecure
+  DISTINCT_ID: ${{ github.event.inputs.distinct_id }}
 
 permissions: {}
 
@@ -38,9 +39,7 @@ jobs:
 
     steps:
       - name: "echo distinct ID"
-        env:
-          DISTINCT_ID: ${{ github.event.inputs.distinct_id }}
-        run: echo $DISTINCT_ID
+        run: echo ${DISTINCT_ID}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
