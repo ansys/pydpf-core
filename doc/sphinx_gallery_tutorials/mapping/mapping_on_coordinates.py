@@ -111,7 +111,7 @@ probe_line = Line([points[0], points[-1]], n_points=n_pts)
 
 pl = DpfPlotter()
 pl.add_mesh(probe_line.mesh, color="red", line_width=4)
-pl.add_mesh(mesh, style="surface", show_edges=False, color="w", opacity=0.2)
+pl.add_mesh(mesh, style="surface", opacity=0.3)
 pl.show_figure(show_axes=True)
 
 ###############################################################################
