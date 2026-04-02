@@ -23,16 +23,20 @@
 """
 .. _ref_examples_lsdyna_erosion:
 
-Visualizing Element Erosion in LS-DYNA Impact Simulations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Projectile-Plate Impact: Post-Processing Element Erosion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This example shows how to post-process element erosion in an LS-DYNA d3plot result file,
-isolate the surviving mesh, and plot the displacement field on it.
+This example post-processes element erosion in an LS-DYNA d3plot result of a
+tungsten-alloy projectile penetrating a steel plate, and plots the surviving mesh
+deformed by displacement at the final time step.
 
-During high-velocity impact simulations, the solver progressively deletes (erodes)
-heavily distorted elements. The ``erosion_flag`` result marks each element as active (1)
-or eroded (0) at each time step. This workflow filters the active elements, extracts
-the corresponding sub-mesh, and visualizes the deformed geometry at the final time step.
+Both parts use ``*MAT_PLASTIC_KINEMATIC`` with a failure strain of 0.8, so elements
+are progressively deleted on impact. The simulation uses
+``*CONTACT_ERODING_SURFACE_TO_SURFACE``, which causes LS-DYNA to write a per-step
+element deletion flag to d3plot. DPF exposes that flag as the ``erosion_flag`` result
+(active = 1, eroded = 0). The workflow filters the active elements, extracts the
+corresponding sub-mesh, and visualizes the deformed geometry at the final time step
+(t ≈ 70 µs).
 
 .. note::
     This example requires DPF 8.0 (ansys-dpf-server-2024-R2) or above.
@@ -46,10 +50,12 @@ from ansys.dpf.core import examples
 ###############################################################################
 # Load the LS-DYNA result file
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Load the d3plot file that contains element erosion data and print the model
-# contents to inspect the available results and time steps.
+# The dataset contains 16 output states at roughly 5 µs intervals
+# (units: gram, cm, microsecond). Each state is stored in a separate file
+# (``ieverp = 1``), so all 17 paths returned by the download helper must be
+# present in the same directory for DPF to read the full time history.
 
-d3plot_paths = examples.download_d3plot_erosion()
+d3plot_paths = examples.download_d3plot_projectile()
 ds = dpf.DataSources()
 ds.set_result_file_path(filepath=d3plot_paths[0], key="d3plot")
 my_model = dpf.Model(data_sources=ds)
@@ -59,7 +65,8 @@ print(my_model)
 # Extract the erosion flag at the final time step
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # The erosion flag is an elemental result: active elements carry a value of 1,
-# eroded elements carry a value of 0.
+# eroded elements carry a value of 0. State 16 corresponds to t ≈ 70 µs,
+# when penetration is complete and erosion is most extensive.
 
 last_step = my_model.metadata.time_freq_support.n_sets
 erosion_fc = my_model.results.erosion_flag(time_scoping=[last_step]).eval()
@@ -86,7 +93,7 @@ print(active_elemental_scoping)
 
 full_mesh = my_model.metadata.meshed_region
 sub_mesh = dpf.operators.mesh.from_scoping(scoping=active_elemental_scoping, mesh=full_mesh).eval()
-sub_mesh.plot(title="Non-eroded mesh at the final time step")
+sub_mesh.plot(title="Mesh with erosion at the final time step", cpos="xz")
 
 ###############################################################################
 # Rescope displacement to the non-eroded nodes
@@ -106,12 +113,15 @@ active_disp_fc = dpf.operators.scoping.rescope_fc(
 ###############################################################################
 # Plot the deformed non-eroded mesh
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Display the displacement magnitude on the surviving mesh, deformed according
-# to the displacement field. Eroded elements are no longer present in the scene.
+# Displacement magnitude on the surviving mesh, deformed according to the
+# displacement field. Eroded elements from both the projectile nose and the
+# plate penetration zone are absent from the scene.
 
-sargs = dict(title="Displacement", fmt="%.2e", title_font_size=22, label_font_size=16)
+# sargs = dict(title="Displacement (cm)", fmt="%.2e", title_font_size=22, label_font_size=16)
 active_disp_fc[0].plot(
+    meshed_region=sub_mesh,
     deform_by=active_disp_fc[0],
-    scalar_bar_args=sargs,
-    text="Non-eroded mesh — deformed by displacement",
+    # scalar_bar_args=sargs,
+    text="Displacement at t ≈ 70 µs",
+    cpos="xz",
 )
