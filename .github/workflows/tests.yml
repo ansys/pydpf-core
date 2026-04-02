@@ -81,6 +81,10 @@ on:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
+  PYVISTA_OFF_SCREEN: "true"
+  PYVISTA_USE_IPYVTK: "false"
+  DISPLAY: ""              # make sure nothing tries X11
+  LIBGL_ALWAYS_SOFTWARE: "1"
 
 permissions: {}
 
