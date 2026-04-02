@@ -412,14 +412,21 @@ class Field(_FieldBase):
     def get_entity_data(self, index: int) -> dpf_array.DPFArray:
         """Retrieve entity data by index."""
         try:
-            vec = dpf_vector.DPFVectorDouble(owner=self._internal_obj)
+            vec = dpf_vector.DPFVectorDouble(owner=self)
             self._api.csfield_get_entity_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, index
             )
             data = dpf_array.DPFArray(vec)
 
         except NotImplementedError:
-            data = self._api.csfield_get_entity_data(self, index)
+            # csfield_get_entity_data has different signatures in the CAPI (3-arg,
+            # with a by-ref size output) and gRPC (2-arg) back-ends.  Try the
+            # 3-arg form first so that CAPI works when the DPFVector path fails;
+            # fall back to the 2-arg form for gRPC.
+            try:
+                data = self._api.csfield_get_entity_data(self, index, 0)
+            except TypeError:
+                data = self._api.csfield_get_entity_data(self, index)
         n_comp = self.component_count
         if n_comp != 1 and data.size != 0:
             data.shape = (data.size // n_comp, n_comp)
@@ -428,7 +435,7 @@ class Field(_FieldBase):
     def get_entity_data_by_id(self, id: int) -> dpf_array.DPFArray:
         """Retrieve entity data by id."""
         try:
-            vec = dpf_vector.DPFVectorDouble(owner=self._internal_obj)
+            vec = dpf_vector.DPFVectorDouble(owner=self)
             self._api.csfield_get_entity_data_by_id_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, id
             )
@@ -958,8 +965,12 @@ class Field(_FieldBase):
                 raise e
 
         try:
-            if self.time_freq_support:
-                f.time_freq_support = self.time_freq_support.deep_copy(server=server)
+            tfs = self.time_freq_support
+            # Only copy a time_freq_support that has actual content: CSField_SetSupport
+            # replaces the entire field support (including any meshed_region already set),
+            # so calling it with an empty/placeholder TFS would silently wipe the mesh.
+            if tfs.time_frequencies is not None:
+                f.time_freq_support = tfs.deep_copy(server=server)
         except DPFServerException as e:
             if "the field doesn't have this support type" in str(e):
                 pass
