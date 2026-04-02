@@ -412,7 +412,7 @@ class Field(_FieldBase):
     def get_entity_data(self, index: int) -> dpf_array.DPFArray:
         """Retrieve entity data by index."""
         try:
-            vec = dpf_vector.DPFVectorDouble(owner=self)
+            vec = dpf_vector.DPFVectorDouble(owner=self._internal_obj)
             self._api.csfield_get_entity_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, index
             )
@@ -428,7 +428,7 @@ class Field(_FieldBase):
     def get_entity_data_by_id(self, id: int) -> dpf_array.DPFArray:
         """Retrieve entity data by id."""
         try:
-            vec = dpf_vector.DPFVectorDouble(owner=self)
+            vec = dpf_vector.DPFVectorDouble(owner=self._internal_obj)
             self._api.csfield_get_entity_data_by_id_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, id
             )
