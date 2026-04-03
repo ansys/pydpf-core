@@ -266,7 +266,13 @@ def test_model_meshes_provider(simple_bar):
 
 
 def _get_streams_container(path):
-    """Helper: open a path with a plain Model and return its StreamsContainer."""
+    """Helper: open a path with a plain Model and return its StreamsContainer.
+
+    Skips the calling test automatically when the active server uses a gRPC
+    communication protocol, because StreamsContainer is InProcess-only.
+    """
+    if dpf.core._global_server().has_client():
+        pytest.skip("StreamsContainer is only available with an InProcess server")
     base_model = dpf.core.Model(path)
     return base_model.metadata.streams_provider.outputs.streams_container()
 
@@ -325,6 +331,8 @@ def test_model_streams_provider_is_none_for_direct_streams(simple_bar):
 
 def test_model_results_match_between_datasources_and_streams_container(simple_bar):
     """Results produced from a StreamsContainer must match those from a DataSources."""
+    if dpf.core._global_server().has_client():
+        pytest.skip("StreamsContainer is only available with an InProcess server")
     model_ds = dpf.core.Model(dpf.core.DataSources(simple_bar))
     sc = model_ds.metadata.streams_provider.outputs.streams_container()
     model_sc = dpf.core.Model(sc)
