@@ -41,10 +41,6 @@ def mesh_wo_faces(simple_bar):
     return model.metadata.meshed_region
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="mesh faces were not supported before 7.0",
-)
 def test_faces(model_faces):
     assert str(model_faces) == "DPF Faces object with 44242 faces"
     assert len(model_faces) == 44242
@@ -66,10 +62,6 @@ def test_faces(model_faces):
     assert mask[1] == True
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="mesh faces were not supported before 7.0",
-)
 def test_face(model_faces):
     face = model_faces.face_by_id(4500)
     ref_str = """DPF Face 4500
@@ -99,10 +91,6 @@ Location: [-0.022856459489947675, -0.08534214957826106, -0.013310679234564304]
         assert str(face.nodes[3]) == ref_node_str
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="faces location was not supported before 7.0",
-)
 def test_face_scoping():
     faces_sco = mesh_scoping_factory.face_scoping([56, 78, 4])
     assert faces_sco.location == dpf.locations.faces
@@ -110,10 +98,6 @@ def test_face_scoping():
     assert faces_sco.ids[2] == 4
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="faces location was not supported before 7.0",
-)
 def test_mesh_without_faces(mesh_wo_faces):
     assert mesh_wo_faces.faces.n_faces == 0
     assert mesh_wo_faces.faces.scoping.size == 0

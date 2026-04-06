@@ -37,10 +37,8 @@ jobs:
       pull-requests: write # Required for creating pull requests
 
     steps:
-      - name: "echo distinct ID"
-        env:
-          DISTINCT_ID: ${{ github.event.inputs.distinct_id }}
-        run: echo $DISTINCT_ID
+      - name: echo distinct ID ${{ github.event.inputs.distinct_id }}
+        run: echo ${{ github.event.inputs.distinct_id }} # zizmor: ignore[template-injection]
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:

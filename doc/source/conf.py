@@ -519,5 +519,5 @@ print(f"{extensions=}")
 
 # PyAnsys tags configuration
 html_context = {
-    "pyansys_tags": ['Structures']
+    "pyansys_tags": ['Structures', 'Fluids', 'Multiphysics']
 }
