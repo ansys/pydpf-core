@@ -93,7 +93,10 @@ print(active_elemental_scoping)
 
 full_mesh = my_model.metadata.meshed_region
 sub_mesh = dpf.operators.mesh.from_scoping(scoping=active_elemental_scoping, mesh=full_mesh).eval()
-sub_mesh.plot(title="Undeformed mesh with erosion at the final time step", cpos="xz")
+sub_mesh.plot(
+    text="Undeformed mesh with erosion at the final time step",
+    cpos=(1, -1, 1),
+)
 
 ###############################################################################
 # Rescope displacement to the non-eroded nodes
@@ -118,9 +121,8 @@ active_disp_fc = dpf.operators.scoping.rescope_fc(
 # plate penetration zone are absent from the scene.
 
 active_disp_fc[0].plot(
-    title="Deformed mesh with erosion at the final time step"
     meshed_region=sub_mesh,
     deform_by=active_disp_fc[0],
     text="Displacement at t ≈ 70 µs",
-    cpos="xz",
+    cpos=(1, -1, 1),
 )
