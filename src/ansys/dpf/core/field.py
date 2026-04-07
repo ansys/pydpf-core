@@ -938,14 +938,17 @@ class Field(_FieldBase):
         f.data = self.data
         f.location = self.location
         f.field_definition = self.field_definition.deep_copy(server)
-        try:
+        if hasattr(self, "_data_pointer"):
             f._data_pointer = self._data_pointer
-        except Exception as e:
-            raise e
 
         try:
-            if self.meshed_region:
-                f.meshed_region = self.meshed_region.deep_copy(server=server)
+            # Store in a local variable to keep the object alive for the full
+            # deep_copy call and avoid a double property access (each call
+            # creates a new temporary wrapper; under Python 3.13+ the first
+            # temporary can be GC'd between the guard and the actual call,
+            # releasing the server-side reference prematurely).
+            meshed = self.meshed_region
+            f.meshed_region = meshed.deep_copy(server=server)
         except DPFServerException as e:
             if "the field doesn't have this support type" in str(e):
                 pass
@@ -958,8 +961,8 @@ class Field(_FieldBase):
                 raise e
 
         try:
-            if self.time_freq_support:
-                f.time_freq_support = self.time_freq_support.deep_copy(server=server)
+            tfs = self.time_freq_support
+            f.time_freq_support = tfs.deep_copy(server=server)
         except DPFServerException as e:
             if "the field doesn't have this support type" in str(e):
                 pass
