@@ -1,3 +1,4 @@
+from contextlib import suppress
 import ctypes
 import sys
 import numpy as np
@@ -94,10 +95,8 @@ class DPFVectorBase:
         if sys.is_finalizing():
             return
         if hasattr(self, "_internal_obj"):
-            try:
+            with suppress(Exception):
                 self.dpf_vector_api.dpf_vector_delete(self)
-            except:
-                pass
 
 
 class DPFVectorInt(DPFVectorBase):
@@ -125,13 +124,10 @@ class DPFVectorInt(DPFVectorBase):
     def __del__(self):
         if sys.is_finalizing():
             return
-        try:
+        with suppress(Exception):
             if hasattr(self, "_array"):
                 self.dpf_vector_api.dpf_vector_int_free(self, self.internal_data, self.internal_size,
                                                         self.has_changed())
-        except:
-            pass
-
         super().__del__()
 
 
@@ -160,13 +156,10 @@ class DPFVectorDouble(DPFVectorBase):
     def __del__(self):
         if sys.is_finalizing():
             return
-        try:
+        with suppress(Exception):
             if hasattr(self, "_array"):
                 self.dpf_vector_api.dpf_vector_double_free(self, self.internal_data, self.internal_size,
                                                            self.has_changed())
-        except:
-            pass
-
         super().__del__()
 
 
@@ -228,13 +221,10 @@ class DPFVectorCustomType(DPFVectorBase):
     def __del__(self):
         if sys.is_finalizing():
             return
-        try:
+        with suppress(Exception):
             if hasattr(self, "_array"):
                 self.dpf_vector_api.dpf_vector_char_free(self, self.internal_data, self.size * self.type.itemsize,
                                                          self.has_changed())
-        except:
-            pass
-
         super().__del__()
 
 
@@ -256,13 +246,10 @@ class DPFVectorString(DPFVectorBase):
     def __del__(self):
         if sys.is_finalizing():
             return
-        try:
+        with suppress(Exception):
             if self._array:
                 self.dpf_vector_api.dpf_vector_char_ptr_free(self, self.internal_data, self.internal_size,
                                                              self.has_changed())
-        except:
-            pass
-
         super().__del__()
 
     def __len__(self):
