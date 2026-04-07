@@ -4,6 +4,7 @@ import sys
 import numpy as np
 
 from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.gate.generated import capi as _gate_capi
 from ansys.dpf.gate.generated import dpf_vector_capi
 from ansys.dpf.gate.integral_types import MutableListInt32, MutableInt32, MutableListDouble, \
     MutableListString, MutableListChar
@@ -92,7 +93,7 @@ class DPFVectorBase:
         return self._modified and self.size > 0 # Updating is not necessary for an empty vector. Updating it can cause issue, see #2274
 
     def __del__(self):
-        if sys.is_finalizing():
+        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
             return
         if hasattr(self, "_internal_obj"):
             with suppress(Exception):
@@ -122,7 +123,7 @@ class DPFVectorInt(DPFVectorBase):
         self.dpf_vector_api.dpf_vector_int_commit(self, self.internal_data, self.internal_size, self.has_changed())
 
     def __del__(self):
-        if sys.is_finalizing():
+        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
             return
         with suppress(Exception):
             if hasattr(self, "_array"):
@@ -154,7 +155,7 @@ class DPFVectorDouble(DPFVectorBase):
         self.dpf_vector_api.dpf_vector_double_commit(self, self.internal_data, self.internal_size, self.has_changed())
 
     def __del__(self):
-        if sys.is_finalizing():
+        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
             return
         with suppress(Exception):
             if hasattr(self, "_array"):
@@ -219,7 +220,7 @@ class DPFVectorCustomType(DPFVectorBase):
         )
 
     def __del__(self):
-        if sys.is_finalizing():
+        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
             return
         with suppress(Exception):
             if hasattr(self, "_array"):
@@ -244,7 +245,7 @@ class DPFVectorString(DPFVectorBase):
         return self._array
 
     def __del__(self):
-        if sys.is_finalizing():
+        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
             return
         with suppress(Exception):
             if self._array:
