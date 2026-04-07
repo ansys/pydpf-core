@@ -954,13 +954,18 @@ class Field(_FieldBase):
             pass
 
         try:
-            # Store in a local variable to keep the object alive for the full
-            # deep_copy call and avoid a double property access (each call
-            # creates a new temporary wrapper; under Python 3.13+ the first
-            # temporary can be GC'd between the guard and the actual call,
-            # releasing the server-side reference prematurely).
             meshed = self.meshed_region
-            f.meshed_region = meshed.deep_copy(server=server)
+            if server is None:
+                # Same-server copy: DPF meshes are immutable, so assigning the
+                # existing server-side object directly is safe and avoids a
+                # serialize/deserialize round-trip that produces a short-lived
+                # temporary DB entry.  Under Python 3.13+ the GC can collect
+                # that temporary between SetSupport and the get_output call,
+                # causing an empty mesh to be returned from subsequent
+                # GetSupport calls.
+                f.meshed_region = meshed
+            else:
+                f.meshed_region = meshed.deep_copy(server=server)
         except DPFServerException as e:
             if "the field doesn't have this support type" in str(e):
                 pass
