@@ -2297,6 +2297,10 @@ def load_api(path):
 		dll.Dimensionality_GetNumComp.argtypes = (ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Dimensionality_GetNumComp.restype = ctypes.c_int32
 
+	if hasattr(dll, "FieldDefinition_deepCopy"):
+		dll.FieldDefinition_deepCopy.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FieldDefinition_deepCopy.restype = ctypes.c_void_p
+
 	if hasattr(dll, "FieldDefinition_new_on_client"):
 		dll.FieldDefinition_new_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.FieldDefinition_new_on_client.restype = ctypes.c_void_p
