@@ -23,7 +23,7 @@
 """
 .. _ref_examples_lsdyna_erosion:
 
-Projectile-Plate Impact: Post-Processing Element Erosion
+Post-processing element erosion (projectile-plate impact)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This example post-processes element erosion in an LS-DYNA d3plot result of a
@@ -87,13 +87,13 @@ active_elemental_scoping = active_fc[0].scoping
 print(active_elemental_scoping)
 
 ###############################################################################
-# Build the non-eroded sub-mesh
+# Build the undeformed non-eroded sub-mesh
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Extract the portion of the full mesh that corresponds to the active elements.
 
 full_mesh = my_model.metadata.meshed_region
 sub_mesh = dpf.operators.mesh.from_scoping(scoping=active_elemental_scoping, mesh=full_mesh).eval()
-sub_mesh.plot(title="Mesh with erosion at the final time step", cpos="xz")
+sub_mesh.plot(title="Undeformed mesh with erosion at the final time step", cpos="xz")
 
 ###############################################################################
 # Rescope displacement to the non-eroded nodes
@@ -117,11 +117,10 @@ active_disp_fc = dpf.operators.scoping.rescope_fc(
 # displacement field. Eroded elements from both the projectile nose and the
 # plate penetration zone are absent from the scene.
 
-# sargs = dict(title="Displacement (cm)", fmt="%.2e", title_font_size=22, label_font_size=16)
 active_disp_fc[0].plot(
+    title="Deformed mesh with erosion at the final time step"
     meshed_region=sub_mesh,
     deform_by=active_disp_fc[0],
-    # scalar_bar_args=sargs,
     text="Displacement at t ≈ 70 µs",
     cpos="xz",
 )
