@@ -1,4 +1,5 @@
 import ctypes
+import sys
 import numpy as np
 
 from ansys.dpf.core.check_version import server_meet_version
@@ -90,11 +91,13 @@ class DPFVectorBase:
         return self._modified and self.size > 0 # Updating is not necessary for an empty vector. Updating it can cause issue, see #2274
 
     def __del__(self):
+        if sys.is_finalizing():
+            return
         if hasattr(self, "_internal_obj"):
             try:
                 self.dpf_vector_api.dpf_vector_delete(self)
-            except Exception as e:
-                raise e
+            except:
+                pass
 
 
 class DPFVectorInt(DPFVectorBase):
@@ -120,12 +123,14 @@ class DPFVectorInt(DPFVectorBase):
         self.dpf_vector_api.dpf_vector_int_commit(self, self.internal_data, self.internal_size, self.has_changed())
 
     def __del__(self):
+        if sys.is_finalizing():
+            return
         try:
             if hasattr(self, "_array"):
                 self.dpf_vector_api.dpf_vector_int_free(self, self.internal_data, self.internal_size,
                                                         self.has_changed())
-        except Exception as e:
-            raise e
+        except:
+            pass
 
         super().__del__()
 
@@ -153,12 +158,14 @@ class DPFVectorDouble(DPFVectorBase):
         self.dpf_vector_api.dpf_vector_double_commit(self, self.internal_data, self.internal_size, self.has_changed())
 
     def __del__(self):
+        if sys.is_finalizing():
+            return
         try:
             if hasattr(self, "_array"):
                 self.dpf_vector_api.dpf_vector_double_free(self, self.internal_data, self.internal_size,
                                                            self.has_changed())
-        except Exception as e:
-            raise e
+        except:
+            pass
 
         super().__del__()
 
@@ -219,12 +226,14 @@ class DPFVectorCustomType(DPFVectorBase):
         )
 
     def __del__(self):
+        if sys.is_finalizing():
+            return
         try:
             if hasattr(self, "_array"):
                 self.dpf_vector_api.dpf_vector_char_free(self, self.internal_data, self.size * self.type.itemsize,
                                                          self.has_changed())
-        except Exception as e:
-            raise e
+        except:
+            pass
 
         super().__del__()
 
@@ -245,12 +254,14 @@ class DPFVectorString(DPFVectorBase):
         return self._array
 
     def __del__(self):
+        if sys.is_finalizing():
+            return
         try:
             if self._array:
                 self.dpf_vector_api.dpf_vector_char_ptr_free(self, self.internal_data, self.internal_size,
                                                              self.has_changed())
-        except Exception as e:
-            raise e
+        except:
+            pass
 
         super().__del__()
 
