@@ -774,6 +774,14 @@ class Field(_FieldBase):
 
     def _set_support(self, support, support_type: str):
         self._api.csfield_set_meshed_region_as_support(self, support)
+        # Keep a Python reference alive so the server-side object is not
+        # deleted by MeshedRegion.__del__ while this field still uses it
+        # as a support. gRPC servers (DPF 261) do not increment the object's
+        # server-side reference count in SetSupport, so if the Python wrapper
+        # is freed the server deletes the mesh. Python 3.13+ cleans up
+        # temporary locals more aggressively than 3.11, making this race
+        # visible. Storing the reference here ties object lifetime to the field.
+        self._meshed_region_support_ref = support
 
     @property
     def time_freq_support(self):
@@ -789,6 +797,8 @@ class Field(_FieldBase):
     @time_freq_support.setter
     def time_freq_support(self, value):
         self._api.csfield_set_support(self, value)
+        # Same rationale as _meshed_region_support_ref above.
+        self._time_freq_support_ref = value
 
     @property
     def meshed_region(self) -> MeshedRegion:
@@ -938,8 +948,10 @@ class Field(_FieldBase):
         f.data = self.data
         f.location = self.location
         f.field_definition = self.field_definition.deep_copy(server)
-        if hasattr(self, "_data_pointer"):
+        try:
             f._data_pointer = self._data_pointer
+        except Exception:
+            pass
 
         try:
             # Store in a local variable to keep the object alive for the full
