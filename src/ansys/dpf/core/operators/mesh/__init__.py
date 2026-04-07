@@ -3,6 +3,7 @@ from .beam_properties import beam_properties
 from .change_cs import change_cs
 from .combine_levelset import combine_levelset
 from .decimate_mesh import decimate_mesh
+from .edge_decimation import edge_decimation
 from .exclude_levelset import exclude_levelset
 from .external_layer import external_layer
 from .from_field import from_field
