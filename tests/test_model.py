@@ -21,6 +21,8 @@
 # SOFTWARE.
 
 import functools
+import gc
+from unittest.mock import patch
 
 import numpy as np
 import pytest
@@ -256,6 +258,118 @@ def test_model_meshes_provider(simple_bar):
     meshes = model.metadata.meshes_provider.eval()
     assert len(meshes) == 1
     assert meshes[0].nodes.n_nodes == 3751
+
+
+# ---------------------------------------------------------------------------
+# StreamsContainer-based construction
+# ---------------------------------------------------------------------------
+
+
+def _get_streams_container(path):
+    """Helper: open a path with a plain Model and return its StreamsContainer.
+
+    Skips the calling test automatically when the active server uses a gRPC
+    communication protocol, because StreamsContainer is InProcess-only.
+    """
+    if dpf.core._global_server().has_client():
+        pytest.skip("StreamsContainer is only available with an InProcess server")
+    base_model = dpf.core.Model(path)
+    return base_model.metadata.streams_provider.outputs.streams_container()
+
+
+def test_model_from_streams_container(simple_bar):
+    sc = _get_streams_container(simple_bar)
+    model = dpf.core.Model(sc)
+    assert model is not None
+    assert "displacement" in model.metadata.result_info
+
+
+def test_model_metadata_from_streams_container(simple_bar):
+    sc = _get_streams_container(simple_bar)
+    model = dpf.core.Model(sc)
+    assert model.metadata.result_info is not None
+    assert model.metadata.time_freq_support is not None
+    assert model.metadata.meshed_region is not None
+    # data_sources is populated from the StreamsContainer's own DataSources
+    assert model.metadata.data_sources is not None
+    assert len(model.metadata.data_sources.result_files) > 0
+
+
+def test_model_meshed_region_from_streams_container(simple_bar):
+    sc = _get_streams_container(simple_bar)
+    model = dpf.core.Model(sc)
+    mesh = model.metadata.meshed_region
+    assert mesh.nodes.n_nodes == 3751
+
+
+def test_model_results_from_streams_container(simple_bar):
+    sc = _get_streams_container(simple_bar)
+    model = dpf.core.Model(sc)
+    # results should be queryable and give correct data
+    disp_fc = model.results.displacement.eval()
+    assert len(disp_fc) > 0
+    assert disp_fc[0].data.shape[1] == 3  # 3-component displacement
+
+
+def test_model_operator_from_streams_container(simple_bar):
+    sc = _get_streams_container(simple_bar)
+    model = dpf.core.Model(sc)
+    op = model.operator("U")
+    fc = op.outputs.fields_container()
+    assert len(fc) > 0
+
+
+def test_model_streams_provider_is_none_for_direct_streams(simple_bar):
+    """When a StreamsContainer is passed directly no extra streams_provider is created."""
+    sc = _get_streams_container(simple_bar)
+    model = dpf.core.Model(sc)
+    assert model.metadata.streams_provider is None
+    assert model.metadata._streams_container_direct is sc
+    # data_sources must be populated from the StreamsContainer, not empty
+    assert len(model.metadata.data_sources.result_files) > 0
+
+
+def test_model_results_match_between_datasources_and_streams_container(simple_bar):
+    """Results produced from a StreamsContainer must match those from a DataSources."""
+    if dpf.core._global_server().has_client():
+        pytest.skip("StreamsContainer is only available with an InProcess server")
+    model_ds = dpf.core.Model(dpf.core.DataSources(simple_bar))
+    sc = model_ds.metadata.streams_provider.outputs.streams_container()
+    model_sc = dpf.core.Model(sc)
+
+    field_ds = model_ds.results.displacement.eval()[0]
+    field_sc = model_sc.results.displacement.eval()[0]
+    iden = dpf.core.operators.logic.identical_fields(field_ds, field_sc)
+    assert iden.outputs.boolean()
+
+
+def test_model_release_streams_from_streams_container(simple_bar):
+    """release_streams() must not raise when using a direct StreamsContainer."""
+    sc = _get_streams_container(simple_bar)
+    model = dpf.core.Model(sc)
+    # Should not raise
+    model.metadata.release_streams()
+
+
+def test_model_del_releases_internally_created_streams(simple_bar):
+    """Model.__del__ must release streams created internally (from path / DataSources)."""
+    model = dpf.core.Model(simple_bar)
+    metadata = model.metadata  # ensure lazy-init is done
+    with patch.object(metadata, "release_streams") as mock_release:
+        del model
+        gc.collect()
+        mock_release.assert_called_once()
+
+
+def test_model_del_does_not_release_external_streams(simple_bar):
+    """Model.__del__ must NOT release a StreamsContainer that was provided by the caller."""
+    sc = _get_streams_container(simple_bar)
+    model = dpf.core.Model(sc)
+    metadata = model.metadata  # ensure lazy-init is done
+    with patch.object(metadata, "release_streams") as mock_release:
+        del model
+        gc.collect()
+        mock_release.assert_not_called()
 
 
 # @pytest.mark.skipif(NO_PLOTTING, reason="Requires system to support plotting")
