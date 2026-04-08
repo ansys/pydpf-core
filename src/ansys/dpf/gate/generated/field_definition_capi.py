@@ -336,6 +336,15 @@ class FieldDefinitionCAPI(field_definition_abstract_api.FieldDefinitionAbstractA
 		return res
 
 	@staticmethod
+	def field_definition_deep_copy(fieldDef):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.FieldDefinition_deepCopy(fieldDef._internal_obj if fieldDef is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def field_definition_new_on_client(client):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
