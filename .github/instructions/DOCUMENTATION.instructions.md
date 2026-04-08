@@ -54,7 +54,7 @@ pydpf-core/
 ## Prerequisites
 
 1. **Setup Development Environment**: Follow the developer setup instructions in `doc/source/getting_started/contribute/developer.rst`
-2. **Install Dependencies**: 
+2. **Install Dependencies**:
    ```bash
    python -m pip install tox tox-uv
    ```
@@ -359,7 +359,7 @@ When creating a new example category:
    ```
    Category Title
    ==============
-   
+
    Description of the examples in this category.
    ```
 

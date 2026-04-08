@@ -574,9 +574,6 @@ def test_fields_container_set_tfsupport(server_type):
     assert coll.get_support("body").string_field_support_by_property("name").data == ["inlet"]
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_fields_container_empty_tf_support(server_type):
     fields_container = dpf.FieldsContainer(server=server_type)
 
