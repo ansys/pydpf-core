@@ -41,7 +41,7 @@ dependencies = [
 [project.optional-dependencies]
 graphics = [
     # 2D chart plotting
-    "matplotlib>=3.2",
+    "matplotlib>=3.10.8",
     # 3D plotting
     "pyvista>=0.32.0",
     "ansys-tools-visualization-interface==1.0.0a1",
@@ -53,7 +53,7 @@ graphics = [
 
 plotting = [
     # 2D chart plotting
-    "matplotlib>=3.2",
+    "matplotlib>=3.10.8",
     # 3D plotting
     "pyvista>=0.32.0",
     "ansys-tools-visualization-interface==1.0.0a1",
