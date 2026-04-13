@@ -28,7 +28,7 @@ Contains classes associated with the DPF FieldsContainer.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Sequence, Union
 
 from ansys import dpf
 from ansys.dpf.core import errors as dpf_errors, field
@@ -561,11 +561,13 @@ class FieldsContainer(CollectionBase["field.Field"]):
         deform_by: Union[FieldsContainer, Result, Operator] = None,
         scale_factor: Union[float, Sequence[float]] = 1.0,
         shell_layer: shell_layers = shell_layers.top,
+        label: str = "time",
         **kwargs,
     ):
         """Create an animation based on the Fields contained in the FieldsContainer.
 
-        This method creates a movie or a gif based on the time ids of a FieldsContainer.
+        Iterates over the entries indexed by *label*, rendering each
+        :class:`~ansys.dpf.core.Field` as a separate frame.
         For kwargs see pyvista.Plotter.open_movie/add_text/show.
 
         Parameters
@@ -583,6 +585,9 @@ class FieldsContainer(CollectionBase["field.Field"]):
         shell_layer:
             Enum used to set the shell layer if the field to plot
             contains shell elements. Defaults to top layer.
+        label : str, optional
+            Name of the label to animate over.  Defaults to ``"time"``.  The label
+            must exist in this :class:`FieldsContainer`.
         **kwargs:
             Additional keyword arguments for the animator.
             Used by :func:`pyvista.Plotter` (off_screen, cpos, ...),
@@ -591,39 +596,53 @@ class FieldsContainer(CollectionBase["field.Field"]):
         """
         from ansys.dpf.core.animator import Animator
 
-        # Create a workflow defining the result to render at each step of the animation
-        wf = dpf.core.Workflow()
-        # First define the workflow index input
-        forward_index = dpf.core.operators.utility.forward()
-        wf.set_input_name("loop_over", forward_index.inputs.any)
-        # Add a time values input
-        forward_time = dpf.core.operators.utility.forward()
-        wf.set_input_name("loop_over_values", forward_time.inputs.any)
-        wf.set_output_name("time_values", forward_time.outputs.any)
-        # Define the field extraction using the fields_container and indices
-        extract_field_op = dpf.core.operators.utility.extract_field(self)
-        to_render = extract_field_op.outputs.field
-        # Add the operators to the workflow
-        wf.add_operators([extract_field_op, forward_index])
+        # ── validate label ───────────────────────────────────────────────
+        available_labels = self.labels
+        if label not in available_labels:
+            raise ValueError(
+                f"Label '{label}' not found in this FieldsContainer. "
+                f"Available labels: {available_labels}"
+            )
 
-        # Treat multi-component fields by taking their norm
+        # ── build the server-side workflow ────────────────────────────────────
+        # Multiple operator inputs can share the same workflow input name, so a
+        # single workflow.connect("label_space", dict) fans out to every extract
+        # operator registered under that name.
+        wf = dpf.core.Workflow()
+
+        # Field extraction: extract_sub_fc filters by the label_space dict and,
+        # with collapse_labels=True, removes the animated label from the output
+        # FC's label set. merge_fields merges all remaining fields into one Field.
+        extract_fc_op = dpf.core.operators.utility.extract_sub_fc(
+            fields_container=self, collapse_labels=True
+        )
+        wf.set_input_name("label_space", extract_fc_op.inputs.label_space)
+        merge_field_op = dpf.core.operators.utility.merge_fields(
+            fields1=extract_fc_op.outputs.fields_container
+        )
+        to_render_field = merge_field_op.outputs.merged_field
+
+        # Extract the mesh support from the merged field — this makes the
+        # workflow expose a "to_render" MeshedRegion, the same convention used
+        # by MeshesContainer.animate, so animate_workflow always uses add_mesh /
+        # add_field regardless of whether the source is a FC or MC.
+        from_field_op = dpf.core.operators.mesh.from_field(
+            field=merge_field_op.outputs.merged_field
+        )
+        wf.add_operators([extract_fc_op, merge_field_op, from_field_op])
+        wf.set_output_name("to_render", from_field_op.outputs.mesh)
+
+        # The field (scalar norm for multi-component) becomes "to_render_field"
+        # for coloring, matching the MeshesContainer.animate convention.
         n_components = self[0].component_count
         if n_components > 1:
-            norm_op = dpf.core.operators.math.norm(extract_field_op.outputs.field)
+            norm_op = dpf.core.operators.math.norm(merge_field_op.outputs.merged_field)
             wf.add_operator(norm_op)
-            to_render = norm_op.outputs.field
+            to_render_field = norm_op.outputs.field
+        wf.set_output_name("to_render_field", to_render_field)
 
-        # Get time steps IDs and values
-        loop_over = self.get_time_scoping()
-        frequencies = self.time_freq_support.time_frequencies
-        if frequencies is None:
-            raise ValueError("The fields_container has no time_frequencies.")
-
-        # TODO: /!\ We should be using a mechanical::time_selector, however it is not wrapped.
-        # https://github.com/ansys/pydpf-core/issues/1984, todo was added in this PR
-
-        wf.set_input_name("indices", extract_field_op.inputs.indices)  # Have to do it this way
-        wf.connect("indices", forward_index)  # Otherwise not accepted
+        # Get label IDs and build the loop_over values
+        label_scoping = self.get_label_scoping(label)
 
         deform = True
         # Define whether to deform and what with
@@ -647,47 +666,53 @@ class FieldsContainer(CollectionBase["field.Field"]):
             deform = False
 
         if deform:
-            scale_factor_fc = dpf.core.animator.scale_factor_to_fc(scale_factor, deform_by)
-            scale_factor_invert = dpf.core.operators.math.invert_fc(scale_factor_fc)
-            # Extraction of the field of interest based on index
-            # time_selector = dpf.core.Operator("mechanical::time_selector")
-            extract_field_op_2 = dpf.core.operators.utility.extract_field(deform_by)
-            wf.set_input_name("indices", extract_field_op_2.inputs.indices)
-            wf.connect("indices", forward_index)  # Otherwise not accepted
-            # Scaling of the field based on scale_factor and index
-            extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor_invert)
-            wf.set_input_name("indices", extract_scale_factor_op.inputs.indices)
-            wf.connect("indices", forward_index)  # Otherwise not accepted
-
-            divide_op = dpf.core.operators.math.component_wise_divide(
-                extract_field_op_2.outputs.field, extract_scale_factor_op.outputs.field
+            # Deformation path: register under the same "label_space" name so
+            # the single workflow.connect call fans out here too.
+            extract_deform_fc_op = dpf.core.operators.utility.extract_sub_fc(
+                fields_container=deform_by, collapse_labels=True
             )
-            wf.set_output_name("deform_by", divide_op.outputs.field)
-
-            wf.add_operators(
-                [scale_factor_invert, extract_field_op_2, extract_scale_factor_op, divide_op]
+            wf.set_input_name("label_space", extract_deform_fc_op.inputs.label_space)
+            merge_deform_op = dpf.core.operators.utility.merge_fields(
+                fields1=extract_deform_fc_op.outputs.fields_container
             )
-        else:
-            scale_factor = None
-        wf.set_output_name("to_render", to_render)
+            wf.set_output_name("deform_by", merge_deform_op.outputs.merged_field)
+            wf.add_operators([extract_deform_fc_op, merge_deform_op])
+
         wf.progress_bar = False
 
-        loop_over_field = dpf.core.fields_factory.field_from_array(
-            frequencies.data[loop_over.ids - 1]
-        )
-        loop_over_field.scoping.ids = loop_over.ids
-        loop_over_field.unit = frequencies.unit
+        # Build loop_over field: use real time/freq values when animating over
+        # "time", otherwise fall back to the raw label IDs.
+        if label == "time" and self.time_freq_support is not None:
+            frequencies = self.time_freq_support.time_frequencies
+            if frequencies is None:
+                raise ValueError("The fields_container has no time_frequencies.")
+            values = frequencies.data[label_scoping.ids - 1]
+            unit = frequencies.unit
+            freq_fmt = ".3e"
+        else:
+            import numpy as _np
+
+            values = _np.array(label_scoping.ids, dtype=float)
+            unit = ""
+            freq_fmt = "g"
+
+        loop_over_field = dpf.core.fields_factory.field_from_array(values)
+        loop_over_field.scoping.ids = label_scoping.ids
+        loop_over_field.unit = unit
 
         # Initiate the Animator
         anim = Animator(workflow=wf, **kwargs)
 
-        kwargs.setdefault("freq_kwargs", {"font_size": 12, "fmt": ".3e"})
+        kwargs.setdefault("freq_kwargs", {"font_size": 12, "fmt": freq_fmt})
 
         return anim.animate(
             loop_over=loop_over_field,
             save_as=save_as,
             scale_factor=scale_factor,
             shell_layer=shell_layer,
+            input_name="label_space",
+            label=label,
+            output_type=dpf.core.types.meshed_region,
             **kwargs,
         )
 
