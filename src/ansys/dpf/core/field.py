@@ -747,14 +747,6 @@ class Field(_FieldBase):
         :class:`ansys.dpf.core.meshed_region.MeshedRegion`
 
         """
-        # When a mesh was explicitly assigned via the meshed_region setter,
-        # return that same Python wrapper directly rather than querying the
-        # server for a new one.  Returning the same object means the caller
-        # and this field share one Python reference, so the server-side mesh
-        # is not deleted while the caller still holds it.
-        cached = getattr(self, "_meshed_region_support_ref", None)
-        if cached is not None:
-            return cached
         try:
             support = self._api.csfield_get_support_as_meshed_region(self)
         except DPFServerException as e:
@@ -782,9 +774,6 @@ class Field(_FieldBase):
 
     def _set_support(self, support, support_type: str):
         self._api.csfield_set_meshed_region_as_support(self, support)
-        # Keep the Python wrapper alive for the lifetime of this field so that
-        # the underlying server-side mesh object is not deleted prematurely.
-        self._meshed_region_support_ref = support
 
     @property
     def time_freq_support(self):
@@ -800,8 +789,6 @@ class Field(_FieldBase):
     @time_freq_support.setter
     def time_freq_support(self, value):
         self._api.csfield_set_support(self, value)
-        # Keep the Python wrapper alive for the lifetime of this field.
-        self._time_freq_support_ref = value
 
     @property
     def meshed_region(self) -> MeshedRegion:
@@ -971,8 +958,8 @@ class Field(_FieldBase):
                 raise e
 
         try:
-            tfs = self.time_freq_support
-            f.time_freq_support = tfs.deep_copy(server=server)
+            if self.time_freq_support:
+                f.time_freq_support = self.time_freq_support.deep_copy(server=server)
         except DPFServerException as e:
             if "the field doesn't have this support type" in str(e):
                 pass
