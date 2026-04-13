@@ -4315,6 +4315,10 @@ def load_api(path):
 		dll.Support_getAsTimeFreqSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Support_getAsTimeFreqSupport.restype = ctypes.c_void_p
 
+	if hasattr(dll, "Support_getAsGenericSupport"):
+		dll.Support_getAsGenericSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Support_getAsGenericSupport.restype = ctypes.c_void_p
+
 	if hasattr(dll, "Support_getFieldSupportByProperty"):
 		dll.Support_getFieldSupportByProperty.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Support_getFieldSupportByProperty.restype = ctypes.c_void_p
