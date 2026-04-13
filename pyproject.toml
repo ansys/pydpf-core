@@ -28,7 +28,7 @@ classifiers = [
 ]
 dependencies = [
     "ansys-tools-common",
-    "grpcio >=1.63.0",
+    "grpcio >=1.80.0",
     "importlib-metadata >=4.0",
     "numpy",
     "packaging",
