@@ -83,7 +83,7 @@ doc = [
   "pypandoc==1.17",
   "pytest-sphinx==0.7.1",
   "pyvista==0.47.2",
-  "quarto-cli==1.9.36",
+  "quarto-cli==1.9.37",
   "sphinx==8.2.3",
   "sphinx-copybutton==0.5.2",
   "sphinx-gallery==0.20.0",
