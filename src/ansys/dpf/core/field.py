@@ -747,6 +747,14 @@ class Field(_FieldBase):
         :class:`ansys.dpf.core.meshed_region.MeshedRegion`
 
         """
+        # When a mesh was explicitly assigned via the meshed_region setter,
+        # return that same Python wrapper directly rather than querying the
+        # server for a new one.  Returning the same object means the caller
+        # and this field share one Python reference, so the server-side mesh
+        # is not deleted while the caller still holds it.
+        cached = getattr(self, "_meshed_region_support_ref", None)
+        if cached is not None:
+            return cached
         try:
             support = self._api.csfield_get_support_as_meshed_region(self)
         except DPFServerException as e:
@@ -774,13 +782,8 @@ class Field(_FieldBase):
 
     def _set_support(self, support, support_type: str):
         self._api.csfield_set_meshed_region_as_support(self, support)
-        # Keep a Python reference alive so the server-side object is not
-        # deleted by MeshedRegion.__del__ while this field still uses it
-        # as a support. gRPC servers (DPF 261) do not increment the object's
-        # server-side reference count in SetSupport, so if the Python wrapper
-        # is freed the server deletes the mesh. Python 3.13+ cleans up
-        # temporary locals more aggressively than 3.11, making this race
-        # visible. Storing the reference here ties object lifetime to the field.
+        # Keep the Python wrapper alive for the lifetime of this field so that
+        # the underlying server-side mesh object is not deleted prematurely.
         self._meshed_region_support_ref = support
 
     @property
@@ -797,7 +800,7 @@ class Field(_FieldBase):
     @time_freq_support.setter
     def time_freq_support(self, value):
         self._api.csfield_set_support(self, value)
-        # Same rationale as _meshed_region_support_ref above.
+        # Keep the Python wrapper alive for the lifetime of this field.
         self._time_freq_support_ref = value
 
     @property
@@ -955,17 +958,7 @@ class Field(_FieldBase):
 
         try:
             meshed = self.meshed_region
-            if server is None:
-                # Same-server copy: DPF meshes are immutable, so assigning the
-                # existing server-side object directly is safe and avoids a
-                # serialize/deserialize round-trip that produces a short-lived
-                # temporary DB entry.  Under Python 3.13+ the GC can collect
-                # that temporary between SetSupport and the get_output call,
-                # causing an empty mesh to be returned from subsequent
-                # GetSupport calls.
-                f.meshed_region = meshed
-            else:
-                f.meshed_region = meshed.deep_copy(server=server)
+            f.meshed_region = meshed.deep_copy(server=server)
         except DPFServerException as e:
             if "the field doesn't have this support type" in str(e):
                 pass
