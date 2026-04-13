@@ -25,6 +25,7 @@ jobs:
   get_latest_tag:
     name: "Get latest release version tag"
     runs-on: ubuntu-latest
+    environment: release
     permissions:
       contents: read
     outputs:
