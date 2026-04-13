@@ -21,17 +21,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
-  get_latest_tag:
-    name: "Get latest release version tag"
+  Publish_to_PyPI:
+    name: "Publish Release to PyPI"
     runs-on: ubuntu-latest
     environment: release
     permissions:
+      id-token: write # Required for OIDC authentication with PyPI
       contents: read
     outputs:
-      version: ${{ steps.step1.outputs.version }}
+      version: ${{ steps.get_tag.outputs.version }}
     steps:
-      - id: step1
+      - id: get_tag
         name: "Get version tag"
         shell: bash
         run: |
@@ -44,18 +44,10 @@ jobs:
           echo $version
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
-  Publish_to_PyPI:
-    name: "Publish Release to PyPI"
-    runs-on: ubuntu-latest
-    needs: get_latest_tag
-    permissions:
-      id-token: write # Required for OIDC authentication with PyPI
-      contents: read
-    steps:
       - name: "Download Release Assets"
         uses: robinraju/release-downloader@daf26c55d821e836577a15f77d86ddc078948b05 # v1.12
         with:
-          tag: ${{ github.event.inputs.release_tag || needs.get_latest_tag.outputs.version }}
+          tag: ${{ github.event.inputs.release_tag || steps.get_tag.outputs.version }}
           fileName: "*.whl"
           tarBall: false
           zipBall: false
@@ -73,7 +65,7 @@ jobs:
 
   upload_docs_release:
     name: "Upload stable documentation"
-    needs: [Publish_to_PyPI, get_latest_tag]
+    needs: Publish_to_PyPI
     runs-on: ubuntu-latest
     permissions:
       contents: write # Required for deploying documentation to gh-pages
@@ -110,7 +102,7 @@ jobs:
     permissions:
       contents: write # Required by ansys_lab.yml deploy_examples job for git push
     uses: ./.github/workflows/ansys_lab.yml
-    needs: get_latest_tag
+    needs: upload_docs_release
     with:
       version: ${{ github.event.inputs.release_tag || needs.get_latest_tag.outputs.version }}
     secrets:
