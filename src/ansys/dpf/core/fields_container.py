@@ -28,6 +28,7 @@ Contains classes associated with the DPF FieldsContainer.
 
 from __future__ import annotations
 
+from contextlib import suppress
 from typing import TYPE_CHECKING, Union
 
 from ansys import dpf
@@ -505,10 +506,8 @@ class FieldsContainer(CollectionBase["field.Field"]):
         fc.labels = self.labels
         for i, f in enumerate(self):
             fc.add_field(self.get_label_space(i), f.deep_copy(server))
-        try:
+        with suppress(Exception):
             fc.time_freq_support = self.time_freq_support.deep_copy(server)
-        except Exception:
-            pass
         return fc
 
     def get_time_scoping(self):

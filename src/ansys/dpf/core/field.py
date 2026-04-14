@@ -24,6 +24,7 @@
 
 from __future__ import annotations
 
+from contextlib import suppress
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -938,37 +939,27 @@ class Field(_FieldBase):
         f.data = self.data
         f.location = self.location
         f.field_definition = self.field_definition.deep_copy(server)
-        try:
+        with suppress(Exception):
             f._data_pointer = self._data_pointer
-        except Exception:
-            pass
 
         # A field can only have ONE support (mesh OR time_freq_support).
         # Setting one overwrites the other, so they must be mutually exclusive.
         support_set = False
-        try:
+        with suppress(DPFServerException, RuntimeError):
             support = self._api.csfield_get_support_as_meshed_region(self)
             if support is not None:
                 mesh = meshed_region.MeshedRegion(mesh=support, server=self._server)
                 f.meshed_region = mesh.deep_copy(server=server)
                 support_set = True
-        except DPFServerException:
-            pass
-        except RuntimeError:
-            pass
 
         if not support_set:
-            try:
+            with suppress(DPFServerException, RuntimeError):
                 support = self._api.csfield_get_support_as_time_freq_support(self)
                 if support is not None:
                     tfs = time_freq_support.TimeFreqSupport(
                         time_freq_support=support, server=self._server
                     )
                     f.time_freq_support = tfs.deep_copy(server=server)
-            except DPFServerException:
-                pass
-            except RuntimeError:
-                pass
 
         return f
 
