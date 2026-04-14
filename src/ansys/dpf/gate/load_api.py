@@ -86,17 +86,17 @@ def _paths_to_dpf_server_library_installs() -> dict:
             # which for editable installations does not necessarily give the actual location of the
             # source files. It may rely on a Finder, which has to run.
             # The most robust way of resolving the location is to let the import machinery do its
-            # job, using importlib.import_module. We do not want however to actually import the
-            # server libraries found, which is why we do it in a subprocess.
-            package_path = subprocess.check_output(  # nosec B603
-                args=[
-                    sys.executable,
-                    "-c",
-                    f"""import importlib 
-print(importlib.import_module('ansys.dpf.server{distribution_name[16:]}'.replace('-', '_')).__path__[0])""",
-                ],
-                text=True,
-            ).rstrip()
+            # job, using importlib.import_module. To avoid modifying the imported modules,
+            # we remove any dpf-server module we imported.
+            import importlib
+
+            module_name = f'ansys.dpf.server{distribution_name[16:]}'.replace('-', '_')
+            should_pop = module_name not in sys.modules
+            module = importlib.import_module(module_name)
+            package_path = module.__path__[0].rstrip()
+            if should_pop:
+                sys.modules.pop(module_name)
+
             path_per_version[
                 packaging.version.parse(d.version)
             ] = package_path
@@ -140,7 +140,7 @@ def _get_api_path_from_installer_or_package(ansys_path: str, is_posix: bool):
             path = os.path.abspath(gatebin.__path__._path[0])
         else:
             path = os.path.abspath(gatebin.__path__[0])
-            
+
         dpf_client_found = True
     else:
         if ansys_path is not None:
