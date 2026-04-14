@@ -72,6 +72,15 @@ class SupportCAPI(support_abstract_api.SupportAbstractAPI):
 		return res
 
 	@staticmethod
+	def support_get_as_generic_support(support):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Support_getAsGenericSupport(support._internal_obj if support is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def support_get_field_support_by_property(support, prop_name):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
