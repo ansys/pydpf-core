@@ -58,12 +58,40 @@ class _PyVistaAnimator(_PyVistaPlotter):
         output_name,
         input_name="loop_over",
         save_as="",
-        mode_number=None,
-        mode_frequency=None,
         scale_factor=1.0,
         shell_layer=core.shell_layers.top,
+        label=None,
+        output_type=None,
         **kwargs,
     ):
+        """Animate a workflow, rendering one frame per entry in *loop_over*.
+
+        Supports two rendering modes controlled by *output_type*:
+
+        * **Field mode** (default, ``output_type=None`` or
+          ``output_type=core.types.field``): the workflow output *output_name* is
+          retrieved as a :class:`~ansys.dpf.core.Field` and rendered with
+          :meth:`add_field`.  An optional ``"deform_by"`` :class:`~ansys.dpf.core.Field`
+          output is used for mesh deformation.
+        * **Mesh mode** (``output_type=core.types.meshed_region``): the workflow
+          output *output_name* is retrieved as a
+          :class:`~ansys.dpf.core.MeshedRegion` and rendered with :meth:`add_mesh`.
+          When the workflow also exposes a ``"to_render_field"``
+          :class:`~ansys.dpf.core.Field` output, the mesh is colored by that field
+          using :meth:`add_field` instead.  An optional ``"deform_by"`` output is
+          still honoured in both sub-cases.
+
+        When *label* is set the per-frame workflow input receives a
+        ``{label: label_id}`` dict, which is what
+        :class:`~ansys.dpf.core.operators.utility.extract_sub_fc` and
+        :class:`~ansys.dpf.core.operators.utility.extract_sub_mc` expect.
+        Both :meth:`FieldsContainer.animate <ansys.dpf.core.FieldsContainer.animate>` and
+        :meth:`MeshesContainer.animate <ansys.dpf.core.MeshesContainer.animate>` use
+        this path, including mode-shape animations (which pre-build a scaled
+        FieldsContainer before calling ``animate``).
+        When *label* is ``None`` the input receives a 0-based frame-index list,
+        which is the fallback for direct :class:`Animator` callers.
+        """
         unit = loop_over.unit
         indices = loop_over.scoping.ids
 
@@ -73,9 +101,11 @@ class _PyVistaAnimator(_PyVistaPlotter):
         if type_scale in [int, float]:
             scale_factor = [float(scale_factor)] * len(indices)
         elif type_scale == list:
-            pass
-        # elif type_scale in [core.field.Field, core.fields_container.FieldsContainer]:
-        #     scale_factor = ["Non-homogenous"]*len(indices)
+            if len(scale_factor) != len(indices):
+                raise ValueError(
+                    f"The scale_factor list length ({len(scale_factor)}) must match the "
+                    f"number of animation frames ({len(indices)})."
+                )
         else:
             raise ValueError(
                 "Argument scale_factor must be an int, a float, or a list of either, "
@@ -109,35 +139,61 @@ class _PyVistaAnimator(_PyVistaPlotter):
         def render_frame(frame):
             self._plotter.clear()
 
-            if mode_number is None:
+            # ── connect the per-frame input ───────────────────────────────────
+            if label is not None:
+                # Label-space mode: a single connect fans to all registered
+                # label_space inputs (each extract_sub_* op shares the name).
+                workflow.connect(input_name, {label: int(indices[frame])})
+            else:
+                # Fallback for direct Animator.animate() callers that supply a
+                # plain workflow driven by a 0-based frame-index list.
                 workflow.connect(input_name, [frame])
 
-            else:
-                workflow.connect(input_name, loop_over.data[frame])
-
-            field = workflow.get_output(output_name, core.types.field)
+            # ── retrieve deformation field if the workflow produces one ───────
             deform = None
             if "deform_by" in workflow.output_names:
                 deform = workflow.get_output("deform_by", core.types.field)
-            self.add_field(
-                field,
-                deform_by=deform,
-                scale_factor=scale_factor[frame],
-                scale_factor_legend=scale_factor[frame],
-                shell_layer=shell_layer,
-                **kwargs,
-            )
-            kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **freq_kwargs)
-            if mode_number is None:
-                str_template = "t={0:{2}} {1}"
-                self._plotter.add_text(
-                    str_template.format(indices[frame], unit, freq_fmt), **kwargs_in
-                )
+
+            # ── render: mesh mode or field mode ──────────────────────────────
+            if output_type == core.types.meshed_region:
+                mesh = workflow.get_output(output_name, core.types.meshed_region)
+                if "to_render_field" in workflow.output_names:
+                    # Coloring requested: overlay the field onto the mesh.
+                    color_field = workflow.get_output("to_render_field", core.types.field)
+                    self.add_field(
+                        color_field,
+                        meshed_region=mesh,
+                        deform_by=deform,
+                        scale_factor=scale_factor[frame],
+                        scale_factor_legend=scale_factor[frame],
+                        shell_layer=shell_layer,
+                        **kwargs,
+                    )
+                else:
+                    self.add_mesh(
+                        mesh,
+                        deform_by=deform,
+                        scale_factor=scale_factor[frame],
+                        **kwargs,
+                    )
             else:
-                str_template = "mode={3}\nfrq={0:{2}} {1}"
-                self._plotter.add_text(
-                    str_template.format(mode_frequency, unit, freq_fmt, mode_number), **kwargs_in
+                field = workflow.get_output(output_name, core.types.field)
+                self.add_field(
+                    field,
+                    deform_by=deform,
+                    scale_factor=scale_factor[frame],
+                    scale_factor_legend=scale_factor[frame],
+                    shell_layer=shell_layer,
+                    **kwargs,
                 )
+
+            # ── per-frame overlay text ────────────────────────────────────────
+            kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **freq_kwargs)
+            prefix = ("t" if label == "time" else label) if label is not None else "t"
+            str_template = f"{prefix}={{0:{{2}}}} {{1}}"
+            self._plotter.add_text(
+                str_template.format(loop_over.data_as_list[frame], unit, freq_fmt), **kwargs_in
+            )
 
             if cpos:
                 self._plotter.camera_position = cpos[frame]
@@ -194,7 +250,19 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
 
 class Animator:
-    """The DPF animator class."""
+    """The DPF Animator class.
+
+    Drives an animation by repeatedly connecting per-frame values to a
+    :class:`~ansys.dpf.core.Workflow` and rendering the result with PyVista.
+    Two output types are supported:
+
+    * **Field output** (default): the workflow returns a
+      :class:`~ansys.dpf.core.Field` per frame, rendered as a contour plot.
+    * **Mesh output** (``output_type=core.types.meshed_region``): the workflow
+      returns a :class:`~ansys.dpf.core.MeshedRegion` per frame, rendered as a
+      geometry plot.  Optionally the workflow also exposes a ``"to_render_field"``
+      output for coloring and/or a ``"deform_by"`` output for mesh deformation.
+    """
 
     def __init__(self, workflow=None, **kwargs):
         """
@@ -272,6 +340,8 @@ class Animator:
         scale_factor: Union[float, Sequence[float]] = 1.0,
         freq_kwargs: dict = None,
         shell_layer: core.shell_layers = core.shell_layers.top,
+        label: str = None,
+        output_type=None,
         **kwargs,
     ):
         """
@@ -284,11 +354,14 @@ class Animator:
             Can for example be a subset of sets of TimeFreqSupport.time_frequencies.
             The unit of the Field will be displayed if present.
         output_name:
-            Name of the workflow output to use as Field for each frame's contour.
-            Defaults to "to_render".
+            Name of the workflow output to retrieve for rendering each frame.
+            For Field animations (default) this should return a
+            :class:`~ansys.dpf.core.Field`; for mesh animations it should return a
+            :class:`~ansys.dpf.core.MeshedRegion`.  Defaults to ``"to_render"``.
         input_name:
-            Name of the workflow inputs to feed loop_over values into.
-            Defaults to "loop_over".
+            Name of the workflow input to feed the per-frame value into.
+            Defaults to ``"loop_over"`` (0-based frame index list for mode-shape animations).
+            Use ``"label_space"`` together with *label* for label-space-based animations.
         save_as:
             Path of file to save the animation to. Defaults to None. Can be of any format supported
             by pyvista.Plotter.write_frame (.gif, .mp4, ...).
@@ -302,13 +375,24 @@ class Animator:
         shell_layer:
             Enum used to set the shell layer if the field to plot
             contains shell elements. Defaults to top layer.
+        label : str, optional
+            Name of the collection label being animated.  When set, the per-frame
+            workflow input receives a ``{label: label_id}`` dict instead of a
+            0-based index list, which is required by operators such as
+            :class:`~ansys.dpf.core.operators.utility.extract_sub_fc` and
+            :class:`~ansys.dpf.core.operators.utility.extract_sub_mc`.  Also
+            used as the prefix in the per-frame overlay text
+            (e.g. ``"mat"`` → ``"mat=3"``, ``"time"`` → ``"t=0.001 s"``).
+            Defaults to ``None`` (mode-shape animation, index-list input).
+        output_type : core.types, optional
+            Expected type of the workflow's *output_name* output.  Use
+            ``core.types.meshed_region`` to animate a :class:`~ansys.dpf.core.MeshesContainer`;
+            leave as ``None`` (or ``core.types.field``) for the standard Field animation.
         **kwargs : optional
             Additional keyword arguments for the animator.
             Used by :func:`pyvista.Plotter` (off_screen, cpos, ...),
             or by :func:`pyvista.Plotter.open_movie`
             (framerate, quality, ...)
-
-
         """
         if freq_kwargs is None:
             freq_kwargs = {"font_size": 12, "fmt": ".3e"}
@@ -323,6 +407,8 @@ class Animator:
             scale_factor=scale_factor,
             freq_kwargs=freq_kwargs,
             shell_layer=shell_layer,
+            label=label,
+            output_type=output_type,
             **kwargs,
         )
 

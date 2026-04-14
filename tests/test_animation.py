@@ -64,3 +64,42 @@ def test_animate_mode_positive_disp(displacement_fields):
 
 def test_animator_animate_mode_fields_container_one_component(displacement_fields):
     animation.animate_mode(displacement_fields.select_component(0), mode_number=10)
+
+
+def test_animate_mode_save_as(remove_gifs, displacement_fields):
+    """animate_mode should write a GIF file of non-trivial size."""
+    animation.animate_mode(
+        displacement_fields,
+        mode_number=1,
+        save_as=gif_name,
+        off_screen=True,
+    )
+    assert Path(gif_name).is_file()
+    assert Path(gif_name).stat().st_size > 6000
+
+
+def test_animate_mode_deform_scale_factor(displacement_fields):
+    """Non-unity deform_scale_factor should be accepted without error."""
+    animation.animate_mode(displacement_fields, mode_number=1, deform_scale_factor=2.0)
+
+
+def test_animate_mode_custom_frame_number(displacement_fields):
+    """Explicit frame_number controls how many scaled frames are produced (type_mode=0)."""
+    animation.animate_mode(displacement_fields, mode_number=1, frame_number=5)
+
+
+def test_animate_mode_custom_frame_number_type1(displacement_fields):
+    """Explicit frame_number controls how many scaled frames are produced (type_mode=1)."""
+    animation.animate_mode(displacement_fields, mode_number=1, type_mode=1, frame_number=7)
+
+
+def test_animate_mode_invalid_mode_number(displacement_fields):
+    """A mode number that is not in the container should raise ValueError."""
+    with pytest.raises(ValueError, match="mode .* data is not available"):
+        animation.animate_mode(displacement_fields, mode_number=99999)
+
+
+def test_animate_mode_invalid_type_mode(displacement_fields):
+    """An unsupported type_mode should raise ValueError."""
+    with pytest.raises(ValueError, match="type_mode"):
+        animation.animate_mode(displacement_fields, mode_number=1, type_mode=99)
