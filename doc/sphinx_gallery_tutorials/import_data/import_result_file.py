@@ -41,6 +41,13 @@ There are two approaches to import a result file in DPF:
     The ``Model`` extracts a large amount of information by default (results, mesh, and
     analysis data). If using this helper takes a long time to process, consider using a
     ``DataSources`` object and instantiating operators directly with it.
+
+.. seealso::
+
+    :ref:`ref_tutorials_import_data_streams_for_multiple_operators`
+        When running multiple operators directly against the same file, use a
+        ``StreamsContainer`` to replicate the performance benefit that ``Model``
+        provides internally.
 """
 ###############################################################################
 # Import the PyDPF-Core modules
