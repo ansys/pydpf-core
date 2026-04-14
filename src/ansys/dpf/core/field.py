@@ -943,33 +943,32 @@ class Field(_FieldBase):
         except Exception:
             pass
 
+        # A field can only have ONE support (mesh OR time_freq_support).
+        # Setting one overwrites the other, so they must be mutually exclusive.
+        support_set = False
         try:
-            meshed = self.meshed_region
-            f.meshed_region = meshed.deep_copy(server=server)
-        except DPFServerException as e:
-            if "the field doesn't have this support type" in str(e):
-                pass
-            else:
-                raise e
-        except RuntimeError as e:
-            if "The field's support is not a mesh." in str(e):
-                pass
-            else:
-                raise e
+            support = self._api.csfield_get_support_as_meshed_region(self)
+            if support is not None:
+                mesh = meshed_region.MeshedRegion(mesh=support, server=self._server)
+                f.meshed_region = mesh.deep_copy(server=server)
+                support_set = True
+        except DPFServerException:
+            pass
+        except RuntimeError:
+            pass
 
-        try:
-            if self.time_freq_support:
-                f.time_freq_support = self.time_freq_support.deep_copy(server=server)
-        except DPFServerException as e:
-            if "the field doesn't have this support type" in str(e):
+        if not support_set:
+            try:
+                support = self._api.csfield_get_support_as_time_freq_support(self)
+                if support is not None:
+                    tfs = time_freq_support.TimeFreqSupport(
+                        time_freq_support=support, server=self._server
+                    )
+                    f.time_freq_support = tfs.deep_copy(server=server)
+            except DPFServerException:
                 pass
-            else:
-                raise e
-        except RuntimeError as e:
-            if "The field's support is not a timefreqsupport." in str(e):
+            except RuntimeError:
                 pass
-            else:
-                raise e
 
         return f
 
