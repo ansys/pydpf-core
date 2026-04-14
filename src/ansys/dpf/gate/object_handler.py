@@ -18,5 +18,5 @@ class ObjHandler:
         try:
             if hasattr(self, "_internal_obj") and not self.owned:
                 self.data_processing_api.data_processing_delete_shared_object(self)
-        except Exception as e:
-            raise e
+        except Exception:
+            pass

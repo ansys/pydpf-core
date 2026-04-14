@@ -93,8 +93,8 @@ class DPFVectorBase:
         if hasattr(self, "_internal_obj"):
             try:
                 self.dpf_vector_api.dpf_vector_delete(self)
-            except Exception as e:
-                raise e
+            except Exception:
+                pass
 
 
 class DPFVectorInt(DPFVectorBase):
@@ -124,8 +124,8 @@ class DPFVectorInt(DPFVectorBase):
             if hasattr(self, "_array"):
                 self.dpf_vector_api.dpf_vector_int_free(self, self.internal_data, self.internal_size,
                                                         self.has_changed())
-        except Exception as e:
-            raise e
+        except Exception:
+            pass
 
         super().__del__()
 
@@ -157,8 +157,8 @@ class DPFVectorDouble(DPFVectorBase):
             if hasattr(self, "_array"):
                 self.dpf_vector_api.dpf_vector_double_free(self, self.internal_data, self.internal_size,
                                                            self.has_changed())
-        except Exception as e:
-            raise e
+        except Exception:
+            pass
 
         super().__del__()
 
@@ -223,8 +223,8 @@ class DPFVectorCustomType(DPFVectorBase):
             if hasattr(self, "_array"):
                 self.dpf_vector_api.dpf_vector_char_free(self, self.internal_data, self.size * self.type.itemsize,
                                                          self.has_changed())
-        except Exception as e:
-            raise e
+        except Exception:
+            pass
 
         super().__del__()
 
@@ -249,8 +249,8 @@ class DPFVectorString(DPFVectorBase):
             if self._array:
                 self.dpf_vector_api.dpf_vector_char_ptr_free(self, self.internal_data, self.internal_size,
                                                              self.has_changed())
-        except Exception as e:
-            raise e
+        except Exception:
+            pass
 
         super().__del__()
 
