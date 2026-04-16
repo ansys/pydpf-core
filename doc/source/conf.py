@@ -6,6 +6,11 @@ import sys
 from pathlib import Path
 import subprocess
 
+# Must be set before pyvista and ansys.tools.visualization_interface are imported
+# so that both BUILDING_GALLERY and DOCUMENTATION_BUILD are True at module load time.
+os.environ['PYVISTA_BUILDING_GALLERY'] = 'true'
+# os.environ['PYANSYS_VISUALIZER_DOC_MODE'] = 'true'
+
 from ansys_sphinx_theme import (
     ansys_favicon,
     get_version_match,
@@ -35,6 +40,8 @@ if not os.path.exists(pyvista.FIGURE_PATH):
     os.makedirs(pyvista.FIGURE_PATH)
 
 pyvista.BUILDING_GALLERY = True
+
+from pyvista.plotting.utilities.sphinx_gallery import DynamicScraper
 
 pyvista.global_theme.lighting = False
 
@@ -78,6 +85,11 @@ for example in sorted(
         ignored_pattern += f"|{example_name}"
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
+# Ignore all examples except those in the 06-plotting directory
+for example in sorted(glob(r"../sphinx_gallery_examples/**/*.py")):
+    if os.sep + "06-plotting" + os.sep not in example and "/06-plotting/" not in example:
+        example_name = example.split(os.path.sep)[-1]
+        ignored_pattern += f"|{example_name}"
 ignored_pattern += r")"
 
 exclude_patterns = []
@@ -136,6 +148,7 @@ extensions = [
     "sphinx_design",
     "sphinx_jinja",
     'sphinx_reredirects',
+    'pyvista.ext.viewer_directive',
 ]
 
 redirects = {
@@ -251,7 +264,7 @@ sphinx_gallery_conf = {
     "within_subsection_order": _TutorialFileOrder,
     # directory where function granular galleries are stored
     "backreferences_dir": None,
-    "image_scrapers": ("pyvista", "matplotlib"),
+    "image_scrapers": (DynamicScraper(), "matplotlib"),
     # 'first_notebook_cell': ("%matplotlib inline\n"
     #                         "from pyvista import set_plot_theme\n"
     #                         "set_plot_theme('document')"),

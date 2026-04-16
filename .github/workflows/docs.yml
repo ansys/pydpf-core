@@ -182,6 +182,8 @@ jobs:
         shell: bash
         env:
           WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
+          BUILD_API: "false"
+          BUILD_TUTORIALS: "false"
         run: |
           tox -e doc-html --installpkg dist/${WHEEL_NAME} -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
 
