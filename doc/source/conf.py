@@ -86,21 +86,21 @@ for example in sorted(
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
 # Ignore all examples except those explicitly allowed
-_allowed_examples = {
-    "06-plotting",
-    "00-multistage_advanced_options.py",
-    "02-volume_averaged_stress.py",
-    "01-average_across_bodies.py",
-    "03-cyclic_multi_stage.py",
-    "03-fluids_isosurface.py",
-    "00_plot_3d_streamlines.py",
-    "02-lsdyna_erosion.py",
-}
-for example in sorted(glob(r"../sphinx_gallery_examples/**/*.py")):
-    example_name = example.split(os.path.sep)[-1]
-    in_plotting = os.sep + "06-plotting" + os.sep in example or "/06-plotting/" in example
-    if not in_plotting and example_name not in _allowed_examples:
-        ignored_pattern += f"|{example_name}"
+# _allowed_examples = {
+#     "06-plotting",
+#     "00-multistage_advanced_options.py",
+#     "02-volume_averaged_stress.py",
+#     "01-average_across_bodies.py",
+#     "03-cyclic_multi_stage.py",
+#     "03-fluids_isosurface.py",
+#     "00_plot_3d_streamlines.py",
+#     "02-lsdyna_erosion.py",
+# }
+# for example in sorted(glob(r"../sphinx_gallery_examples/**/*.py")):
+#     example_name = example.split(os.path.sep)[-1]
+#     in_plotting = os.sep + "06-plotting" + os.sep in example or "/06-plotting/" in example
+#     if not in_plotting and example_name not in _allowed_examples:
+#         ignored_pattern += f"|{example_name}"
 ignored_pattern += r")"
 
 exclude_patterns = []
