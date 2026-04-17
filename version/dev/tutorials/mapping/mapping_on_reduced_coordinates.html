@@ -1,0 +1,1102 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Reduced coordinates mapping &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/ansys-sphinx-theme.css?v=a23b20f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles\ansys-sphinx-theme.css?v=a23b20f3" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=f3be7b20" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../_static/documentation_options.js?v=a64471e3"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/mapping/mapping_on_reduced_coordinates';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Solid-to-skin mapping" href="mapping_solid_to_skin.html" />
+    <link rel="prev" title="Interpolation at coordinates" href="mapping_on_coordinates.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.16.0.dev0" />
+  <meta property="og:site_name" content="PyAnsys" />
+  <meta name="physics" content="Structures" />
+  <meta name="physics" content="Fluids" />
+  <meta name="physics" content="Multiphysics" />
+  <link rel="canonical" href="https://dpf.docs.pyansys.com/version/stable/tutorials/mapping/mapping_on_reduced_coordinates.html" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Starting with PyDPF-Core 0.15.0, gRPC communication with the DPF server defaults to requiring mTLS authentication.
+Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dpf_server.html#run-dpf-server-in-secure-mode-with-mtls'>this page</a> for more information.</div>
+</aside>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+  
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    
+<!--
+  Announcement Version Loader
+  Dynamically loads the announcement.html content into the announcement_msg div.
+-->
+<div id="announcement_msg" aria-live="polite"></div>
+<script>
+  // Fetch and inject the announcement HTML content
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status} Announcement.html file not found, Please ignore this, if you are in dev/stable documentation`);
+      }
+      return response.text();
+    })
+    .then((text) => {
+      var msgDiv = document.getElementById("announcement_msg");
+      if (msgDiv) {
+        msgDiv.innerHTML = text;
+      }
+    })
+    .catch((error) => {
+      // Log only unexpected fetch errors
+      if (!(error.message && error.message.startsWith("HTTP error: 404"))) {
+        console.error(`Fetch problem: ${error.message} Announcement.html could not be loaded.`);
+      }
+    });
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+  
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../data_structures/index.html">DPF data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../post_processing_basics/index.html">Processing data basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../import_data/index.html">Import Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operators_and_workflows/index.html">Process data with operators and workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../export_data/index.html">Export data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../animate/index.html">Animate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/index.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_operators_and_plugins/index.html">Custom Operators and Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributed_files/index.html">Post-process distributed files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dpf_server/index.html">DPF server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../licensing/index.html">Licensing</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Mapping</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="mapping_on_coordinates.html">Interpolation at coordinates</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Reduced coordinates mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping_solid_to_skin.html">Solid-to-skin mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping_prepare_workflow.html">RBF-based workflow mapping</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../index.html" class="nav-link">Tutorials</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">Mapping</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Reduced coordinates mapping</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-tutorials-mapping-mapping-on-reduced-coordinates-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="reduced-coordinates-mapping">
+<span id="ref-tutorials-mapping-on-reduced-coordinates"></span><span id="sphx-glr-tutorials-mapping-mapping-on-reduced-coordinates-py"></span><h1>Reduced coordinates mapping<a class="headerlink" href="#reduced-coordinates-mapping" title="Link to this heading">#</a></h1>
+<p>Perform high-precision interpolation using a two-step element-local coordinate approach.</p>
+<p>This tutorial demonstrates the <code class="docutils literal notranslate"><span class="pre">find_reduced_coordinates</span></code> / <code class="docutils literal notranslate"><span class="pre">on_reduced_coordinates</span></code>
+workflow for mapping field values. In the first step,
+<a class="reference internal" href="../../api/ansys/dpf/core/operators/mapping/find_reduced_coordinates/index.html#module-ansys.dpf.core.operators.mapping.find_reduced_coordinates" title="ansys.dpf.core.operators.mapping.find_reduced_coordinates"><code class="xref py py-class docutils literal notranslate"><span class="pre">find_reduced_coordinates</span></code></a>
+locates which element contains each target point and computes the element-local (reference)
+coordinates. In the second step,
+<a class="reference internal" href="../../api/ansys/dpf/core/operators/mapping/on_reduced_coordinates/index.html#module-ansys.dpf.core.operators.mapping.on_reduced_coordinates" title="ansys.dpf.core.operators.mapping.on_reduced_coordinates"><code class="xref py py-class docutils literal notranslate"><span class="pre">on_reduced_coordinates</span></code></a>
+uses those element-local coordinates to perform the interpolation.</p>
+<p>Compared to direct <a class="reference internal" href="mapping_on_coordinates.html#ref-tutorials-mapping-on-coordinates"><span class="std std-ref">Interpolation at coordinates</span></a> mapping, this approach
+gives explicit access to element-local positions, enables efficient reuse for multiple
+field types, and supports higher-accuracy quadratic element interpolation.</p>
+<p>Any target point outside the source mesh returns an empty value.</p>
+<section id="import-modules-and-load-the-model">
+<h2>Import modules and load the model<a class="headerlink" href="#import-modules-and-load-the-model" title="Link to this heading">#</a></h2>
+<p>Import the required modules and load a result file.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the ``ansys.dpf.core`` module</span>
+<span class="c1"># Import NumPy for coordinate manipulation</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+
+<span class="c1"># Import the examples and operators modules</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span><span class="p">,</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.plotter</span><span class="w"> </span><span class="kn">import</span> <span class="n">DpfPlotter</span>
+</pre></div>
+</div>
+</section>
+<section id="load-model">
+<h2>Load model<a class="headerlink" href="#load-model" title="Link to this heading">#</a></h2>
+<p>Download the crankshaft result file and create a
+<a class="reference internal" href="../../api/ansys/dpf/core/model/Model.html#ansys.dpf.core.model.Model" title="ansys.dpf.core.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a> object.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">result_file</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_crankshaft</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">result_file</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+Static analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mechanical
+Available results:
+     -  node_orientations: Nodal Node Euler Angles
+     -  displacement: Nodal Displacement
+     -  velocity: Nodal Velocity
+     -  acceleration: Nodal Acceleration
+     -  reaction_force: Nodal Force
+     -  stress: ElementalNodal Stress
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  elastic_strain: ElementalNodal Strain
+     -  elastic_strain_eqv: ElementalNodal Strain eqv
+     -  element_orientations: ElementalNodal Element Euler Angles
+     -  structural_temperature: ElementalNodal Structural temperature
+------------------------------
+DPF  Meshed Region:
+  69762 nodes
+  39315 elements
+  Unit: m
+  With solid (3D) elements
+------------------------------
+DPF  Time/Freq Support:
+  Number of sets: 3
+Cumulative     Time (s)       LoadStep       Substep
+1              1.000000       1              1
+2              2.000000       1              2
+3              3.000000       1              3
+</pre></div>
+</div>
+</section>
+<section id="extract-the-mesh">
+<h2>Extract the mesh<a class="headerlink" href="#extract-the-mesh" title="Link to this heading">#</a></h2>
+<p>The mesh is needed by both <code class="docutils literal notranslate"><span class="pre">find_reduced_coordinates</span></code> and
+<code class="docutils literal notranslate"><span class="pre">on_reduced_coordinates</span></code>.
+Use <code class="xref py py-meth docutils literal notranslate"><span class="pre">bounding_box</span></code>
+to confirm the spatial extent of the model before choosing probe points.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+<span class="n">bb_data</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">bounding_box</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># [xmin, ymin, zmin, xmax, ymax, zmax]</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Bounding box: x=[</span><span class="si">{</span><span class="n">bb_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">bb_data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">] &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;y=[</span><span class="si">{</span><span class="n">bb_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">bb_data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">] &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;z=[</span><span class="si">{</span><span class="n">bb_data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">bb_data</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">] m&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Bounding box: x=[-0.0250, 0.0350] y=[-0.0250, 0.0250] z=[-0.0720, 0.0500] m
+</pre></div>
+</div>
+</section>
+<section id="define-target-coordinates">
+<h2>Define target coordinates<a class="headerlink" href="#define-target-coordinates" title="Link to this heading">#</a></h2>
+<p>Create a <a class="reference internal" href="../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> that holds the probe
+points at which field values should be interpolated.</p>
+<p>A line of 8 equally-spaced points is built along the crankshaft z-axis.
+The range deliberately extends 10 mm beyond each end of the bounding box so
+that the first and last points fall outside the model—demonstrating how the
+reduced-coordinates workflow handles coordinates with no containing element.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">n_pts</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">z_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">bb_data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">bb_data</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">n_pts</span><span class="p">)</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n_pts</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_pts</span><span class="p">),</span> <span class="n">z_pts</span><span class="p">]</span>  <span class="c1"># fixed x=5 mm, y=0</span>
+<span class="p">)</span>
+<span class="n">coords_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">field_from_array</span><span class="p">(</span><span class="n">arr</span><span class="o">=</span><span class="n">points</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Probe line: </span><span class="si">{</span><span class="n">n_pts</span><span class="si">}</span><span class="s2"> points, z from </span><span class="si">{</span><span class="n">z_pts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">z_pts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> m &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;(bbox: [</span><span class="si">{</span><span class="n">bb_data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">bb_data</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">])&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Probe line: 50 points, z from -0.0820 to 0.0600 m (bbox: [-0.0720, 0.0500])
+</pre></div>
+</div>
+</section>
+<section id="visualize-probe-line-on-the-crankshaft">
+<h2>Visualize probe line on the crankshaft<a class="headerlink" href="#visualize-probe-line-on-the-crankshaft" title="Link to this heading">#</a></h2>
+<p>Build a <a class="reference internal" href="../../api/ansys/dpf/core/geometry/Line.html#ansys.dpf.core.geometry.Line" title="ansys.dpf.core.geometry.Line"><code class="xref py py-class docutils literal notranslate"><span class="pre">Line</span></code></a> from the two endpoints of
+the probe path and overlay it on a transparent crankshaft mesh.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">probe_line</span> <span class="o">=</span> <span class="n">Line</span><span class="p">([</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">n_points</span><span class="o">=</span><span class="n">n_pts</span><span class="p">)</span>
+
+<span class="n">pl</span> <span class="o">=</span> <span class="n">DpfPlotter</span><span class="p">()</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">probe_line</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;surface&quot;</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">show_figure</span><span class="p">(</span><span class="n">show_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_mapping_on_reduced_coordinates_001.png" srcset="../../_images/sphx_glr_mapping_on_reduced_coordinates_001.png" alt="mapping on reduced coordinates" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>([], &lt;pyvista.plotting.plotter.Plotter object at 0x0000024D011EDF50&gt;)
+</pre></div>
+</div>
+</section>
+<section id="step-1-find-reduced-coordinates-and-element-ids">
+<h2>Step 1: Find reduced coordinates and element IDs<a class="headerlink" href="#step-1-find-reduced-coordinates-and-element-ids" title="Link to this heading">#</a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">find_reduced_coordinates</span></code> to determine which element contains each
+target point and the corresponding element-local (reference) coordinates.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">find_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">find_reduced_coordinates</span><span class="p">(</span>
+    <span class="n">coordinates</span><span class="o">=</span><span class="n">coords_field</span><span class="p">,</span>
+    <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">reduced_coords_fc</span> <span class="o">=</span> <span class="n">find_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">reduced_coordinates</span><span class="p">()</span>
+<span class="n">element_ids_sc</span> <span class="o">=</span> <span class="n">find_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">element_ids</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reduced coordinates:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reduced_coords_fc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Element IDs:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">element_ids_sc</span><span class="p">)</span>
+
+<span class="c1"># The scoping of the reduced-coordinates field records which input probe</span>
+<span class="c1"># points were found inside an element; the rest fall outside the mesh.</span>
+<span class="n">found_ids</span> <span class="o">=</span> <span class="n">reduced_coords_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>  <span class="c1"># 1-based input-point indices</span>
+<span class="n">in_mesh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_pts</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">eid</span> <span class="ow">in</span> <span class="n">found_ids</span><span class="p">:</span>
+    <span class="n">in_mesh</span><span class="p">[</span><span class="n">eid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">in_mesh</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">n_pts</span><span class="si">}</span><span class="s2"> probe points are inside the mesh&quot;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">z_pts</span>  <span class="c1"># use z-coordinate as the x-axis</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Reduced coordinates:
+DPF  Fields Container
+  with 1 field(s)
+  defined on labels: Unknown
+
+  with:
+  - field 0 {Unknown:  1} with Nodal location, 3 components and 24 entities.
+
+Element IDs:
+DPF  Scopings Container
+  with 1 scoping(s)
+  defined on labels: Unknown
+
+  with:
+  - scoping 0 {Unknown:  1, } located on Elemental 24 entities.
+
+24 of 50 probe points are inside the mesh
+</pre></div>
+</div>
+</section>
+<section id="step-2-map-displacement-to-reduced-coordinates">
+<h2>Step 2: Map displacement to reduced coordinates<a class="headerlink" href="#step-2-map-displacement-to-reduced-coordinates" title="Link to this heading">#</a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">on_reduced_coordinates</span></code> to interpolate displacement values at the
+reduced coordinates found in step 1.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">displacement_fc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">field_or_fields_container</span><span class="o">=</span><span class="n">displacement_fc</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Crankshaft displacement&quot;</span><span class="p">)</span>
+
+<span class="n">mapping_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">on_reduced_coordinates</span><span class="p">(</span>
+    <span class="n">fields_container</span><span class="o">=</span><span class="n">displacement_fc</span><span class="p">,</span>
+    <span class="n">reduced_coordinates</span><span class="o">=</span><span class="n">reduced_coords_fc</span><span class="p">,</span>
+    <span class="n">element_ids</span><span class="o">=</span><span class="n">element_ids_sc</span><span class="p">,</span>
+    <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">mapped_displacement_fc</span> <span class="o">=</span> <span class="n">mapping_op</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_mapping_on_reduced_coordinates_002.png" srcset="../../_images/sphx_glr_mapping_on_reduced_coordinates_002.png" alt="mapping on reduced coordinates" class = "sphx-glr-single-img"/></section>
+<section id="access-mapped-results">
+<h2>Access mapped results<a class="headerlink" href="#access-mapped-results" title="Link to this heading">#</a></h2>
+<p>Extract and display the interpolated displacement values.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">mapped_field</span> <span class="o">=</span> <span class="n">mapped_displacement_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">mapped_data</span> <span class="o">=</span> <span class="n">mapped_field</span><span class="o">.</span><span class="n">data</span>
+<span class="n">element_ids</span> <span class="o">=</span> <span class="n">element_ids_sc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Build full arrays (NaN for outside-mesh points)</span>
+<span class="n">full_disp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">n_pts</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">eid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mapped_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">):</span>
+    <span class="n">full_disp</span><span class="p">[</span><span class="n">eid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+<span class="c1"># Line plot: displacement components along the probe line.</span>
+<span class="c1"># Gaps appear where probe points fall outside the mesh.</span>
+<span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ux&quot;</span><span class="p">,</span> <span class="s2">&quot;uy&quot;</span><span class="p">,</span> <span class="s2">&quot;uz&quot;</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">components</span><span class="p">)):</span>
+    <span class="n">y_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">in_mesh</span><span class="p">,</span> <span class="n">full_disp</span><span class="p">[:,</span> <span class="n">j</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">comp</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span>
+        <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bb_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Outside mesh&quot;</span> <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">bb_data</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Displacement (m)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;z coordinate (m)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Interpolated displacement along probe line</span><span class="se">\n</span><span class="s2">(gray = outside mesh, NaN gaps)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_mapping_on_reduced_coordinates_003.png" srcset="../../_images/sphx_glr_mapping_on_reduced_coordinates_003.png" alt="Interpolated displacement along probe line (gray = outside mesh, NaN gaps), ux, uy, uz" class = "sphx-glr-single-img"/></section>
+<section id="reuse-reduced-coordinates-for-stress">
+<h2>Reuse reduced coordinates for stress<a class="headerlink" href="#reuse-reduced-coordinates-for-stress" title="Link to this heading">#</a></h2>
+<p>Once the reduced coordinates and element IDs are available they can be reused
+to map additional result types efficiently without repeating the search step.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">stress_fc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">mapped_stress_fc</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">on_reduced_coordinates</span><span class="p">(</span>
+    <span class="n">fields_container</span><span class="o">=</span><span class="n">stress_fc</span><span class="p">,</span>
+    <span class="n">reduced_coordinates</span><span class="o">=</span><span class="n">reduced_coords_fc</span><span class="p">,</span>
+    <span class="n">element_ids</span><span class="o">=</span><span class="n">element_ids_sc</span><span class="p">,</span>
+    <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">stress_data_out</span> <span class="o">=</span> <span class="n">mapped_stress_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+<span class="n">full_stress</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">n_pts</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">eid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mapped_stress_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">):</span>
+    <span class="n">full_stress</span><span class="p">[</span><span class="n">eid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">stress_data_out</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+<span class="c1"># Line plot: stress components along the probe line.</span>
+<span class="n">comp_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;s_xx&quot;</span><span class="p">,</span> <span class="s2">&quot;s_yy&quot;</span><span class="p">,</span> <span class="s2">&quot;s_zz&quot;</span><span class="p">,</span> <span class="s2">&quot;s_xy&quot;</span><span class="p">,</span> <span class="s2">&quot;s_yz&quot;</span><span class="p">,</span> <span class="s2">&quot;s_xz&quot;</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">flat</span><span class="p">,</span> <span class="n">comp_names</span><span class="p">)):</span>
+    <span class="n">y_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">in_mesh</span><span class="p">,</span> <span class="n">full_stress</span><span class="p">[:,</span> <span class="n">j</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">comp</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bb_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">bb_data</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Stress (Pa)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;z coordinate (m)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Interpolated stress along probe line</span><span class="se">\n</span><span class="s2">(gray = outside mesh, NaN gaps)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_mapping_on_reduced_coordinates_004.png" srcset="../../_images/sphx_glr_mapping_on_reduced_coordinates_004.png" alt="Interpolated stress along probe line (gray = outside mesh, NaN gaps), s_xx, s_yy, s_zz, s_xy, s_yz, s_xz" class = "sphx-glr-single-img"/></section>
+<section id="use-quadratic-elements-for-higher-precision">
+<h2>Use quadratic elements for higher precision<a class="headerlink" href="#use-quadratic-elements-for-higher-precision" title="Link to this heading">#</a></h2>
+<p>For meshes with quadratic elements, enable the <code class="docutils literal notranslate"><span class="pre">use_quadratic_elements</span></code> option
+in both operators for higher-order interpolation accuracy.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">find_op_quad</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">find_reduced_coordinates</span><span class="p">(</span>
+    <span class="n">coordinates</span><span class="o">=</span><span class="n">coords_field</span><span class="p">,</span>
+    <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span>
+    <span class="n">use_quadratic_elements</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">reduced_coords_quad_fc</span> <span class="o">=</span> <span class="n">find_op_quad</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">reduced_coordinates</span><span class="p">()</span>
+<span class="n">element_ids_quad_sc</span> <span class="o">=</span> <span class="n">find_op_quad</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">element_ids</span><span class="p">()</span>
+
+<span class="n">mapped_disp_quad_fc</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">on_reduced_coordinates</span><span class="p">(</span>
+    <span class="n">fields_container</span><span class="o">=</span><span class="n">displacement_fc</span><span class="p">,</span>
+    <span class="n">reduced_coordinates</span><span class="o">=</span><span class="n">reduced_coords_quad_fc</span><span class="p">,</span>
+    <span class="n">element_ids</span><span class="o">=</span><span class="n">element_ids_quad_sc</span><span class="p">,</span>
+    <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span>
+    <span class="n">use_quadratic_elements</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="n">quad_data_out</span> <span class="o">=</span> <span class="n">mapped_disp_quad_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+<span class="n">full_quad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">n_pts</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">eid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mapped_disp_quad_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">):</span>
+    <span class="n">full_quad</span><span class="p">[</span><span class="n">eid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">quad_data_out</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+<span class="c1"># Line plot comparison: linear vs quadratic interpolation</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">components</span><span class="p">)):</span>
+    <span class="n">y_lin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">in_mesh</span><span class="p">,</span> <span class="n">full_disp</span><span class="p">[:,</span> <span class="n">j</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="n">y_quad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">in_mesh</span><span class="p">,</span> <span class="n">full_quad</span><span class="p">[:,</span> <span class="n">j</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_lin</span><span class="p">,</span> <span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Linear&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_quad</span><span class="p">,</span> <span class="s2">&quot;s--&quot;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Quadratic&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span>
+        <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bb_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Outside mesh&quot;</span> <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">bb_data</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Displacement (m)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;z coordinate (m)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Displacement: linear vs quadratic interpolation along probe line&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_mapping_on_reduced_coordinates_005.png" srcset="../../_images/sphx_glr_mapping_on_reduced_coordinates_005.png" alt="Displacement: linear vs quadratic interpolation along probe line, ux, uy, uz" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 3.197 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-mapping-mapping-on-reduced-coordinates-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/d7049b1647a39458e67b0a96bc35a702/mapping_on_reduced_coordinates.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">mapping_on_reduced_coordinates.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/9079a58f06ccb0557bf0e743bbbfed3a/mapping_on_reduced_coordinates.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">mapping_on_reduced_coordinates.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/34106c1350a5d5e1cad40cca83b5dffd/mapping_on_reduced_coordinates.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">mapping_on_reduced_coordinates.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-modules-and-load-the-model">Import modules and load the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-model">Load model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-the-mesh">Extract the mesh</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-target-coordinates">Define target coordinates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-probe-line-on-the-crankshaft">Visualize probe line on the crankshaft</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-find-reduced-coordinates-and-element-ids">Step 1: Find reduced coordinates and element IDs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-map-displacement-to-reduced-coordinates">Step 2: Map displacement to reduced coordinates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-mapped-results">Access mapped results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reuse-reduced-coordinates-for-stress">Reuse reduced coordinates for stress</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-quadratic-elements-for-higher-precision">Use quadratic elements for higher precision</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/tutorials/mapping/mapping_on_reduced_coordinates.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2026 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<!--
+  Theme Version Footer
+  Displays the Sphinx theme version and the last updated date.
+  Accessibility and semantic improvements included.
+-->
+<footer class="theme-version" aria-label="Theme version and last update">
+  <span>
+    
+      Built with the
+      <a href="https://sphinxdocs.ansys.com/version/stable/index.html" target="_blank" rel="noopener noreferrer">
+        Ansys Sphinx Theme
+      </a>
+      1.7.2.
+    
+  </span>
+  <br />
+  <span>Last updated on <time id="ast_build_date"></time></span>
+</footer>
+<script>
+  // Set the last updated date in a readable format
+  (function() {
+    var options = { day: "numeric", month: "long", year: "numeric" };
+    var ast_lastModifiedDate = new Date(document.lastModified);
+    var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+    var dateElem = document.getElementById("ast_build_date");
+    if (dateElem) {
+      dateElem.textContent = ast_build_date;
+    }
+  })();
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

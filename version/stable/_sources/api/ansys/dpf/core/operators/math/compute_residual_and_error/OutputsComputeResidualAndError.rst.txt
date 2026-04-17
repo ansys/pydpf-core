@@ -1,0 +1,121 @@
+
+
+
+
+
+
+:class:`OutputsComputeResidualAndError`
+=======================================
+
+
+.. py:class:: ansys.dpf.core.operators.math.compute_residual_and_error.OutputsComputeResidualAndError(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   compute_residual_and_error operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.compute_residual_and_error()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_residual = op.outputs.residual()
+   >>> result_error = op.outputs.error()
+   >>> result_residual_normalization_factor = op.outputs.residual_normalization_factor()
+   >>> result_error_normalization_factor = op.outputs.error_normalization_factor()
+
+
+
+
+
+.. py:currentmodule:: OutputsComputeResidualAndError
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~residual_as_field`
+            - 
+          * - :py:attr:`~residual_as_fields_container`
+            - 
+          * - :py:attr:`~error_as_field`
+            - 
+          * - :py:attr:`~error_as_fields_container`
+            - 
+          * - :py:attr:`~residual_normalization_factor_as_field`
+            - 
+          * - :py:attr:`~residual_normalization_factor_as_fields_container`
+            - 
+          * - :py:attr:`~error_normalization_factor_as_field`
+            - 
+          * - :py:attr:`~error_normalization_factor_as_fields_container`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.compute_residual_and_error import OutputsComputeResidualAndError
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: residual_as_field
+
+.. py:attribute:: residual_as_fields_container
+
+.. py:attribute:: error_as_field
+
+.. py:attribute:: error_as_fields_container
+
+.. py:attribute:: residual_normalization_factor_as_field
+
+.. py:attribute:: residual_normalization_factor_as_fields_container
+
+.. py:attribute:: error_normalization_factor_as_field
+
+.. py:attribute:: error_normalization_factor_as_fields_container
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

@@ -1,0 +1,148 @@
+
+
+
+
+
+
+:class:`OutputsLinearizedStress`
+================================
+
+
+.. py:class:: ansys.dpf.core.operators.math.linearized_stress.OutputsLinearizedStress(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   linearized_stress operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linearized_stress()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_linearized_stress_results = op.outputs.linearized_stress_results()
+   >>> result_linearized_stress_all_results = op.outputs.linearized_stress_all_results()
+   >>> result_linearized_stress_params = op.outputs.linearized_stress_params()
+
+
+
+
+
+.. py:currentmodule:: OutputsLinearizedStress
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~linearized_stress_results`
+            - Allows to get linearized_stress_results output of the operator
+          * - :py:attr:`~linearized_stress_all_results`
+            - Allows to get linearized_stress_all_results output of the operator
+          * - :py:attr:`~linearized_stress_params`
+            - Allows to get linearized_stress_params output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.linearized_stress import OutputsLinearizedStress
+
+Property detail
+---------------
+
+.. py:property:: linearized_stress_results
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get linearized_stress_results output of the operator
+
+   Selected linearized stress results for the requested output type
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linearized_stress()
+   >>> # Get the output from op.outputs. ...
+   >>> result_linearized_stress_results = op.outputs.linearized_stress_results()
+
+.. py:property:: linearized_stress_all_results
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get linearized_stress_all_results output of the operator
+
+   All linearized stress result types computed along the path
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linearized_stress()
+   >>> # Get the output from op.outputs. ...
+   >>> result_linearized_stress_all_results = op.outputs.linearized_stress_all_results()
+
+.. py:property:: linearized_stress_params
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get linearized_stress_params output of the operator
+
+   Linearization parameters and metadata
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.linearized_stress()
+   >>> # Get the output from op.outputs. ...
+   >>> result_linearized_stress_params = op.outputs.linearized_stress_params()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+
