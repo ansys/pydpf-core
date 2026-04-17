@@ -38,7 +38,6 @@ from dataclasses import dataclass
 import warnings
 
 import numpy as np
-import pyvista as pv
 from vtk import (
     VTK_HEXAHEDRON,
     VTK_LINE,
@@ -64,6 +63,7 @@ import ansys.dpf.core as dpf
 from ansys.dpf.core import errors
 from ansys.dpf.core.check_version import server_meet_version_and_raise
 from ansys.dpf.core.elements import element_types
+import pyvista as pv
 
 VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
 

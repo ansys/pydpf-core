@@ -35,9 +35,8 @@ from conftest import (
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
-    from pyvista.plotting.renderer import CameraPosition  # noqa: F401
-
     from ansys.dpf.core.plotter import DpfPlotter, Plotter
+    from pyvista.plotting.renderer import CameraPosition  # noqa: F401
 else:
     HAS_PYVISTA = False
 

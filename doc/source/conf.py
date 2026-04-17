@@ -6,11 +6,6 @@ import sys
 from pathlib import Path
 import subprocess
 
-# Must be set before pyvista and ansys.tools.visualization_interface are imported
-# so that both BUILDING_GALLERY and DOCUMENTATION_BUILD are True at module load time.
-os.environ['PYVISTA_BUILDING_GALLERY'] = 'true'
-# os.environ['PYANSYS_VISUALIZER_DOC_MODE'] = 'true'
-
 from ansys_sphinx_theme import (
     ansys_favicon,
     get_version_match,
@@ -19,6 +14,7 @@ from ansys_sphinx_theme import (
 )
 import numpy as np
 import pyvista
+from pyvista.plotting.utilities.sphinx_gallery import DynamicScraper
 
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
@@ -40,8 +36,6 @@ if not os.path.exists(pyvista.FIGURE_PATH):
     os.makedirs(pyvista.FIGURE_PATH)
 
 pyvista.BUILDING_GALLERY = True
-
-from pyvista.plotting.utilities.sphinx_gallery import DynamicScraper
 
 pyvista.global_theme.lighting = False
 
@@ -85,22 +79,6 @@ for example in sorted(
         ignored_pattern += f"|{example_name}"
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
-# Ignore all examples except those explicitly allowed
-# _allowed_examples = {
-#     "06-plotting",
-#     "00-multistage_advanced_options.py",
-#     "02-volume_averaged_stress.py",
-#     "01-average_across_bodies.py",
-#     "03-cyclic_multi_stage.py",
-#     "03-fluids_isosurface.py",
-#     "00_plot_3d_streamlines.py",
-#     "02-lsdyna_erosion.py",
-# }
-# for example in sorted(glob(r"../sphinx_gallery_examples/**/*.py")):
-#     example_name = example.split(os.path.sep)[-1]
-#     in_plotting = os.sep + "06-plotting" + os.sep in example or "/06-plotting/" in example
-#     if not in_plotting and example_name not in _allowed_examples:
-#         ignored_pattern += f"|{example_name}"
 ignored_pattern += r")"
 
 exclude_patterns = []
