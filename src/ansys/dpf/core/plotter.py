@@ -242,7 +242,6 @@ class _PyVistaPlotter:
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_point_labels, **kwargs)
         # The scalar data used will be the one of the last field added.
         from packaging.version import parse
-
         import pyvista as pv
 
         active_scalars = None
@@ -578,9 +577,10 @@ class _VisualizationInterfacePlotter:
         **kwargs : dict
             Keyword arguments passed to the PyVistaBackend constructor.
         """
+        import pyvista as pv
+
         from ansys.tools.visualization_interface import Plotter
         from ansys.tools.visualization_interface.backends.pyvista import PyVistaBackend
-        import pyvista as pv
 
         # Filter kwargs for pv.Plotter.__init__ (final destination)
         kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.__init__, **kwargs)
@@ -778,7 +778,6 @@ class _VisualizationInterfacePlotter:
             List of label actors.
         """
         from packaging.version import parse
-
         import pyvista as pv
 
         # Filter kwargs for pv.Plotter.add_point_labels (final destination)
