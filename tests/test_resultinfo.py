@@ -25,8 +25,6 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import Model, examples
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
@@ -160,9 +158,6 @@ def test_repr_available_results_list(model):
     assert dpf.core.result_info.available_result.AvailableResult.__name__ in str(ar)
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
-)
 def test_print_available_result_with_qualifiers(cfx_heating_coil, server_type):
     model = Model(cfx_heating_coil(server=server_type), server=server_type)
     if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
@@ -214,9 +209,6 @@ Available qualifier labels:"""  # noqa: E501
         assert len(ar.qualifier_combinations) == 20
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
-)
 def test_print_result_info_with_qualifiers(cfx_heating_coil, server_type):
     model = Model(cfx_heating_coil(server=server_type), server=server_type)
     available_results_names = []
@@ -304,16 +296,8 @@ def test_create_result_info(server_type):
             dimensions=None,
             description="description",
         )
-        if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
-            ref = """Static analysis
+        ref = """Static analysis
 Unit system: Undefined
-Physics Type: Mechanical
-Available results:
-     -  scripting_name: Nodal Scripting Name
-"""
-        else:
-            ref = """Static analysis
-Unit system: 
 Physics Type: Mechanical
 Available results:
      -  scripting_name: Nodal Scripting Name

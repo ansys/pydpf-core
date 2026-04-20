@@ -1009,10 +1009,6 @@ def test_output_any(server_type):
     assert output_field.scoping.size == 3
 
 
-@pytest.mark.skipif(
-    condition=not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="Input of Any requires DPF 7.0 or above.",
-)
 def test_input_any(server_type):
     field = dpf.core.Field(nentities=3, server=server_type)
     data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -1034,10 +1030,6 @@ def test_input_any(server_type):
     assert isinstance(output, dpf.core.Field)
 
 
-@pytest.mark.skipif(
-    condition=not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="Input/output of Streams requires DPF 6.0 or above.",
-)
 def test_workflow_input_output_streams(server_in_process, simple_bar):
     data_source = dpf.core.DataSources(simple_bar, server=server_in_process)
     streams_op = dpf.core.operators.metadata.streams_provider(server=server_in_process)
