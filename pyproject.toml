@@ -82,7 +82,7 @@ doc = [
   "nbsphinx==0.9.8",
   "pypandoc==1.17",
   "pytest-sphinx==0.7.1",
-  "pyvista==0.47.3",
+  "pyvista[jupyter]==0.47.3",
   "quarto-cli==1.9.37",
   "sphinx==8.2.3",
   "sphinx-copybutton==0.5.2",
