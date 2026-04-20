@@ -27,26 +27,28 @@
 Speed up data requests from files using streams
 ================================================
 
-Use a streams container to avoid redundant file I/O when requesting multiple
-results from the same result file.
+Reduce I/O overhead when extracting multiple results from the same file by
+opening it once and reusing cached metadata through a streams container.
 
-When you connect a
-:class:`DataSources<ansys.dpf.core.data_sources.DataSources>` object directly
-to a result operator, the DPF server opens the file, reads its metadata, and
-loads the mesh **for every operator evaluation independently**. When you request
-many results one after another — for example, iterating over all results listed
-in the
-:class:`ResultInfo<ansys.dpf.core.result_info.ResultInfo>` — this repeated I/O
-adds up quickly.
+Extracting data from result files is I/O intensive. Every time you open a
+file, read some data, and close it again, the DPF server must re-parse the
+file header, rebuild its metadata catalog, and reload the mesh from disk.
+When you repeat this cycle for every result in a loop (for example iterating
+over all entries in the
+:class:`ResultInfo<ansys.dpf.core.result_info.ResultInfo>`), the cumulative
+cost can dominate the total runtime, especially on large models.
 
-A :class:`StreamsContainer<ansys.dpf.core.streams_container.StreamsContainer>`
-is a server-side object that wraps open file handles and caches shared data
-(notably the mesh) for the lifetime of the container. All operators that receive
-the same ``StreamsContainer`` reuse those handles and the cached mesh instead of
-reopening the file each time.
+DPF addresses this by letting you open the file once and cache its metadata
+and mesh structure on the server side. A
+:class:`StreamsContainer<ansys.dpf.core.streams_container.StreamsContainer>`
+is the object that holds those open file handles and the cached data for the
+lifetime of the container. All operators that receive the same
+``StreamsContainer`` reuse those handles and skip the repeated open-parse-load
+cycle.
 
-This tutorial compares both approaches on the same set of result requests and
-explains when you should — and should not — use streams.
+This tutorial compares the ``DataSources``-per-operator approach against the
+``StreamsContainer`` approach on the same set of result requests and explains
+when each approach is appropriate.
 
 .. note::
 
@@ -100,7 +102,7 @@ for res in available_results:
 # and pass it as the ``data_sources`` argument to each result operator constructor.
 # Each operator is instantiated fresh, so the DPF server opens the file, parses
 # its header, loads the mesh, and extracts the result data independently for
-# every call — only to repeat the entire sequence for the next operator.
+# every call, only to repeat the entire sequence for the next operator.
 
 # Create the DataSources object
 ds = dpf.DataSources(result_path=result_file)
@@ -139,7 +141,7 @@ print(
 # Pass this ``StreamsContainer`` as the ``streams_container`` argument to each
 # result operator constructor. On the first operator call the server parses the
 # file header and loads the mesh; on every subsequent call that data is served
-# from the cache — no further disk access is required for it.
+# from the cache; no further disk access is required for it.
 
 # Create the streams_provider operator and get its StreamsContainer output
 streams_op = ops.metadata.streams_provider(data_sources=ds)
@@ -205,8 +207,8 @@ if t_streams > 0:
 # When you create a :class:`Model<ansys.dpf.core.model.Model>`, it internally
 # instantiates a ``streams_provider`` operator and stores it as
 # ``model.metadata.streams_provider``. The ``StreamsContainer`` produced by
-# that operator is automatically wired into every operator the ``Model`` creates
-# — the mesh provider, the result info provider, and all result operators
+# that operator is automatically wired into every operator the ``Model`` creates:
+# the mesh provider, the result info provider, and all result operators
 # accessible via ``model.results``.
 #
 # This is why the ``Model`` helper is efficient out of the box: it uses streams
