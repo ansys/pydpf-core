@@ -71,7 +71,7 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples, operators as ops
 
 # Locate the example MAPDL static result file
-result_file = examples.find_static_rst()
+result_file = examples.download_crankshaft()
 
 ###############################################################################
 # Get the list of available results
