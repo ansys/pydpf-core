@@ -179,14 +179,18 @@ print(f"StreamsContainer: {t_streams:.2f} s")
 if t_streams > 0:
     print(f"Speed-up factor : {t_data_sources / t_streams:.1f}x")
 
-# The speedup factor above is modest because the example file shipped with
-# this repository is a small benchmark model. On large production models
-# (where the mesh can be millions of nodes and the file several gigabytes),
-# the gain from using a ``StreamsContainer`` can reach **20x or even 100x**,
-# because every avoided file-open-and-mesh-load cycle saves proportionally
-# more time. The measurement here is only intended to confirm that an
-# improvement exists; the magnitude you observe in practice depends on your
-# model size and the number of result requests.
+
+###############################################################################
+# .. note::
+#
+#     The speedup factor above is modest because the example file shipped with
+#     this repository is a small benchmark model. On large production models
+#     (where the mesh can be millions of nodes and the file several gigabytes),
+#     the gain from using a ``StreamsContainer`` can reach **20x or even 100x**,
+#     because every avoided file-open-and-mesh-load cycle saves proportionally
+#     more time. The measurement here is only intended to confirm that an
+#     improvement exists; the magnitude you observe in practice depends on your
+#     model size and the number of result requests.
 
 ###############################################################################
 # Why is the ``StreamsContainer`` faster?
