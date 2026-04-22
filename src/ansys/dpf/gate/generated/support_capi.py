@@ -36,10 +36,10 @@ class SupportCAPI(support_abstract_api.SupportAbstractAPI):
 		return res
 
 	@staticmethod
-	def support_set_as_domain_mesh_support(support, meshed_region):
+	def support_get_type(support, type):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
-		res = capi.dll.Support_setAsDomainMeshSupport(support._internal_obj if support is not None else None, meshed_region._internal_obj if meshed_region is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		res = capi.dll.Support_getType(support._internal_obj if support is not None else None, utils.to_char_ptr(type), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
