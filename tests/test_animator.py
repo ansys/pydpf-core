@@ -211,17 +211,15 @@ def test_animator_animate_fields_container_scale_factor_raise_list_len(
     displacement_fields,
 ):
     scale_factor_list = [2.0] * (len(displacement_fields) - 2)
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ValueError, match="scale_factor list length"):
         displacement_fields.animate(scale_factor=scale_factor_list)
-        assert "scale_factor list length" in e
 
 
 def test_animator_animate_fields_container_scale_factor_field(displacement_fields):
     # A Field object is not a valid scale_factor type; expect a clear ValueError.
     scale_factor_field = dpf.fields_factory.field_from_array(displacement_fields[0].data)
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ValueError, match="Argument scale_factor must be"):
         displacement_fields.animate(scale_factor=scale_factor_field)
-        assert "Argument scale_factor must be" in e
 
 
 def test_animator_animate_fields_container_scale_factor_fc(displacement_fields):
@@ -231,9 +229,8 @@ def test_animator_animate_fields_container_scale_factor_fc(displacement_fields):
         fields.append(dpf.fields_factory.field_from_array(f.data))
     scale_factor_fc = dpf.fields_container_factory.over_time_freq_fields_container(fields)
     scale_factor_fc.time_freq_support = displacement_fields.time_freq_support
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ValueError, match="Argument scale_factor must be"):
         displacement_fields.animate(scale_factor=scale_factor_fc)
-        assert "Argument scale_factor must be" in e
 
 
 def test_animator_animate_fields_container_cpos(remove_gifs, displacement_fields):
