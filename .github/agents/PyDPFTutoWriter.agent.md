@@ -86,8 +86,8 @@ Assemble the complete `.py` file following **this exact structure**:
 """
 .. _ref_tutorials_<section>_<short_name>:
 
-<Title in Title Case>
-=====================
+<Title in sentence case>
+========================
 
 <One sentence goal — this is also the card description.>
 
@@ -124,6 +124,11 @@ Assemble the complete `.py` file following **this exact structure**:
 ```
 
 **Formatting rules** (non-negotiable):
+- **Titles use sentence case** — capitalize only the first word and proper nouns
+  (e.g., ``Speed up data requests from files using streams``, not
+  ``Speed Up Data Requests From Files Using Streams``).
+  This applies to the module docstring title, all cell titles, and the
+  ``GALLERY_HEADER.rst`` card title.
 - The section separator is exactly 79 characters: `#` × 79.
 - Each cell separator is followed by `# Title`, then `# -----` (same length as title), then `#`.
 - Prose lines inside text cells start with `# ` (hash-space).
@@ -144,7 +149,7 @@ Check this file with `read_file` to confirm the available substitutions before u
 Add a card for the new tutorial to the section's `GALLERY_HEADER.rst`:
 
 ```rst
-    .. grid-item-card:: <Tutorial Title>
+    .. grid-item-card:: <Tutorial title in sentence case>
        :link: ref_tutorials_<section>_<short_name>
        :link-type: ref
        :text-align: center
