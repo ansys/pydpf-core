@@ -219,6 +219,11 @@ class MeshesContainer(CollectionBase[MeshedRegion]):
         """
         from ansys.dpf.core.animator import Animator
 
+        # Normalize save_as to str so downstream str methods (e.g. endswith) work
+        # with any os.PathLike value (e.g. pathlib.Path).
+        if save_as is not None:
+            save_as = os.fspath(save_as)
+
         # ── validate the label ────────────────────────────────────────────────
         available_labels = self.labels
         if label not in available_labels:
