@@ -126,7 +126,7 @@ def animate_mode(
     else:
         raise ValueError(
             f"The type_mode {type_mode} is not accepted. "
-            + "Please select one in 'positive_disp' and 'full_disp'."
+            "Please select 0 (full cycle) or 1 (positive half only)."
         )
 
     # Get fields
