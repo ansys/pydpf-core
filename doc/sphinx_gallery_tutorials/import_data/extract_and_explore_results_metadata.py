@@ -81,6 +81,14 @@ print("Physics type: ", physics_type, "\n")
 number_of_results = result_info_1.n_results
 print("Number of available results: ", number_of_results, "\n")
 
+###############################################################################
+# .. seealso::
+#
+#     :ref:`ref_tutorials_import_data_streams_for_multiple_operators`
+#         If you plan to iterate over ``available_results`` and evaluate each
+#         result operator in a loop, use a ``StreamsContainer`` to avoid
+#         repeated file reads and mesh reloads.
+
 # Get the unit system
 unit_system = result_info_1.unit_system
 print("Unit system: ", unit_system, "\n")

@@ -24,6 +24,7 @@
 
 from __future__ import annotations
 
+from contextlib import suppress
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -938,38 +939,27 @@ class Field(_FieldBase):
         f.data = self.data
         f.location = self.location
         f.field_definition = self.field_definition.deep_copy(server)
-        try:
+        with suppress(Exception):
             f._data_pointer = self._data_pointer
-        except Exception as e:
-            raise e
 
-        try:
-            if self.meshed_region:
-                f.meshed_region = self.meshed_region.deep_copy(server=server)
-        except DPFServerException as e:
-            if "the field doesn't have this support type" in str(e):
-                pass
-            else:
-                raise e
-        except RuntimeError as e:
-            if "The field's support is not a mesh." in str(e):
-                pass
-            else:
-                raise e
+        # A field can only have ONE support (mesh OR time_freq_support).
+        # Setting one overwrites the other, so they must be mutually exclusive.
+        support_set = False
+        with suppress(DPFServerException, RuntimeError):
+            support = self._api.csfield_get_support_as_meshed_region(self)
+            if support is not None:
+                mesh = meshed_region.MeshedRegion(mesh=support, server=self._server)
+                f.meshed_region = mesh.deep_copy(server=server)
+                support_set = True
 
-        try:
-            if self.time_freq_support:
-                f.time_freq_support = self.time_freq_support.deep_copy(server=server)
-        except DPFServerException as e:
-            if "the field doesn't have this support type" in str(e):
-                pass
-            else:
-                raise e
-        except RuntimeError as e:
-            if "The field's support is not a timefreqsupport." in str(e):
-                pass
-            else:
-                raise e
+        if not support_set:
+            with suppress(DPFServerException, RuntimeError):
+                support = self._api.csfield_get_support_as_time_freq_support(self)
+                if support is not None:
+                    tfs = time_freq_support.TimeFreqSupport(
+                        time_freq_support=support, server=self._server
+                    )
+                    f.time_freq_support = tfs.deep_copy(server=server)
 
         return f
 
