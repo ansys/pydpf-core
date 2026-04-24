@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -29,7 +29,6 @@ from ansys import dpf
 from ansys.dpf.core import examples, misc
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.errors import ServerTypeError
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 
 NO_PLOTTING = True
 
@@ -156,7 +155,10 @@ def test_result_displacement_model():
         assert len(results.displacement.split_by_body.eval()) == 44
     else:
         assert len(results.displacement.split_by_body.eval()) == 32
-    assert len(results.displacement.split_by_shape.eval()) == 4
+    if server_meet_version("12.0", model._server):
+        assert len(results.displacement.split_by_shape.eval()) == 6
+    else:
+        assert len(results.displacement.split_by_shape.eval()) == 4
     assert len(results.displacement.on_named_selection("_FIXEDSU").eval()[0].scoping) == 222
     all_time_ns = results.displacement.on_named_selection("_FIXEDSU").on_all_time_freqs.eval()
     assert len(all_time_ns) == 45
@@ -175,7 +177,10 @@ def test_result_stress_model():
         assert len(results.stress.split_by_body.eval()) == 44
     else:
         assert len(results.stress.split_by_body.eval()) == 32
-    assert len(results.stress.split_by_shape.eval()) == 4
+        if server_meet_version("12.0", model._server):
+            assert len(results.stress.split_by_shape.eval()) == 6
+        else:
+            assert len(results.stress.split_by_shape.eval()) == 4
     assert len(results.stress.on_named_selection("_FIXEDSU").eval()[0].scoping) == 222
     all_time_ns = results.stress.on_named_selection("_FIXEDSU").on_all_time_freqs.eval()
     assert len(all_time_ns) == 45
@@ -238,10 +243,6 @@ def test_result_not_dynamic(plate_msup):
     dpf.core.settings.set_dynamic_available_results_capability(True)
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Requires server version higher than 4.0",
-)
 def test_model_meshes_container(simple_bar):
     data_source = dpf.core.DataSources(simple_bar)
     model = dpf.core.Model(data_source)
@@ -249,10 +250,6 @@ def test_model_meshes_container(simple_bar):
     assert model.metadata.meshes_container[0].nodes.n_nodes == 3751
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Requires server version higher than 4.0",
-)
 def test_model_meshes_provider(simple_bar):
     data_source = dpf.core.DataSources(simple_bar)
     model = dpf.core.Model(data_source)

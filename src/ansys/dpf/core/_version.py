@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -25,7 +25,7 @@
 from packaging.version import parse as parse_version
 
 # Minimal DPF server version supported
-min_server_version = "4.0"
+min_server_version = "5.0"
 
 
 class ServerToAnsysVersion:

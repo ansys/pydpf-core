@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -61,6 +61,9 @@ map_types_to_cpp["double"] = "double"
 map_types_to_cpp["float"] = "double"
 map_types_to_cpp["UnitSystem"] = "class dataProcessing::unit::CUnitSystem"
 map_types_to_cpp["dict"] = "label_space"
+map_types_to_cpp["PropertyFieldsContainer"] = (
+    "class dataProcessing::DpfTypeCollection<class dataProcessing::CPropertyField>"
+)
 
 
 class _smart_dict_snake(dict):
@@ -76,3 +79,39 @@ map_types_to_python["vector<int32>"] = "list[int]"
 map_types_to_python["vector<double>"] = "list[float]"
 map_types_to_python["vector<string>"] = "list[str]"
 map_types_to_python["b"] = "bool"
+
+
+def reflection_type_to_cpp_type(reflection_type: str) -> str:
+    """Convert a reflection type to its corresponding C++ type.
+
+    The reflection type is obtained from the server specification of the operator.
+
+    Used to generate the C++ code examples in the operator documentation.
+
+    Parameters
+    ----------
+    reflection_type : str
+        The reflection type to convert.
+
+    Returns
+    -------
+    str
+        The corresponding C++ type.
+    """
+    if reflection_type == "abstract_meshed_region":
+        reflection_type = "meshed_region"
+    if reflection_type == "streams_container":
+        reflection_type = "streams"
+    if reflection_type == "int32":
+        return "int"
+    elif reflection_type in ["double", "bool"]:
+        return reflection_type
+    elif reflection_type == "string":
+        return "std::string"
+    elif reflection_type[:7] == "vector<":
+        inner_type = reflection_type[7:-1]
+        cpp_inner_type = reflection_type_to_cpp_type(inner_type)
+        return f"std::vector<{cpp_inner_type}>"
+    else:
+        reflection_type = f"ansys::dpf::{_snake_to_camel_case(reflection_type)}"
+    return reflection_type

@@ -13,8 +13,14 @@ StringIntCallback = ctypes.CFUNCTYPE(None, ctypes.c_char_p, ctypes.c_int)
 IntIntCallback = ctypes.CFUNCTYPE(None, ctypes.c_int, ctypes.c_int)
 GenericCallBackType = ctypes.CFUNCTYPE(None, ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p)
 
+# Flag indicating that load_api() is currently executing. Used by DPFVector.__del__
+# to avoid re-entrant C API calls during GC cycles that fire mid-initialization,
+# which can cause segfaults under Python 3.11 on Linux.
+_api_loading = False
+
 def load_api(path):
-	global dll
+	global dll, _api_loading
+	_api_loading = True
 	dll = ctypes.cdll.LoadLibrary(path)
 
 	#-------------------------------------------------------------------------------
@@ -143,6 +149,10 @@ def load_api(path):
 	if hasattr(dll, "Any_getAs_Support"):
 		dll.Any_getAs_Support.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Any_getAs_Support.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Any_getAs_LabelSpace"):
+		dll.Any_getAs_LabelSpace.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Any_getAs_LabelSpace.restype = ctypes.c_void_p
 
 	if hasattr(dll, "Any_makeObj_asAny"):
 		dll.Any_makeObj_asAny.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -906,6 +916,10 @@ def load_api(path):
 	if hasattr(dll, "DataProcessing_getServerVersion_on_client"):
 		dll.DataProcessing_getServerVersion_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_getServerVersion_on_client.restype = None
+
+	if hasattr(dll, "DataProcessing_getGrpcClientServerVersion"):
+		dll.DataProcessing_getGrpcClientServerVersion.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_getGrpcClientServerVersion.restype = None
 
 	if hasattr(dll, "DataProcessing_getServerIpAndPort"):
 		dll.DataProcessing_getServerIpAndPort.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -2063,6 +2077,14 @@ def load_api(path):
 		dll.CSField_GetEntityIndex.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSField_GetEntityIndex.restype = ctypes.c_int32
 
+	if hasattr(dll, "CSField_SetHeaderAsDataTree"):
+		dll.CSField_SetHeaderAsDataTree.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSField_SetHeaderAsDataTree.restype = None
+
+	if hasattr(dll, "CSField_GetHeaderAsDataTree"):
+		dll.CSField_GetHeaderAsDataTree.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSField_GetHeaderAsDataTree.restype = ctypes.c_void_p
+
 	if hasattr(dll, "CSField_GetData_For_DpfVector"):
 		dll.CSField_GetData_For_DpfVector.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.POINTER(ctypes.c_double)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSField_GetData_For_DpfVector.restype = None
@@ -2280,6 +2302,10 @@ def load_api(path):
 	if hasattr(dll, "Dimensionality_GetNumComp"):
 		dll.Dimensionality_GetNumComp.argtypes = (ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Dimensionality_GetNumComp.restype = ctypes.c_int32
+
+	if hasattr(dll, "FieldDefinition_deepCopy"):
+		dll.FieldDefinition_deepCopy.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FieldDefinition_deepCopy.restype = ctypes.c_void_p
 
 	if hasattr(dll, "FieldDefinition_new_on_client"):
 		dll.FieldDefinition_new_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -3253,6 +3279,10 @@ def load_api(path):
 		dll.CSPropertyField_new.argtypes = (ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_new.restype = ctypes.c_void_p
 
+	if hasattr(dll, "CSPropertyField_new_location"):
+		dll.CSPropertyField_new_location.argtypes = (ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_new_location.restype = ctypes.c_void_p
+
 	if hasattr(dll, "CSPropertyField_newWithTransformation"):
 		dll.CSPropertyField_newWithTransformation.argtypes = (ctypes.c_int32, ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_newWithTransformation.restype = ctypes.c_void_p
@@ -3329,6 +3359,10 @@ def load_api(path):
 		dll.CSPropertyField_SetEntityData.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_SetEntityData.restype = None
 
+	if hasattr(dll, "CSPropertyField_SetLocation"):
+		dll.CSPropertyField_SetLocation.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_SetLocation.restype = None
+
 	if hasattr(dll, "CSPropertyField_Resize"):
 		dll.CSPropertyField_Resize.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_Resize.restype = None
@@ -3373,6 +3407,14 @@ def load_api(path):
 		dll.CSPropertyField_SetFieldDefinition.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_SetFieldDefinition.restype = None
 
+	if hasattr(dll, "CSPropertyField_GetSupport"):
+		dll.CSPropertyField_GetSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_GetSupport.restype = ctypes.c_void_p
+
+	if hasattr(dll, "CSPropertyField_SetSupport"):
+		dll.CSPropertyField_SetSupport.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_SetSupport.restype = None
+
 	if hasattr(dll, "CSPropertyField_GetName"):
 		dll.CSPropertyField_GetName.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_GetName.restype = ctypes.POINTER(ctypes.c_char)
@@ -3392,6 +3434,10 @@ def load_api(path):
 	if hasattr(dll, "CSPropertyField_new_on_client"):
 		dll.CSPropertyField_new_on_client.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_new_on_client.restype = ctypes.c_void_p
+
+	if hasattr(dll, "CSPropertyField_new_location_on_client"):
+		dll.CSPropertyField_new_location_on_client.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_new_location_on_client.restype = ctypes.c_void_p
 
 	if hasattr(dll, "CSPropertyField_getCopy"):
 		dll.CSPropertyField_getCopy.argtypes = (ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -4230,6 +4276,10 @@ def load_api(path):
 		dll.CSCustomTypeField_GetEntityIndex.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSCustomTypeField_GetEntityIndex.restype = ctypes.c_int32
 
+	if hasattr(dll, "CSCustomTypeField_SetHeaderAsDataTree"):
+		dll.CSCustomTypeField_SetHeaderAsDataTree.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSCustomTypeField_SetHeaderAsDataTree.restype = None
+
 	if hasattr(dll, "CSCustomTypeField_new_on_client"):
 		dll.CSCustomTypeField_new_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSCustomTypeField_new_on_client.restype = ctypes.c_void_p
@@ -4264,6 +4314,10 @@ def load_api(path):
 	if hasattr(dll, "Support_getAsTimeFreqSupport"):
 		dll.Support_getAsTimeFreqSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Support_getAsTimeFreqSupport.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Support_getAsGenericSupport"):
+		dll.Support_getAsGenericSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Support_getAsGenericSupport.restype = ctypes.c_void_p
 
 	if hasattr(dll, "Support_getFieldSupportByProperty"):
 		dll.Support_getFieldSupportByProperty.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -5058,4 +5112,57 @@ def load_api(path):
 		dll.Workflow_create_connection_map_for_object.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Workflow_create_connection_map_for_object.restype = ctypes.c_void_p
 
+	#-------------------------------------------------------------------------------
+	# FbsRef
+	#-------------------------------------------------------------------------------
+	if hasattr(dll, "FbsRef_newWithFbsClient"):
+		dll.FbsRef_newWithFbsClient.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FbsRef_newWithFbsClient.restype = ctypes.c_void_p
+
+	if hasattr(dll, "FbsClient_new"):
+		dll.FbsClient_new.argtypes = (ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FbsClient_new.restype = ctypes.c_void_p
+
+	if hasattr(dll, "FbsClient_newWithChannel"):
+		dll.FbsClient_newWithChannel.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FbsClient_newWithChannel.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Any_getAs_FbsRef"):
+		dll.Any_getAs_FbsRef.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.POINTER(ctypes.c_size_t), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Any_getAs_FbsRef.restype = None
+
+	if hasattr(dll, "FbsClient_StartOrGetThreadServer"):
+		dll.FbsClient_StartOrGetThreadServer.argtypes = (ctypes.c_bool, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FbsClient_StartOrGetThreadServer.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Fbs_GetBytesBufferFromSlice"):
+		dll.Fbs_GetBytesBufferFromSlice.argtypes = (ctypes.c_void_p, ctypes.c_size_t, ctypes.POINTER(ctypes.c_size_t), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Fbs_GetBytesBufferFromSlice.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Fbs_CreateSliceFromBytesBuffer"):
+		dll.Fbs_CreateSliceFromBytesBuffer.argtypes = (ctypes.c_void_p, ctypes.c_size_t, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Fbs_CreateSliceFromBytesBuffer.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Fbs_DeleteChannel"):
+		dll.Fbs_DeleteChannel.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Fbs_DeleteChannel.restype = None
+
+	if hasattr(dll, "Fbs_DeleteSlice"):
+		dll.Fbs_DeleteSlice.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Fbs_DeleteSlice.restype = None
+
+	if hasattr(dll, "FbsRef_newWithFbsClient_on_client"):
+		dll.FbsRef_newWithFbsClient_on_client.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FbsRef_newWithFbsClient_on_client.restype = ctypes.c_void_p
+
+	if hasattr(dll, "FbsClient_new_on_client"):
+		dll.FbsClient_new_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FbsClient_new_on_client.restype = ctypes.c_void_p
+
+	if hasattr(dll, "FbsClient_StartOrGetThreadServer_on_client"):
+		dll.FbsClient_StartOrGetThreadServer_on_client.argtypes = (ctypes.c_void_p, ctypes.c_bool, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FbsClient_StartOrGetThreadServer_on_client.restype = ctypes.c_void_p
+
+
+	_api_loading = False
 

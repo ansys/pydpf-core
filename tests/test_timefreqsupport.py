@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -292,7 +292,6 @@ def test_deep_copy_time_freq_support_multi_stage():
     assert len(tf.get_harmonic_indices(1).data) == 6
 
 
-@conftest.raises_for_servers_version_under("3.0")
 def test_operator_connect_get_output_time_freq_support(velocity_acceleration):
     model = Model(velocity_acceleration)
     tf = model.metadata.time_freq_support
@@ -301,7 +300,6 @@ def test_operator_connect_get_output_time_freq_support(velocity_acceleration):
     assert np.allclose(tf.time_frequencies.data, tfout.time_frequencies.data)
 
 
-@conftest.raises_for_servers_version_under("3.0")
 def test_workflow_connect_get_output_time_freq_support(velocity_acceleration):
     model = Model(velocity_acceleration)
     tf = model.metadata.time_freq_support
@@ -342,7 +340,6 @@ def test_timefreqsupport_memory_leaks():
         harm_check = tfq.get_harmonic_indices()  # Call to get
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_getters_support_base(server_type):
     tfq = TimeFreqSupport(server=server_type)
     frequencies = fields_factory.create_scalar_field(3, server=server_type)

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -42,7 +42,7 @@ from ansys.dpf.gate import (
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf import core as dpf
-    from ansys.dpf.core import server_types
+    from ansys.dpf.core import LabelSpace, server_types
     from ansys.dpf.core.server_types import AnyServerType
     from ansys.grpc.dpf import data_sources_pb2
 
@@ -66,6 +66,8 @@ class DataSources:
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
         server.
+    key:
+        Explicit key to associate to the result file given as ``result_path``.
 
     Examples
     --------
@@ -85,6 +87,7 @@ class DataSources:
         result_path: Union[str, os.PathLike] = None,
         data_sources: Union[dpf.DataSources, int, data_sources_pb2.DataSources] = None,
         server: AnyServerType = None,
+        key: str = "",
     ):
         """Initialize a connection with the server."""
         # step 1: get server
@@ -127,7 +130,7 @@ class DataSources:
                 self._internal_obj = self._api.data_sources_new("data_sources")
 
         if result_path is not None:
-            self.set_result_file_path(result_path)
+            self.set_result_file_path(result_path, key=key)
 
     def set_result_file_path(
         self,
@@ -173,6 +176,8 @@ class DataSources:
         # Look for another extension for .h5 and .cff files
         if key == "" and extension in [".h5", ".cff"]:
             key = self.guess_second_key(str(filepath))
+        if key == "" and extension == ".h5":
+            key = "h5dpf"
         if key == "":
             self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
         else:
@@ -700,6 +705,64 @@ class DataSources:
             plugin when a result is requested by an operator.
         """
         return self._api.data_sources_get_namespace(self, result_key)
+
+    def label_space_for_path(self, index: int) -> LabelSpace:
+        """Return the label space associated with the path at the given index.
+
+        When files are added to the data sources with a domain ID (for distributed solves),
+        each path is internally tagged with a label space that describes the subset of the
+        model it covers.  This method retrieves that label space by the position of the path
+        in the data sources.
+
+        Parameters
+        ----------
+        index:
+            0-based index of the path in the data sources.
+
+        Returns
+        -------
+        LabelSpace
+            Label space associated with the path at the given index.  For domain files, this
+            contains at least the ``"domain_id"`` label whose value matches the domain ID
+            supplied when the path was added.  Returns an empty
+            :class:`LabelSpace <ansys.dpf.core.label_space.LabelSpace>` if no label space
+            was set for that path.
+
+        Examples
+        --------
+        Get the label space of distributed result files added with domain IDs.
+
+        >>> from ansys.dpf import core as dpf
+        >>>
+        >>> # Create the DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>> # Add two result files covering different domains
+        >>> my_data_sources.set_domain_result_file_path(path='/tmp/file0.rst', key='rst', domain_id=0)
+        >>> my_data_sources.set_domain_result_file_path(path='/tmp/file1.rst', key='rst', domain_id=1)
+        >>> # Retrieve the label space for the first path (domain_id=0)
+        >>> label_space_0 = my_data_sources.label_space_for_path(index=0)
+        >>> # Retrieve the label space for the second path (domain_id=1)
+        >>> label_space_1 = my_data_sources.label_space_for_path(index=1)
+
+        """
+        from ansys.dpf.core import LabelSpace
+
+        return LabelSpace(self._api.data_sources_get_label_space_by_path_index(self, index))
+
+    @property
+    def streams_container(self) -> dpf.StreamsContainer:
+        """Get the streams container representation of the data sources.
+
+        .. warning:: Only available with an InProcess server.
+
+        Returns
+        -------
+        streams_container:
+            StreamsContainer representation of the data sources.
+        """
+        from ansys.dpf.core.operators.metadata.streams_provider import streams_provider
+
+        return streams_provider(data_sources=self, server=self._server).outputs.streams_container()
 
     def __str__(self):
         """Describe the entity.

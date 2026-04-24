@@ -16,84 +16,8 @@ from ansys.dpf.core.server_types import AnyServerType
 
 
 class gasket_deformation_XZ(Operator):
-    r"""Read/compute elemental gasket deformation XZ shear component (02
-    component) by calling the readers defined by the datasources. Regarding
-    the requested location and the input mesh scoping, the result location
-    can be Nodal/ElementalNodal/Elemental.
-
-
-    Parameters
-    ----------
-    time_scoping: Scoping or int or float or Field, optional
-        time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
-    mesh_scoping: ScopingsContainer or Scoping, optional
-        nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains
-    fields_container: FieldsContainer, optional
-        FieldsContainer already allocated modified inplace
-    streams_container: StreamsContainer, optional
-        result file container allowed to be kept open to cache data
-    data_sources: DataSources
-        result file path container, used if no streams are set
-    bool_rotate_to_global: bool, optional
-        if true the field is rotated to global coordinate system (default true)
-    mesh: MeshedRegion or MeshesContainer, optional
-        prevents from reading the mesh in the result files
-    requested_location: str, optional
-        requested location, default is Nodal
-    read_cyclic: int, optional
-        if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
-    read_beams: bool, optional
-        elemental nodal beam results are read if this pin is set to true (default is false)
-
-    Returns
-    -------
-    fields_container: FieldsContainer
-
-    Examples
-    --------
-    >>> from ansys.dpf import core as dpf
-
-    >>> # Instantiate operator
-    >>> op = dpf.operators.result.gasket_deformation_XZ()
-
-    >>> # Make input connections
-    >>> my_time_scoping = dpf.Scoping()
-    >>> op.inputs.time_scoping.connect(my_time_scoping)
-    >>> my_mesh_scoping = dpf.ScopingsContainer()
-    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
-    >>> my_fields_container = dpf.FieldsContainer()
-    >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_streams_container = dpf.StreamsContainer()
-    >>> op.inputs.streams_container.connect(my_streams_container)
-    >>> my_data_sources = dpf.DataSources()
-    >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_bool_rotate_to_global = bool()
-    >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
-    >>> my_mesh = dpf.MeshedRegion()
-    >>> op.inputs.mesh.connect(my_mesh)
-    >>> my_requested_location = str()
-    >>> op.inputs.requested_location.connect(my_requested_location)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
-    >>> my_read_beams = bool()
-    >>> op.inputs.read_beams.connect(my_read_beams)
-
-    >>> # Instantiate operator and connect inputs in one line
-    >>> op = dpf.operators.result.gasket_deformation_XZ(
-    ...     time_scoping=my_time_scoping,
-    ...     mesh_scoping=my_mesh_scoping,
-    ...     fields_container=my_fields_container,
-    ...     streams_container=my_streams_container,
-    ...     data_sources=my_data_sources,
-    ...     bool_rotate_to_global=my_bool_rotate_to_global,
-    ...     mesh=my_mesh,
-    ...     requested_location=my_requested_location,
-    ...     read_cyclic=my_read_cyclic,
-    ...     read_beams=my_read_beams,
-    ... )
-
-    >>> # Get output data
-    >>> result_fields_container = op.outputs.fields_container()
+    r""".. warning::
+        Deprecated: Renamed as 'gasket_total_closure_XZ'.
     """
 
     def __init__(
@@ -111,6 +35,7 @@ class gasket_deformation_XZ(Operator):
         config=None,
         server=None,
     ):
+        warn(DeprecationWarning(f"Operator 'gasket_deformation_XZ' is renamed as 'gasket_total_closure_XZ'."))
         super().__init__(name="GKDXZ", config=config, server=server)
         self._inputs = InputsGasketDeformationXz(self)
         self._outputs = OutputsGasketDeformationXz(self)

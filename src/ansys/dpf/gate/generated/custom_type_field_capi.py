@@ -290,6 +290,15 @@ class CustomTypeFieldCAPI(custom_type_field_abstract_api.CustomTypeFieldAbstract
 		return res
 
 	@staticmethod
+	def cscustom_type_field_set_header_as_data_tree(field, header):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.CSCustomTypeField_SetHeaderAsDataTree(field._internal_obj if field is not None else None, header._internal_obj if header is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def cscustom_type_field_new_on_client(client, type, unitarySize, numEntities, numUnitaryData):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

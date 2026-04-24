@@ -19,8 +19,8 @@ class for_each(Operator):
     r"""Allows to write a loop over a chunk of operators.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     iterable:
         Either the result of the make_iterable_info operator, or the operator that must be incremented.
     iterable_values: optional
@@ -28,7 +28,7 @@ class for_each(Operator):
     forward1:
     forward2:
 
-    Returns
+    Outputs
     -------
     empty:
     output1:
@@ -78,9 +78,13 @@ class for_each(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="for_each", config=config, server=server)
-        self._inputs = InputsForEach(self)
-        self._outputs = OutputsForEach(self)
+        super().__init__(
+            name="for_each",
+            config=config,
+            server=server,
+            inputs_type=InputsForEach,
+            outputs_type=OutputsForEach,
+        )
         if iterable is not None:
             self.inputs.iterable.connect(iterable)
         if iterable_values is not None:
@@ -180,7 +184,7 @@ class for_each(Operator):
         inputs:
             An instance of InputsForEach.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsForEach:
@@ -191,7 +195,7 @@ class for_each(Operator):
         outputs:
             An instance of OutputsForEach.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsForEach(_Inputs):
@@ -216,15 +220,15 @@ class InputsForEach(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(for_each._spec().inputs, op)
-        self._iterable = Input(for_each._spec().input_pin(0), 0, op, -1)
+        self._iterable: Input = Input(for_each._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._iterable)
-        self._iterable_values = Input(for_each._spec().input_pin(1), 1, op, -1)
+        self._iterable_values: Input = Input(for_each._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._iterable_values)
-        self._pin_index = Input(for_each._spec().input_pin(2), 2, op, -1)
+        self._pin_index: Input[int] = Input(for_each._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._pin_index)
-        self._forward1 = Input(for_each._spec().input_pin(3), 3, op, 0)
+        self._forward1: Input = Input(for_each._spec().input_pin(3), 3, op, 0)
         self._inputs.append(self._forward1)
-        self._forward2 = Input(for_each._spec().input_pin(4), 4, op, 1)
+        self._forward2: Input = Input(for_each._spec().input_pin(4), 4, op, 1)
         self._inputs.append(self._forward2)
 
     @property
@@ -268,7 +272,7 @@ class InputsForEach(_Inputs):
         return self._iterable_values
 
     @property
-    def pin_index(self) -> Input:
+    def pin_index(self) -> Input[int]:
         r"""Allows to connect pin_index input to the operator.
 
         Returns
@@ -341,11 +345,11 @@ class OutputsForEach(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(for_each._spec().outputs, op)
-        self._empty = Output(for_each._spec().output_pin(0), 0, op)
+        self._empty: Output = Output(for_each._spec().output_pin(0), 0, op)
         self._outputs.append(self._empty)
-        self._output1 = Output(for_each._spec().output_pin(3), 3, op)
+        self._output1: Output = Output(for_each._spec().output_pin(3), 3, op)
         self._outputs.append(self._output1)
-        self._output2 = Output(for_each._spec().output_pin(4), 4, op)
+        self._output2: Output = Output(for_each._spec().output_pin(4), 4, op)
         self._outputs.append(self._output2)
 
     @property

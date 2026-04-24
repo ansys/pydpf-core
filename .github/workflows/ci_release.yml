@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       ansys_version:
-        description: "Ansys version of the standalone."
+        description: "ANSYS version"
         required: false
-        default: '251'
+        type: string
       standalone_branch_suffix:
         description: 'Suffix of the branch on standalone'
         required: false
@@ -27,11 +27,18 @@ on:
 #│ │ │ │ │
 #* * * * *
 
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
 
 jobs:
   debug:
+    name: "Debug"
     runs-on: ubuntu-latest
     steps:
     - name: Show the Github context for the triggered event
@@ -42,19 +49,27 @@ jobs:
   style:
     name: "Style Check"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: ansys/actions/code-style@v8
+      - uses: ansys/actions/code-style@7d55ff0b9f67c77dae50a286d711ee1ae27b0a25 # v10.2.12
         with:
           use-python-cache: false
 
   build_linux1:
     name: "Build linux1 wheel"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: "Install requirements"
-        run: pip install -r requirements/requirements_build.txt
+        run: |
+          pip install -U pip
+          pip install --group build
 
       - name: "Build the manylinux1 wheel"
         shell: bash
@@ -68,15 +83,18 @@ jobs:
           cd ..
 
       - name: "Upload wheel any as artifact"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
 
   tests:
     name: "Test ${{ matrix.test_any && 'any' || 'platform-specific' }} wheel"
+    permissions:
+      contents: read # Required by tests.yml jobs
     uses: ./.github/workflows/tests.yml
     strategy:
+      fail-fast: false
       matrix:
         include:
           - python_versions: '["3.10"]'
@@ -84,7 +102,7 @@ jobs:
             wheelhouse: true
             DOCSTRING: true
             test_any: false
-          - python_versions: '["3.11", "3.12", "3.13"]'
+          - python_versions: '["3.11", "3.12", "3.13", "3.14"]'
             wheel: false
             wheelhouse: true
             DOCSTRING: false
@@ -94,106 +112,136 @@ jobs:
             wheelhouse: false
             DOCSTRING: false
             test_any: true
-          - python_versions: '["3.11", "3.12", "3.13"]'
+          - python_versions: '["3.11", "3.12", "3.13", "3.14"]'
             wheel: false
             wheelhouse: false
             DOCSTRING: false
             test_any: true
     with:
-      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).version }}
       python_versions: ${{ matrix.python_versions }}
       wheel: ${{ matrix.wheel }}
       wheelhouse: ${{ matrix.wheelhouse }}
       DOCSTRING: ${{ matrix.DOCSTRING }}
       test_any: ${{ matrix.test_any }}
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-    secrets: inherit
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).patch }}
+    secrets:
+      LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
+      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   docs:
+    permissions:
+      contents: read # Required by docs.yml jobs
+      pull-requests: write # Required by doc-style job
     uses: ./.github/workflows/docs.yml
     with:
-      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      ANSYS_VERSION: ${{ inputs.ansys_version || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).version }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).patch }}
       event_name: ${{ github.event_name }}
-    secrets: inherit
+    secrets:
+      LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
+      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
 
   examples:
+    permissions:
+      contents: read # Required by examples.yml jobs
     uses: ./.github/workflows/examples.yml
     with:
-      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
-      python_versions: '["3.10", "3.11", "3.12", "3.13"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-    secrets: inherit
+      ANSYS_VERSION: ${{ inputs.ansys_version || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).version }}
+      python_versions: '["3.10", "3.11", "3.12", "3.13", "3.14"]'
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).patch }}
+    secrets:
+      LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
+      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
 
   tests-retro:
-    name: "Test DPF ${{ matrix.dpf.version }} compatibility"
+    name: "Test DPF ${{ matrix.version.version }}${{ matrix.version.patch }} compatibility"
+    permissions:
+      contents: read # Required by tests.yml jobs
     strategy:
       fail-fast: false
       matrix:
-        dpf:
-          - {"version": "242", "standalone-suffix": ""}
-          - {"version": "241", "standalone-suffix": ".sp01"}
-          - {"version": "232", "standalone-suffix": ""}
-          - {"version": "231", "standalone-suffix": ""}
-          - {"version": "222", "standalone-suffix": ""}
+        version:
+          - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO_WITH_PATCH) }}
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: ${{ matrix.dpf.version }}
+      ANSYS_VERSION: ${{ matrix.version.version }}
       python_versions: '["3.10"]'
       DOCSTRING: false
-      standalone_suffix: ${{ matrix.dpf.standalone-suffix }}
-    secrets: inherit
+      standalone_suffix: ${{ matrix.version.patch }}
+    secrets:
+      LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
+      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   tests-pydpf-post:
-    name: "Test PyDPF-Post with ${{ matrix.dpf.version}}"
+    name: "Test PyDPF-Post with ${{ matrix.version.version }}${{ matrix.version.patch }}"
+    permissions:
+      contents: read # Required by pydpf-post.yml jobs
+      pull-requests: write # Required for posting test outcome comments
     strategy:
       fail-fast: false
       matrix:
-        dpf:
-          - {"version": "251", "standalone-suffix": "${{ github.event.inputs.standalone_branch_suffix || '' }}", "test_docstrings": "true"}
-          - {"version": "242", "standalone-suffix": "", "test_docstrings": "false"}
-          - {"version": "241", "standalone-suffix": "", "test_docstrings": "false"}
-          - {"version": "232", "standalone-suffix": "", "test_docstrings": "false"}
-          - {"version": "231", "standalone-suffix": "", "test_docstrings": "false"}
-          - {"version": "222", "standalone-suffix": "", "test_docstrings": "false"}
+        version:
+          - ${{ fromJson(vars.ANSYS_VERSIONS_RETRO_WITH_PATCH) }}
+        test_docstrings:
+          - "false"
+        include:
+          - version: ${{ fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH) }}
+            test_docstrings": "true"
     uses: ./.github/workflows/pydpf-post.yml
     with:
-      ANSYS_VERSION: ${{ matrix.dpf.version }}
-      standalone_suffix: ${{ matrix.dpf.standalone-suffix }}
-      test_docstrings: ${{ matrix.dpf.test_docstrings }}
-    secrets: inherit
+      ANSYS_VERSION: ${{ matrix.version.version }}
+      standalone_suffix: ${{ matrix.version.patch }}
+      test_docstrings: ${{ matrix.test_docstrings }}
+      post_branch: latest
+    secrets:
+      LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
+      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
 
   docker_tests:
     name: "Build and Test on Docker"
+    permissions:
+      contents: read # Required by test_docker.yml jobs
     uses: ./.github/workflows/test_docker.yml
     with:
-      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-    secrets: inherit
+      ANSYS_VERSION: ${{ inputs.ansys_version || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).version }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).patch }}
+    secrets:
+      LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
+      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   docker_examples:
     name: "Run examples on Docker"
+    permissions:
+      contents: read # Required by examples_docker.yml jobs
     uses: ./.github/workflows/examples_docker.yml
     with:
-      ANSYS_VERSION: ${{ inputs.ansys_version || '251' }}
-      python_versions: '["3.10", "3.11", "3.12", "3.13"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-    secrets: inherit
+      ANSYS_VERSION: ${{ inputs.ansys_version || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).version }}
+      python_versions: '["3.10", "3.11", "3.12", "3.13", "3.14"]'
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).patch }}
+    secrets:
+      LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
+      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
 
   draft_release:
     name: "Draft Release"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     needs: [style, tests, docs, examples, tests-retro, docker_tests]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required for creating releases
     steps:
       - name: "Download artifacts"
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
 
       - name: "Display downloaded files"
         run: ls -R
 
       - name: "Create draft release"
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
         with:
           files: |
             ./**/*.whl

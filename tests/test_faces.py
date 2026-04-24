@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -41,10 +41,6 @@ def mesh_wo_faces(simple_bar):
     return model.metadata.meshed_region
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="mesh faces were not supported before 7.0",
-)
 def test_faces(model_faces):
     assert str(model_faces) == "DPF Faces object with 44242 faces"
     assert len(model_faces) == 44242
@@ -66,10 +62,6 @@ def test_faces(model_faces):
     assert mask[1] == True
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="mesh faces were not supported before 7.0",
-)
 def test_face(model_faces):
     face = model_faces.face_by_id(4500)
     ref_str = """DPF Face 4500
@@ -78,7 +70,10 @@ def test_face(model_faces):
 \tType:       element_types.Quad4
 """
     assert str(face) == ref_str
-    assert face.node_ids == [4688, 4679, 4663, 4677]
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        assert face.node_ids == [4677, 4663, 4679, 4688]
+    else:
+        assert face.node_ids == [4688, 4679, 4663, 4677]
     assert face.id == 4500
     assert face.type == element_types.Quad4
     assert face.n_nodes == 4
@@ -90,13 +85,12 @@ Index:         4676
 Location: [-0.022856459489947675, -0.08534214957826106, -0.013310679234564304]
 """
 
-    assert str(face.nodes[3]) == ref_node_str
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        assert str(face.nodes[0]) == ref_node_str
+    else:
+        assert str(face.nodes[3]) == ref_node_str
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="faces location was not supported before 7.0",
-)
 def test_face_scoping():
     faces_sco = mesh_scoping_factory.face_scoping([56, 78, 4])
     assert faces_sco.location == dpf.locations.faces
@@ -104,10 +98,6 @@ def test_face_scoping():
     assert faces_sco.ids[2] == 4
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="faces location was not supported before 7.0",
-)
 def test_mesh_without_faces(mesh_wo_faces):
     assert mesh_wo_faces.faces.n_faces == 0
     assert mesh_wo_faces.faces.scoping.size == 0

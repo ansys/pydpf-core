@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -82,10 +82,6 @@ def test_update_empty_dpf_vector_field(server_type):
     assert np.allclose(field.get_entity_data(1), [0])
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="change in memory ownership in server 7.0",
-)
 def test_update_empty_dpf_vector_string_field(server_type):
     string_field = dpf.StringField(server=server_type)
     string_field.data = ["high", "goodbye", "hello"]
@@ -96,7 +92,6 @@ def test_update_empty_dpf_vector_string_field(server_type):
     assert string_field.get_entity_data(1) == ["goodbye"]
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_update_empty_dpf_vector_custom_type_field(server_type):
     field = dpf.CustomTypeField(unitary_type=np.double, server=server_type)
     field.data = np.zeros((100), dtype=np.double)

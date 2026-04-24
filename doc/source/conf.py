@@ -1,6 +1,8 @@
 from datetime import datetime
 from glob import glob
 import os
+import shutil
+import sys
 from pathlib import Path
 import subprocess
 
@@ -12,9 +14,14 @@ from ansys_sphinx_theme import (
 )
 import numpy as np
 import pyvista
+from pyvista.plotting.utilities.sphinx_gallery import DynamicScraper
 
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
+
+# Make sphinx_utilities modules importable
+sys.path.append(os.path.join(os.path.dirname(__file__), "../sphinx_utilities"))
+from version_filtering import get_tutorial_version_requirements
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -55,21 +62,40 @@ server_instance = server.start_local_server(
 )
 server_version = server_instance.version
 server.shutdown_all_session_servers()
-print(f"DPF version: {server_version}")
+print("".rjust(40, '*'))
+print(f"Doc built for DPF server version {server_version} at:\n{server_instance.ansys_path}")
+print("".rjust(40, '*'))
 
 # Build ignore pattern
 ignored_pattern = r"(ignore"
-header_flag = "\"\"\""
-note_flag = r".. note::"
-for example in glob(r"../../examples/**/*.py"):
+for example in sorted(
+    glob(r"../sphinx_gallery_examples/**/*.py") +
+    glob(r"../sphinx_gallery_tutorials/**/*.py")
+):
     minimum_version_str = get_example_required_minimum_dpf_version(example)
     if float(server_version) - float(minimum_version_str) < -0.05:
         example_name = example.split(os.path.sep)[-1]
-        print(f"Example {example_name} skipped as it requires DPF {minimum_version_str}.")
+        print(f"Example/tutorial {example_name} skipped as it requires DPF {minimum_version_str}.")
         ignored_pattern += f"|{example_name}"
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
 ignored_pattern += r")"
+
+exclude_patterns = []
+for tutorial_file in glob(str(Path("tutorials")/"**"/"*.rst")):
+    if Path(tutorial_file).name == "index.rst":
+        continue
+    minimum_version_str = get_tutorial_version_requirements(tutorial_file)
+    if float(server_version) - float(minimum_version_str) < -0.05:
+        print(f"Tutorial {Path(tutorial_file).name} skipped as it requires DPF {minimum_version_str}.")
+        exclude_patterns.append(tutorial_file.replace("\\", "/"))
+
+if os.environ.get("BUILD_API", "true") != "true":
+    exclude_patterns.append("api/**")
+    print("BUILD_API=false: skipping api/ source tree.")
+
+if os.environ.get("BUILD_TUTORIALS", "true") != "true":
+    print("BUILD_TUTORIALS=false: skipping tutorial content files.")
 
 # Autoapi ignore pattern
 autoapi_ignore_list = [
@@ -83,14 +109,12 @@ autoapi_ignore_list = [
     "*/check_version.py",
     "*/operators/build.py",
     "*/operators/specification.py",
-    "*/vtk_helper.py",
     "*/label_space.py",
     "*/examples/python_plugins/*",
     "*/examples/examples.py",
     "*/gate/*",
     "*/gatebin/*",
     "*/grpc/*",
-    "*/property_fields_container.py"
 ]
 
 # -- General configuration ---------------------------------------------------
@@ -113,6 +137,7 @@ extensions = [
     "sphinx_design",
     "sphinx_jinja",
     'sphinx_reredirects',
+    'pyvista.ext.viewer_directive',
 ]
 
 redirects = {
@@ -124,8 +149,7 @@ redirects = {
 typehints_defaults = "comma"
 typehints_use_signature = True
 simplify_optional_unions = False
-suppress_warnings = ['autosectionlabel.*']
-
+autosectionlabel_prefix_document = True
 # Intersphinx mapping
 intersphinx_mapping = {
     "pyvista": ("https://docs.pyvista.org/", None),
@@ -133,6 +157,7 @@ intersphinx_mapping = {
 
 autosummary_generate = False
 
+autodoc_mock_imports = ["ansys.dpf.core.examples.python_plugins"]
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
@@ -156,64 +181,84 @@ language = "en"
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns.extend(["links_and_refs.rst"])
+
+# make rst_epilog a variable, so you can add other epilog parts to it
+rst_epilog = ""
+
+# Read links and targets from file
+with open("links_and_refs.rst") as f:
+    rst_epilog += f.read()
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
 
 
 # -- Sphinx Gallery Options
-from sphinx_gallery.sorting import FileNameSortKey
 
+# Absolute path to the directory containing conf.py, used to resolve
+# gallery sub-section paths which sphinx-gallery passes relative to srcdir.
+def _read_order(filepath):
+    """Return the integer declared by ``# _order: N`` in the first 30 lines, or inf.
 
-def reset_servers(gallery_conf, fname, when):
-    import gc
+    To set the order of a tutorial within its section, add ``# _order: N``
+    just before the module docstring (right after the copyright block).
+    Subsection ordering is controlled by the toctree in
+    ``doc/sphinx_gallery_tutorials/index.rst``.
+    """
+    import re
+    _patt = re.compile(r"_order:\s*(\d+)")
+    try:
+        with open(filepath, encoding="utf-8") as fh:
+            for _ in range(30):
+                line = fh.readline()
+                if not line:
+                    break
+                m = _patt.search(line)
+                if m:
+                    return int(m.group(1))
+    except OSError:
+        pass
+    return float("inf")
 
-    import psutil
+class _TutorialFileOrder:
+    """For sphinx_gallery_conf['within_subsection_order']: reads ``# _order: N``
+    from each .py tutorial file."""
 
-    from ansys.dpf.core import server
+    def __init__(self, src_dir):
+        self._src_dir = Path(src_dir)
 
-    gc.collect()
-    server.shutdown_all_session_servers()
-
-    proc_name = "Ans.Dpf.Grpc"
-    nb_procs = 0
-    for proc in psutil.process_iter():
-        try:
-            # check whether the process name matches
-            if proc_name in proc.name():
-                proc.kill()
-                nb_procs += 1
-        except psutil.NoSuchProcess:
-            pass
-    print(f"Counted {nb_procs} {proc_name} processes {when} example {fname}.")
+    def __call__(self, filename):
+        return _read_order(self._src_dir / filename)
 
 
 sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
+    # copy index.rst files provided by the user into the gallery output
+    "copyfile_regex": r"index\.rst",
     # path to your examples scripts
-    "examples_dirs": ["../../examples"],
+    "examples_dirs": ["../sphinx_gallery_examples", "../sphinx_gallery_tutorials"],
     # abort build at first example error
     'abort_on_example_error': True,
     # path where to save gallery generated examples
-    "gallery_dirs": ["examples"],
+    "gallery_dirs": ["examples", "tutorials"],
     # Pattern to search for example files
     "filename_pattern": r"\.py",
     # Pattern to search for example files to be ignored
     "ignore_pattern": ignored_pattern,
     # Remove the "Download all examples" button from the top level gallery
     "download_all_examples": False,
-    # Sort gallery example by file name instead of number of lines (default)
-    "within_subsection_order": FileNameSortKey,
+    # Order subsections and files within subsections explicitly
+    "within_subsection_order": _TutorialFileOrder,
     # directory where function granular galleries are stored
     "backreferences_dir": None,
-    "image_scrapers": ("pyvista", "matplotlib"),
+    "image_scrapers": (DynamicScraper(), "matplotlib"),
     # 'first_notebook_cell': ("%matplotlib inline\n"
     #                         "from pyvista import set_plot_theme\n"
     #                         "set_plot_theme('document')"),
     "reset_modules_order": 'both',
-    "reset_modules": (reset_servers,),
+    "reset_modules": ("reset_servers.reset_servers",),
 }
 
 
@@ -222,6 +267,8 @@ html_short_title = html_title = "PyDPF-Core"
 html_theme = "ansys_sphinx_theme"
 html_favicon = ansys_favicon
 html_theme_options = {
+    "announcement": """Starting with PyDPF-Core 0.15.0, gRPC communication with the DPF server defaults to requiring mTLS authentication.
+Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dpf_server.html#run-dpf-server-in-secure-mode-with-mtls'>this page</a> for more information.""",
     "logo": {
         "image_dark": pyansys_logo_dark_mode,
         "image_light": pyansys_logo_light_mode,
@@ -263,7 +310,13 @@ html_theme_options = {
         "ignore": autoapi_ignore_list,
         "add_toctree_entry": True,
         "member_order": "bysource",
-    }
+    },
+    "cheatsheet": {
+        "file": "cheatsheet/cheat_sheet.qmd",
+        "pages": ["index", "getting_started/index", "tutorials/index", "user_guide/index"],
+        "title": "PyDPF-Core cheat sheet",
+        "version": __version__,
+    },
 }
 
 # Configuration for Sphinx autoapi
@@ -272,6 +325,9 @@ suppress_warnings = [
     "design.grid",
     "config.cache",
     "design.fa-build",
+    "autosectionlabel.*",
+    "ref.python",
+    "toc.not_included",
 ]
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -377,6 +433,40 @@ epub_title = project
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
 
+def _copy_labels_images(app, exception):
+    """Override sphinx-gallery images for 03-labels.py example.
+
+    The images captured during CI run do not show the labels as expected,
+    and the behavior is not reproducible locally. This hook replaces whatever
+    sphinx-gallery generated during the CI run.
+    """
+    _LABELS_IMAGES_SRC = Path(__file__).parent / "images" / "plotting"
+    _LABELS_IMAGES_PATTERN = "sphx_glr_03-labels"
+    if exception:
+        return
+    target_dir = Path(app.outdir) / "_images"
+    if not target_dir.exists():
+        return
+    for src in _LABELS_IMAGES_SRC.glob(f"{_LABELS_IMAGES_PATTERN}*"):
+        dst = target_dir / src.name
+        shutil.copy2(src, dst)
+
+# Define custom docutils roles for solver badges
+from sphinx_design.badges_buttons import BadgeRole
+
+def setup(app):
+    badge_roles = {
+        "bdg-mapdl": "mapdl",
+        "bdg-cfx": "cfx",
+        "bdg-fluent": "fluent",
+        "bdg-lsdyna": "lsdyna"
+    }
+
+    for role_name, color in badge_roles.items():
+        app.add_role(name=role_name, role=BadgeRole(color))
+
+    app.connect("build-finished", _copy_labels_images)
+
 # Common content for every RST file such us links
 rst_epilog = ""
 links_filepath = Path(__file__).parent.absolute() / "links.rst"
@@ -392,12 +482,6 @@ envs.remove("default environments:")
 envs.remove("additional environments:")
 envs.remove("")
 
-jinja_contexts = {
-    "toxenvs" : {
-        "envs": envs,
-    }
-}
-
 # Optionally exclude api or example documentation generation.
 BUILD_API = True if os.environ.get("BUILD_API", "true") == "true" else False
 if BUILD_API:
@@ -406,3 +490,36 @@ if BUILD_API:
 BUILD_EXAMPLES = True if os.environ.get("BUILD_EXAMPLES", "true") == "true" else False
 if BUILD_EXAMPLES:
     extensions.extend(["sphinx_gallery.gen_gallery"])
+
+BUILD_TUTORIALS = True if os.environ.get("BUILD_TUTORIALS", "true") == "true" else False
+if BUILD_TUTORIALS and not BUILD_EXAMPLES:
+    extensions.extend(["sphinx_gallery.gen_gallery"])
+    # Restrict to tutorials only when examples gallery is disabled
+    sphinx_gallery_conf["examples_dirs"] = ["../sphinx_gallery_tutorials"]
+    sphinx_gallery_conf["gallery_dirs"] = ["tutorials"]
+elif not BUILD_TUTORIALS:
+    # Remove tutorials from the combined gallery when tutorials are disabled
+    sphinx_gallery_conf["examples_dirs"] = ["../sphinx_gallery_examples"]
+    sphinx_gallery_conf["gallery_dirs"] = ["examples"]
+
+BUILD_CHEATSHEET = True if os.environ.get("BUILD_CHEATSHEET", "true") == "true" else False
+if not BUILD_CHEATSHEET:
+    html_theme_options.pop("cheatsheet")
+
+jinja_contexts = {
+    "toxenvs" : {
+        "envs": envs,
+    },
+    "toctree" : {
+        "build_api": BUILD_API,
+        "build_examples": BUILD_EXAMPLES,
+        "build_tutorials": BUILD_TUTORIALS,
+    },
+}
+
+print(f"{extensions=}")
+
+# PyAnsys tags configuration
+html_context = {
+    "pyansys_tags": ['Structures', 'Fluids', 'Multiphysics']
+}

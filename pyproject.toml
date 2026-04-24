@@ -1,63 +1,129 @@
 [build-system]
 build-backend = "setuptools.build_meta"
-requires = ["setuptools>=61.0.0", "wheel"]
+requires = ["setuptools>=82.0.1", "wheel"]
 
 [project]
 # Check https://setuptools.pypa.io/en/stable/userguide/quickstart.html for all available sections
 name = "ansys-dpf-core"
-version = "0.13.9.dev0"
+version = "0.16.0.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
-requires-python = ">=3.9, <4"
-license = {file = "LICENSE"}
+requires-python = ">=3.10, <4"
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
-    {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"},
+    {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"}
 ]
 maintainers = [
-    {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"},
+    {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"}
 ]
 
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering :: Information Analysis",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX",
-    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3"
 ]
 dependencies = [
-    "grpcio >=1.63.0",
+    "ansys-tools-common",
+    "grpcio >=1.80.0",
     "importlib-metadata >=4.0",
     "numpy",
     "packaging",
     "protobuf",
     "psutil",
     "setuptools",
-    "tqdm",
+    "tqdm"
 ]
 
 [project.optional-dependencies]
 graphics = [
     # 2D chart plotting
-    "matplotlib>=3.2",
+    "matplotlib>=3.10.8",
     # 3D plotting
-    "pyvista>=0.32.0",
+    "pyvista>=0.47.3",
+    "ansys-tools-visualization-interface==1.0.0a1",
     "vtk!=9.4.0",
     # Animations
     "imageio",
-    "imageio-ffmpeg",
+    "imageio-ffmpeg"
 ]
 
 plotting = [
     # 2D chart plotting
-    "matplotlib>=3.2",
+    "matplotlib>=3.10.8",
     # 3D plotting
-    "pyvista>=0.32.0",
+    "pyvista>=0.47.3",
+    "ansys-tools-visualization-interface==1.0.0a1",
     "vtk",
     # Animations
     "imageio",
-    "imageio-ffmpeg",
+    "imageio-ffmpeg"
+]
+
+operator_doc = [
+    # Operator documentation generation
+    "jinja2"
+]
+
+[dependency-groups]
+
+doc = [
+  "ansys-sphinx-theme[autoapi]==1.7.2",
+  "ansys-tools-visualization-interface==1.0.0a1",
+  "enum-tools[sphinx]==0.13.0",
+  "graphviz==0.21",
+  "imageio==2.37.3",
+  "imageio-ffmpeg==0.6.0",
+  "jupyter_sphinx==0.5.3",
+  "pdf2image==1.17.0",
+  "nbsphinx==0.9.8",
+  "pypandoc==1.17",
+  "pytest-sphinx==0.7.1",
+  "pyvista[jupyter]==0.47.3",
+  "quarto-cli==1.9.37",
+  "sphinx==8.2.3",
+  "sphinx-copybutton==0.5.2",
+  "sphinx-gallery==0.20.0",
+  "sphinx-jinja==2.0.2",
+  "sphinx-notfound-page==1.1.0",
+  "sphinx-reredirects==0.1.6",
+  "sphinx_design==0.7.0",
+  "sphinxcontrib-napoleon==0.7",
+  "vtk==9.6.0"
+]
+test = [
+  "ansys-platform-instancemanagement==1.1.2",
+  "ansys-tools-common==0.5.0",
+  "ansys-tools-visualization-interface==1.0.0a1",
+  "coverage==7.13.5",
+  "graphviz==0.21",
+  "imageio==2.37.3",
+  "imageio-ffmpeg==0.6.0",
+  "jinja2==3.1.6",
+  "pypandoc_binary==1.17",
+  "pytest==9.0.3",
+  "pytest-cov==7.1.0",
+  "pytest-order==1.3.0",
+  "pytest-rerunfailures==16.1",
+  "pyvista==0.47.3",
+  "vtk==9.6.0"
+]
+build = [
+  "black==26.3.1",
+  "build==1.4.3",
+  "chevron==0.14.0",
+  "pypandoc_binary==1.17",
+  "wheel==0.46.3"
+]
+install = [
+  "importlib-metadata==9.0.0",
+  "numpy==2.4.1",
+  "packaging==26.1",
+  "psutil==7.2.2",
+  "tqdm==4.67.3"
 ]
 
 [project.urls]
@@ -65,6 +131,9 @@ Homepage = "https://dpf.docs.pyansys.com/"
 Documentation = "https://dpf.docs.pyansys.com/"
 Source = "https://github.com/ansys/pydpf-core"
 Tracker = "https://github.com/ansys/pydpf-core/issues"
+
+[project.scripts]
+dpf_generate_operators_doc = "ansys.dpf.core.documentation.generate_operators_doc:run_with_args"
 
 [tool.ruff]
 line-length = 100
@@ -105,6 +174,7 @@ known-first-party = ["ansys"]
 
 [tool.coverage.run]
 source = ["ansys.dpf.core"]
+patch = ["subprocess"]
 
 [tool.coverage.report]
 show_missing = true
@@ -115,4 +185,10 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 "ansys.dpf.gatebin" = ["*.so", "*.dll"]
+"ansys.dpf.core.documentation" = ["toc_template.j2", "operator_doc_template.j2"]
 
+[tool.pytest]
+#filterwarnings = ['ignore:Use explicit output-to-input connections:DeprecationWarning']
+norecursedirs = ["*"]
+doctest_optionflags = ["NORMALIZE_WHITESPACE", "ELLIPSIS"]
+markers = ["slow: mark a test as slow."]

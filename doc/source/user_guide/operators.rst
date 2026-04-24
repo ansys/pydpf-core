@@ -56,16 +56,19 @@ The library of DPF operators is large and includes file readers and mathematical
 geometrical, and logical transformations. For more information on this library,
 which is progressively enhanced, see :ref:`ref_dpf_operators_reference`.
 
+Despite the large number of operators proposed by the standard DPF installation, you may want to
+create your own operators and ship them as DPF plugins.
+See the tutorials section on custom operators and plugins to learn more.
 
-Create operators
-~~~~~~~~~~~~~~~~
-Each operator is of type :py:mod:`Operator <ansys.dpf.core.dpf_operator>`. You can create an instance 
+Instantiate operators
+~~~~~~~~~~~~~~~~~~~~~
+Each operator is of type :py:mod:`Operator <ansys.dpf.core.dpf_operator>`. You can instantiate an operator
 in Python with any of the derived classes available in the
 :py:mod:`ansys.dpf.core.operators` package or directly with the :py:mod:`Operator <ansys.dpf.core.dpf_operator>`
 class using the internal name string that indicates the operator type. 
 For more information, see :ref:`ref_dpf_operators_reference`.
 
-This example shows how to create the displacement operator:
+This example shows how to instantiate the displacement operator:
 
 .. code-block:: python
 

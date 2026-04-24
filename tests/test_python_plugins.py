@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -39,13 +39,9 @@ from ansys.dpf.core.operator_specification import (
 )
 import conftest
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
 )
 
-if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
-    pytest.skip("Requires server version higher than 4.0", allow_module_level=True)
 # if platform.python_version().startswith("3.7"):
 #     pytest.skip(
 #         "Known failures in the GitHub pipelines for 3.7",
@@ -132,7 +128,6 @@ def test_property_field(server_type_remote_process, testfiles_dir):
     )
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_string_field(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.StringField(server=server_type_remote_process)
@@ -142,7 +137,6 @@ def test_string_field(server_type_remote_process, testfiles_dir):
     assert op.get_output(0, dpf.types.string_field).data == ["hello", "good"]
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_custom_type_field(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.CustomTypeField(np.uint64, server=server_type_remote_process)
@@ -231,7 +225,6 @@ def test_data_tree(server_type_remote_process, testfiles_dir):
     assert dt.get_as("name") == "Paul"
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Requires DPF 7.0")
 def test_generic_data_container(server_clayer_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_clayer_remote_process, testfiles_dir)
     gdc = dpf.GenericDataContainer(server=server_clayer_remote_process)
@@ -243,7 +236,6 @@ def test_generic_data_container(server_clayer_remote_process, testfiles_dir):
     assert gdc2.get_property("n") == 1
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_syntax_error(server_type_remote_process, testfiles_dir):
     dpf.load_library(
         dpf.path_utilities.to_server_os(
@@ -261,7 +253,6 @@ def test_syntax_error(server_type_remote_process, testfiles_dir):
         assert "set_ouuuuuutput" in str(ex.args)
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_create_op_specification(server_in_process):
     spec = CustomSpecification(server=server_in_process)
     spec.description = "Add a custom value to all the data of an input Field"
@@ -290,9 +281,6 @@ def test_create_op_specification(server_in_process):
     assert spec.config_specification["work_by_index"].default_value_str == "false"
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_create_op_specification_with_derived_class(server_in_process):
     spec = CustomSpecification(server=server_in_process)
     spec.description = "Add derived class in op specification"
@@ -348,7 +336,6 @@ def test_create_op_specification_with_derived_class(server_in_process):
     assert spec.config_specification["mesh_info_provider"].default_value_str == "false"
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_create_config_op_specification(server_in_process):
     spec = CustomSpecification(server=server_in_process)
     spec.config_specification = [
@@ -367,7 +354,6 @@ def test_create_config_op_specification(server_in_process):
     assert spec.config_specification["other2"].type_names == ["double"]
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_create_properties_specification(server_in_process):
     spec = CustomSpecification(server=server_in_process)
     spec.properties = SpecificationProperties("custom add to field", "math")
@@ -382,7 +368,6 @@ def test_create_properties_specification(server_in_process):
     assert spec.properties.category == "math"
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
     dpf.load_library(
         dpf.path_utilities.to_server_os(

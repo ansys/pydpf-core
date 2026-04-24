@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -37,6 +37,7 @@ from ansys.dpf.core import (
     result_info,
     scoping,
     scopings_container,
+    streams_container,
     string_field,
     time_freq_support,
     workflow,
@@ -89,6 +90,10 @@ _type_to_output_method = [
     (workflow.Workflow, external_operator_api.external_operator_put_out_workflow),
     (data_tree.DataTree, external_operator_api.external_operator_put_out_data_tree),
     (dpf_operator.Operator, external_operator_api.external_operator_put_out_operator),
+    (
+        streams_container.StreamsContainer,
+        external_operator_api.external_operator_put_out_streams,
+    ),
     (
         custom_type_field.CustomTypeField,
         external_operator_api.external_operator_put_out_custom_type_field,
@@ -174,4 +179,9 @@ _type_to_input_method = [
     ),
     # TO DO : (dpf_operator.Operator, external_operator_api.external_operator_get_in_operator,
     # "operator"),
+    (
+        streams_container.StreamsContainer,
+        external_operator_api.external_operator_get_in_streams,
+        "streams_container",
+    ),
 ]

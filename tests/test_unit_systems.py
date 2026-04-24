@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -27,10 +27,6 @@ from ansys.dpf.core import errors as dpf_errors
 import conftest
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1,
-    reason="Unit systems where not supported before 6.1.",
-)
 def test_predefined_unit_systems():
     # Test IDs of the predefined ones
     assert dpf.unit_systems.solver_mks.ID == 11
@@ -52,10 +48,6 @@ def test_predefined_unit_systems():
     assert dpf.unit_systems.undefined.name == "undefined"
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1,
-    reason="Unit systems where not supported before 6.1.",
-)
 def test_unit_system_api():
     # Create custom units from ID
     my_mks = dpf.UnitSystem("mks", ID=11)

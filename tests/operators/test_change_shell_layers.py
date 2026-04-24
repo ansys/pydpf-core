@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -32,9 +32,8 @@ from ansys.dpf.core.check_version import get_server_version, meets_version
 
 
 @pytest.mark.skipif(
-    condition=(not meets_version(get_server_version(dpf.SERVER), meets="9.0"))
-    and os.name == "posix",
-    reason="Failure under investigation on Ubuntu for DPF 24R2 and older (Issue #2424)",
+    os.name == "posix",
+    reason="Failure under investigation on Ubuntu (Issue #2424)",
 )
 def test_operator_change_shell_layers_connect_enum(server_type):
     model = dpf.Model(

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -28,8 +28,7 @@ from ansys.dpf.core import examples, server, server_types
 from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 import conftest
 
-if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
-    dpf.set_default_server_context(dpf.AvailableServerContexts.entry)
+dpf.set_default_server_context(dpf.AvailableServerContexts.entry)
 
 
 @pytest.fixture(
@@ -53,9 +52,8 @@ def other_remote_server(request):
     return server
 
 
-if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
-    dpf.server.shutdown_all_session_servers()
-    dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
+dpf.server.shutdown_all_session_servers()
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 
 @pytest.fixture()

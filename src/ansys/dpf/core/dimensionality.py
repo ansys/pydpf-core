@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -67,6 +67,8 @@ class Dimensionality:
                 self.dim = [3, 3]
             elif self.nature == natures.scalar:
                 self.dim = [1]
+            elif self.nature == natures.matrix:
+                self.dim = [3, 3]
 
     def is_1d_dim(self):
         """Check if dimensionality is 1."""

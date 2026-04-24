@@ -1,4 +1,4 @@
-name: docs
+name: docs # zizmor: ignore[concurrency-limits]
 
 on:
 # Can be called by the CI
@@ -21,6 +21,11 @@ on:
         required: true
         type: string
         default: ''
+    secrets:
+      LICENSE_SERVER:
+        required: true
+      PYANSYS_CI_BOT_TOKEN:
+        required: true
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -42,31 +47,43 @@ on:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
+
+permissions: {}
+
 jobs:
   doc-style:
     name: "Check doc style"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # Required for doc-style action to post comments
     steps:
         - name: "Running documentation style checks"
-          uses: ansys/actions/doc-style@v8
+          uses: ansys/actions/doc-style@7d55ff0b9f67c77dae50a286d711ee1ae27b0a25 # v10.2.12
           with:
             token: ${{ secrets.GITHUB_TOKEN }}
 
   docs:
     name: "Documentation"
     runs-on: windows-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
-      - name: "Set licensing if necessary"
-        if: ${{ (inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) > '231' }}
+      - name: "Set licensing"
         shell: bash
+        env:
+          LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
-          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
+          echo "ANSYSLMD_LICENSE_FILE=1055@${LICENSE_SERVER}" >> $GITHUB_ENV
+          echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
 
       - name: "Setup Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: ${{ inputs.python_version }}
 
@@ -79,7 +96,7 @@ jobs:
       - name: "Build the wheel"
         shell: pwsh
         run: |
-          tox -e build-wheel
+          tox -e build-wheel -- "any"
 
       - name: "Expose the wheel"
         shell: bash
@@ -92,59 +109,99 @@ jobs:
 
       - name: "Install DPF"
         id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-server@v2.3
+        uses: ansys/pydpf-actions/install-dpf-server@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         with:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
 
       - name: "Check licences of packages"
-        uses: ansys/pydpf-actions/check-licenses@v2.3
+        uses: ansys/pydpf-actions/check-licenses@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
 
       - name: "Test import"
         shell: bash
+        env:
+          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
         run: |
-          python -m pip install dist/${{ steps.wheel.outputs.wheel_name }}
+          python -m pip install dist/${WHEEL_NAME}
           python -c "from ansys.dpf import core"
 
       - name: "Setup headless display"
-        uses: pyvista/setup-headless-display-action@48066dd0b79cf46babc16223a1dce3aa4803ec43 # v4.0
+        uses: pyvista/setup-headless-display-action@5bc8de3bc71fcda7a96439571287a554901541a0 # v4.3
 
       - name: "Setup Graphviz"
-        uses: ts-graphviz/setup-graphviz@v2
+        uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2.0.2
 
       - name: "Install OS packages"
         run: |
           choco install pandoc
 
+      - name: "Setup Quarto"
+        uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2.2.0
+        with:
+          version: 1.6.43
+
+      - name: Check Quarto Version
+        shell: bash
+        run: |
+          quarto --version
+
+      - name: "Install Poppler for PDF to PNG conversion"
+        shell: powershell
+        run: |
+          choco install poppler -y
+          echo "C:\Program Files\poppler\bin" | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
+
+      - name: Install Miktex and update PATH with Miktex binaries
+        shell: powershell
+        run: |
+          choco install miktex -y
+          echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
+
+      - name: Set up Miktex to automatically install packages
+        shell: powershell
+        run: |
+          initexmf --set-config-value [MPM]AutoInstall=1
+
+      - name: "Restore doc build cache"
+        id: cache-doc-build-restore
+        # zizmor: ignore[cache-poisoning] - cache is for doc build only, not release artifacts
+        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            doc/source/examples
+          # Cache key is composed of branch name, ansys version, hash of requirements_doc,
+          # and run_id to work around immutability
+          # We should also track version of pandoc, of graphviz, of packages installed by headless-display, and even of pydpf-core?
+          key: doc-build-${{ github.ref_name }}-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('requirements/requirements_docs.txt')}}-${{ github.run_id }}
+          restore-keys: |
+            doc-build-${{ github.ref_name }}-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('requirements/requirements_docs.txt')}}-
+            doc-build-master-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('requirements/requirements_docs.txt')}}-
+
       - name: "Build HTML Documentation"
         shell: bash
+        env:
+          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
         run: |
-          tox -e doc-html --installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
+          tox -e doc-html --installpkg dist/${WHEEL_NAME} -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
 
-      - name: "Retrieve package version"
-        shell: bash
-        run: |
-          echo "VERSION=$(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")" >> GITHUB_OUTPUT
-          echo "${{env.PACKAGE_NAME}} version is: $(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
-        id: version
-        if: always()
-
-      - name: "Upload Documentation Build log"
-        uses: actions/upload-artifact@v4
+      - name: "Save doc-build cache"
+        id: cache-doc-build-save
+        uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
-          name: doc-${{env.PACKAGE_NAME}}-log
-          path: doc/*.txt
-        if: always()
+          path: |
+            doc/build
+            doc/source/examples
+          key: ${{ steps.cache-doc-build-restore.outputs.cache-primary-key }}
 
       - name: "Zip HTML Documentation"
         shell: pwsh
         run: |
-          Compress-Archive -Path doc/build/html/* -Destination HTML-doc-${{env.PACKAGE_NAME}}.zip
+          Compress-Archive -Path doc/build/html/* -Destination HTML-doc-$env:PACKAGE_NAME.zip
         if: always()
 
       - name: "Upload HTML Documentation"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: HTML-doc-${{env.PACKAGE_NAME}}.zip
           path: HTML-doc-${{env.PACKAGE_NAME}}.zip

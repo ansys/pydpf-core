@@ -58,8 +58,6 @@ with tempfile.TemporaryDirectory() as tmpdirname:
     if "linux" in requested_platform or "any" == requested_platform:
         # Move windows binaries
         binaries_to_move.extend(["Ans.Dpf.GrpcClient.dll", "DPFClientAPI.dll"])
-    if "any" == requested_platform:
-        binaries_to_move.extend(["_version.py"])
 
     for binary_name in binaries_to_move:
         src = gatebin_folder_path / binary_name

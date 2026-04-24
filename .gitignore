@@ -69,6 +69,11 @@ instance/
 # Sphinx documentation
 doc/_build/
 
+# Operators documentation
+doc/source/operators_doc/operator-specifications/*
+!doc/source/operators_doc/operator-specifications/operator_doc_template.md
+!doc/source/operators_doc/operator-specifications/toc_template.j2
+
 # PyBuilder
 .pybuilder/
 target/
@@ -196,4 +201,18 @@ src/ansys/grpc/
 # Ignore auto-generated API reference
 doc/source/api
 doc/source/examples
+doc/source/tutorials
 doc/source/images/auto-generated
+src/ansys/dpf/core/examples/result_files
+src/ansys/dpf/core/examples/python_plugins/average_filter_plugin/__init__.py
+src/ansys/dpf/core/examples/python_plugins/average_filter_plugin/common.py
+src/ansys/dpf/core/examples/python_plugins/average_filter_plugin/operators_loader.py
+src/ansys/dpf/core/examples/python_plugins/average_filter_plugin/operators.py
+src/ansys/dpf/core/examples/python_plugins/gltf_plugin/__init__.py
+src/ansys/dpf/core/examples/python_plugins/gltf_plugin/gltf_export.py
+src/ansys/dpf/core/examples/python_plugins/gltf_plugin/operators_loader.py
+src/ansys/dpf/core/examples/python_plugins/gltf_plugin/operators.py
+src/ansys/dpf/core/examples/python_plugins/gltf_plugin/requirements.txt
+src/ansys/dpf/core/examples/python_plugins/gltf_plugin/texture.png
+src/ansys/dpf/core/examples/python_plugins/easy_statistics.py
+src/ansys/dpf/core/examples/python_plugins/gltf_plugin.xml
