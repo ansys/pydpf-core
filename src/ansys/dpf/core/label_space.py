@@ -20,8 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# -*- coding: utf-8 -*-
-
 """
 LabelSpace.
 
@@ -159,7 +157,7 @@ class LabelSpace:
         --------
         >>> label_space = LabelSpace(label_space={"time": 1, "node": 42})
         >>> print(label_space)
-        "{'node': 42, 'time': 1}"
+        {'node': 42, 'time': 1}
         """
         return str(dict(self))
 
