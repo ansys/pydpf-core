@@ -214,7 +214,7 @@ class MeshesContainer(CollectionBase[MeshedRegion]):
         >>> mesh = model.metadata.meshed_region
         >>> split_mesh_op = dpf.operators.mesh.split_mesh(mesh=mesh, property="mat")
         >>> meshes_cont = split_mesh_op.eval()
-        >>> meshes_cont.animate(off_screen=True)  # doctest: +SKIP
+        >>> meshes_cont.animate(label="mat", off_screen=True)  # doctest: +SKIP
 
         """
         from ansys.dpf.core.animator import Animator
@@ -268,6 +268,11 @@ class MeshesContainer(CollectionBase[MeshedRegion]):
         # Optional deformation path: extract_sub_fc → extract_field → Field
         # Convention for animate_workflow deformation: output "deform_by"
         if deform_by is not False and deform_by is not None:
+            if isinstance(deform_by, bool):
+                raise ValueError(
+                    "'deform_by=True' is not supported. Use False or None to disable "
+                    "deformation, or provide a FieldsContainer/result object."
+                )
             if not isinstance(deform_by, dpf.FieldsContainer):
                 deform_by = deform_by.eval()
             extract_deform_fc_op = dpf.operators.utility.extract_sub_fc(
@@ -286,6 +291,11 @@ class MeshesContainer(CollectionBase[MeshedRegion]):
         # ── build the loop_over Field (values shown in the overlay text) ──────
         if label == "time" and time_freq_support is not None:
             freq_field = time_freq_support.time_frequencies
+            if freq_field is None:
+                raise ValueError(
+                    "The 'time' label requires 'time_freq_support.time_frequencies' "
+                    "to be available."
+                )
             values = freq_field.data[label_scoping.ids - 1]
             unit = freq_field.unit
             freq_fmt = ".3e"

@@ -530,6 +530,8 @@ def elshape_meshes_container():
 def test_animate_meshes_container_auto_label(mat_meshes_container):
     """animate() with the default label="time" raises when the container has no time label;
     passing the real label explicitly works."""
+    with pytest.raises(ValueError):
+        mat_meshes_container.animate(off_screen=True)
     label = mat_meshes_container.labels[0]
     mat_meshes_container.animate(label=label, off_screen=True)
 
@@ -592,12 +594,11 @@ def test_animate_meshes_container_no_labels_raises():
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_animate_meshes_container_time_freq_support(mat_meshes_container):
-    """animate() accepts a TimeFreqSupport for the time label display."""
-    # For a mat-split mesh there is no time label, but we exercise the code path
-    # by manually setting the label to something time-like is not needed here;
-    # instead we just skip this for non-time labeled containers and test the
-    # time_freq_support branch via a separate parametrised check.
+def test_animate_meshes_container_accepts_none_time_freq_support(mat_meshes_container):
+    """animate() accepts ``time_freq_support=None`` for a non-time label."""
+    # ``mat_meshes_container`` is not time-labeled, so this test only verifies
+    # that passing the optional ``time_freq_support`` argument as ``None`` does
+    # not raise for the container's native label.
     label = mat_meshes_container.labels[0]
     mat_meshes_container.animate(label=label, time_freq_support=None, off_screen=True)
 
