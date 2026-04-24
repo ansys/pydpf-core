@@ -108,7 +108,11 @@ class LabelSpace:
         # step4: if object exists, take the instance, else create it
         if label_space is not None and not isinstance(label_space, dict):
             if isinstance(label_space, LabelSpace):
-                self._internal_obj = label_space._internal_obj
+                self._internal_obj = (
+                    self._data_processing_core_api.data_processing_duplicate_object_reference(
+                        label_space
+                    )
+                )
             else:
                 self._internal_obj = label_space
         else:
