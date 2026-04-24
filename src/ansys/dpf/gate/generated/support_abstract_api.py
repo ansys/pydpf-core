@@ -36,6 +36,10 @@ class SupportAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def support_get_as_generic_support(support):
+		raise NotImplementedError
+
+	@staticmethod
 	def support_get_field_support_by_property(support, prop_name):
 		raise NotImplementedError
 

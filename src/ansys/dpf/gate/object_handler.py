@@ -1,3 +1,5 @@
+from contextlib import suppress
+
 
 class ObjHandler:
     def __init__(self, data_processing_api, internal_obj=None, server=None):
@@ -15,8 +17,6 @@ class ObjHandler:
                 return self._internal_obj
 
     def __del__(self):
-        try:
+        with suppress(Exception):
             if hasattr(self, "_internal_obj") and not self.owned:
                 self.data_processing_api.data_processing_delete_shared_object(self)
-        except Exception as e:
-            raise e

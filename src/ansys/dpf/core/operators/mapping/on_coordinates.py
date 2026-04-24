@@ -49,9 +49,9 @@ class on_coordinates(Operator):
 
     This operator provides a convenient all-in-one solution for field
     interpolation. For more control over the interpolation process, use the
-    two-step workflow: 1. ``find_reduced_coordinates`` — locates the element
+    two-step workflow: 1. ``find_reduced_coordinates`` - locates the element
     containing each coordinate and returns its parametric coordinates 2.
-    ``on_reduced_coordinates`` — interpolates field values at those
+    ``on_reduced_coordinates`` - interpolates field values at those
     parametric coordinates
 
     Key differences from the two-step approach: - **Tolerance**: Uses a
@@ -245,9 +245,9 @@ Comparison with two-step workflow
 
 This operator provides a convenient all-in-one solution for field
 interpolation. For more control over the interpolation process, use the
-two-step workflow: 1. ``find_reduced_coordinates`` — locates the element
+two-step workflow: 1. ``find_reduced_coordinates`` - locates the element
 containing each coordinate and returns its parametric coordinates 2.
-``on_reduced_coordinates`` — interpolates field values at those
+``on_reduced_coordinates`` - interpolates field values at those
 parametric coordinates
 
 Key differences from the two-step approach: - **Tolerance**: Uses a

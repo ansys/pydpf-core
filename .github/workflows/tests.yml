@@ -115,8 +115,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: "Set licensing if necessary"
-        if: ${{ (inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) > '231' }}
+      - name: "Set licensing"
         shell: bash
         env:
           LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
@@ -164,7 +163,7 @@ jobs:
 
       - name: "Upload wheel to artifacts"
         if: (inputs.wheel == 'true') && !( (inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest') )
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
@@ -188,14 +187,14 @@ jobs:
 
       - name: "Zip wheelhouse"
         if: inputs.wheelhouse == 'true'
-        uses: vimtor/action-zip@1379ea20d4c5705669ba81fd626dd01b1c738f26 # v1.2
+        uses: vimtor/action-zip@5407800dfb2b1b37d48df912330cb22f4ab6f422 # v1.3
         with:
           files: dist
           dest: ${{ steps.wheelhouse.outputs.name }}
 
       - name: "Upload wheelhouse to artifacts"
         if: inputs.wheelhouse == 'true'
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ${{ steps.wheelhouse.outputs.name }}
           path: ${{ steps.wheelhouse.outputs.name }}
@@ -254,7 +253,7 @@ jobs:
           tox -e pretest
 
       - name: "Test API test_entry"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
@@ -267,7 +266,7 @@ jobs:
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-api_entry,kill-servers
 
       - name: "Test API test_server"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
@@ -280,7 +279,7 @@ jobs:
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-server,kill-servers
 
       - name: "Test API test_remote_workflow"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
@@ -302,7 +301,7 @@ jobs:
           tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-remote_operator,kill-servers
 
       - name: "Test API test_workflow"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
@@ -315,7 +314,7 @@ jobs:
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-workflow,kill-servers
 
       - name: "Test API test_service"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
@@ -328,7 +327,7 @@ jobs:
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-service,kill-servers
 
       - name: "Run compatible tests in parallel"
-        uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
@@ -346,13 +345,13 @@ jobs:
           tox -e covreport
 
       - name: "Upload Test Results"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
           path: tests/junit/test-results.xml
 
       - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
           report_type: coverage
@@ -362,7 +361,7 @@ jobs:
 
       - name: "Upload test analytics results to Codecov"
         if: ${{ !cancelled() }}
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           report_type: test_results

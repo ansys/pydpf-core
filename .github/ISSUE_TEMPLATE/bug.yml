@@ -72,10 +72,6 @@ body:
        - 'DPF Server 2024.2.pre0'
        - 'Ansys 2024 R1'
        - 'DPF Server 2024.1.pre0'
-       - 'Ansys 2023 R2'
-       - 'DPF Server 2023.2.pre1'
-       - 'DPF Server 2023.2.pre0'
-       - 'Ansys 2023 R1'
     validations:
       required: true
 

@@ -53,6 +53,13 @@ the result associated with it.
 # to import your own result file in DPF, see the
 # :ref:`ref_tutorials_import_result_file` tutorial.
 #
+# .. tip::
+#
+#     If you need to evaluate many result operators against the same file,
+#     consider using a ``StreamsContainer`` to reuse open file handles and
+#     avoid redundant mesh loads. See
+#     :ref:`ref_tutorials_import_data_streams_for_multiple_operators`.
+#
 # Extract the displacement results. The displacement
 # :class:`Result<ansys.dpf.core.results.Results>` object gives a
 # :class:`FieldsContainer<ansys.dpf.core.fields_container.FieldsContainer>` when

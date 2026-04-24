@@ -13,8 +13,14 @@ StringIntCallback = ctypes.CFUNCTYPE(None, ctypes.c_char_p, ctypes.c_int)
 IntIntCallback = ctypes.CFUNCTYPE(None, ctypes.c_int, ctypes.c_int)
 GenericCallBackType = ctypes.CFUNCTYPE(None, ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p)
 
+# Flag indicating that load_api() is currently executing. Used by DPFVector.__del__
+# to avoid re-entrant C API calls during GC cycles that fire mid-initialization,
+# which can cause segfaults under Python 3.11 on Linux.
+_api_loading = False
+
 def load_api(path):
-	global dll
+	global dll, _api_loading
+	_api_loading = True
 	dll = ctypes.cdll.LoadLibrary(path)
 
 	#-------------------------------------------------------------------------------
@@ -2297,6 +2303,10 @@ def load_api(path):
 		dll.Dimensionality_GetNumComp.argtypes = (ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Dimensionality_GetNumComp.restype = ctypes.c_int32
 
+	if hasattr(dll, "FieldDefinition_deepCopy"):
+		dll.FieldDefinition_deepCopy.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.FieldDefinition_deepCopy.restype = ctypes.c_void_p
+
 	if hasattr(dll, "FieldDefinition_new_on_client"):
 		dll.FieldDefinition_new_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.FieldDefinition_new_on_client.restype = ctypes.c_void_p
@@ -4305,6 +4315,10 @@ def load_api(path):
 		dll.Support_getAsTimeFreqSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Support_getAsTimeFreqSupport.restype = ctypes.c_void_p
 
+	if hasattr(dll, "Support_getAsGenericSupport"):
+		dll.Support_getAsGenericSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Support_getAsGenericSupport.restype = ctypes.c_void_p
+
 	if hasattr(dll, "Support_getFieldSupportByProperty"):
 		dll.Support_getFieldSupportByProperty.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Support_getFieldSupportByProperty.restype = ctypes.c_void_p
@@ -5149,4 +5163,6 @@ def load_api(path):
 		dll.FbsClient_StartOrGetThreadServer_on_client.argtypes = (ctypes.c_void_p, ctypes.c_bool, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.FbsClient_StartOrGetThreadServer_on_client.restype = ctypes.c_void_p
 
+
+	_api_loading = False
 

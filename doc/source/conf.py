@@ -14,6 +14,7 @@ from ansys_sphinx_theme import (
 )
 import numpy as np
 import pyvista
+from pyvista.plotting.utilities.sphinx_gallery import DynamicScraper
 
 from ansys.dpf.core import __version__, server, server_factory
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
@@ -135,6 +136,7 @@ extensions = [
     "sphinx_design",
     "sphinx_jinja",
     'sphinx_reredirects',
+    'pyvista.ext.viewer_directive',
 ]
 
 redirects = {
@@ -250,7 +252,7 @@ sphinx_gallery_conf = {
     "within_subsection_order": _TutorialFileOrder,
     # directory where function granular galleries are stored
     "backreferences_dir": None,
-    "image_scrapers": ("pyvista", "matplotlib"),
+    "image_scrapers": (DynamicScraper(), "matplotlib"),
     # 'first_notebook_cell': ("%matplotlib inline\n"
     #                         "from pyvista import set_plot_theme\n"
     #                         "set_plot_theme('document')"),
@@ -518,5 +520,5 @@ print(f"{extensions=}")
 
 # PyAnsys tags configuration
 html_context = {
-    "pyansys_tags": ['Structures']
+    "pyansys_tags": ['Structures', 'Fluids', 'Multiphysics']
 }
