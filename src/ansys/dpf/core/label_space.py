@@ -163,7 +163,7 @@ class LabelSpace:
         >>> print(label_space)
         {'node': 42, 'time': 1}
         """
-        return str(dict(self))
+        return str(dict(sorted(self)))
 
     def __iter__(self) -> Generator[tuple[str, int], None, None]:
         """
@@ -182,13 +182,11 @@ class LabelSpace:
         node 42
         time 1
         """
-        yield from [
-            (
+        for i in range(self._api.label_space_get_size(self)):
+            yield (
                 self._api.label_space_get_labels_name(self, i),
                 self._api.label_space_get_labels_value(self, i),
             )
-            for i in range(self._api.label_space_get_size(self))
-        ]
 
     def __dict__(self) -> dict[str, int]:
         """

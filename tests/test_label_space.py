@@ -30,3 +30,30 @@ def test_label_space_(server_type):
     assert str(ls)
     reference = {"test": 1, "various": 2}
     ls.fill(label_space=reference)
+
+
+def test_label_space_copy_construction(server_type):
+    """Test that LabelSpace can be constructed from another LabelSpace."""
+    reference = {"time": 1, "zone": 2}
+    ls = dpf.LabelSpace(label_space=reference)
+    ls_copy = dpf.LabelSpace(label_space=ls)
+    assert dict(ls_copy) == reference
+    # Ensure the copy is independent (deleting the original should not affect the copy)
+    del ls
+    assert dict(ls_copy) == reference
+
+
+def test_label_space_str_ordering(server_type):
+    """Test that __str__ returns keys in sorted (deterministic) order."""
+    # Insert in non-alphabetical order
+    ls = dpf.LabelSpace(label_space={"zone": 2, "node": 42, "time": 1})
+    result = str(ls)
+    # Keys should appear in sorted order: node < time < zone
+    assert result == "{'node': 42, 'time': 1, 'zone': 2}"
+
+
+def test_label_space_dict_ordering(server_type):
+    """Test that __dict__() returns keys in sorted (deterministic) order."""
+    ls = dpf.LabelSpace(label_space={"zone": 2, "node": 42, "time": 1})
+    d = ls.__dict__()
+    assert list(d.keys()) == sorted(d.keys())
