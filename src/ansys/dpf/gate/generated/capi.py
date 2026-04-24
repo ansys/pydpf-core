@@ -94,6 +94,10 @@ def load_api(path):
 		dll.Any_getAs_CyclicSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Any_getAs_CyclicSupport.restype = ctypes.c_void_p
 
+	if hasattr(dll, "Any_getAs_GenericSupport"):
+		dll.Any_getAs_GenericSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Any_getAs_GenericSupport.restype = ctypes.c_void_p
+
 	if hasattr(dll, "Any_getAs_Workflow"):
 		dll.Any_getAs_Workflow.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Any_getAs_Workflow.restype = ctypes.c_void_p
@@ -4299,9 +4303,9 @@ def load_api(path):
 		dll.Support_isDomainMeshSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Support_isDomainMeshSupport.restype = ctypes.c_bool
 
-	if hasattr(dll, "Support_setAsDomainMeshSupport"):
-		dll.Support_setAsDomainMeshSupport.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.Support_setAsDomainMeshSupport.restype = None
+	if hasattr(dll, "Support_getType"):
+		dll.Support_getType.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Support_getType.restype = None
 
 	if hasattr(dll, "Support_getAsMeshedSupport"):
 		dll.Support_getAsMeshedSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
