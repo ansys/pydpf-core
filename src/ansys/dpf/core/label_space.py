@@ -63,8 +63,8 @@ class LabelSpace:
     def __init__(
         self,
         label_space: dict[str, int] | LabelSpace | None = None,
-        obj: object = None,
-        server: AnyServerType = None,
+        obj: object | None = None,
+        server: AnyServerType | None = None,
     ) -> None:
         """
         Initialize a LabelSpace instance.
