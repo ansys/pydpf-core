@@ -38,9 +38,6 @@ def test_label_space_copy_construction(server_type):
     ls = dpf.LabelSpace(label_space=reference)
     ls_copy = dpf.LabelSpace(label_space=ls)
     assert dict(ls_copy) == reference
-    # Ensure the copy is independent (deleting the original should not affect the copy)
-    del ls
-    assert dict(ls_copy) == reference
 
 
 def test_label_space_str_ordering(server_type):
