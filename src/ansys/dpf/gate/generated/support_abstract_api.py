@@ -20,7 +20,7 @@ class SupportAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def support_set_as_domain_mesh_support(support, meshed_region):
+	def support_get_type(support, type):
 		raise NotImplementedError
 
 	@staticmethod

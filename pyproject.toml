@@ -113,7 +113,7 @@ test = [
 ]
 build = [
   "black==26.3.1",
-  "build==1.4.3",
+  "build==1.4.4",
   "chevron==0.14.0",
   "pypandoc_binary==1.17",
   "wheel==0.46.3"
@@ -121,7 +121,7 @@ build = [
 install = [
   "importlib-metadata==9.0.0",
   "numpy==2.4.1",
-  "packaging==26.0",
+  "packaging==26.1",
   "psutil==7.2.2",
   "tqdm==4.67.3"
 ]

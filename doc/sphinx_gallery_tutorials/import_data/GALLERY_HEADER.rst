@@ -59,6 +59,14 @@ from simulation result files.
        +++
        :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
+    .. grid-item-card:: Speed up data requests from files using streams
+       :link: ref_tutorials_import_data_streams_for_multiple_operators
+       :link-type: ref
+       :text-align: center
+
+       Use a streams container to avoid redundant file I/O when requesting
+       multiple results from the same result file.
+
 .. raw:: html
 
    <style>.sphx-glr-thumbnails { display: none; }</style>
