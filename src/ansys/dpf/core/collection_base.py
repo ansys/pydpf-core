@@ -33,6 +33,7 @@ import numpy as np
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.core import _deep_copy
 from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.server_types import BaseServer
@@ -535,6 +536,46 @@ class CollectionBase(Generic[TYPE]):
         from ansys.dpf.core.support import Support
 
         return Support(support=self._api.collection_get_support(self, label), server=self._server)
+
+    @version_requires("12.0")
+    def deep_copy_supports(self, other: CollectionBase):
+        """Deep-copies the supports of all labels in the collection into the other collection.
+
+        Parameters
+        ----------
+        other : collection where the supports are to be deep-copied
+        """
+        from ansys.dpf.core import Any
+
+        other_server = other._server
+        for label in self.labels:
+            label_support = self.get_support(label)
+            if label_support is not None:
+                support_type = label_support.get_type()
+                if support_type == "TimeFreqSupport":
+                    other.set_support(
+                        label, label_support.get_as_time_freq_support().deep_copy(other_server)
+                    )
+                elif support_type == "CMeshDomainSupport":
+                    other.set_support(
+                        label, label_support.get_as_meshed_region().deep_copy(other_server)
+                    )
+                elif support_type == "cyclic_support":
+                    other.set_support(
+                        label,
+                        _deep_copy(
+                            Any.new_from(label_support.get_as_cyclic_support(), self._server),
+                            other_server,
+                        ),
+                    )
+                else:
+                    other.set_support(
+                        label,
+                        _deep_copy(
+                            Any.new_from(label_support.get_as_generic_support(), self._server),
+                            other_server,
+                        ).cast(),
+                    )
 
     def __str__(self):
         """Describe the entity.

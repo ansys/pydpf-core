@@ -191,6 +191,86 @@ class Support:
         )
         return coll_obj.get_integral_entries()
 
+    @version_requires("12.0")
+    def get_type(self) -> str:
+        """Type of the support as a string.
+
+        Returns
+        -------
+        out_type : str
+            Type of the support as a string
+        """
+        out_type = ""
+        self._support_api.support_get_type(self, out_type)
+        return out_type
+
+    @version_requires("12.0")
+    def get_as_time_freq_support(self) -> "time_freq_support.TimeFreqSupport":
+        """Get the support as a TimeFreqSupport object.
+
+        Returns
+        -------
+        TimeFreqSupport : TimeFreqSupport
+            TimeFreqSupport object
+        """
+        from ansys.dpf.core import time_freq_support
+
+        tfsp = time_freq_support.TimeFreqSupport(
+            time_freq_support=self._support_api.support_get_as_time_freq_support(self),
+            server=self._server,
+        )
+        return tfsp
+
+    @version_requires("12.0")
+    def get_as_meshed_region(self) -> "meshed_region.MeshedRegion":
+        """Get the support as a MeshedRegion object.
+
+        Returns
+        -------
+        MeshedRegion : MeshedRegion
+            MeshedRegion object
+        """
+        from ansys.dpf.core import meshed_region
+
+        mesh = meshed_region.MeshedRegion(
+            mesh=self._support_api.support_get_as_meshed_support(self), server=self._server
+        )
+        return mesh
+
+    @version_requires("12.0")
+    def get_as_cyclic_support(self) -> "cyclic_support.CyclicSupport":
+        """Get the support as a CyclicSupport object.
+
+        Returns
+        -------
+        CyclicSupport : CyclicSupport
+            CyclicSupport object
+        """
+        from ansys.dpf.core import cyclic_support
+
+        cyclic = cyclic_support.CyclicSupport(
+            cyclic_support=self._support_api.support_get_as_cyclic_support(self),
+            server=self._server,
+        )
+        return cyclic
+
+    @version_requires("12.0")
+    def get_as_generic_support(self) -> "generic_support.GenericSupport":
+        """Get the support as a GenericSupport object.
+
+        Returns
+        -------
+        GenericSupport : GenericSupport
+            GenericSupport object
+        """
+        from ansys.dpf.core import generic_support
+
+        generic = generic_support.GenericSupport(
+            generic_support=self._support_api.support_get_as_generic_support(self),
+            server=self._server,
+        )
+        return generic
+
     def __del__(self):
         """
         Clean up resources associated with the instance.

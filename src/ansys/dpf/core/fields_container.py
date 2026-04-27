@@ -506,8 +506,8 @@ class FieldsContainer(CollectionBase["field.Field"]):
         fc.labels = self.labels
         for i, f in enumerate(self):
             fc.add_field(self.get_label_space(i), f.deep_copy(server))
-        with suppress(Exception):
-            fc.time_freq_support = self.time_freq_support.deep_copy(server)
+        # with suppress(Exception):
+        self.deep_copy_supports(fc)
         return fc
 
     def get_time_scoping(self):

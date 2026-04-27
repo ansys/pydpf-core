@@ -573,6 +573,12 @@ def test_fields_container_set_tfsupport(server_type):
     assert coll.get_support("body").available_string_field_supported_properties() == ["name"]
     assert coll.get_support("body").string_field_support_by_property("name").data == ["inlet"]
 
+    coll_c = coll.deep_copy()
+
+    assert coll_c.get_support("time").available_field_supported_properties() == ["time_freqs"]
+    assert coll_c.get_support("body").available_string_field_supported_properties() == ["name"]
+    assert coll_c.get_support("body").string_field_support_by_property("name").data == ["inlet"]
+
 
 def test_fields_container_empty_tf_support(server_type):
     fields_container = dpf.FieldsContainer(server=server_type)

@@ -119,6 +119,7 @@ class Any:
             field,
             fields_container,
             generic_data_container,
+            generic_support,
             property_field,
             scoping,
             string_field,
@@ -210,6 +211,11 @@ class Any:
             return (
                 self._api.any_new_from_data_sources,
                 self._api.any_get_as_data_sources,
+            )
+        elif issubclass(obj, generic_support.GenericSupport):
+            return (
+                self._api.any_new_from_generic_support,
+                self._api.any_get_as_generic_support,
             )
         elif issubclass(obj, Any):
             return (

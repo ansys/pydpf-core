@@ -206,6 +206,7 @@ def types_enum_to_types():
         field,
         fields_container,
         generic_data_container,
+        generic_support,
         mesh_info,
         meshed_region,
         meshes_container,
@@ -251,6 +252,7 @@ def types_enum_to_types():
         types.generic_data_container: generic_data_container.GenericDataContainer,
         types.mesh_info: mesh_info.MeshInfo,
         types.any: Any,
+        types.support: generic_support.GenericSupport,
     }
 
 
