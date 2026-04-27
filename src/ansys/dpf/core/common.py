@@ -468,6 +468,7 @@ def type_to_internal_object_keyword():
             field,
             fields_container,
             generic_data_container,
+            generic_support,
             meshed_region,
             meshes_container,
             property_field,
@@ -502,6 +503,7 @@ def type_to_internal_object_keyword():
                 generic_data_container.GenericDataContainer: "generic_data_container",
                 any.Any: "any_dpf",
                 collection.Collection: "collection",
+                generic_support.GenericSupport: "generic_support",
             }
         )
     return _type_to_internal_object_keyword

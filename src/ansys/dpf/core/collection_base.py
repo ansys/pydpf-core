@@ -574,7 +574,7 @@ class CollectionBase(Generic[TYPE]):
                         _deep_copy(
                             Any.new_from(label_support.get_as_generic_support(), self._server),
                             other_server,
-                        ).cast(),
+                        ).cast(output_type=GenericSupport),
                     )
 
     def __str__(self):

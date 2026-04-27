@@ -136,3 +136,26 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
                 out.append(name)
         return out
 
+    @staticmethod
+    def support_get_type(support, type):
+        response = _get_stub(support._server).GetSupport(support._internal_obj)
+        if response.HasField("domain_mesh"):
+            type.set_str("CMeshDomainSupport")
+        elif response.HasField("time_freq_support"):
+            type.set_str("TimeFreqSupport")
+        if response.HasField("cyclic_support"):
+            type.set_str("cyclic_support")
+        else:
+            type.set_str("GenericSupport")
+
+    @staticmethod
+    def support_get_as_generic_support(support):
+        from ansys.grpc.dpf import generic_support_pb2
+        response = _get_stub(support._server).GetSupport(support._internal_obj)
+        if response.HasField("generic_support"):
+            out = generic_support_pb2.GenericSupport()
+            if isinstance(out.id, int):
+                out.id = response.generic_support.id
+            else:
+                out.id.CopyFrom(response.generic_support.id)
+            return out

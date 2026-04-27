@@ -27,7 +27,7 @@ import warnings
 
 from ansys.dpf.core import collection_base, server as server_module
 from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.gate import support_capi, support_grpcapi
+from ansys.dpf.gate import integral_types, support_capi, support_grpcapi
 
 
 class Support:
@@ -197,12 +197,12 @@ class Support:
 
         Returns
         -------
-        out_type : str
+        type : str
             Type of the support as a string
         """
-        out_type = ""
-        self._support_api.support_get_type(self, out_type)
-        return out_type
+        type = integral_types.MutableString(256)
+        self._support_api.support_get_type(self, type)
+        return str(type)
 
     @version_requires("12.0")
     def get_as_time_freq_support(self) -> "time_freq_support.TimeFreqSupport":
