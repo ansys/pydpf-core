@@ -669,9 +669,7 @@ def test_animate_meshes_container_save_as_pathlib(remove_mc_gif, mat_meshes_cont
 def test_animate_meshes_container_time_label_with_tfs(time_meshes_container):
     """animate() with label='time' and a valid TimeFreqSupport uses freq values in overlay."""
     tfs = dpf_core.TimeFreqSupport()
-    freq_field = dpf_core.fields_factory.field_from_array(
-        np.array([0.1, 0.2], dtype=np.float64)
-    )
+    freq_field = dpf_core.fields_factory.field_from_array(np.array([0.1, 0.2], dtype=np.float64))
     freq_field.scoping.ids = [1, 2]
     freq_field.unit = "s"
     tfs.time_frequencies = freq_field

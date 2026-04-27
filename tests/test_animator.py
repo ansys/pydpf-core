@@ -298,7 +298,9 @@ def test_animate_mode_even_frame_number(modal_fields):
     from ansys.dpf.core import animation
 
     # Even frame_number should be silently decremented by one; no exception expected.
-    animation.animate_mode(modal_fields, mode_number=1, type_mode=0, frame_number=10, off_screen=True)
+    animation.animate_mode(
+        modal_fields, mode_number=1, type_mode=0, frame_number=10, off_screen=True
+    )
 
 
 def test_animate_mode_invalid_type_mode_raises(modal_fields):
