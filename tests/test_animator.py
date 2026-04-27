@@ -281,7 +281,7 @@ def test_animator_animate_fields_container_none_time_freq_raises(displacement_fi
 
 @pytest.fixture()
 def modal_fields():
-    """Displacement FieldsContainer over the first two time steps, used as mock mode data."""
+    """Displacement FieldsContainer (transient data) used as mock mode data for animate_mode tests."""
     model = dpf.Model(examples.find_msup_transient())
     return model.results.displacement.on_time_scoping([1, 2]).eval()
 

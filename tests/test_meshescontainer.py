@@ -679,7 +679,7 @@ def test_animate_meshes_container_time_label_with_tfs(time_meshes_container):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_animate_meshes_container_tfs_none_frequencies_raises(time_meshes_container):
+def test_animate_meshes_container_empty_time_freq_support_raises(time_meshes_container):
     """animate() raises ValueError when time_freq_support has no time_frequencies."""
     tfs = dpf_core.TimeFreqSupport()
     # A freshly-created TimeFreqSupport has time_frequencies == None
