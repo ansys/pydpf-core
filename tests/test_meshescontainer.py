@@ -634,3 +634,54 @@ def test_animator_animate_meshes_container_via_workflow(mat_meshes_container):
         output_type=dpf_core.types.meshed_region,
         off_screen=True,
     )
+
+
+@pytest.fixture()
+def time_meshes_container():
+    """MeshesContainer with a 'time' label built from the msup transient mesh."""
+    model = dpf_core.Model(examples.find_msup_transient())
+    mesh = model.metadata.meshed_region
+    mc = MeshesContainer()
+    mc.labels = ["time"]
+    for t_id in [1, 2]:
+        mc.add_mesh({"time": t_id}, mesh)
+    return mc
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_deform_by_true_raises(mat_meshes_container):
+    """animate() raises ValueError when deform_by=True."""
+    label = mat_meshes_container.labels[0]
+    with pytest.raises(ValueError, match="deform_by=True"):
+        mat_meshes_container.animate(label=label, deform_by=True)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_save_as_pathlib(remove_mc_gif, mat_meshes_container):
+    """animate() saves a GIF correctly when save_as is given as a pathlib.Path."""
+    label = mat_meshes_container.labels[0]
+    mat_meshes_container.animate(label=label, save_as=Path(gif_name), off_screen=True)
+    assert Path(gif_name).is_file(), "GIF file was not created."
+    assert Path(gif_name).stat().st_size > 1000, "GIF file is unexpectedly small."
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_time_label_with_tfs(time_meshes_container):
+    """animate() with label='time' and a valid TimeFreqSupport uses freq values in overlay."""
+    tfs = dpf_core.TimeFreqSupport()
+    freq_field = dpf_core.fields_factory.field_from_array(
+        np.array([0.1, 0.2], dtype=np.float64)
+    )
+    freq_field.scoping.ids = [1, 2]
+    freq_field.unit = "s"
+    tfs.time_frequencies = freq_field
+    time_meshes_container.animate(label="time", time_freq_support=tfs, off_screen=True)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_tfs_none_frequencies_raises(time_meshes_container):
+    """animate() raises ValueError when time_freq_support has no time_frequencies."""
+    tfs = dpf_core.TimeFreqSupport()
+    # A freshly-created TimeFreqSupport has time_frequencies == None
+    with pytest.raises(ValueError, match="time_freq_support.time_frequencies"):
+        time_meshes_container.animate(label="time", time_freq_support=tfs, off_screen=True)
