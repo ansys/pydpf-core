@@ -545,37 +545,11 @@ class CollectionBase(Generic[TYPE]):
         ----------
         other : collection where the supports are to be deep-copied
         """
-        from ansys.dpf.core import Any
-
         other_server = other._server
         for label in self.labels:
             label_support = self.get_support(label)
             if label_support is not None:
-                support_type = label_support.get_type()
-                if support_type == "TimeFreqSupport":
-                    other.set_support(
-                        label, label_support.get_as_time_freq_support().deep_copy(other_server)
-                    )
-                elif support_type == "CMeshDomainSupport":
-                    other.set_support(
-                        label, label_support.get_as_meshed_region().deep_copy(other_server)
-                    )
-                elif support_type == "cyclic_support":
-                    other.set_support(
-                        label,
-                        _deep_copy(
-                            Any.new_from(label_support.get_as_cyclic_support(), self._server),
-                            other_server,
-                        ),
-                    )
-                else:
-                    other.set_support(
-                        label,
-                        _deep_copy(
-                            Any.new_from(label_support.get_as_generic_support(), self._server),
-                            other_server,
-                        ).cast(output_type=GenericSupport),
-                    )
+                other.set_support(label, label_support.deep_copy(other_server))
 
     def __str__(self):
         """Describe the entity.

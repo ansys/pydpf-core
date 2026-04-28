@@ -38,6 +38,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
             property_field,
             data_sources,
             generic_data_container,
+            generic_support,
             string_field,
             scoping,
             data_tree,
@@ -57,6 +58,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (string_field.StringField, base_pb2.Type.STRING_FIELD),
                 (custom_type_field.CustomTypeField, base_pb2.Type.CUSTOM_TYPE_FIELD),
                 (generic_data_container.GenericDataContainer, base_pb2.Type.GENERIC_DATA_CONTAINER),
+                (generic_support.GenericSupport, base_pb2.Type.GENERIC_SUPPORT),
                 (scoping.Scoping, base_pb2.Type.SCOPING),
                 (data_tree.DataTree, base_pb2.Type.DATA_TREE),
                 (workflow.Workflow, base_pb2.Type.WORKFLOW),
@@ -162,6 +164,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def any_get_as_operator(any):
         return AnyGRPCAPI._get_as(any).operator
+    
+    @staticmethod
+    def any_get_as_generic_support(any):
+        return AnyGRPCAPI._get_as(any).generic_support
 
     @staticmethod
     def _new_from(any, client=None):
@@ -259,4 +265,8 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
 
     @staticmethod
     def any_new_from_operator(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+    
+    @staticmethod
+    def any_new_from_generic_support(any):
         return AnyGRPCAPI._new_from(any, any._server)

@@ -30,25 +30,6 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
 
 
     @staticmethod
-    def support_get_as_time_freq_support(support):
-        from ansys.grpc.dpf import support_pb2, time_freq_support_pb2
-        internal_obj = support.get_ownership()
-        if isinstance(internal_obj, time_freq_support_pb2.TimeFreqSupport):
-            message = support
-        elif isinstance(internal_obj, support_pb2.Support):
-            if hasattr(_get_stub(support._server), "GetSupport"):
-                message = _get_stub(support._server).GetSupport(internal_obj).time_freq_support
-            else:
-                message = time_freq_support_pb2.TimeFreqSupport()
-                if isinstance(message.id, int):
-                    message.id = internal_obj.id
-                else:
-                    message.id.CopyFrom(internal_obj.id)
-        else:
-            raise NotImplementedError(f"Tried to get {support} as TimeFreqSupport.")
-        return message
-
-    @staticmethod
     def support_get_as_meshed_support(support):
         from ansys.grpc.dpf import support_pb2, meshed_region_pb2
         internal_obj = support.get_ownership()
@@ -143,7 +124,7 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
             type.set_str("CMeshDomainSupport")
         elif response.HasField("time_freq_support"):
             type.set_str("TimeFreqSupport")
-        if response.HasField("cyclic_support"):
+        elif response.HasField("cyclic_support"):
             type.set_str("cyclic_support")
         else:
             type.set_str("GenericSupport")
@@ -158,4 +139,28 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
                 out.id = response.generic_support.id
             else:
                 out.id.CopyFrom(response.generic_support.id)
+            return out
+
+    @staticmethod
+    def support_get_as_cyclic_support(support):
+        from ansys.grpc.dpf import cyclic_support_pb2
+        response = _get_stub(support._server).GetSupport(support._internal_obj)
+        if response.HasField("cyclic_support"):
+            out = cyclic_support_pb2.CyclicSupport()
+            if isinstance(out.id, int):
+                out.id = response.cyclic_support.id
+            else:
+                out.id.CopyFrom(response.cyclic_support.id)
+            return out
+
+    @staticmethod
+    def support_get_as_time_freq_support(support):
+        from ansys.grpc.dpf import time_freq_support_pb2
+        response = _get_stub(support._server).GetSupport(support._internal_obj)
+        if response.HasField("time_freq_support"):
+            out = time_freq_support_pb2.TimeFreqSupport()
+            if isinstance(out.id, int):
+                out.id = response.time_freq_support.id
+            else:
+                out.id.CopyFrom(response.time_freq_support.id)
             return out

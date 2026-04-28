@@ -27,7 +27,14 @@ import warnings
 
 from ansys.dpf.core import collection_base, server as server_module
 from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.gate import integral_types, support_capi, support_grpcapi
+from ansys.dpf.core.core import _deep_copy
+from ansys.dpf.gate import (
+    data_processing_capi,
+    data_processing_grpcapi,
+    integral_types,
+    support_capi,
+    support_grpcapi,
+)
 
 
 class Support:
@@ -77,7 +84,27 @@ class Support:
 
         # step4: take instance:
         # object_name -> protobuf.message, DPFObject*
-        self._internal_obj = support
+        if support is not None:
+            from ansys.dpf.core import CyclicSupport, GenericSupport, MeshedRegion, TimeFreqSupport
+
+            if isinstance(
+                support, (Support, TimeFreqSupport, MeshedRegion, GenericSupport, CyclicSupport)
+            ):
+                self._server = support._server
+                self._api = self._server.get_api_for_type(
+                    capi=support_capi.SupportCAPI,
+                    grpcapi=support_grpcapi.SupportGRPCAPI,
+                )
+                self._api.init_support_environment(self)  # creates stub when gRPC
+                core_api = self._server.get_api_for_type(
+                    capi=data_processing_capi.DataProcessingCAPI,
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+                )
+                core_api.init_data_processing_environment(self)
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(support)
+            else:
+                # support is of type protobuf.message or DPFObject*
+                self._internal_obj = support
 
     @version_requires("5.0")
     def field_support_by_property(self, property_name: str):
@@ -270,6 +297,44 @@ class Support:
             server=self._server,
         )
         return generic
+
+    @version_requires("12.0")
+    def deep_copy(self, server=None):
+        """
+        Create a deep copy of the Support on a given server.
+
+        Parameters
+        ----------
+        server : ansys.dpf.core.server, optional
+            Server with the channel connected to the remote or local instance.
+            The default is ``None``, in which case an attempt is made to use the
+            global server.
+
+        Returns
+        -------
+        support : Support
+        """
+        from ansys.dpf.core import Any, CyclicSupport, GenericSupport
+
+        support_type = self.get_type()
+        if support_type == "TimeFreqSupport":
+            return Support(support=self.get_as_time_freq_support().deep_copy(server), server=server)
+        elif support_type == "CMeshDomainSupport":
+            return Support(support=self.get_as_meshed_region().deep_copy(server), server=server)
+        elif support_type == "cyclic_support":
+            return Support(
+                support=_deep_copy(
+                    Any.new_from(self.get_as_cyclic_support(), self._server), server
+                ).cast(output_type=CyclicSupport),
+                server=server,
+            )
+        else:
+            return Support(
+                _deep_copy(Any.new_from(self.get_as_generic_support(), self._server), server).cast(
+                    output_type=GenericSupport
+                ),
+                server=server,
+            )
 
     def __del__(self):
         """
