@@ -61,34 +61,26 @@ class _PyVistaAnimator(_PyVistaPlotter):
         scale_factor=1.0,
         shell_layer=core.shell_layers.top,
         label=None,
-        output_type=None,
         **kwargs,
     ):
         """Animate a workflow, rendering one frame per entry in *loop_over*.
 
-        Supports two rendering modes controlled by *output_type*:
+        Each frame the workflow output *output_name* is retrieved as a
+        :class:`~ansys.dpf.core.MeshedRegion` and passed to :meth:`add_mesh`.
+        When the workflow also exposes a ``"field_to_render"``
+        :class:`~ansys.dpf.core.Field` output the mesh is colored by that
+        field via :meth:`add_field` instead.  An optional ``"deform_by"``
+        :class:`~ansys.dpf.core.Field` output is honoured in both cases.
 
-        * **Field mode** (default, ``output_type=None`` or
-          ``output_type=core.types.field``): the workflow output *output_name* is
-          retrieved as a :class:`~ansys.dpf.core.Field` and rendered with
-          :meth:`add_field`.  An optional ``"deform_by"`` :class:`~ansys.dpf.core.Field`
-          output is used for mesh deformation.
-        * **Mesh mode** (``output_type=core.types.meshed_region``): the workflow
-          output *output_name* is retrieved as a
-          :class:`~ansys.dpf.core.MeshedRegion` and rendered with :meth:`add_mesh`.
-          When the workflow also exposes a ``"to_render_field"``
-          :class:`~ansys.dpf.core.Field` output, the mesh is colored by that field
-          using :meth:`add_field` instead.  An optional ``"deform_by"`` output is
-          still honoured in both sub-cases.
+        Both :meth:`FieldsContainer.animate <ansys.dpf.core.FieldsContainer.animate>` and
+        :meth:`MeshesContainer.animate <ansys.dpf.core.MeshesContainer.animate>`
+        build workflows that expose ``"mesh_to_render"`` and optionally
+        ``"field_to_render"`` so they both use this single rendering path.
 
         When *label* is set the per-frame workflow input receives a
         ``{label: label_id}`` dict, which is what
         :class:`~ansys.dpf.core.operators.utility.extract_sub_fc` and
         :class:`~ansys.dpf.core.operators.utility.extract_sub_mc` expect.
-        Both :meth:`FieldsContainer.animate <ansys.dpf.core.FieldsContainer.animate>` and
-        :meth:`MeshesContainer.animate <ansys.dpf.core.MeshesContainer.animate>` use
-        this path, including mode-shape animations (which pre-build a scaled
-        FieldsContainer before calling ``animate``).
         When *label* is ``None`` the input receives a 0-based frame-index list,
         which is the fallback for direct :class:`Animator` callers.
         """
@@ -154,36 +146,25 @@ class _PyVistaAnimator(_PyVistaPlotter):
             if "deform_by" in workflow.output_names:
                 deform = workflow.get_output("deform_by", core.types.field)
 
-            # ── render: mesh mode or field mode ──────────────────────────────
-            if output_type == core.types.meshed_region:
-                mesh = workflow.get_output(output_name, core.types.meshed_region)
-                if "to_render_field" in workflow.output_names:
-                    # Coloring requested: overlay the field onto the mesh.
-                    color_field = workflow.get_output("to_render_field", core.types.field)
-                    self.add_field(
-                        color_field,
-                        meshed_region=mesh,
-                        deform_by=deform,
-                        scale_factor=scale_factor[frame],
-                        scale_factor_legend=scale_factor[frame],
-                        shell_layer=shell_layer,
-                        **kwargs,
-                    )
-                else:
-                    self.add_mesh(
-                        mesh,
-                        deform_by=deform,
-                        scale_factor=scale_factor[frame],
-                        **kwargs,
-                    )
-            else:
-                field = workflow.get_output(output_name, core.types.field)
+            # ── render: mesh geometry + optional field coloring ──────────────
+            mesh = workflow.get_output(output_name, core.types.meshed_region)
+            if "field_to_render" in workflow.output_names:
+                # Colorize the mesh by the companion scalar/vector field.
+                color_field = workflow.get_output("field_to_render", core.types.field)
                 self.add_field(
-                    field,
+                    color_field,
+                    meshed_region=mesh,
                     deform_by=deform,
                     scale_factor=scale_factor[frame],
                     scale_factor_legend=scale_factor[frame],
                     shell_layer=shell_layer,
+                    **kwargs,
+                )
+            else:
+                self.add_mesh(
+                    mesh,
+                    deform_by=deform,
+                    scale_factor=scale_factor[frame],
                     **kwargs,
                 )
 
@@ -254,14 +235,14 @@ class Animator:
 
     Drives an animation by repeatedly connecting per-frame values to a
     :class:`~ansys.dpf.core.Workflow` and rendering the result with PyVista.
-    Two output types are supported:
 
-    * **Field output** (default): the workflow returns a
-      :class:`~ansys.dpf.core.Field` per frame, rendered as a contour plot.
-    * **Mesh output** (``output_type=core.types.meshed_region``): the workflow
-      returns a :class:`~ansys.dpf.core.MeshedRegion` per frame, rendered as a
-      geometry plot.  Optionally the workflow also exposes a ``"to_render_field"``
-      output for coloring and/or a ``"deform_by"`` output for mesh deformation.
+    Each frame the workflow's ``"mesh_to_render"`` output is retrieved as a
+    :class:`~ansys.dpf.core.MeshedRegion` and rendered with :meth:`add_mesh`.
+    When the workflow also exposes a ``"field_to_render"``
+    :class:`~ansys.dpf.core.Field` output the mesh is colored by that field.
+    An optional ``"deform_by"`` :class:`~ansys.dpf.core.Field` output deforms
+    the mesh.  The ``"loop_over"`` (or ``"label_space"``) workflow input drives
+    the per-frame iteration.
     """
 
     def __init__(self, workflow=None, **kwargs):
@@ -279,11 +260,10 @@ class Animator:
         Parameters
         ----------
         workflow : Workflow, optional
-            Workflow used to generate a Field at each frame of the animation.
-            By default, the "to_render" Field output will be plotted,
-            and the "loop_over" input defines what the animation iterates on.
-            Optionally, the workflow can also have a "deform_by" Field output,
-            used to deform the mesh support.
+            Workflow whose ``"mesh_to_render"`` output is rendered each frame.
+            An optional ``"field_to_render"`` output colorizes the mesh, and an
+            optional ``"deform_by"`` output deforms it.
+            The ``"loop_over"`` (or ``"label_space"``) input drives the iteration.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :class:`pyvista.Plotter`.
@@ -301,12 +281,12 @@ class Animator:
     @property
     def workflow(self) -> core.Workflow:
         """
-        Workflow used to generate a Field at each frame of the animation.
+        Workflow used to generate a MeshedRegion at each frame of the animation.
 
-        By default, the "to_render" Field output will be plotted,
-        and the "loop_over" input defines what the animation iterates on.
-        Optionally, the workflow can also have a "deform_by" Field output,
-        used to deform the mesh support.
+        The ``"mesh_to_render"`` output is rendered each frame.
+        An optional ``"field_to_render"`` output colorizes the mesh, and an
+        optional ``"deform_by"`` output deforms it.
+        The ``"loop_over"`` (or ``"label_space"``) input drives the iteration.
 
         Returns
         -------
@@ -317,16 +297,15 @@ class Animator:
     @workflow.setter
     def workflow(self, workflow: core.Workflow):
         """
-        Set the workflow used to generate a Field at each frame of the animation.
+        Set the workflow used to generate a MeshedRegion at each frame of the animation.
 
         Parameters
         ----------
         workflow : Workflow
-            Workflow used to generate a Field at each frame of the animation.
-            By default, the "to_render" Field output will be plotted,
-            and the "loop_over" input defines what the animation iterates on.
-            Optionally, the workflow can also have a "deform_by" Field output,
-            used to deform the mesh support.
+            Workflow whose ``"mesh_to_render"`` output is rendered each frame.
+            An optional ``"field_to_render"`` output colorizes the mesh, and an
+            optional ``"deform_by"`` output deforms it.
+            The ``"loop_over"`` (or ``"label_space"``) input drives the iteration.
 
         """
         self._workflow = workflow
@@ -334,14 +313,13 @@ class Animator:
     def animate(
         self,
         loop_over: core.Field,
-        output_name: str = "to_render",
+        output_name: str = "mesh_to_render",
         input_name: str = "loop_over",
         save_as: str = None,
         scale_factor: Union[float, Sequence[float]] = 1.0,
         freq_kwargs: dict = None,
         shell_layer: core.shell_layers = core.shell_layers.top,
         label: str = None,
-        output_type=None,
         **kwargs,
     ):
         """
@@ -355,9 +333,8 @@ class Animator:
             The unit of the Field will be displayed if present.
         output_name:
             Name of the workflow output to retrieve for rendering each frame.
-            For Field animations (default) this should return a
-            :class:`~ansys.dpf.core.Field`; for mesh animations it should return a
-            :class:`~ansys.dpf.core.MeshedRegion`.  Defaults to ``"to_render"``.
+            Must resolve to a :class:`~ansys.dpf.core.MeshedRegion`.
+            Defaults to ``"mesh_to_render"``.
         input_name:
             Name of the workflow input to feed the per-frame value into.
             Defaults to ``"loop_over"`` (0-based frame index list for mode-shape animations).
@@ -383,11 +360,7 @@ class Animator:
             :class:`~ansys.dpf.core.operators.utility.extract_sub_mc`.  Also
             used as the prefix in the per-frame overlay text
             (e.g. ``"mat"`` → ``"mat=3"``, ``"time"`` → ``"t=0.001 s"``).
-            Defaults to ``None`` (mode-shape animation, index-list input).
-        output_type : core.types, optional
-            Expected type of the workflow's *output_name* output.  Use
-            ``core.types.meshed_region`` to animate a :class:`~ansys.dpf.core.MeshesContainer`;
-            leave as ``None`` (or ``core.types.field``) for the standard Field animation.
+            Defaults to ``None`` (index-list input).
         **kwargs : optional
             Additional keyword arguments for the animator.
             Used by :func:`pyvista.Plotter` (off_screen, cpos, ...),
@@ -408,7 +381,6 @@ class Animator:
             freq_kwargs=freq_kwargs,
             shell_layer=shell_layer,
             label=label,
-            output_type=output_type,
             **kwargs,
         )
 

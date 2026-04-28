@@ -93,8 +93,10 @@ def test_animator_animate(displacement_fields):
     wf = Workflow()
     wf.progress_bar = False
     extract_field_op = dpf.operators.utility.extract_field(displacement_fields)
+    from_field_op = dpf.operators.mesh.from_field(field=extract_field_op.outputs.field)
     wf.set_input_name("loop_over", extract_field_op.inputs.indices)
-    wf.set_output_name("to_render", extract_field_op.outputs.field)
+    wf.set_output_name("mesh_to_render", from_field_op.outputs.mesh)
+    wf.add_operators([extract_field_op, from_field_op])
 
     an = Animator(wf)
     an.animate(loop_over=loop_over_field)
@@ -110,8 +112,10 @@ def test_animator_animate_raise_wrong_scale_factor(remove_gifs, displacement_fie
     wf = Workflow()
     wf.progress_bar = False
     extract_field_op = dpf.operators.utility.extract_field(displacement_fields)
+    from_field_op = dpf.operators.mesh.from_field(field=extract_field_op.outputs.field)
     wf.set_input_name("loop_over", extract_field_op.inputs.indices)
-    wf.set_output_name("to_render", extract_field_op.outputs.field)
+    wf.set_output_name("mesh_to_render", from_field_op.outputs.mesh)
+    wf.add_operators([extract_field_op, from_field_op])
 
     an = Animator(wf)
     with pytest.raises(ValueError) as e:

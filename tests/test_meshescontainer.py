@@ -615,7 +615,7 @@ def test_animator_animate_meshes_container_via_workflow(mat_meshes_container):
     extract_op = dpf_core.operators.utility.extract_sub_mc(meshes=mat_meshes_container)
     wf.set_input_name("label_space", extract_op.inputs.label_space)
     merge_op = dpf_core.operators.utility.merge_meshes(meshes1=extract_op.outputs.meshes_container)
-    wf.set_output_name("to_render", merge_op.outputs.merges_mesh)
+    wf.set_output_name("mesh_to_render", merge_op.outputs.merges_mesh)
     wf.add_operators([extract_op, merge_op])
     wf.progress_bar = False
 
@@ -627,9 +627,7 @@ def test_animator_animate_meshes_container_via_workflow(mat_meshes_container):
     anim = Animator(workflow=wf, notebook=False)
     anim.animate(
         loop_over=loop_over,
-        output_name="to_render",
         input_name="label_space",
         label=label,
-        output_type=dpf_core.types.meshed_region,
         off_screen=True,
     )

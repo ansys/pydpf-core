@@ -623,23 +623,23 @@ class FieldsContainer(CollectionBase["field.Field"]):
         to_render_field = merge_field_op.outputs.merged_field
 
         # Extract the mesh support from the merged field — this makes the
-        # workflow expose a "to_render" MeshedRegion, the same convention used
-        # by MeshesContainer.animate, so animate_workflow always uses add_mesh /
-        # add_field regardless of whether the source is a FC or MC.
+        # workflow expose a "mesh_to_render" MeshedRegion, the same convention
+        # used by MeshesContainer.animate, so animate_workflow always calls
+        # add_mesh / add_field regardless of whether the source is a FC or MC.
         from_field_op = dpf.core.operators.mesh.from_field(
             field=merge_field_op.outputs.merged_field
         )
         wf.add_operators([extract_fc_op, merge_field_op, from_field_op])
-        wf.set_output_name("to_render", from_field_op.outputs.mesh)
+        wf.set_output_name("mesh_to_render", from_field_op.outputs.mesh)
 
-        # The field (scalar norm for multi-component) becomes "to_render_field"
+        # The field (scalar norm for multi-component) becomes "field_to_render"
         # for coloring, matching the MeshesContainer.animate convention.
         n_components = self[0].component_count
         if n_components > 1:
             norm_op = dpf.core.operators.math.norm(merge_field_op.outputs.merged_field)
             wf.add_operator(norm_op)
             to_render_field = norm_op.outputs.field
-        wf.set_output_name("to_render_field", to_render_field)
+        wf.set_output_name("field_to_render", to_render_field)
 
         # Get label IDs and build the loop_over values
         label_scoping = self.get_label_scoping(label)
@@ -712,7 +712,6 @@ class FieldsContainer(CollectionBase["field.Field"]):
             shell_layer=shell_layer,
             input_name="label_space",
             label=label,
-            output_type=dpf.core.types.meshed_region,
             **kwargs,
         )
 

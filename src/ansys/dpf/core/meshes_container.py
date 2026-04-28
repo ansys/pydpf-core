@@ -241,11 +241,11 @@ class MeshesContainer(CollectionBase[MeshedRegion]):
         merge_op = dpf.operators.utility.merge_meshes(
             meshes1=extract_mc_op.outputs.meshes_container
         )
-        wf.set_output_name("to_render", merge_op.outputs.merges_mesh)
+        wf.set_output_name("mesh_to_render", merge_op.outputs.merges_mesh)
         wf.add_operators([extract_mc_op, merge_op])
 
         # Optional coloring path: extract_sub_fc → extract_field → Field
-        # Convention for animate_workflow mesh-coloring mode: output "to_render_field"
+        # Expose the coloring field under the "field_to_render" convention used by animate_workflow.
         if fields_container is not None:
             extract_fc_op = dpf.operators.utility.extract_sub_fc(
                 fields_container=fields_container, collapse_labels=True
@@ -257,7 +257,7 @@ class MeshesContainer(CollectionBase[MeshedRegion]):
             merge_color_op = dpf.operators.utility.merge_fields(
                 fields1=extract_fc_op.outputs.fields_container
             )
-            wf.set_output_name("to_render_field", merge_color_op.outputs.merged_field)
+            wf.set_output_name("field_to_render", merge_color_op.outputs.merged_field)
             wf.add_operators([extract_fc_op, merge_color_op])
 
         # Optional deformation path: extract_sub_fc → extract_field → Field
@@ -298,12 +298,11 @@ class MeshesContainer(CollectionBase[MeshedRegion]):
         kwargs.setdefault("freq_kwargs", {"font_size": 12, "fmt": freq_fmt})
         return anim.animate(
             loop_over=loop_over_field,
-            output_name="to_render",
+            output_name="mesh_to_render",
             input_name="label_space",
             save_as=save_as,
             scale_factor=scale_factor,
             label=label,
-            output_type=dpf.types.meshed_region,
             **kwargs,
         )
 
