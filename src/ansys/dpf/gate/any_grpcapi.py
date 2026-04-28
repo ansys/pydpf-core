@@ -36,6 +36,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
             field,
             fields_container,
             property_field,
+            cyclic_support,
             data_sources,
             generic_data_container,
             generic_support,
@@ -59,6 +60,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (custom_type_field.CustomTypeField, base_pb2.Type.CUSTOM_TYPE_FIELD),
                 (generic_data_container.GenericDataContainer, base_pb2.Type.GENERIC_DATA_CONTAINER),
                 (generic_support.GenericSupport, base_pb2.Type.GENERIC_SUPPORT),
+                (cyclic_support.CyclicSupport, base_pb2.Type.CYCLIC_SUPPORT),
                 (scoping.Scoping, base_pb2.Type.SCOPING),
                 (data_tree.DataTree, base_pb2.Type.DATA_TREE),
                 (workflow.Workflow, base_pb2.Type.WORKFLOW),
@@ -170,6 +172,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         return AnyGRPCAPI._get_as(any).generic_support
 
     @staticmethod
+    def any_get_as_cyclic_support(any):
+        return AnyGRPCAPI._get_as(any).cyc_support
+
+    @staticmethod
     def _new_from(any, client=None):
         from ansys.grpc.dpf import dpf_any_pb2
         request = dpf_any_pb2.CreateRequest()
@@ -269,4 +275,8 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     
     @staticmethod
     def any_new_from_generic_support(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
+    def any_new_from_cyclic_support(any):
         return AnyGRPCAPI._new_from(any, any._server)

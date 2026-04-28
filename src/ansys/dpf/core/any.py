@@ -113,6 +113,7 @@ class Any:
         from ansys.dpf.core import (
             collection,
             custom_type_field,
+            cyclic_support,
             data_sources,
             data_tree,
             dpf_operator,
@@ -216,6 +217,11 @@ class Any:
             return (
                 self._api.any_new_from_generic_support,
                 self._api.any_get_as_generic_support,
+            )
+        elif issubclass(obj, cyclic_support.CyclicSupport):
+            return (
+                self._api.any_new_from_cyclic_support,
+                self._api.any_get_as_cyclic_support,
             )
         elif issubclass(obj, Any):
             return (
