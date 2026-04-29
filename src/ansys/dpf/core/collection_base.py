@@ -535,7 +535,11 @@ class CollectionBase(Generic[TYPE]):
         """
         from ansys.dpf.core.support import Support
 
-        return Support(support=self._api.collection_get_support(self, label), server=self._server)
+        support = self._api.collection_get_support(self, label)
+        if support:
+            return Support(support=support, server=self._server)
+        else:
+            return support
 
     @version_requires("12.0")
     def deep_copy_supports(self, other: CollectionBase):
