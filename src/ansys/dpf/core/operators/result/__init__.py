@@ -298,6 +298,11 @@ from .reaction_force import reaction_force
 from .reaction_force_X import reaction_force_X
 from .reaction_force_Y import reaction_force_Y
 from .reaction_force_Z import reaction_force_Z
+from .reaction_heat import reaction_heat
+from .reaction_moment import reaction_moment
+from .reaction_moment_X import reaction_moment_X
+from .reaction_moment_Y import reaction_moment_Y
+from .reaction_moment_Z import reaction_moment_Z
 from .read_cms_rbd_file import read_cms_rbd_file
 from .recombine_harmonic_indeces_cyclic import recombine_harmonic_indeces_cyclic
 from .record_reader import record_reader
