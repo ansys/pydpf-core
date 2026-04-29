@@ -33,6 +33,7 @@ import numpy as np
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.core import _deep_copy
 from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.server_types import BaseServer
@@ -535,6 +536,20 @@ class CollectionBase(Generic[TYPE]):
         from ansys.dpf.core.support import Support
 
         return Support(support=self._api.collection_get_support(self, label), server=self._server)
+
+    @version_requires("12.0")
+    def deep_copy_supports(self, other: CollectionBase):
+        """Deep-copies the supports of all labels in the collection into the other collection.
+
+        Parameters
+        ----------
+        other : collection where the supports are to be deep-copied
+        """
+        other_server = other._server
+        for label in self.labels:
+            label_support = self.get_support(label)
+            if label_support is not None:
+                other.set_support(label, label_support.deep_copy(other_server))
 
     def __str__(self):
         """Describe the entity.

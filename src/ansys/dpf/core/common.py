@@ -206,6 +206,7 @@ def types_enum_to_types():
         field,
         fields_container,
         generic_data_container,
+        generic_support,
         mesh_info,
         meshed_region,
         meshes_container,
@@ -251,6 +252,7 @@ def types_enum_to_types():
         types.generic_data_container: generic_data_container.GenericDataContainer,
         types.mesh_info: mesh_info.MeshInfo,
         types.any: Any,
+        types.support: generic_support.GenericSupport,
     }
 
 
@@ -466,6 +468,7 @@ def type_to_internal_object_keyword():
             field,
             fields_container,
             generic_data_container,
+            generic_support,
             meshed_region,
             meshes_container,
             property_field,
@@ -500,6 +503,7 @@ def type_to_internal_object_keyword():
                 generic_data_container.GenericDataContainer: "generic_data_container",
                 any.Any: "any_dpf",
                 collection.Collection: "collection",
+                generic_support.GenericSupport: "generic_support",
             }
         )
     return _type_to_internal_object_keyword
