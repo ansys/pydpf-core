@@ -29,7 +29,7 @@ import warnings
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.available_result import Homogeneity
-from ansys.dpf.core.check_version import (
+from ansys.dpf.core.check_versions import (
     server_meet_version,
     server_meet_version_and_raise,
     version_requires,
