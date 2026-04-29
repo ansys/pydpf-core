@@ -42,6 +42,7 @@ from ansys.dpf.core.custom_fields_container import (
     ElShapeFieldsContainer,
 )
 import conftest
+from tests.conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0
 
 
 @pytest.fixture()
@@ -574,7 +575,9 @@ def test_fields_container_set_tfsupport(server_type):
     assert coll.get_support("body").string_field_support_by_property("name").data == ["inlet"]
 
 
-@conftest.raises_for_servers_version_under("12.0")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0, reason="Available for servers >=12.0"
+)
 def test_fields_container_deep_copy_local(server_type):
     coll = dpf.FieldsContainer(server=server_type)
     coll.labels = ["gen", "time", "cyc"]
@@ -609,7 +612,9 @@ def test_fields_container_deep_copy_local(server_type):
     assert coll_c.get_support("cyc").get_as_cyclic_support().num_sectors() == 6
 
 
-@conftest.raises_for_servers_version_under("12.0")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0, reason="Available for servers >=12.0"
+)
 def test_fields_container_deep_copy_gRPCCLayer(server_type):
     coll = dpf.FieldsContainer(server=server_type)
     coll.labels = ["gen", "time", "cyc"]
@@ -648,7 +653,9 @@ def test_fields_container_deep_copy_gRPCCLayer(server_type):
     assert coll_c.get_support("cyc").get_as_cyclic_support().num_sectors() == 6
 
 
-@conftest.raises_for_servers_version_under("12.0")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0, reason="Available for servers >=12.0"
+)
 def test_fields_container_deep_copy_LegacygRPC(server_type):
     coll = dpf.FieldsContainer(server=server_type)
     coll.labels = ["gen", "time", "cyc"]
