@@ -125,7 +125,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
         cpos = kwargs.pop("cpos", None)
         if cpos:
-            if isinstance(cpos[0][0], float):
+            if isinstance(cpos, str) or isinstance(cpos[0][0], float):
                 cpos = [cpos] * len(indices)
 
         def render_frame(frame):
