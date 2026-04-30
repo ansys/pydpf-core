@@ -256,6 +256,10 @@ class AnyAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def any_new_from_generic_support(any):
+		raise NotImplementedError
+
+	@staticmethod
 	def any_new_from_int_on_client(client, value):
 		raise NotImplementedError
 

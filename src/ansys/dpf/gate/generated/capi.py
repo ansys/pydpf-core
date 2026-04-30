@@ -270,6 +270,10 @@ def load_api(path):
 		dll.Any_newFrom_AnyCollection.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Any_newFrom_AnyCollection.restype = ctypes.c_void_p
 
+	if hasattr(dll, "Any_newFrom_GenericSupport"):
+		dll.Any_newFrom_GenericSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Any_newFrom_GenericSupport.restype = ctypes.c_void_p
+
 	if hasattr(dll, "Any_newFrom_Int_on_client"):
 		dll.Any_newFrom_Int_on_client.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Any_newFrom_Int_on_client.restype = ctypes.c_void_p
