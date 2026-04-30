@@ -128,6 +128,9 @@ class _PyVistaAnimator(_PyVistaPlotter):
             if isinstance(cpos, str) or isinstance(cpos[0][0], float):
                 cpos = [cpos] * len(indices)
 
+        # We use the same parallel_projection value for all frames, so we can pop it here instead of in the render loop
+        parallel_projection = kwargs.pop("parallel_projection", None)
+
         def render_frame(frame):
             self._plotter.clear()
 
@@ -178,6 +181,8 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
             if cpos:
                 self._plotter.camera_position = cpos[frame]
+            if parallel_projection:
+                self._plotter.enable_parallel_projection()
 
         try:
 
