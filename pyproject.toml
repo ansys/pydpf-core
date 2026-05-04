@@ -9,22 +9,22 @@ version = "0.16.0.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
 requires-python = ">=3.10, <4"
-license = {file = "LICENSE"}
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
-    {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"},
+    {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"}
 ]
 maintainers = [
-    {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"},
+    {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"}
 ]
 
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering :: Information Analysis",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX",
-    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3"
 ]
 dependencies = [
     "ansys-tools-common",
@@ -35,7 +35,7 @@ dependencies = [
     "protobuf",
     "psutil",
     "setuptools",
-    "tqdm",
+    "tqdm"
 ]
 
 [project.optional-dependencies]
@@ -48,7 +48,7 @@ graphics = [
     "vtk!=9.4.0",
     # Animations
     "imageio",
-    "imageio-ffmpeg",
+    "imageio-ffmpeg"
 ]
 
 plotting = [
@@ -60,12 +60,12 @@ plotting = [
     "vtk",
     # Animations
     "imageio",
-    "imageio-ffmpeg",
+    "imageio-ffmpeg"
 ]
 
 operator_doc = [
     # Operator documentation generation
-    "jinja2",
+    "jinja2"
 ]
 
 [dependency-groups]
@@ -86,13 +86,13 @@ doc = [
   "quarto-cli==1.9.37",
   "sphinx==8.2.3",
   "sphinx-copybutton==0.5.2",
-  "sphinx-gallery==0.20.0",
+  "sphinx-gallery==0.21.0",
   "sphinx-jinja==2.0.2",
   "sphinx-notfound-page==1.1.0",
   "sphinx-reredirects==0.1.6",
   "sphinx_design==0.7.0",
   "sphinxcontrib-napoleon==0.7",
-  "vtk==9.6.0",
+  "vtk==9.6.0"
 ]
 test = [
   "ansys-platform-instancemanagement==1.1.2",
@@ -109,21 +109,21 @@ test = [
   "pytest-order==1.3.0",
   "pytest-rerunfailures==16.1",
   "pyvista==0.47.3",
-  "vtk==9.6.0",
+  "vtk==9.6.0"
 ]
 build = [
   "black==26.3.1",
-  "build==1.4.3",
+  "build==1.4.4",
   "chevron==0.14.0",
   "pypandoc_binary==1.17",
-  "wheel==0.46.3",
+  "wheel==0.47.0"
 ]
 install = [
-  "importlib-metadata==8.9.0",
+  "importlib-metadata==9.0.0",
   "numpy==2.4.1",
-  "packaging==26.0",
+  "packaging==26.1",
   "psutil==7.2.2",
-  "tqdm==4.67.3",
+  "tqdm==4.67.3"
 ]
 
 [project.urls]
