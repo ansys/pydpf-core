@@ -23,16 +23,10 @@
 """Support."""
 
 import traceback
+from typing import TYPE_CHECKING
 import warnings
 
-from ansys.dpf.core import (
-    collection_base,
-    cyclic_support,
-    generic_support,
-    meshed_region,
-    server as server_module,
-    time_freq_support,
-)
+from ansys.dpf.core import collection_base, server as server_module
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.core import _deep_copy
 from ansys.dpf.gate import (
@@ -41,6 +35,14 @@ from ansys.dpf.gate import (
     integral_types,
     support_capi,
     support_grpcapi,
+)
+
+if TYPE_CHECKING:
+    from ansys.dpf.core import (
+    cyclic_support,
+    generic_support,
+    meshed_region,
+    time_freq_support,
 )
 
 
