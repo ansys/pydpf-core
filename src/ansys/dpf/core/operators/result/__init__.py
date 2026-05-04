@@ -290,6 +290,7 @@ from .pres_to_field import pres_to_field
 from .pressure import pressure
 from .pretension import pretension
 from .prns_to_field import prns_to_field
+from .radiation_area import radiation_area
 from .raw_acceleration import raw_acceleration
 from .raw_displacement import raw_displacement
 from .raw_reaction_force import raw_reaction_force
