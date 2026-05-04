@@ -76,7 +76,7 @@ with tempfile.TemporaryDirectory() as tmpdirname:
     else:
         cmd = [sys.executable, "-m", "pip", "wheel", "-w", "dist", "."]
     try:
-        subprocess.run(cmd, capture_output=False, text=True)
+        subprocess.run(cmd, capture_output=False, text=True, check=False)
         print("Done building the wheel.")
     except Exception as e:
         print(f"Build failed with error: {e}")

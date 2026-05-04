@@ -427,9 +427,7 @@ class _PyVistaPlotter:
                 meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
             )
         elif as_linear != meshed_region.as_linear:
-            grid = meshed_region._as_vtk(
-                meshed_region.nodes.coordinates_field, as_linear=as_linear
-            )
+            grid = meshed_region._as_vtk(meshed_region.nodes.coordinates_field, as_linear=as_linear)
             meshed_region.as_linear = as_linear
         else:
             grid = meshed_region.grid
@@ -1032,9 +1030,7 @@ class _VisualizationInterfacePlotter:
                 meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
             )
         elif as_linear != meshed_region.as_linear:
-            grid = meshed_region._as_vtk(
-                meshed_region.nodes.coordinates_field, as_linear=as_linear
-            )
+            grid = meshed_region._as_vtk(meshed_region.nodes.coordinates_field, as_linear=as_linear)
             meshed_region.as_linear = as_linear
         else:
             grid = meshed_region.grid

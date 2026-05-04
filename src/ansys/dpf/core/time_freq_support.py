@@ -306,9 +306,7 @@ class TimeFreqSupport(Support):
             )
         else:
             # Call for real
-            return self._api.time_freq_support_get_time_freq_by_cumul_index(
-                self, cumulative_index
-            )
+            return self._api.time_freq_support_get_time_freq_by_cumul_index(self, cumulative_index)
 
     def get_cumulative_index(self, step=0, substep=0, freq=None, cplx=False):
         """Retrieve the cumulative index corresponding to the requested step/substep or frequency.

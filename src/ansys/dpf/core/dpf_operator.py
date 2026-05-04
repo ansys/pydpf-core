@@ -178,9 +178,7 @@ class Operator:
                 self._internal_obj = operator
                 self.name = self._api.operator_name(self)
         elif self._server.has_client():
-            self._internal_obj = self._api.operator_new_on_client(
-                self.name, self._server.client
-            )
+            self._internal_obj = self._api.operator_new_on_client(self.name, self._server.client)
         else:
             self._internal_obj = self._api.operator_new(self.name)
 

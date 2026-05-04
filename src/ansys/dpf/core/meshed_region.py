@@ -747,9 +747,7 @@ class MeshedRegion:
                 res = property_field.PropertyField(server=self._server, property_field=field_out)
                 return res
             elif field_out.datatype == "int":
-                return property_field.PropertyField(
-                    server=self._server, property_field=field_out
-                )
+                return property_field.PropertyField(server=self._server, property_field=field_out)
             else:
                 # Not sure we go through here since the only datatype not int is coordinates,
                 # which is already dealt with previously.

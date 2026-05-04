@@ -170,6 +170,9 @@ ignore = [
     "E501",  # Line too long. Ignoring this so "ruff.formatter" manages line length.
     # flake8-todos
     "TD002", # Missing author in TODOs comment
+    # pylint
+    "PLC0415", # Used extensively to defer costly module load
+    "PLR2004",
 ]
 
 [tool.ruff.lint.per-file-ignores]

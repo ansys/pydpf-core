@@ -84,9 +84,7 @@ class GenericSupport(Support):
         if generic_support is not None:
             self._internal_obj = generic_support
         elif self._server.has_client():
-            self._internal_obj = self._api.generic_support_new_on_client(
-                self._server.client, name
-            )
+            self._internal_obj = self._api.generic_support_new_on_client(self._server.client, name)
         else:
             self._internal_obj = self._api.generic_support_new(name)
 
