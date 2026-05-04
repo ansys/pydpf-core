@@ -39,11 +39,11 @@ from ansys.dpf.gate import (
 
 if TYPE_CHECKING:
     from ansys.dpf.core import (
-    cyclic_support,
-    generic_support,
-    meshed_region,
-    time_freq_support,
-)
+        cyclic_support,
+        generic_support,
+        meshed_region,
+        time_freq_support,
+    )
 
 
 class Support:
