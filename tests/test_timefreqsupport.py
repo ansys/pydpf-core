@@ -28,7 +28,6 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import Model, TimeFreqSupport, examples, fields_factory
 from ansys.dpf.core.common import locations
-import conftest
 
 
 @pytest.fixture()

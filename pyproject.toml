@@ -136,6 +136,16 @@ Tracker = "https://github.com/ansys/pydpf-core/issues"
 dpf_generate_operators_doc = "ansys.dpf.core.documentation.generate_operators_doc:run_with_args"
 
 [tool.ruff]
+exclude = [
+    "doc/source/",
+    "src/ansys/dpf/core/operators/",
+    "examples_notebooks/",
+    "src/ansys/dpf/core/__init__.py",
+    "doc/styles/",
+    "src/ansys/dpf/gate/",
+    "src/ansys/dpf/gatebin/",
+    "src/ansys/grpc/dpf/"
+]
 line-length = 100
 
 [tool.ruff.format]

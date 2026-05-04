@@ -33,7 +33,6 @@ import numpy as np
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.core import _deep_copy
 from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.server_types import BaseServer

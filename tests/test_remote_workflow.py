@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
 
 import numpy as np
 import pytest
@@ -28,7 +27,6 @@ import pytest
 from ansys.dpf import core
 from ansys.dpf.core import examples, operators as ops
 from ansys.dpf.core.errors import ServerTypeError
-import conftest
 from conftest import local_servers, running_docker
 
 

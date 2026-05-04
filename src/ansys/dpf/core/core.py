@@ -24,20 +24,18 @@
 
 from __future__ import annotations
 
-import logging
 import os
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import TYPE_CHECKING
 import warnings
 import weakref
 
-from ansys.dpf.core import errors, misc, server as server_module
+from ansys.dpf.core import errors, server as server_module
 
 if TYPE_CHECKING:  # pragma: noqa
     from ansys.dpf.core import AnyServerType
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.runtime_config import (
-    RuntimeClientConfig,
     RuntimeCoreConfig,
 )
 from ansys.dpf.gate import (

@@ -25,7 +25,6 @@ import numpy as np
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
-import conftest
 
 
 def test_operator_coordinate_system_rst(server_type):

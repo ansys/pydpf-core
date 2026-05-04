@@ -25,7 +25,6 @@ Verify all examples can be accessed or downloaded
 
 """
 
-import pytest
 
 from ansys.dpf import core as dpf
 

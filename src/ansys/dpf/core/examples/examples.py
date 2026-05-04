@@ -22,7 +22,6 @@
 
 """Examples result files."""
 
-import os
 from pathlib import Path
 
 from ansys.dpf.core import DataSources, path_utilities, server as server_module

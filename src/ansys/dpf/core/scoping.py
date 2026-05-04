@@ -39,8 +39,6 @@ from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
     dpf_vector,
-    dpf_vector_abstract_api,
-    dpf_vector_capi,
     scoping_capi,
     scoping_grpcapi,
     utils,

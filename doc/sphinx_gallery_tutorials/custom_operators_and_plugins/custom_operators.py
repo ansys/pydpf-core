@@ -196,7 +196,6 @@ def load_operators(*args):
 # First, start a server in gRPC mode, which is the only server type supported for custom
 # Python plugins.
 
-import ansys.dpf.core as dpf
 
 # Python plugins are not supported in process.
 server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer, as_global=False)

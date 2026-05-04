@@ -25,7 +25,6 @@ import pytest
 
 from ansys.dpf import core
 from ansys.dpf.core import operators as ops
-import conftest
 from conftest import local_servers, running_docker
 
 

@@ -44,7 +44,7 @@ from a result file. For more information, see the
 # -----------------------------
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples, operators as ops
+from ansys.dpf.core import examples
 
 ###############################################################################
 # Define the mesh

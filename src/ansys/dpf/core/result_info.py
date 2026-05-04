@@ -590,7 +590,7 @@ class ResultInfo:
         """
         try:
             return self.n_results
-        except Exception as e:
+        except Exception:
             return 0
 
     def __iter__(self):

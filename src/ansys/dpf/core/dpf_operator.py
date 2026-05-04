@@ -25,7 +25,6 @@
 from __future__ import annotations
 
 from enum import Enum
-import logging
 import os
 import traceback
 from typing import TYPE_CHECKING
@@ -410,7 +409,6 @@ class Operator:
             meshed_region,
             meshes_container,
             property_field,
-            property_fields_container,
             result_info,
             scoping,
             scopings_container,
@@ -1082,6 +1080,6 @@ def _write_output_type_to_type(output_type):
     if isinstance(output_type, types):
         try:
             return types_enum_to_types()[output_type]
-        except KeyError as e:
+        except KeyError:
             raise TypeError(f"{output_type} is not an implemented Operator's output")
     return output_type

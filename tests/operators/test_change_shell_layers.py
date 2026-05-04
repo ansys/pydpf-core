@@ -28,7 +28,6 @@ import pytest
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core.check_version import get_server_version, meets_version
 
 
 @pytest.mark.skipif(

@@ -22,7 +22,6 @@
 
 # -*- coding: utf-8 -*-
 import copy
-import os
 from pathlib import Path
 import tempfile
 
