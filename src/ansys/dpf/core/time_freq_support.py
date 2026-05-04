@@ -76,11 +76,10 @@ class TimeFreqSupport(Support):
             self._internal_obj = time_freq_support
             # Might to test for type for CLayer as I have not tested this for C
             # self._internal_obj = support_api.support_get_as_time_freq_support(self)
+        elif self._server.has_client():
+            self._internal_obj = self._api.time_freq_support_new_on_client(self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.time_freq_support_new_on_client(self._server.client)
-            else:
-                self._internal_obj = self._api.time_freq_support_new()
+            self._internal_obj = self._api.time_freq_support_new()
 
     def __str__(self):
         """Describe the entity.
@@ -299,18 +298,17 @@ class TimeFreqSupport(Support):
             else:
                 # Call for real
                 return self._api.time_freq_support_get_time_freq_by_step(self, step, substep)
+        # Use by_cumul_index methods
+        elif cplx:
+            # Call for imaginary
+            return self._api.time_freq_support_get_imaginary_freq_by_cumul_index(
+                self, cumulative_index
+            )
         else:
-            # Use by_cumul_index methods
-            if cplx:
-                # Call for imaginary
-                return self._api.time_freq_support_get_imaginary_freq_by_cumul_index(
-                    self, cumulative_index
-                )
-            else:
-                # Call for real
-                return self._api.time_freq_support_get_time_freq_by_cumul_index(
-                    self, cumulative_index
-                )
+            # Call for real
+            return self._api.time_freq_support_get_time_freq_by_cumul_index(
+                self, cumulative_index
+            )
 
     def get_cumulative_index(self, step=0, substep=0, freq=None, cplx=False):
         """Retrieve the cumulative index corresponding to the requested step/substep or frequency.

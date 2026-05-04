@@ -107,11 +107,10 @@ class Workflow:
         # step4: if object exists, take the instance, else create it
         if workflow is not None:
             self._internal_obj = workflow
+        elif self._server.has_client():
+            self._internal_obj = self._api.work_flow_new_on_client(self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.work_flow_new_on_client(self._server.client)
-            else:
-                self._internal_obj = self._api.work_flow_new()
+            self._internal_obj = self._api.work_flow_new()
 
         self.progress_bar = True
 

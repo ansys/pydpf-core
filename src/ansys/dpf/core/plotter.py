@@ -426,14 +426,13 @@ class _PyVistaPlotter:
             grid = meshed_region._as_vtk(
                 meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
             )
+        elif as_linear != meshed_region.as_linear:
+            grid = meshed_region._as_vtk(
+                meshed_region.nodes.coordinates_field, as_linear=as_linear
+            )
+            meshed_region.as_linear = as_linear
         else:
-            if as_linear != meshed_region.as_linear:
-                grid = meshed_region._as_vtk(
-                    meshed_region.nodes.coordinates_field, as_linear=as_linear
-                )
-                meshed_region.as_linear = as_linear
-            else:
-                grid = meshed_region.grid
+            grid = meshed_region.grid
         if location == locations.elemental_nodal:
             grid = grid.shrink(1.0)
         grid.set_active_scalars(None)
@@ -1032,14 +1031,13 @@ class _VisualizationInterfacePlotter:
             grid = meshed_region._as_vtk(
                 meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
             )
+        elif as_linear != meshed_region.as_linear:
+            grid = meshed_region._as_vtk(
+                meshed_region.nodes.coordinates_field, as_linear=as_linear
+            )
+            meshed_region.as_linear = as_linear
         else:
-            if as_linear != meshed_region.as_linear:
-                grid = meshed_region._as_vtk(
-                    meshed_region.nodes.coordinates_field, as_linear=as_linear
-                )
-                meshed_region.as_linear = as_linear
-            else:
-                grid = meshed_region.grid
+            grid = meshed_region.grid
         if location == locations.elemental_nodal:
             grid = grid.shrink(1.0)
         grid.set_active_scalars(None)
@@ -1700,7 +1698,7 @@ class Plotter:
         """
         # Import matplotlib.pyplot
         try:
-            import matplotlib.pyplot as pyplot
+            from matplotlib import pyplot
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
                 "To use plot_chart capabilities, please install "
@@ -1942,13 +1940,12 @@ class Plotter:
         if deform_by:
             grid = mesh._as_vtk(mesh.deform_by(deform_by, scale_factor), as_linear=as_linear)
             self._internal_plotter.add_scale_factor_legend(scale_factor, **kwargs)
+        elif as_linear != mesh.as_linear:
+            grid = mesh._as_vtk(mesh.nodes.coordinates_field, as_linear=as_linear)
+            mesh._full_grid = grid
+            mesh.as_linear = as_linear
         else:
-            if as_linear != mesh.as_linear:
-                grid = mesh._as_vtk(mesh.nodes.coordinates_field, as_linear=as_linear)
-                mesh._full_grid = grid
-                mesh.as_linear = as_linear
-            else:
-                grid = mesh.grid
+            grid = mesh.grid
         if location == locations.elemental_nodal:
             grid = grid.shrink(1.0)
         grid.clear_data()

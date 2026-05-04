@@ -32,7 +32,7 @@ from typing import Sequence, Union
 
 import numpy as np
 
-import ansys.dpf.core as core
+from ansys.dpf import core
 from ansys.dpf.core.helpers.utils import _sort_supported_kwargs
 from ansys.dpf.core.plotter import _PyVistaPlotter
 

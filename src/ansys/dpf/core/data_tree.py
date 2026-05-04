@@ -617,7 +617,7 @@ class DataTree:
             The value of the attribute to set.
         """
         if key == "_common_keys" or key in self._common_keys or key in dir(self):
-            return super.__setattr__(self, key, value)
+            return super().__setattr__(self, key, value)
         self.add({key: value})
 
     def __str__(self):
@@ -679,7 +679,7 @@ class _LocalDataTree(DataTree):
 
     def __setattr__(self, key, value):
         if key == "_common_keys" or key in self._common_keys:
-            return super.__setattr__(self, key, value)
+            return super().__setattr__(self, key, value)
         self.add({key: value})
 
     def __enter__(self):

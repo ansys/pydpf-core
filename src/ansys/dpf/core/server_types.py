@@ -47,7 +47,7 @@ import warnings
 
 import psutil
 
-import ansys.dpf.core as core
+from ansys.dpf import core
 from ansys.dpf.core import __version__, errors, server_context, server_factory
 from ansys.dpf.core._version import min_server_version, server_to_ansys_version
 from ansys.dpf.core.check_version import get_server_version, meets_version, version_requires
@@ -105,12 +105,11 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
             "Unable to locate the directory containing DPF at "
             f'"{dpf_run_dir}"'
         )
-    else:
-        if not dpf_run_dir.joinpath(executable).exists():
-            raise FileNotFoundError(
-                f'DPF executable not found at "{dpf_run_dir}".  '
-                f'Unable to locate the executable "{executable}"'
-            )
+    elif not dpf_run_dir.joinpath(executable).exists():
+        raise FileNotFoundError(
+            f'DPF executable not found at "{dpf_run_dir}".  '
+            f'Unable to locate the executable "{executable}"'
+        )
     return dpf_run_dir
 
 
@@ -1368,27 +1367,26 @@ class LegacyGrpcServer(BaseServer):
                 address = self._remote_instance.services["grpc"].uri
                 ip = address.split(":")[-2]
                 port = int(address.split(":")[-1])
+            elif docker_config.use_docker:
+                self.docker_config = server_factory.RunningDockerConfig(docker_config)
+                launch_dpf_on_docker(
+                    running_docker_config=self.docker_config,
+                    ansys_path=ansys_path,
+                    ip=ip,
+                    port=port,
+                    timeout=timeout,
+                )
             else:
-                if docker_config.use_docker:
-                    self.docker_config = server_factory.RunningDockerConfig(docker_config)
-                    launch_dpf_on_docker(
-                        running_docker_config=self.docker_config,
-                        ansys_path=ansys_path,
-                        ip=ip,
-                        port=port,
-                        timeout=timeout,
-                    )
-                else:
-                    launch_dpf(
-                        ansys_path,
-                        ip,
-                        port,
-                        timeout=timeout,
-                        context=context,
-                        grpc_mode=self._grpc_mode,
-                        certificates_dir=self._certs_dir,
-                    )
-                    self._local_server = True
+                launch_dpf(
+                    ansys_path,
+                    ip,
+                    port,
+                    timeout=timeout,
+                    context=context,
+                    grpc_mode=self._grpc_mode,
+                    certificates_dir=self._certs_dir,
+                )
+                self._local_server = True
         from ansys.dpf.core import misc, settings
 
         if misc.RUNTIME_CLIENT_CONFIG is not None:

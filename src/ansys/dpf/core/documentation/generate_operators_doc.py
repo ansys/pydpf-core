@@ -234,9 +234,8 @@ def update_operator_descriptions(
                 bf.write(updated_content)
             if verbose:
                 print(f"Updated description for: {file_name}")
-        else:
-            if verbose:
-                print(f"No operator description found in: {upd_path}")
+        elif verbose:
+            print(f"No operator description found in: {upd_path}")
 
 
 def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:

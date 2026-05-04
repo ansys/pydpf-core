@@ -74,11 +74,10 @@ class FieldDefinition:
         # step4: if object exists, take the instance, else create it
         if field_definition is not None:
             self._internal_obj = field_definition
+        elif self._server.has_client():
+            self._internal_obj = self._api.field_definition_new_on_client(self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.field_definition_new_on_client(self._server.client)
-            else:
-                self._internal_obj = self._api.field_definition_new()
+            self._internal_obj = self._api.field_definition_new()
 
     @property
     def location(self):

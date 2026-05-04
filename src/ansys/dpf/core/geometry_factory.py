@@ -353,9 +353,8 @@ def create_plane_from_point_and_line(
     if isinstance(point, Points):
         if not len(point) == 1:
             raise ValueError("Only one point must be passed.")
-    else:
-        if not len(point) == 3:
-            raise ValueError("A point must contain three coordinates 'x', 'y' and 'z'.")
+    elif not len(point) == 3:
+        raise ValueError("A point must contain three coordinates 'x', 'y' and 'z'.")
     if not isinstance(line, Line):
         if not len(line) == 2:
             raise ValueError("'line' must be of length = 2 containing two points.")

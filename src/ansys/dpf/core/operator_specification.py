@@ -297,20 +297,19 @@ class Specification(SpecificationBase):
         # step4: if object exists: take instance, else create it (specification)
         if specification is not None:
             self.internal_obj = specification
-        else:
-            if operator_name:
-                if self._server.has_client():
-                    self._internal_obj = self._api.operator_specification_new_on_client(
-                        self._server.client, operator_name
-                    )
-                else:
-                    self._internal_obj = self._api.operator_specification_new(operator_name)
+        elif operator_name:
+            if self._server.has_client():
+                self._internal_obj = self._api.operator_specification_new_on_client(
+                    self._server.client, operator_name
+                )
             else:
-                if self._server.has_client():
-                    raise NotImplementedError(
-                        "Creating an empty specification on a gRPC client is not implemented"
-                    )
-                self._internal_obj = self._api.operator_empty_specification_new()
+                self._internal_obj = self._api.operator_specification_new(operator_name)
+        else:
+            if self._server.has_client():
+                raise NotImplementedError(
+                    "Creating an empty specification on a gRPC client is not implemented"
+                )
+            self._internal_obj = self._api.operator_empty_specification_new()
 
         self.operator_name = operator_name
         self._map_output_pin_spec = None

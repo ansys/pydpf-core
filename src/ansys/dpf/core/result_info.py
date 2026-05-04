@@ -249,9 +249,8 @@ class ResultInfo:
             raise NotImplementedError("Cannot add a result to a ResultInfo via gRPC.")
         if nature == natures.scalar:
             dimensions = [1]
-        else:
-            if not dimensions:
-                raise ValueError(f"Argument 'dimensions' is required for a {nature.name} result.")
+        elif not dimensions:
+            raise ValueError(f"Argument 'dimensions' is required for a {nature.name} result.")
         size_dim = len(dimensions)
         self._api.result_info_add_result(
             self,
