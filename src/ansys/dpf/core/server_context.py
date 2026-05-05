@@ -301,6 +301,8 @@ class ServerContext:
             f"{'' if len(self.xml_path) == 0 else ': ' + self.xml_path}"
         )
 
+    __hash__ = None
+
     def __eq__(self, other):
         """Compare two ServerContext instances for equality."""
         if not isinstance(other, ServerContext):

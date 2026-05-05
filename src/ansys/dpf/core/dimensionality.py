@@ -145,6 +145,8 @@ class Dimensionality:
         """
         return Dimensionality([3, 3], natures.symmatrix)
 
+    __hash__ = None
+
     def __eq__(self, other):
         """Check if this Dimensionality object is equal to another.
 

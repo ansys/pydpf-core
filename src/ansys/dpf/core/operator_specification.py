@@ -158,6 +158,8 @@ class PinSpecification:
             ),
         )
 
+    __hash__ = None
+
     def __eq__(self, other):
         """One instance is equal to the other if their string representation is the same."""
         return str(self) == str(other)
@@ -649,6 +651,8 @@ class SpecificationProperties:
             The value of the specified attribute.
         """
         return getattr(self, item)
+
+    __hash__ = None
 
     def __eq__(self, other):
         """

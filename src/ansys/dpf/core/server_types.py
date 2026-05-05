@@ -690,6 +690,8 @@ class BaseServer(abc.ABC):
         """Return string representation of the instance."""
         return f"DPF Server: {self.info}"
 
+    __hash__ = None
+
     @abc.abstractmethod
     def __eq__(self, other_server):
         """Must be implemented by subclasses."""
@@ -1015,6 +1017,8 @@ class GrpcServer(CServer):
             self._docker_config.remove_docker_image()
             self.live = False
 
+    __hash__ = None
+
     def __eq__(self, other_server):
         """Return true, if ***** are equals."""
         if isinstance(other_server, GrpcServer):
@@ -1208,6 +1212,8 @@ class InProcessServer(CServer):
 
     def shutdown(self):  # noqa: D102
         pass
+
+    __hash__ = None
 
     def __eq__(self, other_server):
         """Return true, if the ip and the port are equals."""
@@ -1616,6 +1622,8 @@ class LegacyGrpcServer(BaseServer):
         config.grpc_mode = self._grpc_mode
         config.certificates_dir = self._certs_dir
         return config
+
+    __hash__ = None
 
     def __eq__(self, other_server):
         """Return true, if the ip and the port are equals."""
