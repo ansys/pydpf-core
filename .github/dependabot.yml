@@ -6,7 +6,7 @@ updates:
       interval: "daily"
     # Allow up to 10 open pull requests for pip dependencies
     cooldown:
-      default-days: 5 # Fallback cooldown if no specific rule applies
+      default-days: 7 # Fallback cooldown if no specific rule applies
       semver-major-days: 30 # Cooldown for major version updates
       semver-minor-days: 7 # Cooldown for minor version updates
       semver-patch-days: 3 # Cooldown for patch updates
