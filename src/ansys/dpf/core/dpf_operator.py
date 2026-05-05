@@ -354,40 +354,40 @@ class Operator:
         self._api.operator_connect_operator_as_input(self, pin, op)
 
     @staticmethod
-    def _getoutput_string(self, pin):
-        out = Operator._getoutput_string_as_bytes(self, pin)
+    def _getoutput_string(operator_instance, pin):
+        out = Operator._getoutput_string_as_bytes(operator_instance, pin)
         if out is not None and not isinstance(out, str):
             return out.decode("utf-8")
         return out
 
     @staticmethod
-    def _connect_string(self, pin, str):
-        return Operator._connect_string_as_bytes(self, pin, str.encode("utf-8"))
+    def _connect_string(operator_instance, pin, str):
+        return Operator._connect_string_as_bytes(operator_instance, pin, str.encode("utf-8"))
 
     @staticmethod
-    def _getoutput_string_as_bytes(self, pin):
-        if server_meet_version("8.0", self._server):
+    def _getoutput_string_as_bytes(operator_instance, pin):
+        if server_meet_version("8.0", operator_instance._server):
             size = integral_types.MutableUInt64(0)
-            return self._api.operator_getoutput_string_with_size(self, pin, size)
+            return operator_instance._api.operator_getoutput_string_with_size(operator_instance, pin, size)
         else:
-            return self._api.operator_getoutput_string(self, pin)
+            return operator_instance._api.operator_getoutput_string(operator_instance, pin)
 
     @staticmethod
-    def _getoutput_bytes(self, pin):
+    def _getoutput_bytes(operator_instance, pin):
         server_meet_version_and_raise(
             "8.0",
-            self._server,
+            operator_instance._server,
             "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2).",
         )
-        return Operator._getoutput_string_as_bytes(self, pin)
+        return Operator._getoutput_string_as_bytes(operator_instance, pin)
 
     @staticmethod
-    def _connect_string_as_bytes(self, pin, str):
-        if server_meet_version("8.0", self._server):
+    def _connect_string_as_bytes(operator_instance, pin, str):
+        if server_meet_version("8.0", operator_instance._server):
             size = integral_types.MutableUInt64(len(str))
-            return self._api.operator_connect_string_with_size(self, pin, str, size)
+            return operator_instance._api.operator_connect_string_with_size(operator_instance, pin, str, size)
         else:
-            return self._api.operator_connect_string(self, pin, str)
+            return operator_instance._api.operator_connect_string(operator_instance, pin, str)
 
     @property
     def _type_to_output_method(self):
