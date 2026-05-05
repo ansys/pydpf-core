@@ -864,7 +864,7 @@ class Operator:
             # because cpp mappings are a single type mapping and
             # sometimes the spec contains 'B' instead of 'bool'
             if python_name == "B":
-                python_name = "bool"
+                python_name = "bool" # noqa: PLW2901
 
             # Type match
             if input_type_name == python_name:

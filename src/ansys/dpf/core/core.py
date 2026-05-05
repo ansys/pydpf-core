@@ -788,7 +788,7 @@ class BaseService:
         """
         server_paths = []
         for root, subdirectories, files in os.walk(client_folder_path):
-            root = Path(root)
+            root = Path(root) # noqa: PLW2901
             for subdirectory in subdirectories:
                 subdir = root / subdirectory
                 for filename in subdir.iterdir():

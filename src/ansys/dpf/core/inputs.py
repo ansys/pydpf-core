@@ -274,7 +274,7 @@ class _Inputs:
             err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
             for pin in corresponding_pins:
                 if isinstance(pin, tuple):
-                    pin = pin[0]
+                    pin = pin[0] # noqa: PLW2901
                 err_str += "   - operator.inputs." + self._dict_inputs[pin].name + "(input)\n"
             err_str += "Connecting to first input in the list.\n"
             warnings.warn(message=err_str)

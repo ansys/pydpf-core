@@ -1857,7 +1857,7 @@ class Plotter:
                             )
                         sl = shell_layers
                     changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
-                    field = changeOp.get_output(0, core.types.field)
+                    field = changeOp.get_output(0, core.types.field) # noqa: PLW2901
                 new_fields_container.add_field(label_space=label_space_i, field=field)
             fields_container = new_fields_container
         else:
