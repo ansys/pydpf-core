@@ -228,7 +228,7 @@ class Workflow:
         else:
             for type_tuple in self._type_to_input_method:
                 if isinstance(inpt, type_tuple[0]):
-                    if len(type_tuple) == 3:
+                    if len(type_tuple) == 3:  # noqa: PLR2004
                         inpt = type_tuple[2](inpt)
                     return type_tuple[1](self, pin_name, inpt)
             errormsg = f"input type {inpt.__class__} cannot be connected"
@@ -451,7 +451,7 @@ class Workflow:
         out = None
         for type_tuple in self._type_to_output_method:
             if issubclass(output_type, type_tuple[0]):
-                if len(type_tuple) >= 3:
+                if len(type_tuple) >= 3:  # noqa: PLR2004
                     if isinstance(type_tuple[2], str):
                         parameters = {type_tuple[2]: type_tuple[1](self, pin_name)}
                         out = output_type(**parameters, server=self._server)

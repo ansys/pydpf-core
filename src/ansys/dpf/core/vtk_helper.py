@@ -65,7 +65,7 @@ from ansys.dpf.core import errors
 from ansys.dpf.core.check_version import server_meet_version_and_raise
 from ansys.dpf.core.elements import element_types
 
-VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
+VTK9 = vtkVersion().GetVTKMajorVersion() >= 9  # noqa: PLR2004
 
 _KANS_QUAD8_IDX = 6
 _KANS_TRI6_IDX = 4

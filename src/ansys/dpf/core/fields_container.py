@@ -399,7 +399,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
             self.add_label("time")
         if len(self.labels) == 1:
             super()._add_entry({"time": timeid}, field)
-        elif self.has_label("time") and self.has_label("complex") and len(labels) == 2:
+        elif self.has_label("time") and self.has_label("complex") and len(labels) == 2:  # noqa: PLR2004
             super()._add_entry({"time": timeid, "complex": 0}, field)
         else:
             raise dpf_errors.DpfValueError(
@@ -422,7 +422,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
             self.add_label("time")
         if not self.has_label("complex") and len(self.labels) == 1 and self.has_label("time"):
             self.add_label("complex")
-        if self.has_label("time") and self.has_label("complex") and len(self.labels) == 2:
+        if self.has_label("time") and self.has_label("complex") and len(self.labels) == 2:  # noqa: PLR2004
             super()._add_entry({"time": timeid, "complex": 1}, field)
         else:
             raise dpf_errors.DpfValueError(
@@ -629,7 +629,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
         if deform_by is not False:
             if deform_by is None or isinstance(deform_by, bool):
                 # By default, set deform_by as self if nodal 3D vector field
-                if self[0].location == dpf.core.common.locations.nodal and n_components == 3:
+                if self[0].location == dpf.core.common.locations.nodal and n_components == 3:  # noqa: PLR2004
                     deform_by = self
                 else:
                     deform = False
@@ -726,7 +726,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
 
     def __pow__(self, value):
         """Compute element-wise field[i]^2."""
-        if value != 2:
+        if value != 2:  # noqa: PLR2004
             raise ValueError('DPF only the value is "2" supported')
         from ansys.dpf.core import dpf_operator, operators
 

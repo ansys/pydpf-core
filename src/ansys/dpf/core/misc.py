@@ -147,15 +147,15 @@ def get_ansys_path(ansys_path=None):
         ver = int(str(ansys_path)[-3:])
     else:
         ver = 222
-    if ver < 211:
+    if ver < 211:  # noqa: PLR2004
         raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
-    if ver == 211 and is_ubuntu():
+    if ver == 211 and is_ubuntu():  # noqa: PLR2004
         raise OSError("DPF on v211 does not support Ubuntu")
     return ansys_path
 
 
 def _pythonize_awp_version(version):
-    if len(version) != 3:
+    if len(version) != 3:  # noqa: PLR2004
         return version
     return "20" + version[0:2] + "." + version[2]
 

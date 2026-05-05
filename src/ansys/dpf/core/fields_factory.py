@@ -72,13 +72,13 @@ def field_from_array(
     )
     if arr.ndim == 1:
         nature = natures.scalar
-    elif arr.ndim == 2:
+    elif arr.ndim == 2:  # noqa: PLR2004
         if arr.shape[1] == 1:
             arr = arr.ravel()
             nature = natures.scalar
-        elif arr.shape[1] == 3:
+        elif arr.shape[1] == 3:  # noqa: PLR2004
             nature = natures.vector
-        elif arr.shape[1] == 6:
+        elif arr.shape[1] == 6:  # noqa: PLR2004
             nature = natures.symmatrix
         else:
             raise shp_err

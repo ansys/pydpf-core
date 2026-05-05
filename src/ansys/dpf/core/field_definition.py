@@ -244,7 +244,7 @@ class FieldDefinition:
         # setter with explicit homogeneity: homogeneity is taken into account if it is dimensionless
         if (
             isinstance(value, tuple)
-            and len(value) == 2
+            and len(value) == 2  # noqa: PLR2004
             and isinstance(value[0], Homogeneity)
             and isinstance(value[1], str)
         ):

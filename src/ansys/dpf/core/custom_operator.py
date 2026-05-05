@@ -201,7 +201,7 @@ def record_operator(operator_type, *args) -> None:
     if dpf.SERVER is None:
         settings.set_server_configuration(server_factory.ServerConfig(None, False))
         server.start_local_server(context=AvailableServerContexts.premium)
-    if len(args) == 2:
+    if len(args) == 2:  # noqa: PLR2004
         external_operator_api.external_operator_record_with_abstract_core_and_wrapper(
             operator._call_back(),
             __operator_main__,
@@ -314,7 +314,7 @@ class CustomOperatorBase:
         type = dpf_operator._write_output_type_to_type(type)
         for type_tuple in _type_to_input_method:
             if type is type_tuple[0]:
-                if len(type_tuple) >= 3:
+                if len(type_tuple) >= 3:  # noqa: PLR2004
                     parameters = {type_tuple[2]: type_tuple[1](self._operator_data, index)}
                     return type(**parameters)
                 return type(type_tuple[1](self._operator_data, index))

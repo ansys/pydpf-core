@@ -76,7 +76,7 @@ class Dimensionality:
 
     def is_2d_dim(self):
         """Check if dimensionality is 2."""
-        return len(self.dim) == 2
+        return len(self.dim) == 2  # noqa: PLR2004
 
     def __str__(self):
         """Customize the string representation of the dimensionality."""

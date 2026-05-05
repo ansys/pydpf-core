@@ -325,7 +325,7 @@ class Operator:
             )
             self._api.operator_connect_label_space(self, pin, label_space_to_con)
         elif isinstance(inpt, UnitSystem):
-            if inpt.ID != -2:  # Ansys UnitSystem
+            if inpt.ID != -2:  # Ansys UnitSystem  # noqa: PLR2004
                 self.connect(pin, inpt.ID)
             else:  # Custom UnitSystem
                 self.connect(pin, inpt.unit_names)
@@ -334,7 +334,7 @@ class Operator:
                 inpt = str(inpt)
             for type_tuple in self._type_to_input_method:
                 if isinstance(inpt, type_tuple[0]):
-                    if len(type_tuple) == 3:
+                    if len(type_tuple) == 3:  # noqa: PLR2004
                         inpt = type_tuple[2](inpt)
                     return type_tuple[1](self, pin, inpt)
             errormsg = f"input type {inpt.__class__} cannot be connected"
@@ -623,7 +623,7 @@ class Operator:
         out = None
         for type_tuple in self._type_to_output_method:
             if issubclass(output_type, type_tuple[0]):
-                if len(type_tuple) >= 3:
+                if len(type_tuple) >= 3:  # noqa: PLR2004
                     internal_obj = type_tuple[1](self, pin)
                     if internal_obj is None:
                         self._progress_thread = None
@@ -925,7 +925,7 @@ class Operator:
 
     def __pow__(self, value):
         """Raise each element of a field or a fields container to power 2."""
-        if value != 2:
+        if value != 2:  # noqa: PLR2004
             raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
 

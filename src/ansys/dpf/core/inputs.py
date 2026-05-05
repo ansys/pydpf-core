@@ -93,7 +93,7 @@ class Input(Generic[T]):
         elif isinstance(inpt, Path):
             inpt = str(inpt)
         elif isinstance(inpt, core.UnitSystem):
-            if inpt.ID != -2:  # Ansys UnitSystem
+            if inpt.ID != -2:  # Ansys UnitSystem  # noqa: PLR2004
                 inpt = inpt.ID
             else:  # Custom UnitSystem
                 inpt = inpt.unit_names

@@ -441,7 +441,7 @@ class GhostServer:
     @property
     def port(self) -> int:
         """Returns the port of shutdown server if the shutdown happened less than 10s ago."""
-        if time.time() - self.closed_time > 10:
+        if time.time() - self.closed_time > 10:  # noqa: PLR2004
             return -1
         return self._port
 

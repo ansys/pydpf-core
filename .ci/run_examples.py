@@ -7,6 +7,8 @@ import sys
 import ansys.dpf.core as dpf
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
 
+_WINDOWS_ACCESS_VIOLATION_RETURNCODE = 3221225477  # 0xC0000005 STATUS_ACCESS_VIOLATION
+
 os.environ["PYVISTA_OFF_SCREEN"] = "true"
 os.environ["MPLBACKEND"] = "Agg"
 
@@ -44,14 +46,14 @@ for root, subdirectories, files in os.walk(examples_path):
             print("\n--------------------------------------------------")
             print(file)
             minimum_version_str = get_example_required_minimum_dpf_version(file)
-            if float(server_version) - float(minimum_version_str) < -0.05:
+            if float(server_version) - float(minimum_version_str) < -0.05: # noqa: PLR2004
                 print(f"Example skipped as it requires DPF {minimum_version_str}.", flush=True)
                 continue
             try:
                 out = subprocess.check_output([sys.executable, str(file)])
             except subprocess.CalledProcessError as e:
                 sys.stderr.write(str(e.args))
-                if e.returncode != 3221225477:
+                if e.returncode != _WINDOWS_ACCESS_VIOLATION_RETURNCODE:
                     print(out, flush=True)
                     raise e
             print("PASS", flush=True)
