@@ -77,7 +77,7 @@ def test_update_empty_dpf_vector_field(server_type):
     field.data = np.zeros((100), dtype=np.double)
     field.scoping.ids = list(range(1, 100))
     assert np.allclose(field.get_entity_data(1), [0])
-    dp = field._data_pointer
+    dp = field.entity_data_offsets
     dp = None
     assert np.allclose(field.get_entity_data(1), [0])
 
