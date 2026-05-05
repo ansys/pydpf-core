@@ -230,6 +230,71 @@ my_scratch_property_field.scoping.ids = [1, 2]
 print(my_scratch_property_field)
 
 ###############################################################################
+# ElementalNodal field
+# ^^^^^^^^^^^^^^^^^^^^
+#
+# At the ``elemental_nodal`` location, each element can have a different number
+# of data points — one row per integration node of the element. Use
+# :func:`append()<ansys.dpf.core.field.Field.append>` to populate the field
+# entity by entity: DPF records the start index of each entity's block in the
+# flat data array automatically via
+# :attr:`entity_data_offsets<ansys.dpf.core.field.Field.entity_data_offsets>`.
+
+import numpy as np
+
+# Create an ElementalNodal field populated entity by entity
+my_en_field = dpf.Field(location=dpf.locations.elemental_nodal)
+# Element 10: 2 integration nodes × 3 components → 6 values
+my_en_field.append([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], 10)
+# Element 20: 1 integration node × 3 components → 3 values
+my_en_field.append([7.0, 8.0, 9.0], 20)
+# Element 30: 3 integration nodes × 3 components → 9 values
+my_en_field.append([10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0], 30)
+
+# entity_data_offsets gives the start index in the flat data array for each entity
+print("entity_data_offsets:", my_en_field.entity_data_offsets)
+# get_entity_data returns a 2D array shaped (n_integration_nodes, n_components)
+print("element 10 shape:", my_en_field.get_entity_data(index=0).shape)
+print("element 20 shape:", my_en_field.get_entity_data(index=1).shape)
+print("element 30 shape:", my_en_field.get_entity_data(index=2).shape)
+
+###############################################################################
+# For high-performance bulk creation, assign all data at once and set
+# :attr:`entity_data_offsets<ansys.dpf.core.field.Field.entity_data_offsets>`
+# explicitly instead of appending entity by entity.
+
+# Assign scoping, flat data, and offsets in one step
+my_en_field_bulk = dpf.Field(location=dpf.locations.elemental_nodal)
+my_en_field_bulk.scoping.ids = [10, 20, 30]
+my_en_field_bulk.data = np.array(
+    [
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,  # element 10: 2 nodes × 3 comp
+        7.0,
+        8.0,
+        9.0,  # element 20: 1 node  × 3 comp
+        10.0,
+        11.0,
+        12.0,
+        13.0,
+        14.0,
+        15.0,
+        16.0,
+        17.0,
+        18.0,  # element 30: 3 nodes × 3 comp
+    ]
+)
+# Each value is the flat-array index where that entity's data block begins
+my_en_field_bulk.entity_data_offsets = [0, 6, 9]
+print("element 10 shape:", my_en_field_bulk.get_entity_data(index=0).shape)
+print("element 20 shape:", my_en_field_bulk.get_entity_data(index=1).shape)
+print("element 30 shape:", my_en_field_bulk.get_entity_data(index=2).shape)
+
+###############################################################################
 # Create fields with the fields_factory
 # --------------------------------------
 #
@@ -377,6 +442,8 @@ print("size\n", my_temp_field.size, "\n")
 print("shape\n", my_temp_field.shape, "\n")
 # Unit (only available on Field, not StringField or PropertyField)
 print("unit\n", my_temp_field.unit, "\n")
+# Start index of each entity's data block in the flat data array (ElementalNodal fields)
+print("entity_data_offsets\n", my_en_field.entity_data_offsets, "\n")
 
 ###############################################################################
 # StringField
