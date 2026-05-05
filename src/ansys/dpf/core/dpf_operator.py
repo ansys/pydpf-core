@@ -368,7 +368,9 @@ class Operator:
     def _getoutput_string_as_bytes(operator_instance, pin):
         if server_meet_version("8.0", operator_instance._server):
             size = integral_types.MutableUInt64(0)
-            return operator_instance._api.operator_getoutput_string_with_size(operator_instance, pin, size)
+            return operator_instance._api.operator_getoutput_string_with_size(
+                operator_instance, pin, size
+            )
         else:
             return operator_instance._api.operator_getoutput_string(operator_instance, pin)
 
@@ -385,7 +387,9 @@ class Operator:
     def _connect_string_as_bytes(operator_instance, pin, str):
         if server_meet_version("8.0", operator_instance._server):
             size = integral_types.MutableUInt64(len(str))
-            return operator_instance._api.operator_connect_string_with_size(operator_instance, pin, str, size)
+            return operator_instance._api.operator_connect_string_with_size(
+                operator_instance, pin, str, size
+            )
         else:
             return operator_instance._api.operator_connect_string(operator_instance, pin, str)
 

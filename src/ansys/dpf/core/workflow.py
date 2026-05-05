@@ -148,7 +148,9 @@ class Workflow:
     def _getoutput_string_as_bytes(workflow_instance, pin):
         if server_meet_version("8.0", workflow_instance._server):
             size = integral_types.MutableUInt64(0)
-            return workflow_instance._api.work_flow_getoutput_string_with_size(workflow_instance, pin, size)
+            return workflow_instance._api.work_flow_getoutput_string_with_size(
+                workflow_instance, pin, size
+            )
         else:
             return workflow_instance._api.work_flow_getoutput_string(workflow_instance, pin)
 
@@ -165,7 +167,9 @@ class Workflow:
     def _connect_string_as_bytes(workflow_instance, pin, str):
         if server_meet_version("8.0", workflow_instance._server):
             size = integral_types.MutableUInt64(len(str))
-            return workflow_instance._api.work_flow_connect_string_with_size(workflow_instance, pin, str, size)
+            return workflow_instance._api.work_flow_connect_string_with_size(
+                workflow_instance, pin, str, size
+            )
         else:
             return workflow_instance._api.work_flow_connect_string(workflow_instance, pin, str)
 
