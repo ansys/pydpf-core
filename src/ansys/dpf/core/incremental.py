@@ -113,7 +113,7 @@ class IncrementalHelper:
         _outputs = outputs._outputs
         data = map(lambda o: o.get_data(), _outputs)
         # Output sizes of all inputs for one iteration
-        sizes = map(lambda obj: self._compute_size(obj), data)
+        sizes = map(self._compute_size, data)
 
         # Total size for one ID in the scoping
         size_for_one = sum(sizes)
