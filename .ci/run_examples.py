@@ -46,7 +46,7 @@ for root, subdirectories, files in os.walk(examples_path):
             print("\n--------------------------------------------------")
             print(file)
             minimum_version_str = get_example_required_minimum_dpf_version(file)
-            if float(server_version) - float(minimum_version_str) < -0.05: # noqa: PLR2004
+            if float(server_version) - float(minimum_version_str) < -0.05:  # noqa: PLR2004
                 print(f"Example skipped as it requires DPF {minimum_version_str}.", flush=True)
                 continue
             try:
