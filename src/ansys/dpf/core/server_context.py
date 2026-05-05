@@ -371,7 +371,7 @@ def set_default_server_context(context=AvailableServerContexts.premium) -> None:
     """
     from ansys.dpf.core import SERVER
 
-    global SERVER_CONTEXT
+    global SERVER_CONTEXT  # noqa: PLW0603
     SERVER_CONTEXT = context
     if SERVER is not None and context == AvailableServerContexts.premium:
         SERVER.apply_context(context)

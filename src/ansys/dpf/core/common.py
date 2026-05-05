@@ -23,6 +23,7 @@
 """Common."""
 
 from enum import Enum
+import functools
 import re
 import sys
 from typing import Dict
@@ -444,9 +445,7 @@ class SubClassSmartDict(dict):
         raise KeyError
 
 
-_type_to_internal_object_keyword = None
-
-
+@functools.cache
 def type_to_internal_object_keyword():
     """Return dpf types mapped to internal object keywords.
 
@@ -455,81 +454,71 @@ def type_to_internal_object_keyword():
     SubClassSmartDict
         Custom dictionary that returns superclass name for a key if not found initially.
     """
-    global _type_to_internal_object_keyword
-    if _type_to_internal_object_keyword is None:
-        from ansys.dpf.core import (
-            any,
-            collection,
-            custom_type_field,
-            cyclic_support,
-            data_sources,
-            data_tree,
-            dpf_operator,
-            field,
-            fields_container,
-            generic_data_container,
-            generic_support,
-            meshed_region,
-            meshes_container,
-            property_field,
-            result_info,
-            scoping,
-            scopings_container,
-            streams_container,
-            string_field,
-            time_freq_support,
-            workflow,
-        )
+    from ansys.dpf.core import (
+        any,
+        collection,
+        custom_type_field,
+        cyclic_support,
+        data_sources,
+        data_tree,
+        dpf_operator,
+        field,
+        fields_container,
+        generic_data_container,
+        generic_support,
+        meshed_region,
+        meshes_container,
+        property_field,
+        result_info,
+        scoping,
+        scopings_container,
+        streams_container,
+        string_field,
+        time_freq_support,
+        workflow,
+    )
 
-        _type_to_internal_object_keyword = SubClassSmartDict(
-            {
-                field.Field: "field",
-                property_field.PropertyField: "property_field",
-                string_field.StringField: "string_field",
-                custom_type_field.CustomTypeField: "field",
-                scoping.Scoping: "scoping",
-                fields_container.FieldsContainer: "fields_container",
-                scopings_container.ScopingsContainer: "scopings_container",
-                meshes_container.MeshesContainer: "meshes_container",
-                streams_container.StreamsContainer: "streams_container",
-                data_sources.DataSources: "data_sources",
-                cyclic_support.CyclicSupport: "cyclic_support",
-                meshed_region.MeshedRegion: "mesh",
-                result_info.ResultInfo: "result_info",
-                time_freq_support.TimeFreqSupport: "time_freq_support",
-                workflow.Workflow: "workflow",
-                data_tree.DataTree: "data_tree",
-                dpf_operator.Operator: "operator",
-                generic_data_container.GenericDataContainer: "generic_data_container",
-                any.Any: "any_dpf",
-                collection.Collection: "collection",
-                generic_support.GenericSupport: "generic_support",
-            }
-        )
-    return _type_to_internal_object_keyword
+    return SubClassSmartDict(
+        {
+            field.Field: "field",
+            property_field.PropertyField: "property_field",
+            string_field.StringField: "string_field",
+            custom_type_field.CustomTypeField: "field",
+            scoping.Scoping: "scoping",
+            fields_container.FieldsContainer: "fields_container",
+            scopings_container.ScopingsContainer: "scopings_container",
+            meshes_container.MeshesContainer: "meshes_container",
+            streams_container.StreamsContainer: "streams_container",
+            data_sources.DataSources: "data_sources",
+            cyclic_support.CyclicSupport: "cyclic_support",
+            meshed_region.MeshedRegion: "mesh",
+            result_info.ResultInfo: "result_info",
+            time_freq_support.TimeFreqSupport: "time_freq_support",
+            workflow.Workflow: "workflow",
+            data_tree.DataTree: "data_tree",
+            dpf_operator.Operator: "operator",
+            generic_data_container.GenericDataContainer: "generic_data_container",
+            any.Any: "any_dpf",
+            collection.Collection: "collection",
+            generic_support.GenericSupport: "generic_support",
+        }
+    )
 
 
-_type_to_special_dpf_constructors = None
-
-
+@functools.cache
 def type_to_special_dpf_constructors():
     """Return dpf type mapped to special dpf constructors."""
-    global _type_to_special_dpf_constructors
-    if _type_to_special_dpf_constructors is None:
-        from ansys.dpf.core import collection_base
-        from ansys.dpf.gate.dpf_vector import DPFVectorInt
+    from ansys.dpf.core import collection_base
+    from ansys.dpf.gate.dpf_vector import DPFVectorInt
 
-        _type_to_special_dpf_constructors = {
-            DPFVectorInt: lambda obj, server: collection_base.IntCollection(
-                server=server, collection=obj
-            ).get_integral_entries()
-        }
-    return _type_to_special_dpf_constructors
+    return {
+        DPFVectorInt: lambda obj, server: collection_base.IntCollection(
+            server=server, collection=obj
+        ).get_integral_entries()
+    }
 
 
-_derived_class_name_to_type = None
-
-
+@functools.cache
 def derived_class_name_to_type() -> Dict[str, type]:
     """
     Return a mapping of derived class names to their corresponding Python classes.
@@ -540,12 +529,9 @@ def derived_class_name_to_type() -> Dict[str, type]:
         A dictionary mapping derived class names (str) to their corresponding
         Python class objects.
     """
-    global _derived_class_name_to_type
-    if _derived_class_name_to_type is None:
-        from ansys.dpf.core.workflow_topology import WorkflowTopology
+    from ansys.dpf.core.workflow_topology import WorkflowTopology
 
-        _derived_class_name_to_type = {"WorkflowTopology": WorkflowTopology}
-    return _derived_class_name_to_type
+    return {"WorkflowTopology": WorkflowTopology}
 
 
 def record_derived_class(class_name: str, py_class: type, overwrite: bool = False):
