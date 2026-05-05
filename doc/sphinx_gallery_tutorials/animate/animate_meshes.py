@@ -27,106 +27,100 @@
 Animate a MeshesContainer
 ==========================
 
-:bdg-mapdl:`MAPDL`
+This tutorial shows how to animate a |MeshesContainer|, stepping through its
+entries frame by frame. A |MeshesContainer| is a collection of
+:class:`MeshedRegion<ansys.dpf.core.MeshedRegion>` objects indexed by one or
+more labels. Each entry may have a completely different topology — different
+node positions, node counts, or element connectivity.
 
-This tutorial shows how to animate a |MeshesContainer| — a collection of
-mesh subdomains indexed by a label — so that each frame renders one subdomain.
+The tutorial demonstrates how to:
 
-A common use case is visualizing how a mesh is partitioned: for example, by
-material or by element shape. The animation reveals each partition in sequence,
-which is useful for model inspection and quality control. Optionally, a matching
-|FieldsContainer| can be supplied to color each subdomain by a result quantity.
+- Retrieve a |MeshesContainer| from a result file.
+- Inspect the per-entry mesh topology.
+- Plot a single mesh entry.
+- Animate all entries, optionally deformed by a nodal result.
 """
 ###############################################################################
-# Load the model and extract the mesh
-# ------------------------------------
+# Load the model
+# --------------
 #
-# This tutorial uses a multi-shell model available in the
+# Load a structural result file. This example uses a compact-tension specimen
+# from a MAPDL fatigue crack-growth analysis where MAPDL remeshes the
+# crack-front region at every substep, producing a |MeshesContainer| with a
+# different topology at each time set. The model originates from
+# `Technology Showcase Example: Fatigue Crack Initiation and Propagation
+# <https://ansyshelp.ansys.com/public/account/secured?returnurl=//Views/Secured/corp/v261/en/ans_tec/teccrackinitprop.html>`_
+# in the MAPDL documentation.
+# The result file is available from the
 # :mod:`examples<ansys.dpf.core.examples>` module.
-# For more information on loading your own result files, see the
-# :ref:`ref_tutorials_import_data` section.
+# For more information on loading your own result files, see
+# :ref:`ref_tutorials_import_data`.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-# switch to model from Ricardo with adaptive remeshing
-result_file = examples.find_multishells_rst()
+# result_file = examples.download_ct_crack_growth(return_local_path=True)
+result_file = r"D:\ANSYSDev\resources\MAPDL\Technology showcases\td-70\reduced\file.rst"
 my_model = dpf.Model(data_sources=result_file)
-my_mesh = my_model.metadata.meshed_region
-print(my_mesh)
+print(my_model)
 
 ###############################################################################
-# Split the mesh by material
-# ---------------------------
+# Retrieve the MeshesContainer
+# ----------------------------
 #
-# Use :class:`split_mesh<ansys.dpf.core.operators.mesh.split_mesh>` to
-# partition the full mesh by the ``"mat"`` property. The result is a
-# |MeshesContainer| with one :class:`MeshedRegion<ansys.dpf.core.MeshedRegion>`
-# entry per distinct material ID.
+# When a result file contains per-step topology changes, DPF exposes one
+# :class:`MeshedRegion<ansys.dpf.core.MeshedRegion>` per time set inside a
+# |MeshesContainer| indexed by the ``"time"`` label. The container is available
+# directly from the model metadata. Printing it lists each entry with its node
+# and element count, making it easy to see whether the topology varies between
+# steps.
 
-split_op = dpf.operators.mesh.split_mesh(mesh=my_mesh, property="mat")
-my_mc = split_op.eval()
+my_mc = my_model.metadata.meshes_container
 print(my_mc)
 
 ###############################################################################
-# Inspect the container
-# ----------------------
+# Plot a single mesh entry
+# ------------------------
 #
-# Check the label and the number of sub-meshes to understand the structure
-# of the container before animating it.
+# Retrieve and render one :class:`MeshedRegion<ansys.dpf.core.MeshedRegion>`
+# from the container to inspect the geometry before animating.
 
-label = my_mc.labels[0]
-label_scoping = my_mc.get_label_scoping(label=label)
-print(f"Label: '{label}',  IDs: {label_scoping.ids}")
+initial_mesh = my_mc.get_mesh({"time": 1})
+initial_mesh.plot(text="Initial mesh", cpos="xy", parallel_projection=True)
 
 ###############################################################################
-# Animate the geometry
-# ---------------------
+# Extract nodal displacements
+# ---------------------------
+#
+# Retrieve nodal displacements for all time sets. The resulting
+# |FieldsContainer| is indexed by the same ``"time"`` label as the
+# |MeshesContainer|, so ``animate()`` can automatically match each
+# displacement field to its corresponding mesh frame.
+
+disp_fc = my_model.results.displacement.on_all_time_freqs().eval()
+print(disp_fc)
+import numpy as np
+
+for i, f in enumerate(disp_fc):
+    norm = float(np.linalg.norm(f.data))
+    print(f"  field {i:2d}: norm={norm:.4e}, n_nodes={f.scoping.size}")
+exit()
+###############################################################################
+# Animate the MeshesContainer
+# ---------------------------
 #
 # Call :func:`MeshesContainer.animate()<ansys.dpf.core.MeshesContainer.animate>`
-# with the label to animate over. Each frame renders the mesh subdomain for one
-# label ID. When no |FieldsContainer| is provided, every subdomain is rendered
-# with a distinct random color.
-#
-# .. note::
-#
-#     ``animate()`` constructs an internal DPF
-#     :class:`Workflow<ansys.dpf.core.workflow.Workflow>` that runs on the
-#     server side. Each frame extracts the sub-mesh for one label ID and merges
-#     it into a single :class:`MeshedRegion<ansys.dpf.core.MeshedRegion>` for
-#     rendering.
-
-my_mc.animate(label=label)
-
-###############################################################################
-# Animate colored by a result
-# ----------------------------
-#
-# Supply a |FieldsContainer| to the ``fields_container`` parameter to color each
-# mesh subdomain by a result quantity. The container must share the same label
-# and IDs as ``my_mc``.
-#
-# Here the displacement is evaluated on the split mesh so that every
-# per-material sub-mesh has a corresponding displacement field.
-
-disp_op = dpf.operators.result.displacement(
-    data_sources=my_model.metadata.data_sources,
-    mesh=my_mc,
-)
-disp_fc = disp_op.outputs.fields_container()
-print(disp_fc)
-
-my_mc.animate(label=label, fields_container=disp_fc)
-
-###############################################################################
-# Save the animation
-# -------------------
-#
-# Pass a file path to ``save_as`` to write the animation to disk. Accepted
-# extensions are ``.gif``, ``.avi``, and ``.mp4``.
+# to step through all entries. Pass ``deform_by`` to warp each frame by its
+# displacement field, and ``scale_factor`` to amplify the deformation so it is
+# visually apparent. Pass ``time_freq_support`` to overlay the actual simulation
+# time instead of the raw label ID on each frame.
 
 my_mc.animate(
-    label=label,
-    fields_container=disp_fc,
-    save_as="animate_meshes.gif",
+    deform_by=disp_fc,
+    scale_factor=10000.0,
+    cpos="xy",
+    parallel_projection=True,
+    time_freq_support=my_model.metadata.time_freq_support,
+    # off_screen=True,  # Use ``off_screen`` to run without rendering to the display (e.g. on a headless server)
+    save_as="animate_meshes_crack_growth.mp4",  # Use `save_as` to write the animation to disk
 )
