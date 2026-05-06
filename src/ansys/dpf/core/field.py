@@ -563,19 +563,23 @@ class Field(_FieldBase):
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
-        from ansys.dpf.core.plotter import Plotter
+        from ansys.dpf.core.plotter import DpfPlotter
+        from ansys.dpf.core.common import shell_layers as eshell_layers
 
         if meshed_region is None:
             meshed_region = self.meshed_region
-        pl = Plotter(meshed_region, **kwargs)
-        return pl.plot_contour(
+        show_axes = kwargs.pop("show_axes", True)
+        pl = DpfPlotter(**kwargs)
+        pl.add_field(
             self,
-            shell_layers,
+            meshed_region=meshed_region,
+            shell_layer=shell_layers if shell_layers is not None else eshell_layers.top,
             deform_by=deform_by,
             scale_factor=scale_factor,
-            show_axes=kwargs.pop("show_axes", True),
+            show_axes=show_axes,
             **kwargs,
         )
+        return pl.show_figure(**kwargs)
 
     def resize(self, nentities, datasize):
         """Allocate memory.
