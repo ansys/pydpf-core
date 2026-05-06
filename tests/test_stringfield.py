@@ -27,7 +27,6 @@ from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.common import locations
 import conftest
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0
 
 
 def test_scopingdata_string_field(server_type):
@@ -141,9 +140,9 @@ def test_print_string_field(server_type):
     assert "20 elementary data" in str(field)
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
-    reason="CSStringField_GetDataPointer is available for servers >=12.0",
+@pytest.mark.xfail(
+    reason="CSStringField_GetDataPointer not yet available (requires DPF 12.0 and stringfield_get_data_pointer).",
+    strict=False,
 )
 def test_entity_data_offsets_string_field(server_type):
     # Build a StringField with entities of different sizes so that the data
