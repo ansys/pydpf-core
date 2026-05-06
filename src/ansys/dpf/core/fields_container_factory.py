@@ -94,7 +94,7 @@ def over_time_freq_fields_container(fields, time_freq_unit=None, server=None):
     return fc
 
 
-def over_time_freq_complex_fields_container(
+def over_time_freq_complex_fields_container(  # noqa: C901
     real_fields, imaginary_fields, time_freq_unit=None, server=None
 ):
     """Create a fields container with two fields (real and imaginary) by time set.
