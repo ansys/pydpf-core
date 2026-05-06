@@ -135,7 +135,7 @@ class Operator:
 
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         name: str = None,
         config: Config = None,
@@ -177,13 +177,10 @@ class Operator:
             else:
                 self._internal_obj = operator
                 self.name = self._api.operator_name(self)
+        elif self._server.has_client():
+            self._internal_obj = self._api.operator_new_on_client(self.name, self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.operator_new_on_client(
-                    self.name, self._server.client
-                )
-            else:
-                self._internal_obj = self._api.operator_new(self.name)
+            self._internal_obj = self._api.operator_new(self.name)
 
         if self._internal_obj is None:
             raise KeyError(
@@ -278,7 +275,7 @@ class Operator:
     def progress_bar(self, value: bool) -> None:
         self._progress_bar = value
 
-    def connect(self, pin, inpt, pin_out=0):
+    def connect(self, pin, inpt, pin_out=0):  # noqa: PLR0912
         """Connect an input on the operator using a pin number.
 
         Parameters
@@ -328,7 +325,7 @@ class Operator:
             )
             self._api.operator_connect_label_space(self, pin, label_space_to_con)
         elif isinstance(inpt, UnitSystem):
-            if inpt.ID != -2:  # Ansys UnitSystem
+            if inpt.ID != -2:  # Ansys UnitSystem  # noqa: PLR2004
                 self.connect(pin, inpt.ID)
             else:  # Custom UnitSystem
                 self.connect(pin, inpt.unit_names)
@@ -337,7 +334,7 @@ class Operator:
                 inpt = str(inpt)
             for type_tuple in self._type_to_input_method:
                 if isinstance(inpt, type_tuple[0]):
-                    if len(type_tuple) == 3:
+                    if len(type_tuple) == 3:  # noqa: PLR2004
                         inpt = type_tuple[2](inpt)
                     return type_tuple[1](self, pin, inpt)
             errormsg = f"input type {inpt.__class__} cannot be connected"
@@ -357,40 +354,44 @@ class Operator:
         self._api.operator_connect_operator_as_input(self, pin, op)
 
     @staticmethod
-    def _getoutput_string(self, pin):
-        out = Operator._getoutput_string_as_bytes(self, pin)
+    def _getoutput_string(operator_instance, pin):
+        out = Operator._getoutput_string_as_bytes(operator_instance, pin)
         if out is not None and not isinstance(out, str):
             return out.decode("utf-8")
         return out
 
     @staticmethod
-    def _connect_string(self, pin, str):
-        return Operator._connect_string_as_bytes(self, pin, str.encode("utf-8"))
+    def _connect_string(operator_instance, pin, str):
+        return Operator._connect_string_as_bytes(operator_instance, pin, str.encode("utf-8"))
 
     @staticmethod
-    def _getoutput_string_as_bytes(self, pin):
-        if server_meet_version("8.0", self._server):
+    def _getoutput_string_as_bytes(operator_instance, pin):
+        if server_meet_version("8.0", operator_instance._server):
             size = integral_types.MutableUInt64(0)
-            return self._api.operator_getoutput_string_with_size(self, pin, size)
+            return operator_instance._api.operator_getoutput_string_with_size(
+                operator_instance, pin, size
+            )
         else:
-            return self._api.operator_getoutput_string(self, pin)
+            return operator_instance._api.operator_getoutput_string(operator_instance, pin)
 
     @staticmethod
-    def _getoutput_bytes(self, pin):
+    def _getoutput_bytes(operator_instance, pin):
         server_meet_version_and_raise(
             "8.0",
-            self._server,
+            operator_instance._server,
             "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2).",
         )
-        return Operator._getoutput_string_as_bytes(self, pin)
+        return Operator._getoutput_string_as_bytes(operator_instance, pin)
 
     @staticmethod
-    def _connect_string_as_bytes(self, pin, str):
-        if server_meet_version("8.0", self._server):
+    def _connect_string_as_bytes(operator_instance, pin, str):
+        if server_meet_version("8.0", operator_instance._server):
             size = integral_types.MutableUInt64(len(str))
-            return self._api.operator_connect_string_with_size(self, pin, str, size)
+            return operator_instance._api.operator_connect_string_with_size(
+                operator_instance, pin, str, size
+            )
         else:
-            return self._api.operator_connect_string(self, pin, str)
+            return operator_instance._api.operator_connect_string(operator_instance, pin, str)
 
     @property
     def _type_to_output_method(self):
@@ -626,7 +627,7 @@ class Operator:
         out = None
         for type_tuple in self._type_to_output_method:
             if issubclass(output_type, type_tuple[0]):
-                if len(type_tuple) >= 3:
+                if len(type_tuple) >= 3:  # noqa: PLR2004
                     internal_obj = type_tuple[1](self, pin)
                     if internal_obj is None:
                         self._progress_thread = None
@@ -853,7 +854,7 @@ class Operator:
                 if output._pin == pin:
                     return output()
 
-    def _find_outputs_corresponding_pins(
+    def _find_outputs_corresponding_pins(  # noqa: PLR0912
         self, type_names, inpt, pin, corresponding_pins, input_type_name
     ):
         from ansys.dpf.core.results import Result
@@ -863,7 +864,7 @@ class Operator:
             # because cpp mappings are a single type mapping and
             # sometimes the spec contains 'B' instead of 'bool'
             if python_name == "B":
-                python_name = "bool"
+                python_name = "bool"  # noqa: PLW2901
 
             # Type match
             if input_type_name == python_name:
@@ -928,7 +929,7 @@ class Operator:
 
     def __pow__(self, value):
         """Raise each element of a field or a fields container to power 2."""
-        if value != 2:
+        if value != 2:  # noqa: PLR2004
             raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
 

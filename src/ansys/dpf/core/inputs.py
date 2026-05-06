@@ -73,7 +73,7 @@ class Input(Generic[T]):
             self.name += str(self._count_ellipsis + 1)
         self._update_doc_str(docstr, self.name)
 
-    def connect(self, inpt: Union[T, Output[T]]):
+    def connect(self, inpt: Union[T, Output[T]]):  # noqa: PLR0912, PLR0915
         """Connect any input (entity or operator output) to a specified input pin of this operator."""
         from pathlib import Path
 
@@ -93,7 +93,7 @@ class Input(Generic[T]):
         elif isinstance(inpt, Path):
             inpt = str(inpt)
         elif isinstance(inpt, core.UnitSystem):
-            if inpt.ID != -2:  # Ansys UnitSystem
+            if inpt.ID != -2:  # Ansys UnitSystem  # noqa: PLR2004
                 inpt = inpt.ID
             else:  # Custom UnitSystem
                 inpt = inpt.unit_names
@@ -229,7 +229,7 @@ class _Inputs:
                     docstr += "{:<5}{:<4}{:<20}\n".format(*line)
         return docstr
 
-    def connect(self, inpt):
+    def connect(self, inpt):  # noqa: PLR0912
         """Connect any input (an entity or an operator output) to any input pin of this operator.
 
         Searches for the input type corresponding to the output.
@@ -274,7 +274,7 @@ class _Inputs:
             err_str = "Pin connection is ambiguous, specify the input to connect to with:\n"
             for pin in corresponding_pins:
                 if isinstance(pin, tuple):
-                    pin = pin[0]
+                    pin = pin[0]  # noqa: PLW2901
                 err_str += "   - operator.inputs." + self._dict_inputs[pin].name + "(input)\n"
             err_str += "Connecting to first input in the list.\n"
             warnings.warn(message=err_str)

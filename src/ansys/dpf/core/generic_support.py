@@ -83,13 +83,10 @@ class GenericSupport(Support):
         # object_name -> protobuf.message, DPFObject*
         if generic_support is not None:
             self._internal_obj = generic_support
+        elif self._server.has_client():
+            self._internal_obj = self._api.generic_support_new_on_client(self._server.client, name)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.generic_support_new_on_client(
-                    self._server.client, name
-                )
-            else:
-                self._internal_obj = self._api.generic_support_new(name)
+            self._internal_obj = self._api.generic_support_new(name)
 
     def set_support_of_property(self, property_name: str, field_support) -> None:
         """Support a Property by Field data.

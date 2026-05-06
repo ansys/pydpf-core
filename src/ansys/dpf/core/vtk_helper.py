@@ -65,7 +65,14 @@ from ansys.dpf.core import errors
 from ansys.dpf.core.check_version import server_meet_version_and_raise
 from ansys.dpf.core.elements import element_types
 
-VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
+VTK9 = vtkVersion().GetVTKMajorVersion() >= 9  # noqa: PLR2004
+
+_KANS_QUAD8_IDX = 6
+_KANS_TRI6_IDX = 4
+_QUAD8_N_NODES = 8
+_QUAD4_N_NODES = 4
+_TRI6_N_NODES = 6
+_TRI3_N_NODES = 3
 
 
 # DPF --> VTK mapping
@@ -215,7 +222,7 @@ def _dpf_mesh_to_vtk_op(
         return grid
 
 
-def _dpf_mesh_to_vtk_py(
+def _dpf_mesh_to_vtk_py(  # noqa: PLR0912, PLR0915
     mesh: dpf.MeshedRegion, nodes: dpf.Field = None, as_linear: bool = True
 ) -> pv.UnstructuredGrid:
     """Return a pyvista unstructured grid given DPF node and element definitions in pure Python (server <= 6.2).
@@ -304,7 +311,7 @@ def _dpf_mesh_to_vtk_py(
         mask = np.full(cells.shape, True)
 
         # Get a mask of quad8 elements in etypes
-        quad8_mask = etypes == 6
+        quad8_mask = etypes == _KANS_QUAD8_IDX
         # If any quad8
         if np.any(quad8_mask):  # kAnsQuad8
             # Get the starting indices of quad8 elements in cells
@@ -316,7 +323,7 @@ def _dpf_mesh_to_vtk_py(
             mask[insert_ind_quad8 + 8] = False
             cells[insert_ind_quad8] //= 2
 
-        tri6_mask = etypes == 4  # kAnsTri6 = 4
+        tri6_mask = etypes == _KANS_TRI6_IDX  # kAnsTri6 = 4
         if np.any(tri6_mask):
             insert_ind_tri6 = cells_insert_ind[tri6_mask]
             # insert_ind_tri6 += np.arange(insert_ind_tri6.size)
@@ -340,7 +347,7 @@ def _dpf_mesh_to_vtk_py(
             # Apply the semi-mask to get a unique set of indices of semi-parabolic elements in cells
             semi_indices_in_cells = np.array(list(set(repeated_insert_ind[semi_mask])))
             semi_sizes = cells[semi_indices_in_cells]
-            semi_quad8 = semi_sizes == 8
+            semi_quad8 = semi_sizes == _QUAD8_N_NODES
             if semi_quad8.any():
                 mask[semi_indices_in_cells[semi_quad8] + 5] = False
                 mask[semi_indices_in_cells[semi_quad8] + 6] = False
@@ -348,19 +355,19 @@ def _dpf_mesh_to_vtk_py(
                 mask[semi_indices_in_cells[semi_quad8] + 8] = False
                 cells[semi_indices_in_cells[semi_quad8]] //= 2
 
-                quad8_mask = etypes == 6
-                semi_quad8_mask = (cells[cells_insert_ind] == 4) & quad8_mask
-                vtk_cell_type[semi_quad8_mask] = VTK_LINEAR_MAPPING[6]
-            semi_tri6 = semi_sizes == 6
+                quad8_mask = etypes == _KANS_QUAD8_IDX
+                semi_quad8_mask = (cells[cells_insert_ind] == _QUAD4_N_NODES) & quad8_mask
+                vtk_cell_type[semi_quad8_mask] = VTK_LINEAR_MAPPING[_KANS_QUAD8_IDX]
+            semi_tri6 = semi_sizes == _TRI6_N_NODES
             if semi_tri6.any():
                 mask[semi_indices_in_cells[semi_tri6] + 4] = False
                 mask[semi_indices_in_cells[semi_tri6] + 5] = False
                 mask[semi_indices_in_cells[semi_tri6] + 6] = False
                 cells[semi_indices_in_cells[semi_tri6]] //= 2
 
-                tri6_mask = etypes == 4
-                semi_tri6_mask = (cells[cells_insert_ind] == 3) & tri6_mask
-                vtk_cell_type[semi_tri6_mask] = VTK_LINEAR_MAPPING[4]
+                tri6_mask = etypes == _KANS_TRI6_IDX
+                semi_tri6_mask = (cells[cells_insert_ind] == _TRI3_N_NODES) & tri6_mask
+                vtk_cell_type[semi_tri6_mask] = VTK_LINEAR_MAPPING[_KANS_TRI6_IDX]
             # Update cells with the mask
             cells = cells[mask]
 

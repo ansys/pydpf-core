@@ -32,7 +32,7 @@ from typing import Sequence, Union
 
 import numpy as np
 
-import ansys.dpf.core as core
+from ansys.dpf import core
 from ansys.dpf.core.helpers.utils import _sort_supported_kwargs
 from ansys.dpf.core.plotter import _PyVistaPlotter
 
@@ -51,7 +51,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def animate_workflow(
+    def animate_workflow(  # noqa: PLR0912, PLR0913, PLR0915
         self,
         loop_over,
         workflow,
@@ -263,7 +263,7 @@ class Animator:
         """
         self._workflow = workflow
 
-    def animate(
+    def animate(  # noqa: PLR0913
         self,
         loop_over: core.Field,
         output_name: str = "to_render",
@@ -371,7 +371,7 @@ def scale_factor_to_fc(scale_factor, fc):
                 int_to_field(scale_factor[i], fc.get_field(0).shape, fc.get_field(0).scoping)
             )
         scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
-    elif scale_type == int or scale_type == float:
+    elif scale_type in (int, float):
         # Turn the float into a fields_container
         fields = []
         for i in range(n_sets):

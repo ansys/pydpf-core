@@ -47,7 +47,7 @@ import warnings
 
 import psutil
 
-import ansys.dpf.core as core
+from ansys.dpf import core
 from ansys.dpf.core import __version__, errors, server_context, server_factory
 from ansys.dpf.core._version import min_server_version, server_to_ansys_version
 from ansys.dpf.core.check_version import get_server_version, meets_version, version_requires
@@ -60,7 +60,7 @@ if TYPE_CHECKING:  # pragma: no cover
 import logging
 
 LOG = logging.getLogger(__name__)
-DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 50054))
+DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", "50054"))
 LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
 RUNNING_DOCKER = server_factory.create_default_docker_config()
 
@@ -105,16 +105,15 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
             "Unable to locate the directory containing DPF at "
             f'"{dpf_run_dir}"'
         )
-    else:
-        if not dpf_run_dir.joinpath(executable).exists():
-            raise FileNotFoundError(
-                f'DPF executable not found at "{dpf_run_dir}".  '
-                f'Unable to locate the executable "{executable}"'
-            )
+    elif not dpf_run_dir.joinpath(executable).exists():
+        raise FileNotFoundError(
+            f'DPF executable not found at "{dpf_run_dir}".  '
+            f'Unable to locate the executable "{executable}"'
+        )
     return dpf_run_dir
 
 
-def _run_launch_server_process(
+def _run_launch_server_process(  # noqa: PLR0913
     ip,
     port,
     ansys_path=None,
@@ -168,7 +167,7 @@ def _run_launch_server_process(
     return process
 
 
-def _wait_and_check_server_connection(
+def _wait_and_check_server_connection(  # noqa: PLR0913
     process, port, timeout, lines, current_errors, stderr=None, stdout=None
 ):
     if not stderr:
@@ -223,7 +222,7 @@ def _wait_and_check_server_connection(
         raise RuntimeError(errstr)
 
 
-def launch_dpf(
+def launch_dpf(  # noqa: PLR0913
     ansys_path,
     ip=LOCALHOST,
     port=DPF_DEFAULT_PORT,
@@ -442,7 +441,7 @@ class GhostServer:
     @property
     def port(self) -> int:
         """Returns the port of shutdown server if the shutdown happened less than 10s ago."""
-        if time.time() - self.closed_time > 10:
+        if time.time() - self.closed_time > 10:  # noqa: PLR2004
             return -1
         return self._port
 
@@ -691,6 +690,8 @@ class BaseServer(abc.ABC):
         """Return string representation of the instance."""
         return f"DPF Server: {self.info}"
 
+    __hash__ = None
+
     @abc.abstractmethod
     def __eq__(self, other_server):
         """Must be implemented by subclasses."""
@@ -848,7 +849,7 @@ class GrpcServer(CServer):
         Path to a directory containing the certificates to use for mTLS authentication.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,
@@ -1015,6 +1016,8 @@ class GrpcServer(CServer):
 
             self._docker_config.remove_docker_image()
             self.live = False
+
+    __hash__ = None
 
     def __eq__(self, other_server):
         """Return true, if ***** are equals."""
@@ -1210,6 +1213,8 @@ class InProcessServer(CServer):
     def shutdown(self):  # noqa: D102
         pass
 
+    __hash__ = None
+
     def __eq__(self, other_server):
         """Return true, if the ip and the port are equals."""
         return isinstance(other_server, InProcessServer)
@@ -1315,7 +1320,7 @@ class LegacyGrpcServer(BaseServer):
         Path to a directory containing the certificates to use for mTLS authentication.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913, PLR0915
         self,
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,
@@ -1368,27 +1373,26 @@ class LegacyGrpcServer(BaseServer):
                 address = self._remote_instance.services["grpc"].uri
                 ip = address.split(":")[-2]
                 port = int(address.split(":")[-1])
+            elif docker_config.use_docker:
+                self.docker_config = server_factory.RunningDockerConfig(docker_config)
+                launch_dpf_on_docker(
+                    running_docker_config=self.docker_config,
+                    ansys_path=ansys_path,
+                    ip=ip,
+                    port=port,
+                    timeout=timeout,
+                )
             else:
-                if docker_config.use_docker:
-                    self.docker_config = server_factory.RunningDockerConfig(docker_config)
-                    launch_dpf_on_docker(
-                        running_docker_config=self.docker_config,
-                        ansys_path=ansys_path,
-                        ip=ip,
-                        port=port,
-                        timeout=timeout,
-                    )
-                else:
-                    launch_dpf(
-                        ansys_path,
-                        ip,
-                        port,
-                        timeout=timeout,
-                        context=context,
-                        grpc_mode=self._grpc_mode,
-                        certificates_dir=self._certs_dir,
-                    )
-                    self._local_server = True
+                launch_dpf(
+                    ansys_path,
+                    ip,
+                    port,
+                    timeout=timeout,
+                    context=context,
+                    grpc_mode=self._grpc_mode,
+                    certificates_dir=self._certs_dir,
+                )
+                self._local_server = True
         from ansys.dpf.core import misc, settings
 
         if misc.RUNTIME_CLIENT_CONFIG is not None:
@@ -1618,6 +1622,8 @@ class LegacyGrpcServer(BaseServer):
         config.grpc_mode = self._grpc_mode
         config.certificates_dir = self._certs_dir
         return config
+
+    __hash__ = None
 
     def __eq__(self, other_server):
         """Return true, if the ip and the port are equals."""

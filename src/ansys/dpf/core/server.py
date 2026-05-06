@@ -160,7 +160,7 @@ def shutdown_all_session_servers():
     shutdown_global_server()
 
 
-def start_local_server(
+def start_local_server(  # noqa: PLR0912, PLR0913, PLR0915
     ip: str = LOCALHOST,
     port: int = DPF_DEFAULT_PORT,
     ansys_path: Path | str = None,
@@ -332,7 +332,7 @@ def start_local_server(
     return server
 
 
-def connect_to_server(
+def connect_to_server(  # noqa: PLR0913
     ip: str = LOCALHOST,
     port: int = DPF_DEFAULT_PORT,
     as_global: bool = True,

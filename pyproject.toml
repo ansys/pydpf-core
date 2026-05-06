@@ -136,6 +136,17 @@ Tracker = "https://github.com/ansys/pydpf-core/issues"
 dpf_generate_operators_doc = "ansys.dpf.core.documentation.generate_operators_doc:run_with_args"
 
 [tool.ruff]
+exclude = [
+    "doc/source/",
+    "src/ansys/dpf/core/operators/",
+    "examples_notebooks/",
+    "src/ansys/dpf/core/__init__.py",
+    "doc/styles/",
+    "src/ansys/dpf/gate/",
+    "src/ansys/dpf/gatebin/",
+    "src/ansys/grpc/dpf/",
+    "tests/"
+]
 line-length = 100
 
 [tool.ruff.format]
@@ -152,13 +163,15 @@ select = [
    "PTH",  # flake8-use-pathlib, https://beta.ruff.rs/docs/rules/#flake8-use-pathlib-pth
    "TD",   # flake8-todos, https://docs.astral.sh/ruff/rules/#flake8-todos-td
 #    "C90",  # mccabe cyclomatic code complexity, https://docs.astral.sh/ruff/rules/#mccabe-c90
-#    "PL",   # pylint, https://docs.astral.sh/ruff/rules/#pygrep-hooks-pgh
+   "PL",   # pylint, https://docs.astral.sh/ruff/rules/#pygrep-hooks-pgh
 ]
 ignore = [
     # pycodestyle
     "E501",  # Line too long. Ignoring this so "ruff.formatter" manages line length.
     # flake8-todos
     "TD002", # Missing author in TODOs comment
+    # pylint
+    "PLC0415", # Used extensively to defer costly module load
 ]
 
 [tool.ruff.lint.per-file-ignores]

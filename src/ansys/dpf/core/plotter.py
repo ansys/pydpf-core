@@ -215,7 +215,7 @@ class _PyVistaPlotter:
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, **kwargs_in)
 
-    def add_point_labels(
+    def add_point_labels(  # noqa: PLR0912
         self,
         nodes: Union[Nodes, List[Node], List[int]],
         meshed_region: MeshedRegion,
@@ -316,7 +316,7 @@ class _PyVistaPlotter:
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
         self._plotter.add_mesh(mesh=scoping_mesh, **kwargs_in)
 
-    def add_field(
+    def add_field(  # noqa: PLR0912, PLR0913, PLR0915
         self,
         field,
         meshed_region=None,
@@ -426,14 +426,11 @@ class _PyVistaPlotter:
             grid = meshed_region._as_vtk(
                 meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
             )
+        elif as_linear != meshed_region.as_linear:
+            grid = meshed_region._as_vtk(meshed_region.nodes.coordinates_field, as_linear=as_linear)
+            meshed_region.as_linear = as_linear
         else:
-            if as_linear != meshed_region.as_linear:
-                grid = meshed_region._as_vtk(
-                    meshed_region.nodes.coordinates_field, as_linear=as_linear
-                )
-                meshed_region.as_linear = as_linear
-            else:
-                grid = meshed_region.grid
+            grid = meshed_region.grid
         if location == locations.elemental_nodal:
             grid = grid.shrink(1.0)
         grid.set_active_scalars(None)
@@ -752,7 +749,7 @@ class _VisualizationInterfacePlotter:
         grid.set_active_scalars(None)
         self._plotter.plot(grid, **kwargs_in)
 
-    def add_point_labels(
+    def add_point_labels(  # noqa: PLR0912
         self,
         nodes: Union[Nodes, List[Node], List[int]],
         meshed_region: MeshedRegion,
@@ -894,7 +891,7 @@ class _VisualizationInterfacePlotter:
 
         self._plotter.plot(scoping_mesh, **kwargs_in)
 
-    def add_field(
+    def add_field(  # noqa: PLR0912, PLR0913, PLR0915
         self,
         field: Field,
         meshed_region: Optional[MeshedRegion] = None,
@@ -1032,14 +1029,11 @@ class _VisualizationInterfacePlotter:
             grid = meshed_region._as_vtk(
                 meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
             )
+        elif as_linear != meshed_region.as_linear:
+            grid = meshed_region._as_vtk(meshed_region.nodes.coordinates_field, as_linear=as_linear)
+            meshed_region.as_linear = as_linear
         else:
-            if as_linear != meshed_region.as_linear:
-                grid = meshed_region._as_vtk(
-                    meshed_region.nodes.coordinates_field, as_linear=as_linear
-                )
-                meshed_region.as_linear = as_linear
-            else:
-                grid = meshed_region.grid
+            grid = meshed_region.grid
         if location == locations.elemental_nodal:
             grid = grid.shrink(1.0)
         grid.set_active_scalars(None)
@@ -1449,7 +1443,7 @@ class DpfPlotter:
             **kwargs,
         )
 
-    def add_field(
+    def add_field(  # noqa: PLR0913
         self,
         field,
         meshed_region=None,
@@ -1700,7 +1694,7 @@ class Plotter:
         """
         # Import matplotlib.pyplot
         try:
-            import matplotlib.pyplot as pyplot
+            from matplotlib import pyplot
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
                 "To use plot_chart capabilities, please install "
@@ -1739,7 +1733,7 @@ class Plotter:
             pyplot.show(block=True)
         return f
 
-    def plot_contour(
+    def plot_contour(  # noqa: PLR0912, PLR0915
         self,
         field_or_fields_container: Union[Field, FieldsContainer],
         shell_layers: eshell_layers = None,
@@ -1863,7 +1857,7 @@ class Plotter:
                             )
                         sl = shell_layers
                     changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
-                    field = changeOp.get_output(0, core.types.field)
+                    field = changeOp.get_output(0, core.types.field)  # noqa: PLW2901
                 new_fields_container.add_field(label_space=label_space_i, field=field)
             fields_container = new_fields_container
         else:
@@ -1942,13 +1936,12 @@ class Plotter:
         if deform_by:
             grid = mesh._as_vtk(mesh.deform_by(deform_by, scale_factor), as_linear=as_linear)
             self._internal_plotter.add_scale_factor_legend(scale_factor, **kwargs)
+        elif as_linear != mesh.as_linear:
+            grid = mesh._as_vtk(mesh.nodes.coordinates_field, as_linear=as_linear)
+            mesh._full_grid = grid
+            mesh.as_linear = as_linear
         else:
-            if as_linear != mesh.as_linear:
-                grid = mesh._as_vtk(mesh.nodes.coordinates_field, as_linear=as_linear)
-                mesh._full_grid = grid
-                mesh.as_linear = as_linear
-            else:
-                grid = mesh.grid
+            grid = mesh.grid
         if location == locations.elemental_nodal:
             grid = grid.shrink(1.0)
         grid.clear_data()

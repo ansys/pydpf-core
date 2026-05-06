@@ -78,19 +78,19 @@ class Any:
         return self._new_from_string_as_bytes(str.encode("utf-8"))
 
     @staticmethod
-    def _get_as_string(self):
-        out = Any._get_as_string_as_bytes(self)
+    def _get_as_string(any_instance):
+        out = Any._get_as_string_as_bytes(any_instance)
         if out is not None and not isinstance(out, str):
             return out.decode("utf-8")
         return out
 
     @staticmethod
-    def _get_as_string_as_bytes(self):
-        if server_meet_version("8.0", self._server):
+    def _get_as_string_as_bytes(any_instance):
+        if server_meet_version("8.0", any_instance._server):
             size = integral_types.MutableUInt64(0)
-            return self._api.any_get_as_string_with_size(self, size)
+            return any_instance._api.any_get_as_string_with_size(any_instance, size)
         else:
-            return self._api.any_get_as_string(self)
+            return any_instance._api.any_get_as_string(any_instance)
 
     def _new_from_string_on_client(self, client, str):
         return self._new_from_string_as_bytes_on_client(client, str.encode("utf-8"))
@@ -109,7 +109,7 @@ class Any:
         else:
             return self._api.any_new_from_string_on_client(client, str)
 
-    def _type_to_new_from_get_as_method(self, obj):
+    def _type_to_new_from_get_as_method(self, obj):  # noqa: PLR0911, PLR0912
         from ansys.dpf.core import (
             collection,
             custom_type_field,

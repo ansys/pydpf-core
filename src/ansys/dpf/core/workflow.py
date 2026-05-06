@@ -107,11 +107,10 @@ class Workflow:
         # step4: if object exists, take the instance, else create it
         if workflow is not None:
             self._internal_obj = workflow
+        elif self._server.has_client():
+            self._internal_obj = self._api.work_flow_new_on_client(self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.work_flow_new_on_client(self._server.client)
-            else:
-                self._internal_obj = self._api.work_flow_new()
+            self._internal_obj = self._api.work_flow_new()
 
         self.progress_bar = True
 
@@ -135,40 +134,44 @@ class Workflow:
         self._progress_bar = value
 
     @staticmethod
-    def _getoutput_string(self, pin):
-        out = Workflow._getoutput_string_as_bytes(self, pin)
+    def _getoutput_string(workflow_instance, pin):
+        out = Workflow._getoutput_string_as_bytes(workflow_instance, pin)
         if out is not None and not isinstance(out, str):
             return out.decode("utf-8")
         return out
 
     @staticmethod
-    def _connect_string(self, pin, str):
-        return Workflow._connect_string_as_bytes(self, pin, str.encode("utf-8"))
+    def _connect_string(workflow_instance, pin, str):
+        return Workflow._connect_string_as_bytes(workflow_instance, pin, str.encode("utf-8"))
 
     @staticmethod
-    def _getoutput_string_as_bytes(self, pin):
-        if server_meet_version("8.0", self._server):
+    def _getoutput_string_as_bytes(workflow_instance, pin):
+        if server_meet_version("8.0", workflow_instance._server):
             size = integral_types.MutableUInt64(0)
-            return self._api.work_flow_getoutput_string_with_size(self, pin, size)
+            return workflow_instance._api.work_flow_getoutput_string_with_size(
+                workflow_instance, pin, size
+            )
         else:
-            return self._api.work_flow_getoutput_string(self, pin)
+            return workflow_instance._api.work_flow_getoutput_string(workflow_instance, pin)
 
     @staticmethod
-    def _getoutput_bytes(self, pin):
+    def _getoutput_bytes(workflow_instance, pin):
         server_meet_version_and_raise(
             "8.0",
-            self._server,
+            workflow_instance._server,
             "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2).",
         )
-        return Workflow._getoutput_string_as_bytes(self, pin)
+        return Workflow._getoutput_string_as_bytes(workflow_instance, pin)
 
     @staticmethod
-    def _connect_string_as_bytes(self, pin, str):
-        if server_meet_version("8.0", self._server):
+    def _connect_string_as_bytes(workflow_instance, pin, str):
+        if server_meet_version("8.0", workflow_instance._server):
             size = integral_types.MutableUInt64(len(str))
-            return self._api.work_flow_connect_string_with_size(self, pin, str, size)
+            return workflow_instance._api.work_flow_connect_string_with_size(
+                workflow_instance, pin, str, size
+            )
         else:
-            return self._api.work_flow_connect_string(self, pin, str)
+            return workflow_instance._api.work_flow_connect_string(workflow_instance, pin, str)
 
     def connect(self, pin_name, inpt, pin_out=0):
         """Connect an input on the workflow using a pin name.
@@ -229,7 +232,7 @@ class Workflow:
         else:
             for type_tuple in self._type_to_input_method:
                 if isinstance(inpt, type_tuple[0]):
-                    if len(type_tuple) == 3:
+                    if len(type_tuple) == 3:  # noqa: PLR2004
                         inpt = type_tuple[2](inpt)
                     return type_tuple[1](self, pin_name, inpt)
             errormsg = f"input type {inpt.__class__} cannot be connected"
@@ -452,7 +455,7 @@ class Workflow:
         out = None
         for type_tuple in self._type_to_output_method:
             if issubclass(output_type, type_tuple[0]):
-                if len(type_tuple) >= 3:
+                if len(type_tuple) >= 3:  # noqa: PLR2004
                     if isinstance(type_tuple[2], str):
                         parameters = {type_tuple[2]: type_tuple[1](self, pin_name)}
                         out = output_type(**parameters, server=self._server)

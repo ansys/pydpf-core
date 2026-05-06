@@ -53,7 +53,7 @@ except ModuleNotFoundError:  # pragma: nocover
     raise Jinja2ImportError
 
 
-def initialize_server(
+def initialize_server(  # noqa: PLR0912, PLR0913
     ansys_path: str | os.PathLike = None,
     include_composites: bool = False,
     include_sound: bool = False,
@@ -124,7 +124,7 @@ def initialize_server(
         except Exception as e:
             warnings.warn("Could not load Acoustics plugin:" f"{e}")
     for idx, plugin_path in enumerate(custom_plugin_paths or []):  # pragma: nocover
-        plugin_path = Path(plugin_path)
+        plugin_path = Path(plugin_path)  # noqa: PLW2901
         # Resolve the name: use the provided name if available, else derive from the file stem
         plugin_names = custom_plugin_names or []
         raw_name = plugin_names[idx] if idx < len(plugin_names) else None
@@ -234,9 +234,8 @@ def update_operator_descriptions(
                 bf.write(updated_content)
             if verbose:
                 print(f"Updated description for: {file_name}")
-        else:
-            if verbose:
-                print(f"No operator description found in: {upd_path}")
+        elif verbose:
+            print(f"No operator description found in: {upd_path}")
 
 
 def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:
@@ -395,7 +394,7 @@ def get_plugin_operators(server: dpf.AnyServerType, plugin_name: str) -> list[st
     return plugin_operators
 
 
-def generate_operator_doc(
+def generate_operator_doc(  # noqa: PLR0912
     server: dpf.AnyServerType,
     operator_name: str,
     include_private: bool,
@@ -589,7 +588,7 @@ def get_operator_routing_info(server: dpf.AnyServerType) -> dict:
     return router_info
 
 
-def generate_operators_doc(
+def generate_operators_doc(  # noqa: PLR0913
     output_path: Path,
     ansys_path: Path = None,
     include_composites: bool = False,

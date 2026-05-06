@@ -233,7 +233,7 @@ class Field(_FieldBase):
         self._api.init_field_environment(self)
 
     @staticmethod
-    def _field_create_internal_obj(
+    def _field_create_internal_obj(  # noqa: PLR0913
         api: field_abstract_api.FieldAbstractAPI,
         server,
         nature,
@@ -826,7 +826,7 @@ class Field(_FieldBase):
 
     def __pow__(self, value):
         """Compute element-wise field[i]^2."""
-        if value != 2:
+        if value != 2:  # noqa: PLR2004
             raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
 

@@ -27,7 +27,7 @@ import numpy as np
 import ansys.dpf.core as dpf
 
 
-def animate_mode(
+def animate_mode(  # noqa: PLR0913
     fields_container,
     mode_number=1,
     type_mode=0,

@@ -37,6 +37,10 @@ from ansys.dpf.core.geometry import (
     normalize_vector,
 )
 
+_N_SPATIAL_DIMS = 3  # 3D coordinates (x, y, z)
+_N_LINE_POINTS = 2  # A line is defined by 2 points
+_N_PLANE_POINTS = 3  # A plane is defined by 3 points
+
 
 def create_points(coordinates, server=None):
     """Construct points given its coordinates.
@@ -126,18 +130,18 @@ def create_line_from_vector(ini, end=None, n_points=100, server=None):
     """
     # Input check
     if isinstance(ini[0], list):
-        if not len(ini) == 2:
+        if not len(ini) == _N_LINE_POINTS:
             raise ValueError("Exactly two points must be passed to define the vector")
-        if not len(ini[0]) == len(ini[1]) == 3:
+        if not len(ini[0]) == len(ini[1]) == _N_SPATIAL_DIMS:
             raise ValueError("Each point must contain three coordinates 'x', 'y' and 'z'.")
         vect = ini
     else:
-        if not len(ini) == 3:
+        if not len(ini) == _N_SPATIAL_DIMS:
             raise ValueError(
                 "'ini' argument must be of length = 3 \
             representing the 3D coordinates of the origin of the vector."
             )
-        if not len(end) == 3:
+        if not len(end) == _N_SPATIAL_DIMS:
             raise ValueError(
                 "'end' argument must be of length = 3 \
             representing the 3D coordinates of the end point of the vector."
@@ -147,7 +151,7 @@ def create_line_from_vector(ini, end=None, n_points=100, server=None):
     return Line(vect, n_points, server)
 
 
-def create_plane_from_center_and_normal(
+def create_plane_from_center_and_normal(  # noqa: PLR0913
     center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
 ):
     """Create plane from its center and normal direction.
@@ -227,14 +231,14 @@ def create_plane_from_points(points, n_cells_x=20, n_cells_y=20, server=None):
     """
     # Input check
     if isinstance(points, Points):
-        if not len(points) == 3:
+        if not len(points) == _N_PLANE_POINTS:
             raise ValueError(
                 "Exactly three points must be passed to construct a plane from points."
             )
     else:
-        if not len(points) == 3:
+        if not len(points) == _N_PLANE_POINTS:
             raise ValueError("Exactly three coordinates must be provided to create a plane.")
-        if not len(points[0]) == len(points[1]) == len(points[2]) == 3:
+        if not len(points[0]) == len(points[1]) == len(points[2]) == _N_SPATIAL_DIMS:
             raise ValueError("Each point must contain three coordinates.")
 
     # Get center and normal from points
@@ -252,7 +256,7 @@ def create_plane_from_points(points, n_cells_x=20, n_cells_y=20, server=None):
     return Plane(center, normal_dir, width, height, n_cells_x, n_cells_y, server)
 
 
-def create_plane_from_lines(
+def create_plane_from_lines(  # noqa: PLR0913
     line1, line2, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
 ):
     """Create plane from two lines.
@@ -294,9 +298,9 @@ def create_plane_from_lines(
     """
     # Input check
     if not isinstance(line1, Line) and not isinstance(line2, Line):
-        if not len(line1) == len(line2) == 2:
+        if not len(line1) == len(line2) == _N_LINE_POINTS:
             raise ValueError("Each line must contain two points.")
-        if not len(line1[0]) == len(line1[1]) == len(line2[0]) == len(line2[1]) == 3:
+        if not len(line1[0]) == len(line1[1]) == len(line2[0]) == len(line2[1]) == _N_SPATIAL_DIMS:
             raise ValueError("Each point must contain three coordinates.")
 
     # Get center and normal from points
@@ -307,7 +311,7 @@ def create_plane_from_lines(
     return Plane(center, normal, width, height, n_cells_x, n_cells_y, server)
 
 
-def create_plane_from_point_and_line(
+def create_plane_from_point_and_line(  # noqa: PLR0913
     point, line, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
 ):
     """Create plane from point and line.
@@ -353,13 +357,12 @@ def create_plane_from_point_and_line(
     if isinstance(point, Points):
         if not len(point) == 1:
             raise ValueError("Only one point must be passed.")
-    else:
-        if not len(point) == 3:
-            raise ValueError("A point must contain three coordinates 'x', 'y' and 'z'.")
+    elif not len(point) == _N_SPATIAL_DIMS:
+        raise ValueError("A point must contain three coordinates 'x', 'y' and 'z'.")
     if not isinstance(line, Line):
-        if not len(line) == 2:
+        if not len(line) == _N_LINE_POINTS:
             raise ValueError("'line' must be of length = 2 containing two points.")
-        if not len(line[0]) == len(line[1]) == 3:
+        if not len(line[0]) == len(line[1]) == _N_SPATIAL_DIMS:
             raise ValueError("Each point in line must contain three coordinates 'x', 'y' and 'z'.")
 
     # Get center and normal from point and vector

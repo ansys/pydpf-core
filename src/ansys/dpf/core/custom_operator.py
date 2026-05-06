@@ -61,7 +61,7 @@ from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.gate import capi, dpf_vector, integral_types, object_handler
 
 
-def update_virtual_environment_for_custom_operators(
+def update_virtual_environment_for_custom_operators(  # noqa: PLR0912, PLR0915
     restore_original: bool = False,
 ):
     """Update the dpf-site.zip file used to start a venv for Python custom operators to run in.
@@ -128,7 +128,7 @@ def update_virtual_environment_for_custom_operators(
             with path_file.open("r") as f:
                 current_site_packages_path = Path(f.readline().strip())
         with tempfile.TemporaryDirectory() as tmpdir:
-            tmpdir = Path(tmpdir)
+            tmpdir = Path(tmpdir)  # noqa: PLW2901
             ansys_dir = tmpdir / "ansys_dpf_core"
             ansys_dir.mkdir()
             ansys_dir.joinpath("ansys").mkdir()
@@ -201,7 +201,7 @@ def record_operator(operator_type, *args) -> None:
     if dpf.SERVER is None:
         settings.set_server_configuration(server_factory.ServerConfig(None, False))
         server.start_local_server(context=AvailableServerContexts.premium)
-    if len(args) == 2:
+    if len(args) == 2:  # noqa: PLR2004
         external_operator_api.external_operator_record_with_abstract_core_and_wrapper(
             operator._call_back(),
             __operator_main__,
@@ -314,7 +314,7 @@ class CustomOperatorBase:
         type = dpf_operator._write_output_type_to_type(type)
         for type_tuple in _type_to_input_method:
             if type is type_tuple[0]:
-                if len(type_tuple) >= 3:
+                if len(type_tuple) >= 3:  # noqa: PLR2004
                     parameters = {type_tuple[2]: type_tuple[1](self._operator_data, index)}
                     return type(**parameters)
                 return type(type_tuple[1](self._operator_data, index))

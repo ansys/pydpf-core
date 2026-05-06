@@ -360,6 +360,8 @@ class ServerConfig:
             text += f" (legacy gRPC)"
         return text
 
+    __hash__ = None
+
     def __eq__(self, other: "ServerConfig"):
         """Check if two ServerConfig instances are equal.
 
