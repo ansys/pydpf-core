@@ -61,7 +61,7 @@ from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.gate import capi, dpf_vector, integral_types, object_handler
 
 
-def update_virtual_environment_for_custom_operators(
+def update_virtual_environment_for_custom_operators(  # noqa: C901
     restore_original: bool = False,
 ):
     """Update the dpf-site.zip file used to start a venv for Python custom operators to run in.

@@ -73,7 +73,7 @@ class Input(Generic[T]):
             self.name += str(self._count_ellipsis + 1)
         self._update_doc_str(docstr, self.name)
 
-    def connect(self, inpt: Union[T, Output[T]]):
+    def connect(self, inpt: Union[T, Output[T]]):  # noqa: C901
         """Connect any input (entity or operator output) to a specified input pin of this operator."""
         from pathlib import Path
 
@@ -229,7 +229,7 @@ class _Inputs:
                     docstr += "{:<5}{:<4}{:<20}\n".format(*line)
         return docstr
 
-    def connect(self, inpt):
+    def connect(self, inpt):  # noqa: C901
         """Connect any input (an entity or an operator output) to any input pin of this operator.
 
         Searches for the input type corresponding to the output.

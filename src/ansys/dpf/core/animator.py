@@ -51,7 +51,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def animate_workflow(
+    def animate_workflow(  # noqa: C901
         self,
         loop_over,
         workflow,

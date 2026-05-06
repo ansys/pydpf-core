@@ -26,7 +26,7 @@ from .examples import *
 
 
 # called if module.<name> fails
-def __getattr__(name):
+def __getattr__(name):  # noqa: C901
     if name == "simple_bar":
         global simple_bar
         simple_bar = find_simple_bar()
