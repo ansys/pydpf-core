@@ -112,7 +112,7 @@ class PropertyField(_FieldBase):
         self._api.init_property_field_environment(self)
 
     @staticmethod
-    def _field_create_internal_obj(
+    def _field_create_internal_obj(  # noqa: PLR0913
         api: property_field_abstract_api.PropertyFieldAbstractAPI,
         server,
         nature,

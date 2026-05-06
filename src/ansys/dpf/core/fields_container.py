@@ -558,7 +558,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
         plt.add_field(field=merged_field, **kwargs)
         return plt.show_figure(**kwargs)
 
-    def animate(
+    def animate(  # noqa: PLR0915
         self,
         save_as: str = None,
         deform_by: Union[FieldsContainer, Result, Operator] = None,

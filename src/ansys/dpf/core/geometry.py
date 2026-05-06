@@ -297,7 +297,7 @@ class Plane:
 
     """
 
-    def __init__(self, center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None):
+    def __init__(self, center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None):  # noqa: PLR0913
         """Initialize Plane object from its center and normal direction."""
         # Input check
         if not len(center) == _N_SPATIAL_DIMS:

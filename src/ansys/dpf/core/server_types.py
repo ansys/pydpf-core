@@ -60,7 +60,7 @@ if TYPE_CHECKING:  # pragma: no cover
 import logging
 
 LOG = logging.getLogger(__name__)
-DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 50054))
+DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", "50054"))
 LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
 RUNNING_DOCKER = server_factory.create_default_docker_config()
 
@@ -113,7 +113,7 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
     return dpf_run_dir
 
 
-def _run_launch_server_process(
+def _run_launch_server_process(  # noqa: PLR0913
     ip,
     port,
     ansys_path=None,
@@ -167,7 +167,7 @@ def _run_launch_server_process(
     return process
 
 
-def _wait_and_check_server_connection(
+def _wait_and_check_server_connection(  # noqa: PLR0913
     process, port, timeout, lines, current_errors, stderr=None, stdout=None
 ):
     if not stderr:
@@ -222,7 +222,7 @@ def _wait_and_check_server_connection(
         raise RuntimeError(errstr)
 
 
-def launch_dpf(
+def launch_dpf(  # noqa: PLR0913
     ansys_path,
     ip=LOCALHOST,
     port=DPF_DEFAULT_PORT,
@@ -849,7 +849,7 @@ class GrpcServer(CServer):
         Path to a directory containing the certificates to use for mTLS authentication.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,
@@ -1320,7 +1320,7 @@ class LegacyGrpcServer(BaseServer):
         Path to a directory containing the certificates to use for mTLS authentication.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913, PLR0915
         self,
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,

@@ -109,7 +109,7 @@ class Any:
         else:
             return self._api.any_new_from_string_on_client(client, str)
 
-    def _type_to_new_from_get_as_method(self, obj):
+    def _type_to_new_from_get_as_method(self, obj):  # noqa: PLR0911, PLR0912
         from ansys.dpf.core import (
             collection,
             custom_type_field,

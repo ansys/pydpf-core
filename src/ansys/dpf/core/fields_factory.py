@@ -348,7 +348,7 @@ def create_overall_field(
     return overall_field
 
 
-def _create_field(
+def _create_field(  # noqa: PLR0913
     server: AnyServerType = None,
     nature: natures = natures.scalar,
     n_entities: int = 0,

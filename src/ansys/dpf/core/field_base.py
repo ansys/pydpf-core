@@ -95,7 +95,7 @@ class _FieldBase:
 
     @staticmethod
     @abstractmethod
-    def _field_create_internal_obj(
+    def _field_create_internal_obj(  # noqa: PLR0913
         api: field_abstract_api.FieldAbstractAPI,
         server,
         nature,

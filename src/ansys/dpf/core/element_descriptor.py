@@ -60,7 +60,7 @@ class ElementDescriptor:
 
     """  # noqa: E501
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         enum_id,
         description,

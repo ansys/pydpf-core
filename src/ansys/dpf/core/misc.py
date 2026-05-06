@@ -85,7 +85,7 @@ def is_ubuntu():
     return False
 
 
-def get_ansys_path(ansys_path=None):
+def get_ansys_path(ansys_path=None):  # noqa: PLR0912
     """Return the input path if provided; otherwise, check ANSYS_DPF_PATH, AWP_ROOT, and the latest ansys-dpf-server modules.
 
     Give input path back if given, else look for ANSYS_DPF_PATH,

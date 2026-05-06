@@ -81,7 +81,7 @@ class PinSpecification:
     name_derived_class = str
     aliases: list[str]
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         name: str,
         type_names: list,
@@ -152,9 +152,11 @@ class PinSpecification:
         return "{class_name}({params})".format(
             class_name=self.__class__.__name__,
             params=", ".join(
-                "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
-                for k, v in vars(self).items()
-                if not ("{param}" == "name_derived_class" and "name_derived_class" != "")
+                "{param}={value}".format(
+                    param=instance_var, value=f"'{value}'" if isinstance(value, str) else value
+                )
+                for instance_var, value in vars(self).items()
+                if not (instance_var == "name_derived_class" and value != "")
             ),
         )
 
@@ -578,7 +580,7 @@ class SpecificationProperties:
 
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         user_name: Union[str, None] = None,
         category: Union[str, None] = None,

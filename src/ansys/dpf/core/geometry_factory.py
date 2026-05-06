@@ -151,7 +151,7 @@ def create_line_from_vector(ini, end=None, n_points=100, server=None):
     return Line(vect, n_points, server)
 
 
-def create_plane_from_center_and_normal(
+def create_plane_from_center_and_normal(  # noqa: PLR0913
     center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
 ):
     """Create plane from its center and normal direction.
@@ -256,7 +256,7 @@ def create_plane_from_points(points, n_cells_x=20, n_cells_y=20, server=None):
     return Plane(center, normal_dir, width, height, n_cells_x, n_cells_y, server)
 
 
-def create_plane_from_lines(
+def create_plane_from_lines(  # noqa: PLR0913
     line1, line2, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
 ):
     """Create plane from two lines.
@@ -311,7 +311,7 @@ def create_plane_from_lines(
     return Plane(center, normal, width, height, n_cells_x, n_cells_y, server)
 
 
-def create_plane_from_point_and_line(
+def create_plane_from_point_and_line(  # noqa: PLR0913
     point, line, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
 ):
     """Create plane from point and line.

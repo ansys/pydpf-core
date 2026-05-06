@@ -62,7 +62,7 @@ def delete_downloads(verbose=True):
         ]
     )
     for root, dirs, files in os.walk(LOCAL_DOWNLOADED_EXAMPLES_PATH, topdown=False):
-        root = Path(root) # noqa: PLW2901
+        root = Path(root)  # noqa: PLW2901
         if root not in not_to_remove:
             for name in files:
                 file_path = root / name
@@ -76,7 +76,7 @@ def delete_downloads(verbose=True):
     for root, dirs, files in os.walk(LOCAL_DOWNLOADED_EXAMPLES_PATH, topdown=False):
         if len(dirs) == 0 and len(files) == 0:
             try:
-                root = Path(root) # noqa: PLW2901
+                root = Path(root)  # noqa: PLW2901
                 root.rmdir()
                 if verbose:
                     print(f"deleting {root}")

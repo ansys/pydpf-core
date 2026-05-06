@@ -208,7 +208,7 @@ class ResultInfo:
         """Check if a given name is present in available results."""
         return value in self._names
 
-    def add_result(
+    def add_result(  # noqa: PLR0913
         self,
         operator_name: str,
         scripting_name: str,

@@ -135,7 +135,7 @@ class Operator:
 
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         name: str = None,
         config: Config = None,
@@ -275,7 +275,7 @@ class Operator:
     def progress_bar(self, value: bool) -> None:
         self._progress_bar = value
 
-    def connect(self, pin, inpt, pin_out=0):
+    def connect(self, pin, inpt, pin_out=0):  # noqa: PLR0912
         """Connect an input on the operator using a pin number.
 
         Parameters
@@ -854,7 +854,7 @@ class Operator:
                 if output._pin == pin:
                     return output()
 
-    def _find_outputs_corresponding_pins(
+    def _find_outputs_corresponding_pins(  # noqa: PLR0912
         self, type_names, inpt, pin, corresponding_pins, input_type_name
     ):
         from ansys.dpf.core.results import Result
@@ -864,7 +864,7 @@ class Operator:
             # because cpp mappings are a single type mapping and
             # sometimes the spec contains 'B' instead of 'bool'
             if python_name == "B":
-                python_name = "bool" # noqa: PLW2901
+                python_name = "bool"  # noqa: PLW2901
 
             # Type match
             if input_type_name == python_name:
