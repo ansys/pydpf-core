@@ -44,7 +44,7 @@ This tutorial shows how to extract and explore results metadata from a result fi
 from ansys.dpf import core as dpf
 
 # Import the operators and examples module
-from ansys.dpf.core import examples, operators as ops
+from ansys.dpf.core import examples
 
 # Define the result file path
 result_file_path_1 = examples.download_transient_result()

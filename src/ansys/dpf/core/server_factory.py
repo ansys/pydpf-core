@@ -36,7 +36,6 @@ import time
 
 from ansys.dpf.gate.load_api import (
     _find_outdated_ansys_version,
-    _get_path_in_install,
 )
 
 
@@ -357,7 +356,7 @@ class ServerConfig:
         """
         text = f"Server configuration: protocol={self.protocol}"
         if self.legacy:
-            text += f" (legacy gRPC)"
+            text += " (legacy gRPC)"
         return text
 
     def __eq__(self, other: "ServerConfig"):
@@ -443,9 +442,9 @@ def get_default_server_config(
             config = AvailableServerConfigs.LegacyGrpcServer
         else:
             raise NotImplementedError(
-                f"DPF_SERVER_TYPE environment variable must "
-                f"be set to one of the following: INPROCESS, "
-                f"GRPC, LEGACYGRPC."
+                "DPF_SERVER_TYPE environment variable must "
+                "be set to one of the following: INPROCESS, "
+                "GRPC, LEGACYGRPC."
             )
     elif config is None and docker_config.use_docker:
         config = get_default_remote_server_config()

@@ -25,7 +25,6 @@ import pytest
 from ansys.dpf import core as dpf
 from ansys.dpf.core import fields_factory
 from ansys.dpf.gate.dpf_vector import DPFVectorCustomType
-import conftest
 
 
 def test_perf_vec_setters(server_type):

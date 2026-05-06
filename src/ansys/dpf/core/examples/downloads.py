@@ -26,6 +26,53 @@ Downloads.
 Download example datasets from https://github.com/ansys/example-data
 """
 
+__all__ = [
+    "delete_downloads",
+    "download_transient_result",
+    "download_all_kinds_of_complexity",
+    "download_all_kinds_of_complexity_modal",
+    "download_pontoon",
+    "download_multi_harmonic_result",
+    "download_multi_stage_cyclic_result",
+    "download_sub_file",
+    "download_msup_files_to_dict",
+    "download_distributed_files",
+    "download_fluent_multi_species",
+    "download_fluent_multi_phase",
+    "download_extrapolation_3d_result",
+    "download_extrapolation_2d_result",
+    "download_hemisphere",
+    "download_example_asme_result",
+    "download_crankshaft",
+    "download_piston_rod",
+    "download_d3plot_beam",
+    "download_binout_matsum",
+    "download_binout_glstat",
+    "download_d3plot_projectile",
+    "download_cycles_to_failure",
+    "download_modal_frame",
+    "download_harmonic_clamped_pipe",
+    "download_modal_cyclic",
+    "download_fluent_axial_comp",
+    "download_fluent_mixing_elbow_steady_state",
+    "download_fluent_mixing_elbow_transient",
+    "download_cfx_heating_coil",
+    "download_cfx_mixing_elbow",
+    "find_simple_bar",
+    "find_static_rst",
+    "find_complex_rst",
+    "find_multishells_rst",
+    "find_electric_therm",
+    "find_steady_therm",
+    "find_transient_therm",
+    "find_msup_transient",
+    "find_simple_cyclic",
+    "find_distributed_msup_folder",
+    "download_average_filter_plugin",
+    "download_gltf_plugin",
+    "download_easy_statistics",
+]
+
 import os
 from pathlib import Path
 from typing import Union

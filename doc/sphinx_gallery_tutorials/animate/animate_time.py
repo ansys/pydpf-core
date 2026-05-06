@@ -45,7 +45,7 @@ a ``time`` label.
 # the :ref:`ref_tutorials_import_data` tutorial section.
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples, operators as ops
+from ansys.dpf.core import examples
 
 result_file_path = examples.find_msup_transient()
 model = dpf.Model(data_sources=result_file_path)

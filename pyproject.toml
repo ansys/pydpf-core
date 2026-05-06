@@ -136,6 +136,17 @@ Tracker = "https://github.com/ansys/pydpf-core/issues"
 dpf_generate_operators_doc = "ansys.dpf.core.documentation.generate_operators_doc:run_with_args"
 
 [tool.ruff]
+exclude = [
+    "doc/source/",
+    "src/ansys/dpf/core/operators/",
+    "examples_notebooks/",
+    "src/ansys/dpf/core/__init__.py",
+    "doc/styles/",
+    "src/ansys/dpf/gate/",
+    "src/ansys/dpf/gatebin/",
+    "src/ansys/grpc/dpf/",
+    "tests/"
+]
 line-length = 100
 
 [tool.ruff.format]
@@ -146,7 +157,7 @@ indent-style = "space"
 select = [
 #   "E",    # pycodestyle, see https://beta.ruff.rs/docs/rules/#pycodestyle-e-w
     "D",    # pydocstyle, see https://beta.ruff.rs/docs/rules/#pydocstyle-d
-    # "F",    # pyflakes, see https://beta.ruff.rs/docs/rules/#pyflakes-f
+    "F",    # pyflakes, see https://beta.ruff.rs/docs/rules/#pyflakes-f
     "I",    # isort, see https://beta.ruff.rs/docs/rules/#isort-i
 #   "N",    # pep8-naming, see https://beta.ruff.rs/docs/rules/#pep8-naming-n
    "PTH",  # flake8-use-pathlib, https://beta.ruff.rs/docs/rules/#flake8-use-pathlib-pth

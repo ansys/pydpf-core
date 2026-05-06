@@ -34,7 +34,6 @@ from ansys.dpf.core.vtk_helper import (
     dpf_property_field_to_vtk,
     vtk_mesh_is_valid,
 )
-import conftest
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True

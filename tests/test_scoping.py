@@ -26,8 +26,7 @@ import numpy as np
 import pytest
 
 from ansys import dpf
-from ansys.dpf.core import Scoping, errors as dpf_errors
-import conftest
+from ansys.dpf.core import Scoping
 
 
 def test_create_scoping():

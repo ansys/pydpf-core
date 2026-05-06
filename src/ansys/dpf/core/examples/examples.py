@@ -22,7 +22,12 @@
 
 """Examples result files."""
 
-import os
+__all__ = [
+    "get_example_required_minimum_dpf_version",
+    "find_files",
+    "fluid_axial_model",
+]
+
 from pathlib import Path
 
 from ansys.dpf.core import DataSources, path_utilities, server as server_module

@@ -25,7 +25,6 @@ import pytest
 
 from ansys import dpf
 from ansys.dpf import core
-import conftest
 
 
 def test_scopingdata_custom_type_field(server_type):
