@@ -30,6 +30,7 @@ from ansys.dpf.core import errors, scoping, server as server_module
 from ansys.dpf.core.common import _get_size_of_list, locations, natures
 from ansys.dpf.core.field_base import _FieldBase
 from ansys.dpf.gate import (
+    dpf_array,
     dpf_vector,
     integral_types,
     string_field_abstract_api,
@@ -227,6 +228,12 @@ class StringField(_FieldBase):
         """
         string_list = integral_types.MutableListString(data)
         self._api.csstring_field_push_back(self, scopingid, _get_size_of_list(data), string_list)
+
+    def _get_data_pointer(self):
+        return self._api.csstring_field_get_data_pointer(self, True)
+
+    def _set_data_pointer(self, data):
+        return self._api.csstring_field_set_data_pointer(self, _get_size_of_list(data), data)
 
     def _get_data(self, np_array=True):
         try:

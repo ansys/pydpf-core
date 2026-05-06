@@ -466,49 +466,6 @@ class Field(_FieldBase):
     def _set_data_pointer(self, data):
         return self._api.csfield_set_data_pointer(self, _get_size_of_list(data), data)
 
-    @property
-    def entity_data_offsets(self) -> dpf_array.DPFArray:
-        """Start indices of each entity's data in the flat :attr:`data` array.
-
-        For fields with a uniform number of elementary data per entity (nodal,
-        elemental scalar or vector), this array is empty — :meth:`get_entity_data`
-        uses :attr:`component_count` and :attr:`elementary_data_count` to compute
-        slices directly.
-
-        For **ElementalNodal** fields, where elements can have different node
-        counts (mixed element meshes), each entity can hold a different number of
-        values.  In that case ``entity_data_offsets[i]`` is the flat-array index
-        where entity ``i``'s data begins.
-
-        Setting this property is the vectorized alternative to calling
-        :meth:`append` in a loop when building an ElementalNodal field
-        programmatically.  Populate :attr:`data` with the full flat array first,
-        then set ``entity_data_offsets`` with the cumulative start indices:
-
-        >>> import numpy as np
-        >>> import ansys.dpf.core as dpf
-        >>> field = dpf.Field(location=dpf.locations.elemental_nodal)
-        >>> field.scoping.ids = [10, 20]
-        >>> field.data = np.array([1., 2., 3., 4., 5., 6.,   # entity 10: 2 data points
-        ...                        7., 8., 9.])               # entity 20: 1 data point
-        >>> field.entity_data_offsets = [0, 6]
-        >>> field.get_entity_data(index=0).shape
-        (2, 3)
-        >>> field.get_entity_data(index=1).shape
-        (1, 3)
-
-        Returns
-        -------
-        :class:`ansys.dpf.core.dpf_array.DPFArray`
-            Integer array of length ``n_entities``, giving the start index in
-            :attr:`data` for each entity in scoping order.
-        """
-        return self._get_data_pointer()
-
-    @entity_data_offsets.setter
-    def entity_data_offsets(self, value: list[int] | np.ndarray[np.intp] | dpf_array.DPFArray):
-        self._set_data_pointer(value)
-
     # Keep the private alias for backward compatibility (used in deep_copy and
     # by external code that may already reference _data_pointer directly).
     _data_pointer = property(_get_data_pointer, _set_data_pointer)
@@ -987,7 +944,7 @@ class Field(_FieldBase):
         f.location = self.location
         f.field_definition = self.field_definition.deep_copy(server)
         with suppress(Exception):
-            f._data_pointer = self._data_pointer
+            f.entity_data_offsets = self.entity_data_offsets
 
         # A field can only have ONE support (mesh OR time_freq_support).
         # Setting one overwrites the other, so they must be mutually exclusive.

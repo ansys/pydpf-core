@@ -390,20 +390,20 @@ def test_entity_data_offsets_field(allkindofcomplexity):
     assert data_pointer[1] == 40
 
 
-def test_data_pointer_prop_field(server_type):
+def test_entity_data_offsets_prop_field(server_type):
     pfield = dpf.core.PropertyField(server=server_type)
     pfield.append([1, 2, 3], 1)
     pfield.append([1, 2, 3, 4], 2)
     pfield.append([1, 2, 3], 3)
-    data_pointer = pfield._data_pointer
+    data_pointer = pfield.entity_data_offsets
     assert len(data_pointer) == 3
     assert data_pointer[0] == 0
     assert data_pointer[1] == 3
     assert data_pointer[2] == 7
 
     data_pointer[1] = 4
-    pfield._data_pointer = data_pointer
-    data_pointer = pfield._data_pointer
+    pfield.entity_data_offsets = data_pointer
+    data_pointer = pfield.entity_data_offsets
     assert len(data_pointer) == 3
     assert data_pointer[0] == 0
     assert data_pointer[1] == 4

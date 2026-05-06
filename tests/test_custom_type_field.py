@@ -71,7 +71,7 @@ def test_create_custom_type_field_push_back(server_type):
     assert f_scal.scoping.ids[1] == 2
 
 
-def test_set_get_data_pointer_custom_type_field(server_type):
+def test_set_get_entity_data_offsets_custom_type_field(server_type):
     field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_type)
     field_def = dpf.core.FieldDefinition(server=server_type)
     field_def.dimensionality = dpf.core.Dimensionality({3}, dpf.core.natures.vector)
@@ -83,9 +83,9 @@ def test_set_get_data_pointer_custom_type_field(server_type):
     for i in range(0, 24):
         data[i] = i
     field.data = data
-    field._data_pointer = [0, 6, 12, 18]
+    field.entity_data_offsets = [0, 6, 12, 18]
     assert np.allclose(field.data, np.array(data, dtype=float).reshape(8, 3))
-    assert np.allclose(field._data_pointer, [0, 6, 12, 18])
+    assert np.allclose(field.entity_data_offsets, [0, 6, 12, 18])
     assert np.allclose(field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
     assert np.allclose(field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
     assert np.allclose(field.get_entity_data(2), np.array(range(12, 18)).reshape(2, 3))
@@ -143,7 +143,7 @@ def test_mutable_data_custom_type_field(server_clayer):
     for i in range(0, 24):
         data[i] = i
     field.data = data
-    field._data_pointer = [0, 6, 12, 18]
+    field.entity_data_offsets = [0, 6, 12, 18]
 
     vec = field.get_entity_data(0)
     assert np.allclose(vec, np.array(range(0, 6)).reshape(2, 3))
@@ -180,15 +180,15 @@ def get_float_field(server_clayer):
     for i in range(0, 24):
         data[i] = i
     field.data = data
-    field._data_pointer = [0, 6, 12, 18]
+    field.entity_data_offsets = [0, 6, 12, 18]
     return field
 
 
-def test_mutable_data_pointer_custom_type_field(server_clayer):
+def test_mutable_entity_data_offsets_custom_type_field(server_clayer):
     float_field = get_float_field(server_clayer)
     assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
     assert np.allclose(float_field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
-    vec = float_field._data_pointer
+    vec = float_field.entity_data_offsets
     vec[1] = 9
     vec[2] = 15
     vec.commit()
