@@ -563,8 +563,8 @@ class Field(_FieldBase):
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
-        from ansys.dpf.core.plotter import DpfPlotter
         from ansys.dpf.core.common import shell_layers as eshell_layers
+        from ansys.dpf.core.plotter import DpfPlotter
 
         if meshed_region is None:
             meshed_region = self.meshed_region

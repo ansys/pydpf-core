@@ -113,7 +113,9 @@ class _InternalPlotterFactory:
             )
 
 
-def _prepare_fields_container_data(fields_container, meshed_region, shell_layers, deform_by, scale_factor):
+def _prepare_fields_container_data(
+    fields_container, meshed_region, shell_layers, deform_by, scale_factor
+):
     """Prepare merged scalar data from a FieldsContainer for plotting.
 
     Validates the container (no complex, no multi-timestep), applies shell layer
@@ -200,7 +202,11 @@ def _prepare_fields_container_data(fields_container, meshed_region, shell_layers
             if field.shell_layers in [eshell_layers.topbottom, eshell_layers.topbottommid]:
                 changeOp.inputs.fields_container.connect(field)
                 changeOp.inputs.merge.connect(True)
-                sl = shell_layers if (shell_layers is not None and isinstance(shell_layers, eshell_layers)) else eshell_layers.top
+                sl = (
+                    shell_layers
+                    if (shell_layers is not None and isinstance(shell_layers, eshell_layers))
+                    else eshell_layers.top
+                )
                 changeOp.inputs.e_shell_layer.connect(sl.value)
                 field = changeOp.get_output(0, core.types.field)
             new_fc.add_field(label_space=label_space_i, field=field)
@@ -209,7 +215,11 @@ def _prepare_fields_container_data(fields_container, meshed_region, shell_layers
         for field in fields_container:
             if field.shell_layers in [eshell_layers.topbottom, eshell_layers.topbottommid]:
                 changeOp.inputs.fields_container.connect(fields_container)
-                sl = shell_layers if (shell_layers is not None and isinstance(shell_layers, eshell_layers)) else eshell_layers.top
+                sl = (
+                    shell_layers
+                    if (shell_layers is not None and isinstance(shell_layers, eshell_layers))
+                    else eshell_layers.top
+                )
                 changeOp.inputs.e_shell_layer.connect(sl.value)
                 fields_container = changeOp.get_output(0, core.types.fields_container)
                 break
@@ -239,7 +249,9 @@ def _prepare_fields_container_data(fields_container, meshed_region, shell_layers
     # Build grid (possibly deformed / shrunk for elemental_nodal)
     as_linear = location != locations.elemental_nodal
     if deform_by:
-        grid = meshed_region._as_vtk(meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear)
+        grid = meshed_region._as_vtk(
+            meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
+        )
     else:
         if as_linear != meshed_region.as_linear:
             grid = meshed_region._as_vtk(meshed_region.nodes.coordinates_field, as_linear=as_linear)

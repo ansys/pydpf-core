@@ -642,8 +642,8 @@ class MeshedRegion:
 
         """
         if field_or_fields_container is not None:
-            import ansys.dpf.core.fields_container as _fc_module
             from ansys.dpf.core.common import shell_layers as eshell_layers
+            import ansys.dpf.core.fields_container as _fc_module
 
             show_axes = kwargs.pop("show_axes", True)
             pl = DpfPlotter(**kwargs)
