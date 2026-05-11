@@ -48,7 +48,7 @@ from ansys.dpf.core.elements import Elements, element_types
 import ansys.dpf.core.errors
 from ansys.dpf.core.faces import Faces
 from ansys.dpf.core.nodes import Nodes
-from ansys.dpf.core.plotter import DpfPlotter, Plotter
+from ansys.dpf.core.plotter import DpfPlotter
 from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi
 
 
@@ -642,15 +642,19 @@ class MeshedRegion:
 
         """
         if field_or_fields_container is not None:
-            pl = Plotter(self, **kwargs)
-            return pl.plot_contour(
+            show_axes = kwargs.pop("show_axes", True)
+            pl = DpfPlotter(**kwargs)
+            pl.add_fields_container(
                 field_or_fields_container,
-                shell_layers,
-                show_axes=kwargs.pop("show_axes", True),
+                meshed_region=self,
+                shell_layers=shell_layers,
                 deform_by=deform_by,
                 scale_factor=scale_factor,
+                show_axes=show_axes,
                 **kwargs,
             )
+            kwargs.pop("notebook", None)
+            return pl.show_figure(**kwargs)
 
         # otherwise, simply plot the mesh
         pl = DpfPlotter(**kwargs)
