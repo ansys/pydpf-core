@@ -498,7 +498,14 @@ class _PyVistaPlotter:
             self._plotter.add_mesh(src, **kwargs_in)
 
     def add_grid_with_scalars(
-        self, grid, overall_data, meshed_region, location, deform_by=None, scale_factor=1.0, **kwargs
+        self,
+        grid,
+        overall_data,
+        meshed_region,
+        location,
+        deform_by=None,
+        scale_factor=1.0,
+        **kwargs,
     ):
         """Add a pre-computed grid with scalar data to the plotter.
 
@@ -1159,7 +1166,14 @@ class _VisualizationInterfacePlotter:
             self._plotter.plot(src, **kwargs_in)
 
     def add_grid_with_scalars(
-        self, grid, overall_data, meshed_region, location, deform_by=None, scale_factor=1.0, **kwargs
+        self,
+        grid,
+        overall_data,
+        meshed_region,
+        location,
+        deform_by=None,
+        scale_factor=1.0,
+        **kwargs,
     ):
         """Add a pre-computed grid with scalar data to the plotter.
 
@@ -1310,9 +1324,7 @@ def _prepare_fields_container(field_or_fields_container):
         If the container contains results at multiple time steps.
     """
     if isinstance(field_or_fields_container, dpf.core.Field):
-        fields_container = dpf.core.FieldsContainer(
-            server=field_or_fields_container._server
-        )
+        fields_container = dpf.core.FieldsContainer(server=field_or_fields_container._server)
         fields_container.add_label("id")
         fields_container.add_field({"id": 1}, field_or_fields_container)
     elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
