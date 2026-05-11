@@ -21,6 +21,7 @@
 * [Dominik Gresch](https://github.com/greschd)
 * [Edu Ramos Fernandez](https://github.com/anseramosfe)
 * [Federico Negri](https://github.com/FedericoNegri)
+* [gawettla](https://github.com/gawettla)
 * [German](https://github.com/germa89)
 * [Guillem Barroso](https://github.com/GuillemBarroso)
 * [guptadivya1501](https://github.com/guptadivya1501)
