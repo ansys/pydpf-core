@@ -37,7 +37,7 @@ if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
     from pyvista.plotting.renderer import CameraPosition  # noqa: F401
 
-    from ansys.dpf.core.plotter import DpfPlotter
+    from ansys.dpf.core.plotter import DpfPlotter, Plotter
 else:
     HAS_PYVISTA = False
 
@@ -530,9 +530,8 @@ def test_plot_contour_using_vtk_file(complex_model):
     model = core.Model(complex_model)
     stress = model.results.displacement()
     fc = stress.outputs.fields_container()
-    pl = DpfPlotter()
-    pl.add_fields_container(fc, meshed_region=model.metadata.meshed_region)
-    pl.show_figure()
+    pl = Plotter(model.metadata.meshed_region)
+    pl._plot_contour_using_vtk_file(fc)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
