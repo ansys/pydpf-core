@@ -31,7 +31,7 @@ min_server_version = "5.0"
 class ServerToAnsysVersion:
     def __getitem__(self, item):
         version = parse_version(item)
-        if version > 2025:
+        if version.major > 2025:
             # The new DPF versioning scheme is YEAR.REVISION.MICRO.MODIFIER
             ansys_year = version.major
             ansys_revision = version.minor
