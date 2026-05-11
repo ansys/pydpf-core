@@ -114,7 +114,7 @@ pl1.show_figure(show_axes=True)
 # - radius: streamlines radius
 # - n_points: source number of points
 # - source_radius
-# - max_time: maximum integration time of the streamline. It controls
+# - max_length: maximum integration time of the streamline. It controls
 # the streamline length.
 streamline_obj, source_obj = compute_streamlines(
     meshed_region=meshed_region,
@@ -123,7 +123,7 @@ streamline_obj, source_obj = compute_streamlines(
     source_center=(0.56, 0.48, 0.0),
     n_points=10,
     source_radius=0.075,
-    max_time=10.0,
+    max_length=10.0,
 )
 pl2 = DpfPlotter()
 pl2.add_field(field, meshed_region, opacity=0.2)

@@ -1433,7 +1433,7 @@ class DpfPlotter:
         ...        source_center=(0.55, 0.55, 0.),
         ...        n_points=10,
         ...        source_radius=0.08,
-        ...        max_time=10.0
+        ...        max_length=10.0
         ...        )
         >>> pl.add_streamlines(
         ...        streamlines=streamline_obj,
