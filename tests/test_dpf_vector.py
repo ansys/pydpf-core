@@ -67,7 +67,7 @@ def test_update_empty_dpf_vector_prop_field(server_type):
     prop_field.data = np.zeros((100))
     prop_field.scoping.ids = list(range(1, 100))
     assert np.allclose(prop_field.get_entity_data(1), [0])
-    dp = prop_field._data_pointer
+    dp = prop_field.entity_data_offsets
     dp = None
     assert np.allclose(prop_field.get_entity_data(1), [0])
 
@@ -77,7 +77,7 @@ def test_update_empty_dpf_vector_field(server_type):
     field.data = np.zeros((100), dtype=np.double)
     field.scoping.ids = list(range(1, 100))
     assert np.allclose(field.get_entity_data(1), [0])
-    dp = field._data_pointer
+    dp = field.entity_data_offsets
     dp = None
     assert np.allclose(field.get_entity_data(1), [0])
 
@@ -87,7 +87,7 @@ def test_update_empty_dpf_vector_string_field(server_type):
     string_field.data = ["high", "goodbye", "hello"]
     string_field.scoping.ids = list(range(1, 3))
     assert string_field.get_entity_data(1) == ["goodbye"]
-    dp = string_field._data_pointer
+    dp = string_field.entity_data_offsets
     dp = None
     assert string_field.get_entity_data(1) == ["goodbye"]
 
@@ -97,7 +97,7 @@ def test_update_empty_dpf_vector_custom_type_field(server_type):
     field.data = np.zeros((100), dtype=np.double)
     field.scoping.ids = list(range(1, 100))
     assert np.allclose(field.get_entity_data(1), [0])
-    dp = field._data_pointer
+    dp = field.entity_data_offsets
     dp = None
     assert np.allclose(field.get_entity_data(1), [0])
 

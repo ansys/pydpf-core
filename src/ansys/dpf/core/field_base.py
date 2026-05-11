@@ -461,6 +461,34 @@ class _FieldBase:
         pass
 
     @property
+    def entity_data_offsets(self):
+        """Start indices of each entity's data in the flat :attr:`data` array.
+
+        For fields where every entity has the same number of components
+        (``nodal``, ``elemental``, scalar, 3D-vector, …) this array is empty.
+        For fields with variable-size entity data - such as an ``elemental_nodal``
+        :class:`Field <ansys.dpf.core.field.Field>`, or a
+        :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>` storing
+        connectivity - ``entity_data_offsets[i]`` is the flat-array index where
+        entity *i*'s data block begins.
+
+        Returns
+        -------
+        numpy.ndarray
+            Array of start indices, one per entity. Empty when all entities
+            have the same number of components.
+
+        See Also
+        --------
+        :meth:`get_entity_data`, :meth:`append`
+        """
+        return self._get_data_pointer()
+
+    @entity_data_offsets.setter
+    def entity_data_offsets(self, value):
+        self._set_data_pointer(value)
+
+    @property
     def data(self):
         """Data in the field as an array.
 
@@ -841,6 +869,24 @@ class _LocalFieldBase(_FieldBase):
     @_data_pointer.setter
     @_setter
     def _data_pointer(self, data):
+        if isinstance(data, (np.ndarray, np.generic)):
+            self._data_pointer_copy = data.tolist()
+        else:
+            self._data_pointer_copy = data
+        if self._has_data_pointer == False and len(data) > 0:
+            self._has_data_pointer = True
+
+    @property
+    def entity_data_offsets(self):
+        """Start indices of each entity's data in the flat :attr:`data` array.
+
+        See :attr:`_FieldBase.entity_data_offsets` for full documentation.
+        """
+        return np.array(self._data_pointer_copy)
+
+    @entity_data_offsets.setter
+    @_setter
+    def entity_data_offsets(self, data):
         if isinstance(data, (np.ndarray, np.generic)):
             self._data_pointer_copy = data.tolist()
         else:

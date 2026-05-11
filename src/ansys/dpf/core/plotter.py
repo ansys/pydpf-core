@@ -1891,14 +1891,14 @@ class Plotter:
         else:
             overall_data = np.full(location_data_len, np.nan)
 
-        # field._data_pointer gives the first index of each entity data
+        # field.entity_data_offsets gives the first index of each entity data
         # (should be of size nb_elements)
 
         for field in fields_container:
             ind, mask = mesh_location.map_scoping(field.scoping)
             if location == locations.elemental_nodal:
                 # Rework ind and mask to take into account n_nodes per element
-                # entity_index_map = field._data_pointer
+                # entity_index_map = field.entity_data_offsets
                 n_nodes_list = mesh.get_elemental_nodal_size_list().astype(np.int32)
                 first_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
                 mask_2 = np.asarray(

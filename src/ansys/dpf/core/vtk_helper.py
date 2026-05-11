@@ -243,15 +243,15 @@ def _dpf_mesh_to_vtk_py(
         coordinates_field = nodes
         node_coordinates = nodes.data
 
-    elem_size = np.ediff1d(np.append(connectivity._data_pointer, connectivity.shape))
+    elem_size = np.ediff1d(np.append(connectivity.entity_data_offsets, connectivity.shape))
 
     faces_nodes_connectivity = mesh.property_field("faces_nodes_connectivity")
     faces_nodes_connectivity_dp = np.append(
-        faces_nodes_connectivity._data_pointer, len(faces_nodes_connectivity)
+        faces_nodes_connectivity.entity_data_offsets, len(faces_nodes_connectivity)
     )
     elements_faces_connectivity = mesh.property_field("elements_faces_connectivity")
     elements_faces_connectivity_dp = np.append(
-        elements_faces_connectivity._data_pointer, len(elements_faces_connectivity)
+        elements_faces_connectivity.entity_data_offsets, len(elements_faces_connectivity)
     )
 
     insert_ind = np.cumsum(elem_size)
