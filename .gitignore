@@ -216,3 +216,6 @@ src/ansys/dpf/core/examples/python_plugins/gltf_plugin/requirements.txt
 src/ansys/dpf/core/examples/python_plugins/gltf_plugin/texture.png
 src/ansys/dpf/core/examples/python_plugins/easy_statistics.py
 src/ansys/dpf/core/examples/python_plugins/gltf_plugin.xml
+
+# Git worktrees
+.worktrees/
