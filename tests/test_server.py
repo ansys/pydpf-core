@@ -193,7 +193,7 @@ def test_server_context_custom_xml_check_operators(remote_config_server_type):
 
     context = dpf.core.AvailableServerContexts.no_context
     context.xml_path = Path(dpf.core.misc.get_ansys_path()) / "dpf" / "utilities" / "DpfEmpty.xml"
-    server = start_local_server(config=remote_config_server_type, context=context)
+    server = start_local_server(config=remote_config_server_type, context=context, as_global=False)
     assert len(server.plugins) == 0
 
 
