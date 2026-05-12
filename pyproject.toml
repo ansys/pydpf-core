@@ -82,7 +82,7 @@ doc = [
   "nbsphinx==0.9.8",
   "pypandoc==1.17",
   "pytest-sphinx==0.7.1",
-  "pyvista[jupyter]==0.48.0",
+  "pyvista[jupyter]==0.48.1",
   "quarto-cli==1.9.37",
   "sphinx==8.2.3",
   "sphinx-copybutton==0.5.2",
@@ -108,7 +108,7 @@ test = [
   "pytest-cov==7.1.0",
   "pytest-order==1.4.0",
   "pytest-rerunfailures==16.1",
-  "pyvista==0.48.0",
+  "pyvista==0.48.1",
   "vtk==9.6.0"
 ]
 build = [
