@@ -34,7 +34,12 @@ from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import locations, shell_layers
 from ansys.dpf.gate.errors import DPFServerException, DpfVersionNotSupported
 import conftest
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, running_docker
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
+    running_docker,
+)
 
 
 @pytest.fixture()
@@ -1352,7 +1357,7 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
         out = dpf.core.core._deep_copy(field_a, server_type_remote_process)
         assert np.allclose(out.data, data)
 
-elif conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0:
+elif conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
     # before server version 8.0 deep copying between a legacy grpc client and another client type
     # is not supported.
     @pytest.mark.skip
@@ -1399,7 +1404,7 @@ def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
 
 def test_set_units(server_type):
     data = np.random.random(100)
-    field = dpf.core.field_from_array(data)
+    field = dpf.core.field_from_array(data, server=server_type)
     # use string setter with recognized string
     field.unit = "m"
     assert field.unit == "m"
@@ -1407,7 +1412,7 @@ def test_set_units(server_type):
     if server_meet_version("11.0", server_type):
         # use tuple(Homogeneity, string) setter
         field.unit = (Homogeneity.dimensionless, "sones")
-        assert field.unit == "sones"
+        assert field.unit == (Homogeneity.dimensionless, "sones")
     else:
         with pytest.raises(DpfVersionNotSupported):
             # use tuple(Homogeneity, string) setter
@@ -1420,3 +1425,26 @@ def test_set_units(server_type):
     # use wrong type of arguments
     with pytest.raises(ValueError):
         field.unit = 1.0
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    reason="Available for servers >=11.0 (2026 R1)",
+)
+def test_deep_copy_field_with_dimensionless_unit(server_type):
+    """Test that a field with dimensionless unit can be deep copied successfully."""
+    # Create a simple field with some data
+    my_field = dpf.core.Field(nentities=3, server=server_type)
+    my_field.scoping.ids = [1, 2, 3]
+    my_field.data = [1.0, 2.0, 3.0]
+
+    # Set a field's unit as dimensionless with a custom unit name
+    my_field.unit = (Homogeneity.dimensionless, "some_units")
+
+    # Attempt to create a deep copy
+    my_field_copy = my_field.deep_copy()
+
+    # Verify the copy was successful
+    assert my_field_copy is not None
+    assert my_field_copy.unit == my_field.unit
+    assert my_field_copy.unit == (Homogeneity.dimensionless, "some_units")

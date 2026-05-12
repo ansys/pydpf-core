@@ -42,6 +42,7 @@ from ansys.dpf.core.custom_fields_container import (
     ElShapeFieldsContainer,
 )
 import conftest
+from tests.conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0
 
 
 @pytest.fixture()
@@ -575,8 +576,124 @@ def test_fields_container_set_tfsupport(server_type):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0, reason="Available for servers >=12.0"
 )
+def test_fields_container_deep_copy_local(server_type):
+    coll = dpf.FieldsContainer(server=server_type)
+    coll.labels = ["gen", "time", "cyc"]
+    tfq = TimeFreqSupport(server=server_type)
+    frequencies = fields_factory.create_scalar_field(1, server=server_type)
+    frequencies.append([1.0], 1)
+    tfq.time_frequencies = frequencies
+
+    gen_support = dpf.GenericSupport(name="gen", server=server_type)
+    str_f = dpf.StringField(server=server_type)
+    str_f.append(["inlet"], 1)
+    gen_support.set_support_of_property("name", str_f)
+
+    multi_stage = dpf.DataSources(examples.download_multi_stage_cyclic_result(), server=server_type)
+    cyc_support = dpf.operators.metadata.cyclic_support_provider(
+        server=server_type, data_sources=multi_stage
+    ).eval()
+
+    mesh = dpf.operators.mesh.mesh_provider(server=server_type, data_sources=multi_stage).eval()
+
+    coll.set_support("time", tfq)
+    coll.set_support("gen", gen_support)
+    coll.set_support("cyc", cyc_support)
+
+    coll_c = coll.deep_copy()
+
+    assert coll_c.get_support("time").available_field_supported_properties() == ["time_freqs"]
+    assert coll_c.get_support("time").get_as_time_freq_support().n_sets == 1
+    assert coll_c.get_support("gen").available_string_field_supported_properties() == ["name"]
+    assert coll_c.get_support("gen").string_field_support_by_property("name").data == ["inlet"]
+    assert coll_c.get_support("cyc").get_as_cyclic_support().num_stages == 2
+    assert coll_c.get_support("cyc").get_as_cyclic_support().num_sectors() == 6
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0, reason="Available for servers >=12.0"
+)
+def test_fields_container_deep_copy_gRPCCLayer(server_type):
+    coll = dpf.FieldsContainer(server=server_type)
+    coll.labels = ["gen", "time", "cyc"]
+    tfq = TimeFreqSupport(server=server_type)
+    frequencies = fields_factory.create_scalar_field(1, server=server_type)
+    frequencies.append([1.0], 1)
+    tfq.time_frequencies = frequencies
+
+    gen_support = dpf.GenericSupport(name="gen", server=server_type)
+    str_f = dpf.StringField(server=server_type)
+    str_f.append(["inlet"], 1)
+    gen_support.set_support_of_property("name", str_f)
+
+    multi_stage = dpf.DataSources(examples.download_multi_stage_cyclic_result(), server=server_type)
+    cyc_support = dpf.operators.metadata.cyclic_support_provider(
+        server=server_type, data_sources=multi_stage
+    ).eval()
+
+    coll.set_support("time", tfq)
+    coll.set_support("gen", gen_support)
+    coll.set_support("cyc", cyc_support)
+
+    server_dest = dpf.start_local_server(
+        config=dpf.ServerConfig(
+            protocol=dpf.server_factory.CommunicationProtocols.gRPC, legacy=False
+        ),
+        as_global=False,
+    )
+    coll_c = coll.deep_copy(server_dest)
+
+    assert coll_c.get_support("time").available_field_supported_properties() == ["time_freqs"]
+    assert coll_c.get_support("time").get_as_time_freq_support().n_sets == 1
+    assert coll_c.get_support("gen").available_string_field_supported_properties() == ["name"]
+    assert coll_c.get_support("gen").string_field_support_by_property("name").data == ["inlet"]
+    assert coll_c.get_support("cyc").get_as_cyclic_support().num_stages == 2
+    assert coll_c.get_support("cyc").get_as_cyclic_support().num_sectors() == 6
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0, reason="Available for servers >=12.0"
+)
+def test_fields_container_deep_copy_LegacygRPC(server_type):
+    coll = dpf.FieldsContainer(server=server_type)
+    coll.labels = ["gen", "time", "cyc"]
+    tfq = TimeFreqSupport(server=server_type)
+    frequencies = fields_factory.create_scalar_field(1, server=server_type)
+    frequencies.append([1.0], 1)
+    tfq.time_frequencies = frequencies
+
+    gen_support = dpf.GenericSupport(name="gen", server=server_type)
+    str_f = dpf.StringField(server=server_type)
+    str_f.append(["inlet"], 1)
+    gen_support.set_support_of_property("name", str_f)
+
+    multi_stage = dpf.DataSources(examples.download_multi_stage_cyclic_result(), server=server_type)
+    cyc_support = dpf.operators.metadata.cyclic_support_provider(
+        server=server_type, data_sources=multi_stage
+    ).eval()
+
+    coll.set_support("time", tfq)
+    coll.set_support("gen", gen_support)
+    coll.set_support("cyc", cyc_support)
+
+    server_dest = dpf.start_local_server(
+        config=dpf.ServerConfig(
+            protocol=dpf.server_factory.CommunicationProtocols.gRPC, legacy=True
+        ),
+        as_global=False,
+    )
+    coll_c = coll.deep_copy(server_dest)
+
+    assert coll_c.get_support("time").available_field_supported_properties() == ["time_freqs"]
+    assert coll_c.get_support("time").get_as_time_freq_support().n_sets == 1
+    assert coll_c.get_support("gen").available_string_field_supported_properties() == ["name"]
+    assert coll_c.get_support("gen").string_field_support_by_property("name").data == ["inlet"]
+    assert coll_c.get_support("cyc").get_as_cyclic_support().num_stages == 2
+    assert coll_c.get_support("cyc").get_as_cyclic_support().num_sectors() == 6
+
+
 def test_fields_container_empty_tf_support(server_type):
     fields_container = dpf.FieldsContainer(server=server_type)
 

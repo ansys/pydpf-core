@@ -598,10 +598,6 @@ def test_mesh_deep_copy(allkindofcomplexity, server_type):
     )
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="Available with CFF starting 7.0",
-)
 def test_mesh_deep_copy_large(fluent_multiphase, server_type):
     model = dpf.core.Model(fluent_multiphase(server=server_type), server=server_type)
     mesh = model.metadata.meshed_region

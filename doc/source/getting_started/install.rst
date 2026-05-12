@@ -11,7 +11,7 @@ Install using ``pip``
 
 The standard package installer for Python is `pip <pip_pypi_page_>`_.
 
-To use PyDPF-Core with Ansys 2023 R1 or later, install the latest version
+To use PyDPF-Core with Ansys 2024 R1 or later, install the latest version
 with this command:
 
 .. code::
@@ -33,7 +33,7 @@ To install PyDPF-Core with its optional plotting functionalities, run this comma
 
 For more information about PyDPF-Core plotting capabilities, see :ref:`user_guide_plotting`.
 
-To use PyDPF-Core with Ansys 2022 R2, install the latest compatible version
+To use PyDPF-Core with Ansys 2022 R2 up to Ansys 2023 R2, install the latest compatible version
 with this command:
 
 .. code::
@@ -60,7 +60,6 @@ with this command:
 .. code::
 
    pip install ansys-grpc-dpf<0.3.0; pip install ansys-dpf-core<0.3.0
-
 
 Install without internet
 ------------------------

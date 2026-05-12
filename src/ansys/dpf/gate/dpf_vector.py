@@ -1,8 +1,10 @@
-import copy
+from contextlib import suppress
 import ctypes
+import sys
 import numpy as np
 
 from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.gate.generated import capi as _gate_capi
 from ansys.dpf.gate.generated import dpf_vector_capi
 from ansys.dpf.gate.integral_types import MutableListInt32, MutableInt32, MutableListDouble, \
     MutableListString, MutableListChar
@@ -91,10 +93,11 @@ class DPFVectorBase:
         return self._modified and self.size > 0 # Updating is not necessary for an empty vector. Updating it can cause issue, see #2274
 
     def __del__(self):
-        try:
-            self.dpf_vector_api.dpf_vector_delete(self)
-        except:
-            pass
+        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
+            return
+        if hasattr(self, "_internal_obj"):
+            with suppress(Exception):
+                self.dpf_vector_api.dpf_vector_delete(self)
 
 
 class DPFVectorInt(DPFVectorBase):
@@ -120,12 +123,12 @@ class DPFVectorInt(DPFVectorBase):
         self.dpf_vector_api.dpf_vector_int_commit(self, self.internal_data, self.internal_size, self.has_changed())
 
     def __del__(self):
-        try:
-            if self._array:
+        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
+            return
+        with suppress(Exception):
+            if hasattr(self, "_array"):
                 self.dpf_vector_api.dpf_vector_int_free(self, self.internal_data, self.internal_size,
                                                         self.has_changed())
-        except:
-            pass
         super().__del__()
 
 
@@ -152,12 +155,12 @@ class DPFVectorDouble(DPFVectorBase):
         self.dpf_vector_api.dpf_vector_double_commit(self, self.internal_data, self.internal_size, self.has_changed())
 
     def __del__(self):
-        try:
-            if self._array:
+        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
+            return
+        with suppress(Exception):
+            if hasattr(self, "_array"):
                 self.dpf_vector_api.dpf_vector_double_free(self, self.internal_data, self.internal_size,
                                                            self.has_changed())
-        except:
-            pass
         super().__del__()
 
 
@@ -217,12 +220,12 @@ class DPFVectorCustomType(DPFVectorBase):
         )
 
     def __del__(self):
-        try:
-            if self._array:
+        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
+            return
+        with suppress(Exception):
+            if hasattr(self, "_array"):
                 self.dpf_vector_api.dpf_vector_char_free(self, self.internal_data, self.size * self.type.itemsize,
                                                          self.has_changed())
-        except:
-            pass
         super().__del__()
 
 
@@ -242,12 +245,12 @@ class DPFVectorString(DPFVectorBase):
         return self._array
 
     def __del__(self):
-        try:
+        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
+            return
+        with suppress(Exception):
             if self._array:
                 self.dpf_vector_api.dpf_vector_char_ptr_free(self, self.internal_data, self.internal_size,
                                                              self.has_changed())
-        except:
-            pass
         super().__del__()
 
     def __len__(self):

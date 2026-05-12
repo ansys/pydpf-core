@@ -26,13 +26,12 @@ import pytest
 from ansys.dpf import core as dpf
 from ansys.dpf.core.check_version import server_meet_version
 import conftest
-
-
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1,
-    reason="LS-DYNA source operators where not supported before 6.0,"
-    " and unit systems where not supported before 6.1.",
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
 )
+
+
 def test_lsdyna_generic(d3plot_files):
     ds = dpf.DataSources()
     ds.set_result_file_path(d3plot_files[0], "d3plot")
@@ -96,7 +95,7 @@ def test_lsdyna_generic(d3plot_files):
     global_velocity_model = model.results.global_velocity().eval()
 
     assert np.allclose(global_velocity_fc[0].data[0], global_velocity_model[0].data[0])
-    if server_meet_version("7.1", global_velocity_op._server):
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
         assert global_velocity_fc[0].unit == "mm/s"
         assert global_velocity_model[0].unit == "mm/s"
     else:
@@ -167,11 +166,6 @@ def test_lsdyna_generic(d3plot_files):
     assert equivalent_plastic_strain_model[0].unit == ""
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1,
-    reason="LS-DYNA source operators where not supported before 6.0,"
-    " and unit systems where not supported before 6.1.",
-)
 def test_lsdyna_beam(d3plot_beam):
     ds = dpf.DataSources()
     ds.set_result_file_path(d3plot_beam, "d3plot")
@@ -342,11 +336,6 @@ def test_lsdyna_beam(d3plot_beam):
     assert beam_axial_total_strain_model[0].unit == ""
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1,
-    reason="LS-DYNA source operators where not supported before 6.0,"
-    " and unit systems where not supported before 6.1.",
-)
 def test_lsdyna_matsum_rcforc(binout_matsum):
     ds = dpf.DataSources()
     ds.set_result_file_path(binout_matsum, "binout")
@@ -370,8 +359,12 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     ke_mod = kinetic_energy_op_2.eval()
 
     assert np.allclose(ke_fc[0].data[39], ke_mod[0].data[39])
-    assert ke_fc[0].unit == "ft^2*slug*s^-2"
-    assert ke_mod[0].unit == "ft^2*slug*s^-2"
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        assert ke_fc[0].unit == "ft*lbf"
+        assert ke_mod[0].unit == "ft*lbf"
+    else:
+        assert ke_fc[0].unit == "ft^2*slug*s^-2"
+        assert ke_mod[0].unit == "ft^2*slug*s^-2"
 
     # ------------------------------------------------- Eroded Kinetic Energy
 
@@ -389,8 +382,12 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
         part_eroded_kinetic_energy_fc[0].data[39],
         part_eroded_kinetic_energy_model[0].data[39],
     )
-    assert part_eroded_kinetic_energy_fc[0].unit == "ft^2*slug*s^-2"
-    assert part_eroded_kinetic_energy_model[0].unit == "ft^2*slug*s^-2"
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        assert part_eroded_kinetic_energy_fc[0].unit == "ft*lbf"
+        assert part_eroded_kinetic_energy_model[0].unit == "ft*lbf"
+    else:
+        assert part_eroded_kinetic_energy_fc[0].unit == "ft^2*slug*s^-2"
+        assert part_eroded_kinetic_energy_model[0].unit == "ft^2*slug*s^-2"
 
     # ------------------------------------------------- Internal Energy
 
@@ -405,8 +402,12 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     ie_mod = internal_energy_op_2.eval()
 
     assert np.allclose(ie_fc[0].data[39], ie_mod[0].data[39])
-    assert ie_fc[0].unit == "ft^2*slug*s^-2"
-    assert ie_mod[0].unit == "ft^2*slug*s^-2"
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        assert ie_fc[0].unit == "ft*lbf"
+        assert ie_mod[0].unit == "ft*lbf"
+    else:
+        assert ie_fc[0].unit == "ft^2*slug*s^-2"
+        assert ie_mod[0].unit == "ft^2*slug*s^-2"
 
     # ------------------------------------------------- Eroded Internal Energy
 
@@ -421,8 +422,12 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     erie_mod = part_eroded_internal_energy_op_2.eval()
 
     assert np.allclose(erie_fc[0].data[39], erie_mod[0].data[39])
-    assert erie_fc[0].unit == "ft^2*slug*s^-2"
-    assert erie_mod[0].unit == "ft^2*slug*s^-2"
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        assert erie_fc[0].unit == "ft*lbf"
+        assert erie_mod[0].unit == "ft*lbf"
+    else:
+        assert erie_fc[0].unit == "ft^2*slug*s^-2"
+        assert erie_mod[0].unit == "ft^2*slug*s^-2"
 
     # ------------------------------------------------- Added Mass
 
@@ -453,8 +458,12 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     mv_mod = part_momentum_op_2.eval()
 
     assert np.allclose(mv_fc[0].data[39], mv_mod[0].data[39])
-    assert mv_fc[0].unit == "ft*slug*Hz"
-    assert mv_mod[0].unit == "ft*slug*Hz"
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        assert mv_fc[0].unit == "slug*ft/s"
+        assert mv_mod[0].unit == "slug*ft/s"
+    else:
+        assert mv_fc[0].unit == "ft*slug*Hz"
+        assert mv_mod[0].unit == "ft*slug*Hz"
 
     # ------------------------------------------------- RB Velocity
 
@@ -469,8 +478,12 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     rbv_mod = part_rigid_body_velocity_op_2.eval()
 
     assert np.allclose(rbv_fc[0].data[39], rbv_mod[0].data[39])
-    assert rbv_fc[0].unit == "ft*Hz"
-    assert rbv_mod[0].unit == "ft*Hz"
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        assert rbv_fc[0].unit == "ft/s"
+        assert rbv_mod[0].unit == "ft/s"
+    else:
+        assert rbv_fc[0].unit == "ft*Hz"
+        assert rbv_mod[0].unit == "ft*Hz"
 
     # RCFORC RESULTS
     interface_sco = dpf.Scoping()
@@ -490,8 +503,12 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     cf_mod = interface_contact_force_op_2.eval()
 
     assert np.allclose(cf_fc[0].data[0], cf_mod[0].data[0])
-    assert cf_fc[0].unit == "ft*slug*s^-2"
-    assert cf_mod[0].unit == "ft*slug*s^-2"
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        assert cf_fc[0].unit == "lbf"
+        assert cf_mod[0].unit == "lbf"
+    else:
+        assert cf_fc[0].unit == "ft*slug*s^-2"
+        assert cf_mod[0].unit == "ft*slug*s^-2"
 
     # ------------------------------------------------- Contact Mass
 
@@ -510,10 +527,6 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     assert cm_mod[0].unit == "slug"
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="LS-DYNA source operators where not supported before 6.0",
-)
 def test_lsdyna_glstat(binout_glstat):
     ds = dpf.DataSources()
     ds.set_result_file_path(binout_glstat, "binout")

@@ -34,7 +34,7 @@ import warnings
 
 from ansys.dpf.core.examples.examples import find_files
 
-EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/master/"
+EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/main/"
 
 GITHUB_SOURCE_URL = (
     "https://github.com/ansys/pydpf-core/raw/"
@@ -1036,6 +1036,67 @@ def download_binout_glstat(should_upload: bool = True, server=None, return_local
     return _download_file(
         "result_files/binout", "binout_glstat", should_upload, server, return_local_path
     )
+
+
+def download_d3plot_projectile(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> list:
+    """Download the result files of an LS-DYNA projectile-plate impact simulation with element erosion and return the download paths available on the server side.
+
+    The dataset is the LSTC "Projectile Penetrating Plate" example (units: gram, cm,
+    microsecond). A tungsten-alloy projectile impacts a steel plate at an angle. Both
+    parts use ``*MAT_PLASTIC_KINEMATIC`` with a failure strain of 0.8, so elements are
+    progressively eroded on impact. The simulation uses
+    ``*CONTACT_ERODING_SURFACE_TO_SURFACE``, which causes LS-DYNA to write the
+    per-step element deletion flag to d3plot - exposed by DPF as the ``erosion_flag``
+    result.
+
+    The d3plot sequence contains 16 output states written to individual files
+    (``ieverp=1``) at approximately 5 µs intervals up to a total simulation time of
+    70 µs.
+
+    If the server is remote (or doesn't share the memory), the file is uploaded or made
+    available on the server side.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded to the server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    list
+        Paths to the d3plot result files: the main file followed by the 16 individual
+        state files (``d3plot01`` … ``d3plot16``).
+
+    Examples
+    --------
+    Download the example result files and return the paths.
+
+    >>> from ansys.dpf.core import examples
+    >>> paths = examples.download_d3plot_projectile()
+    >>> len(paths)
+    17
+
+    """
+    _dir = "result_files/d3plot_projectile"
+    paths = [
+        _download_file(_dir, "d3plot", should_upload, server, return_local_path),
+    ]
+    for i in range(1, 17):
+        paths.append(
+            _download_file(_dir, f"d3plot{i:02d}", should_upload, server, return_local_path)
+        )
+    return paths
 
 
 def download_cycles_to_failure(

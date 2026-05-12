@@ -28,10 +28,12 @@ Contains classes associated with the DPF FieldsContainer.
 
 from __future__ import annotations
 
+from contextlib import suppress
 from typing import TYPE_CHECKING, Union
 
 from ansys import dpf
 from ansys.dpf.core import errors as dpf_errors, field
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.common import shell_layers
 
@@ -505,10 +507,11 @@ class FieldsContainer(CollectionBase["field.Field"]):
         fc.labels = self.labels
         for i, f in enumerate(self):
             fc.add_field(self.get_label_space(i), f.deep_copy(server))
-        try:
-            fc.time_freq_support = self.time_freq_support.deep_copy(server)
-        except:
-            pass
+        with suppress(Exception):
+            if server_meet_version("12.0", self._server):
+                self.deep_copy_supports(fc)
+            else:
+                fc.time_freq_support = self.time_freq_support.deep_copy(server)
         return fc
 
     def get_time_scoping(self):

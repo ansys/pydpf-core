@@ -25,7 +25,6 @@ import tempfile
 
 from ansys.dpf import core
 from ansys.dpf.core import examples
-import conftest
 
 
 def get_log_file(log_path, server):
@@ -40,7 +39,6 @@ def get_log_file(log_path, server):
         return log_path
 
 
-@conftest.raises_for_servers_version_under("6.1")
 def test_logging(tmpdir, server_type):
     if not isinstance(server_type, core.server_types.InProcessServer):
         server_tmp = core.core.make_tmp_dir_server(server=server_type)
@@ -87,7 +85,6 @@ def test_logging(tmpdir, server_type):
     assert file_size == download_log_path.stat().st_size
 
 
-@conftest.raises_for_servers_version_under("6.1")
 def test_logging_remote(tmpdir, server_type_remote_process):
     server_tmp = core.core.make_tmp_dir_server(server=server_type_remote_process)
     result_file = core.upload_file_in_tmp_folder(

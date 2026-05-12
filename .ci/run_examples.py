@@ -11,7 +11,7 @@ os.environ["PYVISTA_OFF_SCREEN"] = "true"
 os.environ["MPLBACKEND"] = "Agg"
 
 actual_path = Path(__file__).parent.absolute()
-examples_path = actual_path.parent / "examples"
+examples_path = actual_path.parent / "doc" / "sphinx_gallery_examples"
 print(examples_path)
 
 # Get the DPF server version

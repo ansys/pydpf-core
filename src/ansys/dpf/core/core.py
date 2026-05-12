@@ -58,8 +58,6 @@ try:
 except ImportError:
     pass
 
-LOG = logging.getLogger(__name__)
-LOG.setLevel("DEBUG")
 
 if "DPF_CONFIGURATION" in os.environ:
     CONFIGURATION = os.environ["DPF_CONFIGURATION"]

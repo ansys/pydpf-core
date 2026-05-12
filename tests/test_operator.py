@@ -35,6 +35,7 @@ import pytest
 
 from ansys import dpf
 from ansys.dpf.core import errors, operators as ops
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import derived_class_name_to_type, record_derived_class
 from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.misc import get_ansys_path
@@ -42,8 +43,6 @@ from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.core.workflow_topology import WorkflowTopology
 import conftest
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
 )
 
@@ -248,10 +247,6 @@ def test_connect_operator_output_operator(server_type):
     assert len(fOut.data) == 3
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
-    reason="Connect an operator as an input is supported starting server version 6.2",
-)
 def test_connect_operator_as_input(server_type):
     op_for_each = dpf.core.Operator("for_each", server=server_type)
     fieldify = dpf.core.Operator("fieldify", server=server_type)
@@ -493,9 +488,17 @@ def test_inputs_outputs_scopings_container(allkindofcomplexity):
     op = dpf.core.Operator("scoping::by_property")
     op.inputs.mesh.connect(model.metadata.meshed_region)
     sc = op.outputs.mesh_scoping()
-    assert len(sc) == 4
+
+    if server_meet_version("12.0", model._server):
+        assert len(sc) == 5
+    else:
+        assert len(sc) == 4
+
     assert sc.labels == ["elshape"]
-    scop = sc.get_scoping({"elshape": 1})
+    if server_meet_version("12.0", model._server):
+        scop = sc.get_scoping({"elshape": 2})
+    else:
+        scop = sc.get_scoping({"elshape": 1})
     assert len(scop.ids) == 9052
     assert scop.location == dpf.core.locations.elemental
 
@@ -507,17 +510,26 @@ def test_inputs_outputs_scopings_container(allkindofcomplexity):
         stress.inputs.connect(op.outputs)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["elshape", "time"]
-    assert len(fc) == 4
+    if server_meet_version("12.0", model._server):
+        assert len(fc) == 5
+    else:
+        assert len(fc) == 4
 
     stress.inputs.connect(sc)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["elshape", "time"]
-    assert len(fc) == 4
+    if server_meet_version("12.0", model._server):
+        assert len(fc) == 5
+    else:
+        assert len(fc) == 4
 
     stress.inputs.connect(op.outputs.mesh_scoping)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["elshape", "time"]
-    assert len(fc) == 4
+    if server_meet_version("12.0", model._server):
+        assert len(fc) == 5
+    else:
+        assert len(fc) == 4
 
 
 def test_connection_to_input_is_ambiguous():
@@ -551,9 +563,17 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
     op.inputs.mesh.connect(model.metadata.meshed_region)
     op.inputs.property("elshape")
     mc = op.get_output(0, dpf.core.types.meshes_container)
-    assert len(mc) == 4
+    if server_meet_version("12.0", model._server):
+        assert len(mc) == 5
+    else:
+        assert len(mc) == 4
+
     assert mc.labels == ["body", "elshape"]
-    mesh = mc.get_mesh({"elshape": 1})
+    if server_meet_version("12.0", model._server):
+        mesh = mc.get_mesh({"elshape": 2})
+    else:
+        mesh = mc.get_mesh({"elshape": 1})
+
     assert len(mesh.nodes.scoping.ids) == 14826
 
     opsc = dpf.core.Operator("scoping::by_property")
@@ -574,12 +594,18 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
         stress.inputs.connect(opsc.outputs)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["body", "elshape", "time"]
-    assert len(fc) == 4
-
+    if server_meet_version("12.0", model._server):
+        assert len(fc) == 5
+    else:
+        assert len(fc) == 4
     stress.inputs.connect(mc)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["body", "elshape", "time"]
-    assert len(fc) == 4
+    if server_meet_version("12.0", model._server):
+        assert len(fc) == 5
+    else:
+        assert len(fc) == 4
+
     if hasattr(op.outputs, "mesh_controller"):
         stress.inputs.connect(op.outputs.mesh_controller)
     else:
@@ -587,7 +613,10 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
 
     fc = stress.outputs.fields_container()
     assert fc.labels == ["body", "elshape", "time"]
-    assert len(fc) == 4
+    if server_meet_version("12.0", model._server):
+        assert len(fc) == 5
+    else:
+        assert len(fc) == 4
 
 
 def test_inputs_connect_op(allkindofcomplexity, server_type):
@@ -1249,7 +1278,7 @@ def test_operator_config_specification_simple(server_type):
             "enum dataProcessing::EBinaryOperation"
             or "binary_operation_enum" in conf_spec["binary_operation"].type_names
         )
-    elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
+    else:
         assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
     assert conf_spec["binary_operation"].default_value_str == "1"
     assert "Intersection" in conf_spec["binary_operation"].document
@@ -1267,7 +1296,7 @@ def test_generated_operator_config_specification_simple(server_type):
             "enum dataProcessing::EBinaryOperation"
             or "binary_operation_enum" in conf_spec["binary_operation"].type_names
         )
-    elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
+    else:
         assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
     assert conf_spec["binary_operation"].default_value_str == "1"
     assert "Intersection" in conf_spec["binary_operation"].document
@@ -1375,10 +1404,6 @@ def test_output_any(server_type):
     assert output_field.scoping.size == 3
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="Input of Any requires DPF 7.0 or above.",
-)
 def test_input_any(server_type):
     field = dpf.core.Field(nentities=3, server=server_type)
     data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -1394,10 +1419,6 @@ def test_input_any(server_type):
     assert len(output.data_as_list) == len(data)
 
 
-@pytest.mark.skipif(
-    condition=not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="Input/output of Streams requires DPF 6.0 or above.",
-)
 def test_operator_input_output_streams(server_in_process, simple_bar):
     data_source = dpf.core.DataSources(simple_bar, server=server_in_process)
     streams_op = dpf.core.operators.metadata.streams_provider(server=server_in_process)
