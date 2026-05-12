@@ -30,7 +30,7 @@ class mapdl_split_to_acmo_facet_indices(Operator):
     Inputs
     ------
     fields_container: FieldsContainer
-        Fields container to split, with generic number of labels (e.g. time, zone, complex...), 'facet' label is compulsory.The Fields of the FieldsContainer will have location Elemental and the Scoping Ids will be the Element Ids on the skin mesh.
+        Fields container to split, with generic number of labels (e.g. time, zone, complex...), 'facet' label is compulsory.The Scopings of the Fields will be the Element Ids on the skin mesh.
     property_fields_container_element_types: PropertyFieldsContainer
         It should only have the 'facet' label. For each facet, it stores a PropertyField with the element types of the corresponding elements.The scoping should be the same as the scoping of the corresponding Field in input 0.
 
@@ -97,7 +97,7 @@ to the appropriate entity.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container to split, with generic number of labels (e.g. time, zone, complex...), 'facet' label is compulsory.The Fields of the FieldsContainer will have location Elemental and the Scoping Ids will be the Element Ids on the skin mesh.""",
+                    document=r"""Fields container to split, with generic number of labels (e.g. time, zone, complex...), 'facet' label is compulsory.The Scopings of the Fields will be the Element Ids on the skin mesh.""",
                 ),
                 1: PinSpecification(
                     name="property_fields_container_element_types",
@@ -192,7 +192,7 @@ class InputsMapdlSplitToAcmoFacetIndices(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Fields container to split, with generic number of labels (e.g. time, zone, complex...), 'facet' label is compulsory.The Fields of the FieldsContainer will have location Elemental and the Scoping Ids will be the Element Ids on the skin mesh.
+        Fields container to split, with generic number of labels (e.g. time, zone, complex...), 'facet' label is compulsory.The Scopings of the Fields will be the Element Ids on the skin mesh.
 
         Returns
         -------
