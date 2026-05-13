@@ -546,7 +546,7 @@ class Field(_FieldBase):
         >>> fields_container = disp.outputs.fields_container()
         >>> field = fields_container[0]
         >>> mesh.plot(field)
-        (None, <pyvista.plotting.plotter.Plotter ...>)
+        ([], <pyvista.plotting.plotter.Plotter ...>)
 
         Parameters
         ----------
@@ -563,19 +563,23 @@ class Field(_FieldBase):
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
-        from ansys.dpf.core.plotter import Plotter
+        from ansys.dpf.core.plotter import DpfPlotter
 
         if meshed_region is None:
             meshed_region = self.meshed_region
-        pl = Plotter(meshed_region, **kwargs)
-        return pl.plot_contour(
+        show_axes = kwargs.pop("show_axes", True)
+        pl = DpfPlotter(**kwargs)
+        pl.add_fields_container(
             self,
-            shell_layers,
+            meshed_region=meshed_region,
+            shell_layers=shell_layers,
             deform_by=deform_by,
             scale_factor=scale_factor,
-            show_axes=kwargs.pop("show_axes", True),
+            show_axes=show_axes,
             **kwargs,
         )
+        kwargs.pop("notebook", None)
+        return pl.show_figure(**kwargs)
 
     def resize(self, nentities, datasize):
         """Allocate memory.

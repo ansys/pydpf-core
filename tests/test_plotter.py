@@ -66,8 +66,7 @@ def test_chart_plotter(plate_msup):
     disp = model.results.displacement()
     disp.inputs.time_scoping.connect(timeids)
     new_fields_container = disp.get_output(0, dpf.core.types.fields_container)
-    pl = Plotter(model.metadata.meshed_region)
-    ret = pl.plot_chart(new_fields_container)
+    ret = plot_chart(new_fields_container)
     assert ret
 
 
@@ -112,11 +111,12 @@ def test_plotter_on_field(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     field = fc[1]
-    pl = Plotter(model.metadata.meshed_region)
+    pl = DpfPlotter()
     fields_container = dpf.core.FieldsContainer()
     fields_container.add_label("time")
     fields_container.add_field({"time": 1}, field)
-    pl.plot_contour(fields_container)
+    pl.add_fields_container(fields_container, meshed_region=model.metadata.meshed_region)
+    pl.show_figure()
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -127,8 +127,9 @@ def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     avg_op = Operator("to_elemental_fc")
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
-    pl = Plotter(model.metadata.meshed_region)
-    _ = pl.plot_contour(fc)
+    pl = DpfPlotter()
+    pl.add_fields_container(fc, meshed_region=model.metadata.meshed_region)
+    pl.show_figure()
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -139,8 +140,9 @@ def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     avg_op = Operator("to_nodal_fc")
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
-    pl = Plotter(model.metadata.meshed_region)
-    _ = pl.plot_contour(fc)
+    pl = DpfPlotter()
+    pl.add_fields_container(fc, meshed_region=model.metadata.meshed_region)
+    pl.show_figure()
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -278,11 +280,10 @@ def test_field_elemental_nodal_plot_shells():
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="Old bug before 25R2")
 def test_field_elemental_nodal_plot_multi_shells(multishells):
     fc = core.operators.result.stress(data_sources=core.DataSources(multishells)).eval()
-    from ansys.dpf.core.plotter import Plotter
-
     field = fc[0]
-    plt = Plotter(field.meshed_region)
-    plt.plot_contour(fc)
+    pl = DpfPlotter()
+    pl.add_fields_container(fc, meshed_region=field.meshed_region)
+    pl.show_figure()
     field.plot()
 
 
