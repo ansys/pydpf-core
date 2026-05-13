@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
 
 class invert_fc(Operator):
-    r"""DEPRECATED, PLEASE USE DIVIDE. Computes the element-wise and
+    r"""DEPRECATED, PLEASE USE DIVIDE. Computes the entity-wise and
     component-wise inverse of a field (1./x).
 
 
@@ -32,7 +32,7 @@ class invert_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
-        Field with inverse values (1/x) applied element-wise to input data
+        Field with inverse values (1/x) applied entity-wise to input data
 
     Examples
     --------
@@ -67,7 +67,7 @@ class invert_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""DEPRECATED, PLEASE USE DIVIDE. Computes the element-wise and
+        description = r"""DEPRECATED, PLEASE USE DIVIDE. Computes the entity-wise and
 component-wise inverse of a field (1./x).
 """
         spec = Specification(
@@ -85,7 +85,7 @@ component-wise inverse of a field (1./x).
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Field with inverse values (1/x) applied element-wise to input data""",
+                    document=r"""Field with inverse values (1/x) applied entity-wise to input data""",
                 ),
             },
         )
@@ -199,7 +199,7 @@ class OutputsInvertFc(_Outputs):
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
-        Field with inverse values (1/x) applied element-wise to input data
+        Field with inverse values (1/x) applied entity-wise to input data
 
         Returns
         -------

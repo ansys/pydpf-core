@@ -20,16 +20,24 @@ if TYPE_CHECKING:
 
 
 class polar_to_cplx(Operator):
-    r"""Converts a complex number from polar form to complex.
+    r"""Converts a complex-valued fields container from `polar
+    form <https://en.wikipedia.org/wiki/Complex_number#Polar_complex_plane>`__
+    (amplitude, phase) to rectangular form (real, imaginary):
+    :math:`\mathrm{Re}[i] = A[i] \cdot \cos(\phi[i])`,
+    :math:`\mathrm{Im}[i] = A[i] \cdot \sin(\phi[i])`. The input must
+    contain amplitude fields tagged with complex label 2 and phase fields
+    tagged with complex label 3.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
+        Complex-valued fields container with amplitude fields (complex label 2) paired with phase angle fields (complex label 3).
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Fields container in rectangular form: real parts (complex label 0) and imaginary parts (complex label 1).
 
     Examples
     --------
@@ -64,7 +72,13 @@ class polar_to_cplx(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Converts a complex number from polar form to complex.
+        description = r"""Converts a complex-valued fields container from `polar
+form <https://en.wikipedia.org/wiki/Complex_number#Polar_complex_plane>`__
+(amplitude, phase) to rectangular form (real, imaginary):
+:math:`\mathrm{Re}[i] = A[i] \cdot \cos(\phi[i])`,
+:math:`\mathrm{Im}[i] = A[i] \cdot \sin(\phi[i])`. The input must
+contain amplitude fields tagged with complex label 2 and phase fields
+tagged with complex label 3.
 """
         spec = Specification(
             description=description,
@@ -73,7 +87,7 @@ class polar_to_cplx(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Complex-valued fields container with amplitude fields (complex label 2) paired with phase angle fields (complex label 3).""",
                 ),
             },
             map_output_pin_spec={
@@ -81,7 +95,7 @@ class polar_to_cplx(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container in rectangular form: real parts (complex label 0) and imaginary parts (complex label 1).""",
                 ),
             },
         )
@@ -154,6 +168,8 @@ class InputsPolarToCplx(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        Complex-valued fields container with amplitude fields (complex label 2) paired with phase angle fields (complex label 3).
+
         Returns
         -------
         input:
@@ -192,6 +208,8 @@ class OutputsPolarToCplx(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Fields container in rectangular form: real parts (complex label 0) and imaginary parts (complex label 1).
 
         Returns
         -------

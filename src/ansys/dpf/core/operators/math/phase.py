@@ -21,7 +21,11 @@ if TYPE_CHECKING:
 
 
 class phase(Operator):
-    r"""Computes the phase (in rad) between a real and an imaginary field.
+    r"""Computes the
+    `argument <https://en.wikipedia.org/wiki/Argument_(complex_analysis)>`__
+    (phase angle) of a complex quantity given as separate real and imaginary
+    fields: :math:`\phi[i] = \mathrm{atan2}(B[i],\, A[i])`. The output is in
+    radians.
 
 
     Inputs
@@ -34,6 +38,7 @@ class phase(Operator):
     Outputs
     -------
     field: Field
+        Field containing the phase angle $\mathrm{atan2}(B[i],\, A[i])$ in radians for each data entry.
 
     Examples
     --------
@@ -73,7 +78,11 @@ class phase(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the phase (in rad) between a real and an imaginary field.
+        description = r"""Computes the
+`argument <https://en.wikipedia.org/wiki/Argument_(complex_analysis)>`__
+(phase angle) of a complex quantity given as separate real and imaginary
+fields: :math:`\phi[i] = \mathrm{atan2}(B[i],\, A[i])`. The output is in
+radians.
 """
         spec = Specification(
             description=description,
@@ -96,7 +105,7 @@ class phase(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field containing the phase angle $\mathrm{atan2}(B[i],\, A[i])$ in radians for each data entry.""",
                 ),
             },
         )
@@ -234,6 +243,8 @@ class OutputsPhase(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Field containing the phase angle $\mathrm{atan2}(B[i],\, A[i])$ in radians for each data entry.
 
         Returns
         -------

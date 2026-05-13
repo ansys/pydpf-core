@@ -21,11 +21,14 @@ if TYPE_CHECKING:
 
 
 class add(Operator):
-    r"""Computes the sum of two fields. If one field’s scoping has ‘overall’
-    location, then these field’s values are applied on the entire other
-    field. If one of the input field is empty, the remaining is forwarded to
-    the output. When using a constant or ‘work_by_index’, it’s possible to
-    use ‘inplace’ to reuse one of the fields.
+    r"""Computes the entity-wise sum :math:`\mathrm{out}[i] = A[i] + B[i]`, also
+    known as entity-wise addition. If one field’s scoping has the ‘overall’
+    location, its values are broadcast across all entities of the other
+    field. If either input is empty, the other is forwarded unchanged to the
+    output. When units differ but are homogeneous, pin B values are
+    converted to pin A’s unit before addition; the output carries pin A’s
+    unit. Inplace execution is supported when working with constants or
+    using ‘work_by_index’.
 
 
     Inputs
@@ -38,7 +41,7 @@ class add(Operator):
     Outputs
     -------
     field: Field
-        Field containing the element-wise sum of the two input fields
+        Field whose data equals $A[i] + B[i]$, with pin A's unit.
 
     Examples
     --------
@@ -78,11 +81,14 @@ class add(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the sum of two fields. If one field’s scoping has ‘overall’
-location, then these field’s values are applied on the entire other
-field. If one of the input field is empty, the remaining is forwarded to
-the output. When using a constant or ‘work_by_index’, it’s possible to
-use ‘inplace’ to reuse one of the fields.
+        description = r"""Computes the entity-wise sum :math:`\mathrm{out}[i] = A[i] + B[i]`, also
+known as entity-wise addition. If one field’s scoping has the ‘overall’
+location, its values are broadcast across all entities of the other
+field. If either input is empty, the other is forwarded unchanged to the
+output. When units differ but are homogeneous, pin B values are
+converted to pin A’s unit before addition; the output carries pin A’s
+unit. Inplace execution is supported when working with constants or
+using ‘work_by_index’.
 """
         spec = Specification(
             description=description,
@@ -115,7 +121,7 @@ use ‘inplace’ to reuse one of the fields.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Field containing the element-wise sum of the two input fields""",
+                    document=r"""Field whose data equals $A[i] + B[i]$, with pin A's unit.""",
                 ),
             },
         )
@@ -254,7 +260,7 @@ class OutputsAdd(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        Field containing the element-wise sum of the two input fields
+        Field whose data equals $A[i] + B[i]$, with pin A's unit.
 
         Returns
         -------
