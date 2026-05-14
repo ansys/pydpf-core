@@ -20,25 +20,21 @@ if TYPE_CHECKING:
 
 
 class norm_fc(Operator):
-    r"""Computes the `:math:`L_p`
-    norm <https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm>`__ of the
-    component vector for each entity in every field of the input fields
-    container:
-    :math:`\mathrm{out}[k] = \left(\sum_{j=0}^{n_c-1} |v_{k,j}|^p\right)^{1/p}`.
-    Default is :math:`p = 2` (Euclidean norm). Each output field is scalar.
+    r"""Computes the element-wise L2 norm of the field elementary data. This
+    process is applied on each field of the input fields container.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Fields container containing fields for norm calculation
+        FieldsContainer containing fields for norm calculation
     scalar_int: int, optional
-        $L_p$ norm order $p$ (positive integer, default is 2 for the Euclidean norm).
+        Lp normalisation type, p = 1, 2, ...n - Default Lp=2
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Fields container of scalar fields, one per input field, each containing the $L_p$ norm per entity.
+        FieldsContainer with computed norms for each field
 
     Examples
     --------
@@ -80,12 +76,8 @@ class norm_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the `:math:`L_p`
-norm <https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm>`__ of the
-component vector for each entity in every field of the input fields
-container:
-:math:`\mathrm{out}[k] = \left(\sum_{j=0}^{n_c-1} |v_{k,j}|^p\right)^{1/p}`.
-Default is :math:`p = 2` (Euclidean norm). Each output field is scalar.
+        description = r"""Computes the element-wise L2 norm of the field elementary data. This
+process is applied on each field of the input fields container.
 """
         spec = Specification(
             description=description,
@@ -94,13 +86,13 @@ Default is :math:`p = 2` (Euclidean norm). Each output field is scalar.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container containing fields for norm calculation""",
+                    document=r"""FieldsContainer containing fields for norm calculation""",
                 ),
                 1: PinSpecification(
                     name="scalar_int",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""$L_p$ norm order $p$ (positive integer, default is 2 for the Euclidean norm).""",
+                    document=r"""Lp normalisation type, p = 1, 2, ...n - Default Lp=2""",
                 ),
             },
             map_output_pin_spec={
@@ -108,7 +100,7 @@ Default is :math:`p = 2` (Euclidean norm). Each output field is scalar.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container of scalar fields, one per input field, each containing the $L_p$ norm per entity.""",
+                    document=r"""FieldsContainer with computed norms for each field""",
                 ),
             },
         )
@@ -185,7 +177,7 @@ class InputsNormFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Fields container containing fields for norm calculation
+        FieldsContainer containing fields for norm calculation
 
         Returns
         -------
@@ -206,7 +198,7 @@ class InputsNormFc(_Inputs):
     def scalar_int(self) -> Input[int]:
         r"""Allows to connect scalar_int input to the operator.
 
-        $L_p$ norm order $p$ (positive integer, default is 2 for the Euclidean norm).
+        Lp normalisation type, p = 1, 2, ...n - Default Lp=2
 
         Returns
         -------
@@ -247,7 +239,7 @@ class OutputsNormFc(_Outputs):
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
-        Fields container of scalar fields, one per input field, each containing the $L_p$ norm per entity.
+        FieldsContainer with computed norms for each field
 
         Returns
         -------

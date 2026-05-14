@@ -21,31 +21,26 @@ if TYPE_CHECKING:
 
 
 class centroid_fc(Operator):
-    r"""Computes a `linear
-    interpolation <https://en.wikipedia.org/wiki/Linear_interpolation>`__
-    between the two fields in the input fields container that bracket the
-    requested time or frequency value :math:`t`:
-    :math:`\mathrm{out}[i] = (1 - s) \cdot f_1[i] + s \cdot f_2[i]`, where
-    :math:`s = (t - t_1) / (t_2 - t_1)` and :math:`t_1`, :math:`t_2` are the
-    bracketing time/frequency values. If the requested value exactly matches
-    an available one, that field is returned directly.
+    r"""Computes the centroid of all the matching fields of a fields container
+    at a given time or frequency, using fieldOut =
+    field1\ *(1.-fact)+field2*\ (fact).
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Fields container with fields over time or frequency.
+        FieldsContainer with fields for centroid calculation
     time_freq: float
-        Time or frequency value at which to interpolate.
+        Time or frequency value for field selection
     step: int, optional
-        Optional step specification.
+        Optional step specification
     time_freq_support: TimeFreqSupport, optional
-        Optional time/frequency support for field resolution.
+        Optional TimeFreqSupport for field resolution
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Fields container with the interpolated fields at the requested time or frequency.
+        FieldsContainer with centroid calculation results at specified time/frequency
 
     Examples
     --------
@@ -103,14 +98,9 @@ class centroid_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes a `linear
-interpolation <https://en.wikipedia.org/wiki/Linear_interpolation>`__
-between the two fields in the input fields container that bracket the
-requested time or frequency value :math:`t`:
-:math:`\mathrm{out}[i] = (1 - s) \cdot f_1[i] + s \cdot f_2[i]`, where
-:math:`s = (t - t_1) / (t_2 - t_1)` and :math:`t_1`, :math:`t_2` are the
-bracketing time/frequency values. If the requested value exactly matches
-an available one, that field is returned directly.
+        description = r"""Computes the centroid of all the matching fields of a fields container
+at a given time or frequency, using fieldOut =
+field1\ *(1.-fact)+field2*\ (fact).
 """
         spec = Specification(
             description=description,
@@ -119,25 +109,25 @@ an available one, that field is returned directly.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container with fields over time or frequency.""",
+                    document=r"""FieldsContainer with fields for centroid calculation""",
                 ),
                 1: PinSpecification(
                     name="time_freq",
                     type_names=["double"],
                     optional=False,
-                    document=r"""Time or frequency value at which to interpolate.""",
+                    document=r"""Time or frequency value for field selection""",
                 ),
                 2: PinSpecification(
                     name="step",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Optional step specification.""",
+                    document=r"""Optional step specification""",
                 ),
                 8: PinSpecification(
                     name="time_freq_support",
                     type_names=["time_freq_support"],
                     optional=True,
-                    document=r"""Optional time/frequency support for field resolution.""",
+                    document=r"""Optional TimeFreqSupport for field resolution""",
                 ),
             },
             map_output_pin_spec={
@@ -145,7 +135,7 @@ an available one, that field is returned directly.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container with the interpolated fields at the requested time or frequency.""",
+                    document=r"""FieldsContainer with centroid calculation results at specified time/frequency""",
                 ),
             },
         )
@@ -234,7 +224,7 @@ class InputsCentroidFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Fields container with fields over time or frequency.
+        FieldsContainer with fields for centroid calculation
 
         Returns
         -------
@@ -255,7 +245,7 @@ class InputsCentroidFc(_Inputs):
     def time_freq(self) -> Input[float]:
         r"""Allows to connect time_freq input to the operator.
 
-        Time or frequency value at which to interpolate.
+        Time or frequency value for field selection
 
         Returns
         -------
@@ -276,7 +266,7 @@ class InputsCentroidFc(_Inputs):
     def step(self) -> Input[int]:
         r"""Allows to connect step input to the operator.
 
-        Optional step specification.
+        Optional step specification
 
         Returns
         -------
@@ -297,7 +287,7 @@ class InputsCentroidFc(_Inputs):
     def time_freq_support(self) -> Input[TimeFreqSupport]:
         r"""Allows to connect time_freq_support input to the operator.
 
-        Optional time/frequency support for field resolution.
+        Optional TimeFreqSupport for field resolution
 
         Returns
         -------
@@ -338,7 +328,7 @@ class OutputsCentroidFc(_Outputs):
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
-        Fields container with the interpolated fields at the requested time or frequency.
+        FieldsContainer with centroid calculation results at specified time/frequency
 
         Returns
         -------

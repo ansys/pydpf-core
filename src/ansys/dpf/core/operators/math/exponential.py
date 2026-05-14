@@ -21,22 +21,18 @@ if TYPE_CHECKING:
 
 
 class exponential(Operator):
-    r"""Computes the entity-wise `exponential
-    function <https://en.wikipedia.org/wiki/Exponential_function>`__:
-    :math:`\mathrm{out}[i] = e^{\mathrm{in}[i]}`. The input must be
-    dimensionless; a dimensional input raises an error. The output is
-    dimensionless.
+    r"""Computes element-wise exponential function on field data: exp(field[i]).
 
 
     Inputs
     ------
     field: Field or FieldsContainer or float
-        Dimensionless field, fields container, or numeric data.
+        Field, fields container, or numeric data for exponential calculation
 
     Outputs
     -------
     field: Field
-        Dimensionless field with $e^{\mathrm{in}[i]}$ for each data entry.
+        Field with exponential values applied element-wise to input data
 
     Examples
     --------
@@ -71,11 +67,7 @@ class exponential(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the entity-wise `exponential
-function <https://en.wikipedia.org/wiki/Exponential_function>`__:
-:math:`\mathrm{out}[i] = e^{\mathrm{in}[i]}`. The input must be
-dimensionless; a dimensional input raises an error. The output is
-dimensionless.
+        description = r"""Computes element-wise exponential function on field data: exp(field[i]).
 """
         spec = Specification(
             description=description,
@@ -89,7 +81,7 @@ dimensionless.
                         "vector<double>",
                     ],
                     optional=False,
-                    document=r"""Dimensionless field, fields container, or numeric data.""",
+                    document=r"""Field, fields container, or numeric data for exponential calculation""",
                 ),
             },
             map_output_pin_spec={
@@ -97,7 +89,7 @@ dimensionless.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Dimensionless field with $e^{\mathrm{in}[i]}$ for each data entry.""",
+                    document=r"""Field with exponential values applied element-wise to input data""",
                 ),
             },
         )
@@ -170,7 +162,7 @@ class InputsExponential(_Inputs):
     def field(self) -> Input[Field | FieldsContainer | float]:
         r"""Allows to connect field input to the operator.
 
-        Dimensionless field, fields container, or numeric data.
+        Field, fields container, or numeric data for exponential calculation
 
         Returns
         -------
@@ -209,7 +201,7 @@ class OutputsExponential(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        Dimensionless field with $e^{\mathrm{in}[i]}$ for each data entry.
+        Field with exponential values applied element-wise to input data
 
         Returns
         -------

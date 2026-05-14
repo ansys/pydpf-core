@@ -21,11 +21,8 @@ if TYPE_CHECKING:
 
 
 class absolute_value_by_component(Operator):
-    r"""Applies the `absolute
-    value <https://en.wikipedia.org/wiki/Absolute_value>`__ function
-    component-wise to each scalar data entry:
-    :math:`\mathrm{out}[i] = |\mathrm{in}[i]|`. This is a per-component
-    operation and does not compute a vector norm.
+    r"""Computes the absolute value of each data value in the input field
+    component-wise, without performing vector norm operations.
 
 
     Inputs
@@ -36,7 +33,7 @@ class absolute_value_by_component(Operator):
     Outputs
     -------
     field: Field
-        Field with $|\mathrm{in}[i]|$ applied to each data component, preserving the input unit and dimensionality.
+        Field with absolute values applied to each component
 
     Examples
     --------
@@ -71,11 +68,8 @@ class absolute_value_by_component(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Applies the `absolute
-value <https://en.wikipedia.org/wiki/Absolute_value>`__ function
-component-wise to each scalar data entry:
-:math:`\mathrm{out}[i] = |\mathrm{in}[i]|`. This is a per-component
-operation and does not compute a vector norm.
+        description = r"""Computes the absolute value of each data value in the input field
+component-wise, without performing vector norm operations.
 """
         spec = Specification(
             description=description,
@@ -97,7 +91,7 @@ operation and does not compute a vector norm.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Field with $|\mathrm{in}[i]|$ applied to each data component, preserving the input unit and dimensionality.""",
+                    document=r"""Field with absolute values applied to each component""",
                 ),
             },
         )
@@ -213,7 +207,7 @@ class OutputsAbsoluteValueByComponent(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        Field with $|\mathrm{in}[i]|$ applied to each data component, preserving the input unit and dimensionality.
+        Field with absolute values applied to each component
 
         Returns
         -------

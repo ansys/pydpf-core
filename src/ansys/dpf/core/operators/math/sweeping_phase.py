@@ -21,12 +21,10 @@ if TYPE_CHECKING:
 
 
 class sweeping_phase(Operator):
-    r"""Projects a `phasor <https://en.wikipedia.org/wiki/Phasor>`__ field onto
-    a given phase angle :math:`\theta`:
-    :math:`\mathrm{out}[i] = \mathrm{fieldReal}[i] \cdot \cos(\theta) - \mathrm{fieldImaginary}[i] \cdot \sin(\theta)`.
-    When pin 4 is true, the absolute value of the projection is returned
-    instead. If the imaginary field is absent and pin 5 is true, the
-    imaginary part is treated as zero.
+    r"""Shifts the phase of a real and an imaginary field (in 0 and 1) of a
+    given angle (in 3) of a unit (in 4). The resulting field is computed as
+    field_out = real_field\ ``*``\ cos(angle) -
+    imaginary_field\ ``*``\ sin(angle).
 
 
     Inputs
@@ -36,18 +34,15 @@ class sweeping_phase(Operator):
     imaginary_field: Field or FieldsContainer
         field or fields container with only one field is expected
     angle: float
-        Phase angle $\theta$ to project onto, in the unit specified by pin 3 (default: radians).
     unit_name: str, optional
         String Unit. Supported values: "deg" or "rad". Default: "rad".
     abs_value: bool
-        If true, the absolute value of the projection is returned (default: false).
     imaginary_part_null: bool
         If the imaginary part field is empty and this pin is true, then the imaginary part is supposed to be 0 (default is false).
 
     Outputs
     -------
     field: Field
-        Projected field $\mathrm{fieldReal} \cdot \cos(\theta) - \mathrm{fieldImaginary} \cdot \sin(\theta)$, with the unit of pin 0.
 
     Examples
     --------
@@ -117,12 +112,10 @@ class sweeping_phase(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Projects a `phasor <https://en.wikipedia.org/wiki/Phasor>`__ field onto
-a given phase angle :math:`\theta`:
-:math:`\mathrm{out}[i] = \mathrm{fieldReal}[i] \cdot \cos(\theta) - \mathrm{fieldImaginary}[i] \cdot \sin(\theta)`.
-When pin 4 is true, the absolute value of the projection is returned
-instead. If the imaginary field is absent and pin 5 is true, the
-imaginary part is treated as zero.
+        description = r"""Shifts the phase of a real and an imaginary field (in 0 and 1) of a
+given angle (in 3) of a unit (in 4). The resulting field is computed as
+field_out = real_field\ ``*``\ cos(angle) -
+imaginary_field\ ``*``\ sin(angle).
 """
         spec = Specification(
             description=description,
@@ -143,7 +136,7 @@ imaginary part is treated as zero.
                     name="angle",
                     type_names=["double"],
                     optional=False,
-                    document=r"""Phase angle $\theta$ to project onto, in the unit specified by pin 3 (default: radians).""",
+                    document=r"""""",
                 ),
                 3: PinSpecification(
                     name="unit_name",
@@ -155,7 +148,7 @@ imaginary part is treated as zero.
                     name="abs_value",
                     type_names=["bool"],
                     optional=False,
-                    document=r"""If true, the absolute value of the projection is returned (default: false).""",
+                    document=r"""""",
                 ),
                 5: PinSpecification(
                     name="imaginary_part_null",
@@ -169,7 +162,7 @@ imaginary part is treated as zero.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Projected field $\mathrm{fieldReal} \cdot \cos(\theta) - \mathrm{fieldImaginary} \cdot \sin(\theta)$, with the unit of pin 0.""",
+                    document=r"""""",
                 ),
             },
         )
@@ -314,8 +307,6 @@ class InputsSweepingPhase(_Inputs):
     def angle(self) -> Input[float]:
         r"""Allows to connect angle input to the operator.
 
-        Phase angle $\theta$ to project onto, in the unit specified by pin 3 (default: radians).
-
         Returns
         -------
         input:
@@ -355,8 +346,6 @@ class InputsSweepingPhase(_Inputs):
     @property
     def abs_value(self) -> Input[bool]:
         r"""Allows to connect abs_value input to the operator.
-
-        If true, the absolute value of the projection is returned (default: false).
 
         Returns
         -------
@@ -415,8 +404,6 @@ class OutputsSweepingPhase(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
-
-        Projected field $\mathrm{fieldReal} \cdot \cos(\theta) - \mathrm{fieldImaginary} \cdot \sin(\theta)$, with the unit of pin 0.
 
         Returns
         -------

@@ -21,24 +21,18 @@ if TYPE_CHECKING:
 
 
 class cos(Operator):
-    r"""Computes the entity-wise
-    `cosine <https://en.wikipedia.org/wiki/Sine_and_cosine>`__:
-    :math:`\mathrm{out}[i] = \cos(\mathrm{in}[i])`. The input must be
-    dimensionless or carry an angle unit; any other unit raises an error.
-    When the input unit is an angle (e.g. degrees), values are automatically
-    converted to radians before the cosine is applied. The output is
-    dimensionless.
+    r"""Computes element-wise cosine function on field data: cos(field[i]).
 
 
     Inputs
     ------
     field: Field or FieldsContainer
-        Dimensionless or angle-unit field or fields container.
+        Field or fields container containing numeric data for cosine calculation
 
     Outputs
     -------
     field: Field
-        Dimensionless field with $\cos(\mathrm{in}[i])$ for each data entry.
+        Field with cosine values applied element-wise to input data
 
     Examples
     --------
@@ -73,13 +67,7 @@ class cos(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the entity-wise
-`cosine <https://en.wikipedia.org/wiki/Sine_and_cosine>`__:
-:math:`\mathrm{out}[i] = \cos(\mathrm{in}[i])`. The input must be
-dimensionless or carry an angle unit; any other unit raises an error.
-When the input unit is an angle (e.g. degrees), values are automatically
-converted to radians before the cosine is applied. The output is
-dimensionless.
+        description = r"""Computes element-wise cosine function on field data: cos(field[i]).
 """
         spec = Specification(
             description=description,
@@ -88,7 +76,7 @@ dimensionless.
                     name="field",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""Dimensionless or angle-unit field or fields container.""",
+                    document=r"""Field or fields container containing numeric data for cosine calculation""",
                 ),
             },
             map_output_pin_spec={
@@ -96,7 +84,7 @@ dimensionless.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Dimensionless field with $\cos(\mathrm{in}[i])$ for each data entry.""",
+                    document=r"""Field with cosine values applied element-wise to input data""",
                 ),
             },
         )
@@ -169,7 +157,7 @@ class InputsCos(_Inputs):
     def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
-        Dimensionless or angle-unit field or fields container.
+        Field or fields container containing numeric data for cosine calculation
 
         Returns
         -------
@@ -208,7 +196,7 @@ class OutputsCos(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        Dimensionless field with $\cos(\mathrm{in}[i])$ for each data entry.
+        Field with cosine values applied element-wise to input data
 
         Returns
         -------

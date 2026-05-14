@@ -20,29 +20,24 @@ if TYPE_CHECKING:
 
 
 class sweeping_phase_fc(Operator):
-    r"""Projects every `phasor <https://en.wikipedia.org/wiki/Phasor>`__ field
-    pair in the input fields container onto a given phase angle
-    :math:`\theta`:
-    :math:`\mathrm{out}[i] = \mathrm{fieldReal}[i] \cdot \cos(\theta) - \mathrm{fieldImaginary}[i] \cdot \sin(\theta)`.
-    Pairs are matched by complex label. When pin 4 is true, the absolute
-    value of each projection is returned.
+    r"""Shifts the phase of all the corresponding real and imaginary fields of a
+    fields container for a given angle (in 2) of a unit (in 4). An output
+    field is computed for each pair of real and imaginary fields in the
+    input fields_container as field_out = real_field\ ``*``\ cos(angle) -
+    imaginary_field\ ``*``\ sin(angle).
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Complex-valued fields container with paired real and imaginary part fields.
     angle: float
-        Phase angle $\theta$ to project onto, in the unit specified by pin 3 (default: radians).
     unit_name: str, optional
         String Unit. Supported values: "deg" or "rad". Default: "rad".
     abs_value: bool
-        If true, the absolute value of each projection is returned (default: false).
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Fields container with the projected fields $\mathrm{fieldReal} \cdot \cos(\theta) - \mathrm{fieldImaginary} \cdot \sin(\theta)$, without the complex label.
 
     Examples
     --------
@@ -100,12 +95,11 @@ class sweeping_phase_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Projects every `phasor <https://en.wikipedia.org/wiki/Phasor>`__ field
-pair in the input fields container onto a given phase angle
-:math:`\theta`:
-:math:`\mathrm{out}[i] = \mathrm{fieldReal}[i] \cdot \cos(\theta) - \mathrm{fieldImaginary}[i] \cdot \sin(\theta)`.
-Pairs are matched by complex label. When pin 4 is true, the absolute
-value of each projection is returned.
+        description = r"""Shifts the phase of all the corresponding real and imaginary fields of a
+fields container for a given angle (in 2) of a unit (in 4). An output
+field is computed for each pair of real and imaginary fields in the
+input fields_container as field_out = real_field\ ``*``\ cos(angle) -
+imaginary_field\ ``*``\ sin(angle).
 """
         spec = Specification(
             description=description,
@@ -114,13 +108,13 @@ value of each projection is returned.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Complex-valued fields container with paired real and imaginary part fields.""",
+                    document=r"""""",
                 ),
                 2: PinSpecification(
                     name="angle",
                     type_names=["double"],
                     optional=False,
-                    document=r"""Phase angle $\theta$ to project onto, in the unit specified by pin 3 (default: radians).""",
+                    document=r"""""",
                 ),
                 3: PinSpecification(
                     name="unit_name",
@@ -132,7 +126,7 @@ value of each projection is returned.
                     name="abs_value",
                     type_names=["bool"],
                     optional=False,
-                    document=r"""If true, the absolute value of each projection is returned (default: false).""",
+                    document=r"""""",
                 ),
             },
             map_output_pin_spec={
@@ -140,7 +134,7 @@ value of each projection is returned.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container with the projected fields $\mathrm{fieldReal} \cdot \cos(\theta) - \mathrm{fieldImaginary} \cdot \sin(\theta)$, without the complex label.""",
+                    document=r"""""",
                 ),
             },
         )
@@ -231,8 +225,6 @@ class InputsSweepingPhaseFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Complex-valued fields container with paired real and imaginary part fields.
-
         Returns
         -------
         input:
@@ -251,8 +243,6 @@ class InputsSweepingPhaseFc(_Inputs):
     @property
     def angle(self) -> Input[float]:
         r"""Allows to connect angle input to the operator.
-
-        Phase angle $\theta$ to project onto, in the unit specified by pin 3 (default: radians).
 
         Returns
         -------
@@ -294,8 +284,6 @@ class InputsSweepingPhaseFc(_Inputs):
     def abs_value(self) -> Input[bool]:
         r"""Allows to connect abs_value input to the operator.
 
-        If true, the absolute value of each projection is returned (default: false).
-
         Returns
         -------
         input:
@@ -334,8 +322,6 @@ class OutputsSweepingPhaseFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
-
-        Fields container with the projected fields $\mathrm{fieldReal} \cdot \cos(\theta) - \mathrm{fieldImaginary} \cdot \sin(\theta)$, without the complex label.
 
         Returns
         -------

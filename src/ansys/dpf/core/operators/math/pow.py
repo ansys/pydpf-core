@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
 
 class pow(Operator):
-    r"""Computes entity-wise field[i]^p.
+    r"""Computes element-wise field[i]^p.
 
 
     Inputs
@@ -87,7 +87,7 @@ class pow(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes entity-wise field[i]^p.
+        description = r"""Computes element-wise field[i]^p.
 """
         spec = Specification(
             description=description,

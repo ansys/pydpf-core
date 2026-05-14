@@ -21,13 +21,8 @@ if TYPE_CHECKING:
 
 
 class centroid(Operator):
-    r"""Computes a `linear
-    interpolation <https://en.wikipedia.org/wiki/Linear_interpolation>`__
-    between two fields using a scalar factor :math:`t`:
-    :math:`\mathrm{out}[i] = (1 - t) \cdot A[i] + t \cdot B[i]`. The
-    interpolation is convex (no extrapolation) when :math:`t \in [0, 1]`;
-    values outside this range extrapolate beyond the two input fields. This
-    operator works by index only.
+    r"""Computes centroid of field1 and field2, using fieldOut =
+    field1\ *(1.-fact)+field2*\ (fact). Only works by index.
 
 
     Inputs
@@ -37,12 +32,12 @@ class centroid(Operator):
     fieldB: Field or FieldsContainer
         field or fields container with only one field is expected
     factor: float
-        Interpolation factor $t$: $t = 0$ returns fieldA unchanged, $t = 1$ returns fieldB unchanged. Values in $[0, 1]$ interpolate; values outside extrapolate.
+        Scalar
 
     Outputs
     -------
     field: Field
-        Interpolated field $(1 - t) \cdot A + t \cdot B$, with the unit of pin A.
+        Field with centroid calculation: fieldA*(1-factor) + fieldB*factor
 
     Examples
     --------
@@ -87,13 +82,8 @@ class centroid(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes a `linear
-interpolation <https://en.wikipedia.org/wiki/Linear_interpolation>`__
-between two fields using a scalar factor :math:`t`:
-:math:`\mathrm{out}[i] = (1 - t) \cdot A[i] + t \cdot B[i]`. The
-interpolation is convex (no extrapolation) when :math:`t \in [0, 1]`;
-values outside this range extrapolate beyond the two input fields. This
-operator works by index only.
+        description = r"""Computes centroid of field1 and field2, using fieldOut =
+field1\ *(1.-fact)+field2*\ (fact). Only works by index.
 """
         spec = Specification(
             description=description,
@@ -114,7 +104,7 @@ operator works by index only.
                     name="factor",
                     type_names=["double"],
                     optional=False,
-                    document=r"""Interpolation factor $t$: $t = 0$ returns fieldA unchanged, $t = 1$ returns fieldB unchanged. Values in $[0, 1]$ interpolate; values outside extrapolate.""",
+                    document=r"""Scalar""",
                 ),
             },
             map_output_pin_spec={
@@ -122,7 +112,7 @@ operator works by index only.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Interpolated field $(1 - t) \cdot A + t \cdot B$, with the unit of pin A.""",
+                    document=r"""Field with centroid calculation: fieldA*(1-factor) + fieldB*factor""",
                 ),
             },
         )
@@ -247,7 +237,7 @@ class InputsCentroid(_Inputs):
     def factor(self) -> Input[float]:
         r"""Allows to connect factor input to the operator.
 
-        Interpolation factor $t$: $t = 0$ returns fieldA unchanged, $t = 1$ returns fieldB unchanged. Values in $[0, 1]$ interpolate; values outside extrapolate.
+        Scalar
 
         Returns
         -------
@@ -286,7 +276,7 @@ class OutputsCentroid(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        Interpolated field $(1 - t) \cdot A + t \cdot B$, with the unit of pin A.
+        Field with centroid calculation: fieldA*(1-factor) + fieldB*factor
 
         Returns
         -------

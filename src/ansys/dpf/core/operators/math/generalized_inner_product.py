@@ -18,35 +18,11 @@ from ansys.dpf.core.server_types import AnyServerType
 if TYPE_CHECKING:
     from ansys.dpf.core.field import Field
     from ansys.dpf.core.fields_container import FieldsContainer
-    from ansys.dpf.core.meshed_region import MeshedRegion
 
 
 class generalized_inner_product(Operator):
-    r"""Computes the generalized inner product between two fields, dispatching
-    the appropriate operation based on their dimensionalities:
-
-    +-----------------+-----------------+------------------------------------------------------------------+-----------------+
-    | Pin 0           | Pin 1           | Operation                                                        | Result          |
-    +=================+=================+==================================================================+=================+
-    | vector field    | vector field    | `dot product <https://en.wikipedia.org/wiki/Dot_product>`__      | scalar field    |
-    +-----------------+-----------------+------------------------------------------------------------------+-----------------+
-    | scalar field    | any field       | scaling                                                          | field (same     |
-    |                 |                 |                                                                  | dimensionality  |
-    |                 |                 |                                                                  | as B)           |
-    +-----------------+-----------------+------------------------------------------------------------------+-----------------+
-    | matrix field    | matrix field    | `matrix                                                          | matrix field    |
-    |                 |                 | product <https://en.wikipedia.org/wiki/Matrix_multiplication>`__ |                 |
-    +-----------------+-----------------+------------------------------------------------------------------+-----------------+
-    | matrix field    | vector field    | matrix-vector product                                            | vector field    |
-    +-----------------+-----------------+------------------------------------------------------------------+-----------------+
-
-    In Cartesian coordinates the vector :math:`\cdot` vector case is
-    equivalent to the standard dot product. An optional mesh (pin 2) is
-    required when computing the finite-element dot product between an
-    elemental-nodal field and a nodal field. If either input is empty, a
-    dimensionless zero scalar field is returned. The result covers the union
-    of both field scopings; entities present in only one field contribute
-    zero.
+    r"""Computes a general notion of inner product between two fields of
+    possibly different dimensionality.
 
 
     Inputs
@@ -55,13 +31,11 @@ class generalized_inner_product(Operator):
         field or fields container with only one field is expected
     fieldB: Field or FieldsContainer or float
         field or fields container with only one field is expected
-    mesh: MeshedRegion, optional
-        Mesh required when computing the finite-element dot product between an elemental-nodal field (pin 0 or 1) and a nodal field.
 
     Outputs
     -------
     field: Field
-        Inner product result field; dimensionality and unit are determined by the dispatched operation.
+        Field containing the generalized inner product result
 
     Examples
     --------
@@ -75,21 +49,18 @@ class generalized_inner_product(Operator):
     >>> op.inputs.fieldA.connect(my_fieldA)
     >>> my_fieldB = dpf.Field()
     >>> op.inputs.fieldB.connect(my_fieldB)
-    >>> my_mesh = dpf.MeshedRegion()
-    >>> op.inputs.mesh.connect(my_mesh)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.generalized_inner_product(
     ...     fieldA=my_fieldA,
     ...     fieldB=my_fieldB,
-    ...     mesh=my_mesh,
     ... )
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, fieldA=None, fieldB=None, mesh=None, config=None, server=None):
+    def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(
             name="generalized_inner_product",
             config=config,
@@ -101,36 +72,11 @@ class generalized_inner_product(Operator):
             self.inputs.fieldA.connect(fieldA)
         if fieldB is not None:
             self.inputs.fieldB.connect(fieldB)
-        if mesh is not None:
-            self.inputs.mesh.connect(mesh)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the generalized inner product between two fields, dispatching
-the appropriate operation based on their dimensionalities:
-
-+-----------------+-----------------+------------------------------------------------------------------+-----------------+
-| Pin 0           | Pin 1           | Operation                                                        | Result          |
-+=================+=================+==================================================================+=================+
-| vector field    | vector field    | `dot product <https://en.wikipedia.org/wiki/Dot_product>`__      | scalar field    |
-+-----------------+-----------------+------------------------------------------------------------------+-----------------+
-| scalar field    | any field       | scaling                                                          | field (same     |
-|                 |                 |                                                                  | dimensionality  |
-|                 |                 |                                                                  | as B)           |
-+-----------------+-----------------+------------------------------------------------------------------+-----------------+
-| matrix field    | matrix field    | `matrix                                                          | matrix field    |
-|                 |                 | product <https://en.wikipedia.org/wiki/Matrix_multiplication>`__ |                 |
-+-----------------+-----------------+------------------------------------------------------------------+-----------------+
-| matrix field    | vector field    | matrix-vector product                                            | vector field    |
-+-----------------+-----------------+------------------------------------------------------------------+-----------------+
-
-In Cartesian coordinates the vector :math:`\cdot` vector case is
-equivalent to the standard dot product. An optional mesh (pin 2) is
-required when computing the finite-element dot product between an
-elemental-nodal field and a nodal field. If either input is empty, a
-dimensionless zero scalar field is returned. The result covers the union
-of both field scopings; entities present in only one field contribute
-zero.
+        description = r"""Computes a general notion of inner product between two fields of
+possibly different dimensionality.
 """
         spec = Specification(
             description=description,
@@ -157,19 +103,13 @@ zero.
                     optional=False,
                     document=r"""field or fields container with only one field is expected""",
                 ),
-                2: PinSpecification(
-                    name="mesh",
-                    type_names=["abstract_meshed_region"],
-                    optional=True,
-                    document=r"""Mesh required when computing the finite-element dot product between an elemental-nodal field (pin 0 or 1) and a nodal field.""",
-                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Inner product result field; dimensionality and unit are determined by the dispatched operation.""",
+                    document=r"""Field containing the generalized inner product result""",
                 ),
             },
         )
@@ -231,8 +171,6 @@ class InputsGeneralizedInnerProduct(_Inputs):
     >>> op.inputs.fieldA.connect(my_fieldA)
     >>> my_fieldB = dpf.Field()
     >>> op.inputs.fieldB.connect(my_fieldB)
-    >>> my_mesh = dpf.MeshedRegion()
-    >>> op.inputs.mesh.connect(my_mesh)
     """
 
     def __init__(self, op: Operator):
@@ -245,10 +183,6 @@ class InputsGeneralizedInnerProduct(_Inputs):
             generalized_inner_product._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._fieldB)
-        self._mesh: Input[MeshedRegion] = Input(
-            generalized_inner_product._spec().input_pin(2), 2, op, -1
-        )
-        self._inputs.append(self._mesh)
 
     @property
     def fieldA(self) -> Input[Field | FieldsContainer | float]:
@@ -292,27 +226,6 @@ class InputsGeneralizedInnerProduct(_Inputs):
         """
         return self._fieldB
 
-    @property
-    def mesh(self) -> Input[MeshedRegion]:
-        r"""Allows to connect mesh input to the operator.
-
-        Mesh required when computing the finite-element dot product between an elemental-nodal field (pin 0 or 1) and a nodal field.
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.math.generalized_inner_product()
-        >>> op.inputs.mesh.connect(my_mesh)
-        >>> # or
-        >>> op.inputs.mesh(my_mesh)
-        """
-        return self._mesh
-
 
 class OutputsGeneralizedInnerProduct(_Outputs):
     """Intermediate class used to get outputs from
@@ -337,7 +250,7 @@ class OutputsGeneralizedInnerProduct(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        Inner product result field; dimensionality and unit are determined by the dispatched operation.
+        Field containing the generalized inner product result
 
         Returns
         -------

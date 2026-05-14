@@ -20,23 +20,16 @@ if TYPE_CHECKING:
 
 
 class phase_fc(Operator):
-    r"""Computes the
-    `argument <https://en.wikipedia.org/wiki/Argument_(complex_analysis)>`__
-    (phase angle) :math:`\mathrm{atan2}(\mathrm{Im}[i],\, \mathrm{Re}[i])`
-    in radians for each complex-valued field pair in the input fields
-    container, where pairs are matched by complex label. If no imaginary
-    part is found for a real field, a zero-valued field is produced.
+    r"""Computes phase (in rad) between real and imaginary fields.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Complex-valued fields container with paired real (complex label 0) and imaginary (complex label 1) fields.
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Fields container with phase angle fields $\mathrm{atan2}(\mathrm{Im}[i],\, \mathrm{Re}[i])$ in radians; zero-valued fields are produced where no imaginary part is found.
 
     Examples
     --------
@@ -71,12 +64,7 @@ class phase_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the
-`argument <https://en.wikipedia.org/wiki/Argument_(complex_analysis)>`__
-(phase angle) :math:`\mathrm{atan2}(\mathrm{Im}[i],\, \mathrm{Re}[i])`
-in radians for each complex-valued field pair in the input fields
-container, where pairs are matched by complex label. If no imaginary
-part is found for a real field, a zero-valued field is produced.
+        description = r"""Computes phase (in rad) between real and imaginary fields.
 """
         spec = Specification(
             description=description,
@@ -85,7 +73,7 @@ part is found for a real field, a zero-valued field is produced.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Complex-valued fields container with paired real (complex label 0) and imaginary (complex label 1) fields.""",
+                    document=r"""""",
                 ),
             },
             map_output_pin_spec={
@@ -93,7 +81,7 @@ part is found for a real field, a zero-valued field is produced.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container with phase angle fields $\mathrm{atan2}(\mathrm{Im}[i],\, \mathrm{Re}[i])$ in radians; zero-valued fields are produced where no imaginary part is found.""",
+                    document=r"""""",
                 ),
             },
         )
@@ -166,8 +154,6 @@ class InputsPhaseFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Complex-valued fields container with paired real (complex label 0) and imaginary (complex label 1) fields.
-
         Returns
         -------
         input:
@@ -206,8 +192,6 @@ class OutputsPhaseFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
-
-        Fields container with phase angle fields $\mathrm{atan2}(\mathrm{Im}[i],\, \mathrm{Re}[i])$ in radians; zero-valued fields are produced where no imaginary part is found.
 
         Returns
         -------

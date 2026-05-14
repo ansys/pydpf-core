@@ -20,22 +20,17 @@ if TYPE_CHECKING:
 
 
 class conjugate(Operator):
-    r"""Computes the `complex
-    conjugate <https://en.wikipedia.org/wiki/Complex_conjugate>`__
-    :math:`\bar{z}[i] = \mathrm{Re}[i] - j \cdot \mathrm{Im}[i]` for each
-    value in a complex-valued fields container (the imaginary part is
-    negated). Input and output containers have the same structure.
+    r"""Computes element-wise conjugate of field containers containing complex
+    fields.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Complex-valued fields container with real (complex label 0) and imaginary (complex label 1) part fields.
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Fields container with conjugate values; the imaginary-part fields carry negated data.
 
     Examples
     --------
@@ -70,11 +65,8 @@ class conjugate(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the `complex
-conjugate <https://en.wikipedia.org/wiki/Complex_conjugate>`__
-:math:`\bar{z}[i] = \mathrm{Re}[i] - j \cdot \mathrm{Im}[i]` for each
-value in a complex-valued fields container (the imaginary part is
-negated). Input and output containers have the same structure.
+        description = r"""Computes element-wise conjugate of field containers containing complex
+fields.
 """
         spec = Specification(
             description=description,
@@ -83,7 +75,7 @@ negated). Input and output containers have the same structure.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Complex-valued fields container with real (complex label 0) and imaginary (complex label 1) part fields.""",
+                    document=r"""""",
                 ),
             },
             map_output_pin_spec={
@@ -91,7 +83,7 @@ negated). Input and output containers have the same structure.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container with conjugate values; the imaginary-part fields carry negated data.""",
+                    document=r"""""",
                 ),
             },
         )
@@ -164,8 +156,6 @@ class InputsConjugate(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Complex-valued fields container with real (complex label 0) and imaginary (complex label 1) part fields.
-
         Returns
         -------
         input:
@@ -204,8 +194,6 @@ class OutputsConjugate(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
-
-        Fields container with conjugate values; the imaginary-part fields carry negated data.
 
         Returns
         -------

@@ -20,10 +20,7 @@ if TYPE_CHECKING:
 
 
 class sqr_fc(Operator):
-    r"""Computes the entity-wise square (`Hadamard
-    power <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations>`__
-    of two): :math:`\mathrm{out}[i] = \mathrm{in}[i]^2`. The output unit is
-    :math:`u^2` where :math:`u` is the input unit.
+    r"""Computes element-wise field[i]^2.
 
 
     Inputs
@@ -34,7 +31,7 @@ class sqr_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
-        Field with $\mathrm{in}[i]^2$ for each data entry; unit is $u^2$, where $u$ is the input unit.
+        Field with squared values applied element-wise to input data
 
     Examples
     --------
@@ -69,10 +66,7 @@ class sqr_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the entity-wise square (`Hadamard
-power <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations>`__
-of two): :math:`\mathrm{out}[i] = \mathrm{in}[i]^2`. The output unit is
-:math:`u^2` where :math:`u` is the input unit.
+        description = r"""Computes element-wise field[i]^2.
 """
         spec = Specification(
             description=description,
@@ -89,7 +83,7 @@ of two): :math:`\mathrm{out}[i] = \mathrm{in}[i]^2`. The output unit is
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Field with $\mathrm{in}[i]^2$ for each data entry; unit is $u^2$, where $u$ is the input unit.""",
+                    document=r"""Field with squared values applied element-wise to input data""",
                 ),
             },
         )
@@ -203,7 +197,7 @@ class OutputsSqrFc(_Outputs):
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
-        Field with $\mathrm{in}[i]^2$ for each data entry; unit is $u^2$, where $u$ is the input unit.
+        Field with squared values applied element-wise to input data
 
         Returns
         -------

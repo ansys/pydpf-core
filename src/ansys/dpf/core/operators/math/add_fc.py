@@ -21,11 +21,9 @@ if TYPE_CHECKING:
 
 
 class add_fc(Operator):
-    r"""Entity-wise addition across all input fields containers: for each label
-    space, sums the matching fields from every container. Scalar inputs
-    (field, double, or vector of doubles) are broadcast and added to every
-    field in each container. If only one fields container is provided and no
-    scalar inputs are given, it is forwarded to the output unchanged.
+    r"""Selects all fields with the same label space in the input fields
+    container and add those together. If fields, doubles, or vectors of
+    doubles, are put in input they are added to all the fields.
 
 
     Inputs
@@ -36,7 +34,7 @@ class add_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
-        Fields container with fields summed by matching label space.
+        FieldsContainer with summed fields by label space
 
     Examples
     --------
@@ -78,11 +76,9 @@ class add_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Entity-wise addition across all input fields containers: for each label
-space, sums the matching fields from every container. Scalar inputs
-(field, double, or vector of doubles) are broadcast and added to every
-field in each container. If only one fields container is provided and no
-scalar inputs are given, it is forwarded to the output unchanged.
+        description = r"""Selects all fields with the same label space in the input fields
+container and add those together. If fields, doubles, or vectors of
+doubles, are put in input they are added to all the fields.
 """
         spec = Specification(
             description=description,
@@ -115,7 +111,7 @@ scalar inputs are given, it is forwarded to the output unchanged.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container with fields summed by matching label space.""",
+                    document=r"""FieldsContainer with summed fields by label space""",
                 ),
             },
         )
@@ -252,7 +248,7 @@ class OutputsAddFc(_Outputs):
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
-        Fields container with fields summed by matching label space.
+        FieldsContainer with summed fields by label space
 
         Returns
         -------

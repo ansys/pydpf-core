@@ -21,15 +21,11 @@ if TYPE_CHECKING:
 
 
 class component_wise_divide(Operator):
-    r"""Computes the component-wise fraction
-    :math:`\mathrm{out}[k] = A[k] / B[k]` (also known as the `Hadamard
-    division <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations>`__)
-    for fields of the same dimensionality. If one field’s scoping has the
-    ‘overall’ location, its values are broadcast across all entities of the
-    other field. When :math:`|B[k]| < 10^{-14}` the corresponding output
-    component is set to :math:`0`. Inplace execution is supported when
-    working with constants or using ‘work_by_index’. The output unit is
-    :math:`u_A / u_B`.
+    r"""Computes component-wise fraction between two fields of same
+    dimensionality. If one field’s scoping has an ‘overall’ location, then
+    this field’s values are applied on the other field entirely. When using
+    a constant or ‘work_by_index’, you can use ‘inplace’ to reuse one of the
+    fields.
 
 
     Inputs
@@ -42,7 +38,6 @@ class component_wise_divide(Operator):
     Outputs
     -------
     field: Field
-        Field with $A[k] / B[k]$ for each component (zero where $|B[k]| < 10^{-14}$); unit is $u_A / u_B$.
 
     Examples
     --------
@@ -82,15 +77,11 @@ class component_wise_divide(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the component-wise fraction
-:math:`\mathrm{out}[k] = A[k] / B[k]` (also known as the `Hadamard
-division <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations>`__)
-for fields of the same dimensionality. If one field’s scoping has the
-‘overall’ location, its values are broadcast across all entities of the
-other field. When :math:`|B[k]| < 10^{-14}` the corresponding output
-component is set to :math:`0`. Inplace execution is supported when
-working with constants or using ‘work_by_index’. The output unit is
-:math:`u_A / u_B`.
+        description = r"""Computes component-wise fraction between two fields of same
+dimensionality. If one field’s scoping has an ‘overall’ location, then
+this field’s values are applied on the other field entirely. When using
+a constant or ‘work_by_index’, you can use ‘inplace’ to reuse one of the
+fields.
 """
         spec = Specification(
             description=description,
@@ -113,7 +104,7 @@ working with constants or using ‘work_by_index’. The output unit is
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Field with $A[k] / B[k]$ for each component (zero where $|B[k]| < 10^{-14}$); unit is $u_A / u_B$.""",
+                    document=r"""""",
                 ),
             },
         )
@@ -253,8 +244,6 @@ class OutputsComponentWiseDivide(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
-
-        Field with $A[k] / B[k]$ for each component (zero where $|B[k]| < 10^{-14}$); unit is $u_A / u_B$.
 
         Returns
         -------

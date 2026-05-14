@@ -21,15 +21,10 @@ if TYPE_CHECKING:
 
 
 class scale(Operator):
-    r"""Scales a field by a constant factor :math:`k`:
-    :math:`\mathrm{out}[i] = k \cdot \mathrm{field}[i]`. The factor can be a
-    scalar (same :math:`k` for every component), a vector of length
-    :math:`n_c` (one :math:`k_j` per component, applied as
-    :math:`\mathrm{out}[i \cdot n_c + j] = k_j \cdot \mathrm{field}[i \cdot n_c + j]`),
-    or a field whose values are matched by entity or location (entity-wise
-    multiplication, also known as the `Hadamard
-    product <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)>`__).
-    Setting pin 2 to true makes the output dimensionless.
+    r"""Scales a field by a constant factor. This factor can be a scalar or a
+    vector, where each value of the vector represents a scaler per
+    component. Number of the components are corresponding to the input field
+    dimensionality
 
 
     Inputs
@@ -112,15 +107,10 @@ class scale(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Scales a field by a constant factor :math:`k`:
-:math:`\mathrm{out}[i] = k \cdot \mathrm{field}[i]`. The factor can be a
-scalar (same :math:`k` for every component), a vector of length
-:math:`n_c` (one :math:`k_j` per component, applied as
-:math:`\mathrm{out}[i \cdot n_c + j] = k_j \cdot \mathrm{field}[i \cdot n_c + j]`),
-or a field whose values are matched by entity or location (entity-wise
-multiplication, also known as the `Hadamard
-product <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)>`__).
-Setting pin 2 to true makes the output dimensionless.
+        description = r"""Scales a field by a constant factor. This factor can be a scalar or a
+vector, where each value of the vector represents a scaler per
+component. Number of the components are corresponding to the input field
+dimensionality
 """
         spec = Specification(
             description=description,

@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 
 class invert(Operator):
-    r"""DEPRECATED, PLEASE USE DIVIDE. Computes the entity-wise and
+    r"""DEPRECATED, PLEASE USE DIVIDE. Computes the element-wise and
     component-wise inverse of a field (1./x).
 
 
@@ -33,7 +33,7 @@ class invert(Operator):
     Outputs
     -------
     field: Field
-        Field with inverse values (1/x) applied entity-wise to input data
+        Field with inverse values (1/x) applied element-wise to input data
 
     Examples
     --------
@@ -68,7 +68,7 @@ class invert(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""DEPRECATED, PLEASE USE DIVIDE. Computes the entity-wise and
+        description = r"""DEPRECATED, PLEASE USE DIVIDE. Computes the element-wise and
 component-wise inverse of a field (1./x).
 """
         spec = Specification(
@@ -86,7 +86,7 @@ component-wise inverse of a field (1./x).
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Field with inverse values (1/x) applied entity-wise to input data""",
+                    document=r"""Field with inverse values (1/x) applied element-wise to input data""",
                 ),
             },
         )
@@ -198,7 +198,7 @@ class OutputsInvert(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        Field with inverse values (1/x) applied entity-wise to input data
+        Field with inverse values (1/x) applied element-wise to input data
 
         Returns
         -------

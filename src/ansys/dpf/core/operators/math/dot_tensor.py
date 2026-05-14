@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 
 class dot_tensor(Operator):
-    r"""DEPRECATED, PLEASE USE GENERALIZED INNER PRODUCT. Computes entity-wise
+    r"""DEPRECATED, PLEASE USE GENERALIZED INNER PRODUCT. Computes element-wise
     dot product between two tensor fields.
 
 
@@ -74,7 +74,7 @@ class dot_tensor(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""DEPRECATED, PLEASE USE GENERALIZED INNER PRODUCT. Computes entity-wise
+        description = r"""DEPRECATED, PLEASE USE GENERALIZED INNER PRODUCT. Computes element-wise
 dot product between two tensor fields.
 """
         spec = Specification(

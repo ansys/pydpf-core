@@ -21,22 +21,19 @@ if TYPE_CHECKING:
 
 
 class sqrt(Operator):
-    r"""Computes the entity-wise square root (`Hadamard
-    root <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations>`__):
-    :math:`\mathrm{out}[i] = \sqrt{\mathrm{in}[i]}`. All input values must
-    be non-negative; a negative value raises an error. The output unit is
-    :math:`\sqrt{u}` where :math:`u` is the input unit.
+    r"""Computes element-wise square root function on field data:
+    sqrt(field[i]).
 
 
     Inputs
     ------
     field: Field or FieldsContainer
-        Field or fields container containing non-negative numeric data.
+        Field or fields container containing numeric data for square root calculation
 
     Outputs
     -------
     field: Field
-        Field with $\sqrt{\mathrm{in}[i]}$ for each data entry; unit is $\sqrt{u}$, where $u$ is the input unit.
+        Field with square root values applied element-wise to input data
 
     Examples
     --------
@@ -71,11 +68,8 @@ class sqrt(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the entity-wise square root (`Hadamard
-root <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations>`__):
-:math:`\mathrm{out}[i] = \sqrt{\mathrm{in}[i]}`. All input values must
-be non-negative; a negative value raises an error. The output unit is
-:math:`\sqrt{u}` where :math:`u` is the input unit.
+        description = r"""Computes element-wise square root function on field data:
+sqrt(field[i]).
 """
         spec = Specification(
             description=description,
@@ -84,7 +78,7 @@ be non-negative; a negative value raises an error. The output unit is
                     name="field",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""Field or fields container containing non-negative numeric data.""",
+                    document=r"""Field or fields container containing numeric data for square root calculation""",
                 ),
             },
             map_output_pin_spec={
@@ -92,7 +86,7 @@ be non-negative; a negative value raises an error. The output unit is
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Field with $\sqrt{\mathrm{in}[i]}$ for each data entry; unit is $\sqrt{u}$, where $u$ is the input unit.""",
+                    document=r"""Field with square root values applied element-wise to input data""",
                 ),
             },
         )
@@ -165,7 +159,7 @@ class InputsSqrt(_Inputs):
     def field(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect field input to the operator.
 
-        Field or fields container containing non-negative numeric data.
+        Field or fields container containing numeric data for square root calculation
 
         Returns
         -------
@@ -204,7 +198,7 @@ class OutputsSqrt(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        Field with $\sqrt{\mathrm{in}[i]}$ for each data entry; unit is $\sqrt{u}$, where $u$ is the input unit.
+        Field with square root values applied element-wise to input data
 
         Returns
         -------

@@ -20,22 +20,18 @@ if TYPE_CHECKING:
 
 
 class ln_fc(Operator):
-    r"""Computes the entity-wise `natural
-    logarithm <https://en.wikipedia.org/wiki/Natural_logarithm>`__:
-    :math:`\mathrm{out}[i] = \ln(\mathrm{in}[i])`. The input must be
-    dimensionless; a dimensional input raises an error. The output is
-    dimensionless.
+    r"""Computes element-wise ln(field[i]).
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Dimensionless field, fields container, or numeric data.
+        field or fields container with only one field is expected
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Dimensionless field with $\ln(\mathrm{in}[i])$ for each data entry.
+        Field with natural logarithm values applied element-wise
 
     Examples
     --------
@@ -70,11 +66,7 @@ class ln_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the entity-wise `natural
-logarithm <https://en.wikipedia.org/wiki/Natural_logarithm>`__:
-:math:`\mathrm{out}[i] = \ln(\mathrm{in}[i])`. The input must be
-dimensionless; a dimensional input raises an error. The output is
-dimensionless.
+        description = r"""Computes element-wise ln(field[i]).
 """
         spec = Specification(
             description=description,
@@ -83,7 +75,7 @@ dimensionless.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Dimensionless field, fields container, or numeric data.""",
+                    document=r"""field or fields container with only one field is expected""",
                 ),
             },
             map_output_pin_spec={
@@ -91,7 +83,7 @@ dimensionless.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Dimensionless field with $\ln(\mathrm{in}[i])$ for each data entry.""",
+                    document=r"""Field with natural logarithm values applied element-wise""",
                 ),
             },
         )
@@ -164,7 +156,7 @@ class InputsLnFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Dimensionless field, fields container, or numeric data.
+        field or fields container with only one field is expected
 
         Returns
         -------
@@ -205,7 +197,7 @@ class OutputsLnFc(_Outputs):
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
-        Dimensionless field with $\ln(\mathrm{in}[i])$ for each data entry.
+        Field with natural logarithm values applied element-wise
 
         Returns
         -------

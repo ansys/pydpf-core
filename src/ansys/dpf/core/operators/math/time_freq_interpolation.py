@@ -22,16 +22,12 @@ if TYPE_CHECKING:
 
 
 class time_freq_interpolation(Operator):
-    r"""Interpolates the fields in a fields container at the requested times or
-    frequencies using `linear
-    interpolation <https://en.wikipedia.org/wiki/Linear_interpolation>`__.
-    Ramped interpolation (:math:`p = 1`, default):
-    :math:`\mathrm{out}[i] = (1 - s) \cdot f_1[i] + s \cdot f_2[i]` where
-    :math:`s = (t - t_1) / (t_2 - t_1)`. Stepped interpolation
-    (:math:`p = 2`): :math:`\mathrm{out}[i] = f_2[i]`. If the requested
-    value exceeds the available range, the field at the maximum available
-    value is used. A new time-frequency support aligned with the requested
-    values is produced as a second output.
+    r"""Interpolates between all the matching fields of a fields container at
+    given times or frequencies, using ramped: fieldOut =
+    field1\ *(1.-fact)+field2*\ (fact), or stepped: fieldOut=field2. If the
+    time freq is higher than the max available, the field at the max time
+    freq is taken. Computes the output time freq support to support the
+    fields container
 
 
     Inputs
@@ -50,9 +46,7 @@ class time_freq_interpolation(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
-        Fields container with one interpolated field set per requested time or frequency value.
-    time_freq_support: TimeFreqSupport
-        Time or frequency support aligned with the output fields container.
+        FieldsContainer with interpolated fields at specified time/frequency values
 
     Examples
     --------
@@ -87,7 +81,6 @@ class time_freq_interpolation(Operator):
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_time_freq_support = op.outputs.time_freq_support()
     """
 
     def __init__(
@@ -123,16 +116,12 @@ class time_freq_interpolation(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Interpolates the fields in a fields container at the requested times or
-frequencies using `linear
-interpolation <https://en.wikipedia.org/wiki/Linear_interpolation>`__.
-Ramped interpolation (:math:`p = 1`, default):
-:math:`\mathrm{out}[i] = (1 - s) \cdot f_1[i] + s \cdot f_2[i]` where
-:math:`s = (t - t_1) / (t_2 - t_1)`. Stepped interpolation
-(:math:`p = 2`): :math:`\mathrm{out}[i] = f_2[i]`. If the requested
-value exceeds the available range, the field at the maximum available
-value is used. A new time-frequency support aligned with the requested
-values is produced as a second output.
+        description = r"""Interpolates between all the matching fields of a fields container at
+given times or frequencies, using ramped: fieldOut =
+field1\ *(1.-fact)+field2*\ (fact), or stepped: fieldOut=field2. If the
+time freq is higher than the max available, the field at the max time
+freq is taken. Computes the output time freq support to support the
+fields container
 """
         spec = Specification(
             description=description,
@@ -179,13 +168,7 @@ values is produced as a second output.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container with one interpolated field set per requested time or frequency value.""",
-                ),
-                1: PinSpecification(
-                    name="time_freq_support",
-                    type_names=["time_freq_support"],
-                    optional=False,
-                    document=r"""Time or frequency support aligned with the output fields container.""",
+                    document=r"""FieldsContainer with interpolated fields at specified time/frequency values""",
                 ),
             },
         )
@@ -417,7 +400,6 @@ class OutputsTimeFreqInterpolation(_Outputs):
     >>> op = dpf.operators.math.time_freq_interpolation()
     >>> # Connect inputs : op.inputs. ...
     >>> result_fields_container = op.outputs.fields_container()
-    >>> result_time_freq_support = op.outputs.time_freq_support()
     """
 
     def __init__(self, op: Operator):
@@ -426,16 +408,12 @@ class OutputsTimeFreqInterpolation(_Outputs):
             time_freq_interpolation._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
-        self._time_freq_support: Output[TimeFreqSupport] = Output(
-            time_freq_interpolation._spec().output_pin(1), 1, op
-        )
-        self._outputs.append(self._time_freq_support)
 
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
-        Fields container with one interpolated field set per requested time or frequency value.
+        FieldsContainer with interpolated fields at specified time/frequency values
 
         Returns
         -------
@@ -450,23 +428,3 @@ class OutputsTimeFreqInterpolation(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """
         return self._fields_container
-
-    @property
-    def time_freq_support(self) -> Output[TimeFreqSupport]:
-        r"""Allows to get time_freq_support output of the operator
-
-        Time or frequency support aligned with the output fields container.
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.math.time_freq_interpolation()
-        >>> # Get the output from op.outputs. ...
-        >>> result_time_freq_support = op.outputs.time_freq_support()
-        """
-        return self._time_freq_support

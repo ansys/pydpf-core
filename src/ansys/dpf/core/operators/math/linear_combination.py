@@ -20,29 +20,23 @@ if TYPE_CHECKING:
 
 
 class linear_combination(Operator):
-    r"""Computes the `linear
-    combination <https://en.wikipedia.org/wiki/Linear_combination>`__
-    :math:`a \cdot X \cdot Y + b \cdot Z`, where :math:`a` (pin 0) and
-    :math:`b` (pin 3) are real scalars, and :math:`X` (pin 1), :math:`Y`
-    (pin 2), :math:`Z` (pin 4) are complex-valued fields containers. The
-    product :math:`X \cdot Y` is a standard complex multiplication.
+    r"""Computes aXY + bZ where a,b (in 0, in 3) are scalar and X,Y,Z (in 1,2,4)
+    are complex numbers.
 
 
     Inputs
     ------
     a: float
-        Real scalar factor $a$ applied to the complex product $X \cdot Y$.
+        Double
     fields_containerA: FieldsContainer
     fields_containerB: FieldsContainer
     b: float
-        Real scalar factor $b$ applied to the complex addend $Z$.
+        Double
     fields_containerC: FieldsContainer
-        Third complex-valued fields container $Z$.
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Fields container with the complex result $a \cdot X \cdot Y + b \cdot Z$ (real and imaginary parts).
 
     Examples
     --------
@@ -106,12 +100,8 @@ class linear_combination(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the `linear
-combination <https://en.wikipedia.org/wiki/Linear_combination>`__
-:math:`a \cdot X \cdot Y + b \cdot Z`, where :math:`a` (pin 0) and
-:math:`b` (pin 3) are real scalars, and :math:`X` (pin 1), :math:`Y`
-(pin 2), :math:`Z` (pin 4) are complex-valued fields containers. The
-product :math:`X \cdot Y` is a standard complex multiplication.
+        description = r"""Computes aXY + bZ where a,b (in 0, in 3) are scalar and X,Y,Z (in 1,2,4)
+are complex numbers.
 """
         spec = Specification(
             description=description,
@@ -120,7 +110,7 @@ product :math:`X \cdot Y` is a standard complex multiplication.
                     name="a",
                     type_names=["double"],
                     optional=False,
-                    document=r"""Real scalar factor $a$ applied to the complex product $X \cdot Y$.""",
+                    document=r"""Double""",
                 ),
                 1: PinSpecification(
                     name="fields_containerA",
@@ -138,13 +128,13 @@ product :math:`X \cdot Y` is a standard complex multiplication.
                     name="b",
                     type_names=["double"],
                     optional=False,
-                    document=r"""Real scalar factor $b$ applied to the complex addend $Z$.""",
+                    document=r"""Double""",
                 ),
                 4: PinSpecification(
                     name="fields_containerC",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Third complex-valued fields container $Z$.""",
+                    document=r"""""",
                 ),
             },
             map_output_pin_spec={
@@ -152,7 +142,7 @@ product :math:`X \cdot Y` is a standard complex multiplication.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container with the complex result $a \cdot X \cdot Y + b \cdot Z$ (real and imaginary parts).""",
+                    document=r"""""",
                 ),
             },
         )
@@ -249,7 +239,7 @@ class InputsLinearCombination(_Inputs):
     def a(self) -> Input[float]:
         r"""Allows to connect a input to the operator.
 
-        Real scalar factor $a$ applied to the complex product $X \cdot Y$.
+        Double
 
         Returns
         -------
@@ -308,7 +298,7 @@ class InputsLinearCombination(_Inputs):
     def b(self) -> Input[float]:
         r"""Allows to connect b input to the operator.
 
-        Real scalar factor $b$ applied to the complex addend $Z$.
+        Double
 
         Returns
         -------
@@ -328,8 +318,6 @@ class InputsLinearCombination(_Inputs):
     @property
     def fields_containerC(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerC input to the operator.
-
-        Third complex-valued fields container $Z$.
 
         Returns
         -------
@@ -369,8 +357,6 @@ class OutputsLinearCombination(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
-
-        Fields container with the complex result $a \cdot X \cdot Y + b \cdot Z$ (real and imaginary parts).
 
         Returns
         -------

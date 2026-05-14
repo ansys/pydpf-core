@@ -24,13 +24,8 @@ if TYPE_CHECKING:
 
 
 class unit_convert(Operator):
-    r"""Converts an input entity from one unit to another using the linear
-    relation :math:`v_\mathrm{out}[i] = k \cdot v_\mathrm{in}[i] + \delta`,
-    where :math:`k` and :math:`\delta` are the unit conversion factor and
-    shift. Accepts fields, fields containers, meshes, and meshes containers.
-    For mesh inputs only the coordinate field is converted. When the
-    permissive option is enabled and units are not homogeneous with the
-    target unit, the conversion is silently skipped.
+    r"""Converts an input field/fields container or mesh of a given unit to
+    another unit.
 
 
     Inputs
@@ -42,7 +37,7 @@ class unit_convert(Operator):
     Outputs
     -------
     converted_entity: Field or FieldsContainer or MeshedRegion or MeshesContainer
-        Converted entity of the same type as the input, modified in place.
+        the output entity is the same as the input (inplace operator)
 
     Examples
     --------
@@ -84,13 +79,8 @@ class unit_convert(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Converts an input entity from one unit to another using the linear
-relation :math:`v_\mathrm{out}[i] = k \cdot v_\mathrm{in}[i] + \delta`,
-where :math:`k` and :math:`\delta` are the unit conversion factor and
-shift. Accepts fields, fields containers, meshes, and meshes containers.
-For mesh inputs only the coordinate field is converted. When the
-permissive option is enabled and units are not homogeneous with the
-target unit, the conversion is silently skipped.
+        description = r"""Converts an input field/fields container or mesh of a given unit to
+another unit.
 """
         spec = Specification(
             description=description,
@@ -123,7 +113,7 @@ target unit, the conversion is silently skipped.
                         "meshes_container",
                     ],
                     optional=False,
-                    document=r"""Converted entity of the same type as the input, modified in place.""",
+                    document=r"""the output entity is the same as the input (inplace operator)""",
                 ),
             },
         )

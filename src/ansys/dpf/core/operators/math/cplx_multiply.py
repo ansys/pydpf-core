@@ -20,13 +20,8 @@ if TYPE_CHECKING:
 
 
 class cplx_multiply(Operator):
-    r"""Computes the standard `complex
-    multiplication <https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_square>`__
-    :math:`z_1 \cdot z_2` for matching fields in two complex-valued fields
-    containers:
-    :math:`\mathrm{Re}(z_\mathrm{out})[i] = \mathrm{Re}_1 \mathrm{Re}_2 - \mathrm{Im}_1 \mathrm{Im}_2`,
-    :math:`\mathrm{Im}(z_\mathrm{out})[i] = \mathrm{Re}_1 \mathrm{Im}_2 + \mathrm{Im}_1 \mathrm{Re}_2`.
-    Both containers must have the same size.
+    r"""Computes multiplication between two field containers containing complex
+    fields.
 
 
     Inputs
@@ -37,7 +32,6 @@ class cplx_multiply(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
-        Fields container with the complex product fields (real and imaginary parts).
 
     Examples
     --------
@@ -79,13 +73,8 @@ class cplx_multiply(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the standard `complex
-multiplication <https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_square>`__
-:math:`z_1 \cdot z_2` for matching fields in two complex-valued fields
-containers:
-:math:`\mathrm{Re}(z_\mathrm{out})[i] = \mathrm{Re}_1 \mathrm{Re}_2 - \mathrm{Im}_1 \mathrm{Im}_2`,
-:math:`\mathrm{Im}(z_\mathrm{out})[i] = \mathrm{Re}_1 \mathrm{Im}_2 + \mathrm{Im}_1 \mathrm{Re}_2`.
-Both containers must have the same size.
+        description = r"""Computes multiplication between two field containers containing complex
+fields.
 """
         spec = Specification(
             description=description,
@@ -108,7 +97,7 @@ Both containers must have the same size.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container with the complex product fields (real and imaginary parts).""",
+                    document=r"""""",
                 ),
             },
         )
@@ -244,8 +233,6 @@ class OutputsCplxMultiply(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
-
-        Fields container with the complex product fields (real and imaginary parts).
 
         Returns
         -------

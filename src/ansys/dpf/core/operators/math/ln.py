@@ -21,22 +21,18 @@ if TYPE_CHECKING:
 
 
 class ln(Operator):
-    r"""Computes the entity-wise `natural
-    logarithm <https://en.wikipedia.org/wiki/Natural_logarithm>`__:
-    :math:`\mathrm{out}[i] = \ln(\mathrm{in}[i])`. The input must be
-    dimensionless; a dimensional input raises an error. The output is
-    dimensionless.
+    r"""Computes element-wise ln(field[i]).
 
 
     Inputs
     ------
     field: Field or FieldsContainer or float
-        Dimensionless field, fields container, or numeric data.
+        field or fields container with only one field is expected
 
     Outputs
     -------
     field: Field
-        Dimensionless field with $\ln(\mathrm{in}[i])$ for each data entry.
+        Field with natural logarithm values applied element-wise
 
     Examples
     --------
@@ -71,11 +67,7 @@ class ln(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the entity-wise `natural
-logarithm <https://en.wikipedia.org/wiki/Natural_logarithm>`__:
-:math:`\mathrm{out}[i] = \ln(\mathrm{in}[i])`. The input must be
-dimensionless; a dimensional input raises an error. The output is
-dimensionless.
+        description = r"""Computes element-wise ln(field[i]).
 """
         spec = Specification(
             description=description,
@@ -89,7 +81,7 @@ dimensionless.
                         "vector<double>",
                     ],
                     optional=False,
-                    document=r"""Dimensionless field, fields container, or numeric data.""",
+                    document=r"""field or fields container with only one field is expected""",
                 ),
             },
             map_output_pin_spec={
@@ -97,7 +89,7 @@ dimensionless.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Dimensionless field with $\ln(\mathrm{in}[i])$ for each data entry.""",
+                    document=r"""Field with natural logarithm values applied element-wise""",
                 ),
             },
         )
@@ -170,7 +162,7 @@ class InputsLn(_Inputs):
     def field(self) -> Input[Field | FieldsContainer | float]:
         r"""Allows to connect field input to the operator.
 
-        Dimensionless field, fields container, or numeric data.
+        field or fields container with only one field is expected
 
         Returns
         -------
@@ -209,7 +201,7 @@ class OutputsLn(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        Dimensionless field with $\ln(\mathrm{in}[i])$ for each data entry.
+        Field with natural logarithm values applied element-wise
 
         Returns
         -------

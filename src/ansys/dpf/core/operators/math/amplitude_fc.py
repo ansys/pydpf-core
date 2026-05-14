@@ -20,23 +20,16 @@ if TYPE_CHECKING:
 
 
 class amplitude_fc(Operator):
-    r"""Computes the `complex
-    modulus <https://en.wikipedia.org/wiki/Absolute_value#Complex_numbers>`__
-    (amplitude) :math:`\sqrt{\mathrm{Re}[i]^2 + \mathrm{Im}[i]^2}` for each
-    complex-valued field pair in the input fields container, where pairs are
-    matched by complex label. If no imaginary part is found for a real
-    field, that real field is returned unchanged.
+    r"""Computes the amplitude of a real and an imaginary field.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Complex-valued fields container with paired real (complex label 0) and imaginary (complex label 1) fields.
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Fields container with amplitude fields $\sqrt{\mathrm{Re}[i]^2 + \mathrm{Im}[i]^2}$, carrying the unit of the real input field.
 
     Examples
     --------
@@ -71,12 +64,7 @@ class amplitude_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the `complex
-modulus <https://en.wikipedia.org/wiki/Absolute_value#Complex_numbers>`__
-(amplitude) :math:`\sqrt{\mathrm{Re}[i]^2 + \mathrm{Im}[i]^2}` for each
-complex-valued field pair in the input fields container, where pairs are
-matched by complex label. If no imaginary part is found for a real
-field, that real field is returned unchanged.
+        description = r"""Computes the amplitude of a real and an imaginary field.
 """
         spec = Specification(
             description=description,
@@ -85,7 +73,7 @@ field, that real field is returned unchanged.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Complex-valued fields container with paired real (complex label 0) and imaginary (complex label 1) fields.""",
+                    document=r"""""",
                 ),
             },
             map_output_pin_spec={
@@ -93,7 +81,7 @@ field, that real field is returned unchanged.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container with amplitude fields $\sqrt{\mathrm{Re}[i]^2 + \mathrm{Im}[i]^2}$, carrying the unit of the real input field.""",
+                    document=r"""""",
                 ),
             },
         )
@@ -166,8 +154,6 @@ class InputsAmplitudeFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Complex-valued fields container with paired real (complex label 0) and imaginary (complex label 1) fields.
-
         Returns
         -------
         input:
@@ -206,8 +192,6 @@ class OutputsAmplitudeFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
-
-        Fields container with amplitude fields $\sqrt{\mathrm{Re}[i]^2 + \mathrm{Im}[i]^2}$, carrying the unit of the real input field.
 
         Returns
         -------

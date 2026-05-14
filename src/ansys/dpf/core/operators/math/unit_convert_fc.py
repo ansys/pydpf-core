@@ -20,25 +20,19 @@ if TYPE_CHECKING:
 
 
 class unit_convert_fc(Operator):
-    r"""Converts a fields container from one unit to another using the linear
-    relation :math:`v_\mathrm{out}[i] = k \cdot v_\mathrm{in}[i] + \delta`,
-    where :math:`k` and :math:`\delta` are the unit conversion factor and
-    shift. All fields must be homogeneous with the target unit. When the
-    permissive option is enabled and units are not homogeneous, the
-    container is returned unchanged.
+    r"""Converts an input fields container of a given unit to another unit.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Fields container to convert. All fields are converted in place.
     unit_name: str
         unit as a string, ex 'm' for meter, 'Pa' for pascal,...
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Fields container with all field data converted to the requested unit, modified in place.
+        FieldsContainer with converted units (inplace operation)
 
     Examples
     --------
@@ -78,12 +72,7 @@ class unit_convert_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Converts a fields container from one unit to another using the linear
-relation :math:`v_\mathrm{out}[i] = k \cdot v_\mathrm{in}[i] + \delta`,
-where :math:`k` and :math:`\delta` are the unit conversion factor and
-shift. All fields must be homogeneous with the target unit. When the
-permissive option is enabled and units are not homogeneous, the
-container is returned unchanged.
+        description = r"""Converts an input fields container of a given unit to another unit.
 """
         spec = Specification(
             description=description,
@@ -92,7 +81,7 @@ container is returned unchanged.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container to convert. All fields are converted in place.""",
+                    document=r"""""",
                 ),
                 1: PinSpecification(
                     name="unit_name",
@@ -106,7 +95,7 @@ container is returned unchanged.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container with all field data converted to the requested unit, modified in place.""",
+                    document=r"""FieldsContainer with converted units (inplace operation)""",
                 ),
             },
         )
@@ -185,8 +174,6 @@ class InputsUnitConvertFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Fields container to convert. All fields are converted in place.
-
         Returns
         -------
         input:
@@ -247,7 +234,7 @@ class OutputsUnitConvertFc(_Outputs):
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
-        Fields container with all field data converted to the requested unit, modified in place.
+        FieldsContainer with converted units (inplace operation)
 
         Returns
         -------

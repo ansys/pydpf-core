@@ -22,13 +22,8 @@ if TYPE_CHECKING:
 
 
 class accumulate_fc(Operator):
-    r"""Reduces a field to a single entity by summing all entity data
-    component-wise. Without weights:
-    :math:`\mathrm{out}[c] = \sum_k \mathrm{field}[k, c]` for each component
-    :math:`c`. With an optional weights field (pin 1):
-    :math:`\mathrm{out}[c] = \sum_k w_k \cdot \mathrm{field}[k, c]`, where
-    :math:`w_k` is the weight for entity :math:`k`. The weights field must
-    be a scalar (1D) field providing one weight per entity.
+    r"""Sums all the elementary data of a field to produce one elementary data
+    point.
 
 
     Inputs
@@ -38,12 +33,12 @@ class accumulate_fc(Operator):
     weights: Field, optional
         Field containing weights, one weight per entity
     time_scoping: Scoping, optional
-        Optional scoping that sets the output entity's location and ID.
+        time_scoping
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Field with one entity containing the (weighted) component sums $\sum_k w_k \cdot \mathrm{field}[k, c]$ for each component $c$.
+        Field containing the (weighted) sum for each component in an elementary data
 
     Examples
     --------
@@ -103,13 +98,8 @@ class accumulate_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Reduces a field to a single entity by summing all entity data
-component-wise. Without weights:
-:math:`\mathrm{out}[c] = \sum_k \mathrm{field}[k, c]` for each component
-:math:`c`. With an optional weights field (pin 1):
-:math:`\mathrm{out}[c] = \sum_k w_k \cdot \mathrm{field}[k, c]`, where
-:math:`w_k` is the weight for entity :math:`k`. The weights field must
-be a scalar (1D) field providing one weight per entity.
+        description = r"""Sums all the elementary data of a field to produce one elementary data
+point.
 """
         spec = Specification(
             description=description,
@@ -131,7 +121,7 @@ be a scalar (1D) field providing one weight per entity.
                     name="time_scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document=r"""Optional scoping that sets the output entity's location and ID.""",
+                    document=r"""time_scoping""",
                 ),
             },
             map_output_pin_spec={
@@ -139,7 +129,7 @@ be a scalar (1D) field providing one weight per entity.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Field with one entity containing the (weighted) component sums $\sum_k w_k \cdot \mathrm{field}[k, c]$ for each component $c$.""",
+                    document=r"""Field containing the (weighted) sum for each component in an elementary data""",
                 ),
             },
         )
@@ -266,7 +256,7 @@ class InputsAccumulateFc(_Inputs):
     def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
-        Optional scoping that sets the output entity's location and ID.
+        time_scoping
 
         Returns
         -------
@@ -319,7 +309,7 @@ class OutputsAccumulateFc(_Outputs):
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
-        Field with one entity containing the (weighted) component sums $\sum_k w_k \cdot \mathrm{field}[k, c]$ for each component $c$.
+        Field containing the (weighted) sum for each component in an elementary data
 
         Returns
         -------

@@ -20,20 +20,17 @@ if TYPE_CHECKING:
 
 
 class real_part(Operator):
-    r"""Extracts the real-part fields (complex label 0) from a complex-valued
-    fields container. The output container preserves all labels except the
-    complex label.
+    r"""Extracts element-wise real part of field containers containing complex
+    fields.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Complex-valued fields container with real (complex label 0) and imaginary (complex label 1) part fields.
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Fields container containing only the real-part fields, without the complex label.
 
     Examples
     --------
@@ -68,9 +65,8 @@ class real_part(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Extracts the real-part fields (complex label 0) from a complex-valued
-fields container. The output container preserves all labels except the
-complex label.
+        description = r"""Extracts element-wise real part of field containers containing complex
+fields.
 """
         spec = Specification(
             description=description,
@@ -79,7 +75,7 @@ complex label.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Complex-valued fields container with real (complex label 0) and imaginary (complex label 1) part fields.""",
+                    document=r"""""",
                 ),
             },
             map_output_pin_spec={
@@ -87,7 +83,7 @@ complex label.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container containing only the real-part fields, without the complex label.""",
+                    document=r"""""",
                 ),
             },
         )
@@ -160,8 +156,6 @@ class InputsRealPart(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Complex-valued fields container with real (complex label 0) and imaginary (complex label 1) part fields.
-
         Returns
         -------
         input:
@@ -200,8 +194,6 @@ class OutputsRealPart(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
-
-        Fields container containing only the real-part fields, without the complex label.
 
         Returns
         -------
