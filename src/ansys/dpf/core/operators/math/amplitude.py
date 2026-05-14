@@ -21,7 +21,11 @@ if TYPE_CHECKING:
 
 
 class amplitude(Operator):
-    r"""Computes amplitude of a real and an imaginary field.
+    r"""Computes the `complex
+    modulus <https://en.wikipedia.org/wiki/Absolute_value#Complex_numbers>`__
+    (amplitude) of a complex quantity given as separate real and imaginary
+    fields: :math:`\mathrm{out}[i] = \sqrt{A[i]^2 + B[i]^2}`. The output
+    carries the unit of pin A.
 
 
     Inputs
@@ -34,6 +38,7 @@ class amplitude(Operator):
     Outputs
     -------
     field: Field
+        Scalar field with $\sqrt{A[i]^2 + B[i]^2}$ for each data entry, carrying the unit of pin A.
 
     Examples
     --------
@@ -73,7 +78,11 @@ class amplitude(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes amplitude of a real and an imaginary field.
+        description = r"""Computes the `complex
+modulus <https://en.wikipedia.org/wiki/Absolute_value#Complex_numbers>`__
+(amplitude) of a complex quantity given as separate real and imaginary
+fields: :math:`\mathrm{out}[i] = \sqrt{A[i]^2 + B[i]^2}`. The output
+carries the unit of pin A.
 """
         spec = Specification(
             description=description,
@@ -96,7 +105,7 @@ class amplitude(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Scalar field with $\sqrt{A[i]^2 + B[i]^2}$ for each data entry, carrying the unit of pin A.""",
                 ),
             },
         )
@@ -234,6 +243,8 @@ class OutputsAmplitude(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Scalar field with $\sqrt{A[i]^2 + B[i]^2}$ for each data entry, carrying the unit of pin A.
 
         Returns
         -------
