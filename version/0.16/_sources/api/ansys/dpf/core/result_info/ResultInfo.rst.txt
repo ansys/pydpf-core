@@ -1,0 +1,362 @@
+
+
+
+
+
+
+:class:`ResultInfo`
+===================
+
+
+.. py:class:: ansys.dpf.core.result_info.ResultInfo(result_info=None, server=None, analysis_type: analysis_types = None, physics_type: physics_types = None)
+
+   Represents the result information.
+
+   This class describes the metadata of the analysis and the available results.
+
+   .. note::
+     Creating a new ResultInfo from an analysis type and physics type is currently only available
+     InProcess.
+
+   :param result_info: Existing ResultInfo internal object
+   :type result_info: ctypes.c_void_p, ansys.grpc.dpf.result_info_pb2.ResultInfo
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: ansys.dpf.core.server, optional
+   :param analysis_type: Type of the analysis for a new ResultInfo.
+   :type analysis_type: analysis_types
+   :param physics_type: Type of physics for the new ResultInfo.
+   :type physics_type: physics_types
+
+   .. rubric:: Examples
+
+   Explore the result info from the model
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> result_info = model.metadata.result_info # printable result_info
+
+   >>> result_info["displacement"].name
+   'displacement'
+   >>> result_info["displacement"].homogeneity
+   'length'
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: ResultInfo
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~add_result`
+            - Add an available result to the ResultInfo.
+          * - :py:attr:`~qualifier_label_support`
+            - Return what supports an available qualifier label.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~analysis_type`
+            - Retrieves the analysis type.
+          * - :py:attr:`~physics_type`
+            - Type of the physics.
+          * - :py:attr:`~n_results`
+            - Number of results.
+          * - :py:attr:`~unit_system`
+            - Unit system of the result.
+          * - :py:attr:`~cyclic_symmetry_type`
+            - Cyclic symmetry type of the result.
+          * - :py:attr:`~has_cyclic`
+            - Check the result file for cyclic symmetry.
+          * - :py:attr:`~cyclic_support`
+            - Cyclic expansion information for a result file that has cyclic symmetry or is multistage.
+          * - :py:attr:`~unit_system_name`
+            - Name of the unit system.
+          * - :py:attr:`~solver_version`
+            - Version of the solver.
+          * - :py:attr:`~solver_date`
+            - Date of the solver.
+          * - :py:attr:`~solver_time`
+            - Time of the solver.
+          * - :py:attr:`~user_name`
+            - Name of the user.
+          * - :py:attr:`~job_name`
+            - Name of the job.
+          * - :py:attr:`~product_name`
+            - Name of the product.
+          * - :py:attr:`~main_title`
+            - Main title.
+          * - :py:attr:`~available_results`
+            - Available results, containing all information about results present in the result files.
+          * - :py:attr:`~available_qualifier_labels`
+            - Returns a list of labels defining result qualifiers.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Return a string representation of the instance providing detailed information.
+          * - :py:attr:`~__contains__`
+            - Check if a given name is present in available results.
+          * - :py:attr:`~__len__`
+            - Return the number of results available.
+          * - :py:attr:`~__iter__`
+            - Return an iterator over the results.
+          * - :py:attr:`~__getitem__`
+            - Retrieve a result by index or name.
+          * - :py:attr:`~__del__`
+            - Clean up resources associated with the instance.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.result_info import ResultInfo
+
+Property detail
+---------------
+
+.. py:property:: analysis_type
+
+   Retrieves the analysis type.
+
+   :returns: **analysis_type** -- Type of the analysis, such as static or transient.
+   :rtype: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> result_info = model.metadata.result_info
+   >>> result_info.analysis_type
+   'static'
+
+.. py:property:: physics_type
+
+   Type of the physics.
+
+   .. rubric:: Examples
+
+   Mechanical result
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = dpf.Model(transient)
+   >>> result_info = model.metadata.result_info
+   >>> result_info.physics_type
+   'mechanical'
+
+.. py:property:: n_results
+
+   Number of results.
+
+.. py:property:: unit_system
+
+   Unit system of the result.
+
+.. py:property:: cyclic_symmetry_type
+
+   Cyclic symmetry type of the result.
+
+   :returns: **cyclic_symmetry_type** -- Cyclic symmetry type of the results. Options are ``"single_stage"``,
+             ``"multi_stage"``, and ``"not_cyclic"``.
+   :rtype: str
+
+.. py:property:: has_cyclic
+
+   Check the result file for cyclic symmetry.
+
+   :returns: **has_cyclic** -- Returns ``True`` if the result file has cyclic symmetry or is multistage.
+   :rtype: bool
+
+.. py:property:: cyclic_support
+
+   Cyclic expansion information for a result file that has cyclic symmetry or is multistage.
+
+   :returns: **cyclic_support**
+   :rtype: CyclicSupport
+
+   .. rubric:: Examples
+
+   Get a cyclic support from a model.
+
+   >>> from ansys.dpf.core import Model
+   >>> from ansys.dpf.core import examples
+   >>> multi_stage = examples.download_multi_stage_cyclic_result()
+   >>> model = Model(multi_stage)
+   >>> result_info = model.metadata.result_info
+   >>> cyc_support = result_info.cyclic_support
+
+.. py:property:: unit_system_name
+
+   Name of the unit system.
+
+.. py:property:: solver_version
+
+   Version of the solver.
+
+.. py:property:: solver_date
+
+   Date of the solver.
+
+.. py:property:: solver_time
+
+   Time of the solver.
+
+.. py:property:: user_name
+
+   Name of the user.
+
+.. py:property:: job_name
+
+   Name of the job.
+
+.. py:property:: product_name
+
+   Name of the product.
+
+.. py:property:: main_title
+
+   Main title.
+
+.. py:property:: available_results
+
+   Available results, containing all information about results present in the result files.
+
+   :returns: **available_result**
+   :rtype: list[AvailableResult]
+
+.. py:property:: available_qualifier_labels
+
+   Returns a list of labels defining result qualifiers.
+
+   :rtype: list[str]
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+   Return a string representation of the instance providing detailed information.
+
+
+.. py:method:: __contains__(value)
+
+   Check if a given name is present in available results.
+
+
+.. py:method:: add_result(operator_name: str, scripting_name: str, homogeneity: ansys.dpf.core.available_result.Homogeneity, location: ansys.dpf.core.common.locations, nature: ansys.dpf.core.dimensionality.natures, dimensions: Union[List[int], None] = None, description: str = '')
+
+   Add an available result to the ResultInfo.
+
+   .. note::
+     Adding a new result to a ResultInfo is currently only available InProcess.
+
+   :param operator_name: Name of the DPF operator to use for result extraction.
+   :param scripting_name: Name to use when requesting the result.
+   :param homogeneity: Homogeneity of the result.
+   :param location: Location of the result.
+   :param nature: Mathematical nature of the result (scalar, vector...).
+   :param dimensions: List of dimensions of the result when vector or matrix.
+                      Enter ``[N]`` for an N-size vector result.
+                      Enter ``[N, M]`` for a rank-2, NxM matrix result.
+                      For example:
+                      * ``[3]``: 3d vector
+                      * ``[3, 3]``: ``3 x 3`` matrix
+   :param description: Description of the result.
+
+
+.. py:method:: qualifier_label_support(label)
+
+   Return what supports an available qualifier label.
+
+   :param label:
+   :type label: str
+
+   :rtype: Support
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+.. py:method:: __len__()
+
+   Return the number of results available.
+
+   If an exception occurs while attempting to retrieve the number of results,
+   the method returns 0.
+
+   :returns: The number of results, or 0 if an error occurs.
+   :rtype: int
+
+
+.. py:method:: __iter__()
+
+   Return an iterator over the results.
+
+
+.. py:method:: __getitem__(key)
+
+   Retrieve a result by index or name.
+
+   :raises ValueError: If the key is a string and not found in the result names.
+   :raises TypeError: If the key is not an integer or string.
+
+
+.. py:method:: __del__()
+
+   Clean up resources associated with the instance.
+
+   This method calls the deleter function to release resources. If an exception
+   occurs during deletion, a warning is issued.
+
+   :raises Warning: If an exception occurs while attempting to delete resources.
+
+
+
+
+

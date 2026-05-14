@@ -1,0 +1,85 @@
+
+
+
+
+
+
+:class:`PlotterBackend`
+=======================
+
+
+.. py:class:: ansys.dpf.core.plotter.PlotterBackend(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Plotter backend types for DPF visualization.
+
+   Specifies which plotting backend to use for mesh and field visualization.
+
+
+
+.. py:currentmodule:: PlotterBackend
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~AUTO`
+            - prefer visualization_interface if available, fallback to pyvista.
+          * - :py:attr:`~PYVISTA`
+            - Use the legacy PyVista-based plotter directly.
+          * - :py:attr:`~VISUALIZATION_INTERFACE`
+            - Use ansys-tools-visualization-interface Plotter with PyVista backend.
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.plotter import PlotterBackend
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: AUTO
+   :value: 'auto'
+
+
+   prefer visualization_interface if available, fallback to pyvista.
+
+   :type: Automatically select backend
+
+.. py:attribute:: PYVISTA
+   :value: 'pyvista'
+
+
+   Use the legacy PyVista-based plotter directly.
+
+.. py:attribute:: VISUALIZATION_INTERFACE
+   :value: 'visualization_interface'
+
+
+   Use ansys-tools-visualization-interface Plotter with PyVista backend.
+
+
+
+
+

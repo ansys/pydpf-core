@@ -1,0 +1,142 @@
+
+
+
+
+
+
+:class:`OutputsExternalLayer`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.mesh.external_layer.OutputsExternalLayer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   external_layer operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.external_layer()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mesh = op.outputs.mesh()
+   >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
+   >>> result_elements_mesh_scoping = op.outputs.elements_mesh_scoping()
+
+
+
+
+
+.. py:currentmodule:: OutputsExternalLayer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh`
+            - Allows to get mesh output of the operator
+          * - :py:attr:`~nodes_mesh_scoping`
+            - Allows to get nodes_mesh_scoping output of the operator
+          * - :py:attr:`~elements_mesh_scoping`
+            - Allows to get elements_mesh_scoping output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.external_layer import OutputsExternalLayer
+
+Property detail
+---------------
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.meshed_region.MeshedRegion]
+
+
+   Allows to get mesh output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.external_layer()
+   >>> # Get the output from op.outputs. ...
+   >>> result_mesh = op.outputs.mesh()
+
+.. py:property:: nodes_mesh_scoping
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to get nodes_mesh_scoping output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.external_layer()
+   >>> # Get the output from op.outputs. ...
+   >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
+
+.. py:property:: elements_mesh_scoping
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to get elements_mesh_scoping output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.external_layer()
+   >>> # Get the output from op.outputs. ...
+   >>> result_elements_mesh_scoping = op.outputs.elements_mesh_scoping()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

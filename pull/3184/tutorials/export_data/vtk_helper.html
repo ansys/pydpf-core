@@ -1,0 +1,978 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Convert DPF data to PyVista objects &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/ansys-sphinx-theme.css?v=a23b20f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles\ansys-sphinx-theme.css?v=a23b20f3" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=f3be7b20" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../_static/documentation_options.js?v=a64471e3"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/export_data/vtk_helper';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Plot" href="../plot/index.html" />
+    <link rel="prev" title="Export DPF Objects to VTU" href="vtu_export.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.16.0.dev0" />
+  <meta property="og:site_name" content="PyAnsys" />
+  <meta name="physics" content="Structures" />
+  <meta name="physics" content="Fluids" />
+  <meta name="physics" content="Multiphysics" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Starting with PyDPF-Core 0.15.0, gRPC communication with the DPF server defaults to requiring mTLS authentication.
+Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dpf_server.html#run-dpf-server-in-secure-mode-with-mtls'>this page</a> for more information.</div>
+</aside>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+  
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    
+<!--
+  Announcement Version Loader
+  Dynamically loads the announcement.html content into the announcement_msg div.
+-->
+<div id="announcement_msg" aria-live="polite"></div>
+<script>
+  // Fetch and inject the announcement HTML content
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status} Announcement.html file not found, Please ignore this, if you are in dev/stable documentation`);
+      }
+      return response.text();
+    })
+    .then((text) => {
+      var msgDiv = document.getElementById("announcement_msg");
+      if (msgDiv) {
+        msgDiv.innerHTML = text;
+      }
+    })
+    .catch((error) => {
+      // Log only unexpected fetch errors
+      if (!(error.message && error.message.startsWith("HTTP error: 404"))) {
+        console.error(`Fetch problem: ${error.message} Announcement.html could not be loaded.`);
+      }
+    });
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+  
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../data_structures/index.html">DPF data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../post_processing_basics/index.html">Processing data basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../import_data/index.html">Import Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operators_and_workflows/index.html">Process data with operators and workflows</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Export data</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="migrate_to_vtu.html">Translate Result Files to VTU Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vtu_export.html">Export DPF Objects to VTU</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Convert DPF data to PyVista objects</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../animate/index.html">Animate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/index.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_operators_and_plugins/index.html">Custom Operators and Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributed_files/index.html">Post-process distributed files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dpf_server/index.html">DPF server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../licensing/index.html">Licensing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mapping/index.html">Mapping</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../index.html" class="nav-link">Tutorials</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">Export data</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Convert DPF data to PyVista objects</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-tutorials-export-data-vtk-helper-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="convert-dpf-data-to-pyvista-objects">
+<span id="ref-tutorials-export-data-vtk-helper"></span><span id="sphx-glr-tutorials-export-data-vtk-helper-py"></span><h1>Convert DPF data to PyVista objects<a class="headerlink" href="#convert-dpf-data-to-pyvista-objects" title="Link to this heading">#</a></h1>
+<p>Convert DPF meshes and fields to PyVista <code class="docutils literal notranslate"><span class="pre">UnstructuredGrid</span></code> objects for
+in-memory manipulation and custom visualization.</p>
+<p>Unlike the VTU export operators, which write files to disk, the
+<a class="reference internal" href="../../api/ansys/dpf/core/vtk_helper/index.html#module-ansys.dpf.core.vtk_helper" title="ansys.dpf.core.vtk_helper"><code class="xref py py-mod docutils literal notranslate"><span class="pre">vtk_helper</span></code></a> module works entirely in memory:
+it converts <a href="#id1"><span class="problematic" id="id2">|MeshedRegion|</span></a>, <a href="#id3"><span class="problematic" id="id4">|Field|</span></a>, <a href="#id5"><span class="problematic" id="id6">|FieldsContainer|</span></a>, and <a href="#id7"><span class="problematic" id="id8">|PropertyField|</span></a> objects to
+<code class="docutils literal notranslate"><span class="pre">pyvista.UnstructuredGrid</span></code> objects that you can plot, filter, combine, or save
+to any format that PyVista supports.</p>
+<p>This tutorial demonstrates how to convert a mesh, validate it, enrich it with
+multiple fields incrementally, and batch-convert all time steps of a transient
+result at once.</p>
+<section id="import-required-modules">
+<h2>Import required modules<a class="headerlink" href="#import-required-modules" title="Link to this heading">#</a></h2>
+<p>Import the required modules and the helper functions from
+<a class="reference internal" href="../../api/ansys/dpf/core/vtk_helper/index.html#module-ansys.dpf.core.vtk_helper" title="ansys.dpf.core.vtk_helper"><code class="xref py py-mod docutils literal notranslate"><span class="pre">vtk_helper</span></code></a>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.vtk_helper</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">append_field_to_grid</span><span class="p">,</span>
+    <span class="n">dpf_field_to_vtk</span><span class="p">,</span>
+    <span class="n">dpf_fieldscontainer_to_vtk</span><span class="p">,</span>
+    <span class="n">dpf_mesh_to_vtk</span><span class="p">,</span>
+    <span class="n">vtk_mesh_is_valid</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="load-the-result-file">
+<h2>Load the result file<a class="headerlink" href="#load-the-result-file" title="Link to this heading">#</a></h2>
+<p>Load a static structural result file and extract the <a href="#id9"><span class="problematic" id="id10">|MeshedRegion|</span></a> and
+<a href="#id11"><span class="problematic" id="id12">|Model|</span></a> that are reused throughout the first part of this tutorial.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find and load the static structural result file</span>
+<span class="n">result_file</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">find_static_rst</span><span class="p">()</span>
+
+<span class="c1"># Create a DataSources object</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">result_path</span><span class="o">=</span><span class="n">result_file</span><span class="p">)</span>
+
+<span class="c1"># Create a Model for result access</span>
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds</span><span class="p">)</span>
+
+<span class="c1"># Get the MeshedRegion</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+</pre></div>
+</div>
+</section>
+<section id="convert-a-mesh-to-a-pyvista-grid">
+<h2>Convert a mesh to a PyVista grid<a class="headerlink" href="#convert-a-mesh-to-a-pyvista-grid" title="Link to this heading">#</a></h2>
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">dpf_mesh_to_vtk</span></code> to
+convert a <a href="#id13"><span class="problematic" id="id14">|MeshedRegion|</span></a> to a <code class="docutils literal notranslate"><span class="pre">pyvista.UnstructuredGrid</span></code>.
+The resulting object contains only the geometry (nodes and connectivity); no
+field data is attached yet.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the MeshedRegion to a PyVista UnstructuredGrid</span>
+<a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a> <span class="o">=</span> <span class="n">dpf_mesh_to_vtk</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>UnstructuredGrid (0x1b4a275db40)
+  N Cells:    8
+  N Points:   81
+  X Bounds:   0.000e+00, 3.000e-02
+  Y Bounds:   3.000e-02, 6.000e-02
+  Z Bounds:   0.000e+00, 3.000e-02
+  N Arrays:   0
+</pre></div>
+</div>
+</section>
+<section id="validate-the-mesh">
+<h2>Validate the mesh<a class="headerlink" href="#validate-the-mesh" title="Link to this heading">#</a></h2>
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">vtk_mesh_is_valid</span></code>
+to check whether the converted grid passes VTK’s built-in cell validator.
+For a valid mesh it prints a confirmation; for an invalid one it lists the
+elements that fail each geometric check.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run the cell validity check and print the result</span>
+<span class="n">validity</span> <span class="o">=</span> <span class="n">vtk_mesh_is_valid</span><span class="p">(</span><a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a><span class="o">=</span><a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Mesh is valid.
+</pre></div>
+</div>
+</section>
+<section id="convert-a-field-to-a-pyvista-grid">
+<h2>Convert a field to a PyVista grid<a class="headerlink" href="#convert-a-field-to-a-pyvista-grid" title="Link to this heading">#</a></h2>
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">dpf_field_to_vtk</span></code> to
+convert a displacement <a href="#id15"><span class="problematic" id="id16">|Field|</span></a> and its associated mesh in a single call.
+Nodal data is automatically stored in <code class="docutils literal notranslate"><span class="pre">grid.point_data</span></code>; elemental data
+goes into <code class="docutils literal notranslate"><span class="pre">grid.cell_data</span></code>.
+Elemental-nodal data is not supported by VTK objects.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the displacement FieldsContainer and get the first time step</span>
+<span class="n">disp_fc</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">disp_field</span> <span class="o">=</span> <span class="n">disp_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Convert the Field and its mesh to a single UnstructuredGrid</span>
+<a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">disp_grid</span></a> <span class="o">=</span> <span class="n">dpf_field_to_vtk</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">disp_field</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">&quot;displacement&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.DataSet.point_data.html#pyvista.DataSet.point_data" title="pyvista.DataSet.point_data" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-property"><span class="n">disp_grid</span><span class="o">.</span><span class="n">point_data</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>pyvista DataSetAttributes
+Association     : POINT
+Active Scalars  : displacement
+Active Vectors  : None
+Active Texture  : None
+Active Normals  : None
+Contains arrays :
+    displacement            float64    (81, 3)              SCALARS
+</pre></div>
+</div>
+</section>
+<section id="visualize-the-displacement-magnitude">
+<h2>Visualize the displacement magnitude<a class="headerlink" href="#visualize-the-displacement-magnitude" title="Link to this heading">#</a></h2>
+<p>Use the DPF <a class="reference internal" href="../../api/ansys/dpf/core/operators/math/norm/index.html#module-ansys.dpf.core.operators.math.norm" title="ansys.dpf.core.operators.math.norm"><code class="xref py py-class docutils literal notranslate"><span class="pre">norm</span></code></a> operator to
+compute the Euclidean norm of the displacement vector at each node, then
+append the resulting scalar <a href="#id17"><span class="problematic" id="id18">|Field|</span></a> to the grid and plot it.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the displacement magnitude using the DPF norm operator</span>
+<span class="n">norm_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">disp_field</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="c1"># Append the scalar magnitude field to the displacement grid</span>
+<a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">disp_grid</span></a> <span class="o">=</span> <span class="n">append_field_to_grid</span><span class="p">(</span>
+    <span class="n">field</span><span class="o">=</span><span class="n">norm_field</span><span class="p">,</span> <span class="n">meshed_region</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a><span class="o">=</span><a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">disp_grid</span></a><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">&quot;displacement_magnitude&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Plot the magnitude on the mesh</span>
+<a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.DataSet.plot.html#pyvista.DataSet.plot" title="pyvista.DataSet.plot" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-method"><span class="n">disp_grid</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;displacement_magnitude&quot;</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Static Scene</label><div class="sd-tab-content docutils">
+<img src="../../_images/sphx_glr_vtk_helper_001.png" srcset="../../_images/sphx_glr_vtk_helper_001.png" alt="vtk helper" class = "sphx-glr-single-img"/></div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Interactive Scene</label><div class="sd-tab-content docutils">
+<iframe src='../../_static/static_viewer.html?fileURL=../_images/tutorials/export_data/images/sphx_glr_vtk_helper_001.vtksz' width='100%%' height='400px' frameborder='0'></iframe></div>
+</div>
+</section>
+<section id="build-a-grid-incrementally-with-multiple-fields">
+<h2>Build a grid incrementally with multiple fields<a class="headerlink" href="#build-a-grid-incrementally-with-multiple-fields" title="Link to this heading">#</a></h2>
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">append_field_to_grid</span></code>
+to enrich an existing grid with additional field data.
+This approach is useful when you want to attach several results to the same
+<code class="docutils literal notranslate"><span class="pre">UnstructuredGrid</span></code> — for example nodal and elemental quantities together.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a bare grid from the MeshedRegion</span>
+<a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rich_grid</span></a> <span class="o">=</span> <span class="n">dpf_mesh_to_vtk</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">)</span>
+
+<span class="c1"># Append the displacement field (nodal location — stored in point_data)</span>
+<a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rich_grid</span></a> <span class="o">=</span> <span class="n">append_field_to_grid</span><span class="p">(</span>
+    <span class="n">field</span><span class="o">=</span><span class="n">disp_field</span><span class="p">,</span> <span class="n">meshed_region</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a><span class="o">=</span><a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rich_grid</span></a><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">&quot;displacement&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Append the element-type property field (elemental location — stored in cell_data)</span>
+<span class="n">eltype_pf</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">property_field</span><span class="p">(</span><span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;eltype&quot;</span><span class="p">)</span>
+<a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rich_grid</span></a> <span class="o">=</span> <span class="n">append_field_to_grid</span><span class="p">(</span>
+    <span class="n">field</span><span class="o">=</span><span class="n">eltype_pf</span><span class="p">,</span> <span class="n">meshed_region</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a><span class="o">=</span><a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rich_grid</span></a><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">&quot;element_type&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Inspect the resulting data arrays on the grid</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nodal arrays:    &quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.DataSet.point_data.html#pyvista.DataSet.point_data" title="pyvista.DataSet.point_data" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-property"><span class="n">rich_grid</span><span class="o">.</span><span class="n">point_data</span><span class="o">.</span><span class="n">keys</span></a><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Elemental arrays:&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.DataSet.cell_data.html#pyvista.DataSet.cell_data" title="pyvista.DataSet.cell_data" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-property"><span class="n">rich_grid</span><span class="o">.</span><span class="n">cell_data</span><span class="o">.</span><span class="n">keys</span></a><span class="p">()))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Nodal arrays:     [&#39;displacement&#39;]
+Elemental arrays: [&#39;element_type&#39;]
+</pre></div>
+</div>
+</section>
+<section id="convert-all-time-steps-of-a-fieldscontainer">
+<h2>Convert all time steps of a FieldsContainer<a class="headerlink" href="#convert-all-time-steps-of-a-fieldscontainer" title="Link to this heading">#</a></h2>
+<p>Use
+<code class="xref py py-func docutils literal notranslate"><span class="pre">dpf_fieldscontainer_to_vtk</span></code>
+to convert every <a href="#id19"><span class="problematic" id="id20">|Field|</span></a> in a <a href="#id21"><span class="problematic" id="id22">|FieldsContainer|</span></a> to a single
+<code class="docutils literal notranslate"><span class="pre">UnstructuredGrid</span></code>.
+Each time step becomes a separate data array keyed by its label space, so
+all time steps are accessible from the same object.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load a transient result file with multiple time steps</span>
+<span class="n">transient_result</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="n">trans_ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">result_path</span><span class="o">=</span><span class="n">transient_result</span><span class="p">)</span>
+<span class="n">trans_model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">trans_ds</span><span class="p">)</span>
+
+<span class="c1"># Extract displacement for all time steps</span>
+<span class="n">all_disp_fc</span> <span class="o">=</span> <span class="n">trans_model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="c1"># Convert the entire FieldsContainer to a single UnstructuredGrid</span>
+<a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.UnstructuredGrid.html#pyvista.UnstructuredGrid" title="pyvista.UnstructuredGrid" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fc_grid</span></a> <span class="o">=</span> <span class="n">dpf_fieldscontainer_to_vtk</span><span class="p">(</span><span class="n">fields_container</span><span class="o">=</span><span class="n">all_disp_fc</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">&quot;displacement&quot;</span><span class="p">)</span>
+
+<span class="c1"># Each time step is stored as a separate point-data array</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of time-step arrays: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.DataSet.point_data.html#pyvista.DataSet.point_data" title="pyvista.DataSet.point_data" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-property"><span class="n">fc_grid</span><span class="o">.</span><span class="n">point_data</span></a><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Array names (first 3):&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><a href="https://docs.pyvista.org/api/core/_autosummary/pyvista.DataSet.point_data.html#pyvista.DataSet.point_data" title="pyvista.DataSet.point_data" class="sphx-glr-backref-module-pyvista sphx-glr-backref-type-py-property"><span class="n">fc_grid</span><span class="o">.</span><span class="n">point_data</span><span class="o">.</span><span class="n">keys</span></a><span class="p">())[:</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Number of time-step arrays: 35
+Array names (first 3): [&quot;displacement {&#39;time&#39;: 1}&quot;, &quot;displacement {&#39;time&#39;: 2}&quot;, &quot;displacement {&#39;time&#39;: 3}&quot;]
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.230 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-export-data-vtk-helper-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/388a58474a4c95832e10b741c43cd22a/vtk_helper.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">vtk_helper.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/c6a35a7d62d5450c517f39d6a73f188d/vtk_helper.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">vtk_helper.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/603f734d3784f69cb130b1fec96f578d/vtk_helper.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">vtk_helper.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-required-modules">Import required modules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-result-file">Load the result file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-a-mesh-to-a-pyvista-grid">Convert a mesh to a PyVista grid</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-the-mesh">Validate the mesh</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-a-field-to-a-pyvista-grid">Convert a field to a PyVista grid</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-the-displacement-magnitude">Visualize the displacement magnitude</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-a-grid-incrementally-with-multiple-fields">Build a grid incrementally with multiple fields</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-all-time-steps-of-a-fieldscontainer">Convert all time steps of a FieldsContainer</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/tutorials/export_data/vtk_helper.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2026 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<!--
+  Theme Version Footer
+  Displays the Sphinx theme version and the last updated date.
+  Accessibility and semantic improvements included.
+-->
+<footer class="theme-version" aria-label="Theme version and last update">
+  <span>
+    
+      Built with the
+      <a href="https://sphinxdocs.ansys.com/version/stable/index.html" target="_blank" rel="noopener noreferrer">
+        Ansys Sphinx Theme
+      </a>
+      1.7.2.
+    
+  </span>
+  <br />
+  <span>Last updated on <time id="ast_build_date"></time></span>
+</footer>
+<script>
+  // Set the last updated date in a readable format
+  (function() {
+    var options = { day: "numeric", month: "long", year: "numeric" };
+    var ast_lastModifiedDate = new Date(document.lastModified);
+    var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+    var dateElem = document.getElementById("ast_build_date");
+    if (dateElem) {
+      dateElem.textContent = ast_build_date;
+    }
+  })();
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

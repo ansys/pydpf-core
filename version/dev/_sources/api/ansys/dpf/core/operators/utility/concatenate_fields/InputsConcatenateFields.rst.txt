@@ -1,0 +1,224 @@
+
+
+
+
+
+
+:class:`InputsConcatenateFields`
+================================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.concatenate_fields.InputsConcatenateFields(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   concatenate_fields operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.concatenate_fields()
+   >>> my_rescoping_value = float()
+   >>> op.inputs.rescoping_value.connect(my_rescoping_value)
+   >>> my_reference_scoping_index = int()
+   >>> op.inputs.reference_scoping_index.connect(my_reference_scoping_index)
+   >>> my_field_support = dpf.AbstractFieldSupport()
+   >>> op.inputs.field_support.connect(my_field_support)
+   >>> my_fields1 = dpf.()
+   >>> op.inputs.fields1.connect(my_fields1)
+   >>> my_fields2 = dpf.()
+   >>> op.inputs.fields2.connect(my_fields2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsConcatenateFields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~rescoping_value`
+            - Allows to connect rescoping_value input to the operator.
+          * - :py:attr:`~reference_scoping_index`
+            - Allows to connect reference_scoping_index input to the operator.
+          * - :py:attr:`~field_support`
+            - Allows to connect field_support input to the operator.
+          * - :py:attr:`~fields1`
+            - Allows to connect fields1 input to the operator.
+          * - :py:attr:`~fields2`
+            - Allows to connect fields2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.concatenate_fields import InputsConcatenateFields
+
+Property detail
+---------------
+
+.. py:property:: rescoping_value
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect rescoping_value input to the operator.
+
+   Value used to fill the missing values when scopings are different. Default is 0.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.concatenate_fields()
+   >>> op.inputs.rescoping_value.connect(my_rescoping_value)
+   >>> # or
+   >>> op.inputs.rescoping_value(my_rescoping_value)
+
+.. py:property:: reference_scoping_index
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect reference_scoping_index input to the operator.
+
+   Pin of the field of which to take the scoping for the output field.
+   If -1 all scopings will be merged, if -2 all scopings will be intersected. Default is -1
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.concatenate_fields()
+   >>> op.inputs.reference_scoping_index.connect(my_reference_scoping_index)
+   >>> # or
+   >>> op.inputs.reference_scoping_index(my_reference_scoping_index)
+
+.. py:property:: field_support
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect field_support input to the operator.
+
+   Support of the output field.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.concatenate_fields()
+   >>> op.inputs.field_support.connect(my_field_support)
+   >>> # or
+   >>> op.inputs.field_support(my_field_support)
+
+.. py:property:: fields1
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fields1 input to the operator.
+
+   A vector of fields to merge from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.concatenate_fields()
+   >>> op.inputs.fields1.connect(my_fields1)
+   >>> # or
+   >>> op.inputs.fields1(my_fields1)
+
+.. py:property:: fields2
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fields2 input to the operator.
+
+   A vector of fields to merge from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.concatenate_fields()
+   >>> op.inputs.fields2.connect(my_fields2)
+   >>> # or
+   >>> op.inputs.fields2(my_fields2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

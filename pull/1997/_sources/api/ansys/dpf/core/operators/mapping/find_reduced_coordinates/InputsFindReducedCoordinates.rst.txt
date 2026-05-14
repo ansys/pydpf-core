@@ -1,0 +1,194 @@
+
+
+
+
+
+
+:class:`InputsFindReducedCoordinates`
+=====================================
+
+
+.. py:class:: ansys.dpf.core.operators.mapping.find_reduced_coordinates.InputsFindReducedCoordinates(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   find_reduced_coordinates operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.find_reduced_coordinates()
+   >>> my_coordinates = dpf.Field()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_use_quadratic_elements = bool()
+   >>> op.inputs.use_quadratic_elements.connect(my_use_quadratic_elements)
+
+
+
+
+
+
+.. py:currentmodule:: InputsFindReducedCoordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~coordinates`
+            - Allows to connect coordinates input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~use_quadratic_elements`
+            - Allows to connect use_quadratic_elements input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.find_reduced_coordinates import InputsFindReducedCoordinates
+
+Property detail
+---------------
+
+.. py:property:: coordinates
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.fields_container.FieldsContainer | ansys.dpf.core.meshed_region.MeshedRegion | ansys.dpf.core.meshes_container.MeshesContainer]
+
+
+   Allows to connect coordinates input to the operator.
+
+   Physical (global) coordinates at which reduced coordinates and element associations should be computed. Each coordinate is a 3D vector ($x$, $y$, $z$).
+
+   **Supported input types**:
+   - **Field**: Single field containing coordinate vectors. Field location is ignored; the field is treated as a set of query points. The field's support mesh defines the search domain if the `mesh` pin is not provided.
+   - **FieldsContainer**: Multiple coordinate fields, typically organized by time step or spatial region. Each field is processed independently.
+   - **MeshedRegion**: Node coordinates of the mesh are used as query points. Useful for evaluating fields at mesh nodes.
+   - **MeshesContainer**: Multiple meshes whose node coordinates are used as query points.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.find_reduced_coordinates()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> # or
+   >>> op.inputs.coordinates(my_coordinates)
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.meshed_region.MeshedRegion | ansys.dpf.core.meshes_container.MeshesContainer]
+
+
+   Allows to connect mesh input to the operator.
+
+   Mesh(es) defining the finite element domain where elements are searched. The operator searches for elements containing the query coordinates within this mesh.
+
+   If not provided, the mesh is automatically extracted from:
+   - Field support (if input is a Field)
+   - Field supports of the Fields in the FieldsContainer (if input is a FieldsContainer)
+   - The mesh itself (if input is a MeshedRegion or MeshesContainer)
+
+   **Label matching**: When both `coordinates` and `mesh` have labels (e.g., time steps), the operator matches fields to meshes with corresponding labels. If a mesh label doesn't exist in `coordinates`, it's added to the output structure.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.find_reduced_coordinates()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: use_quadratic_elements
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect use_quadratic_elements input to the operator.
+
+   Controls whether quadratic (second-order) nodes are included in the element search and coordinate transformation.
+
+   **Default**: `false` (uses only corner nodes)
+   **When `true`**: Includes midside nodes in the element geometry, improving accuracy for curved elements and quadratic shape functions at the price of lower performance.
+
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.find_reduced_coordinates()
+   >>> op.inputs.use_quadratic_elements.connect(my_use_quadratic_elements)
+   >>> # or
+   >>> op.inputs.use_quadratic_elements(my_use_quadratic_elements)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

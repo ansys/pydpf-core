@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`OutputsExtendMidsideNodalScoping`
+=========================================
+
+
+.. py:class:: ansys.dpf.core.operators.scoping.extend_midside_nodal_scoping.OutputsExtendMidsideNodalScoping(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   extend_midside_nodal_scoping operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.extend_midside_nodal_scoping()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_nodal_mesh_scoping = op.outputs.nodal_mesh_scoping()
+
+
+
+
+
+.. py:currentmodule:: OutputsExtendMidsideNodalScoping
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~nodal_mesh_scoping`
+            - Allows to get nodal_mesh_scoping output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.extend_midside_nodal_scoping import OutputsExtendMidsideNodalScoping
+
+Property detail
+---------------
+
+.. py:property:: nodal_mesh_scoping
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to get nodal_mesh_scoping output of the operator
+
+   Extended nodal scoping containing all original nodes plus corner nodes neighboring any midside nodes.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.extend_midside_nodal_scoping()
+   >>> # Get the output from op.outputs. ...
+   >>> result_nodal_mesh_scoping = op.outputs.nodal_mesh_scoping()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

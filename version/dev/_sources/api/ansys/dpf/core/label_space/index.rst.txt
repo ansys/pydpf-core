@@ -1,0 +1,90 @@
+
+
+
+
+
+
+The ``label_space.py`` module
+=============================
+
+.. py:module:: ansys.dpf.core.label_space
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: label_space
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.label_space.LabelSpace`
+            - A class representing a label space, which allows storage and management of key-value pairs (labels).
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> LabelSpace</api/ansys/dpf/core/label_space/LabelSpace>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+LabelSpace.
+
+LabelSpace is a key component for managing entries in DPF collections such as FieldsContainer and ScopingsContainer.
+
+It provides a mapping between label names and values,
+allowing users to organize, filter, and retrieve data based on metadata
+such as time steps, zones, element types, and more.
+
+Typical usage:
+- FieldsContainer: Each field is indexed by a LabelSpace, enabling access by time, zone, etc.
+- ScopingsContainer: Each scoping is indexed by a LabelSpace, allowing management of multiple selections.
+
+LabelSpace enables advanced data organization and querying in DPF workflows.
+
+
+
+
+
+
+
+
