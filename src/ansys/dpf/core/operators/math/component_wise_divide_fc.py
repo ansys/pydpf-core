@@ -20,11 +20,12 @@ if TYPE_CHECKING:
 
 
 class component_wise_divide_fc(Operator):
-    r"""For every two fields with the same label space (from the two input
-    fields containers), computes component-wise fraction between two fields
-    of same dimensionality. If one field’s scoping has an ‘overall’
-    location, then this field’s values are applied on the other field
-    entirely.
+    r"""For every pair of fields with matching label space in the two input
+    fields containers, computes the component-wise fraction
+    :math:`\mathrm{out}[k] = A[k] / B[k]` (also known as the `Hadamard
+    division <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations>`__).
+    Both containers must have identical label spaces and the same number of
+    fields.
 
 
     Inputs
@@ -35,6 +36,7 @@ class component_wise_divide_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
+        Fields container with the component-wise quotient fields; unit is $u_A / u_B$.
 
     Examples
     --------
@@ -76,11 +78,12 @@ class component_wise_divide_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""For every two fields with the same label space (from the two input
-fields containers), computes component-wise fraction between two fields
-of same dimensionality. If one field’s scoping has an ‘overall’
-location, then this field’s values are applied on the other field
-entirely.
+        description = r"""For every pair of fields with matching label space in the two input
+fields containers, computes the component-wise fraction
+:math:`\mathrm{out}[k] = A[k] / B[k]` (also known as the `Hadamard
+division <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations>`__).
+Both containers must have identical label spaces and the same number of
+fields.
 """
         spec = Specification(
             description=description,
@@ -103,7 +106,7 @@ entirely.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container with the component-wise quotient fields; unit is $u_A / u_B$.""",
                 ),
             },
         )
@@ -239,6 +242,8 @@ class OutputsComponentWiseDivideFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Fields container with the component-wise quotient fields; unit is $u_A / u_B$.
 
         Returns
         -------

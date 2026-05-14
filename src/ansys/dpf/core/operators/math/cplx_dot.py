@@ -20,7 +20,13 @@ if TYPE_CHECKING:
 
 
 class cplx_dot(Operator):
-    r"""Computes product between two field containers containing complex fields.
+    r"""Computes the real-valued inner product
+    :math:`\mathrm{out}[i] = \mathrm{Re}_1[i] \cdot \mathrm{Re}_2[i] + \mathrm{Im}_1[i] \cdot \mathrm{Im}_2[i]`
+    between matching fields in two complex-valued fields containers. This
+    equals the real part of the `Hermitian inner
+    product <https://en.wikipedia.org/wiki/Dot_product#Complex_vectors>`__
+    :math:`\mathrm{Re}(z_1 \cdot \overline{z_2})`. Only the real-part result
+    fields (complex label 0) are produced.
 
 
     Inputs
@@ -72,7 +78,13 @@ class cplx_dot(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes product between two field containers containing complex fields.
+        description = r"""Computes the real-valued inner product
+:math:`\mathrm{out}[i] = \mathrm{Re}_1[i] \cdot \mathrm{Re}_2[i] + \mathrm{Im}_1[i] \cdot \mathrm{Im}_2[i]`
+between matching fields in two complex-valued fields containers. This
+equals the real part of the `Hermitian inner
+product <https://en.wikipedia.org/wiki/Dot_product#Complex_vectors>`__
+:math:`\mathrm{Re}(z_1 \cdot \overline{z_2})`. Only the real-part result
+fields (complex label 0) are produced.
 """
         spec = Specification(
             description=description,
