@@ -18,14 +18,51 @@ from ansys.dpf.core.server_types import AnyServerType
 if TYPE_CHECKING:
     from ansys.dpf.core.field import Field
     from ansys.dpf.core.meshed_region import MeshedRegion
+    from ansys.dpf.core.scoping import Scoping
 
 
 class mesh_to_pyvista(Operator):
-    r"""Export a MeshedRegion in the pyVista format.
+    r"""::
+
+                                           Export a MeshedRegion to the pyVista format.
+                       The mesh type is auto-detected and controls which pins are respected:
+
+                       | Mesh has Elements | Mesh has Faces | Detected type | Pins `as_poly`, `as_modified_connectivity`, `as_linear` respected? |
+                       |-------------------|----------------|---------------|--------------------------------------------------------------------|
+                       | yes               | yes            | FVM Mesh      | No — polyhedron data built from face connectivity                  |
+                       | no                | yes            | Face Mesh     | No — regular data built from face connectivity                     |
+                       | yes               | no             | FEM Mesh      | Yes                                                                |
+
+                       For **FEM Mesh** only, the build behaviour depends on the input pins:
+
+                       | `as_poly`         | `as_modified_connectivity` | `vtk_updated` | `as_linear` | Notes                                                                        |
+                       |-------------------|----------------------------|---------------|-------------|------------------------------------------------------------------------------|
+                       | true              | any                        | false         | any         | `as_modified_connectivity` and `as_linear` ignored; offsets written to pin 3 |
+                       | true              | any                        | true          | any         | `as_modified_connectivity` and `as_linear` ignored; no pin 3                 |
+                       | false             | true                       | any           | true        | `vtk_updated` has no effect; only linear elements                            |
+                       | false             | true                       | any           | false       | `vtk_updated` has no effect; quadratic elements kept                         |
+                       | false             | false                      | true          | true        | linear elements only                                                         |
+                       | false             | false                      | true          | false       | quadratic elements kept                                                      |
+                       | false             | false                      | false         | true        | linear elements only; offsets written to pin 3                               |
+                       | false             | false                      | false         | false       | quadratic elements kept; offsets written to pin 3                            |
+
+                       Output pins:
+
+                       | Pin | Content                                                             | Condition                                                    |
+                       |-----|---------------------------------------------------------------------|--------------------------------------------------------------|
+                       | 0   | Node coordinates                                                    | always                                                       |
+                       | 1   | Modified connectivity (no node-count prefix, negative IDs filtered) | `as_modified_connectivity = true`                            |
+                       | 1   | Classic connectivity (legacy VTK flat format with node-count prefix)| `as_modified_connectivity = false`                           |
+                       | 2   | Cell types array                                                    | always                                                       |
+                       | 3   | Legacy offsets array                                                | `vtk_updated = false` and `as_modified_connectivity = false` |
+                       | 4   | Offsets into modified connectivity (CSR-style, size = nCells+1)     | `as_modified_connectivity = true`                            |
+
 
 
     Inputs
     ------
+    mesh_scoping: Scoping, optional
+        if mesh scoping is connected then the output vtk mesh is build on the subset of the input mesh scoped on it. If not set, the whole input mesh is converted to the final vtk mesh.
     coordinates: Field, optional
         Node coordinates. If not set, the node coordinates of the mesh are employed.
     as_linear: bool, optional
@@ -33,9 +70,11 @@ class mesh_to_pyvista(Operator):
     mesh: MeshedRegion
         mesh to export in pyVista format
     vtk_updated: bool, optional
-        True if the VTK version employed by pyVista is > VTK 9. Default true.
+        True if the VTK version employed by pyVista is > VTK 9. Default true.If false, an offset array to the cell connectivity is returned on pin 3.If false, as_modified_connctivity option will be ignored.
     as_poly: bool, optional
         Export elements as polyhedrons (cell-face-node representation). Default false.
+    as_modified_connectivity: bool, optional
+        Returns VTK version>9 compatible connectivity representation consisting of an array of concatenated node indices for cells without node count headers and an offset array to it. Default false. Works only for FEM meshes with VTK version>9 and as poly=false.If as_linear is True, the modified connectivity will be built for the linear elements of the mesh.
 
     Outputs
     -------
@@ -47,6 +86,8 @@ class mesh_to_pyvista(Operator):
         Cell types property int vector
     offsets: optional
         If vtk_updated=false, offsets int vector
+    offsets_concatenated_node_indices: optional
+        Offsets to concatenated cell connectivity without node count headers, type int vector
 
     Examples
     --------
@@ -56,6 +97,8 @@ class mesh_to_pyvista(Operator):
     >>> op = dpf.operators.mesh.mesh_to_pyvista()
 
     >>> # Make input connections
+    >>> my_mesh_scoping = dpf.Scoping()
+    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_coordinates = dpf.Field()
     >>> op.inputs.coordinates.connect(my_coordinates)
     >>> my_as_linear = bool()
@@ -66,14 +109,18 @@ class mesh_to_pyvista(Operator):
     >>> op.inputs.vtk_updated.connect(my_vtk_updated)
     >>> my_as_poly = bool()
     >>> op.inputs.as_poly.connect(my_as_poly)
+    >>> my_as_modified_connectivity = bool()
+    >>> op.inputs.as_modified_connectivity.connect(my_as_modified_connectivity)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.mesh_to_pyvista(
+    ...     mesh_scoping=my_mesh_scoping,
     ...     coordinates=my_coordinates,
     ...     as_linear=my_as_linear,
     ...     mesh=my_mesh,
     ...     vtk_updated=my_vtk_updated,
     ...     as_poly=my_as_poly,
+    ...     as_modified_connectivity=my_as_modified_connectivity,
     ... )
 
     >>> # Get output data
@@ -81,15 +128,18 @@ class mesh_to_pyvista(Operator):
     >>> result_cells = op.outputs.cells()
     >>> result_cell_types = op.outputs.cell_types()
     >>> result_offsets = op.outputs.offsets()
+    >>> result_offsets_concatenated_node_indices = op.outputs.offsets_concatenated_node_indices()
     """
 
     def __init__(
         self,
+        mesh_scoping=None,
         coordinates=None,
         as_linear=None,
         mesh=None,
         vtk_updated=None,
         as_poly=None,
+        as_modified_connectivity=None,
         config=None,
         server=None,
     ):
@@ -100,6 +150,8 @@ class mesh_to_pyvista(Operator):
             inputs_type=InputsMeshToPyvista,
             outputs_type=OutputsMeshToPyvista,
         )
+        if mesh_scoping is not None:
+            self.inputs.mesh_scoping.connect(mesh_scoping)
         if coordinates is not None:
             self.inputs.coordinates.connect(coordinates)
         if as_linear is not None:
@@ -110,14 +162,56 @@ class mesh_to_pyvista(Operator):
             self.inputs.vtk_updated.connect(vtk_updated)
         if as_poly is not None:
             self.inputs.as_poly.connect(as_poly)
+        if as_modified_connectivity is not None:
+            self.inputs.as_modified_connectivity.connect(as_modified_connectivity)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Export a MeshedRegion in the pyVista format.
+        description = r"""::
+
+                                       Export a MeshedRegion to the pyVista format.
+                   The mesh type is auto-detected and controls which pins are respected:
+
+                   | Mesh has Elements | Mesh has Faces | Detected type | Pins `as_poly`, `as_modified_connectivity`, `as_linear` respected? |
+                   |-------------------|----------------|---------------|--------------------------------------------------------------------|
+                   | yes               | yes            | FVM Mesh      | No — polyhedron data built from face connectivity                  |
+                   | no                | yes            | Face Mesh     | No — regular data built from face connectivity                     |
+                   | yes               | no             | FEM Mesh      | Yes                                                                |
+
+                   For **FEM Mesh** only, the build behaviour depends on the input pins:
+
+                   | `as_poly`         | `as_modified_connectivity` | `vtk_updated` | `as_linear` | Notes                                                                        |
+                   |-------------------|----------------------------|---------------|-------------|------------------------------------------------------------------------------|
+                   | true              | any                        | false         | any         | `as_modified_connectivity` and `as_linear` ignored; offsets written to pin 3 |
+                   | true              | any                        | true          | any         | `as_modified_connectivity` and `as_linear` ignored; no pin 3                 |
+                   | false             | true                       | any           | true        | `vtk_updated` has no effect; only linear elements                            |
+                   | false             | true                       | any           | false       | `vtk_updated` has no effect; quadratic elements kept                         |
+                   | false             | false                      | true          | true        | linear elements only                                                         |
+                   | false             | false                      | true          | false       | quadratic elements kept                                                      |
+                   | false             | false                      | false         | true        | linear elements only; offsets written to pin 3                               |
+                   | false             | false                      | false         | false       | quadratic elements kept; offsets written to pin 3                            |
+
+                   Output pins:
+
+                   | Pin | Content                                                             | Condition                                                    |
+                   |-----|---------------------------------------------------------------------|--------------------------------------------------------------|
+                   | 0   | Node coordinates                                                    | always                                                       |
+                   | 1   | Modified connectivity (no node-count prefix, negative IDs filtered) | `as_modified_connectivity = true`                            |
+                   | 1   | Classic connectivity (legacy VTK flat format with node-count prefix)| `as_modified_connectivity = false`                           |
+                   | 2   | Cell types array                                                    | always                                                       |
+                   | 3   | Legacy offsets array                                                | `vtk_updated = false` and `as_modified_connectivity = false` |
+                   | 4   | Offsets into modified connectivity (CSR-style, size = nCells+1)     | `as_modified_connectivity = true`                            |
+                   
 """
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                1: PinSpecification(
+                    name="mesh_scoping",
+                    type_names=["scoping"],
+                    optional=True,
+                    document=r"""if mesh scoping is connected then the output vtk mesh is build on the subset of the input mesh scoped on it. If not set, the whole input mesh is converted to the final vtk mesh.""",
+                ),
                 2: PinSpecification(
                     name="coordinates",
                     type_names=["field"],
@@ -140,13 +234,19 @@ class mesh_to_pyvista(Operator):
                     name="vtk_updated",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""True if the VTK version employed by pyVista is > VTK 9. Default true.""",
+                    document=r"""True if the VTK version employed by pyVista is > VTK 9. Default true.If false, an offset array to the cell connectivity is returned on pin 3.If false, as_modified_connctivity option will be ignored. """,
                 ),
                 200: PinSpecification(
                     name="as_poly",
                     type_names=["bool"],
                     optional=True,
                     document=r"""Export elements as polyhedrons (cell-face-node representation). Default false.""",
+                ),
+                201: PinSpecification(
+                    name="as_modified_connectivity",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""Returns VTK version>9 compatible connectivity representation consisting of an array of concatenated node indices for cells without node count headers and an offset array to it. Default false. Works only for FEM meshes with VTK version>9 and as poly=false.If as_linear is True, the modified connectivity will be built for the linear elements of the mesh. """,
                 ),
             },
             map_output_pin_spec={
@@ -173,6 +273,12 @@ class mesh_to_pyvista(Operator):
                     type_names=["vector<int32>"],
                     optional=True,
                     document=r"""If vtk_updated=false, offsets int vector""",
+                ),
+                4: PinSpecification(
+                    name="offsets_concatenated_node_indices",
+                    type_names=["vector<int32>"],
+                    optional=True,
+                    document=r"""Offsets to concatenated cell connectivity without node count headers, type int vector""",
                 ),
             },
         )
@@ -230,6 +336,8 @@ class InputsMeshToPyvista(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.mesh.mesh_to_pyvista()
+    >>> my_mesh_scoping = dpf.Scoping()
+    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_coordinates = dpf.Field()
     >>> op.inputs.coordinates.connect(my_coordinates)
     >>> my_as_linear = bool()
@@ -240,10 +348,16 @@ class InputsMeshToPyvista(_Inputs):
     >>> op.inputs.vtk_updated.connect(my_vtk_updated)
     >>> my_as_poly = bool()
     >>> op.inputs.as_poly.connect(my_as_poly)
+    >>> my_as_modified_connectivity = bool()
+    >>> op.inputs.as_modified_connectivity.connect(my_as_modified_connectivity)
     """
 
     def __init__(self, op: Operator):
         super().__init__(mesh_to_pyvista._spec().inputs, op)
+        self._mesh_scoping: Input[Scoping] = Input(
+            mesh_to_pyvista._spec().input_pin(1), 1, op, -1
+        )
+        self._inputs.append(self._mesh_scoping)
         self._coordinates: Input[Field] = Input(
             mesh_to_pyvista._spec().input_pin(2), 2, op, -1
         )
@@ -264,6 +378,31 @@ class InputsMeshToPyvista(_Inputs):
             mesh_to_pyvista._spec().input_pin(200), 200, op, -1
         )
         self._inputs.append(self._as_poly)
+        self._as_modified_connectivity: Input[bool] = Input(
+            mesh_to_pyvista._spec().input_pin(201), 201, op, -1
+        )
+        self._inputs.append(self._as_modified_connectivity)
+
+    @property
+    def mesh_scoping(self) -> Input[Scoping]:
+        r"""Allows to connect mesh_scoping input to the operator.
+
+        if mesh scoping is connected then the output vtk mesh is build on the subset of the input mesh scoped on it. If not set, the whole input mesh is converted to the final vtk mesh.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.mesh_to_pyvista()
+        >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+        >>> # or
+        >>> op.inputs.mesh_scoping(my_mesh_scoping)
+        """
+        return self._mesh_scoping
 
     @property
     def coordinates(self) -> Input[Field]:
@@ -332,7 +471,7 @@ class InputsMeshToPyvista(_Inputs):
     def vtk_updated(self) -> Input[bool]:
         r"""Allows to connect vtk_updated input to the operator.
 
-        True if the VTK version employed by pyVista is > VTK 9. Default true.
+        True if the VTK version employed by pyVista is > VTK 9. Default true.If false, an offset array to the cell connectivity is returned on pin 3.If false, as_modified_connctivity option will be ignored.
 
         Returns
         -------
@@ -370,6 +509,27 @@ class InputsMeshToPyvista(_Inputs):
         """
         return self._as_poly
 
+    @property
+    def as_modified_connectivity(self) -> Input[bool]:
+        r"""Allows to connect as_modified_connectivity input to the operator.
+
+        Returns VTK version>9 compatible connectivity representation consisting of an array of concatenated node indices for cells without node count headers and an offset array to it. Default false. Works only for FEM meshes with VTK version>9 and as poly=false.If as_linear is True, the modified connectivity will be built for the linear elements of the mesh.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.mesh_to_pyvista()
+        >>> op.inputs.as_modified_connectivity.connect(my_as_modified_connectivity)
+        >>> # or
+        >>> op.inputs.as_modified_connectivity(my_as_modified_connectivity)
+        """
+        return self._as_modified_connectivity
+
 
 class OutputsMeshToPyvista(_Outputs):
     """Intermediate class used to get outputs from
@@ -384,6 +544,7 @@ class OutputsMeshToPyvista(_Outputs):
     >>> result_cells = op.outputs.cells()
     >>> result_cell_types = op.outputs.cell_types()
     >>> result_offsets = op.outputs.offsets()
+    >>> result_offsets_concatenated_node_indices = op.outputs.offsets_concatenated_node_indices()
     """
 
     def __init__(self, op: Operator):
@@ -398,6 +559,10 @@ class OutputsMeshToPyvista(_Outputs):
         self._outputs.append(self._cell_types)
         self._offsets: Output = Output(mesh_to_pyvista._spec().output_pin(3), 3, op)
         self._outputs.append(self._offsets)
+        self._offsets_concatenated_node_indices: Output = Output(
+            mesh_to_pyvista._spec().output_pin(4), 4, op
+        )
+        self._outputs.append(self._offsets_concatenated_node_indices)
 
     @property
     def nodes(self) -> Output[Field]:
@@ -478,3 +643,23 @@ class OutputsMeshToPyvista(_Outputs):
         >>> result_offsets = op.outputs.offsets()
         """
         return self._offsets
+
+    @property
+    def offsets_concatenated_node_indices(self) -> Output:
+        r"""Allows to get offsets_concatenated_node_indices output of the operator
+
+        Offsets to concatenated cell connectivity without node count headers, type int vector
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.mesh_to_pyvista()
+        >>> # Get the output from op.outputs. ...
+        >>> result_offsets_concatenated_node_indices = op.outputs.offsets_concatenated_node_indices()
+        """
+        return self._offsets_concatenated_node_indices
