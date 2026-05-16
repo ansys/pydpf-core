@@ -146,7 +146,10 @@ def _run_launch_server_process(
             AvailableServerContexts.entry,
             AvailableServerContexts.premium,
         ):
-            run_cmd.append(f"--context {int(context.licensing_context_type)}")
+            if context.licensing_context_type == 2 and len(context.xml_path) > 0:  # 2 == custom xml
+                run_cmd.append(f"--context {context.xml_path}")
+            else:
+                run_cmd.append(f"--context {int(context.licensing_context_type)}")
 
         if grpc_mode == server_factory.GrpcMode.Insecure:
             run_cmd.append("--mode 0")

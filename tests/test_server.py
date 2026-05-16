@@ -185,6 +185,19 @@ def test_server_context_custom_xml(remote_config_server_type, testfiles_dir):
 
 
 @pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0, reason="not working properly before 25R2"
+)
+@pytest.mark.skipif(running_docker, reason="server start using custom xml not working on Docker")
+def test_server_context_custom_xml_check_operators(remote_config_server_type):
+    from pathlib import Path
+
+    context = dpf.core.AvailableServerContexts.no_context
+    context.xml_path = Path(dpf.core.misc.get_ansys_path()) / "dpf" / "utilities" / "DpfEmpty.xml"
+    server = start_local_server(config=remote_config_server_type, context=context, as_global=False)
+    assert len(server.plugins) == 1
+
+
+@pytest.mark.skipif(
     os.name == "posix" or running_docker,
     reason="lin issue: 2 processes can be run with same port",
 )
