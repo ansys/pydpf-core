@@ -20,7 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""Module contains the function for modal animation creation."""
+"""Utility functions for creating DPF-based animations."""
+
+from __future__ import annotations
+
+from typing import Any
 
 import numpy as np
 
@@ -28,53 +32,84 @@ import ansys.dpf.core as dpf
 
 
 def animate_mode(
-    fields_container,
-    mode_number=1,
-    type_mode=0,
-    frame_number=None,
-    save_as="",
-    deform_scale_factor=1.0,
+    fields_container: dpf.FieldsContainer,
+    mode_number: int = 1,
+    type_mode: int = 0,
+    frame_number: int | None = None,
+    save_as: str = "",
+    deform_scale_factor: float = 1.0,
     **kwargs,
-):
-    # other option: instead of `type` use `min_factor` and `max_factor`.
-    """Create a modal animation based on Fields contained in the FieldsContainer.
+) -> Any:
+    """Animate a single mode shape by sweeping its displacement amplitude.
 
-    This method creates a movie or a gif based on the time ids of a ``FieldsContainer``.
-    For kwargs see pyvista.Plotter.open_movie/add_text/show.
+    Extracts the field for *mode_number* from *fields_container*, builds a
+    :class:`~ansys.dpf.core.FieldsContainer` of N amplitude-scaled copies of
+    that field, and delegates to
+    :meth:`FieldsContainer.animate <ansys.dpf.core.FieldsContainer.animate>`.
+
+    The per-frame overlay shows the current relative displacement amplitude
+    (ranging from ``-1`` to ``1``) with the physical unit of the result field.
 
     Parameters
     ----------
-    field_container :
-        Field container containing the modal results.
-    mode_number : int, optional
-        Mode number of the results to animation. The default is ``1``.
-    type_mode : int, optional
-        Whether it is 0 or 1. Default to 0.
-        If 0, the norm of the displacements will be scaled from 1 to -1 to 1.
-        If 1, the norm of the displacements will be scaled between -1 and 1.
-    save_as : Path of file to save the animation to. Defaults to None. Can be of any format
-        supported by pyvista.Plotter.write_frame (.gif, .mp4, ...).
-    deform_scale_factor : float, optional
-        Scale factor to apply when warping the mesh. Defaults to 1.0.
+    fields_container
+        Container of modal results.  Must contain a ``"time"`` label whose IDs
+        correspond to mode numbers.
+    mode_number
+        Mode number to animate.  Must be present in the container's ``"time"``
+        label.  The default is ``1``.
+    type_mode
+        Amplitude profile to use across the frames:
+
+        * ``0`` (default): full cycle, amplitude sweeps ``1 → -1 → 1``.
+        * ``1``: positive half only, amplitude sweeps ``1 → 0 → 1``.
+    frame_number
+        Total number of frames in the animation.
+        For ``type_mode=0`` the value is forced to be odd (decremented by one
+        if even); defaults to ``41``.
+        For ``type_mode=1`` defaults to ``21``.
+    save_as
+        Path of the file to save the animation to.  Supports any format
+        accepted by :func:`pyvista.Plotter.write_frame`, e.g. ``.gif`` or
+        ``.mp4``.  Defaults to ``""`` (no file written).
+    deform_scale_factor
+        Scale factor applied when warping the mesh by the displacement field.
+        Defaults to ``1.0``.
+    **kwargs
+        Additional keyword arguments forwarded to
+        :meth:`FieldsContainer.animate <ansys.dpf.core.FieldsContainer.animate>`
+        and ultimately to :class:`pyvista.Plotter` (e.g. ``off_screen``,
+        ``cpos``, ``framerate``, ``show_axes``).
+
+    Returns
+    -------
+    Any
+        The return value of :func:`pyvista.Plotter.show`.
+
+    Raises
+    ------
+    ValueError
+        If *mode_number* is not present in *fields_container*.
+    ValueError
+        If *type_mode* is not ``0`` or ``1``.
 
     Examples
     --------
-    Import a modal result from a model.
+    Animate the first mode of a modal analysis and save as a GIF.
 
     >>> import ansys.dpf.core as dpf
-    >>> from ansys.dpf.core import examples
+    >>> from ansys.dpf.core import animation, examples
     >>> model = dpf.Model(examples.download_modal_frame())
     >>> disp = model.results.displacement.on_all_time_freqs.eval()
+    >>> animation.animate_mode(disp, mode_number=1, save_as="mode1.gif")  # doctest: +SKIP
 
-    Creates an animation from a modal result.
+    Use the absolute-value amplitude profile with a custom frame count.
 
-    >>> from ansys.dpf.core import animation
-    >>> animation.animate_mode(disp, mode_number=1, save_as="tmp.gif")
-
+    >>> animation.animate_mode(  # doctest: +SKIP
+    ...     disp, mode_number=1, type_mode=1, frame_number=31, save_as="mode1_abs.gif"
+    ... )
 
     """
-    from ansys.dpf.core.animator import Animator
-
     # Animation type
 
     if type_mode == 1:
@@ -91,18 +126,15 @@ def animate_mode(
     else:
         raise ValueError(
             f"The type_mode {type_mode} is not accepted. "
-            + "Please select one in 'positive_disp' and 'full_disp'."
+            "Please select 0 (full cycle) or 1 (positive half only)."
         )
 
     # Get fields
     available_mode_numbers = fields_container.get_available_ids_for_label("time")
 
-    if not mode_number in available_mode_numbers:
+    if mode_number not in available_mode_numbers:
         raise ValueError(f"The mode {mode_number} data is not available in field container.")
     fields_mode = fields_container.get_fields({"time": mode_number})
-    mode_frequencies_field = fields_container.time_freq_support.time_frequencies
-    mode_frequencies = mode_frequencies_field.data
-    mode_frequency = mode_frequencies[available_mode_numbers.index(mode_number)]
 
     # Merge fields if needed
     if len(fields_mode) > 1:
@@ -114,32 +146,34 @@ def animate_mode(
         field_mode = fields_mode[0]
 
     max_data = float(np.max(field_mode.data))
-    loop_over = dpf.fields_factory.field_from_array(scale_factor_per_frame)
-    loop_over.unit = mode_frequencies_field.unit
 
-    # Create workflow
-    wf = dpf.Workflow()
-    wf.progress_bar = False
+    # Build a FieldsContainer of N amplitude-scaled copies of the mode field.
+    # Each entry is field_mode multiplied by one amplitude value from
+    # scale_factor_per_frame, so the standard FieldsContainer.animate path
+    # (extract_sub_fc → merge_fields → mesh.from_field) handles mode animation
+    # exactly like any other collection, removing a bespoke code path.
+    scaled_fields = [
+        dpf.operators.math.scale(field=field_mode, weights=float(amp)).eval()
+        for amp in scale_factor_per_frame
+    ]
+    scaled_fc = dpf.fields_container_factory.over_time_freq_fields_container(scaled_fields)
 
-    # Add scaling operator
-    scaling_op = dpf.operators.math.scale()
-    scaling_op.inputs.field.connect(field_mode)
-    wf.add_operators([scaling_op])
+    # Override the TimeFreqSupport so the per-frame overlay shows the current
+    # relative displacement amplitude rather than a bare integer frame index.
+    amp_field = dpf.fields_factory.field_from_array(
+        np.array(scale_factor_per_frame, dtype=np.double)
+    )
+    amp_field.unit = field_mode.unit
+    tfs = dpf.TimeFreqSupport()
+    tfs.time_frequencies = amp_field
+    scaled_fc.time_freq_support = tfs
 
-    wf.set_input_name("weights", scaling_op.inputs.weights)
-    wf.set_output_name("field", scaling_op.outputs.field)
-    wf.set_output_name("deform_by", scaling_op.outputs.field)
+    kwargs.setdefault("clim", [0.0, max_data])
 
-    anim = Animator(workflow=wf, **kwargs)
-
-    return anim.animate(
-        loop_over=loop_over,
-        input_name="weights",
-        output_name="field",
-        save_as=save_as,
-        mode_number=mode_number,
-        mode_frequency=mode_frequency,
-        clim=[0, max_data],
+    return scaled_fc.animate(
+        label="time",
+        deform_by=scaled_fc,
         scale_factor=deform_scale_factor,
+        save_as=save_as,
         **kwargs,
     )

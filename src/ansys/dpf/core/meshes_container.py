@@ -29,13 +29,24 @@ Contains classes associated with the DPF MeshesContainer.
 
 from __future__ import annotations
 
-from ansys.dpf.core import elements, errors as dpf_errors, meshed_region
+import os
+from typing import TYPE_CHECKING, List, Optional, Union
+
+import numpy as np
+
+if TYPE_CHECKING:
+    from ansys.dpf.core import FieldsContainer, Operator, TimeFreqSupport
+    from ansys.dpf.core.results import Result
+
+import ansys.dpf.core as dpf
+from ansys.dpf.core import elements, errors as dpf_errors
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.collection_base import CollectionBase
+from ansys.dpf.core.meshed_region import MeshedRegion
 from ansys.dpf.core.plotter import DpfPlotter
 
 
-class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
+class MeshesContainer(CollectionBase[MeshedRegion]):
     """Represents a meshes container, which contains meshes split on a given space.
 
     Parameters
@@ -50,7 +61,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         global server.
     """
 
-    entries_type = meshed_region.MeshedRegion
+    entries_type = MeshedRegion
 
     def __init__(self, meshes_container=None, server=None):
         super().__init__(collection=meshes_container, server=server)
@@ -62,7 +73,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
 
     def create_subtype(self, obj_by_copy):
         """Create a meshed region sub type."""
-        return meshed_region.MeshedRegion(mesh=obj_by_copy, server=self._server)
+        return MeshedRegion(mesh=obj_by_copy, server=self._server)
 
     def plot(self, fields_container=None, deform_by=None, scale_factor=1.0, **kwargs):
         """Plot the meshes container with a specific result if fields_container is specified.
@@ -146,6 +157,170 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         # Plot the figure
         kwargs.pop("notebook", None)
         return pl.show_figure(**kwargs)
+
+    def animate(
+        self,
+        save_as: Union[str, os.PathLike] = None,
+        deform_by: Union["FieldsContainer", "Result", "Operator", bool] = None,
+        scale_factor: Union[float, List[float]] = 1.0,
+        fields_container: Optional["FieldsContainer"] = None,
+        time_freq_support: Optional["TimeFreqSupport"] = None,
+        label: str = "time",
+        **kwargs,
+    ):
+        """Create an animation based on the meshes contained in the MeshesContainer.
+
+        Iterates over the entries indexed by *label*, rendering each :class:`MeshedRegion
+        <ansys.dpf.core.MeshedRegion>` as a separate frame. Optionally colors each mesh
+        using a matching :class:`FieldsContainer <ansys.dpf.core.FieldsContainer>` and/or
+        deforms it.
+
+        Parameters
+        ----------
+        save_as : str, os.PathLike, optional
+            Path of the file to save the animation to. Defaults to ``None``. Supports any
+            format accepted by :func:`pyvista.Plotter.write_frame` (.gif, .mp4, …).
+        deform_by : FieldsContainer, Result, Operator, bool, optional
+            Used to deform the mesh at each frame. Must evaluate to a
+            :class:`FieldsContainer <ansys.dpf.core.FieldsContainer>` of 3D nodal vector
+            fields with a matching label structure. Set to ``False`` to disable deformation.
+            Defaults to ``None`` (no deformation).
+        scale_factor : float, list[float], optional
+            Scale factor applied to the deformation. Defaults to ``1.0``. Pass a list to
+            vary the factor per frame.
+        fields_container : FieldsContainer, optional
+            If provided, each mesh frame is colored by the corresponding field. The
+            :class:`FieldsContainer <ansys.dpf.core.FieldsContainer>` must share the same
+            label and IDs as this :class:`MeshesContainer
+            <ansys.dpf.core.MeshesContainer>`.
+        time_freq_support : TimeFreqSupport, optional
+            When the animated label is ``"time"``, provide this to display actual
+            time/frequency values in the per-frame overlay text instead of label IDs.
+            Defaults to ``None``.
+        label : str, optional
+            Name of the label to animate over. Defaults to ``"time"``.
+            Must be a label present in the container.
+        **kwargs
+            Additional keyword arguments forwarded to the animator and plotter
+            (e.g. ``off_screen``, ``cpos``, ``framerate``, ``quality``).
+
+        Examples
+        --------
+        Animate a mesh split by material:
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.find_multishells_rst())
+        >>> mesh = model.metadata.meshed_region
+        >>> split_mesh_op = dpf.operators.mesh.split_mesh(mesh=mesh, property="mat")
+        >>> meshes_cont = split_mesh_op.eval()
+        >>> meshes_cont.animate(label="mat", off_screen=True)  # doctest: +SKIP
+
+        """
+        from ansys.dpf.core.animator import Animator
+
+        # Normalize save_as to str so downstream str methods (e.g. endswith) work
+        # with any os.PathLike value (e.g. pathlib.Path).
+        if save_as is not None:
+            save_as = os.fspath(save_as)
+
+        # ── validate the label ────────────────────────────────────────────────
+        available_labels = self.labels
+        if label not in available_labels:
+            raise ValueError(
+                f"Label '{label}' not found in this MeshesContainer. "
+                f"Available labels: {available_labels}"
+            )
+
+        label_scoping = self.get_label_scoping(label=label)
+
+        # ── build the server-side workflow ────────────────────────────────────
+        # Multiple operator inputs can share the same workflow input name, so a
+        # single workflow.connect("label_space", dict) fans out to every extract
+        # operator registered under that name.
+        wf = dpf.Workflow()
+
+        # Mesh path: extract_sub_mc → merge_meshes → MeshedRegion
+        extract_mc_op = dpf.operators.utility.extract_sub_mc(meshes=self)
+        wf.set_input_name("label_space", extract_mc_op.inputs.label_space)
+        merge_op = dpf.operators.utility.merge_meshes(
+            meshes1=extract_mc_op.outputs.meshes_container
+        )
+        wf.set_output_name("to_render", merge_op.outputs.merges_mesh)
+        wf.add_operators([extract_mc_op, merge_op])
+
+        # Optional coloring path: extract_sub_fc → extract_field → Field
+        # Convention for animate_workflow mesh-coloring mode: output "to_render_field"
+        if fields_container is not None:
+            extract_fc_op = dpf.operators.utility.extract_sub_fc(
+                fields_container=fields_container, collapse_labels=True
+            )
+            # Shared name: same connect call fans out to this pin too.
+            wf.set_input_name("label_space", extract_fc_op.inputs.label_space)
+            # collapse_labels removes the animated label from the output FC's label
+            # set. merge_fields merges all remaining fields into a single Field.
+            merge_color_op = dpf.operators.utility.merge_fields(
+                fields1=extract_fc_op.outputs.fields_container
+            )
+            wf.set_output_name("to_render_field", merge_color_op.outputs.merged_field)
+            wf.add_operators([extract_fc_op, merge_color_op])
+
+        # Optional deformation path: extract_sub_fc → extract_field → Field
+        # Convention for animate_workflow deformation: output "deform_by"
+        if deform_by is not False and deform_by is not None:
+            if isinstance(deform_by, bool):
+                raise ValueError(
+                    "'deform_by=True' is not supported. Use False or None to disable "
+                    "deformation, or provide a FieldsContainer/result object."
+                )
+            if not isinstance(deform_by, dpf.FieldsContainer):
+                deform_by = deform_by.eval()
+            extract_deform_fc_op = dpf.operators.utility.extract_sub_fc(
+                fields_container=deform_by, collapse_labels=True
+            )
+            # Shared name: same connect call fans out to this pin too.
+            wf.set_input_name("label_space", extract_deform_fc_op.inputs.label_space)
+            merge_deform_op = dpf.operators.utility.merge_fields(
+                fields1=extract_deform_fc_op.outputs.fields_container
+            )
+            wf.set_output_name("deform_by", merge_deform_op.outputs.merged_field)
+            wf.add_operators([extract_deform_fc_op, merge_deform_op])
+
+        wf.progress_bar = False
+
+        # ── build the loop_over Field (values shown in the overlay text) ──────
+        if label == "time" and time_freq_support is not None:
+            freq_field = time_freq_support.time_frequencies
+            if freq_field is None:
+                raise ValueError(
+                    "The 'time' label requires 'time_freq_support.time_frequencies' "
+                    "to be available."
+                )
+            values = freq_field.data[label_scoping.ids - 1]
+            unit = freq_field.unit
+            freq_fmt = ".3e"
+        else:
+            values = np.array(label_scoping.ids, dtype=float)
+            unit = ""
+            freq_fmt = "g"
+
+        loop_over_field = dpf.fields_factory.field_from_array(values)
+        loop_over_field.scoping.ids = label_scoping.ids
+        loop_over_field.unit = unit
+
+        # ── run the animation via the generic Animator.animate ────────────────
+        anim = Animator(workflow=wf, **kwargs)
+        kwargs.setdefault("freq_kwargs", {"font_size": 12, "fmt": freq_fmt})
+        return anim.animate(
+            loop_over=loop_over_field,
+            output_name="to_render",
+            input_name="label_space",
+            save_as=save_as,
+            scale_factor=scale_factor,
+            label=label,
+            output_type=dpf.types.meshed_region,
+            **kwargs,
+        )
 
     def get_meshes(self, label_space):
         """Retrieve the meshes at a label space.

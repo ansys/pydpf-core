@@ -211,27 +211,26 @@ def test_animator_animate_fields_container_scale_factor_raise_list_len(
     displacement_fields,
 ):
     scale_factor_list = [2.0] * (len(displacement_fields) - 2)
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ValueError, match="scale_factor list length"):
         displacement_fields.animate(scale_factor=scale_factor_list)
-        assert "The scale_factor list is not the same length" in e
 
 
 def test_animator_animate_fields_container_scale_factor_field(displacement_fields):
+    # A Field object is not a valid scale_factor type; expect a clear ValueError.
     scale_factor_field = dpf.fields_factory.field_from_array(displacement_fields[0].data)
-    with pytest.raises(NotImplementedError) as e:
+    with pytest.raises(ValueError, match="Argument scale_factor must be"):
         displacement_fields.animate(scale_factor=scale_factor_field)
-        assert "Scaling by a Field is not yet implemented." in e
 
 
 def test_animator_animate_fields_container_scale_factor_fc(displacement_fields):
+    # A FieldsContainer object is not a valid scale_factor type; expect a clear ValueError.
     fields = []
     for f in displacement_fields:
         fields.append(dpf.fields_factory.field_from_array(f.data))
     scale_factor_fc = dpf.fields_container_factory.over_time_freq_fields_container(fields)
     scale_factor_fc.time_freq_support = displacement_fields.time_freq_support
-    with pytest.raises(NotImplementedError) as e:
+    with pytest.raises(ValueError, match="Argument scale_factor must be"):
         displacement_fields.animate(scale_factor=scale_factor_fc)
-        assert "Scaling by a FieldsContainer is not yet implemented." in e
 
 
 def test_animator_animate_fields_container_cpos(remove_gifs, displacement_fields):
@@ -252,3 +251,69 @@ def test_animator_animate_fields_container_cpos(remove_gifs, displacement_fields
     )
     assert Path(gif_name).is_file()
     assert Path(gif_name).stat().st_size > 6000
+
+
+def test_animator_animate_scale_factor_none(displacement_fields):
+    """Passing scale_factor=None is accepted (treated internally as no scaling)."""
+    displacement_fields.animate(scale_factor=None, off_screen=True)
+
+
+def test_animator_animate_fields_container_invalid_label_raises(displacement_fields):
+    """FieldsContainer.animate raises ValueError for a label not present."""
+    with pytest.raises(ValueError, match="not found"):
+        displacement_fields.animate(label="nonexistent_label")
+
+
+def test_animator_animate_fields_container_none_time_freq_raises(displacement_fields):
+    """FieldsContainer.animate raises ValueError when time_frequencies is None."""
+    fc = displacement_fields.deep_copy()
+    tfs = dpf.TimeFreqSupport()
+    # A fresh TimeFreqSupport has no time_frequencies set
+    fc.time_freq_support = tfs
+    with pytest.raises(ValueError, match="no time_frequencies"):
+        fc.animate(off_screen=True)
+
+
+# ---------------------------------------------------------------------------
+# Tests for ansys.dpf.core.animation.animate_mode
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture()
+def modal_fields():
+    """Displacement FieldsContainer (transient data) used as mock mode data for animate_mode tests."""
+    model = dpf.Model(examples.find_msup_transient())
+    return model.results.displacement.on_time_scoping([1, 2]).eval()
+
+
+def test_animate_mode_type_mode_1(modal_fields):
+    """animate_mode with type_mode=1 (positive half) runs without error."""
+    from ansys.dpf.core import animation
+
+    animation.animate_mode(modal_fields, mode_number=1, type_mode=1, off_screen=True)
+
+
+def test_animate_mode_even_frame_number(modal_fields):
+    """animate_mode with type_mode=0 and an even frame_number auto-corrects to odd."""
+    from ansys.dpf.core import animation
+
+    # Even frame_number should be silently decremented by one; no exception expected.
+    animation.animate_mode(
+        modal_fields, mode_number=1, type_mode=0, frame_number=10, off_screen=True
+    )
+
+
+def test_animate_mode_invalid_type_mode_raises(modal_fields):
+    """animate_mode raises ValueError for an unsupported type_mode."""
+    from ansys.dpf.core import animation
+
+    with pytest.raises(ValueError, match="type_mode 2 is not accepted"):
+        animation.animate_mode(modal_fields, mode_number=1, type_mode=2, off_screen=True)
+
+
+def test_animate_mode_invalid_mode_number_raises(modal_fields):
+    """animate_mode raises ValueError when mode_number is absent from the container."""
+    from ansys.dpf.core import animation
+
+    with pytest.raises(ValueError, match="mode 999"):
+        animation.animate_mode(modal_fields, mode_number=999, off_screen=True)

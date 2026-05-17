@@ -22,14 +22,23 @@
 
 # -*- coding: utf-8 -*-
 
+from pathlib import Path
 import weakref
 
 import numpy as np
 import pytest
 
 from ansys import dpf
-from ansys.dpf.core import MeshesContainer
+from ansys.dpf import core as dpf_core
+from ansys.dpf.core import MeshesContainer, examples, misc
 import conftest
+
+if misc.module_exists("pyvista"):
+    HAS_PYVISTA = True
+else:
+    HAS_PYVISTA = False
+
+gif_name = "test_mc_animate.gif"
 
 
 # TO DO: add server type
@@ -480,3 +489,197 @@ def test_all_shapes_do_not_mutate_input(elshape_body_mc):
         original = label_space.copy()
         method(label_space=label_space)
         assert label_space == original, f"{method.__name__} mutated the input label_space"
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Animation tests
+# ──────────────────────────────────────────────────────────────────────────────
+
+
+@pytest.fixture()
+def remove_mc_gif(request):
+    """Remove the test GIF after a test runs."""
+
+    def _remove():
+        p = Path.cwd() / gif_name
+        if p.exists():
+            p.unlink()
+
+    request.addfinalizer(_remove)
+
+
+@pytest.fixture()
+def mat_meshes_container():
+    """MeshesContainer split by material label from the multishells model."""
+    model = dpf_core.Model(examples.find_multishells_rst())
+    mesh = model.metadata.meshed_region
+    split_mesh_op = dpf_core.operators.mesh.split_mesh(mesh=mesh, property="mat")
+    return split_mesh_op.eval()
+
+
+@pytest.fixture()
+def elshape_meshes_container():
+    """MeshesContainer split by element shape label from the multishells model."""
+    model = dpf_core.Model(examples.find_multishells_rst())
+    mesh = model.metadata.meshed_region
+    split_mesh_op = dpf_core.operators.mesh.split_mesh(mesh=mesh, property="elshape")
+    return split_mesh_op.eval()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_auto_label(mat_meshes_container):
+    """animate() with the default label="time" raises when the container has no time label;
+    passing the real label explicitly works."""
+    with pytest.raises(ValueError):
+        mat_meshes_container.animate(off_screen=True)
+    label = mat_meshes_container.labels[0]
+    mat_meshes_container.animate(label=label, off_screen=True)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_explicit_label(mat_meshes_container):
+    """animate() with an explicit label parameter."""
+    label = mat_meshes_container.labels[0]
+    mat_meshes_container.animate(label=label, off_screen=True)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_elshape_label(elshape_meshes_container):
+    """animate() works for element-shape-split containers (non-time label)."""
+    elshape_meshes_container.animate(label="elshape", off_screen=True)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_save_gif(remove_mc_gif, mat_meshes_container):
+    """animate() saves a valid GIF when save_as is specified."""
+    label = mat_meshes_container.labels[0]
+    mat_meshes_container.animate(label=label, save_as=gif_name, off_screen=True)
+    assert Path(gif_name).is_file(), "GIF file was not created."
+    assert Path(gif_name).stat().st_size > 1000, "GIF file is unexpectedly small."
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_with_fields_container(mat_meshes_container):
+    """animate() colors the mesh when a matching FieldsContainer is provided."""
+    label = mat_meshes_container.labels[0]
+    disp_op = dpf_core.operators.result.displacement(
+        data_sources=dpf_core.DataSources(examples.find_multishells_rst()),
+        mesh=mat_meshes_container,
+    )
+    disp_fc = disp_op.outputs.fields_container()
+    mat_meshes_container.animate(label=label, fields_container=disp_fc, off_screen=True)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_scale_factor_list(mat_meshes_container):
+    """animate() accepts a list of scale factors (one per frame)."""
+    label = mat_meshes_container.labels[0]
+    n_frames = len(mat_meshes_container.get_label_scoping(label).ids)
+    mat_meshes_container.animate(label=label, scale_factor=[1.0] * n_frames, off_screen=True)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_bad_label_raises(mat_meshes_container):
+    """animate() raises ValueError for an unknown label name."""
+    with pytest.raises(ValueError, match="not found"):
+        mat_meshes_container.animate(label="nonexistent_label")
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_no_labels_raises():
+    """animate() raises ValueError when the default label 'time' is not in the container."""
+    mc = MeshesContainer()
+    with pytest.raises(ValueError, match="not found"):
+        mc.animate()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_accepts_none_time_freq_support(mat_meshes_container):
+    """animate() accepts ``time_freq_support=None`` for a non-time label."""
+    # ``mat_meshes_container`` is not time-labeled, so this test only verifies
+    # that passing the optional ``time_freq_support`` argument as ``None`` does
+    # not raise for the container's native label.
+    label = mat_meshes_container.labels[0]
+    mat_meshes_container.animate(label=label, time_freq_support=None, off_screen=True)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animator_animate_meshes_container_via_workflow(mat_meshes_container):
+    """Animator.animate with a manually built mesh workflow produces frames without error."""
+    from ansys.dpf.core.animator import Animator
+
+    label = mat_meshes_container.labels[0]
+    label_scoping = mat_meshes_container.get_label_scoping(label)
+
+    # Build the workflow: extract_sub_mc → merge_meshes, label_space registered directly
+    wf = dpf_core.Workflow()
+    extract_op = dpf_core.operators.utility.extract_sub_mc(meshes=mat_meshes_container)
+    wf.set_input_name("label_space", extract_op.inputs.label_space)
+    merge_op = dpf_core.operators.utility.merge_meshes(meshes1=extract_op.outputs.meshes_container)
+    wf.set_output_name("to_render", merge_op.outputs.merges_mesh)
+    wf.add_operators([extract_op, merge_op])
+    wf.progress_bar = False
+
+    # Build loop_over field
+    ids = label_scoping.ids
+    loop_over = dpf_core.fields_factory.field_from_array(ids.astype(float))
+    loop_over.scoping.ids = ids
+
+    anim = Animator(workflow=wf, notebook=False)
+    anim.animate(
+        loop_over=loop_over,
+        output_name="to_render",
+        input_name="label_space",
+        label=label,
+        output_type=dpf_core.types.meshed_region,
+        off_screen=True,
+    )
+
+
+@pytest.fixture()
+def time_meshes_container():
+    """MeshesContainer with a 'time' label built from the msup transient mesh."""
+    model = dpf_core.Model(examples.find_msup_transient())
+    mesh = model.metadata.meshed_region
+    mc = MeshesContainer()
+    mc.labels = ["time"]
+    for t_id in [1, 2]:
+        mc.add_mesh({"time": t_id}, mesh)
+    return mc
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_deform_by_true_raises(mat_meshes_container):
+    """animate() raises ValueError when deform_by=True."""
+    label = mat_meshes_container.labels[0]
+    with pytest.raises(ValueError, match="deform_by=True"):
+        mat_meshes_container.animate(label=label, deform_by=True)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_save_as_pathlib(remove_mc_gif, mat_meshes_container):
+    """animate() saves a GIF correctly when save_as is given as a pathlib.Path."""
+    label = mat_meshes_container.labels[0]
+    mat_meshes_container.animate(label=label, save_as=Path(gif_name), off_screen=True)
+    assert Path(gif_name).is_file(), "GIF file was not created."
+    assert Path(gif_name).stat().st_size > 1000, "GIF file is unexpectedly small."
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_time_label_with_tfs(time_meshes_container):
+    """animate() with label='time' and a valid TimeFreqSupport uses freq values in overlay."""
+    tfs = dpf_core.TimeFreqSupport()
+    freq_field = dpf_core.fields_factory.field_from_array(np.array([0.1, 0.2], dtype=np.float64))
+    freq_field.scoping.ids = [1, 2]
+    freq_field.unit = "s"
+    tfs.time_frequencies = freq_field
+    time_meshes_container.animate(label="time", time_freq_support=tfs, off_screen=True)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_animate_meshes_container_empty_time_freq_support_raises(time_meshes_container):
+    """animate() raises ValueError when time_freq_support has no time_frequencies."""
+    tfs = dpf_core.TimeFreqSupport()
+    # A freshly-created TimeFreqSupport has time_frequencies == None
+    with pytest.raises(ValueError, match="time_freq_support.time_frequencies"):
+        time_meshes_container.animate(label="time", time_freq_support=tfs, off_screen=True)
