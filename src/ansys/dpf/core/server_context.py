@@ -301,6 +301,8 @@ class ServerContext:
             f"{'' if len(self.xml_path) == 0 else ': ' + self.xml_path}"
         )
 
+    __hash__ = None
+
     def __eq__(self, other):
         """Compare two ServerContext instances for equality."""
         if not isinstance(other, ServerContext):
@@ -371,7 +373,7 @@ def set_default_server_context(context=AvailableServerContexts.premium) -> None:
     """
     from ansys.dpf.core import SERVER
 
-    global SERVER_CONTEXT
+    global SERVER_CONTEXT  # noqa: PLW0603
     SERVER_CONTEXT = context
     if SERVER is not None and context == AvailableServerContexts.premium:
         SERVER.apply_context(context)
