@@ -20,18 +20,24 @@ if TYPE_CHECKING:
 
 
 class sin_fc(Operator):
-    r"""Computes element-wise sine function on field data: sin(field[i]).
+    r"""Computes the entity-wise
+    `sine <https://en.wikipedia.org/wiki/Sine_and_cosine>`__:
+    :math:`\mathrm{out}[i] = \sin(\mathrm{in}[i])`. The input must be
+    dimensionless or carry an angle unit; any other unit raises an error.
+    When the input unit is an angle (e.g. degrees), values are automatically
+    converted to radians before the sine is applied. The output is
+    dimensionless.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Field containing numeric data for sine calculation
+        Dimensionless or angle-unit field.
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Field with sine values applied element-wise to input data
+        Dimensionless field with $\sin(\mathrm{in}[i])$ for each data entry.
 
     Examples
     --------
@@ -66,7 +72,13 @@ class sin_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes element-wise sine function on field data: sin(field[i]).
+        description = r"""Computes the entity-wise
+`sine <https://en.wikipedia.org/wiki/Sine_and_cosine>`__:
+:math:`\mathrm{out}[i] = \sin(\mathrm{in}[i])`. The input must be
+dimensionless or carry an angle unit; any other unit raises an error.
+When the input unit is an angle (e.g. degrees), values are automatically
+converted to radians before the sine is applied. The output is
+dimensionless.
 """
         spec = Specification(
             description=description,
@@ -75,7 +87,7 @@ class sin_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Field containing numeric data for sine calculation""",
+                    document=r"""Dimensionless or angle-unit field.""",
                 ),
             },
             map_output_pin_spec={
@@ -83,7 +95,7 @@ class sin_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Field with sine values applied element-wise to input data""",
+                    document=r"""Dimensionless field with $\sin(\mathrm{in}[i])$ for each data entry.""",
                 ),
             },
         )
@@ -156,7 +168,7 @@ class InputsSinFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Field containing numeric data for sine calculation
+        Dimensionless or angle-unit field.
 
         Returns
         -------
@@ -197,7 +209,7 @@ class OutputsSinFc(_Outputs):
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
-        Field with sine values applied element-wise to input data
+        Dimensionless field with $\sin(\mathrm{in}[i])$ for each data entry.
 
         Returns
         -------

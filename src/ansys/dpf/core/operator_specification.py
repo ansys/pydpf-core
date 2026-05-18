@@ -363,9 +363,9 @@ class Specification(SpecificationBase):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> operator = dpf.operators.math.scale()
+        >>> operator = dpf.operators.invariant.invariants()
         >>> operator.specification.description
-        'Scales a field by a constant factor...'
+        'Computes the element-wise invariants...'
         """
         if self._internal_obj is not None:
             return self._api.operator_specification_get_description(self)
