@@ -20,18 +20,27 @@ if TYPE_CHECKING:
 
 
 class cplx_divide(Operator):
-    r"""Computes division between two field containers containing complex
-    fields.
+    r"""Computes the `complex
+    division <https://en.wikipedia.org/wiki/Complex_number#Multiplicative_inverse>`__
+    :math:`z_1 / z_2` for matching fields in two complex-valued fields
+    containers:
+    :math:`\mathrm{Re}(z_\mathrm{out}[i]) = (\mathrm{Re}_1 \mathrm{Re}_2 + \mathrm{Im}_1 \mathrm{Im}_2) / D`,
+    :math:`\mathrm{Im}(z_\mathrm{out}[i]) = (\mathrm{Im}_1 \mathrm{Re}_2 - \mathrm{Re}_1 \mathrm{Im}_2) / D`
+    where :math:`D = \mathrm{Re}_2^2 + \mathrm{Im}_2^2`. Raises an error if
+    :math:`D = 0`.
 
 
     Inputs
     ------
     fields_containerA: FieldsContainer
+        Numerator complex-valued fields container.
     fields_containerB: FieldsContainer
+        Denominator complex-valued fields container.
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Fields container with the complex quotient $z_1 / z_2$ (real and imaginary parts).
 
     Examples
     --------
@@ -73,8 +82,14 @@ class cplx_divide(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes division between two field containers containing complex
-fields.
+        description = r"""Computes the `complex
+division <https://en.wikipedia.org/wiki/Complex_number#Multiplicative_inverse>`__
+:math:`z_1 / z_2` for matching fields in two complex-valued fields
+containers:
+:math:`\mathrm{Re}(z_\mathrm{out}[i]) = (\mathrm{Re}_1 \mathrm{Re}_2 + \mathrm{Im}_1 \mathrm{Im}_2) / D`,
+:math:`\mathrm{Im}(z_\mathrm{out}[i]) = (\mathrm{Im}_1 \mathrm{Re}_2 - \mathrm{Re}_1 \mathrm{Im}_2) / D`
+where :math:`D = \mathrm{Re}_2^2 + \mathrm{Im}_2^2`. Raises an error if
+:math:`D = 0`.
 """
         spec = Specification(
             description=description,
@@ -83,13 +98,13 @@ fields.
                     name="fields_containerA",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Numerator complex-valued fields container.""",
                 ),
                 1: PinSpecification(
                     name="fields_containerB",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Denominator complex-valued fields container.""",
                 ),
             },
             map_output_pin_spec={
@@ -97,7 +112,7 @@ fields.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container with the complex quotient $z_1 / z_2$ (real and imaginary parts).""",
                 ),
             },
         )
@@ -176,6 +191,8 @@ class InputsCplxDivide(_Inputs):
     def fields_containerA(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerA input to the operator.
 
+        Numerator complex-valued fields container.
+
         Returns
         -------
         input:
@@ -194,6 +211,8 @@ class InputsCplxDivide(_Inputs):
     @property
     def fields_containerB(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerB input to the operator.
+
+        Denominator complex-valued fields container.
 
         Returns
         -------
@@ -233,6 +252,8 @@ class OutputsCplxDivide(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Fields container with the complex quotient $z_1 / z_2$ (real and imaginary parts).
 
         Returns
         -------
