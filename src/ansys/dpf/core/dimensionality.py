@@ -43,7 +43,7 @@ class Dimensionality:
 
     """
 
-    def __init__(self, dim_vec=None, nature: natures = natures.vector):
+    def __init__(self, dim_vec=None, nature: natures = natures.vector):  # noqa: C901
         self.dim = dim_vec
         self.nature = nature
         # set nature

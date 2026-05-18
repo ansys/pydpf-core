@@ -444,7 +444,7 @@ class ResultInfo:
         core_api.init_data_processing_environment(self)
         return core_api
 
-    def _get_result(self, numres):
+    def _get_result(self, numres):  # noqa: C901
         """Return requested result.
 
         Parameters
