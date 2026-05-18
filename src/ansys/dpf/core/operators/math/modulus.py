@@ -20,17 +20,23 @@ if TYPE_CHECKING:
 
 
 class modulus(Operator):
-    r"""Computes element-wise modulus of field containers containing complex
-    fields.
+    r"""Computes the `complex
+    modulus <https://en.wikipedia.org/wiki/Absolute_value#Complex_numbers>`__
+    :math:`|z[i]| = \sqrt{\mathrm{Re}[i]^2 + \mathrm{Im}[i]^2}` for each
+    value in a complex-valued fields container, where :math:`\mathrm{Re}`
+    and :math:`\mathrm{Im}` are the real and imaginary parts (complex labels
+    0 and 1 respectively). The output container has no complex label.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
+        Complex-valued fields container with real (complex label 0) and imaginary (complex label 1) part fields.
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Fields container with the modulus $\sqrt{\mathrm{Re}^2 + \mathrm{Im}^2}$ for each entry, without the complex label.
 
     Examples
     --------
@@ -65,8 +71,12 @@ class modulus(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes element-wise modulus of field containers containing complex
-fields.
+        description = r"""Computes the `complex
+modulus <https://en.wikipedia.org/wiki/Absolute_value#Complex_numbers>`__
+:math:`|z[i]| = \sqrt{\mathrm{Re}[i]^2 + \mathrm{Im}[i]^2}` for each
+value in a complex-valued fields container, where :math:`\mathrm{Re}`
+and :math:`\mathrm{Im}` are the real and imaginary parts (complex labels
+0 and 1 respectively). The output container has no complex label.
 """
         spec = Specification(
             description=description,
@@ -75,7 +85,7 @@ fields.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Complex-valued fields container with real (complex label 0) and imaginary (complex label 1) part fields.""",
                 ),
             },
             map_output_pin_spec={
@@ -83,7 +93,7 @@ fields.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container with the modulus $\sqrt{\mathrm{Re}^2 + \mathrm{Im}^2}$ for each entry, without the complex label.""",
                 ),
             },
         )
@@ -156,6 +166,8 @@ class InputsModulus(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        Complex-valued fields container with real (complex label 0) and imaginary (complex label 1) part fields.
+
         Returns
         -------
         input:
@@ -194,6 +206,8 @@ class OutputsModulus(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Fields container with the modulus $\sqrt{\mathrm{Re}^2 + \mathrm{Im}^2}$ for each entry, without the complex label.
 
         Returns
         -------

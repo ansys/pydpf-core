@@ -20,7 +20,10 @@ if TYPE_CHECKING:
 
 
 class sqr_fc(Operator):
-    r"""Computes element-wise field[i]^2.
+    r"""Computes the entity-wise square (`Hadamard
+    power <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations>`__
+    of two): :math:`\mathrm{out}[i] = \mathrm{in}[i]^2`. The output unit is
+    :math:`u^2` where :math:`u` is the input unit.
 
 
     Inputs
@@ -31,7 +34,7 @@ class sqr_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
-        Field with squared values applied element-wise to input data
+        Field with $\mathrm{in}[i]^2$ for each data entry; unit is $u^2$, where $u$ is the input unit.
 
     Examples
     --------
@@ -66,7 +69,10 @@ class sqr_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes element-wise field[i]^2.
+        description = r"""Computes the entity-wise square (`Hadamard
+power <https://en.wikipedia.org/wiki/Hadamard_product_(matrices)#Analogous_operations>`__
+of two): :math:`\mathrm{out}[i] = \mathrm{in}[i]^2`. The output unit is
+:math:`u^2` where :math:`u` is the input unit.
 """
         spec = Specification(
             description=description,
@@ -83,7 +89,7 @@ class sqr_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Field with squared values applied element-wise to input data""",
+                    document=r"""Field with $\mathrm{in}[i]^2$ for each data entry; unit is $u^2$, where $u$ is the input unit.""",
                 ),
             },
         )
@@ -197,7 +203,7 @@ class OutputsSqrFc(_Outputs):
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
-        Field with squared values applied element-wise to input data
+        Field with $\mathrm{in}[i]^2$ for each data entry; unit is $u^2$, where $u$ is the input unit.
 
         Returns
         -------
