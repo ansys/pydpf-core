@@ -25,16 +25,16 @@ from .downloads import *  # noqa: F403
 from .examples import *  # noqa: F403
 
 _finders = {
-    "simple_bar": find_simple_bar, # noqa: F405
-    "static_rst": find_static_rst, # noqa: F405
-    "complex_rst": find_complex_rst, # noqa: F405
-    "multishells_rst": find_multishells_rst, # noqa: F405
-    "electric_therm": find_electric_therm, # noqa: F405
-    "steady_therm": find_steady_therm, # noqa: F405
-    "transient_therm": find_transient_therm, # noqa: F405
-    "msup_transient": find_msup_transient, # noqa: F405
-    "simple_cyclic": find_simple_cyclic, # noqa: F405
-    "distributed_msup_folder": find_distributed_msup_folder, # noqa: F405
+    "simple_bar": find_simple_bar,  # noqa: F405
+    "static_rst": find_static_rst,  # noqa: F405
+    "complex_rst": find_complex_rst,  # noqa: F405
+    "multishells_rst": find_multishells_rst,  # noqa: F405
+    "electric_therm": find_electric_therm,  # noqa: F405
+    "steady_therm": find_steady_therm,  # noqa: F405
+    "transient_therm": find_transient_therm,  # noqa: F405
+    "msup_transient": find_msup_transient,  # noqa: F405
+    "simple_cyclic": find_simple_cyclic,  # noqa: F405
+    "distributed_msup_folder": find_distributed_msup_folder,  # noqa: F405
 }
 
 
