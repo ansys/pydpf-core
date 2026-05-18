@@ -167,7 +167,7 @@ def _run_launch_server_process(  # noqa: PLR0913
     return process
 
 
-def _wait_and_check_server_connection(  # noqa: PLR0913
+def _wait_and_check_server_connection(  # noqa: PLR0913, C901
     process, port, timeout, lines, current_errors, stderr=None, stdout=None
 ):
     if not stderr:
@@ -1320,7 +1320,7 @@ class LegacyGrpcServer(BaseServer):
         Path to a directory containing the certificates to use for mTLS authentication.
     """
 
-    def __init__(  # noqa: PLR0913, PLR0915
+    def __init__(  # noqa: PLR0913, PLR0915, C901
         self,
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,

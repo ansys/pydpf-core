@@ -53,7 +53,7 @@ except ModuleNotFoundError:  # pragma: nocover
     raise Jinja2ImportError
 
 
-def initialize_server(  # noqa: PLR0912, PLR0913
+def initialize_server(  # noqa: PLR0912, PLR0913, #C901
     ansys_path: str | os.PathLike = None,
     include_composites: bool = False,
     include_sound: bool = False,
@@ -394,7 +394,7 @@ def get_plugin_operators(server: dpf.AnyServerType, plugin_name: str) -> list[st
     return plugin_operators
 
 
-def generate_operator_doc(  # noqa: PLR0912
+def generate_operator_doc(  # noqa: PLR0912, C901
     server: dpf.AnyServerType,
     operator_name: str,
     include_private: bool,

@@ -222,7 +222,7 @@ def _dpf_mesh_to_vtk_op(
         return grid
 
 
-def _dpf_mesh_to_vtk_py(  # noqa: PLR0912, PLR0915
+def _dpf_mesh_to_vtk_py(  # noqa: PLR0912, PLR0915, C901
     mesh: dpf.MeshedRegion, nodes: dpf.Field = None, as_linear: bool = True
 ) -> pv.UnstructuredGrid:
     """Return a pyvista unstructured grid given DPF node and element definitions in pure Python (server <= 6.2).
