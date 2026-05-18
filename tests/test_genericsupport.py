@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 from ansys.dpf import core as dpf
-import conftest
 
 
 def test_set_get_generic_support(server_type):

@@ -27,7 +27,6 @@ import numpy as np
 import pytest
 
 from ansys.dpf.core import Scoping, ScopingsContainer
-import conftest
 
 
 @pytest.fixture()

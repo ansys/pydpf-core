@@ -35,7 +35,7 @@ from pathlib import Path
 try:
     import importlib.metadata as importlib_metadata
 except ImportError:  # Python < 3.10 (backport)
-    import importlib_metadata as importlib_metadata
+    import importlib_metadata
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import server as server_module

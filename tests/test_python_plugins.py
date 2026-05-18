@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
 from pathlib import Path
 import platform
 
@@ -37,7 +36,6 @@ from ansys.dpf.core.operator_specification import (
     PinSpecification,
     SpecificationProperties,
 )
-import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
 )

@@ -163,7 +163,7 @@ if os.name == "nt" and not (Path(plugin_path) / "assets" / "gltf_sites_winx64.zi
     print(args)
     import subprocess
 
-    process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
     if process.stderr:
         raise RuntimeError(
             "Installing pygltf in a virtual environment failed with error:\n"

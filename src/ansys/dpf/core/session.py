@@ -70,7 +70,7 @@ def progress_call_back(obj, nature, arg):
                 handler.bar.update(handler.finished_operators / handler.started_operators * 100)
                 if handler.finished_operators == handler.started_operators:
                     handler.bar.finish()
-        elif nature == 9:
+        elif nature == 9:  # noqa: PLR2004
             handler.finished_operators = 0
             handler.started_operators = 0
         elif handler.bar:

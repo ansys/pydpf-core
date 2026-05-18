@@ -57,7 +57,7 @@ There are two approaches to import a result file in DPF:
 from ansys.dpf import core as dpf
 
 # Import the operators and examples module
-from ansys.dpf.core import examples, operators as ops
+from ansys.dpf.core import examples
 
 ###############################################################################
 # MAPDL result files

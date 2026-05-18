@@ -21,6 +21,8 @@
 # SOFTWARE.
 """Workflow topology module."""
 
+__all__ = ["DataConnection", "ExposedPin", "OperatorConnection", "WorkflowTopology"]
+
 from .data_connection import DataConnection
 from .exposed_pin import ExposedPin
 from .operator_connection import OperatorConnection
