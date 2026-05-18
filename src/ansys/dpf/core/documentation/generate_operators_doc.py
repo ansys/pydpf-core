@@ -53,7 +53,7 @@ except ModuleNotFoundError:  # pragma: nocover
     raise Jinja2ImportError
 
 
-def initialize_server(  # noqa: PLR0912, PLR0913, #C901
+def initialize_server(  # noqa: PLR0912, PLR0913, C901
     ansys_path: str | os.PathLike = None,
     include_composites: bool = False,
     include_sound: bool = False,
