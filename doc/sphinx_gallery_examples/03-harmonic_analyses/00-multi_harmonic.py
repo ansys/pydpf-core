@@ -31,7 +31,7 @@ using ``fft`` transformations.
 
 """
 
-import matplotlib.pyplot as pyplot
+from matplotlib import pyplot
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples, operators as ops

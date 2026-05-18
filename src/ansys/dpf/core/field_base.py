@@ -95,7 +95,7 @@ class _FieldBase:
 
     @staticmethod
     @abstractmethod
-    def _field_create_internal_obj(
+    def _field_create_internal_obj(  # noqa: PLR0913
         api: field_abstract_api.FieldAbstractAPI,
         server,
         nature,
@@ -776,13 +776,12 @@ class _LocalFieldBase(_FieldBase):
         if self._is_property_field:
             if not isinstance(data[0], int) and not isinstance(data[0], np.int32):
                 raise errors.InvalidTypeError("data", "list of int")
-        else:
-            if isinstance(data, (np.ndarray, np.generic)):
-                if data.shape != self.shape and 0 != self.size:
-                    raise ValueError(
-                        f"An array of shape {self.shape} is expected and "
-                        f"shape {data.shape} was input"
-                    )
+        elif isinstance(data, (np.ndarray, np.generic)):
+            if data.shape != self.shape and 0 != self.size:
+                raise ValueError(
+                    f"An array of shape {self.shape} is expected and "
+                    f"shape {data.shape} was input"
+                )
         if isinstance(data, (np.ndarray, np.generic)):
             self._data_copy = data.flatten().tolist()
         elif len(data) > 0 and isinstance(data, list):
