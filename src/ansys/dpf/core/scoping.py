@@ -139,11 +139,10 @@ class Scoping:
             else:
                 # scoping is of type protobuf.message or DPFObject*
                 self._internal_obj = scoping
+        elif self._server.has_client():
+            self._internal_obj = self._api.scoping_new_on_client(self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.scoping_new_on_client(self._server.client)
-            else:
-                self._internal_obj = self._api.scoping_new()
+            self._internal_obj = self._api.scoping_new()
 
         # step5: handle specific calls to set attributes
         if ids is not None:
