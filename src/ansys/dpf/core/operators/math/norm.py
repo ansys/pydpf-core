@@ -21,8 +21,13 @@ if TYPE_CHECKING:
 
 
 class norm(Operator):
-    r"""Computes the element-wise Lp norm of the field elementary data. Default
-    Lp=L2
+    r"""Computes the `:math:`L_p`
+    norm <https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm>`__ of the
+    component vector for each entity in the field:
+    :math:`\mathrm{out}[k] = \left(\sum_{j=0}^{n_c-1} |v_{k,j}|^p\right)^{1/p}`,
+    where :math:`n_c` is the number of components. Default is :math:`p = 2`
+    (Euclidean norm). The output is a scalar field with one value per
+    entity.
 
 
     Inputs
@@ -30,12 +35,12 @@ class norm(Operator):
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     scalar_int: int, optional
-        Lp normalisation type, p = 1, 2, ...n - Default Lp=L2
+        $L_p$ norm order $p$ (positive integer, default is 2 for the Euclidean norm).
 
     Outputs
     -------
     field: Field
-        Scalar field containing the Lp norm values for each element
+        Scalar field containing the $L_p$ norm value for each entity.
 
     Examples
     --------
@@ -75,8 +80,13 @@ class norm(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the element-wise Lp norm of the field elementary data. Default
-Lp=L2
+        description = r"""Computes the `:math:`L_p`
+norm <https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm>`__ of the
+component vector for each entity in the field:
+:math:`\mathrm{out}[k] = \left(\sum_{j=0}^{n_c-1} |v_{k,j}|^p\right)^{1/p}`,
+where :math:`n_c` is the number of components. Default is :math:`p = 2`
+(Euclidean norm). The output is a scalar field with one value per
+entity.
 """
         spec = Specification(
             description=description,
@@ -91,7 +101,7 @@ Lp=L2
                     name="scalar_int",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Lp normalisation type, p = 1, 2, ...n - Default Lp=L2""",
+                    document=r"""$L_p$ norm order $p$ (positive integer, default is 2 for the Euclidean norm).""",
                 ),
             },
             map_output_pin_spec={
@@ -99,7 +109,7 @@ Lp=L2
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Scalar field containing the Lp norm values for each element""",
+                    document=r"""Scalar field containing the $L_p$ norm value for each entity.""",
                 ),
             },
         )
@@ -197,7 +207,7 @@ class InputsNorm(_Inputs):
     def scalar_int(self) -> Input[int]:
         r"""Allows to connect scalar_int input to the operator.
 
-        Lp normalisation type, p = 1, 2, ...n - Default Lp=L2
+        $L_p$ norm order $p$ (positive integer, default is 2 for the Euclidean norm).
 
         Returns
         -------
@@ -236,7 +246,7 @@ class OutputsNorm(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        Scalar field containing the Lp norm values for each element
+        Scalar field containing the $L_p$ norm value for each entity.
 
         Returns
         -------
