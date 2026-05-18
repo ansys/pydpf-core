@@ -21,7 +21,13 @@ if TYPE_CHECKING:
 
 
 class kronecker_prod(Operator):
-    r"""Computes element-wise Kronecker product between two tensor fields.
+    r"""Computes the `Kronecker
+    product <https://en.wikipedia.org/wiki/Kronecker_product>`__ of two
+    matrix-valued fields per entity. For each entity, if :math:`A` is an
+    :math:`(m \times n)` matrix and :math:`B` is a :math:`(p \times q)`
+    matrix, the result is an :math:`(mp \times nq)` matrix:
+    :math:`(A \otimes B)_{(ip+k),(jq+l)} = A_{i,j} \cdot B_{k,l}`. Both
+    input fields must have the same number of entities.
 
 
     Inputs
@@ -34,6 +40,7 @@ class kronecker_prod(Operator):
     Outputs
     -------
     field: Field
+        Matrix field containing the Kronecker product $A \otimes B$ for each entity; unit is $u_A \cdot u_B$.
 
     Examples
     --------
@@ -73,7 +80,13 @@ class kronecker_prod(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes element-wise Kronecker product between two tensor fields.
+        description = r"""Computes the `Kronecker
+product <https://en.wikipedia.org/wiki/Kronecker_product>`__ of two
+matrix-valued fields per entity. For each entity, if :math:`A` is an
+:math:`(m \times n)` matrix and :math:`B` is a :math:`(p \times q)`
+matrix, the result is an :math:`(mp \times nq)` matrix:
+:math:`(A \otimes B)_{(ip+k),(jq+l)} = A_{i,j} \cdot B_{k,l}`. Both
+input fields must have the same number of entities.
 """
         spec = Specification(
             description=description,
@@ -96,7 +109,7 @@ class kronecker_prod(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Matrix field containing the Kronecker product $A \otimes B$ for each entity; unit is $u_A \cdot u_B$.""",
                 ),
             },
         )
@@ -234,6 +247,8 @@ class OutputsKroneckerProd(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Matrix field containing the Kronecker product $A \otimes B$ for each entity; unit is $u_A \cdot u_B$.
 
         Returns
         -------

@@ -31,6 +31,8 @@ class extract_time_freq(Operator):
     time_scoping: Scoping, optional
     real_or_complex: bool, optional
         False for real only (default). True for complex output.
+    rpm_scoping: int, optional
+        Optional scoping for RPM/load case selection.
 
     Outputs
     -------
@@ -50,12 +52,15 @@ class extract_time_freq(Operator):
     >>> op.inputs.time_scoping.connect(my_time_scoping)
     >>> my_real_or_complex = bool()
     >>> op.inputs.real_or_complex.connect(my_real_or_complex)
+    >>> my_rpm_scoping = int()
+    >>> op.inputs.rpm_scoping.connect(my_rpm_scoping)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.extract_time_freq(
     ...     time_freq_support=my_time_freq_support,
     ...     time_scoping=my_time_scoping,
     ...     real_or_complex=my_real_or_complex,
+    ...     rpm_scoping=my_rpm_scoping,
     ... )
 
     >>> # Get output data
@@ -67,6 +72,7 @@ class extract_time_freq(Operator):
         time_freq_support=None,
         time_scoping=None,
         real_or_complex=None,
+        rpm_scoping=None,
         config=None,
         server=None,
     ):
@@ -83,6 +89,8 @@ class extract_time_freq(Operator):
             self.inputs.time_scoping.connect(time_scoping)
         if real_or_complex is not None:
             self.inputs.real_or_complex.connect(real_or_complex)
+        if rpm_scoping is not None:
+            self.inputs.rpm_scoping.connect(rpm_scoping)
 
     @staticmethod
     def _spec() -> Specification:
@@ -108,6 +116,12 @@ class extract_time_freq(Operator):
                     type_names=["bool"],
                     optional=True,
                     document=r"""False for real only (default). True for complex output.""",
+                ),
+                3: PinSpecification(
+                    name="rpm_scoping",
+                    type_names=["int32"],
+                    optional=True,
+                    document=r"""Optional scoping for RPM/load case selection.""",
                 ),
             },
             map_output_pin_spec={
@@ -179,6 +193,8 @@ class InputsExtractTimeFreq(_Inputs):
     >>> op.inputs.time_scoping.connect(my_time_scoping)
     >>> my_real_or_complex = bool()
     >>> op.inputs.real_or_complex.connect(my_real_or_complex)
+    >>> my_rpm_scoping = int()
+    >>> op.inputs.rpm_scoping.connect(my_rpm_scoping)
     """
 
     def __init__(self, op: Operator):
@@ -195,6 +211,10 @@ class InputsExtractTimeFreq(_Inputs):
             extract_time_freq._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._real_or_complex)
+        self._rpm_scoping: Input[int] = Input(
+            extract_time_freq._spec().input_pin(3), 3, op, -1
+        )
+        self._inputs.append(self._rpm_scoping)
 
     @property
     def time_freq_support(self) -> Input[TimeFreqSupport]:
@@ -254,6 +274,27 @@ class InputsExtractTimeFreq(_Inputs):
         >>> op.inputs.real_or_complex(my_real_or_complex)
         """
         return self._real_or_complex
+
+    @property
+    def rpm_scoping(self) -> Input[int]:
+        r"""Allows to connect rpm_scoping input to the operator.
+
+        Optional scoping for RPM/load case selection.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.extract_time_freq()
+        >>> op.inputs.rpm_scoping.connect(my_rpm_scoping)
+        >>> # or
+        >>> op.inputs.rpm_scoping(my_rpm_scoping)
+        """
+        return self._rpm_scoping
 
 
 class OutputsExtractTimeFreq(_Outputs):
