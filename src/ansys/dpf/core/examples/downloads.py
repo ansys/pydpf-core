@@ -42,7 +42,7 @@ GITHUB_SOURCE_URL = (
 )
 
 
-def delete_downloads(verbose=True):
+def delete_downloads(verbose=True):  # noqa: C901
     """Delete all downloaded examples to free space or update the files."""
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH, examples
 

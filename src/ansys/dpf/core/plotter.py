@@ -215,7 +215,7 @@ class _PyVistaPlotter:
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, **kwargs_in)
 
-    def add_point_labels(
+    def add_point_labels(  # noqa: C901
         self,
         nodes: Union[Nodes, List[Node], List[int]],
         meshed_region: MeshedRegion,
@@ -316,7 +316,7 @@ class _PyVistaPlotter:
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
         self._plotter.add_mesh(mesh=scoping_mesh, **kwargs_in)
 
-    def add_field(
+    def add_field(  # noqa: C901
         self,
         field,
         meshed_region=None,
@@ -752,7 +752,7 @@ class _VisualizationInterfacePlotter:
         grid.set_active_scalars(None)
         self._plotter.plot(grid, **kwargs_in)
 
-    def add_point_labels(
+    def add_point_labels(  # noqa: C901
         self,
         nodes: Union[Nodes, List[Node], List[int]],
         meshed_region: MeshedRegion,
@@ -894,7 +894,7 @@ class _VisualizationInterfacePlotter:
 
         self._plotter.plot(scoping_mesh, **kwargs_in)
 
-    def add_field(
+    def add_field(  # noqa: C901
         self,
         field: Field,
         meshed_region: Optional[MeshedRegion] = None,
@@ -1739,7 +1739,7 @@ class Plotter:
             pyplot.show(block=True)
         return f
 
-    def plot_contour(
+    def plot_contour(  # noqa: C901
         self,
         field_or_fields_container: Union[Field, FieldsContainer],
         shell_layers: eshell_layers = None,

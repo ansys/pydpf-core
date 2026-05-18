@@ -154,7 +154,7 @@ class DataTree:
             )
         return self._api_instance
 
-    def add(self, *args, **kwargs):
+    def add(self, *args, **kwargs):  # noqa: C901
         """
         Add attributes with their value to the data tree.
 

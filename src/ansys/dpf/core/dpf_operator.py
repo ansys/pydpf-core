@@ -278,7 +278,7 @@ class Operator:
     def progress_bar(self, value: bool) -> None:
         self._progress_bar = value
 
-    def connect(self, pin, inpt, pin_out=0):
+    def connect(self, pin, inpt, pin_out=0):  # noqa: C901
         """Connect an input on the operator using a pin number.
 
         Parameters
@@ -599,7 +599,7 @@ class Operator:
             )
         return out
 
-    def get_output(self, pin=0, output_type=None):
+    def get_output(self, pin=0, output_type=None):  # noqa: C901
         """Retrieve the output of the operator on the pin number.
 
         To activate the progress bar for server version higher or equal to 3.0,
@@ -853,7 +853,7 @@ class Operator:
                 if output._pin == pin:
                     return output()
 
-    def _find_outputs_corresponding_pins(
+    def _find_outputs_corresponding_pins(  # noqa: C901
         self, type_names, inpt, pin, corresponding_pins, input_type_name
     ):
         from ansys.dpf.core.results import Result
