@@ -29,7 +29,7 @@ Contains classes associated with the DPF FieldsContainer.
 from __future__ import annotations
 
 from contextlib import suppress
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Sequence, Union
 
 from ansys import dpf
 from ansys.dpf.core import errors as dpf_errors, field

@@ -25,7 +25,7 @@
 
 from __future__ import annotations
 
-from typing import Generic, Type, TypeVar
+from typing import Type, TypeVar
 
 from ansys.dpf.core import errors, server as server_module
 from ansys.dpf.core.any import Any

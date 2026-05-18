@@ -27,7 +27,6 @@ Offer tools similar to os.path but taking the os of the
 server into account to create path.
 """
 
-import os
 from pathlib import Path
 
 from ansys.dpf.core import server as server_module

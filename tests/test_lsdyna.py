@@ -21,11 +21,8 @@
 # SOFTWARE.
 
 import numpy as np
-import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core.check_version import server_meet_version
-import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,

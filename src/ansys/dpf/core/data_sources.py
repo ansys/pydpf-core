@@ -42,7 +42,7 @@ from ansys.dpf.gate import (
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf import core as dpf
-    from ansys.dpf.core import LabelSpace, server_types
+    from ansys.dpf.core import LabelSpace
     from ansys.dpf.core.server_types import AnyServerType
     from ansys.grpc.dpf import data_sources_pb2
 

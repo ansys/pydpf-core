@@ -37,12 +37,11 @@ import numpy as np
 
 from ansys.dpf.core import field, property_field, scoping, server as server_module
 from ansys.dpf.core.cache import class_handling_cache
-from ansys.dpf.core.check_version import meets_version, server_meet_version, version_requires
+from ansys.dpf.core.check_version import meets_version, version_requires
 from ansys.dpf.core.common import (
     locations,
     natures,
     nodal_properties,
-    types,
 )
 from ansys.dpf.core.elements import Elements, element_types
 import ansys.dpf.core.errors

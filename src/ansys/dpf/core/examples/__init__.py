@@ -21,8 +21,8 @@
 # SOFTWARE.
 """Provide utility functions for downloading and locating DPF example files."""
 
-from .downloads import *
-from .examples import *
+from .downloads import *  # noqa: F403
+from .examples import *  # noqa: F403
 
 _finders = {
     "simple_bar": find_simple_bar,

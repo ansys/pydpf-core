@@ -22,7 +22,6 @@
 
 """Miscellaneous functions for the DPF module."""
 
-import glob
 import os
 from pathlib import Path
 from pkgutil import iter_modules

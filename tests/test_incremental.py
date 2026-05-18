@@ -21,11 +21,9 @@
 # SOFTWARE.
 
 import numpy as np
-import pytest
 
 from ansys.dpf import core
 from ansys.dpf.core import common
-import conftest
 
 
 def test_incremental_results(server_type, plate_msup):

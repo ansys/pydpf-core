@@ -43,7 +43,7 @@ import weakref
 
 from ansys import dpf
 from ansys.dpf.core import errors, server_context
-from ansys.dpf.core.misc import get_ansys_path, is_ubuntu
+from ansys.dpf.core.misc import get_ansys_path
 from ansys.dpf.core.server_context import ServerContext
 from ansys.dpf.core.server_factory import (
     CommunicationProtocols,

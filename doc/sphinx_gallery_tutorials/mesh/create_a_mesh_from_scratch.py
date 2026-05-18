@@ -43,7 +43,6 @@ In this tutorial, we create a parallel piped mesh made of linear hexa elements.
 import numpy as np
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import operators as ops
 
 ###############################################################################
 # Define the mesh dimensions
