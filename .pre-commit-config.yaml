@@ -38,6 +38,13 @@ repos:
         args:
         -   --start_year=2020
 
+-   repo: https://github.com/PyCQA/bandit
+    rev: 1.9.4
+    hooks:
+    -   id: bandit
+        args: [-o=info_bandit.txt, -f=txt]
+        files: 'src/.*\.py'
+
 # this validates our github workflow files
 -   repo: https://github.com/python-jsonschema/check-jsonschema
     rev: 0.29.4

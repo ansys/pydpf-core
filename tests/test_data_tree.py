@@ -20,13 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
 from pathlib import Path
 
 import pytest
 
 from ansys.dpf import core as dpf
-import conftest
 
 
 def test_create_data_tree(server_type):

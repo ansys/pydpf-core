@@ -24,7 +24,6 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import errors as dpf_errors
-import conftest
 
 
 def test_predefined_unit_systems():

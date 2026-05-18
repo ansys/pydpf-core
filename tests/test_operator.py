@@ -25,7 +25,6 @@ import gc
 import os
 from pathlib import Path
 import shutil
-import types
 import warnings
 import weakref
 

@@ -78,13 +78,10 @@ class GenericDataContainer:
 
         if generic_data_container is not None:
             self._internal_obj = generic_data_container
+        elif self._server.has_client():
+            self._internal_obj = self._api.generic_data_container_new_on_client(self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.generic_data_container_new_on_client(
-                    self._server.client
-                )
-            else:
-                self._internal_obj = self._api.generic_data_container_new()
+            self._internal_obj = self._api.generic_data_container_new()
         self._prop_description_instance = None
 
     @property
