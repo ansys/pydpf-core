@@ -43,7 +43,7 @@ class Dimensionality:
 
     """
 
-    def __init__(self, dim_vec=None, nature: natures = natures.vector):
+    def __init__(self, dim_vec=None, nature: natures = natures.vector):  # noqa: C901
         self.dim = dim_vec
         self.nature = nature
         # set nature
@@ -76,7 +76,7 @@ class Dimensionality:
 
     def is_2d_dim(self):
         """Check if dimensionality is 2."""
-        return len(self.dim) == 2
+        return len(self.dim) == 2  # noqa: PLR2004
 
     def __str__(self):
         """Customize the string representation of the dimensionality."""
@@ -144,6 +144,8 @@ class Dimensionality:
             Dimensionality of the symmetrical ``3 x 3`` tensor field.
         """
         return Dimensionality([3, 3], natures.symmatrix)
+
+    __hash__ = None
 
     def __eq__(self, other):
         """Check if this Dimensionality object is equal to another.

@@ -23,6 +23,7 @@
 """Support."""
 
 import traceback
+from typing import TYPE_CHECKING
 import warnings
 
 from ansys.dpf.core import collection_base, server as server_module
@@ -35,6 +36,14 @@ from ansys.dpf.gate import (
     support_capi,
     support_grpcapi,
 )
+
+if TYPE_CHECKING:
+    from ansys.dpf.core import (
+        cyclic_support,
+        generic_support,
+        meshed_region,
+        time_freq_support,
+    )
 
 
 class Support:

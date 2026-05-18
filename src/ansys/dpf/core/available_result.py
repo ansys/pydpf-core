@@ -303,36 +303,3 @@ class AvailableResult:
         Each combination is a dictionary which can be used for a result request.
         """
         return [q.__dict__() for q in self.qualifiers]
-
-
-def available_result_from_name(name) -> AvailableResult:
-    """Create an instance of AvailableResult from a specified results name.
-
-    Parameters
-    ----------
-    name : str
-        Valid property name.
-
-    Returns
-    -------
-    AvailableResult
-        Instance created from specified result name.
-    """
-    for key, item in _result_properties.items():
-        if item["scripting_name"] == name:
-            from types import SimpleNamespace
-
-            availableresult = SimpleNamespace(
-                name=key,
-                physicsname=name,
-                ncomp=None,
-                dimensionality=None,
-                homogeneity=None,
-                unit=None,
-                sub_res={},
-                properties={"loc_name": item["location"], "scripting_name": name},
-                qualifiers=[],
-                qualifier_labels={},
-            )
-
-            return AvailableResult(availableresult)

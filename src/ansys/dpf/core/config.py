@@ -89,21 +89,19 @@ class Config:
         # step4: if object exists: take instance, else create it
         if config:
             self._internal_obj = config
-        else:
-            if self._server.has_client():
-                if operator_name:
-                    self._internal_obj = self._api.operator_config_default_new_on_client(
-                        self._server.client, operator_name
-                    )
-                else:
-                    self._internal_obj = self._api.operator_config_empty_new_on_client(
-                        self._server.client
-                    )
+        elif self._server.has_client():
+            if operator_name:
+                self._internal_obj = self._api.operator_config_default_new_on_client(
+                    self._server.client, operator_name
+                )
             else:
-                if operator_name:
-                    self._internal_obj = self._api.operator_config_default_new(operator_name)
-                else:
-                    self._internal_obj = self._api.operator_config_empty_new()
+                self._internal_obj = self._api.operator_config_empty_new_on_client(
+                    self._server.client
+                )
+        elif operator_name:
+            self._internal_obj = self._api.operator_config_default_new(operator_name)
+        else:
+            self._internal_obj = self._api.operator_config_empty_new()
 
         self._operator_name = operator_name
         self._spec_instance = spec

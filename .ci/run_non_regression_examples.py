@@ -1,10 +1,11 @@
-import glob
 import os
 import pathlib
 import subprocess
 import sys
 
 from ansys.dpf import core
+
+_WINDOWS_ACCESS_VIOLATION_RETURNCODE = 3221225477  # 0xC0000005 STATUS_ACCESS_VIOLATION
 
 os.environ["PYVISTA_OFF_SCREEN"] = "true"
 os.environ["MPLBACKEND"] = "Agg"
@@ -36,7 +37,7 @@ for path in list_tests:
                 subprocess.check_call([sys.executable, str(file)])
             except subprocess.CalledProcessError as e:
                 sys.stderr.write(str(e.args))
-                if e.returncode != 3221225477:
+                if e.returncode != _WINDOWS_ACCESS_VIOLATION_RETURNCODE:
                     raise e
             print("PASS")
     else:
@@ -46,6 +47,6 @@ for path in list_tests:
             subprocess.check_call([sys.executable, str(file)])
         except subprocess.CalledProcessError as e:
             sys.stderr.write(str(e.args))
-            if e.returncode != 3221225477:
+            if e.returncode != _WINDOWS_ACCESS_VIOLATION_RETURNCODE:
                 raise e
         print("PASS")

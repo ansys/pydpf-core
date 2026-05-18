@@ -101,7 +101,7 @@ class StringField(_FieldBase):
         self._api.init_string_field_environment(self)
 
     @staticmethod
-    def _field_create_internal_obj(
+    def _field_create_internal_obj(  # noqa: PLR0913
         api: string_field_abstract_api.StringFieldAbstractAPI,
         server,
         nature,

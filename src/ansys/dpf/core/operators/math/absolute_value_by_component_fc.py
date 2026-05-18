@@ -20,8 +20,11 @@ if TYPE_CHECKING:
 
 
 class absolute_value_by_component_fc(Operator):
-    r"""Computes the absolute value of each data value in the input field
-    component-wise, without performing vector norm operations.
+    r"""Applies the `absolute
+    value <https://en.wikipedia.org/wiki/Absolute_value>`__ function
+    component-wise to each scalar data entry:
+    :math:`\mathrm{out}[i] = |\mathrm{in}[i]|`. This is a per-component
+    operation and does not compute a vector norm.
 
 
     Inputs
@@ -32,7 +35,7 @@ class absolute_value_by_component_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
-        Field with absolute values applied to each component
+        Field with $|\mathrm{in}[i]|$ applied to each data component, preserving the input unit and dimensionality.
 
     Examples
     --------
@@ -67,8 +70,11 @@ class absolute_value_by_component_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the absolute value of each data value in the input field
-component-wise, without performing vector norm operations.
+        description = r"""Applies the `absolute
+value <https://en.wikipedia.org/wiki/Absolute_value>`__ function
+component-wise to each scalar data entry:
+:math:`\mathrm{out}[i] = |\mathrm{in}[i]|`. This is a per-component
+operation and does not compute a vector norm.
 """
         spec = Specification(
             description=description,
@@ -85,7 +91,7 @@ component-wise, without performing vector norm operations.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Field with absolute values applied to each component""",
+                    document=r"""Field with $|\mathrm{in}[i]|$ applied to each data component, preserving the input unit and dimensionality.""",
                 ),
             },
         )
@@ -201,7 +207,7 @@ class OutputsAbsoluteValueByComponentFc(_Outputs):
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
-        Field with absolute values applied to each component
+        Field with $|\mathrm{in}[i]|$ applied to each data component, preserving the input unit and dimensionality.
 
         Returns
         -------

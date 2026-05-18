@@ -21,5 +21,5 @@
 # SOFTWARE.
 """Provide helpers relating to streamline computation, argument filtering, and text indenting."""
 
-from .streamlines import *
-from .utils import *
+from .streamlines import *  # noqa: F403
+from .utils import *  # noqa: F403
