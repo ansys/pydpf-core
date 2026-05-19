@@ -88,6 +88,10 @@ class StringFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def csstring_field_get_data_pointer(field, size):
+		raise NotImplementedError
+
+	@staticmethod
 	def csstring_field_set_data_pointer(field, size, data):
 		raise NotImplementedError
 

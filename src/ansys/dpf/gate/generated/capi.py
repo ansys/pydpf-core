@@ -4121,6 +4121,10 @@ def load_api(path):
 		dll.CSStringField_SetCScoping.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSStringField_SetCScoping.restype = None
 
+	if hasattr(dll, "CSStringField_GetDataPointer"):
+		dll.CSStringField_GetDataPointer.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSStringField_GetDataPointer.restype = ctypes.POINTER(ctypes.c_int32)
+
 	if hasattr(dll, "CSStringField_SetDataPointer"):
 		dll.CSStringField_SetDataPointer.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSStringField_SetDataPointer.restype = None
