@@ -59,7 +59,7 @@ class Output(Generic[T]):
             self._python_expected_types.append(map_types_to_python[cpp_type])
         self.aliases = self._spec.aliases
 
-    def get_data(self) -> T:
+    def get_data(self) -> T:  # noqa: C901
         """Retrieve the output of the operator."""
         type_output = self._spec.type_names[0]
 

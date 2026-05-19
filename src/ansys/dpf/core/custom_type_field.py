@@ -167,7 +167,7 @@ class CustomTypeField(_FieldBase):
         self._api.init_custom_type_field_environment(self)
 
     @staticmethod
-    def _field_create_internal_obj(
+    def _field_create_internal_obj(  # noqa: PLR0913
         api,
         server,
         nature,

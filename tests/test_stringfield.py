@@ -26,7 +26,6 @@ import pytest
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.common import locations
-import conftest
 
 
 def test_scopingdata_string_field(server_type):

@@ -193,6 +193,6 @@ class Stream(ABC):
         """
         pass
 
-    def __delete__(self):
+    def __del__(self):
         """Release resources when the descriptor protocol deletes this object."""
         self.release()

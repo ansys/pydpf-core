@@ -20,16 +20,26 @@ if TYPE_CHECKING:
 
 
 class cplx_derive(Operator):
-    r"""Derives field containers containing complex fields.
+    r"""Computes the time derivative of a
+    `phasor <https://en.wikipedia.org/wiki/Phasor>`__ field in the frequency
+    domain by multiplying by :math:`j\omega`, where :math:`\omega = 2\pi f`
+    and :math:`f` is taken from the fields container’s time-frequency
+    support. The result components are:
+    :math:`\mathrm{Re}(\dot{z})[i] = -\omega \cdot \mathrm{Im}(z)[i]`,
+    :math:`\mathrm{Im}(\dot{z})[i] = \omega \cdot \mathrm{Re}(z)[i]`. The
+    output unit is the input field unit multiplied by the time-frequency
+    support unit.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
+        Complex-valued fields container with a time-frequency support defining the frequencies.
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Fields container containing the frequency-domain time derivative $j\omega z$ (real and imaginary parts).
 
     Examples
     --------
@@ -64,7 +74,15 @@ class cplx_derive(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Derives field containers containing complex fields.
+        description = r"""Computes the time derivative of a
+`phasor <https://en.wikipedia.org/wiki/Phasor>`__ field in the frequency
+domain by multiplying by :math:`j\omega`, where :math:`\omega = 2\pi f`
+and :math:`f` is taken from the fields container’s time-frequency
+support. The result components are:
+:math:`\mathrm{Re}(\dot{z})[i] = -\omega \cdot \mathrm{Im}(z)[i]`,
+:math:`\mathrm{Im}(\dot{z})[i] = \omega \cdot \mathrm{Re}(z)[i]`. The
+output unit is the input field unit multiplied by the time-frequency
+support unit.
 """
         spec = Specification(
             description=description,
@@ -73,7 +91,7 @@ class cplx_derive(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Complex-valued fields container with a time-frequency support defining the frequencies.""",
                 ),
             },
             map_output_pin_spec={
@@ -81,7 +99,7 @@ class cplx_derive(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container containing the frequency-domain time derivative $j\omega z$ (real and imaginary parts).""",
                 ),
             },
         )
@@ -154,6 +172,8 @@ class InputsCplxDerive(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        Complex-valued fields container with a time-frequency support defining the frequencies.
+
         Returns
         -------
         input:
@@ -192,6 +212,8 @@ class OutputsCplxDerive(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Fields container containing the frequency-domain time derivative $j\omega z$ (real and imaginary parts).
 
         Returns
         -------

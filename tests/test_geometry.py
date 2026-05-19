@@ -36,7 +36,6 @@ from ansys.dpf.core.geometry_factory import (
     create_line_from_points,
     create_line_from_vector,
     create_plane_from_center_and_normal,
-    create_plane_from_lines,
     create_plane_from_point_and_line,
     create_plane_from_points,
     create_points,
