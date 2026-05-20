@@ -1,5 +1,3 @@
-````chatagent
-```chatagent
 ---
 name: PyDPFExampleWriter
 description: >
@@ -212,6 +210,3 @@ After creating/modifying files, report:
 Expected output:
 - New file: `doc/sphinx_gallery_examples/14-lsdyna/02-lsdyna_erosion.py`
 - New download helper in: `src/ansys/dpf/core/examples/downloads.py`
-```
-
-````
