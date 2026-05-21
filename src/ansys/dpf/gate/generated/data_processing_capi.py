@@ -266,6 +266,15 @@ class DataProcessingCAPI(data_processing_abstract_api.DataProcessingAbstractAPI)
 		return res
 
 	@staticmethod
+	def data_processing_get_server_version_full(major, minor, micro, modifier):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataProcessing_getServerVersionFull(ctypes.byref(utils.to_int32(major)), ctypes.byref(utils.to_int32(minor)), ctypes.byref(utils.to_int32(micro)), utils.to_char_ptr_ptr(modifier), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def data_processing_get_os():
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -499,10 +508,28 @@ class DataProcessingCAPI(data_processing_abstract_api.DataProcessingAbstractAPI)
 		return res
 
 	@staticmethod
+	def data_processing_get_server_version_full_on_client(client, major, minor, micro, modifier):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataProcessing_getServerVersionFull_on_client(client._internal_obj if client is not None else None, ctypes.byref(utils.to_int32(major)), ctypes.byref(utils.to_int32(minor)), ctypes.byref(utils.to_int32(micro)), utils.to_char_ptr_ptr(modifier), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def data_processing_get_grpc_client_server_version(major, minor):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataProcessing_getGrpcClientServerVersion(ctypes.byref(utils.to_int32(major)), ctypes.byref(utils.to_int32(minor)), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def data_processing_get_grpc_client_server_version_full(major, minor, micro, modifier):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataProcessing_getGrpcClientServerVersionFull(ctypes.byref(utils.to_int32(major)), ctypes.byref(utils.to_int32(minor)), ctypes.byref(utils.to_int32(micro)), utils.to_char_ptr_ptr(modifier), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
