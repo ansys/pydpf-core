@@ -55,6 +55,12 @@ class force_summation(Operator):
         - 1: Sum all nodal forces for contact nodes only.
         - 2: Sum all nodal forces for all selected nodes, including contact elements.
 
+    read_cyclic: int, optional
+        if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
+    sectors_to_expand: Scoping or ScopingsContainer, optional
+        sectors to expand (start at 0), for multistage: use scopings container with 'stage' label, use if cyclic expansion is to be done.
+    phi: float, optional
+        angle phi in degrees (default value 0.0), use if cyclic expansion is to be done.
 
     Outputs
     -------
@@ -89,6 +95,12 @@ class force_summation(Operator):
     >>> op.inputs.spoint.connect(my_spoint)
     >>> my_scoping_filter = int()
     >>> op.inputs.scoping_filter.connect(my_scoping_filter)
+    >>> my_read_cyclic = int()
+    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_sectors_to_expand = dpf.Scoping()
+    >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+    >>> my_phi = float()
+    >>> op.inputs.phi.connect(my_phi)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.averaging.force_summation(
@@ -100,6 +112,9 @@ class force_summation(Operator):
     ...     force_type=my_force_type,
     ...     spoint=my_spoint,
     ...     scoping_filter=my_scoping_filter,
+    ...     read_cyclic=my_read_cyclic,
+    ...     sectors_to_expand=my_sectors_to_expand,
+    ...     phi=my_phi,
     ... )
 
     >>> # Get output data
@@ -121,6 +136,9 @@ class force_summation(Operator):
         force_type=None,
         spoint=None,
         scoping_filter=None,
+        read_cyclic=None,
+        sectors_to_expand=None,
+        phi=None,
         config=None,
         server=None,
     ):
@@ -147,6 +165,12 @@ class force_summation(Operator):
             self.inputs.spoint.connect(spoint)
         if scoping_filter is not None:
             self.inputs.scoping_filter.connect(scoping_filter)
+        if read_cyclic is not None:
+            self.inputs.read_cyclic.connect(read_cyclic)
+        if sectors_to_expand is not None:
+            self.inputs.sectors_to_expand.connect(sectors_to_expand)
+        if phi is not None:
+            self.inputs.phi.connect(phi)
 
     @staticmethod
     def _spec() -> Specification:
@@ -211,6 +235,24 @@ of the data source.
 - 1: Sum all nodal forces for contact nodes only.
 - 2: Sum all nodal forces for all selected nodes, including contact elements.
 """,
+                ),
+                14: PinSpecification(
+                    name="read_cyclic",
+                    type_names=["enum dataProcessing::ECyclicReading", "int32"],
+                    optional=True,
+                    document=r"""if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)""",
+                ),
+                18: PinSpecification(
+                    name="sectors_to_expand",
+                    type_names=["vector<int32>", "scoping", "scopings_container"],
+                    optional=True,
+                    document=r"""sectors to expand (start at 0), for multistage: use scopings container with 'stage' label, use if cyclic expansion is to be done.""",
+                ),
+                19: PinSpecification(
+                    name="phi",
+                    type_names=["double"],
+                    optional=True,
+                    document=r"""angle phi in degrees (default value 0.0), use if cyclic expansion is to be done.""",
                 ),
             },
             map_output_pin_spec={
@@ -322,6 +364,12 @@ class InputsForceSummation(_Inputs):
     >>> op.inputs.spoint.connect(my_spoint)
     >>> my_scoping_filter = int()
     >>> op.inputs.scoping_filter.connect(my_scoping_filter)
+    >>> my_read_cyclic = int()
+    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_sectors_to_expand = dpf.Scoping()
+    >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+    >>> my_phi = float()
+    >>> op.inputs.phi.connect(my_phi)
     """
 
     def __init__(self, op: Operator):
@@ -358,6 +406,18 @@ class InputsForceSummation(_Inputs):
             force_summation._spec().input_pin(9), 9, op, -1
         )
         self._inputs.append(self._scoping_filter)
+        self._read_cyclic: Input[int] = Input(
+            force_summation._spec().input_pin(14), 14, op, -1
+        )
+        self._inputs.append(self._read_cyclic)
+        self._sectors_to_expand: Input[Scoping | ScopingsContainer] = Input(
+            force_summation._spec().input_pin(18), 18, op, -1
+        )
+        self._inputs.append(self._sectors_to_expand)
+        self._phi: Input[float] = Input(
+            force_summation._spec().input_pin(19), 19, op, -1
+        )
+        self._inputs.append(self._phi)
 
     @property
     def time_scoping(self) -> Input[Scoping]:
@@ -531,6 +591,69 @@ class InputsForceSummation(_Inputs):
         >>> op.inputs.scoping_filter(my_scoping_filter)
         """
         return self._scoping_filter
+
+    @property
+    def read_cyclic(self) -> Input[int]:
+        r"""Allows to connect read_cyclic input to the operator.
+
+        if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.force_summation()
+        >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+        >>> # or
+        >>> op.inputs.read_cyclic(my_read_cyclic)
+        """
+        return self._read_cyclic
+
+    @property
+    def sectors_to_expand(self) -> Input[Scoping | ScopingsContainer]:
+        r"""Allows to connect sectors_to_expand input to the operator.
+
+        sectors to expand (start at 0), for multistage: use scopings container with 'stage' label, use if cyclic expansion is to be done.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.force_summation()
+        >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+        >>> # or
+        >>> op.inputs.sectors_to_expand(my_sectors_to_expand)
+        """
+        return self._sectors_to_expand
+
+    @property
+    def phi(self) -> Input[float]:
+        r"""Allows to connect phi input to the operator.
+
+        angle phi in degrees (default value 0.0), use if cyclic expansion is to be done.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.force_summation()
+        >>> op.inputs.phi.connect(my_phi)
+        >>> # or
+        >>> op.inputs.phi(my_phi)
+        """
+        return self._phi
 
 
 class OutputsForceSummation(_Outputs):
