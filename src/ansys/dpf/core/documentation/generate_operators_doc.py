@@ -420,9 +420,10 @@ def generate_operator_doc(  # noqa: PLR0912, C901
     operator_info = fetch_doc_info(server, operator_name)
     supported_file_types = {}
     if router_info is not None:
-        operator_info["is_router"] = operator_name in router_info["router_map"].keys()
+        scripting_name = operator_info["scripting_info"]["scripting_name"]
+        operator_info["is_router"] = scripting_name in router_info["router_map"].keys()
         if operator_info["is_router"]:
-            supported_keys = router_info["router_map"].get(operator_name, []).split(";")
+            supported_keys = router_info["router_map"].get(scripting_name, []).split(";")
             for key in supported_keys:
                 if key in router_info["namespace_ext_map"]:
                     namespace = router_info["namespace_ext_map"][key]
@@ -435,7 +436,6 @@ def generate_operator_doc(  # noqa: PLR0912, C901
     else:
         operator_info["is_router"] = False
     operator_info["supported_file_types"] = supported_file_types
-    scripting_name = operator_info["scripting_info"]["scripting_name"]
     category: str = operator_info["scripting_info"]["category"]
     if scripting_name:
         file_name = scripting_name
