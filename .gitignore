@@ -30,6 +30,9 @@ MANIFEST
 *.manifest
 *.spec
 
+# Bandit
+info_bandit.txt
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
