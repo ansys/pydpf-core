@@ -613,11 +613,16 @@ def get_operator_routing_info_legacy(server: dpf.AnyServerType) -> dict:
         parts = op_name.split("::")
         if len(parts) == _SOLVER_OP_PART_COUNT:
             namespace, key, router_name = parts
+            if "deprecated" in key.lower():
+                continue  # Skip deprecated operators
             namespace_ext_map[key] = namespace
-            if router_name not in router_map:
-                router_map[router_name] = []
-            if key not in router_map[router_name]:
-                router_map[router_name].append(key)
+            op_scripting_name = dpf.Operator.operator_specification(
+                op_name=router_name, server=server
+            ).properties.get("scripting_name", router_name)
+            if op_scripting_name not in router_map:
+                router_map[op_scripting_name] = []
+            if key not in router_map[op_scripting_name]:
+                router_map[op_scripting_name].append(key)
 
     return {
         "aliases": {},
