@@ -75,6 +75,11 @@ def test_download_modal_cyclic():
     assert isinstance(Model(path), Model)
 
 
+def test_download_modal_cyclic_complex():
+    path = examples.download_modal_cyclic_complex()
+    assert isinstance(Model(path), Model)
+
+
 def test_download_fluent_multi_species():
     path = examples.download_fluent_multi_species()
     assert isinstance(Model(path), Model)

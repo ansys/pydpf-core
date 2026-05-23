@@ -67,6 +67,16 @@ from simulation result files.
        Use a streams container to avoid redundant file I/O when requesting
        multiple results from the same result file.
 
+    .. grid-item-card:: Understand cyclic expansion of results
+       :link: ref_tutorials_import_data_cyclic_expansion
+       :link-type: ref
+       :text-align: center
+
+       Learn how DPF handles cyclic symmetry data and the different cyclic expansion modes.
+
+       +++
+       :bdg-mapdl:`MAPDL`
+
 .. raw:: html
 
    <style>.sphx-glr-thumbnails { display: none; }</style>
