@@ -21,13 +21,19 @@ if TYPE_CHECKING:
 
 
 class import_symbolic_workflow(Operator):
-    r"""Reads a file or string holding a Symbolic Workflow and instantiate a
-    WorkFlow with its data.
+    r"""Reads a file or string holding a Symbolic Workflow and instantiates a
+    WorkFlow with its data. Pin ‘workflow_path’ refers to a file path,
+    either as a string or as DataSources. Pin ‘workflow_as_string’ refers to
+    the string representation of the workflow itself. Both pins are mutually
+    exclusive.
 
 
     Inputs
     ------
-    string_or_path: str or DataSources
+    workflow_path: str or DataSources, optional
+        File path (string) or DataSources pointing to a workflow file. Pin 'format' is used only if this pin is connected.
+    workflow_as_string: str, optional
+        String representation of the workflow as provided by the 'export_symbolic_workflow' operator with string output or the 'writeToString' Workflow API.
     format: int, optional
         -1 is auto-detection, 0 is ASCII format, 1 is binary, 2 is json, default is -1 (auto-detection).
 
@@ -43,14 +49,17 @@ class import_symbolic_workflow(Operator):
     >>> op = dpf.operators.serialization.import_symbolic_workflow()
 
     >>> # Make input connections
-    >>> my_string_or_path = str()
-    >>> op.inputs.string_or_path.connect(my_string_or_path)
+    >>> my_workflow_path = str()
+    >>> op.inputs.workflow_path.connect(my_workflow_path)
+    >>> my_workflow_as_string = str()
+    >>> op.inputs.workflow_as_string.connect(my_workflow_as_string)
     >>> my_format = int()
     >>> op.inputs.format.connect(my_format)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.import_symbolic_workflow(
-    ...     string_or_path=my_string_or_path,
+    ...     workflow_path=my_workflow_path,
+    ...     workflow_as_string=my_workflow_as_string,
     ...     format=my_format,
     ... )
 
@@ -58,7 +67,15 @@ class import_symbolic_workflow(Operator):
     >>> result_workflow = op.outputs.workflow()
     """
 
-    def __init__(self, string_or_path=None, format=None, config=None, server=None):
+    def __init__(
+        self,
+        workflow_path=None,
+        workflow_as_string=None,
+        format=None,
+        config=None,
+        server=None,
+        string_or_path=None,
+    ):
         super().__init__(
             name="import_symbolic_workflow",
             config=config,
@@ -66,24 +83,43 @@ class import_symbolic_workflow(Operator):
             inputs_type=InputsImportSymbolicWorkflow,
             outputs_type=OutputsImportSymbolicWorkflow,
         )
-        if string_or_path is not None:
-            self.inputs.string_or_path.connect(string_or_path)
+        if workflow_path is not None:
+            self.inputs.workflow_path.connect(workflow_path)
+        elif string_or_path is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator import_symbolic_workflow: Input name "string_or_path" is deprecated in favor of "workflow_path".'
+                )
+            )
+            self.inputs.workflow_path.connect(string_or_path)
+        if workflow_as_string is not None:
+            self.inputs.workflow_as_string.connect(workflow_as_string)
         if format is not None:
             self.inputs.format.connect(format)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Reads a file or string holding a Symbolic Workflow and instantiate a
-WorkFlow with its data.
+        description = r"""Reads a file or string holding a Symbolic Workflow and instantiates a
+WorkFlow with its data. Pin ‘workflow_path’ refers to a file path,
+either as a string or as DataSources. Pin ‘workflow_as_string’ refers to
+the string representation of the workflow itself. Both pins are mutually
+exclusive.
 """
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="string_or_path",
+                    name="workflow_path",
                     type_names=["string", "data_sources"],
-                    optional=False,
-                    document=r"""""",
+                    optional=True,
+                    document=r"""File path (string) or DataSources pointing to a workflow file. Pin 'format' is used only if this pin is connected.""",
+                    aliases=["string_or_path"],
+                ),
+                1: PinSpecification(
+                    name="workflow_as_string",
+                    type_names=["string"],
+                    optional=True,
+                    document=r"""String representation of the workflow as provided by the 'export_symbolic_workflow' operator with string output or the 'writeToString' Workflow API.""",
                 ),
                 2: PinSpecification(
                     name="format",
@@ -155,26 +191,34 @@ class InputsImportSymbolicWorkflow(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.serialization.import_symbolic_workflow()
-    >>> my_string_or_path = str()
-    >>> op.inputs.string_or_path.connect(my_string_or_path)
+    >>> my_workflow_path = str()
+    >>> op.inputs.workflow_path.connect(my_workflow_path)
+    >>> my_workflow_as_string = str()
+    >>> op.inputs.workflow_as_string.connect(my_workflow_as_string)
     >>> my_format = int()
     >>> op.inputs.format.connect(my_format)
     """
 
     def __init__(self, op: Operator):
         super().__init__(import_symbolic_workflow._spec().inputs, op)
-        self._string_or_path: Input[str | DataSources] = Input(
+        self._workflow_path: Input[str | DataSources] = Input(
             import_symbolic_workflow._spec().input_pin(0), 0, op, -1
         )
-        self._inputs.append(self._string_or_path)
+        self._inputs.append(self._workflow_path)
+        self._workflow_as_string: Input[str] = Input(
+            import_symbolic_workflow._spec().input_pin(1), 1, op, -1
+        )
+        self._inputs.append(self._workflow_as_string)
         self._format: Input[int] = Input(
             import_symbolic_workflow._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._format)
 
     @property
-    def string_or_path(self) -> Input[str | DataSources]:
-        r"""Allows to connect string_or_path input to the operator.
+    def workflow_path(self) -> Input[str | DataSources]:
+        r"""Allows to connect workflow_path input to the operator.
+
+        File path (string) or DataSources pointing to a workflow file. Pin 'format' is used only if this pin is connected.
 
         Returns
         -------
@@ -185,11 +229,32 @@ class InputsImportSymbolicWorkflow(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.serialization.import_symbolic_workflow()
-        >>> op.inputs.string_or_path.connect(my_string_or_path)
+        >>> op.inputs.workflow_path.connect(my_workflow_path)
         >>> # or
-        >>> op.inputs.string_or_path(my_string_or_path)
+        >>> op.inputs.workflow_path(my_workflow_path)
         """
-        return self._string_or_path
+        return self._workflow_path
+
+    @property
+    def workflow_as_string(self) -> Input[str]:
+        r"""Allows to connect workflow_as_string input to the operator.
+
+        String representation of the workflow as provided by the 'export_symbolic_workflow' operator with string output or the 'writeToString' Workflow API.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.import_symbolic_workflow()
+        >>> op.inputs.workflow_as_string.connect(my_workflow_as_string)
+        >>> # or
+        >>> op.inputs.workflow_as_string(my_workflow_as_string)
+        """
+        return self._workflow_as_string
 
     @property
     def format(self) -> Input[int]:
@@ -211,6 +276,18 @@ class InputsImportSymbolicWorkflow(_Inputs):
         >>> op.inputs.format(my_format)
         """
         return self._format
+
+    def __getattr__(self, name):
+        if name in ["string_or_path"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator import_symbolic_workflow: Input name "{name}" is deprecated in favor of "workflow_path".'
+                )
+            )
+            return self.workflow_path
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsImportSymbolicWorkflow(_Outputs):
