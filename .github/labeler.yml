@@ -1,18 +1,26 @@
 documentation:
-- doc/source/**/*
-- examples/**/*
+  - changed-files:
+    - any-glob-to-any-file:
+      - doc/source/**/*
+      - examples/**/*
 maintenance:
-- .flake8
-- CODE_OF_CONDUCT.md
-- LICENSE
-- README.md
-- codecov.yml
-- ignore_words.txt
-- setup.py
+  - changed-files:
+    - any-glob-to-any-file:
+      - .flake8
+      - CODE_OF_CONDUCT.md
+      - LICENSE
+      - README.md
+      - codecov.yml
+      - ignore_words.txt
+      - setup.py
 dependencies:
-- setup.py
-- requirements/*
+  - changed-files:
+    - any-glob-to-any-file:
+      - setup.py
+      - requirements/*
 CI/CD:
-- docker/**/*
-- .github/**/*
-- .ci/**/*
+  - changed-files:
+    - any-glob-to-any-file:
+      - docker/**/*
+      - .github/**/*
+      - .ci/**/*
