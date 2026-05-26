@@ -87,5 +87,7 @@ jobs:
           - [enhancement](https://github.com/ansys/pydpf-core/pulls?q=label%3Aenhancement+)
           - [documentation](https://github.com/ansys/pydpf-core/pulls?q=label%3Adocumentation+)
           - [examples](https://github.com/ansys/pydpf-core/pulls?q=label%3Aexamples+)
+          - [tutorials](https://github.com/ansys/pydpf-core/pulls?q=label%3Atutorials+)
           - [maintenance](https://github.com/ansys/pydpf-core/pulls?q=label%3Amaintenance+)
+          - [dependencies](https://github.com/ansys/pydpf-core/pulls?q=label%3Adependencies+)
           - [CI/CD](https://github.com/ansys/pydpf-core/pulls?q=label%3Aci%2Fcd+)
