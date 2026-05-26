@@ -28,7 +28,7 @@ class export_symbolic_workflow(Operator):
     Inputs
     ------
     workflow: Workflow
-    path: str, optional
+    workflow_path: str, optional
     format: int, optional
         0 is ASCII format and 1 is binary, default is 0.
     options: int, optional
@@ -48,8 +48,8 @@ class export_symbolic_workflow(Operator):
     >>> # Make input connections
     >>> my_workflow = dpf.Workflow()
     >>> op.inputs.workflow.connect(my_workflow)
-    >>> my_path = str()
-    >>> op.inputs.path.connect(my_path)
+    >>> my_workflow_path = str()
+    >>> op.inputs.workflow_path.connect(my_workflow_path)
     >>> my_format = int()
     >>> op.inputs.format.connect(my_format)
     >>> my_options = int()
@@ -58,7 +58,7 @@ class export_symbolic_workflow(Operator):
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.export_symbolic_workflow(
     ...     workflow=my_workflow,
-    ...     path=my_path,
+    ...     workflow_path=my_workflow_path,
     ...     format=my_format,
     ...     options=my_options,
     ... )
@@ -70,11 +70,12 @@ class export_symbolic_workflow(Operator):
     def __init__(
         self,
         workflow=None,
-        path=None,
+        workflow_path=None,
         format=None,
         options=None,
         config=None,
         server=None,
+        path=None,
     ):
         super().__init__(
             name="export_symbolic_workflow",
@@ -85,8 +86,15 @@ class export_symbolic_workflow(Operator):
         )
         if workflow is not None:
             self.inputs.workflow.connect(workflow)
-        if path is not None:
-            self.inputs.path.connect(path)
+        if workflow_path is not None:
+            self.inputs.workflow_path.connect(workflow_path)
+        elif path is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator export_symbolic_workflow: Input name "path" is deprecated in favor of "workflow_path".'
+                )
+            )
+            self.inputs.workflow_path.connect(path)
         if format is not None:
             self.inputs.format.connect(format)
         if options is not None:
@@ -107,10 +115,11 @@ class export_symbolic_workflow(Operator):
                     document=r"""""",
                 ),
                 1: PinSpecification(
-                    name="path",
+                    name="workflow_path",
                     type_names=["string"],
                     optional=True,
                     document=r"""""",
+                    aliases=["path"],
                 ),
                 2: PinSpecification(
                     name="format",
@@ -190,8 +199,8 @@ class InputsExportSymbolicWorkflow(_Inputs):
     >>> op = dpf.operators.serialization.export_symbolic_workflow()
     >>> my_workflow = dpf.Workflow()
     >>> op.inputs.workflow.connect(my_workflow)
-    >>> my_path = str()
-    >>> op.inputs.path.connect(my_path)
+    >>> my_workflow_path = str()
+    >>> op.inputs.workflow_path.connect(my_workflow_path)
     >>> my_format = int()
     >>> op.inputs.format.connect(my_format)
     >>> my_options = int()
@@ -204,10 +213,10 @@ class InputsExportSymbolicWorkflow(_Inputs):
             export_symbolic_workflow._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._workflow)
-        self._path: Input[str] = Input(
+        self._workflow_path: Input[str] = Input(
             export_symbolic_workflow._spec().input_pin(1), 1, op, -1
         )
-        self._inputs.append(self._path)
+        self._inputs.append(self._workflow_path)
         self._format: Input[int] = Input(
             export_symbolic_workflow._spec().input_pin(2), 2, op, -1
         )
@@ -237,8 +246,8 @@ class InputsExportSymbolicWorkflow(_Inputs):
         return self._workflow
 
     @property
-    def path(self) -> Input[str]:
-        r"""Allows to connect path input to the operator.
+    def workflow_path(self) -> Input[str]:
+        r"""Allows to connect workflow_path input to the operator.
 
         Returns
         -------
@@ -249,11 +258,11 @@ class InputsExportSymbolicWorkflow(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.serialization.export_symbolic_workflow()
-        >>> op.inputs.path.connect(my_path)
+        >>> op.inputs.workflow_path.connect(my_workflow_path)
         >>> # or
-        >>> op.inputs.path(my_path)
+        >>> op.inputs.workflow_path(my_workflow_path)
         """
-        return self._path
+        return self._workflow_path
 
     @property
     def format(self) -> Input[int]:
@@ -296,6 +305,18 @@ class InputsExportSymbolicWorkflow(_Inputs):
         >>> op.inputs.options(my_options)
         """
         return self._options
+
+    def __getattr__(self, name):
+        if name in ["path"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator export_symbolic_workflow: Input name "{name}" is deprecated in favor of "workflow_path".'
+                )
+            )
+            return self.workflow_path
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsExportSymbolicWorkflow(_Outputs):
