@@ -2,7 +2,17 @@ documentation:
   - changed-files:
     - any-glob-to-any-file:
       - doc/source/**/*
-      - examples/**/*
+      - doc/sphinx_utilities/**/*
+      - doc/styles/**/*
+      - doc/*
+examples:
+  - changed-files:
+    - any-glob-to-any-file:  
+      - doc/sphinx_gallery_examples/**/*
+tutorials:
+  - changed-files:
+    - any-glob-to-any-file:  
+      - doc/sphinx_gallery_tutorials/**/*
 maintenance:
   - changed-files:
     - any-glob-to-any-file:
