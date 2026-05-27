@@ -140,13 +140,13 @@ def test_tetra_element_descriptor(tetra_element_descriptor):
 def test_line_element_descriptor(line_element_descriptor):
     check_element_attributes(
         line_element_descriptor,
-        18,
-        "Linear 2-nodes Line",
-        "line2",
+        30,
+        "Linear 3-nodes Beam",
+        "beam3",
         "beam",
         2,
         0,
-        2,
+        3,
         False,
         False,
         True,
