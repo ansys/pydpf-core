@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import conftest
 import pytest
 
 from ansys.dpf import core as dpf
@@ -138,21 +139,36 @@ def test_tetra_element_descriptor(tetra_element_descriptor):
 
 
 def test_line_element_descriptor(line_element_descriptor):
-    check_element_attributes(
-        line_element_descriptor,
-        30,
-        "Linear 3-nodes Beam",
-        "beam3",
-        "beam",
-        2,
-        0,
-        3,
-        False,
-        False,
-        True,
-        False,
-    )
-
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        check_element_attributes(
+            line_element_descriptor,
+            30,
+            "Linear 3-nodes Beam",
+            "beam3",
+            "beam",
+            2,
+            0,
+            3,
+            False,
+            False,
+            True,
+            False,
+        )
+    else:
+        check_element_attributes(
+            line_element_descriptor,
+            18,
+            "Linear 2-nodes Line",
+            "line2",
+            "beam",
+            2,
+            0,
+            2,
+            False,
+            False,
+            True,
+            False,
+        )
 
 def test_no_element_descriptor():
     # descriptor = dpf.element_types.descriptor(89)
