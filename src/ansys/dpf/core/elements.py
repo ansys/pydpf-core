@@ -1233,7 +1233,7 @@ class element_types(Enum):
                 False,
                 True,
                 False,
-                ),
+            ),
             element_types.Edge3: ElementDescriptor(
                 element_types.Edge3,
                 "Quadratic 3-nodes Edge",
@@ -1248,7 +1248,7 @@ class element_types(Enum):
                 True,
             ),
             element_types.Beam3: ElementDescriptor(
-                element_types.Beam3, 
+                element_types.Beam3,
                 "Linear 3-nodes Beam",
                 "beam3",
                 "beam",
