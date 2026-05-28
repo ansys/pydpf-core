@@ -139,36 +139,20 @@ def test_tetra_element_descriptor(tetra_element_descriptor):
 
 
 def test_line_element_descriptor(line_element_descriptor):
-    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
-        check_element_attributes(
-            line_element_descriptor,
-            30,
-            "Linear 3-nodes Beam",
-            "beam3",
-            "beam",
-            2,
-            0,
-            3,
-            False,
-            False,
-            True,
-            False,
-        )
-    else:
-        check_element_attributes(
-            line_element_descriptor,
-            18,
-            "Linear 2-nodes Line",
-            "line2",
-            "beam",
-            2,
-            0,
-            2,
-            False,
-            False,
-            True,
-            False,
-        )
+    check_element_attributes(
+        line_element_descriptor,
+        18,
+        "Linear 2-nodes Line",
+        "line2",
+        "beam",
+        2,
+        0,
+        2,
+        False,
+        False,
+        True,
+        False,
+    )
 
 def test_no_element_descriptor():
     # descriptor = dpf.element_types.descriptor(89)
@@ -746,16 +730,16 @@ def test_edge2():
     check_from_enum_id(
         28,
         element_types.Edge2,
-        "Edge2",
+        "Linear 2-nodes Edge",
         "edge2",
         "beam",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        2,
+        0,
+        2,
+        False,
+        False,
+        True,
+        False,
     )
 
 
@@ -763,16 +747,16 @@ def test_edge3():
     check_from_enum_id(
         29,
         element_types.Edge3,
-        "Edge3",
+        "Quadratic 3-nodes Edge",
         "edge3",
         "beam",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        2,
+        1,
+        3,
+        False,
+        False,
+        True,
+        True,
     )
 
 
@@ -780,7 +764,7 @@ def test_beam3():
     check_from_enum_id(
         30,
         element_types.Beam3,
-        "Beam3",
+        "Linear 3-nodes Beam",
         "beam3",
         "beam",
         2,
@@ -797,16 +781,16 @@ def test_beam4():
     check_from_enum_id(
         31,
         element_types.Beam4,
-        "Beam4",
+        "Quadratic 4-nodes Beam",
         "beam4",
         "beam",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        2,
+        1,
+        4,
+        False,
+        False,
+        True,
+        True,
     )
 
 
