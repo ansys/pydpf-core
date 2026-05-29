@@ -567,9 +567,9 @@ def test_has_element_shape_meshed_region(server_type):
 
 
 @pytest.mark.slow
-def test_mesh_deep_copy(allkindofcomplexity, server_type):
+def test_mesh_deep_copy(allkindofcomplexity, server_clayer):
     # Small mesh
-    model = dpf.core.Model(allkindofcomplexity, server=server_type)
+    model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
     mesh = model.metadata.meshed_region
     copy = mesh.deep_copy()
     assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
