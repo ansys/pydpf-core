@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import conftest
 import pytest
 
 from ansys.dpf import core as dpf
@@ -152,7 +153,6 @@ def test_line_element_descriptor(line_element_descriptor):
         True,
         False,
     )
-
 
 def test_no_element_descriptor():
     # descriptor = dpf.element_types.descriptor(89)
@@ -730,16 +730,16 @@ def test_edge2():
     check_from_enum_id(
         28,
         element_types.Edge2,
-        "Edge2",
+        "Linear 2-nodes Edge",
         "edge2",
         "beam",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        2,
+        0,
+        2,
+        False,
+        False,
+        True,
+        False,
     )
 
 
@@ -747,16 +747,16 @@ def test_edge3():
     check_from_enum_id(
         29,
         element_types.Edge3,
-        "Edge3",
+        "Quadratic 3-nodes Edge",
         "edge3",
         "beam",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        2,
+        1,
+        3,
+        False,
+        False,
+        True,
+        True,
     )
 
 
@@ -764,7 +764,7 @@ def test_beam3():
     check_from_enum_id(
         30,
         element_types.Beam3,
-        "Beam3",
+        "Linear 3-nodes Beam",
         "beam3",
         "beam",
         2,
@@ -781,16 +781,16 @@ def test_beam4():
     check_from_enum_id(
         31,
         element_types.Beam4,
-        "Beam4",
+        "Quadratic 4-nodes Beam",
         "beam4",
         "beam",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        2,
+        1,
+        4,
+        False,
+        False,
+        True,
+        True,
     )
 
 
