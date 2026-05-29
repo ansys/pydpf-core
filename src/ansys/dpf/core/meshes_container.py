@@ -264,7 +264,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
                 f"The following labels are not in this mesh container: {invalid_labels}"
             )
 
-        if server_meet_version("12.0", self._server):
+        if server_meet_version("2027.1.0pre0", self._server):
             label_space["elshape"] = elements._element_shapes.SOLID.value
         else:
             label_space["elshape"] = elements._element_shapes_legacy.SOLID.value
@@ -326,7 +326,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
                 f"The following labels are not in this mesh container: {invalid_labels}"
             )
 
-        if server_meet_version("12.0", self._server):
+        if server_meet_version("2027.1.0pre0", self._server):
             label_space["elshape"] = elements._element_shapes.SHELL.value
         else:
             label_space["elshape"] = elements._element_shapes_legacy.SHELL.value
@@ -388,7 +388,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
                 f"The following labels are not in this mesh container: {invalid_labels}"
             )
 
-        if server_meet_version("12.0", self._server):
+        if server_meet_version("2027.1.0pre0", self._server):
             label_space["elshape"] = elements._element_shapes.BEAM.value
         else:
             label_space["elshape"] = elements._element_shapes_legacy.BEAM.value
@@ -451,7 +451,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
                 f"The following labels are not in this mesh container: {invalid_labels}"
             )
 
-        if server_meet_version("12.0", self._server):
+        if server_meet_version("2027.1.0pre0", self._server):
             label_space["elshape"] = elements._element_shapes.SOLID.value
         else:
             label_space["elshape"] = elements._element_shapes_legacy.SOLID.value
@@ -514,7 +514,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
                 f"The following labels are not in this mesh container: {invalid_labels}"
             )
 
-        if server_meet_version("12.0", self._server):
+        if server_meet_version("2027.1.0pre0", self._server):
             label_space["elshape"] = elements._element_shapes.SHELL.value
         else:
             label_space["elshape"] = elements._element_shapes_legacy.SHELL.value
@@ -577,7 +577,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
                 f"The following labels are not in this mesh container: {invalid_labels}"
             )
 
-        if server_meet_version("12.0", self._server):
+        if server_meet_version("2027.1.0pre0", self._server):
             label_space["elshape"] = elements._element_shapes.BEAM.value
         else:
             label_space["elshape"] = elements._element_shapes_legacy.BEAM.value

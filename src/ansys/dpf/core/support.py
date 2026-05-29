@@ -227,7 +227,7 @@ class Support:
         )
         return coll_obj.get_integral_entries()
 
-    @version_requires("12.0")
+    @version_requires("2027.1.0pre0")
     def get_type(self) -> str:
         """Type of the support as a string.
 
@@ -240,7 +240,7 @@ class Support:
         self._support_api.support_get_type(self, type)
         return str(type)
 
-    @version_requires("12.0")
+    @version_requires("2027.1.0pre0")
     def get_as_time_freq_support(self) -> "time_freq_support.TimeFreqSupport":
         """Get the support as a TimeFreqSupport object.
 
@@ -257,7 +257,7 @@ class Support:
         )
         return tfsp
 
-    @version_requires("12.0")
+    @version_requires("2027.1.0pre0")
     def get_as_meshed_region(self) -> "meshed_region.MeshedRegion":
         """Get the support as a MeshedRegion object.
 
@@ -273,7 +273,7 @@ class Support:
         )
         return mesh
 
-    @version_requires("12.0")
+    @version_requires("2027.1.0pre0")
     def get_as_cyclic_support(self) -> "cyclic_support.CyclicSupport":
         """Get the support as a CyclicSupport object.
 
@@ -290,7 +290,7 @@ class Support:
         )
         return cyclic
 
-    @version_requires("12.0")
+    @version_requires("2027.1.0pre0")
     def get_as_generic_support(self) -> "generic_support.GenericSupport":
         """Get the support as a GenericSupport object.
 
@@ -307,7 +307,7 @@ class Support:
         )
         return generic
 
-    @version_requires("12.0")
+    @version_requires("2027.1.0pre0")
     def deep_copy(self, server=None):
         """
         Create a deep copy of the Support on a given server.
