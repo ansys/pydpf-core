@@ -17,6 +17,8 @@ import pyvista
 from pyvista.plotting.utilities.sphinx_gallery import DynamicScraper
 
 from ansys.dpf.core import __version__, server, server_factory
+from packaging.version import Version as PkgVersion
+
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
 
 # Make sphinx_utilities modules importable
@@ -73,7 +75,7 @@ for example in sorted(
     glob(r"../sphinx_gallery_tutorials/**/*.py")
 ):
     minimum_version_str = get_example_required_minimum_dpf_version(example)
-    if float(server_version) - float(minimum_version_str) < -0.05:
+    if PkgVersion(server_version) < PkgVersion(minimum_version_str):
         example_name = example.split(os.path.sep)[-1]
         print(f"Example/tutorial {example_name} skipped as it requires DPF {minimum_version_str}.")
         ignored_pattern += f"|{example_name}"
