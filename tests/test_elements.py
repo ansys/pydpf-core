@@ -25,6 +25,7 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core.elements import element_types
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0
 
 
 @pytest.fixture()
@@ -54,7 +55,7 @@ def tetra_element_descriptor(model_elements):
 
 
 @pytest.fixture()
-def line_element_descriptor(model_elements):
+def beam_element_descriptor(model_elements):
     el_index = model_elements.scoping.index(10834)
     return dpf.element_types.descriptor(model_elements[el_index].type)
 
@@ -138,21 +139,37 @@ def test_tetra_element_descriptor(tetra_element_descriptor):
     )
 
 
-def test_line_element_descriptor(line_element_descriptor):
-    check_element_attributes(
-        line_element_descriptor,
-        18,
-        "Linear 2-nodes Line",
-        "line2",
-        "beam",
-        2,
-        0,
-        2,
-        False,
-        False,
-        True,
-        False,
-    )
+def test_beam_element_descriptor(beam_element_descriptor):
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+        check_element_attributes(
+            beam_element_descriptor,
+            30,
+            "Linear 3-nodes Beam",
+            "beam3",
+            "beam",
+            2,
+            0,
+            3,
+            False,
+            False,
+            True,
+            False,
+        )
+    else:
+        check_element_attributes(
+            beam_element_descriptor,
+            18,
+            "Linear 2-nodes Line",
+            "line2",
+            "beam",
+            2,
+            0,
+            2,
+            False,
+            False,
+            True,
+            False,
+        )
 
 def test_no_element_descriptor():
     # descriptor = dpf.element_types.descriptor(89)
