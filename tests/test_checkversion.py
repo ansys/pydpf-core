@@ -111,3 +111,28 @@ def test_version():
 
     assert server_to_ansys_version["1.0"] == "2021R1"
     assert server_to_ansys_version["10.0.12"] == "2025R2"
+
+
+def test_get_server_version_format(server_type):
+    """Server version uses full calendar format (major.minor.micro[modifier]) for servers
+    with major >= 2027, and legacy major.minor format for older servers."""
+    from packaging.version import parse
+
+    version = server_type.version
+    assert isinstance(version, str)
+    parts = version.split(".")
+    assert len(parts) >= 2
+    major = int(parts[0])
+    if major >= 2027:
+        # Calendar versioning: expect at least major.minor.micro
+        assert len(parts) >= 3
+        # Must be parseable by packaging.version
+        parse(version)
+    else:
+        # Legacy versioning: major.minor
+        assert len(parts) == 2
+
+
+def test_server_info_version_format(server_type):
+    """server_info['server_version'] matches server.version."""
+    assert server_type.info["server_version"] == server_type.version
