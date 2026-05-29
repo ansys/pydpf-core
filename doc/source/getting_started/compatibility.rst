@@ -83,7 +83,7 @@ Supported DPF versions
    * - Server version
      - ``ansys.dpf.core`` Python module version
      - Supported Python versions
-   * - 12.0 (2026 R1)
+   * - 2027.1 (2027 R1)
      - 0.15.0 and later
      - 3.10, 3.11, 3.12, 3.13
    * - 11.0 (2026 R1 pre0)

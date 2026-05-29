@@ -345,8 +345,8 @@ def cfx_mixing_elbow():
 
 DEFAULT_ANSYS_PATH = core._global_server().ansys_path
 
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0 = meets_version(
-    get_server_version(core._global_server()), "12.0"
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0 = meets_version(
+    get_server_version(core._global_server()), "2027.1.0pre0"
 )
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0 = meets_version(
     get_server_version(core._global_server()), "11.0"

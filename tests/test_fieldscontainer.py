@@ -42,7 +42,7 @@ from ansys.dpf.core.custom_fields_container import (
     ElShapeFieldsContainer,
 )
 import conftest
-from tests.conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0
+from tests.conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0
 
 
 @pytest.fixture()
@@ -576,7 +576,7 @@ def test_fields_container_set_tfsupport(server_type):
 
 
 @pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0, reason="Available for servers >=12.0"
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Available for servers >=2027.1"
 )
 def test_fields_container_deep_copy_local(server_type):
     coll = dpf.FieldsContainer(server=server_type)
@@ -613,7 +613,7 @@ def test_fields_container_deep_copy_local(server_type):
 
 
 @pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0, reason="Available for servers >=12.0"
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Available for servers >=2027.1"
 )
 def test_fields_container_deep_copy_gRPCCLayer(server_type):
     coll = dpf.FieldsContainer(server=server_type)
@@ -654,7 +654,7 @@ def test_fields_container_deep_copy_gRPCCLayer(server_type):
 
 
 @pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0, reason="Available for servers >=12.0"
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Available for servers >=2027.1"
 )
 def test_fields_container_deep_copy_LegacygRPC(server_type):
     coll = dpf.FieldsContainer(server=server_type)

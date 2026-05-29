@@ -205,6 +205,14 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
         minor.set(response.minorVersion)
 
     @staticmethod
+    def data_processing_get_server_version_full_on_client(client, major, minor, micro, modifier):
+        response = _get_server_info_response(client)
+        major.set(response.majorVersion)
+        minor.set(response.minorVersion)
+        micro.set(response.microVersion)
+        modifier.set(response.modifierVersion)
+
+    @staticmethod
     def data_processing_description_string(data):
         data_obj = data._internal_obj
         from ansys.grpc.dpf import base_pb2, collection_message_pb2
