@@ -32,7 +32,7 @@ import conftest
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0,
     reason="vtu_export DataSources output fixed in server version >= 2027.1 pre0",
 )
-def test_operator_vtu_export(server_type, tmp_path):
+def test_operator_vtu_export(server_type, tmp_path_server):
     # --- Mesh: single HEX8 element (unit cube) ---
     mesh = dpf.MeshedRegion(server=server_type)
     mesh.unit = "m"
@@ -80,7 +80,7 @@ def test_operator_vtu_export(server_type, tmp_path):
         fields2.add_field({"time": time_id}, field)
 
     vtu_export_op = dpf.operators.serialization.vtu_export(
-        directory=str(tmp_path),
+        directory=tmp_path_server,
         base_name="simple_bar_export",
         mesh=mesh,
         fields1=fields1,

@@ -109,6 +109,35 @@ def testfiles_dir():
 
 
 @pytest.fixture()
+def tmp_path_server(tmp_path):
+    """Return a temporary directory path that is accessible by the DPF server.
+
+    When the server runs in Docker the standard ``tmp_path`` fixture points to a
+    host path that the container cannot reach.  This fixture instead creates a
+    temporary directory inside the already-mounted test-files volume and translates
+    the path to its container equivalent before yielding it.  Cleanup is handled
+    automatically regardless of the execution environment.
+    """
+    if running_docker:
+        import shutil
+        import tempfile
+
+        local_dir = tempfile.mkdtemp(dir=_get_test_files_directory())
+        # Translate host path to container path using the mounted-volumes mapping.
+        # (DockerConfig has the dict; RunningDockerConfig.replace_with_mounted_volumes
+        # uses the same logic.)
+        server_path = os.path.normpath(local_dir)
+        for host, container in ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes.items():
+            server_path = server_path.replace(os.path.normpath(host), container)
+        try:
+            yield server_path
+        finally:
+            shutil.rmtree(local_dir, ignore_errors=True)
+    else:
+        yield str(tmp_path)
+
+
+@pytest.fixture()
 def allkindofcomplexity():
     """Resolve the path of the "allKindOfComplexity.rst" result file."""
     return examples.download_all_kinds_of_complexity()
