@@ -29,8 +29,8 @@ import conftest
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
-    reason="vtu_export DataSources output requires server version >= 12.0",
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0,
+    reason="vtu_export DataSources output fixed in server version >= 2027.1 pre0",
 )
 def test_operator_vtu_export(server_type, tmp_path):
     # --- Mesh: single HEX8 element (unit cube) ---
