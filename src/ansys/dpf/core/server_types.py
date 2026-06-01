@@ -49,7 +49,11 @@ import psutil
 
 from ansys.dpf import core
 from ansys.dpf.core import __version__, errors, server_context, server_factory
-from ansys.dpf.core._version import min_server_version, server_to_ansys_version
+from ansys.dpf.core._version import (
+    CALENDAR_VERSIONING_FIRST_MAJOR,
+    min_server_version,
+    server_to_ansys_version,
+)
 from ansys.dpf.core.check_version import get_server_version, meets_version, version_requires
 from ansys.dpf.core.server_context import AvailableServerContexts, ServerContext
 from ansys.dpf.gate import data_processing_grpcapi, load_api
@@ -965,7 +969,8 @@ class GrpcServer(CServer):
         Returns
         -------
         version : str
-            The version of the server in 'major.minor' format.
+            The version of the server in 'major.minor.micro[modifier]' format for servers
+            using calendar versioning (major >= 2027), or 'major.minor' for older servers.
         """
         if not self._version:
             from ansys.dpf.gate import data_processing_capi, integral_types
@@ -974,7 +979,17 @@ class GrpcServer(CServer):
             major = integral_types.MutableInt32()
             minor = integral_types.MutableInt32()
             api.data_processing_get_server_version_on_client(self.client, major, minor)
-            self._version = str(int(major)) + "." + str(int(minor))
+            if int(major) >= CALENDAR_VERSIONING_FIRST_MAJOR:
+                micro = integral_types.MutableInt32()
+                modifier = integral_types.MutableString(size=0)
+                api.data_processing_get_server_version_full_on_client(
+                    self.client, major, minor, micro, modifier
+                )
+                self._version = (
+                    str(int(major)) + "." + str(int(minor)) + "." + str(int(micro)) + str(modifier)
+                )
+            else:
+                self._version = str(int(major)) + "." + str(int(minor))
         return self._version
 
     @property
@@ -1184,7 +1199,8 @@ class InProcessServer(CServer):
         Returns
         -------
         version : str
-            The version of the InProcess server in the format "major.minor".
+            The version of the InProcess server in the format "major.minor.micro[modifier]" for
+            servers using calendar versioning (major >= 2027), or "major.minor" for older servers.
         """
         if self._version is None:
             from ansys.dpf.gate import data_processing_capi, integral_types
@@ -1193,7 +1209,15 @@ class InProcessServer(CServer):
             major = integral_types.MutableInt32()
             minor = integral_types.MutableInt32()
             api.data_processing_get_server_version(major, minor)
-            out = str(int(major)) + "." + str(int(minor))
+            if int(major) >= CALENDAR_VERSIONING_FIRST_MAJOR:
+                micro = integral_types.MutableInt32()
+                modifier = integral_types.MutableString(size=0)
+                api.data_processing_get_server_version_full(major, minor, micro, modifier)
+                out = (
+                    str(int(major)) + "." + str(int(minor)) + "." + str(int(micro)) + str(modifier)
+                )
+            else:
+                out = str(int(major)) + "." + str(int(minor))
             self._version = out
         return self._version
 
