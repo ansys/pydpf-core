@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: PyAnsys Vulnerability check (on ${{ github.ref == 'refs/heads/main' && 'main' || 'dev mode' }})
-        uses: ansys/actions/check-vulnerabilities@12ca08fd7f0caa52076cca15c5621482646f8560 # v10.3.1
+        uses: ansys/actions/check-vulnerabilities@d946b24b9a765f4169bcc94afdb27bd1a0533741 # v10.3.2
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
           python-package-name: "ansys-dpf-core"
@@ -58,7 +58,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: ansys/actions/check-actions-security@12ca08fd7f0caa52076cca15c5621482646f8560 # v10.3.1
+      - uses: ansys/actions/check-actions-security@d946b24b9a765f4169bcc94afdb27bd1a0533741 # v10.3.2
 
   pick_server_suffix:
     name: "Pick Server Suffix"
@@ -101,7 +101,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: ansys/actions/code-style@12ca08fd7f0caa52076cca15c5621482646f8560 # v10.3.1
+      - uses: ansys/actions/code-style@d946b24b9a765f4169bcc94afdb27bd1a0533741 # v10.3.2
         with:
           use-python-cache: false
 
@@ -214,7 +214,7 @@ jobs:
       contents: write # Required for pushing documentation to gh-pages
       pull-requests: write # Required for posting deployment status comments
     steps:
-      - uses: ansys/actions/doc-deploy-pr@12ca08fd7f0caa52076cca15c5621482646f8560 # v10.3.1
+      - uses: ansys/actions/doc-deploy-pr@d946b24b9a765f4169bcc94afdb27bd1a0533741 # v10.3.2
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
@@ -235,7 +235,7 @@ jobs:
       pull-requests: write # Required for posting deployment status comments
     steps:
       - name: "Upload development documentation"
-        uses: ansys/actions/doc-deploy-dev@12ca08fd7f0caa52076cca15c5621482646f8560 # v10.3.1
+        uses: ansys/actions/doc-deploy-dev@d946b24b9a765f4169bcc94afdb27bd1a0533741 # v10.3.2
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
