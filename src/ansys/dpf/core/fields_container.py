@@ -508,7 +508,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
         for i, f in enumerate(self):
             fc.add_field(self.get_label_space(i), f.deep_copy(server))
         with suppress(Exception):
-            if server_meet_version("12.0", self._server):
+            if server_meet_version("2027.1.0pre0", self._server):
                 self.deep_copy_supports(fc)
             else:
                 fc.time_freq_support = self.time_freq_support.deep_copy(server)

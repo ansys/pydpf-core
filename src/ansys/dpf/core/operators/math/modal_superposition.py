@@ -34,7 +34,7 @@ class modal_superposition(Operator):
         One field by mode with each field representing a mode shape on nodes or elements.
     solution_in_modal_space: FieldsContainer or CustomTypeFieldsContainer
         One field by time/frequency with each field having a ponderating coefficient for each mode of the modal_basis pin.
-    incremental_fc: FieldsContainer or CustomTypeFieldsContainer
+    incremental_fc: FieldsContainer or CustomTypeFieldsContainer, optional
         If a non-empty fields container is introduced, it is modified, and sent to the output, to add the contribution of the requested expansion. The label spaces produced from the multiplication must be the same as the incremental ones.
     time_scoping: Scoping or ScopingsContainer, optional
         Compute the result on a subset of the time frequency domain defined in the solution_in_modal_space fields container.
@@ -130,7 +130,7 @@ by multiplying a modal basis (in 0)by the solution in this modal space
                 2: PinSpecification(
                     name="incremental_fc",
                     type_names=["fields_container", "custom_type_fields_container"],
-                    optional=False,
+                    optional=True,
                     document=r"""If a non-empty fields container is introduced, it is modified, and sent to the output, to add the contribution of the requested expansion. The label spaces produced from the multiplication must be the same as the incremental ones.""",
                 ),
                 3: PinSpecification(

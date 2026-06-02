@@ -48,3 +48,7 @@ class ServerToAnsysVersion:
 
 
 server_to_ansys_version = ServerToAnsysVersion()
+
+# First DPF major version using calendar versioning (YEAR.REVISION.MICRO.MODIFIER).
+# Servers with major >= this support DataProcessing_getServerVersionFull.
+CALENDAR_VERSIONING_FIRST_MAJOR = 2027

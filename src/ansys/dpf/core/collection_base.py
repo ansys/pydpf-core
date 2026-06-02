@@ -540,7 +540,7 @@ class CollectionBase(Generic[TYPE]):
         else:
             return support
 
-    @version_requires("12.0")
+    @version_requires("2027.1.0pre0")
     def deep_copy_supports(self, other: CollectionBase):
         """Deep-copies the supports of all labels in the collection into the other collection.
 
