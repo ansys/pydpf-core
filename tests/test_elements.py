@@ -25,7 +25,7 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core.elements import element_types
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0
 
 
 @pytest.fixture()
@@ -140,7 +140,7 @@ def test_tetra_element_descriptor(tetra_element_descriptor):
 
 
 def test_beam_element_descriptor(beam_element_descriptor):
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0:
         check_element_attributes(
             beam_element_descriptor,
             30,
