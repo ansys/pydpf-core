@@ -2,8 +2,13 @@
 # SPDX-License-Identifier: MIT
 #
 
+import pytest
+
+from ansys.dpf import core as dpf
 from ansys.dpf.core import errors
 import ansys.dpf.core.dpf_logger as dpf_logger
+
+import conftest
 
 
 class _FakeDataTree:
@@ -114,3 +119,37 @@ def test_unsupported_backend_raises_server_type_error(monkeypatch):
     except errors.ServerTypeError as exc:
         assert "custom Python plugin" in str(exc)
         assert "implement" in str(exc).lower()
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0,
+    reason="Requires DPF server >= 2027.1.0pre0",
+)
+def test_logger_with_real_global_inprocess_server():
+    """Validate logger API against the real global InProcess server."""
+    server = dpf._global_server()
+    if not isinstance(server, dpf.server_types.InProcessServer):
+        pytest.skip("Global server is not InProcess in this environment")
+
+    logger_name = "custom.plugin.real.integration_test"
+
+    logger = dpf_logger.register_logger(
+        name=logger_name,
+        config=dpf_logger.LoggerConfig(
+            level=dpf_logger.LogLevel.debug,
+            sinks=[dpf_logger.LoggerSink.stdout],
+        ),
+        server=server,
+    )
+
+    assert isinstance(logger, dpf_logger.DPFLogger)
+
+    logger.debug("debug message from real in-process logger test")
+    logger.info("info message from real in-process logger test")
+
+    same_logger = dpf_logger.get_logger(name=logger_name, server=server)
+    assert isinstance(same_logger, dpf_logger.DPFLogger)
+
+    same_logger.warn("warn message from real in-process logger test")
+    same_logger.flush()
+    dpf_logger.flush_all(server=server)
