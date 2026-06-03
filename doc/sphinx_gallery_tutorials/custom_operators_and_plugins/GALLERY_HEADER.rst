@@ -42,7 +42,7 @@ componentized, and easily distributable custom operators.
        from within a custom Python operator or plugin.
 
        +++
-       Requires DPF 7.1 or above (2024 R1).
+       Requires DPF 2027.1.0pre0 or above.
 
     .. grid-item-card:: Create a DPF plugin with multiple operators
         :text-align: center
