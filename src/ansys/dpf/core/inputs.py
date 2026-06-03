@@ -103,11 +103,6 @@ class Input(Generic[T]):
         input_type_name = type(inpt).__name__
         if input_type_name == "list":
             input_type_name = f"list[{type(inpt[0]).__name__}]"
-        if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
-            for types in self._python_expected_types:
-                print(types, end=" ")
-            print("types are expected for", self._spec.name, "pin")
-            return
 
         corresponding_pins = []
         self._operator()._find_outputs_corresponding_pins(
