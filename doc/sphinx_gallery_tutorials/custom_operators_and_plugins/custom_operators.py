@@ -49,6 +49,12 @@ client API and use it.
     In this tutorial the DPF client API used is PyDPF-Core but, once recorded on the server,
     you can call the operators of the plugin using any of the DPF client APIs
     (C++, CPython, IronPython), as you would any other operator.
+
+.. note::
+
+    Starting with DPF 2027R1, you can add logging to custom Python operators to emit debug and
+    error messages. See :ref:`tutorials_custom_operators_and_plugins_log_in_custom_operator`
+    for details.
 """
 ###############################################################################
 # Create a custom operator
