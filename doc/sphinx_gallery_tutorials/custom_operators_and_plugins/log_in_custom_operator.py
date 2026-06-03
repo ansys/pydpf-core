@@ -37,7 +37,7 @@ execution.
 
 .. note::
 
-    This tutorial requires DPF 7.1 or above (2024 R1).
+    This tutorial requires DPF 2027.1.0pre0 or above.
 """
 ###############################################################################
 # Import modules and define a custom operator with logging
