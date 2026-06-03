@@ -122,8 +122,8 @@ def test_unsupported_backend_raises_server_type_error(monkeypatch):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0,
-    reason="Requires DPF server >= 2027.1.0pre0",
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    reason="Requires DPF server >= 8.0",
 )
 def test_logger_with_real_global_inprocess_server():
     """Validate logger API against the real global InProcess server."""
