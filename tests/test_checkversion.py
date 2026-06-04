@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 import pytest
+from packaging.version import Version as PkgVersion
 
 from ansys.dpf.core import check_version, errors as dpf_errors
 from ansys.dpf.gate.load_api import _find_outdated_ansys_version
@@ -45,6 +46,7 @@ def test_get_server_version(server_type):
 
 def test_check_server_version_dpfserver(server_type):
     v = check_version.get_server_version()
+    parsed = PkgVersion(v)
     split = v.split(".")
     assert len(split) >= 2
     server_type.check_version(v)
@@ -52,22 +54,27 @@ def test_check_server_version_dpfserver(server_type):
         v_up = split[0] + "1"
         server_type.check_version(v_up)
     with pytest.raises(dpf_errors.DpfVersionNotSupported):
-        v_up_patch = v + ".1"
+        v_up_patch = f"{parsed.major}.{parsed.minor}.{parsed.micro + 1}"
         server_type.check_version(v_up_patch)
 
 
 def test_check_server_version_checkversion(server_type):
     v = check_version.get_server_version()
+    parsed = PkgVersion(v)
     split = v.split(".")
     assert len(split) >= 2
     check_version.server_meet_version_and_raise(v, server_type)
-    v_with_patch = v + ".0"
-    check_version.server_meet_version_and_raise(v_with_patch, server_type)
+    if not parsed.is_prerelease:
+        # For final-release servers, verify the explicit major.minor.micro form is also met.
+        # Skipped for pre-release servers: "2027.1.0" > "2027.1.0pre0" so a pre-release
+        # server does not satisfy the base release requirement.
+        v_with_patch = f"{parsed.major}.{parsed.minor}.{parsed.micro}"
+        check_version.server_meet_version_and_raise(v_with_patch, server_type)
     with pytest.raises(dpf_errors.DpfVersionNotSupported):
         v_up = split[0] + "1"
         check_version.server_meet_version_and_raise(v_up, server_type)
     with pytest.raises(dpf_errors.DpfVersionNotSupported):
-        v_up_patch = v + ".1"
+        v_up_patch = f"{parsed.major}.{parsed.minor}.{parsed.micro + 1}"
         check_version.server_meet_version_and_raise(v_up_patch, server_type)
 
 
@@ -111,3 +118,30 @@ def test_version():
 
     assert server_to_ansys_version["1.0"] == "2021R1"
     assert server_to_ansys_version["10.0.12"] == "2025R2"
+    assert server_to_ansys_version["2027.1"] == "2027R1"
+    assert server_to_ansys_version["2028.2"] == "2028R2"
+
+
+def test_get_server_version_format(server_type):
+    """Server version uses full calendar format (major.minor.micro[modifier]) for servers
+    with major >= 2027, and legacy major.minor format for older servers."""
+    from packaging.version import parse
+
+    version = server_type.version
+    assert isinstance(version, str)
+    parts = version.split(".")
+    assert len(parts) >= 2
+    major = int(parts[0])
+    if major >= 2027:
+        # Calendar versioning: expect at least major.minor.micro
+        assert len(parts) >= 3
+        # Must be parseable by packaging.version
+        parse(version)
+    else:
+        # Legacy versioning: major.minor
+        assert len(parts) == 2
+
+
+def test_server_info_version_format(server_type):
+    """server_info['server_version'] matches server.version."""
+    assert server_type.info["server_version"] == server_type.version

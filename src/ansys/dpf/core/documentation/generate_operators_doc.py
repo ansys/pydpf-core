@@ -420,9 +420,10 @@ def generate_operator_doc(  # noqa: PLR0912, C901
     operator_info = fetch_doc_info(server, operator_name)
     supported_file_types = {}
     if router_info is not None:
-        operator_info["is_router"] = operator_name in router_info["router_map"].keys()
+        scripting_name = operator_info["scripting_info"]["scripting_name"]
+        operator_info["is_router"] = scripting_name in router_info["router_map"].keys()
         if operator_info["is_router"]:
-            supported_keys = router_info["router_map"].get(operator_name, []).split(";")
+            supported_keys = router_info["router_map"].get(scripting_name, []).split(";")
             for key in supported_keys:
                 if key in router_info["namespace_ext_map"]:
                     namespace = router_info["namespace_ext_map"][key]
@@ -431,11 +432,10 @@ def generate_operator_doc(  # noqa: PLR0912, C901
                     else:
                         supported_file_types[namespace].append(key)
         for namespace, supported_keys in supported_file_types.items():
-            supported_file_types[namespace] = ", ".join(sorted(supported_keys))
+            supported_file_types[namespace] = sorted(supported_keys)
     else:
         operator_info["is_router"] = False
     operator_info["supported_file_types"] = supported_file_types
-    scripting_name = operator_info["scripting_info"]["scripting_name"]
     category: str = operator_info["scripting_info"]["category"]
     if scripting_name:
         file_name = scripting_name
@@ -588,6 +588,49 @@ def get_operator_routing_info(server: dpf.AnyServerType) -> dict:
     return router_info
 
 
+def get_operator_routing_info_legacy(server: dpf.AnyServerType) -> dict:
+    """Reconstruct routing information from operator names for DPF servers older than 11.0.
+
+    For servers that do not expose the ``info::router_discovery`` operator, the routing
+    map is rebuilt by scanning all available operator names for the pattern
+    ``<namespace>::<key>::<router_name>`` (e.g. ``mapdl::rst::acceleration``).
+
+    Parameters
+    ----------
+    server:
+        DPF server to query for the list of all operators.
+
+    Returns
+    -------
+    routing_map:
+        A dictionary with the same three keys as :func:`get_operator_routing_info`:
+        "aliases" (always empty for this fallback), "namespace_ext_map", and "router_map".
+    """
+    _SOLVER_OP_PART_COUNT = 3
+    namespace_ext_map: dict[str, str] = {}
+    router_map: dict[str, list[str]] = {}
+    for op_name in available_operator_names(server):
+        parts = op_name.split("::")
+        if len(parts) == _SOLVER_OP_PART_COUNT:
+            namespace, key, router_name = parts
+            if "deprecated" in key.lower():
+                continue  # Skip deprecated operators
+            namespace_ext_map[key] = namespace
+            op_scripting_name = dpf.Operator.operator_specification(
+                op_name=router_name, server=server
+            ).properties.get("scripting_name", router_name)
+            if op_scripting_name not in router_map:
+                router_map[op_scripting_name] = []
+            if key not in router_map[op_scripting_name]:
+                router_map[op_scripting_name].append(key)
+
+    return {
+        "aliases": {},
+        "namespace_ext_map": namespace_ext_map,
+        "router_map": {name: ";".join(sorted(keys)) for name, keys in router_map.items()},
+    }
+
+
 def generate_operators_doc(  # noqa: PLR0913
     output_path: Path,
     ansys_path: Path = None,
@@ -665,7 +708,7 @@ def generate_operators_doc(  # noqa: PLR0913
     if server.meet_version(required_version="11.0"):
         router_info = get_operator_routing_info(server)
     else:
-        router_info = None
+        router_info = get_operator_routing_info_legacy(server)
     for operator_name in operators:
         generate_operator_doc(server, operator_name, include_private, output_path, router_info)
     # Generate the toc tree

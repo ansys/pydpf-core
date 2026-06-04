@@ -3,6 +3,8 @@ from pathlib import Path
 import subprocess
 import sys
 
+from packaging.version import Version as PkgVersion
+
 import ansys.dpf.core as dpf
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
 
@@ -45,7 +47,7 @@ for root, subdirectories, files in os.walk(examples_path):
             print("\n--------------------------------------------------")
             print(file)
             minimum_version_str = get_example_required_minimum_dpf_version(file)
-            if float(server_version) - float(minimum_version_str) < -0.05:  # noqa: PLR2004
+            if PkgVersion(server_version) < PkgVersion(minimum_version_str):
                 print(f"Example skipped as it requires DPF {minimum_version_str}.", flush=True)
                 continue
             try:

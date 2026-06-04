@@ -300,6 +300,19 @@ class _FieldBase:
 
     @scoping.setter
     def scoping(self, scoping):
+        """Set the scoping of the field.
+
+        .. warning::
+            This is a **metadata-only** operation. Setting the scoping replaces
+            the annotation that maps data entries to entity IDs; it does **not**
+            filter, resize, or reorder the underlying data buffer.
+            After the assignment, :attr:`elementary_data_count` still reflects
+            the original buffer size.
+
+            To obtain a field restricted to a subset of entities, use the
+            ``rescope`` operator, or call :meth:`deep_copy` and then reassign
+            the scoping on the copy.
+        """
         return self._set_scoping(scoping)
 
     @abstractmethod

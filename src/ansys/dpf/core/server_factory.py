@@ -750,7 +750,7 @@ class ServerFactory:
     @staticmethod
     def get_server_type_from_config(
         config: ServerConfig = None,
-        ansys_path: str = None,
+        ansys_path: Path | str = None,
         docker_config: DockerConfig = None,
     ):
         """Return server type determined from the server configuration."""
@@ -765,8 +765,8 @@ class ServerFactory:
             # If no SERVER_CONFIGURATION is yet defined, set one with default values
             is_server_old = False
             if ansys_path is not None:
-                if "ansys_dpf_server" not in ansys_path:
-                    is_server_old = _find_outdated_ansys_version(ansys_path)
+                if "ansys_dpf_server" not in str(ansys_path):
+                    is_server_old = _find_outdated_ansys_version(str(ansys_path))
             config = get_default_server_config(is_server_old, docker_config)
         if config.protocol == CommunicationProtocols.gRPC and config.legacy:
             return LegacyGrpcServer

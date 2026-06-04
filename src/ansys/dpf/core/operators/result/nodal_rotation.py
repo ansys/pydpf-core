@@ -46,7 +46,15 @@ class nodal_rotation(Operator):
     bool_rotate_to_global: bool, optional
         Rotate the result to the global coordinate system if rotations are available (default true). Please check your results carefully if 'false' is used for Elemental or ElementalNodal results averaged to the Nodes when adjacent elements do not share the same coordinate system, as results may be incorrect.
     mesh: MeshedRegion or MeshesContainer, optional
-        prevents from reading the mesh in the result files
+        mesh. If cylic expansion is to be done, mesh of the base sector
+    read_cyclic: int, optional
+        if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
+    expanded_meshed_region: MeshedRegion or MeshesContainer, optional
+        mesh expanded, use if cyclic expansion is to be done.
+    sectors_to_expand: Scoping or ScopingsContainer, optional
+        sectors to expand (start at 0), for multistage: use scopings container with 'stage' label, use if cyclic expansion is to be done.
+    phi: float, optional
+        angle phi in degrees (default value 0.0), use if cyclic expansion is to be done.
 
     Outputs
     -------
@@ -74,6 +82,14 @@ class nodal_rotation(Operator):
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_read_cyclic = int()
+    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_expanded_meshed_region = dpf.MeshedRegion()
+    >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+    >>> my_sectors_to_expand = dpf.Scoping()
+    >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+    >>> my_phi = float()
+    >>> op.inputs.phi.connect(my_phi)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.nodal_rotation(
@@ -84,6 +100,10 @@ class nodal_rotation(Operator):
     ...     data_sources=my_data_sources,
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
+    ...     read_cyclic=my_read_cyclic,
+    ...     expanded_meshed_region=my_expanded_meshed_region,
+    ...     sectors_to_expand=my_sectors_to_expand,
+    ...     phi=my_phi,
     ... )
 
     >>> # Get output data
@@ -99,6 +119,10 @@ class nodal_rotation(Operator):
         data_sources=None,
         bool_rotate_to_global=None,
         mesh=None,
+        read_cyclic=None,
+        expanded_meshed_region=None,
+        sectors_to_expand=None,
+        phi=None,
         config=None,
         server=None,
     ):
@@ -123,6 +147,14 @@ class nodal_rotation(Operator):
             self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
+        if read_cyclic is not None:
+            self.inputs.read_cyclic.connect(read_cyclic)
+        if expanded_meshed_region is not None:
+            self.inputs.expanded_meshed_region.connect(expanded_meshed_region)
+        if sectors_to_expand is not None:
+            self.inputs.sectors_to_expand.connect(sectors_to_expand)
+        if phi is not None:
+            self.inputs.phi.connect(phi)
 
     @staticmethod
     def _spec() -> Specification:
@@ -179,7 +211,31 @@ datasources.
                     name="mesh",
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
-                    document=r"""prevents from reading the mesh in the result files""",
+                    document=r"""mesh. If cylic expansion is to be done, mesh of the base sector""",
+                ),
+                14: PinSpecification(
+                    name="read_cyclic",
+                    type_names=["enum dataProcessing::ECyclicReading", "int32"],
+                    optional=True,
+                    document=r"""if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)""",
+                ),
+                15: PinSpecification(
+                    name="expanded_meshed_region",
+                    type_names=["abstract_meshed_region", "meshes_container"],
+                    optional=True,
+                    document=r"""mesh expanded, use if cyclic expansion is to be done.""",
+                ),
+                18: PinSpecification(
+                    name="sectors_to_expand",
+                    type_names=["vector<int32>", "scoping", "scopings_container"],
+                    optional=True,
+                    document=r"""sectors to expand (start at 0), for multistage: use scopings container with 'stage' label, use if cyclic expansion is to be done.""",
+                ),
+                19: PinSpecification(
+                    name="phi",
+                    type_names=["double"],
+                    optional=True,
+                    document=r"""angle phi in degrees (default value 0.0), use if cyclic expansion is to be done.""",
                 ),
             },
             map_output_pin_spec={
@@ -259,6 +315,14 @@ class InputsNodalRotation(_Inputs):
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_read_cyclic = int()
+    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_expanded_meshed_region = dpf.MeshedRegion()
+    >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+    >>> my_sectors_to_expand = dpf.Scoping()
+    >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+    >>> my_phi = float()
+    >>> op.inputs.phi.connect(my_phi)
     """
 
     def __init__(self, op: Operator):
@@ -291,6 +355,22 @@ class InputsNodalRotation(_Inputs):
             nodal_rotation._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._mesh)
+        self._read_cyclic: Input[int] = Input(
+            nodal_rotation._spec().input_pin(14), 14, op, -1
+        )
+        self._inputs.append(self._read_cyclic)
+        self._expanded_meshed_region: Input[MeshedRegion | MeshesContainer] = Input(
+            nodal_rotation._spec().input_pin(15), 15, op, -1
+        )
+        self._inputs.append(self._expanded_meshed_region)
+        self._sectors_to_expand: Input[Scoping | ScopingsContainer] = Input(
+            nodal_rotation._spec().input_pin(18), 18, op, -1
+        )
+        self._inputs.append(self._sectors_to_expand)
+        self._phi: Input[float] = Input(
+            nodal_rotation._spec().input_pin(19), 19, op, -1
+        )
+        self._inputs.append(self._phi)
 
     @property
     def time_scoping(self) -> Input[Scoping | int | float | Field]:
@@ -422,7 +502,7 @@ class InputsNodalRotation(_Inputs):
     def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
-        prevents from reading the mesh in the result files
+        mesh. If cylic expansion is to be done, mesh of the base sector
 
         Returns
         -------
@@ -438,6 +518,90 @@ class InputsNodalRotation(_Inputs):
         >>> op.inputs.mesh(my_mesh)
         """
         return self._mesh
+
+    @property
+    def read_cyclic(self) -> Input[int]:
+        r"""Allows to connect read_cyclic input to the operator.
+
+        if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.nodal_rotation()
+        >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+        >>> # or
+        >>> op.inputs.read_cyclic(my_read_cyclic)
+        """
+        return self._read_cyclic
+
+    @property
+    def expanded_meshed_region(self) -> Input[MeshedRegion | MeshesContainer]:
+        r"""Allows to connect expanded_meshed_region input to the operator.
+
+        mesh expanded, use if cyclic expansion is to be done.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.nodal_rotation()
+        >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+        >>> # or
+        >>> op.inputs.expanded_meshed_region(my_expanded_meshed_region)
+        """
+        return self._expanded_meshed_region
+
+    @property
+    def sectors_to_expand(self) -> Input[Scoping | ScopingsContainer]:
+        r"""Allows to connect sectors_to_expand input to the operator.
+
+        sectors to expand (start at 0), for multistage: use scopings container with 'stage' label, use if cyclic expansion is to be done.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.nodal_rotation()
+        >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+        >>> # or
+        >>> op.inputs.sectors_to_expand(my_sectors_to_expand)
+        """
+        return self._sectors_to_expand
+
+    @property
+    def phi(self) -> Input[float]:
+        r"""Allows to connect phi input to the operator.
+
+        angle phi in degrees (default value 0.0), use if cyclic expansion is to be done.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.nodal_rotation()
+        >>> op.inputs.phi.connect(my_phi)
+        >>> # or
+        >>> op.inputs.phi(my_phi)
+        """
+        return self._phi
 
 
 class OutputsNodalRotation(_Outputs):
