@@ -229,16 +229,16 @@ class StringField(_FieldBase):
         self._api.csstring_field_push_back(self, scopingid, _get_size_of_list(data), string_list)
 
     def _get_data_pointer(self):
-        try:
-            return self._api.csstring_field_get_data_pointer(self, True)
-        except Exception as e:
-            # gRPC CLayer cannot handle direct C-layer pointer operations on shared objects
-            if "Invalid API pointer" in str(e):
-                raise NotImplementedError(
-                    "StringField.entity_data_offsets (data_pointer) is not supported on gRPC CLayer. "
-                    "This feature requires CSStringField_GetDataPointer_For_DpfVector support in the DPF server."
-                ) from e
-            raise
+        from ansys.dpf.core.server_types import GrpcServer, LegacyGrpcServer
+
+        if isinstance(self._server, (GrpcServer, LegacyGrpcServer)):
+            # Remote gRPC servers crash when CSStringField_GetDataPointer is called
+            # with a shared object handle. Raise NotImplementedError early to avoid
+            # corrupting the server session for subsequent tests.
+            raise NotImplementedError(
+                "StringField.entity_data_offsets (data_pointer) is not supported on remote gRPC servers. "
+            )
+        return self._api.csstring_field_get_data_pointer(self, True)
 
     def _set_data_pointer(self, data):
         return self._api.csstring_field_set_data_pointer(self, _get_size_of_list(data), data)
