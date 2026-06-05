@@ -466,6 +466,10 @@ class Field(_FieldBase):
     def _set_data_pointer(self, data):
         return self._api.csfield_set_data_pointer(self, _get_size_of_list(data), data)
 
+    # Keep the private alias for backward compatibility (used in deep_copy and
+    # by external code that may already reference _data_pointer directly).
+    _data_pointer = property(_get_data_pointer, _set_data_pointer)
+
     def _get_data(self, np_array=True):
         try:
             vec = dpf_vector.DPFVectorDouble(owner=self)
@@ -940,7 +944,7 @@ class Field(_FieldBase):
         f.location = self.location
         f.field_definition = self.field_definition.deep_copy(server)
         with suppress(Exception):
-            f._data_pointer = self._data_pointer
+            f.entity_data_offsets = self.entity_data_offsets
 
         # A field can only have ONE support (mesh OR time_freq_support).
         # Setting one overwrites the other, so they must be mutually exclusive.

@@ -34,6 +34,14 @@ class StringFieldGRPCAPI(string_field_abstract_api.StringFieldAbstractAPI):
 		return api_to_call.csfield_push_back(field, EntityId, size, data)
 
 	@staticmethod
+	def csstring_field_get_data_pointer(field, np_array):
+		return api_to_call.csfield_get_data_pointer(field, np_array)
+
+	@staticmethod
+	def csstring_field_set_data_pointer(field, size, data):
+		return api_to_call.csfield_set_data_pointer(field, size, data)
+
+	@staticmethod
 	def csstring_field_resize(field, dataSize, scopingSize):
 		raise api_to_call.csfield_resize(field, dataSize, scopingSize)
 
