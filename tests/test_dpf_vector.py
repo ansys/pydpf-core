@@ -81,6 +81,10 @@ def test_update_empty_dpf_vector_field(server_type):
     assert np.allclose(field.get_entity_data(1), [0])
 
 
+@pytest.mark.xfail(
+    reason="StringField.entity_data_offsets requires CSStringField_GetDataPointer_For_DpfVector in DPF server.",
+    strict=False,
+)
 def test_update_empty_dpf_vector_string_field(server_type):
     string_field = dpf.StringField(server=server_type)
     string_field.data = ["high", "goodbye", "hello"]

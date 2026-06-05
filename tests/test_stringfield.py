@@ -140,7 +140,7 @@ def test_print_string_field(server_type):
 
 
 @pytest.mark.xfail(
-    reason="CSStringField_GetDataPointer not yet available (requires DPF 12.0 and stringfield_get_data_pointer).",
+    reason="StringField.entity_data_offsets requires CSStringField_GetDataPointer_For_DpfVector in DPF server.",
     strict=False,
 )
 def test_entity_data_offsets_string_field(server_type):
