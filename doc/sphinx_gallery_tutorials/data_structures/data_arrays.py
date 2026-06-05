@@ -244,7 +244,7 @@ import numpy as np
 
 # Create an ElementalNodal field populated entity by entity
 my_en_field = dpf.Field(location=dpf.locations.elemental_nodal)
-# Element 10: 2 integration nodes × 3 components → 6 values
+# Element 10: 2 nodes × 3 components → 6 values
 my_en_field.append([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], 10)
 # Element 20: 1 integration node × 3 components → 3 values
 my_en_field.append([7.0, 8.0, 9.0], 20)
