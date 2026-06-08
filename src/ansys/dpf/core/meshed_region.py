@@ -689,7 +689,7 @@ class MeshedRegion:
         >>> deep_copy = meshed_region.deep_copy(server=other_server)
 
         """
-        if self._server.config.legacy:
+        if self._server.config.legacy and not meets_version(self._server.version, "8.0"):
             if self.nodes.scoping is None:  # empty Mesh
                 return MeshedRegion()
             node_ids = self.nodes.scoping.ids
