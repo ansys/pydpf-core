@@ -5,7 +5,7 @@ requires = ["setuptools>=82.0.1", "wheel"]
 [project]
 # Check https://setuptools.pypa.io/en/stable/userguide/quickstart.html for all available sections
 name = "ansys-dpf-core"
-version = "0.16.0.dev0"
+version = "0.16.2.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
 requires-python = ">=3.10, <4"
@@ -83,7 +83,7 @@ doc = [
   "pypandoc==1.17",
   "pytest-sphinx==0.7.1",
   "pyvista[jupyter]==0.48.4",
-  "quarto-cli==1.9.37",
+  "quarto-cli==1.9.38",
   "sphinx==8.2.3",
   "sphinx-copybutton==0.5.2",
   "sphinx-gallery==0.21.0",
@@ -98,7 +98,7 @@ test = [
   "ansys-platform-instancemanagement==1.1.2",
   "ansys-tools-common==0.5.0",
   "ansys-tools-visualization-interface>=0.13.0",
-  "coverage==7.14.0",
+  "coverage==7.14.1",
   "graphviz==0.21",
   "imageio==2.37.3",
   "imageio-ffmpeg==0.6.0",
@@ -107,12 +107,12 @@ test = [
   "pytest==9.0.3",
   "pytest-cov==7.1.0",
   "pytest-order==1.4.0",
-  "pytest-rerunfailures==16.2",
+  "pytest-rerunfailures==16.3",
   "pyvista==0.48.4",
   "vtk==9.6.0"
 ]
 build = [
-  "black==26.5.0",
+  "black==26.5.1",
   "build==1.5.0",
   "chevron==0.14.0",
   "pypandoc_binary==1.17",

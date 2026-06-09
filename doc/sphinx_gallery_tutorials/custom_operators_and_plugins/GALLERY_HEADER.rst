@@ -31,6 +31,19 @@ componentized, and easily distributable custom operators.
        +++
        Requires DPF 7.1 or above (2024 R1).
 
+    .. grid-item-card:: Add logging to custom operators and plugins
+       :link: tutorials_custom_operators_and_plugins_log_in_custom_operator
+       :link-type: ref
+       :text-align: center
+       :class-header: sd-bg-light sd-text-dark
+       :class-footer: sd-bg-light sd-text-dark
+
+       This tutorial shows how to use the DPF logging API to emit debug and error messages
+       from within a custom Python operator or plugin.
+
+       +++
+       Requires DPF 2027.1.0pre0 or above.
+
     .. grid-item-card:: Create a DPF plugin with multiple operators
         :text-align: center
         :class-header: sd-bg-light sd-text-dark

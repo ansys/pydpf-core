@@ -34,6 +34,7 @@ from ansys.dpf.core import errors, server as server_module
 
 if TYPE_CHECKING:  # pragma: noqa
     from ansys.dpf.core import AnyServerType
+from ansys.dpf.core._version import CALENDAR_VERSIONING_FIRST_MAJOR
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.runtime_config import (
     RuntimeCoreConfig,
@@ -613,13 +614,41 @@ class BaseService:
             proc_id = self._api.data_processing_process_id_on_client(client=self._server().client)
         else:
             proc_id = self._api.data_processing_process_id()
-        # server version
+        # server version - first get major/minor to detect calendar versioning (major >= 2027)
         if self._server().has_client():
             self._api.data_processing_get_server_version_on_client(
                 client=self._server().client, major=serv_ver_maj, minor=serv_ver_min
             )
         else:
             self._api.data_processing_get_server_version(major=serv_ver_maj, minor=serv_ver_min)
+        if int(serv_ver_maj) >= CALENDAR_VERSIONING_FIRST_MAJOR:
+            serv_ver_micro = integral_types.MutableInt32(-1)
+            serv_ver_modifier = integral_types.MutableString(size=0)
+            if self._server().has_client():
+                self._api.data_processing_get_server_version_full_on_client(
+                    client=self._server().client,
+                    major=serv_ver_maj,
+                    minor=serv_ver_min,
+                    micro=serv_ver_micro,
+                    modifier=serv_ver_modifier,
+                )
+            else:
+                self._api.data_processing_get_server_version_full(
+                    major=serv_ver_maj,
+                    minor=serv_ver_min,
+                    micro=serv_ver_micro,
+                    modifier=serv_ver_modifier,
+                )
+            version_str = (
+                str(int(serv_ver_maj))
+                + "."
+                + str(int(serv_ver_min))
+                + "."
+                + str(int(serv_ver_micro))
+                + str(serv_ver_modifier)
+            )
+        else:
+            version_str = str(int(serv_ver_maj)) + "." + str(int(serv_ver_min))
         # server os
         if self._server().has_client():
             serv_os = self._api.data_processing_get_os_on_client(client=self._server().client)
@@ -630,7 +659,7 @@ class BaseService:
             "server_ip": serv_ip,
             "server_port": serv_port,
             "server_process_id": proc_id,
-            "server_version": str(int(serv_ver_maj)) + "." + str(int(serv_ver_min)),
+            "server_version": version_str,
             "os": serv_os,
         }
 

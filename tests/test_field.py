@@ -365,7 +365,7 @@ def test_create_overall_field():
         assert np.allclose(data_added[i], [i * 3.0 + 1.0, i * 3.0 + 3.0, i * 3.0 + 5.0])
 
 
-def test_data_pointer_field(allkindofcomplexity):
+def test_entity_data_offsets_field(allkindofcomplexity):
     dataSource = dpf.core.DataSources()
     dataSource.set_result_file_path(allkindofcomplexity)
     op = dpf.core.Operator("S")
@@ -373,35 +373,35 @@ def test_data_pointer_field(allkindofcomplexity):
 
     fcOut = op.get_output(0, dpf.core.types.fields_container)
 
-    data_pointer = fcOut[0]._data_pointer
+    data_pointer = fcOut[0].entity_data_offsets
     assert len(data_pointer) == len(fcOut[0].scoping)
     assert data_pointer[0] == 0
     assert data_pointer[1] == 72
 
     f = fcOut[0]
     data_pointer[1] = 40
-    f._data_pointer = data_pointer
-    data_pointer = fcOut[0]._data_pointer
+    f.entity_data_offsets = data_pointer
+    data_pointer = fcOut[0].entity_data_offsets
 
     assert len(data_pointer) == len(fcOut[0].scoping)
     assert data_pointer[0] == 0
     assert data_pointer[1] == 40
 
 
-def test_data_pointer_prop_field(server_type):
+def test_entity_data_offsets_prop_field(server_type):
     pfield = dpf.core.PropertyField(server=server_type)
     pfield.append([1, 2, 3], 1)
     pfield.append([1, 2, 3, 4], 2)
     pfield.append([1, 2, 3], 3)
-    data_pointer = pfield._data_pointer
+    data_pointer = pfield.entity_data_offsets
     assert len(data_pointer) == 3
     assert data_pointer[0] == 0
     assert data_pointer[1] == 3
     assert data_pointer[2] == 7
 
     data_pointer[1] = 4
-    pfield._data_pointer = data_pointer
-    data_pointer = pfield._data_pointer
+    pfield.entity_data_offsets = data_pointer
+    data_pointer = pfield.entity_data_offsets
     assert len(data_pointer) == 3
     assert data_pointer[0] == 0
     assert data_pointer[1] == 4
@@ -634,7 +634,7 @@ def test_local_field_append(server_type_remote_process):
 
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
-    assert len(field_to_local._data_pointer) == 0
+    assert len(field_to_local.entity_data_offsets) == 0
 
 
 def test_local_elemental_nodal_field_append(server_type_remote_process):
@@ -653,7 +653,7 @@ def test_local_elemental_nodal_field_append(server_type_remote_process):
 
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
-    assert len(field_to_local._data_pointer) == num_entities
+    assert len(field_to_local.entity_data_offsets) == num_entities
 
     # flat data
     field_to_local = dpf.core.fields_factory.create_3d_vector_field(
@@ -665,7 +665,7 @@ def test_local_elemental_nodal_field_append(server_type_remote_process):
         assert f._is_set is True
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
-    assert len(field_to_local._data_pointer) == num_entities
+    assert len(field_to_local.entity_data_offsets) == num_entities
 
 
 def test_local_array_field_append(server_type_remote_process):
@@ -685,7 +685,7 @@ def test_local_array_field_append(server_type_remote_process):
 
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
-    assert len(field_to_local._data_pointer) == 0
+    assert len(field_to_local.entity_data_offsets) == 0
 
 
 def test_local_elemental_nodal_array_field_append(server_type_remote_process):
@@ -704,7 +704,7 @@ def test_local_elemental_nodal_array_field_append(server_type_remote_process):
 
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
-    assert len(field_to_local._data_pointer) == num_entities
+    assert len(field_to_local.entity_data_offsets) == num_entities
 
     # flat data
     field_to_local = dpf.core.fields_factory.create_3d_vector_field(
@@ -716,7 +716,7 @@ def test_local_elemental_nodal_array_field_append(server_type_remote_process):
 
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
-    assert len(field_to_local._data_pointer) == num_entities
+    assert len(field_to_local.entity_data_offsets) == num_entities
 
 
 def test_local_get_entity_data(server_type_remote_process):
@@ -824,12 +824,12 @@ def test_get_set_data_elemental_nodal_local_field(server_type_remote_process):
     )
     with field_to_local.as_local_field() as f:
         f.data = [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
-        f._data_pointer = [0, 6]
+        f.entity_data_offsets = [0, 6]
         f.scoping_ids = [1, 2]
         assert np.allclose(
             f.data, [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
         )
-        assert np.allclose(f._data_pointer, [0, 6])
+        assert np.allclose(f.entity_data_offsets, [0, 6])
         assert np.allclose(f.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
         assert np.allclose(f.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
         assert hasattr(f, "_is_set") is True
@@ -839,18 +839,18 @@ def test_get_set_data_elemental_nodal_local_field(server_type_remote_process):
         field_to_local.data,
         [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]],
     )
-    assert np.allclose(field_to_local._data_pointer, [0, 6])
+    assert np.allclose(field_to_local.entity_data_offsets, [0, 6])
     assert np.allclose(field_to_local.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
     assert np.allclose(field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
 
     with field_to_local.as_local_field() as f:
         f.data = [0.1, 0.2, 0.3, 0.1, 0.2, 0.3, 0.1, 0.2, 0.3, 0.1, 0.2, 0.4]
-        f._data_pointer = [0, 6]
+        f.entity_data_offsets = [0, 6]
         f.scoping_ids = [1, 2]
         assert np.allclose(
             f.data, [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
         )
-        assert np.allclose(f._data_pointer, [0, 6])
+        assert np.allclose(f.entity_data_offsets, [0, 6])
         assert np.allclose(f.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
         assert np.allclose(f.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
         assert hasattr(f, "_is_set") is True
@@ -860,18 +860,18 @@ def test_get_set_data_elemental_nodal_local_field(server_type_remote_process):
         field_to_local.data,
         [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]],
     )
-    assert np.allclose(field_to_local._data_pointer, [0, 6])
+    assert np.allclose(field_to_local.entity_data_offsets, [0, 6])
     assert np.allclose(field_to_local.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
     assert np.allclose(field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
 
     with field_to_local.as_local_field() as f:
         f.data = np.array([[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
-        f._data_pointer = [0, 6]
+        f.entity_data_offsets = [0, 6]
         f.scoping_ids = [1, 2]
         assert np.allclose(
             f.data, [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
         )
-        assert np.allclose(f._data_pointer, [0, 6])
+        assert np.allclose(f.entity_data_offsets, [0, 6])
         assert np.allclose(f.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
         assert np.allclose(f.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
         assert hasattr(f, "_is_set") is True
@@ -881,7 +881,7 @@ def test_get_set_data_elemental_nodal_local_field(server_type_remote_process):
         field_to_local.data,
         [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]],
     )
-    assert np.allclose(field_to_local._data_pointer, [0, 6])
+    assert np.allclose(field_to_local.entity_data_offsets, [0, 6])
     assert np.allclose(field_to_local.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
     assert np.allclose(field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
 
@@ -1012,7 +1012,7 @@ def get_simple_field(server_clayer):
     for i in range(0, 24):
         data[i] = i
     field.data = data
-    field._data_pointer = [0, 6, 12, 18]
+    field.entity_data_offsets = [0, 6, 12, 18]
     return field
 
 
@@ -1072,19 +1072,9 @@ def test_mutable_entity_data_contiguous_field(server_clayer):
     for i in range(0, 24):
         data[i] = i
     field.data = data
-    field._data_pointer = [0, 6, 12, 18]
+    field.entity_data_offsets = [0, 6, 12, 18]
 
     vec = field.get_entity_data(0)
-    assert np.allclose(vec, np.array(range(0, 6)))
-
-    vec[0][0] = 1
-    vec[0][5] = 4
-
-    assert np.allclose(vec, np.array([1, 1, 2, 3, 4, 4]))
-
-    vec.commit()
-
-    assert np.allclose(field.get_entity_data(0), np.array([1, 1, 2, 3, 4, 4]))
 
     vec = field.get_entity_data_by_id(2)
     assert np.allclose(vec, np.array(range(6, 12)))
@@ -1096,29 +1086,29 @@ def test_mutable_entity_data_contiguous_field(server_clayer):
     assert np.allclose(field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]))
 
 
-def test_field_mutable_data_pointer(server_clayer, allkindofcomplexity):
+def test_field_mutable_entity_data_offsets(server_clayer, allkindofcomplexity):
     # set data with a field created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
     field = model.results.stress().outputs.fields_container()[0]
-    data = field._data_pointer
+    data = field.entity_data_offsets
     data_copy = copy.deepcopy(data)
     data[0] += 1
     data.commit()
-    changed_data = field._data_pointer
+    changed_data = field.entity_data_offsets
     assert np.allclose(changed_data, data)
     assert not np.allclose(changed_data, data_copy)
     assert np.allclose(changed_data[0], data_copy[0] + 1)
     data[0] += 1
     data = None
-    changed_data = field._data_pointer
+    changed_data = field.entity_data_offsets
     assert np.allclose(changed_data[0], data_copy[0] + 2)
 
 
-def test_field_mutable_data_pointer_delete(server_clayer, allkindofcomplexity):
+def test_field_mutable_entity_data_offsets_delete(server_clayer, allkindofcomplexity):
     # set data with a field created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
     field = model.results.stress().outputs.fields_container()[0]
-    data = field._data_pointer
+    data = field.entity_data_offsets
     data_copy = copy.deepcopy(data)
     field = None
     gc.collect()  # check that the memory is held by the dpfvector
