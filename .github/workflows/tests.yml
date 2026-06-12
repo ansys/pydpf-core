@@ -337,7 +337,7 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox run-parallel --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -m ciparalleltests
+            tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -m ciparalleltests
 
       - name: "Combine coverage results"
         shell: bash
