@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.remove_unnecessary_labels
+   :inherited-members:

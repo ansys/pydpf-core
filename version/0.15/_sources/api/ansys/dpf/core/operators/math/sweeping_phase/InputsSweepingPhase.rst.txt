@@ -1,0 +1,242 @@
+
+
+
+
+
+
+:class:`InputsSweepingPhase`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.math.sweeping_phase.InputsSweepingPhase(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   sweeping_phase operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.sweeping_phase()
+   >>> my_real_field = dpf.Field()
+   >>> op.inputs.real_field.connect(my_real_field)
+   >>> my_imaginary_field = dpf.Field()
+   >>> op.inputs.imaginary_field.connect(my_imaginary_field)
+   >>> my_angle = float()
+   >>> op.inputs.angle.connect(my_angle)
+   >>> my_unit_name = str()
+   >>> op.inputs.unit_name.connect(my_unit_name)
+   >>> my_abs_value = bool()
+   >>> op.inputs.abs_value.connect(my_abs_value)
+   >>> my_imaginary_part_null = bool()
+   >>> op.inputs.imaginary_part_null.connect(my_imaginary_part_null)
+
+
+
+
+
+
+.. py:currentmodule:: InputsSweepingPhase
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~real_field`
+            - Allows to connect real_field input to the operator.
+          * - :py:attr:`~imaginary_field`
+            - Allows to connect imaginary_field input to the operator.
+          * - :py:attr:`~angle`
+            - Allows to connect angle input to the operator.
+          * - :py:attr:`~unit_name`
+            - Allows to connect unit_name input to the operator.
+          * - :py:attr:`~abs_value`
+            - Allows to connect abs_value input to the operator.
+          * - :py:attr:`~imaginary_part_null`
+            - Allows to connect imaginary_part_null input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.sweeping_phase import InputsSweepingPhase
+
+Property detail
+---------------
+
+.. py:property:: real_field
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect real_field input to the operator.
+
+   field or fields container with only one field is expected
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.sweeping_phase()
+   >>> op.inputs.real_field.connect(my_real_field)
+   >>> # or
+   >>> op.inputs.real_field(my_real_field)
+
+.. py:property:: imaginary_field
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect imaginary_field input to the operator.
+
+   field or fields container with only one field is expected
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.sweeping_phase()
+   >>> op.inputs.imaginary_field.connect(my_imaginary_field)
+   >>> # or
+   >>> op.inputs.imaginary_field(my_imaginary_field)
+
+.. py:property:: angle
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect angle input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.sweeping_phase()
+   >>> op.inputs.angle.connect(my_angle)
+   >>> # or
+   >>> op.inputs.angle(my_angle)
+
+.. py:property:: unit_name
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect unit_name input to the operator.
+
+   String Unit. Supported values: "deg" or "rad". Default: "rad".
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.sweeping_phase()
+   >>> op.inputs.unit_name.connect(my_unit_name)
+   >>> # or
+   >>> op.inputs.unit_name(my_unit_name)
+
+.. py:property:: abs_value
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect abs_value input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.sweeping_phase()
+   >>> op.inputs.abs_value.connect(my_abs_value)
+   >>> # or
+   >>> op.inputs.abs_value(my_abs_value)
+
+.. py:property:: imaginary_part_null
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect imaginary_part_null input to the operator.
+
+   If the imaginary part field is empty and this pin is true, then the imaginary part is supposed to be 0 (default is false).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.sweeping_phase()
+   >>> op.inputs.imaginary_part_null.connect(my_imaginary_part_null)
+   >>> # or
+   >>> op.inputs.imaginary_part_null(my_imaginary_part_null)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

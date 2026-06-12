@@ -1,0 +1,72 @@
+
+
+
+
+
+
+:class:`Exposures`
+==================
+
+
+.. py:class:: ansys.dpf.core.operator_specification.Exposures
+
+   Exposures class.
+
+
+
+.. py:currentmodule:: Exposures
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~private`
+            - 
+          * - :py:attr:`~public`
+            - 
+          * - :py:attr:`~hidden`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operator_specification import Exposures
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: private
+   :value: 'private'
+
+
+.. py:attribute:: public
+   :value: 'public'
+
+
+.. py:attribute:: hidden
+   :value: 'hidden'
+
+
+
+
+
+

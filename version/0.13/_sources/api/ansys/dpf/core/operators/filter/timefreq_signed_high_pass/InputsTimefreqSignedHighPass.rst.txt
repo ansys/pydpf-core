@@ -1,0 +1,191 @@
+
+
+
+
+
+
+:class:`InputsTimefreqSignedHighPass`
+=====================================
+
+.. py:class:: ansys.dpf.core.operators.filter.timefreq_signed_high_pass.InputsTimefreqSignedHighPass(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   timefreq_signed_high_pass operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.timefreq_signed_high_pass()
+   >>> my_time_freq_support = dpf.TimeFreqSupport()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+   >>> my_threshold = float()
+   >>> op.inputs.threshold.connect(my_threshold)
+   >>> my_both = bool()
+   >>> op.inputs.both.connect(my_both)
+
+
+
+
+
+
+.. py:currentmodule:: InputsTimefreqSignedHighPass
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_freq_support`
+            - Allows to connect time_freq_support input to the operator.
+          * - :py:attr:`~threshold`
+            - Allows to connect threshold input to the operator.
+          * - :py:attr:`~both`
+            - Allows to connect both input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.filter.timefreq_signed_high_pass import InputsTimefreqSignedHighPass
+
+Property detail
+---------------
+
+.. py:property:: time_freq_support
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect time_freq_support input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.timefreq_signed_high_pass()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+   >>> # or
+   >>> op.inputs.time_freq_support(my_time_freq_support)
+
+.. py:property:: threshold
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect threshold input to the operator.
+
+   A threshold scalar or a field containing one value is expected.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.timefreq_signed_high_pass()
+   >>> op.inputs.threshold.connect(my_threshold)
+   >>> # or
+   >>> op.inputs.threshold(my_threshold)
+
+.. py:property:: both
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect both input to the operator.
+
+   The default is false. If set to true, the complement of the filtered fields container is returned on output pin 1.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.timefreq_signed_high_pass()
+   >>> op.inputs.both.connect(my_both)
+   >>> # or
+   >>> op.inputs.both(my_both)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

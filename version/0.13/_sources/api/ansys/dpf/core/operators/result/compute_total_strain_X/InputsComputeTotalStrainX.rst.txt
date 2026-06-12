@@ -1,0 +1,331 @@
+
+
+
+
+
+
+:class:`InputsComputeTotalStrainX`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.result.compute_total_strain_X.InputsComputeTotalStrainX(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   compute_total_strain_X operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_total_strain_X()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_extrapolate = int()
+   >>> op.inputs.extrapolate.connect(my_extrapolate)
+   >>> my_nonlinear = int()
+   >>> op.inputs.nonlinear.connect(my_nonlinear)
+   >>> my_abstract_meshed_region = dpf.MeshedRegion()
+   >>> op.inputs.abstract_meshed_region.connect(my_abstract_meshed_region)
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> my_displacement = dpf.FieldsContainer()
+   >>> op.inputs.displacement.connect(my_displacement)
+
+
+
+
+
+
+.. py:currentmodule:: InputsComputeTotalStrainX
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~scoping`
+            - Allows to connect scoping input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~extrapolate`
+            - Allows to connect extrapolate input to the operator.
+          * - :py:attr:`~nonlinear`
+            - Allows to connect nonlinear input to the operator.
+          * - :py:attr:`~abstract_meshed_region`
+            - Allows to connect abstract_meshed_region input to the operator.
+          * - :py:attr:`~requested_location`
+            - Allows to connect requested_location input to the operator.
+          * - :py:attr:`~displacement`
+            - Allows to connect displacement input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.compute_total_strain_X import InputsComputeTotalStrainX
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect time_scoping input to the operator.
+
+   time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.. Will only be used if no displacement input is given (will be applied on displacement operator).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_total_strain_X()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect scoping input to the operator.
+
+   The element scoping on which the result is computed.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_total_strain_X()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> # or
+   >>> op.inputs.scoping(my_scoping)
+
+.. py:property:: streams_container
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect streams_container input to the operator.
+
+   Optional if a mesh or a data_sources have been connected. Required if no displacement input have been connected.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_total_strain_X()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect data_sources input to the operator.
+
+   Optional if a mesh or a streams_container have been connected, or if the displacement's field has a mesh support. Required if no displacement input have been connected.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_total_strain_X()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: extrapolate
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect extrapolate input to the operator.
+
+   Whether to extrapolate the data from the integration points to the nodes.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_total_strain_X()
+   >>> op.inputs.extrapolate.connect(my_extrapolate)
+   >>> # or
+   >>> op.inputs.extrapolate(my_extrapolate)
+
+.. py:property:: nonlinear
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect nonlinear input to the operator.
+
+   Whether to use nonlinear geometry or nonlinear material (1 = large strain, 2 = hyperelasticity).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_total_strain_X()
+   >>> op.inputs.nonlinear.connect(my_nonlinear)
+   >>> # or
+   >>> op.inputs.nonlinear(my_nonlinear)
+
+.. py:property:: abstract_meshed_region
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect abstract_meshed_region input to the operator.
+
+   The underlying mesh. Optional if a data_sources or a streams_container have been connected, or if the displacement's field has a mesh support.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_total_strain_X()
+   >>> op.inputs.abstract_meshed_region.connect(my_abstract_meshed_region)
+   >>> # or
+   >>> op.inputs.abstract_meshed_region(my_abstract_meshed_region)
+
+.. py:property:: requested_location
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect requested_location input to the operator.
+
+   Average the Elemental Nodal result to the requested location.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_total_strain_X()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> # or
+   >>> op.inputs.requested_location(my_requested_location)
+
+.. py:property:: displacement
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect displacement input to the operator.
+
+   Field/or fields container containing only the displacement field (nodal). If none specified, read displacements from result file using the data_sources.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.compute_total_strain_X()
+   >>> op.inputs.displacement.connect(my_displacement)
+   >>> # or
+   >>> op.inputs.displacement(my_displacement)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

@@ -1,0 +1,118 @@
+
+
+
+
+
+
+:class:`TqdmProgressBar`
+========================
+
+.. py:class:: ansys.dpf.core.common.TqdmProgressBar(text, unit, tot_size=None)
+
+   Bases: :py:obj:`ansys.dpf.gate.common.ProgressBarBase`
+
+
+   Custom progress bar implementation based on tqdm.
+
+
+
+
+.. py:currentmodule:: TqdmProgressBar
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~update`
+            - Modify how the current value of the progress bar is updated.
+          * - :py:attr:`~start`
+            - 
+          * - :py:attr:`~finish`
+            - 
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~bar`
+            - 
+          * - :py:attr:`~current`
+            - 
+          * - :py:attr:`~tot_size`
+            - 
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~progress_available`
+            - Check if the tdqm module exists.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.common import TqdmProgressBar
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: bar
+
+.. py:attribute:: current
+   :value: 0
+
+
+.. py:attribute:: tot_size
+   :value: None
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: update(current_value)
+
+   Modify how the current value of the progress bar is updated.
+
+
+.. py:method:: progress_available()
+   :staticmethod:
+
+
+   Check if the tdqm module exists.
+
+   :returns: True if module exists, else False.
+   :rtype: bool
+
+
+.. py:method:: start()
+
+.. py:method:: finish()
+
+
+
+

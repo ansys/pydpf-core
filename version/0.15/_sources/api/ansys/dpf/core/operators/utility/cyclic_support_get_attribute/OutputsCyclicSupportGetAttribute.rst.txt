@@ -1,0 +1,94 @@
+
+
+
+
+
+
+:class:`OutputsCyclicSupportGetAttribute`
+=========================================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.cyclic_support_get_attribute.OutputsCyclicSupportGetAttribute(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   cyclic_support_get_attribute operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.cyclic_support_get_attribute()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_property = op.outputs.property()
+
+
+
+
+
+.. py:currentmodule:: OutputsCyclicSupportGetAttribute
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~property_as_string`
+            - 
+          * - :py:attr:`~property_as_int32`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.cyclic_support_get_attribute import OutputsCyclicSupportGetAttribute
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: property_as_string
+
+.. py:attribute:: property_as_int32
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

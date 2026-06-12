@@ -1,0 +1,30 @@
+
+
+
+
+
+
+:class:`InvalidPortError`
+=========================
+
+.. py:exception:: ansys.dpf.core.errors.InvalidPortError(msg='')
+
+   Bases: :py:obj:`OSError`
+
+
+   Error raised when used an invalid port when starting DPF.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.errors import InvalidPortError
+
+
+
+
+

@@ -1,0 +1,123 @@
+
+
+
+
+
+
+:class:`OutputsCoordinateSystemDataProvider`
+============================================
+
+
+.. py:class:: ansys.dpf.core.operators.metadata.coordinate_system_data_provider.OutputsCoordinateSystemDataProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   coordinate_system_data_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.coordinate_system_data_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_coordinate_system_data1 = op.outputs.coordinate_system_data1()
+   >>> result_coordinate_system_data2 = op.outputs.coordinate_system_data2()
+
+
+
+
+
+.. py:currentmodule:: OutputsCoordinateSystemDataProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~coordinate_system_data1`
+            - Allows to get coordinate_system_data1 output of the operator
+          * - :py:attr:`~coordinate_system_data2`
+            - Allows to get coordinate_system_data2 output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.coordinate_system_data_provider import OutputsCoordinateSystemDataProvider
+
+Property detail
+---------------
+
+.. py:property:: coordinate_system_data1
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.generic_data_container.GenericDataContainer]
+
+
+   Allows to get coordinate_system_data1 output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.coordinate_system_data_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_coordinate_system_data1 = op.outputs.coordinate_system_data1()
+
+.. py:property:: coordinate_system_data2
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.generic_data_container.GenericDataContainer]
+
+
+   Allows to get coordinate_system_data2 output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.coordinate_system_data_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_coordinate_system_data2 = op.outputs.coordinate_system_data2()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

@@ -1,0 +1,177 @@
+
+
+
+
+
+
+:class:`InputsMinByComponent`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.min_max.min_by_component.InputsMinByComponent(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   min_by_component operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.min_by_component()
+   >>> my_use_absolute_value = bool()
+   >>> op.inputs.use_absolute_value.connect(my_use_absolute_value)
+   >>> my_field1 = dpf.Field()
+   >>> op.inputs.field1.connect(my_field1)
+   >>> my_field2 = dpf.Field()
+   >>> op.inputs.field2.connect(my_field2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMinByComponent
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~use_absolute_value`
+            - Allows to connect use_absolute_value input to the operator.
+          * - :py:attr:`~field1`
+            - Allows to connect field1 input to the operator.
+          * - :py:attr:`~field2`
+            - Allows to connect field2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.min_max.min_by_component import InputsMinByComponent
+
+Property detail
+---------------
+
+.. py:property:: use_absolute_value
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect use_absolute_value input to the operator.
+
+   use_absolute_value
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.min_by_component()
+   >>> op.inputs.use_absolute_value.connect(my_use_absolute_value)
+   >>> # or
+   >>> op.inputs.use_absolute_value(my_use_absolute_value)
+
+.. py:property:: field1
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect field1 input to the operator.
+
+   field or fields container with only one field is expected
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.min_by_component()
+   >>> op.inputs.field1.connect(my_field1)
+   >>> # or
+   >>> op.inputs.field1(my_field1)
+
+.. py:property:: field2
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect field2 input to the operator.
+
+   field or fields container with only one field is expected
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.min_by_component()
+   >>> op.inputs.field2.connect(my_field2)
+   >>> # or
+   >>> op.inputs.field2(my_field2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

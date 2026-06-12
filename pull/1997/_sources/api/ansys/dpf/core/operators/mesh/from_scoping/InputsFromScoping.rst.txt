@@ -1,0 +1,198 @@
+
+
+
+
+
+
+:class:`InputsFromScoping`
+==========================
+
+
+.. py:class:: ansys.dpf.core.operators.mesh.from_scoping.InputsFromScoping(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   from_scoping operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.from_scoping()
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> my_inclusive = int()
+   >>> op.inputs.inclusive.connect(my_inclusive)
+   >>> my_nodes_only = bool()
+   >>> op.inputs.nodes_only.connect(my_nodes_only)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+
+
+
+.. py:currentmodule:: InputsFromScoping
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scoping`
+            - Allows to connect scoping input to the operator.
+          * - :py:attr:`~inclusive`
+            - Allows to connect inclusive input to the operator.
+          * - :py:attr:`~nodes_only`
+            - Allows to connect nodes_only input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.from_scoping import InputsFromScoping
+
+Property detail
+---------------
+
+.. py:property:: scoping
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to connect scoping input to the operator.
+
+   if nodal/face scoping, then the scoping is transposed respecting the inclusive pin
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.from_scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> # or
+   >>> op.inputs.scoping(my_scoping)
+
+.. py:property:: inclusive
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect inclusive input to the operator.
+
+   if inclusive == 1 then all the elements/faces adjacent to the nodes/faces ids in input are added, if inclusive == 0, only the elements/faces which have all their nodes/faces in the scoping are included
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.from_scoping()
+   >>> op.inputs.inclusive.connect(my_inclusive)
+   >>> # or
+   >>> op.inputs.inclusive(my_inclusive)
+
+.. py:property:: nodes_only
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect nodes_only input to the operator.
+
+   returns mesh with nodes only (without any elements or property fields). Default is false.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.from_scoping()
+   >>> op.inputs.nodes_only.connect(my_nodes_only)
+   >>> # or
+   >>> op.inputs.nodes_only(my_nodes_only)
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.meshed_region.MeshedRegion]
+
+
+   Allows to connect mesh input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.from_scoping()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

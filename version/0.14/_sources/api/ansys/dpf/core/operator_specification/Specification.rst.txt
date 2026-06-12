@@ -1,0 +1,218 @@
+
+
+
+
+
+
+:class:`Specification`
+======================
+
+
+.. py:class:: ansys.dpf.core.operator_specification.Specification(operator_name: Union[str, None] = None, specification: Union[Specification, None] = None, server: Union[ansys.dpf.core.server.BaseServer, None] = None)
+
+   Bases: :py:obj:`SpecificationBase`
+
+
+   Documents an Operator with its description (what the Operator does), its inputs and outputs and some properties.
+
+   .. rubric:: Examples
+
+   Get the Specification of an operator by its name
+   >>> from ansys.dpf import core as dpf
+   >>> spec = dpf.operator_specification.Specification("U")
+   >>> # or
+   >>> spec = dpf.Operator.operator_specification("U")
+
+   Get the specification of an instantiated operator
+   >>> from ansys.dpf import core as dpf
+   >>> operator = dpf.operators.result.displacement()
+   >>> spec = operator.specification
+
+   Display the Specification attributes
+   >>> spec.description
+   'Read/compute nodal displacements by calling the readers defined by the datasources.'
+   >>> 4 in spec.inputs.keys()
+   True
+   >>> spec.outputs.keys()
+   dict_keys([0])
+   >>> spec.inputs[4].document
+   'result file path container, used if no streams are set'
+
+
+
+
+.. py:currentmodule:: Specification
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~set_changelog`
+            - Set the changelog for this operator specification.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~properties`
+            - Additional properties of the Operator.
+          * - :py:attr:`~description`
+            - Returns a description of the operation applied by the Operator.
+          * - :py:attr:`~inputs`
+            - Returns a dictionary mapping the input pin numbers to their ``PinSpecification``.
+          * - :py:attr:`~outputs`
+            - Returns a dictionary mapping the output pin numbers to their ``PinSpecification``.
+          * - :py:attr:`~config_specification`
+            - Documents the available configuration options supported by the Operator.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~operator_name`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Provide more details in the string representation of the instance.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operator_specification import Specification
+
+Property detail
+---------------
+
+.. py:property:: properties
+   :type: dict
+
+
+   Additional properties of the Operator.
+
+   Some additional properties of the Operator, like the category, the exposure,
+   the scripting and user names, and the plugin
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> operator = dpf.operators.math.add()
+   >>> operator.specification.properties
+   {'category': 'math', 'exposure': 'public', 'plugin': 'core', 'user_name': '+'}
+
+.. py:property:: description
+   :type: str
+
+
+   Returns a description of the operation applied by the Operator.
+
+   :rtype: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> operator = dpf.operators.math.scale()
+   >>> operator.specification.description
+   'Scales a field by a constant factor...'
+
+.. py:property:: inputs
+   :type: dict[int, PinSpecification]
+
+
+   Returns a dictionary mapping the input pin numbers to their ``PinSpecification``.
+
+   :returns: **inputs**
+   :rtype: dict[int:PinSpecification]
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> operator = dpf.operators.mesh.mesh_provider()
+   >>> 4 in operator.specification.inputs.keys()
+   True
+   >>> operator.specification.inputs[4]
+   PinSpecification(name='data_sources', _type_names=['data_sources'], ...set', ellipsis=False,
+    name_derived_class='', aliases=[...])
+
+.. py:property:: outputs
+   :type: dict[int, PinSpecification]
+
+
+   Returns a dictionary mapping the output pin numbers to their ``PinSpecification``.
+
+   :returns: **outputs**
+   :rtype: dict[int:PinSpecification]
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> operator = dpf.operators.mesh.mesh_provider()
+   >>> operator.specification.outputs
+   {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], ...=False,
+    name_derived_class='', aliases=[...])}
+
+.. py:property:: config_specification
+   :type: ConfigSpecification
+
+
+   Documents the available configuration options supported by the Operator.
+
+   :rtype: ConfigSpecification
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: operator_name
+   :value: None
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+   Provide more details in the string representation of the instance.
+
+
+.. py:method:: set_changelog(changelog: ansys.dpf.core.changelog.Changelog)
+
+   Set the changelog for this operator specification.
+
+   Requires DPF 11.0 (2026 R1) or above.
+
+
+
+
+
+
