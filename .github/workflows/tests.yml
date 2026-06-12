@@ -333,7 +333,7 @@ jobs:
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
         with:
           timeout_minutes: 10
-          max_attempts: 2
+          max_attempts: 1
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
