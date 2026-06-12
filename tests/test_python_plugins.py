@@ -38,6 +38,7 @@ from ansys.dpf.core.operator_specification import (
 )
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0
 )
 
 # if platform.python_version().startswith("3.7"):
@@ -415,3 +416,25 @@ def test_custom_op_changelog(server_type_remote_process, testfiles_dir):
     assert changelog.last_version == Version("1.0.0")
     assert changelog[Version("1.0.0")] == "Major bump"
     assert op.version == Version("1.0.0")
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Available for servers >=2027.1.pre0"
+)
+def test_custom_op_input_not_connected(server_type_remote_process, testfiles_dir):
+    from packaging.version import Version
+
+    dpf.load_library(
+        dpf.path_utilities.to_server_os(
+            Path(testfiles_dir) / "pythonPlugins", server_type_remote_process
+        ),
+        "py_operator_with_spec",
+        "load_operators",
+        server=server_type_remote_process,
+    )
+    op = dpf.Operator("custom_add_to_field", server=server_type_remote_process)
+    with pytest.raises(DPFServerException) as e:
+        _ = op.outputs.field()
+        expected = "ValueError: custom_add_to_field: mandatory pin 'field' is not connected."
+        assert expected in str(e)
+
