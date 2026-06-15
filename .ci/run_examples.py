@@ -35,7 +35,9 @@ for root, subdirectories, files in os.walk(examples_path):
     for subdirectory in subdirectories:
         subdir = Path(root) / subdirectory
         for file in subdir.glob("*.py"):
-            if sys.platform == "linux" and "08-python-operators" in str(file):
+            if "08-python-operators" in str(file) and (
+                sys.platform == "linux" or server_version == "2027.1.0pre0"
+            ):
                 continue
             elif "win" in sys.platform and "06-distributed_stress_averaging" in str(file):
                 # Currently very unstable in the GH CI

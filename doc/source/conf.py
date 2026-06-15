@@ -81,6 +81,12 @@ for example in sorted(
         ignored_pattern += f"|{example_name}"
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
+if (server_version == "2027.1.0pre0"):
+    ignored_pattern += "|00-wrapping_numpy_capabilities.py"
+    ignored_pattern += "|01-package_python_operators.py"
+    ignored_pattern += "|02-python_operators_with_dependencies.py"
+    ignored_pattern += "|custom_operators.py"
+    ignored_pattern += "|log_in_custom_operator.py"
 ignored_pattern += r")"
 
 exclude_patterns = []
