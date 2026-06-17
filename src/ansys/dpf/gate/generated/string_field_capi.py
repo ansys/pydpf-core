@@ -209,6 +209,15 @@ class StringFieldCAPI(string_field_abstract_api.StringFieldAbstractAPI):
 		return res
 
 	@staticmethod
+	def csstring_field_get_data_pointer_for_dpf_vector(field, out, data, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.CSStringField_GetDataPointer_For_DpfVector(field._internal_obj if field is not None else None, out._internal_obj, utils.to_int32_ptr_ptr(data), utils.to_int32_ptr(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def csstring_field_push_back(field, EntityId, size, data):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
