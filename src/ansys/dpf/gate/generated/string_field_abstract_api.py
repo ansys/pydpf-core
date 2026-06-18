@@ -96,6 +96,10 @@ class StringFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def csstring_field_get_data_pointer_for_dpf_vector(field, out, data, size):
+		raise NotImplementedError
+
+	@staticmethod
 	def csstring_field_push_back(field, EntityId, size, data):
 		raise NotImplementedError
 
