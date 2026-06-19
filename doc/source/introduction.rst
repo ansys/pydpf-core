@@ -24,6 +24,9 @@ transform this data. You can also chain operators together to create simple
 or complex data-processing workflows that you can reuse for repeated or
 future evaluations.
 
+Look for available operators and their descriptions with the `DPF Operators Search
+<https://developer.ansys.com/docs/dpf/operators-search>`_.
+
 The data in DPF is defined based on physics-agnostic mathematical quantities 
 described in self-sufficient entities called **fields**. This allows DPF to be 
 a modular and easy-to-use tool with a large range of capabilities. 
