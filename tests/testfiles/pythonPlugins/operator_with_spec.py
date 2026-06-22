@@ -32,6 +32,8 @@ from ansys.dpf.core.operator_specification import (
 class AddFloatToFieldData(CustomOperatorBase):
     def run(self):
         field = self.get_input(0, Field)
+        if field is None:
+            raise ValueError(f"{self.name}: mandatory pin '{self.specification.inputs[0].name}' is not connected.")
         to_add = self.get_input(1, float)
         data = field.data
         data += to_add

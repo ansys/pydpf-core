@@ -316,7 +316,10 @@ class CustomOperatorBase:
             if type is type_tuple[0]:
                 if len(type_tuple) >= 3:  # noqa: PLR2004
                     parameters = {type_tuple[2]: type_tuple[1](self._operator_data, index)}
-                    return type(**parameters)
+                    if parameters[type_tuple[2]] is not None:
+                        return type(**parameters)
+                    else:
+                        return None
                 return type(type_tuple[1](self._operator_data, index))
         if type == dpf_vector.DPFVectorInt:
             size = integral_types.MutableInt32(0)
