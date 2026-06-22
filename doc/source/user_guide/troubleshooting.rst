@@ -124,4 +124,40 @@ Ansys has an extensive developer ecosystem where you can find assistance for a v
   - `Developer Forum <_developer_forum>`_: Scripting and usage support for PyAnsys and other Ansys developer tools
 - `Ansys Innovation Space <_ansys_innovation_space>`_: Product support forum and training materials
 - `GitHub <_PyDPF-Core repository>`_: Development support, bug reporting, feature requests, and more.
-- `Ansys Learning Hub <_ansys_learning_hub>`_: Training, courses and learning plans
+Additional help resources
+-------------------------
+
+You can find additional assistance via the following means.
+
+Start a discussion
+~~~~~~~~~~~~~~~~~~
+
+Complex topics may require a discussion. Whether you want to know how to use
+PyDPF-Core for solving your specific problem or you have a suggestion for a new
+feature, a discussion is a good place to start.
+
+You can open a new discussion in the `PyDPF-Core discussions`_ section.
+
+Post issues
+~~~~~~~~~~~
+
+Use the `PyDPF-Core issues`_ page to submit questions, report bugs, and request new features. When possible, you should use these issue templates:
+
+- Bug, problem, error: For filing a bug report
+- Documentation issue: For requesting modifications to the documentation
+- Adding an example: For proposing a new example
+- New feature: For requesting enhancements to the code
+
+If your issue does not fit into one of these template categories, you can click the link for opening a blank issue.
+To reach the project support team, email pyansys.core@ansys.com.
+
+
+Ansys developer ecosystem resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Ansys also has an extensive developer ecosystem where you can find assistance for a variety of issues.
+
+- `Developer Portal`_: Blog posts, documentation, and guide
+- `Developer Forum`_: Scripting and usage support for PyAnsys and other Ansys developer tools
+- `Ansys Innovation Space`_: Product support forum and training materials
+- `Ansys Learning Hub`_: Training, courses and learning plans
