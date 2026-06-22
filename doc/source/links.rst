@@ -19,8 +19,8 @@
 .. Other links
 
 .. _Contributor Covenant Code of Conduct: https://www.contributor-covenant.org/version/2/1/code_of_conduct/
-.. _ansys_innovation_space: https://innovationspace.ansys.com/
-.. _developer_portal: https://developer.ansys.com/
-.. _developer_forum: https://discuss.ansys.com/
-.. _anssy-learning_hub: https://learninghub.ansys.com/
+.. _Ansys Innovation Space: https://innovationspace.ansys.com/
+.. _Developer Portal: https://developer.ansys.com/
+.. _Developer Forum: https://discuss.ansys.com/
+.. _Ansys Learning Hub: https://learninghub.ansys.com/
 .. _Python Packaging User Guide Tutorial: https://packaging.python.org/en/latest/tutorials/installing-packages/
