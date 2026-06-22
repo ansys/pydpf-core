@@ -23,4 +23,4 @@
 .. _developer_portal: https://developer.ansys.com/
 .. _developer_forum: https://discuss.ansys.com/
 .. _anssy-learning_hub: https://learninghub.ansys.com/
-.. _python_installing_packages: https://packaging.python.org/en/latest/tutorials/installing-packages/
+.. _Python Packaging User Guide Tutorial: https://packaging.python.org/en/latest/tutorials/installing-packages/
