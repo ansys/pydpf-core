@@ -106,7 +106,7 @@ test = [
   "pypandoc_binary==1.17",
   "pytest==9.1.0",
   "pytest-cov==7.1.0",
-  "pytest-order==1.4.0",
+  "pytest-order==1.5.0",
   "pytest-rerunfailures==16.3",
   "pyvista==0.48.4",
   "vtk==9.6.0"
