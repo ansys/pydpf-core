@@ -12,8 +12,7 @@ Install using ``pip``
 .. note::
    These instructions assume you are familiar
    with ``pip`` and the command line. If they are new to you, you should read
-   the `Python Packaging User Guide Tutorial on pip <_python_installing_packages>_`
-   before proceeding.
+   the `Python Packaging User Guide Tutorial`_ on pip before proceeding.
 
 The standard package installer for Python is `pip <pip_pypi_page_>`_.
 
