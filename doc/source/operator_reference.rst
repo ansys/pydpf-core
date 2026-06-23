@@ -20,7 +20,7 @@ Look for available operators and their descriptions with the `DPF Operators Sear
 
             Click here to access the DPF operators legacy documentation.
             
-            Prefer using the `DPF Operators Search <https://developer.ansys.com/docs/dpf/operators-search>`_ when possible.
+            Prefer using the DPF Operators Search when possible.
 
             +++
             .. button-link:: OPEN
