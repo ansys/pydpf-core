@@ -137,6 +137,15 @@ jobs:
 
           echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
 
+      - name: "Test API Entry"
+        shell: bash
+        working-directory: tests
+        run: |
+          cd entry
+          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results10.xml  .
+        if: always()
+        timeout-minutes: 10
+
       - name: "Test API"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
@@ -235,15 +244,6 @@ jobs:
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results13.xml test_documentation/.
-
-#      - name: "Test API Entry"
-#        shell: bash
-#        working-directory: tests
-#        run: |
-#          cd entry
-#          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results10.xml  .
-#        if: always()
-#        timeout-minutes: 10
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
