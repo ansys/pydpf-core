@@ -3,6 +3,7 @@ from .change_fc import change_fc
 from .compute_element_centroids import compute_element_centroids
 from .connectivity_ids import connectivity_ids
 from .elemental_from_mesh import elemental_from_mesh
+from .extend_midside_nodal_scoping import extend_midside_nodal_scoping
 from .from_mesh import from_mesh
 from .intersect import intersect
 from .nodal_from_mesh import nodal_from_mesh

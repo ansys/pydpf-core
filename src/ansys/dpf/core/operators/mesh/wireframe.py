@@ -17,6 +17,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.meshed_region import MeshedRegion
+    from ansys.dpf.core.scoping import Scoping
 
 
 class wireframe(Operator):
@@ -29,6 +30,8 @@ class wireframe(Operator):
     mesh: MeshedRegion
     threshold: float
         angle threshold in radian that will trigger an edge detection.
+    element_restriction: Scoping, optional
+        Restrict the list of elements that must be treated when extractiong edges. Can be used to exclude unwanted bodies or unwanted elements like contact or surface load elements.
 
     Outputs
     -------
@@ -46,18 +49,28 @@ class wireframe(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_threshold = float()
     >>> op.inputs.threshold.connect(my_threshold)
+    >>> my_element_restriction = dpf.Scoping()
+    >>> op.inputs.element_restriction.connect(my_element_restriction)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.wireframe(
     ...     mesh=my_mesh,
     ...     threshold=my_threshold,
+    ...     element_restriction=my_element_restriction,
     ... )
 
     >>> # Get output data
     >>> result_wireframe = op.outputs.wireframe()
     """
 
-    def __init__(self, mesh=None, threshold=None, config=None, server=None):
+    def __init__(
+        self,
+        mesh=None,
+        threshold=None,
+        element_restriction=None,
+        config=None,
+        server=None,
+    ):
         super().__init__(
             name="wireframe",
             config=config,
@@ -69,6 +82,8 @@ class wireframe(Operator):
             self.inputs.mesh.connect(mesh)
         if threshold is not None:
             self.inputs.threshold.connect(threshold)
+        if element_restriction is not None:
+            self.inputs.element_restriction.connect(element_restriction)
 
     @staticmethod
     def _spec() -> Specification:
@@ -89,6 +104,12 @@ threshold angle.
                     type_names=["double"],
                     optional=False,
                     document=r"""angle threshold in radian that will trigger an edge detection.""",
+                ),
+                2: PinSpecification(
+                    name="element_restriction",
+                    type_names=["scoping"],
+                    optional=True,
+                    document=r"""Restrict the list of elements that must be treated when extractiong edges. Can be used to exclude unwanted bodies or unwanted elements like contact or surface load elements.""",
                 ),
             },
             map_output_pin_spec={
@@ -158,6 +179,8 @@ class InputsWireframe(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_threshold = float()
     >>> op.inputs.threshold.connect(my_threshold)
+    >>> my_element_restriction = dpf.Scoping()
+    >>> op.inputs.element_restriction.connect(my_element_restriction)
     """
 
     def __init__(self, op: Operator):
@@ -168,6 +191,10 @@ class InputsWireframe(_Inputs):
         self._inputs.append(self._mesh)
         self._threshold: Input[float] = Input(wireframe._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._threshold)
+        self._element_restriction: Input[Scoping] = Input(
+            wireframe._spec().input_pin(2), 2, op, -1
+        )
+        self._inputs.append(self._element_restriction)
 
     @property
     def mesh(self) -> Input[MeshedRegion]:
@@ -208,6 +235,27 @@ class InputsWireframe(_Inputs):
         >>> op.inputs.threshold(my_threshold)
         """
         return self._threshold
+
+    @property
+    def element_restriction(self) -> Input[Scoping]:
+        r"""Allows to connect element_restriction input to the operator.
+
+        Restrict the list of elements that must be treated when extractiong edges. Can be used to exclude unwanted bodies or unwanted elements like contact or surface load elements.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.wireframe()
+        >>> op.inputs.element_restriction.connect(my_element_restriction)
+        >>> # or
+        >>> op.inputs.element_restriction(my_element_restriction)
+        """
+        return self._element_restriction
 
 
 class OutputsWireframe(_Outputs):

@@ -25,7 +25,12 @@ if TYPE_CHECKING:
 
 
 class vtu_export(Operator):
-    r"""Export DPF data into vtu format.
+    r"""Export DPF mesh and field data to **VTK Unstructured Grid (VTU)**
+    format.
+
+    Supports time-based data export (creates separate ``.vtu`` files per
+    time step) and various output modes. Compatible with VTK/ParaView
+    visualization tools.
 
 
     Inputs
@@ -47,7 +52,10 @@ class vtu_export(Operator):
     export_faces: bool, optional
         Whether to also export faces as shell elements when the mesh contains cells. Default is False.
     mesh_properties: StringField, optional
-        List of names of mesh properties to export.
+
+        List of mesh property type names (e.g., `mat`, `elshape`) to export as integer fields in the VTU output.
+        Only properties available in the mesh will be exported.
+
 
     Outputs
     -------
@@ -140,7 +148,12 @@ class vtu_export(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Export DPF data into vtu format.
+        description = r"""Export DPF mesh and field data to **VTK Unstructured Grid (VTU)**
+format.
+
+Supports time-based data export (creates separate ``.vtu`` files per
+time step) and various output modes. Compatible with VTK/ParaView
+visualization tools.
 """
         spec = Specification(
             description=description,
@@ -197,7 +210,10 @@ class vtu_export(Operator):
                     name="mesh_properties",
                     type_names=["vector<string>", "string_field"],
                     optional=True,
-                    document=r"""List of names of mesh properties to export.""",
+                    document=r"""
+List of mesh property type names (e.g., `mat`, `elshape`) to export as integer fields in the VTU output.
+Only properties available in the mesh will be exported.
+""",
                 ),
             },
             map_output_pin_spec={
@@ -490,7 +506,10 @@ class InputsVtuExport(_Inputs):
     def mesh_properties(self) -> Input[StringField]:
         r"""Allows to connect mesh_properties input to the operator.
 
-        List of names of mesh properties to export.
+
+        List of mesh property type names (e.g., `mat`, `elshape`) to export as integer fields in the VTU output.
+        Only properties available in the mesh will be exported.
+
 
         Returns
         -------

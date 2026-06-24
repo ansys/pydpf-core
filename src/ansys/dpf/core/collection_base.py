@@ -534,7 +534,25 @@ class CollectionBase(Generic[TYPE]):
         """
         from ansys.dpf.core.support import Support
 
-        return Support(support=self._api.collection_get_support(self, label), server=self._server)
+        support = self._api.collection_get_support(self, label)
+        if support:
+            return Support(support=support, server=self._server)
+        else:
+            return support
+
+    @version_requires("2027.1.0pre0")
+    def deep_copy_supports(self, other: CollectionBase):
+        """Deep-copies the supports of all labels in the collection into the other collection.
+
+        Parameters
+        ----------
+        other : collection where the supports are to be deep-copied
+        """
+        other_server = other._server
+        for label in self.labels:
+            label_support = self.get_support(label)
+            if label_support is not None:
+                other.set_support(label, label_support.deep_copy(other_server))
 
     def __str__(self):
         """Describe the entity.

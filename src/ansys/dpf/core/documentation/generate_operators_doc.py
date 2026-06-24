@@ -53,11 +53,13 @@ except ModuleNotFoundError:  # pragma: nocover
     raise Jinja2ImportError
 
 
-def initialize_server(
+def initialize_server(  # noqa: PLR0912, PLR0913, C901
     ansys_path: str | os.PathLike = None,
     include_composites: bool = False,
     include_sound: bool = False,
     verbose: bool = False,
+    custom_plugin_paths: list = None,
+    custom_plugin_names: list = None,
 ) -> dpf.AnyServerType:
     """Initialize a DPF server for a given installation folder by loading required plugins.
 
@@ -71,6 +73,14 @@ def initialize_server(
         Whether to generate documentation for operators of the Sound DPF plugin.
     verbose:
         Whether to print progress information.
+    custom_plugin_paths:
+        Paths to custom plugin files (.dll or .so) to load into the server.
+        Each plugin is loaded after the standard plugins.
+    custom_plugin_names:
+        Name aliases to use when loading the custom plugins via ``load_library``.
+        Each entry corresponds positionally to an entry in ``custom_plugin_paths``.
+        When an entry is ``None`` or the list is shorter than ``custom_plugin_paths``,
+        the name defaults to the file stem of the corresponding path.
 
     Returns
     -------
@@ -113,6 +123,23 @@ def initialize_server(
             )
         except Exception as e:
             warnings.warn("Could not load Acoustics plugin:" f"{e}")
+    for idx, plugin_path in enumerate(custom_plugin_paths or []):  # pragma: nocover
+        plugin_path = Path(plugin_path)  # noqa: PLW2901
+        # Resolve the name: use the provided name if available, else derive from the file stem
+        plugin_names = custom_plugin_names or []
+        raw_name = plugin_names[idx] if idx < len(plugin_names) else None
+        if raw_name is None:
+            # Strip leading "lib" prefix on Linux and drop the suffix to get a clean name
+            stem = plugin_path.stem
+            if stem.startswith("lib"):
+                stem = stem[3:]
+            raw_name = stem
+        if verbose:
+            print(f"Loading custom plugin '{raw_name}' from {plugin_path}")
+        try:
+            load_library(filename=plugin_path, name=raw_name)
+        except Exception as e:
+            warnings.warn(f"Could not load custom plugin '{raw_name}': {e}")
     if verbose:  # pragma: nocover
         print(f"Loaded plugins: {list(server.plugins.keys())}")
     return server
@@ -207,9 +234,8 @@ def update_operator_descriptions(
                 bf.write(updated_content)
             if verbose:
                 print(f"Updated description for: {file_name}")
-        else:
-            if verbose:
-                print(f"No operator description found in: {upd_path}")
+        elif verbose:
+            print(f"No operator description found in: {upd_path}")
 
 
 def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:
@@ -360,10 +386,15 @@ def get_plugin_operators(server: dpf.AnyServerType, plugin_name: str) -> list[st
         spec = dpf.Operator.operator_specification(op_name=operator_name, server=server)
         if "plugin" in spec.properties and spec.properties["plugin"] == plugin_name:
             plugin_operators.append(operator_name)
+    if not plugin_operators:
+        warnings.warn(
+            f"No operators were found for plugin '{plugin_name}'. "
+            "The plugin may not be loaded on the server."
+        )
     return plugin_operators
 
 
-def generate_operator_doc(
+def generate_operator_doc(  # noqa: PLR0912, C901
     server: dpf.AnyServerType,
     operator_name: str,
     include_private: bool,
@@ -389,9 +420,10 @@ def generate_operator_doc(
     operator_info = fetch_doc_info(server, operator_name)
     supported_file_types = {}
     if router_info is not None:
-        operator_info["is_router"] = operator_name in router_info["router_map"].keys()
+        scripting_name = operator_info["scripting_info"]["scripting_name"]
+        operator_info["is_router"] = scripting_name in router_info["router_map"].keys()
         if operator_info["is_router"]:
-            supported_keys = router_info["router_map"].get(operator_name, []).split(";")
+            supported_keys = router_info["router_map"].get(scripting_name, []).split(";")
             for key in supported_keys:
                 if key in router_info["namespace_ext_map"]:
                     namespace = router_info["namespace_ext_map"][key]
@@ -400,11 +432,10 @@ def generate_operator_doc(
                     else:
                         supported_file_types[namespace].append(key)
         for namespace, supported_keys in supported_file_types.items():
-            supported_file_types[namespace] = ", ".join(sorted(supported_keys))
+            supported_file_types[namespace] = sorted(supported_keys)
     else:
         operator_info["is_router"] = False
     operator_info["supported_file_types"] = supported_file_types
-    scripting_name = operator_info["scripting_info"]["scripting_name"]
     category: str = operator_info["scripting_info"]["category"]
     if scripting_name:
         file_name = scripting_name
@@ -557,7 +588,50 @@ def get_operator_routing_info(server: dpf.AnyServerType) -> dict:
     return router_info
 
 
-def generate_operators_doc(
+def get_operator_routing_info_legacy(server: dpf.AnyServerType) -> dict:
+    """Reconstruct routing information from operator names for DPF servers older than 11.0.
+
+    For servers that do not expose the ``info::router_discovery`` operator, the routing
+    map is rebuilt by scanning all available operator names for the pattern
+    ``<namespace>::<key>::<router_name>`` (e.g. ``mapdl::rst::acceleration``).
+
+    Parameters
+    ----------
+    server:
+        DPF server to query for the list of all operators.
+
+    Returns
+    -------
+    routing_map:
+        A dictionary with the same three keys as :func:`get_operator_routing_info`:
+        "aliases" (always empty for this fallback), "namespace_ext_map", and "router_map".
+    """
+    _SOLVER_OP_PART_COUNT = 3
+    namespace_ext_map: dict[str, str] = {}
+    router_map: dict[str, list[str]] = {}
+    for op_name in available_operator_names(server):
+        parts = op_name.split("::")
+        if len(parts) == _SOLVER_OP_PART_COUNT:
+            namespace, key, router_name = parts
+            if "deprecated" in key.lower():
+                continue  # Skip deprecated operators
+            namespace_ext_map[key] = namespace
+            op_scripting_name = dpf.Operator.operator_specification(
+                op_name=router_name, server=server
+            ).properties.get("scripting_name", router_name)
+            if op_scripting_name not in router_map:
+                router_map[op_scripting_name] = []
+            if key not in router_map[op_scripting_name]:
+                router_map[op_scripting_name].append(key)
+
+    return {
+        "aliases": {},
+        "namespace_ext_map": namespace_ext_map,
+        "router_map": {name: ";".join(sorted(keys)) for name, keys in router_map.items()},
+    }
+
+
+def generate_operators_doc(  # noqa: PLR0913
     output_path: Path,
     ansys_path: Path = None,
     include_composites: bool = False,
@@ -565,6 +639,8 @@ def generate_operators_doc(
     include_private: bool = False,
     desired_plugin: str = None,
     verbose: bool = True,
+    custom_plugin_paths: list = None,
+    custom_plugin_names: list = None,
 ):
     """Generate the Markdown source files for the DPF operator documentation.
 
@@ -586,19 +662,53 @@ def generate_operators_doc(
         Whether to include private operators.
     desired_plugin:
         Restrict documentation generation to the operators of this specific plugin.
+        Can be used together with ``custom_plugin_paths`` to document only the operators
+        that belong to one of the loaded custom plugins.
     verbose:
         Whether to print progress information.
+    custom_plugin_paths:
+        Paths to custom plugin files (.dll or .so) to load before generating documentation.
+        Each plugin is loaded in addition to the standard set of plugins so that its operators
+        appear in the generated output.  Combine with ``desired_plugin`` to restrict the output
+        to only the operators of a specific plugin.
+    custom_plugin_names:
+        Name aliases to register each custom plugin under when calling ``load_library``.
+        Each entry corresponds positionally to an entry in ``custom_plugin_paths``.
+        Missing or ``None`` entries default to the file stem of the corresponding path.
 
     """
-    server = initialize_server(ansys_path, include_composites, include_sound, verbose)
+    if isinstance(custom_plugin_paths, str):
+        raise TypeError(
+            "'custom_plugin_paths' must be a list of path strings, not a plain string. "
+            "Wrap the single path in a list: custom_plugin_paths=[path]."
+        )
+    if isinstance(custom_plugin_names, str):
+        raise TypeError(
+            "'custom_plugin_names' must be a list of name strings, not a plain string. "
+            "Wrap the single name in a list: custom_plugin_names=[name]."
+        )
+    server = initialize_server(
+        ansys_path,
+        include_composites,
+        include_sound,
+        verbose,
+        custom_plugin_paths=custom_plugin_paths,
+        custom_plugin_names=custom_plugin_names,
+    )
     if desired_plugin is None:
         operators = available_operator_names(server)
     else:
         operators = get_plugin_operators(server, desired_plugin)
+        if not operators:
+            raise ValueError(
+                f"No operators were found for plugin '{desired_plugin}'. "
+                "The plugin may not be loaded on the server. "
+                "If it is a custom plugin, use 'custom_plugin_paths' to load it first."
+            )
     if server.meet_version(required_version="11.0"):
         router_info = get_operator_routing_info(server)
     else:
-        router_info = None
+        router_info = get_operator_routing_info_legacy(server)
     for operator_name in operators:
         generate_operator_doc(server, operator_name, include_private, output_path, router_info)
     # Generate the toc tree
@@ -629,6 +739,29 @@ def run_with_args():  # pragma: nocover
     )
     parser.add_argument("--plugin", help="Restrict to the given plugin.")
     parser.add_argument(
+        "--custom_plugin_path",
+        nargs="+",
+        default=None,
+        metavar="PATH",
+        help=(
+            "Path(s) to custom plugin files (.dll or .so) to load before generating documentation. "
+            "Accepts one or more paths separated by spaces. "
+            "Each plugin's operators are added to the documentation output. "
+            "Combine with --plugin to restrict the output to only a specific plugin's operators."
+        ),
+    )
+    parser.add_argument(
+        "--custom_plugin_name",
+        nargs="+",
+        default=None,
+        metavar="NAME",
+        help=(
+            "Name alias(es) to register the custom plugin(s) under when loading them. "
+            "Each entry corresponds positionally to a --custom_plugin_path entry. "
+            "Defaults to the file stem of the corresponding path."
+        ),
+    )
+    parser.add_argument(
         "-v",
         "--verbose",
         action="store_true",
@@ -644,6 +777,8 @@ def run_with_args():  # pragma: nocover
         include_sound=args.include_sound,
         include_private=args.include_private,
         desired_plugin=args.plugin,
+        custom_plugin_paths=args.custom_plugin_path,
+        custom_plugin_names=args.custom_plugin_name,
     )
 
 

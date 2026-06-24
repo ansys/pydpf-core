@@ -17,6 +17,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.string_field import StringField
 
 
 class set_attribute(Operator):
@@ -27,9 +28,9 @@ class set_attribute(Operator):
     ------
     fields_container: FieldsContainer
     property_name: str
-        Supported property names are: "labels".
-    property_identifier: dict, optional
-        Value of the property to be set : vector of string or LabelSpace for "labels".
+        Supported property names are: "labels", "base_name", "field_names".
+    property_identifier: dict or str or StringField, optional
+        Value of the property to be set: vector of string or LabelSpace for "labels", a result name string for "base_name" (sets the container name and renames all fields with time/complex/label suffixes), a StringField for "field_names" to manually set the field names.
 
     Outputs
     -------
@@ -101,13 +102,18 @@ class set_attribute(Operator):
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document=r"""Supported property names are: "labels".""",
+                    document=r"""Supported property names are: "labels", "base_name", "field_names".""",
                 ),
                 2: PinSpecification(
                     name="property_identifier",
-                    type_names=["vector<string>", "label_space"],
+                    type_names=[
+                        "vector<string>",
+                        "label_space",
+                        "string",
+                        "string_field",
+                    ],
                     optional=True,
-                    document=r"""Value of the property to be set : vector of string or LabelSpace for "labels".""",
+                    document=r"""Value of the property to be set: vector of string or LabelSpace for "labels", a result name string for "base_name" (sets the container name and renames all fields with time/complex/label suffixes), a StringField for "field_names" to manually set the field names.""",
                 ),
             },
             map_output_pin_spec={
@@ -193,7 +199,7 @@ class InputsSetAttribute(_Inputs):
             set_attribute._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._property_name)
-        self._property_identifier: Input[dict] = Input(
+        self._property_identifier: Input[dict | str | StringField] = Input(
             set_attribute._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._property_identifier)
@@ -221,7 +227,7 @@ class InputsSetAttribute(_Inputs):
     def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
-        Supported property names are: "labels".
+        Supported property names are: "labels", "base_name", "field_names".
 
         Returns
         -------
@@ -239,10 +245,10 @@ class InputsSetAttribute(_Inputs):
         return self._property_name
 
     @property
-    def property_identifier(self) -> Input[dict]:
+    def property_identifier(self) -> Input[dict | str | StringField]:
         r"""Allows to connect property_identifier input to the operator.
 
-        Value of the property to be set : vector of string or LabelSpace for "labels".
+        Value of the property to be set: vector of string or LabelSpace for "labels", a result name string for "base_name" (sets the container name and renames all fields with time/complex/label suffixes), a StringField for "field_names" to manually set the field names.
 
         Returns
         -------

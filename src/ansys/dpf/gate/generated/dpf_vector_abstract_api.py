@@ -28,11 +28,11 @@ class DpfVectorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def dpf_vector_char_ptr_free_with_size(dpf_vector, data, sizes, size, modified):
+	def dpf_vector_char_ptr_free_with_size(dpf_vector, data, var1, size, modified):
 		raise NotImplementedError
 
 	@staticmethod
-	def dpf_vector_char_ptr_free_for_next_usage_with_size(dpf_vector, data, sizes, size, modified):
+	def dpf_vector_char_ptr_free_for_next_usage_with_size(dpf_vector, data, var1, size, modified):
 		raise NotImplementedError
 
 	@staticmethod
@@ -68,7 +68,7 @@ class DpfVectorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def dpf_string_free(dpf_vector, data, size):
+	def dpf_string_free(dpf_vector, data, var1):
 		raise NotImplementedError
 
 	@staticmethod

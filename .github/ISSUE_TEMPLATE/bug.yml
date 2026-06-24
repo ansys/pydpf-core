@@ -50,8 +50,8 @@ body:
       multiple: true
       options:
        - 'Windows'
-       - 'MacOS'
        - 'Linux'
+       - 'MacOS'
     validations:
       required: true
    
@@ -61,6 +61,7 @@ body:
       label: Which DPF/Ansys version are you using?
       multiple: true
       options:
+       - 'Ansys 2027 R1'
        - 'Ansys 2026 R1'
        - 'Ansys 2025 R2'
        - 'DPF Server 2025.2.pre0'
@@ -71,10 +72,6 @@ body:
        - 'DPF Server 2024.2.pre0'
        - 'Ansys 2024 R1'
        - 'DPF Server 2024.1.pre0'
-       - 'Ansys 2023 R2'
-       - 'DPF Server 2023.2.pre1'
-       - 'DPF Server 2023.2.pre0'
-       - 'Ansys 2023 R1'
     validations:
       required: true
 

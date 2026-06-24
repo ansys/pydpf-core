@@ -26,6 +26,53 @@ Downloads.
 Download example datasets from https://github.com/ansys/example-data
 """
 
+__all__ = [
+    "delete_downloads",
+    "download_transient_result",
+    "download_all_kinds_of_complexity",
+    "download_all_kinds_of_complexity_modal",
+    "download_pontoon",
+    "download_multi_harmonic_result",
+    "download_multi_stage_cyclic_result",
+    "download_sub_file",
+    "download_msup_files_to_dict",
+    "download_distributed_files",
+    "download_fluent_multi_species",
+    "download_fluent_multi_phase",
+    "download_extrapolation_3d_result",
+    "download_extrapolation_2d_result",
+    "download_hemisphere",
+    "download_example_asme_result",
+    "download_crankshaft",
+    "download_piston_rod",
+    "download_d3plot_beam",
+    "download_binout_matsum",
+    "download_binout_glstat",
+    "download_d3plot_projectile",
+    "download_cycles_to_failure",
+    "download_modal_frame",
+    "download_harmonic_clamped_pipe",
+    "download_modal_cyclic",
+    "download_fluent_axial_comp",
+    "download_fluent_mixing_elbow_steady_state",
+    "download_fluent_mixing_elbow_transient",
+    "download_cfx_heating_coil",
+    "download_cfx_mixing_elbow",
+    "find_simple_bar",
+    "find_static_rst",
+    "find_complex_rst",
+    "find_multishells_rst",
+    "find_electric_therm",
+    "find_steady_therm",
+    "find_transient_therm",
+    "find_msup_transient",
+    "find_simple_cyclic",
+    "find_distributed_msup_folder",
+    "download_average_filter_plugin",
+    "download_gltf_plugin",
+    "download_easy_statistics",
+]
+
 import os
 from pathlib import Path
 from typing import Union
@@ -34,7 +81,7 @@ import warnings
 
 from ansys.dpf.core.examples.examples import find_files
 
-EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/master/"
+EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/main/"
 
 GITHUB_SOURCE_URL = (
     "https://github.com/ansys/pydpf-core/raw/"
@@ -42,7 +89,7 @@ GITHUB_SOURCE_URL = (
 )
 
 
-def delete_downloads(verbose=True):
+def delete_downloads(verbose=True):  # noqa: C901
     """Delete all downloaded examples to free space or update the files."""
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH, examples
 
@@ -62,7 +109,7 @@ def delete_downloads(verbose=True):
         ]
     )
     for root, dirs, files in os.walk(LOCAL_DOWNLOADED_EXAMPLES_PATH, topdown=False):
-        root = Path(root)
+        root = Path(root)  # noqa: PLW2901
         if root not in not_to_remove:
             for name in files:
                 file_path = root / name
@@ -76,7 +123,7 @@ def delete_downloads(verbose=True):
     for root, dirs, files in os.walk(LOCAL_DOWNLOADED_EXAMPLES_PATH, topdown=False):
         if len(dirs) == 0 and len(files) == 0:
             try:
-                root = Path(root)
+                root = Path(root)  # noqa: PLW2901
                 root.rmdir()
                 if verbose:
                     print(f"deleting {root}")
@@ -1036,6 +1083,67 @@ def download_binout_glstat(should_upload: bool = True, server=None, return_local
     return _download_file(
         "result_files/binout", "binout_glstat", should_upload, server, return_local_path
     )
+
+
+def download_d3plot_projectile(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> list:
+    """Download the result files of an LS-DYNA projectile-plate impact simulation with element erosion and return the download paths available on the server side.
+
+    The dataset is the LSTC "Projectile Penetrating Plate" example (units: gram, cm,
+    microsecond). A tungsten-alloy projectile impacts a steel plate at an angle. Both
+    parts use ``*MAT_PLASTIC_KINEMATIC`` with a failure strain of 0.8, so elements are
+    progressively eroded on impact. The simulation uses
+    ``*CONTACT_ERODING_SURFACE_TO_SURFACE``, which causes LS-DYNA to write the
+    per-step element deletion flag to d3plot - exposed by DPF as the ``erosion_flag``
+    result.
+
+    The d3plot sequence contains 16 output states written to individual files
+    (``ieverp=1``) at approximately 5 µs intervals up to a total simulation time of
+    70 µs.
+
+    If the server is remote (or doesn't share the memory), the file is uploaded or made
+    available on the server side.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded to the server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    list
+        Paths to the d3plot result files: the main file followed by the 16 individual
+        state files (``d3plot01`` … ``d3plot16``).
+
+    Examples
+    --------
+    Download the example result files and return the paths.
+
+    >>> from ansys.dpf.core import examples
+    >>> paths = examples.download_d3plot_projectile()
+    >>> len(paths)
+    17
+
+    """
+    _dir = "result_files/d3plot_projectile"
+    paths = [
+        _download_file(_dir, "d3plot", should_upload, server, return_local_path),
+    ]
+    for i in range(1, 17):
+        paths.append(
+            _download_file(_dir, f"d3plot{i:02d}", should_upload, server, return_local_path)
+        )
+    return paths
 
 
 def download_cycles_to_failure(

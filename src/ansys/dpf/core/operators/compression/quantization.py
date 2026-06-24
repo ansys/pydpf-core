@@ -23,6 +23,15 @@ class quantization(Operator):
     r"""Scales a field to a given precision threshold, then rounds all the
     values to the unit.
 
+    The output of the quantization operation is : \\[ q(x) =
+    :raw-latex:`\left`:raw-latex:`\lfloor`:raw-latex:`\frac{x}{2\varepsilon}`
+    + :raw-latex:`\frac{1}{2}`:raw-latex:`\right`:raw-latex:`\rfloor `\\]
+    The truncated value in the original scale has to be computed by doing
+    \\( 2:raw-latex:`\varepsilon `q(x) \\).
+
+    To truncate a number to \\(n\\) decimal places, the threshold must be
+    chosen as \\(10^{-n}\\).
+
 
     Inputs
     ------
@@ -30,16 +39,16 @@ class quantization(Operator):
         Field to quantize.
     threshold: float or Field
         Precision threshold desired.
-        Case double : the threshold is applied on all the input field.
-        Case field with one value : the threshold is applied on all the input field.
-        Case field with "numComp" values : each threhsold is applied to the corresponding component of the input field.
-        Case field with the same number of values than the input field : quantization is performed component-wise.
 
+        - Case double : the threshold is applied over all the input field.
+        - Case field with one value : the threshold is applied over all the input field.
+        - Case field with _numComp_ values : each threhsold is applied to the corresponding component of the input field.
+        - Case field with the same number of values than the input field : quantization is performed component-wise.
 
     Outputs
     -------
     output_field: Field
-        Scaled and rounded field
+        Quantized field.
 
     Examples
     --------
@@ -81,6 +90,15 @@ class quantization(Operator):
     def _spec() -> Specification:
         description = r"""Scales a field to a given precision threshold, then rounds all the
 values to the unit.
+
+The output of the quantization operation is : \\[ q(x) =
+:raw-latex:`\left`:raw-latex:`\lfloor`:raw-latex:`\frac{x}{2\varepsilon}`
++ :raw-latex:`\frac{1}{2}`:raw-latex:`\right`:raw-latex:`\rfloor `\\]
+The truncated value in the original scale has to be computed by doing
+\\( 2:raw-latex:`\varepsilon `q(x) \\).
+
+To truncate a number to \\(n\\) decimal places, the threshold must be
+chosen as \\(10^{-n}\\).
 """
         spec = Specification(
             description=description,
@@ -96,11 +114,11 @@ values to the unit.
                     type_names=["double", "field"],
                     optional=False,
                     document=r"""Precision threshold desired.
-Case double : the threshold is applied on all the input field.
-Case field with one value : the threshold is applied on all the input field.
-Case field with "numComp" values : each threhsold is applied to the corresponding component of the input field.
-Case field with the same number of values than the input field : quantization is performed component-wise.
-""",
+
+- Case double : the threshold is applied over all the input field.
+- Case field with one value : the threshold is applied over all the input field.
+- Case field with _numComp_ values : each threhsold is applied to the corresponding component of the input field.
+- Case field with the same number of values than the input field : quantization is performed component-wise.""",
                 ),
             },
             map_output_pin_spec={
@@ -108,7 +126,7 @@ Case field with the same number of values than the input field : quantization is
                     name="output_field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Scaled and rounded field""",
+                    document=r"""Quantized field.""",
                 ),
             },
         )
@@ -209,11 +227,11 @@ class InputsQuantization(_Inputs):
         r"""Allows to connect threshold input to the operator.
 
         Precision threshold desired.
-        Case double : the threshold is applied on all the input field.
-        Case field with one value : the threshold is applied on all the input field.
-        Case field with "numComp" values : each threhsold is applied to the corresponding component of the input field.
-        Case field with the same number of values than the input field : quantization is performed component-wise.
 
+        - Case double : the threshold is applied over all the input field.
+        - Case field with one value : the threshold is applied over all the input field.
+        - Case field with _numComp_ values : each threhsold is applied to the corresponding component of the input field.
+        - Case field with the same number of values than the input field : quantization is performed component-wise.
 
         Returns
         -------
@@ -254,7 +272,7 @@ class OutputsQuantization(_Outputs):
     def output_field(self) -> Output[Field]:
         r"""Allows to get output_field output of the operator
 
-        Scaled and rounded field
+        Quantized field.
 
         Returns
         -------

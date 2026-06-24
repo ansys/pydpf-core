@@ -47,11 +47,14 @@ from .invert import invert
 from .invert_fc import invert_fc
 from .kronecker_prod import kronecker_prod
 from .linear_combination import linear_combination
+from .linearized_stress import linearized_stress
 from .ln import ln
 from .ln_fc import ln_fc
 from .mac import mac
 from .make_one_on_comp import make_one_on_comp
 from .matrix_inverse import matrix_inverse
+from .matrix_product import matrix_product
+from .matrix_product_fc import matrix_product_fc
 from .min_max_over_time import min_max_over_time
 from .minus import minus
 from .minus_fc import minus_fc

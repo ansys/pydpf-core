@@ -95,7 +95,7 @@ class _FieldBase:
 
     @staticmethod
     @abstractmethod
-    def _field_create_internal_obj(
+    def _field_create_internal_obj(  # noqa: PLR0913
         api: field_abstract_api.FieldAbstractAPI,
         server,
         nature,
@@ -300,6 +300,19 @@ class _FieldBase:
 
     @scoping.setter
     def scoping(self, scoping):
+        """Set the scoping of the field.
+
+        .. warning::
+            This is a **metadata-only** operation. Setting the scoping replaces
+            the annotation that maps data entries to entity IDs; it does **not**
+            filter, resize, or reorder the underlying data buffer.
+            After the assignment, :attr:`elementary_data_count` still reflects
+            the original buffer size.
+
+            To obtain a field restricted to a subset of entities, use the
+            ``rescope`` operator, or call :meth:`deep_copy` and then reassign
+            the scoping on the copy.
+        """
         return self._set_scoping(scoping)
 
     @abstractmethod
@@ -459,6 +472,43 @@ class _FieldBase:
     @abstractmethod
     def _set_data_pointer(self, data):
         pass
+
+    @property
+    def data_pointer(self):
+        """Start indices of each entity's data in the flat :attr:`data` array.
+
+        For fields where every entity has the same number of components
+        (``nodal``, ``elemental``, scalar, 3D-vector, …) this array is empty.
+        For fields with variable-size entity data - such as an ``elemental_nodal``
+        :class:`Field <ansys.dpf.core.field.Field>`, or a
+        :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>` storing
+        connectivity - ``data_pointer[i]`` is the flat-array index where
+        entity *i*'s data block begins.
+
+        Returns
+        -------
+        numpy.ndarray
+            Array of start indices, one per entity. Empty when all entities
+            have the same number of components.
+
+        See Also
+        --------
+        :meth:`get_entity_data`, :meth:`append`
+        """
+        return self._get_data_pointer()
+
+    @data_pointer.setter
+    def data_pointer(self, value):
+        self._set_data_pointer(value)
+
+    @property
+    def entity_data_offsets(self):
+        """Alias for :attr:`data_pointer`."""
+        return self.data_pointer
+
+    @entity_data_offsets.setter
+    def entity_data_offsets(self, value):
+        self.data_pointer = value
 
     @property
     def data(self):
@@ -776,13 +826,12 @@ class _LocalFieldBase(_FieldBase):
         if self._is_property_field:
             if not isinstance(data[0], int) and not isinstance(data[0], np.int32):
                 raise errors.InvalidTypeError("data", "list of int")
-        else:
-            if isinstance(data, (np.ndarray, np.generic)):
-                if data.shape != self.shape and 0 != self.size:
-                    raise ValueError(
-                        f"An array of shape {self.shape} is expected and "
-                        f"shape {data.shape} was input"
-                    )
+        elif isinstance(data, (np.ndarray, np.generic)):
+            if data.shape != self.shape and 0 != self.size:
+                raise ValueError(
+                    f"An array of shape {self.shape} is expected and "
+                    f"shape {data.shape} was input"
+                )
         if isinstance(data, (np.ndarray, np.generic)):
             self._data_copy = data.flatten().tolist()
         elif len(data) > 0 and isinstance(data, list):
@@ -847,6 +896,34 @@ class _LocalFieldBase(_FieldBase):
             self._data_pointer_copy = data
         if self._has_data_pointer == False and len(data) > 0:
             self._has_data_pointer = True
+
+    @property
+    def data_pointer(self):
+        """Start indices of each entity's data in the flat :attr:`data` array.
+
+        See :attr:`_FieldBase.data_pointer` for full documentation.
+        """
+        return np.array(self._data_pointer_copy)
+
+    @data_pointer.setter
+    @_setter
+    def data_pointer(self, data):
+        if isinstance(data, (np.ndarray, np.generic)):
+            self._data_pointer_copy = data.tolist()
+        else:
+            self._data_pointer_copy = data
+        if self._has_data_pointer == False and len(data) > 0:
+            self._has_data_pointer = True
+
+    @property
+    def entity_data_offsets(self):
+        """Alias for :attr:`data_pointer`."""
+        return self.data_pointer
+
+    @entity_data_offsets.setter
+    @_setter
+    def entity_data_offsets(self, data):
+        self.data_pointer = data
 
     @property
     def scoping_ids(self):

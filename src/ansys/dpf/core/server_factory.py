@@ -31,12 +31,11 @@ import io
 import logging
 import os
 from pathlib import Path
-import subprocess
+import subprocess  # nosec B404
 import time
 
 from ansys.dpf.gate.load_api import (
     _find_outdated_ansys_version,
-    _get_path_in_install,
 )
 
 
@@ -101,7 +100,7 @@ class DockerConfig:
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
 
         if mounted_volumes is None:
-            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
+            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}  # nosec B108
 
         self._use_docker = use_docker
         self._docker_name = docker_name
@@ -248,7 +247,10 @@ class DockerConfig:
         if os.name == "posix":
             b_shell = True
         with subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
+            run_cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=b_shell,  # nosec B602
         ) as process:
             used_ports = []
             with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
@@ -354,8 +356,10 @@ class ServerConfig:
         """
         text = f"Server configuration: protocol={self.protocol}"
         if self.legacy:
-            text += f" (legacy gRPC)"
+            text += " (legacy gRPC)"
         return text
+
+    __hash__ = None
 
     def __eq__(self, other: "ServerConfig"):
         """Check if two ServerConfig instances are equal.
@@ -440,9 +444,9 @@ def get_default_server_config(
             config = AvailableServerConfigs.LegacyGrpcServer
         else:
             raise NotImplementedError(
-                f"DPF_SERVER_TYPE environment variable must "
-                f"be set to one of the following: INPROCESS, "
-                f"GRPC, LEGACYGRPC."
+                "DPF_SERVER_TYPE environment variable must "
+                "be set to one of the following: INPROCESS, "
+                "GRPC, LEGACYGRPC."
             )
     elif config is None and docker_config.use_docker:
         config = get_default_remote_server_config()
@@ -629,7 +633,10 @@ class RunningDockerConfig:
         if os.name == "posix":
             b_shell = True
         with subprocess.Popen(
-            stop_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
+            stop_cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=b_shell,  # nosec B602
         ) as process:
             rm_cmd = f"docker rm {self.server_id}"
             with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
@@ -640,7 +647,7 @@ class RunningDockerConfig:
                     rm_cmd,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
-                    shell=b_shell,
+                    shell=b_shell,  # nosec B602
                     check=True,
                 )
             except subprocess.CalledProcessError as e:
@@ -680,7 +687,7 @@ class RunningDockerConfig:
                 f"docker logs {self.server_id}",
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                shell=(os.name == "posix"),
+                shell=(os.name == "posix"),  # nosec B602
             ) as docker_process:
                 self._use_docker = True
                 if stdout:
@@ -743,7 +750,7 @@ class ServerFactory:
     @staticmethod
     def get_server_type_from_config(
         config: ServerConfig = None,
-        ansys_path: str = None,
+        ansys_path: Path | str = None,
         docker_config: DockerConfig = None,
     ):
         """Return server type determined from the server configuration."""
@@ -758,8 +765,8 @@ class ServerFactory:
             # If no SERVER_CONFIGURATION is yet defined, set one with default values
             is_server_old = False
             if ansys_path is not None:
-                if "ansys_dpf_server" not in ansys_path:
-                    is_server_old = _find_outdated_ansys_version(ansys_path)
+                if "ansys_dpf_server" not in str(ansys_path):
+                    is_server_old = _find_outdated_ansys_version(str(ansys_path))
             config = get_default_server_config(is_server_old, docker_config)
         if config.protocol == CommunicationProtocols.gRPC and config.legacy:
             return LegacyGrpcServer

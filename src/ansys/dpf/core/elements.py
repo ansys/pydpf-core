@@ -232,7 +232,7 @@ class Element:
         """Retrieve the element shape."""
         shape = integral_types.MutableInt32()
         self._mesh._api.meshed_region_get_element_shape(self._mesh, self.id, shape, self.index)
-        for name in _element_shapes:
+        for name in _element_shapes_legacy:
             if name.value == int(shape):
                 return name.name.lower()
 
@@ -371,7 +371,7 @@ class Elements:
         for i in range(0, num):
             add = ElementAdder()
             yield add
-            shape_id = _element_shapes[add.shape.upper()].value
+            shape_id = _element_shapes_legacy[add.shape.upper()].value
             self._mesh._api.meshed_region_add_element_by_shape(
                 self._mesh, add.id, len(add.connectivity), add.connectivity, shape_id
             )
@@ -447,7 +447,7 @@ class Elements:
             List of the node indices to connect to the new element.
 
         """
-        shape_id = _element_shapes[shape.upper()].value
+        shape_id = _element_shapes_legacy[shape.upper()].value
         self._mesh._api.meshed_region_add_element_by_shape(
             self._mesh, id, len(connectivity), connectivity, shape_id
         )
@@ -1221,12 +1221,58 @@ class element_types(Enum):
             element_types.Surface8: ElementDescriptor(
                 element_types.Surface8, "Surface8", "surface8", "shell"
             ),
-            element_types.Edge2: ElementDescriptor(element_types.Edge2, "Edge2", "edge2", "beam"),
-            element_types.Edge3: ElementDescriptor(element_types.Edge3, "Edge3", "edge3", "beam"),
-            element_types.Beam3: ElementDescriptor(
-                element_types.Beam3, "Beam3", "beam3", "beam", 2, 0, 3, False, False, True, False
+            element_types.Edge2: ElementDescriptor(
+                element_types.Edge2,
+                "Linear 2-nodes Edge",
+                "edge2",
+                "beam",
+                2,
+                0,
+                2,
+                False,
+                False,
+                True,
+                False,
             ),
-            element_types.Beam4: ElementDescriptor(element_types.Beam4, "Beam4", "beam4", "beam"),
+            element_types.Edge3: ElementDescriptor(
+                element_types.Edge3,
+                "Quadratic 3-nodes Edge",
+                "edge3",
+                "beam",
+                2,
+                1,
+                3,
+                False,
+                False,
+                True,
+                True,
+            ),
+            element_types.Beam3: ElementDescriptor(
+                element_types.Beam3,
+                "Linear 3-nodes Beam",
+                "beam3",
+                "beam",
+                2,
+                0,
+                3,
+                False,
+                False,
+                True,
+                False,
+            ),
+            element_types.Beam4: ElementDescriptor(
+                element_types.Beam4,
+                "Quadratic 4-nodes Beam",
+                "beam4",
+                "beam",
+                2,
+                1,
+                4,
+                False,
+                False,
+                True,
+                True,
+            ),
             element_types.GeneralPlaceholder: ElementDescriptor(
                 element_types.GeneralPlaceholder,
                 "GeneralPlaceholder",
@@ -1314,10 +1360,17 @@ class element_types(Enum):
         return descriptor
 
 
-class _element_shapes(Enum):
+class _element_shapes_legacy(Enum):
     # NODAL = 0
     # ELEMENTAL = 1
     SHELL = 0
     SOLID = 1
     BEAM = 2
     UNKNOWN_SHAPE = 3
+
+
+class _element_shapes(Enum):
+    UNKNOWN_SHAPE = 0
+    SHELL = 1
+    SOLID = 2
+    BEAM = 3

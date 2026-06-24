@@ -24,6 +24,7 @@
 
 from __future__ import annotations
 
+from contextlib import suppress
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -232,7 +233,7 @@ class Field(_FieldBase):
         self._api.init_field_environment(self)
 
     @staticmethod
-    def _field_create_internal_obj(
+    def _field_create_internal_obj(  # noqa: PLR0913
         api: field_abstract_api.FieldAbstractAPI,
         server,
         nature,
@@ -464,6 +465,10 @@ class Field(_FieldBase):
 
     def _set_data_pointer(self, data):
         return self._api.csfield_set_data_pointer(self, _get_size_of_list(data), data)
+
+    # Keep the private alias for backward compatibility (used in deep_copy and
+    # by external code that may already reference _data_pointer directly).
+    _data_pointer = property(_get_data_pointer, _set_data_pointer)
 
     def _get_data(self, np_array=True):
         try:
@@ -825,7 +830,7 @@ class Field(_FieldBase):
 
     def __pow__(self, value):
         """Compute element-wise field[i]^2."""
-        if value != 2:
+        if value != 2:  # noqa: PLR2004
             raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
 
@@ -936,21 +941,29 @@ class Field(_FieldBase):
         )
         f.scoping = self.scoping.deep_copy(server)
         f.data = self.data
-        f.unit = self.unit
         f.location = self.location
         f.field_definition = self.field_definition.deep_copy(server)
-        try:
-            f._data_pointer = self._data_pointer
-        except:
-            pass
-        try:
-            f.meshed_region = self.meshed_region.deep_copy(server=server)
-        except:
-            pass
-        try:
-            f.time_freq_support = self.time_freq_support.deep_copy(server=server)
-        except:
-            pass
+        with suppress(Exception):
+            f.entity_data_offsets = self.entity_data_offsets
+
+        # A field can only have ONE support (mesh OR time_freq_support).
+        # Setting one overwrites the other, so they must be mutually exclusive.
+        support_set = False
+        with suppress(DPFServerException, RuntimeError):
+            support = self._api.csfield_get_support_as_meshed_region(self)
+            if support is not None:
+                mesh = meshed_region.MeshedRegion(mesh=support, server=self._server)
+                f.meshed_region = mesh.deep_copy(server=server)
+                support_set = True
+
+        if not support_set:
+            with suppress(DPFServerException, RuntimeError):
+                support = self._api.csfield_get_support_as_time_freq_support(self)
+                if support is not None:
+                    tfs = time_freq_support.TimeFreqSupport(
+                        time_freq_support=support, server=self._server
+                    )
+                    f.time_freq_support = tfs.deep_copy(server=server)
 
         return f
 

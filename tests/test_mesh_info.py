@@ -25,22 +25,13 @@ import pytest
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 import ansys.dpf.core.generic_data_container
-from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-)
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_load_cff_mesh_info_operator(server_type):
     mesh_info = dpf.Operator(name="cff::cas::mesh_info_provider", server=server_type)
     assert mesh_info is not None
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_load_cff_model(fluent_multi_species, server_type):
     model = dpf.Model(fluent_multi_species(server=server_type), server=server_type)
     mesh_provider = model.metadata.mesh_provider
@@ -48,17 +39,11 @@ def test_load_cff_model(fluent_multi_species, server_type):
     assert mesh_info and mesh_provider is not None
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_create_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
     assert mesh_info is not None
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_mesh_info_generic_data_container_getter_model(fluent_multi_species, server_type):
     model = dpf.Model(fluent_multi_species(server_type), server=server_type)
     mesh_info = model.metadata.mesh_info
@@ -66,9 +51,6 @@ def test_mesh_info_generic_data_container_getter_model(fluent_multi_species, ser
     assert isinstance(gdc, ansys.dpf.core.generic_data_container.GenericDataContainer)
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_mesh_info_generic_data_container_setter(fluent_multi_species, server_type):
     model = dpf.Model(fluent_multi_species(server_type), server=server_type)
     mesh_info = model.metadata.mesh_info
@@ -81,9 +63,6 @@ def test_mesh_info_generic_data_container_setter(fluent_multi_species, server_ty
         assert "Input value must be a GenericDataContainer." in e
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_mesh_info_generic_data_container_setter_grpc(
     fluent_multi_species, server_type_remote_process
 ):
@@ -100,9 +79,6 @@ def test_mesh_info_generic_data_container_setter_grpc(
         assert "Input value must be a GenericDataContainer." in e
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_set_get_num_of(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
     # """Number of nodes"""
@@ -116,9 +92,6 @@ def test_set_get_num_of(server_type):
     assert mesh_info.number_faces == 0
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_set_get_property_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
 
@@ -138,9 +111,6 @@ def test_set_get_property_mesh_info(server_type):
     assert result_field.component_count == field.component_count
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_set_get_splittable_by_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
     splittable = dpf.StringField(server=server_type)
@@ -154,9 +124,6 @@ def test_set_get_splittable_by_mesh_info(server_type):
     assert len(result_splittable.scoping.ids) == 1
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_set_get_available_elem_types_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
     available_results_ids = [1, 2, 3]
@@ -169,9 +136,6 @@ def test_set_get_available_elem_types_mesh_info(server_type):
     print(mesh_info)
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_output_mesh_info_provider_fluent(server_clayer):
     ds = dpf.DataSources(server=server_clayer)
     files = examples.download_fluent_multi_species()
@@ -321,9 +285,6 @@ def test_output_mesh_info_provider_fluent(server_clayer):
     assert face_zone_elements_value[4] == 15
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_output_mesh_info_provider_flprj(fluent_axial_comp, server_clayer):
     model = dpf.Model(fluent_axial_comp(server_clayer), server=server_clayer)
     res = model.metadata.mesh_info
@@ -485,9 +446,6 @@ def test_output_mesh_info_provider_flprj(fluent_axial_comp, server_clayer):
     assert face_zone_elements_value[23] == 64
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_mesh_info_zones(fluent_multi_species, server_clayer):
     model = dpf.Model(fluent_multi_species(server_clayer), server=server_clayer)
     mesh_info = model.metadata.mesh_info
@@ -512,9 +470,6 @@ def test_mesh_info_zones(fluent_multi_species, server_clayer):
     assert mesh_info.face_zones == ref_face_zones
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_mesh_info_parts(server_type):
     parts = ["part_1", "part_2"]
     part_ids = list(range(1, len(parts) + 1))
@@ -530,9 +485,6 @@ def test_mesh_info_parts(server_type):
     assert str(mesh_info.parts) == ref
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_mesh_info_bodies(fluent_multi_species, server_type):
     model = dpf.Model(fluent_multi_species(server_type), server=server_type)
     mesh_info = model.metadata.mesh_info

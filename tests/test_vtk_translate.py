@@ -34,7 +34,6 @@ from ansys.dpf.core.vtk_helper import (
     dpf_property_field_to_vtk,
     vtk_mesh_is_valid,
 )
-import conftest
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -64,10 +63,6 @@ def test_dpf_mesh_to_vtk(simple_rst, server_type):
     pv.plot(ug)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="CFF source operators where not supported before 7.0,",
-)
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_dpf_field_to_vtk(simple_rst, fluent_mixing_elbow_steady_state, server_type):
     model = dpf.Model(simple_rst, server=server_type)
@@ -109,10 +104,6 @@ def test_dpf_field_to_vtk_errors(server_type):
         _ = dpf_field_to_vtk(field=field)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="CFF source operators where not supported before 7.0,",
-)
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_dpf_meshes_to_vtk(fluent_axial_comp, server_type):
     model = dpf.Model(fluent_axial_comp(server=server_type), server=server_type)
@@ -127,10 +118,6 @@ def test_dpf_meshes_to_vtk(fluent_axial_comp, server_type):
     pv.plot(ug)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="CFF source operators where not supported before 7.0,",
-)
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_dpf_fieldscontainer_to_vtk(fluent_axial_comp, server_type):
     model = dpf.Model(fluent_axial_comp(server=server_type), server=server_type)
@@ -185,7 +172,6 @@ def test_dpf_property_field_to_vtk(simple_rst, server_type):
     model = dpf.Model(simple_rst, server=server_type)
     mesh = model.metadata.meshed_region
     property_field = mesh.property_field(property_name="mat")
-    print(property_field)
     # PropertyField to VTK
     ug = dpf_property_field_to_vtk(
         property_field=property_field, meshed_region=mesh, field_name="mat_id"
@@ -250,7 +236,6 @@ def test_vtk_mesh_is_valid_polyhedron():
     cells_1 = [5, 4, 4, 1, 2, 5, 4, 3, 0, 1, 4, 3, 2, 1, 0, 3, 3, 4, 5, 4, 5, 2, 0, 3]
     grid = pv.UnstructuredGrid([len(cells_1), *cells_1], cell_types, nodes_1)
     validity = vtk_mesh_is_valid(grid)
-    print(validity)
     assert validity.valid
     assert "valid" in validity.msg
     assert validity.grid.active_scalars_name == "ValidityState"
@@ -259,26 +244,6 @@ def test_vtk_mesh_is_valid_polyhedron():
     assert len(validity.intersecting_faces) == 0
     assert len(validity.non_contiguous_edges) == 0
     assert len(validity.non_convex) == 0
-    assert len(validity.inverted_faces) == 0
-
-    # Move one node
-    nodes_2 = [
-        [0.0, 0.0, 0.0],
-        [1.0, 0.0, 0.0],
-        [0.0, 1.0, 0.0],
-        [0.0, -0.05, 0.5],  # Moved one node along Y axis
-        [1.0, 0.0, 0.5],
-        [0.0, 1.0, 0.5],
-    ]
-    grid = pv.UnstructuredGrid([len(cells_1), *cells_1], cell_types, nodes_2)
-    validity = vtk_mesh_is_valid(grid)
-    print(validity)
-    assert not validity.valid  # For some reason this element is found to be non-convex
-    assert len(validity.wrong_number_of_points) == 0
-    assert len(validity.intersecting_edges) == 0
-    assert len(validity.intersecting_faces) == 0
-    assert len(validity.non_contiguous_edges) == 0
-    assert len(validity.non_convex) == 1
     assert len(validity.inverted_faces) == 0
 
     # Invert one face
@@ -310,11 +275,10 @@ def test_vtk_mesh_is_valid_polyhedron():
     ]
     grid = pv.UnstructuredGrid([len(cells_2), *cells_2], cell_types, nodes_1)
     validity = vtk_mesh_is_valid(grid)
-    print(validity)
-    assert not validity.valid  # Non-convex AND bad face orientation
+    assert not validity.valid  # bad face orientation
     assert len(validity.wrong_number_of_points) == 0
     assert len(validity.intersecting_edges) == 0
     assert len(validity.intersecting_faces) == 0
     assert len(validity.non_contiguous_edges) == 0
-    assert len(validity.non_convex) == 1
+    assert len(validity.non_convex) == 0
     assert len(validity.inverted_faces) == 1

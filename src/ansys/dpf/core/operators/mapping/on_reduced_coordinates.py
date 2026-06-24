@@ -24,25 +24,63 @@ if TYPE_CHECKING:
 
 
 class on_reduced_coordinates(Operator):
-    r"""Evaluates a result on specified reduced coordinates of given elements
-    (interpolates results inside elements with shape functions).
+    r"""Evaluates field data at specified reduced coordinates within given
+    elements using finite element shape function interpolation.
+
+    **Reduced coordinates**: Also known as natural or parametric
+    coordinates, these are coordinates in the reference element space
+    (typically ranging from -1 to 1 for most element types). For example, in
+    a quadrilateral element, reduced coordinates :math:`(\xi, \eta)` map to
+    physical coordinates :math:`(x, y)` through the element’s shape
+    functions.
+
+    **Mathematical formulation**: For a field :math:`u` evaluated at reduced
+    coordinates :math:`\boldsymbol{\xi} = (\xi_1, \xi_2, \xi_3)` within
+    element :math:`e`, the interpolated value is computed as:
+
+    .. math:: u(\boldsymbol{\xi}) = \sum_{i=1}^{N_{nodes}} N_i(\boldsymbol{\xi}) \cdot u_i
+
+    where :math:`N_i(\boldsymbol{\xi})` are the element shape functions
+    evaluated at the reduced coordinates, :math:`u_i` are the field values
+    at the element nodes, and :math:`N_{nodes}` is the number of nodes in
+    the element.
+
+    **Workflow**: This operator is typically used in conjunction with the
+    ‘find_reduced_coordinates’ operator: 1. **find_reduced_coordinates** -
+    Converts physical coordinates to reduced coordinates and identifies
+    containing elements 2. **on_reduced_coordinates** (this operator) -
+    Interpolates field values at those reduced coordinates
+
+    **Shape functions**: The interpolation uses finite element shape
+    functions appropriate for each element type (linear or quadratic
+    triangles, quadrilaterals, tetrahedra, hexahedra, etc.). When
+    ``use_quadratic_elements`` is enabled, mid-side node shape functions are
+    included for higher accuracy.
+
+    **Field location handling**: - **Nodal fields**: Interpolates using node
+    values and shape functions - **Elemental nodal fields**: Interpolates
+    using values already defined at element nodes (per element) - **Shell
+    layers**: For shell elements with multiple layers, interpolation is
+    performed separately for each layer
 
 
     Inputs
     ------
     fields_container: FieldsContainer
+        Fields container with field results to interpolate. Can contain nodal or elemental nodal fields. If fields have mesh support attached, it will be used; otherwise, the `mesh` pin must be connected.
     reduced_coordinates: Field or FieldsContainer
-        coordinates in the reference elements to find (found with the operator "find_reduced_coordinates")
+        Reduced (natural/parametric) coordinates in reference element space where interpolation will be performed. Typically obtained from the 'find_reduced_coordinates' operator. For a 3D element, this is a 3-component vector field $(\xi, \eta, \zeta)$. Each coordinate set corresponds to a point inside an element.
     element_ids: ScopingsContainer
-        Ids of the elements where each set of reduced coordinates is found (found with the operator "find_reduced_coordinates")
+        Element IDs specifying which element contains each set of reduced coordinates. Typically obtained from the 'find_reduced_coordinates' operator output (pin 1). Must correspond one-to-one with the reduced coordinates in pin 1.
     mesh: MeshedRegion or MeshesContainer, optional
-        if the first field in input has no mesh in support, then the mesh in this pin is expected (default is false), if a meshes container with several meshes is set, it should be on the same label spaces as the coordinates fields container
+        Mesh region or meshes container defining the finite element mesh. Required if input fields (pin 0) have no mesh in their support. If a meshes container with multiple meshes is provided, it should have the same label space as the reduced coordinates fields container.
     use_quadratic_elements: bool, optional
-        If this pin is set to true, the interpolation is computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false. To use only when results have mid side nodes values.
+        If true, uses quadratic shape functions (including mid-side nodes) for quadratic elements, providing higher accuracy but lower performance. Default is false (uses linear shape functions). Only enable when field results include values at mid-side nodes.
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Fields container with interpolated field values at the specified reduced coordinates. Output fields have nodal location and preserve the component structure of input fields. Shell layer data (if present) is interpolated separately for each layer. The number of entities in each output field may be less than the number of input reduced coordinates: a coordinate is omitted if its element ID is not found in the mesh or, for nodal fields, if any of the element's nodes has no data in the field.
 
     Examples
     --------
@@ -106,8 +144,44 @@ class on_reduced_coordinates(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Evaluates a result on specified reduced coordinates of given elements
-(interpolates results inside elements with shape functions).
+        description = r"""Evaluates field data at specified reduced coordinates within given
+elements using finite element shape function interpolation.
+
+**Reduced coordinates**: Also known as natural or parametric
+coordinates, these are coordinates in the reference element space
+(typically ranging from -1 to 1 for most element types). For example, in
+a quadrilateral element, reduced coordinates :math:`(\xi, \eta)` map to
+physical coordinates :math:`(x, y)` through the element’s shape
+functions.
+
+**Mathematical formulation**: For a field :math:`u` evaluated at reduced
+coordinates :math:`\boldsymbol{\xi} = (\xi_1, \xi_2, \xi_3)` within
+element :math:`e`, the interpolated value is computed as:
+
+.. math:: u(\boldsymbol{\xi}) = \sum_{i=1}^{N_{nodes}} N_i(\boldsymbol{\xi}) \cdot u_i
+
+where :math:`N_i(\boldsymbol{\xi})` are the element shape functions
+evaluated at the reduced coordinates, :math:`u_i` are the field values
+at the element nodes, and :math:`N_{nodes}` is the number of nodes in
+the element.
+
+**Workflow**: This operator is typically used in conjunction with the
+‘find_reduced_coordinates’ operator: 1. **find_reduced_coordinates** -
+Converts physical coordinates to reduced coordinates and identifies
+containing elements 2. **on_reduced_coordinates** (this operator) -
+Interpolates field values at those reduced coordinates
+
+**Shape functions**: The interpolation uses finite element shape
+functions appropriate for each element type (linear or quadratic
+triangles, quadrilaterals, tetrahedra, hexahedra, etc.). When
+``use_quadratic_elements`` is enabled, mid-side node shape functions are
+included for higher accuracy.
+
+**Field location handling**: - **Nodal fields**: Interpolates using node
+values and shape functions - **Elemental nodal fields**: Interpolates
+using values already defined at element nodes (per element) - **Shell
+layers**: For shell elements with multiple layers, interpolation is
+performed separately for each layer
 """
         spec = Specification(
             description=description,
@@ -116,31 +190,31 @@ class on_reduced_coordinates(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container with field results to interpolate. Can contain nodal or elemental nodal fields. If fields have mesh support attached, it will be used; otherwise, the `mesh` pin must be connected.""",
                 ),
                 1: PinSpecification(
                     name="reduced_coordinates",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""coordinates in the reference elements to find (found with the operator "find_reduced_coordinates")""",
+                    document=r"""Reduced (natural/parametric) coordinates in reference element space where interpolation will be performed. Typically obtained from the 'find_reduced_coordinates' operator. For a 3D element, this is a 3-component vector field $(\xi, \eta, \zeta)$. Each coordinate set corresponds to a point inside an element.""",
                 ),
                 2: PinSpecification(
                     name="element_ids",
                     type_names=["scopings_container"],
                     optional=False,
-                    document=r"""Ids of the elements where each set of reduced coordinates is found (found with the operator "find_reduced_coordinates")""",
+                    document=r"""Element IDs specifying which element contains each set of reduced coordinates. Typically obtained from the 'find_reduced_coordinates' operator output (pin 1). Must correspond one-to-one with the reduced coordinates in pin 1.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
-                    document=r"""if the first field in input has no mesh in support, then the mesh in this pin is expected (default is false), if a meshes container with several meshes is set, it should be on the same label spaces as the coordinates fields container""",
+                    document=r"""Mesh region or meshes container defining the finite element mesh. Required if input fields (pin 0) have no mesh in their support. If a meshes container with multiple meshes is provided, it should have the same label space as the reduced coordinates fields container.""",
                 ),
                 200: PinSpecification(
                     name="use_quadratic_elements",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""If this pin is set to true, the interpolation is computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false. To use only when results have mid side nodes values.""",
+                    document=r"""If true, uses quadratic shape functions (including mid-side nodes) for quadratic elements, providing higher accuracy but lower performance. Default is false (uses linear shape functions). Only enable when field results include values at mid-side nodes.""",
                 ),
             },
             map_output_pin_spec={
@@ -148,7 +222,7 @@ class on_reduced_coordinates(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container with interpolated field values at the specified reduced coordinates. Output fields have nodal location and preserve the component structure of input fields. Shell layer data (if present) is interpolated separately for each layer. The number of entities in each output field may be less than the number of input reduced coordinates: a coordinate is omitted if its element ID is not found in the mesh or, for nodal fields, if any of the element's nodes has no data in the field.""",
                 ),
             },
         )
@@ -245,6 +319,8 @@ class InputsOnReducedCoordinates(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        Fields container with field results to interpolate. Can contain nodal or elemental nodal fields. If fields have mesh support attached, it will be used; otherwise, the `mesh` pin must be connected.
+
         Returns
         -------
         input:
@@ -264,7 +340,7 @@ class InputsOnReducedCoordinates(_Inputs):
     def reduced_coordinates(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect reduced_coordinates input to the operator.
 
-        coordinates in the reference elements to find (found with the operator "find_reduced_coordinates")
+        Reduced (natural/parametric) coordinates in reference element space where interpolation will be performed. Typically obtained from the 'find_reduced_coordinates' operator. For a 3D element, this is a 3-component vector field $(\xi, \eta, \zeta)$. Each coordinate set corresponds to a point inside an element.
 
         Returns
         -------
@@ -285,7 +361,7 @@ class InputsOnReducedCoordinates(_Inputs):
     def element_ids(self) -> Input[ScopingsContainer]:
         r"""Allows to connect element_ids input to the operator.
 
-        Ids of the elements where each set of reduced coordinates is found (found with the operator "find_reduced_coordinates")
+        Element IDs specifying which element contains each set of reduced coordinates. Typically obtained from the 'find_reduced_coordinates' operator output (pin 1). Must correspond one-to-one with the reduced coordinates in pin 1.
 
         Returns
         -------
@@ -306,7 +382,7 @@ class InputsOnReducedCoordinates(_Inputs):
     def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
-        if the first field in input has no mesh in support, then the mesh in this pin is expected (default is false), if a meshes container with several meshes is set, it should be on the same label spaces as the coordinates fields container
+        Mesh region or meshes container defining the finite element mesh. Required if input fields (pin 0) have no mesh in their support. If a meshes container with multiple meshes is provided, it should have the same label space as the reduced coordinates fields container.
 
         Returns
         -------
@@ -327,7 +403,7 @@ class InputsOnReducedCoordinates(_Inputs):
     def use_quadratic_elements(self) -> Input[bool]:
         r"""Allows to connect use_quadratic_elements input to the operator.
 
-        If this pin is set to true, the interpolation is computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false. To use only when results have mid side nodes values.
+        If true, uses quadratic shape functions (including mid-side nodes) for quadratic elements, providing higher accuracy but lower performance. Default is false (uses linear shape functions). Only enable when field results include values at mid-side nodes.
 
         Returns
         -------
@@ -367,6 +443,8 @@ class OutputsOnReducedCoordinates(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Fields container with interpolated field values at the specified reduced coordinates. Output fields have nodal location and preserve the component structure of input fields. Shell layer data (if present) is interpolated separately for each layer. The number of entities in each output field may be less than the number of input reduced coordinates: a coordinate is omitted if its element ID is not found in the mesh or, for nodal fields, if any of the element's nodes has no data in the field.
 
         Returns
         -------

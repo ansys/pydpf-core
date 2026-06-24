@@ -28,10 +28,12 @@ Contains classes associated with the DPF FieldsContainer.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Union
+from contextlib import suppress
+from typing import TYPE_CHECKING, Sequence, Union
 
 from ansys import dpf
 from ansys.dpf.core import errors as dpf_errors, field
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.common import shell_layers
 
@@ -397,7 +399,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
             self.add_label("time")
         if len(self.labels) == 1:
             super()._add_entry({"time": timeid}, field)
-        elif self.has_label("time") and self.has_label("complex") and len(labels) == 2:
+        elif self.has_label("time") and self.has_label("complex") and len(labels) == 2:  # noqa: PLR2004
             super()._add_entry({"time": timeid, "complex": 0}, field)
         else:
             raise dpf_errors.DpfValueError(
@@ -420,7 +422,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
             self.add_label("time")
         if not self.has_label("complex") and len(self.labels) == 1 and self.has_label("time"):
             self.add_label("complex")
-        if self.has_label("time") and self.has_label("complex") and len(self.labels) == 2:
+        if self.has_label("time") and self.has_label("complex") and len(self.labels) == 2:  # noqa: PLR2004
             super()._add_entry({"time": timeid, "complex": 1}, field)
         else:
             raise dpf_errors.DpfValueError(
@@ -505,10 +507,11 @@ class FieldsContainer(CollectionBase["field.Field"]):
         fc.labels = self.labels
         for i, f in enumerate(self):
             fc.add_field(self.get_label_space(i), f.deep_copy(server))
-        try:
-            fc.time_freq_support = self.time_freq_support.deep_copy(server)
-        except:
-            pass
+        with suppress(Exception):
+            if server_meet_version("2027.1.0pre0", self._server):
+                self.deep_copy_supports(fc)
+            else:
+                fc.time_freq_support = self.time_freq_support.deep_copy(server)
         return fc
 
     def get_time_scoping(self):
@@ -555,7 +558,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
         plt.add_field(field=merged_field, **kwargs)
         return plt.show_figure(**kwargs)
 
-    def animate(
+    def animate(  # noqa: PLR0915
         self,
         save_as: str = None,
         deform_by: Union[FieldsContainer, Result, Operator] = None,
@@ -626,7 +629,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
         if deform_by is not False:
             if deform_by is None or isinstance(deform_by, bool):
                 # By default, set deform_by as self if nodal 3D vector field
-                if self[0].location == dpf.core.common.locations.nodal and n_components == 3:
+                if self[0].location == dpf.core.common.locations.nodal and n_components == 3:  # noqa: PLR2004
                     deform_by = self
                 else:
                     deform = False
@@ -723,7 +726,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
 
     def __pow__(self, value):
         """Compute element-wise field[i]^2."""
-        if value != 2:
+        if value != 2:  # noqa: PLR2004
             raise ValueError('DPF only the value is "2" supported')
         from ansys.dpf.core import dpf_operator, operators
 

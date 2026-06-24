@@ -25,6 +25,8 @@ class invariants(Operator):
 
     Inputs
     ------
+    generate_principal_stress: bool, optional
+        if true, generate principal stress in output pin 3/4/5 (default is false)
     field: Field
 
     Outputs
@@ -35,6 +37,12 @@ class invariants(Operator):
         stress equivalent intensity
     field_max_shear: Field
         max shear stress field
+    field_eig_1: Field, optional
+        first eigen value field
+    field_eig_2: Field, optional
+        second eigen value field
+    field_eig_3: Field, optional
+        third eigen value field
 
     Examples
     --------
@@ -44,11 +52,14 @@ class invariants(Operator):
     >>> op = dpf.operators.invariant.invariants()
 
     >>> # Make input connections
+    >>> my_generate_principal_stress = bool()
+    >>> op.inputs.generate_principal_stress.connect(my_generate_principal_stress)
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.invariant.invariants(
+    ...     generate_principal_stress=my_generate_principal_stress,
     ...     field=my_field,
     ... )
 
@@ -56,9 +67,14 @@ class invariants(Operator):
     >>> result_field_int = op.outputs.field_int()
     >>> result_field_eqv = op.outputs.field_eqv()
     >>> result_field_max_shear = op.outputs.field_max_shear()
+    >>> result_field_eig_1 = op.outputs.field_eig_1()
+    >>> result_field_eig_2 = op.outputs.field_eig_2()
+    >>> result_field_eig_3 = op.outputs.field_eig_3()
     """
 
-    def __init__(self, field=None, config=None, server=None):
+    def __init__(
+        self, generate_principal_stress=None, field=None, config=None, server=None
+    ):
         super().__init__(
             name="invariants_deriv",
             config=config,
@@ -66,6 +82,8 @@ class invariants(Operator):
             inputs_type=InputsInvariants,
             outputs_type=OutputsInvariants,
         )
+        if generate_principal_stress is not None:
+            self.inputs.generate_principal_stress.connect(generate_principal_stress)
         if field is not None:
             self.inputs.field.connect(field)
 
@@ -76,6 +94,12 @@ class invariants(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -1: PinSpecification(
+                    name="generate_principal_stress",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""if true, generate principal stress in output pin 3/4/5 (default is false)""",
+                ),
                 0: PinSpecification(
                     name="field",
                     type_names=["field"],
@@ -101,6 +125,24 @@ class invariants(Operator):
                     type_names=["field"],
                     optional=False,
                     document=r"""max shear stress field""",
+                ),
+                3: PinSpecification(
+                    name="field_eig_1",
+                    type_names=["field"],
+                    optional=True,
+                    document=r"""first eigen value field""",
+                ),
+                4: PinSpecification(
+                    name="field_eig_2",
+                    type_names=["field"],
+                    optional=True,
+                    document=r"""second eigen value field""",
+                ),
+                5: PinSpecification(
+                    name="field_eig_3",
+                    type_names=["field"],
+                    optional=True,
+                    document=r"""third eigen value field""",
                 ),
             },
         )
@@ -158,14 +200,41 @@ class InputsInvariants(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.invariant.invariants()
+    >>> my_generate_principal_stress = bool()
+    >>> op.inputs.generate_principal_stress.connect(my_generate_principal_stress)
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
     """
 
     def __init__(self, op: Operator):
         super().__init__(invariants._spec().inputs, op)
+        self._generate_principal_stress: Input[bool] = Input(
+            invariants._spec().input_pin(-1), -1, op, -1
+        )
+        self._inputs.append(self._generate_principal_stress)
         self._field: Input[Field] = Input(invariants._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field)
+
+    @property
+    def generate_principal_stress(self) -> Input[bool]:
+        r"""Allows to connect generate_principal_stress input to the operator.
+
+        if true, generate principal stress in output pin 3/4/5 (default is false)
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.invariant.invariants()
+        >>> op.inputs.generate_principal_stress.connect(my_generate_principal_stress)
+        >>> # or
+        >>> op.inputs.generate_principal_stress(my_generate_principal_stress)
+        """
+        return self._generate_principal_stress
 
     @property
     def field(self) -> Input[Field]:
@@ -199,6 +268,9 @@ class OutputsInvariants(_Outputs):
     >>> result_field_int = op.outputs.field_int()
     >>> result_field_eqv = op.outputs.field_eqv()
     >>> result_field_max_shear = op.outputs.field_max_shear()
+    >>> result_field_eig_1 = op.outputs.field_eig_1()
+    >>> result_field_eig_2 = op.outputs.field_eig_2()
+    >>> result_field_eig_3 = op.outputs.field_eig_3()
     """
 
     def __init__(self, op: Operator):
@@ -211,6 +283,18 @@ class OutputsInvariants(_Outputs):
             invariants._spec().output_pin(2), 2, op
         )
         self._outputs.append(self._field_max_shear)
+        self._field_eig_1: Output[Field] = Output(
+            invariants._spec().output_pin(3), 3, op
+        )
+        self._outputs.append(self._field_eig_1)
+        self._field_eig_2: Output[Field] = Output(
+            invariants._spec().output_pin(4), 4, op
+        )
+        self._outputs.append(self._field_eig_2)
+        self._field_eig_3: Output[Field] = Output(
+            invariants._spec().output_pin(5), 5, op
+        )
+        self._outputs.append(self._field_eig_3)
 
     @property
     def field_int(self) -> Output[Field]:
@@ -271,3 +355,63 @@ class OutputsInvariants(_Outputs):
         >>> result_field_max_shear = op.outputs.field_max_shear()
         """
         return self._field_max_shear
+
+    @property
+    def field_eig_1(self) -> Output[Field]:
+        r"""Allows to get field_eig_1 output of the operator
+
+        first eigen value field
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.invariant.invariants()
+        >>> # Get the output from op.outputs. ...
+        >>> result_field_eig_1 = op.outputs.field_eig_1()
+        """
+        return self._field_eig_1
+
+    @property
+    def field_eig_2(self) -> Output[Field]:
+        r"""Allows to get field_eig_2 output of the operator
+
+        second eigen value field
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.invariant.invariants()
+        >>> # Get the output from op.outputs. ...
+        >>> result_field_eig_2 = op.outputs.field_eig_2()
+        """
+        return self._field_eig_2
+
+    @property
+    def field_eig_3(self) -> Output[Field]:
+        r"""Allows to get field_eig_3 output of the operator
+
+        third eigen value field
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.invariant.invariants()
+        >>> # Get the output from op.outputs. ...
+        >>> result_field_eig_3 = op.outputs.field_eig_3()
+        """
+        return self._field_eig_3

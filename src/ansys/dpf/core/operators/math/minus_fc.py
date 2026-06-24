@@ -21,10 +21,16 @@ if TYPE_CHECKING:
 
 
 class minus_fc(Operator):
-    r"""Computes the difference of two fields. If one field’s scoping has an
-    ‘overall’ location, then this field’s values are applied on the other
-    field entirely. When using a constant or ‘work_by_index’, you can use
-    ‘inplace’ to reuse one of the fields.
+    r"""Computes the entity-wise difference
+    :math:`\mathrm{out}[i] = A[i] - B[i]`, also known as entity-wise
+    subtraction. If one field’s scoping has the ‘overall’ location, its
+    values are broadcast across all entities of the other field. If either
+    input is empty, the other is forwarded unchanged. When units differ but
+    are homogeneous, pin B values are converted to pin A’s unit before
+    subtraction. Subtracting two temperature fields automatically produces a
+    temperature-difference quantity with the appropriate unit. Inplace
+    execution is supported when working with constants or using
+    ‘work_by_index’.
 
 
     Inputs
@@ -37,7 +43,7 @@ class minus_fc(Operator):
     Outputs
     -------
     fields_container: FieldsContainer
-        Field containing the element-wise difference (fieldA - fieldB)
+        Field whose data equals $A[i] - B[i]$, carrying pin A's unit (or the corresponding temperature-difference unit when subtracting two temperature fields).
 
     Examples
     --------
@@ -83,10 +89,16 @@ class minus_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the difference of two fields. If one field’s scoping has an
-‘overall’ location, then this field’s values are applied on the other
-field entirely. When using a constant or ‘work_by_index’, you can use
-‘inplace’ to reuse one of the fields.
+        description = r"""Computes the entity-wise difference
+:math:`\mathrm{out}[i] = A[i] - B[i]`, also known as entity-wise
+subtraction. If one field’s scoping has the ‘overall’ location, its
+values are broadcast across all entities of the other field. If either
+input is empty, the other is forwarded unchanged. When units differ but
+are homogeneous, pin B values are converted to pin A’s unit before
+subtraction. Subtracting two temperature fields automatically produces a
+temperature-difference quantity with the appropriate unit. Inplace
+execution is supported when working with constants or using
+‘work_by_index’.
 """
         spec = Specification(
             description=description,
@@ -119,7 +131,7 @@ field entirely. When using a constant or ‘work_by_index’, you can use
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Field containing the element-wise difference (fieldA - fieldB)""",
+                    document=r"""Field whose data equals $A[i] - B[i]$, carrying pin A's unit (or the corresponding temperature-difference unit when subtracting two temperature fields).""",
                 ),
             },
         )
@@ -260,7 +272,7 @@ class OutputsMinusFc(_Outputs):
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
 
-        Field containing the element-wise difference (fieldA - fieldB)
+        Field whose data equals $A[i] - B[i]$, carrying pin A's unit (or the corresponding temperature-difference unit when subtracting two temperature fields).
 
         Returns
         -------

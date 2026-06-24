@@ -26,10 +26,6 @@ from ansys.dpf import core as dpf
 import conftest
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="CFF source operators where not supported before 7.0,",
-)
 def test_cff_model(server_type, fluent_multi_species):
     ds = fluent_multi_species(server_type)
     model = dpf.Model(ds, server=server_type)
@@ -52,10 +48,6 @@ def test_cff_model_flprj(server_type, fluent_axial_comp_flprj):
     assert "faces" in str(mesh_info)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="CFF source operators where not supported before 7.0,",
-)
 def test_results_cfx(cfx_heating_coil, server_type):
     model = dpf.Model(cfx_heating_coil(server=server_type), server=server_type)
     # print(model)
@@ -84,10 +76,6 @@ def test_results_cfx(cfx_heating_coil, server_type):
         assert isinstance(result, dpf.FieldsContainer)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="CFF source operators where not supported before 7.0,",
-)
 def test_results_fluent(fluent_mixing_elbow_steady_state, server_type):
     model = dpf.Model(fluent_mixing_elbow_steady_state(server=server_type), server=server_type)
     # print(model)

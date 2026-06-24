@@ -42,7 +42,7 @@ from ansys.dpf.gate import (
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf import core as dpf
-    from ansys.dpf.core import server_types
+    from ansys.dpf.core import LabelSpace
     from ansys.dpf.core.server_types import AnyServerType
     from ansys.grpc.dpf import data_sources_pb2
 
@@ -123,11 +123,10 @@ class DataSources:
             else:
                 self._internal_obj = None
                 raise errors.DpfValueError("Data source must be gRPC data sources message type")
+        elif self._server.has_client():
+            self._internal_obj = self._api.data_sources_new_on_client(self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.data_sources_new_on_client(self._server.client)
-            else:
-                self._internal_obj = self._api.data_sources_new("data_sources")
+            self._internal_obj = self._api.data_sources_new("data_sources")
 
         if result_path is not None:
             self.set_result_file_path(result_path, key=key)
@@ -361,11 +360,10 @@ class DataSources:
                 self._api.data_sources_add_domain_file_path_with_key_utf8(
                     self, str(filepath), key, domain_id
                 )
+        elif key == "":
+            self._api.data_sources_add_file_path_utf8(self, str(filepath))
         else:
-            if key == "":
-                self._api.data_sources_add_file_path_utf8(self, str(filepath))
-            else:
-                self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
+            self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
 
     def add_domain_file_path(
         self, filepath: Union[str, os.PathLike], key: str, domain_id: int
@@ -705,6 +703,49 @@ class DataSources:
             plugin when a result is requested by an operator.
         """
         return self._api.data_sources_get_namespace(self, result_key)
+
+    def label_space_for_path(self, index: int) -> LabelSpace:
+        """Return the label space associated with the path at the given index.
+
+        When files are added to the data sources with a domain ID (for distributed solves),
+        each path is internally tagged with a label space that describes the subset of the
+        model it covers.  This method retrieves that label space by the position of the path
+        in the data sources.
+
+        Parameters
+        ----------
+        index:
+            0-based index of the path in the data sources.
+
+        Returns
+        -------
+        LabelSpace
+            Label space associated with the path at the given index.  For domain files, this
+            contains at least the ``"domain_id"`` label whose value matches the domain ID
+            supplied when the path was added.  Returns an empty
+            :class:`LabelSpace <ansys.dpf.core.label_space.LabelSpace>` if no label space
+            was set for that path.
+
+        Examples
+        --------
+        Get the label space of distributed result files added with domain IDs.
+
+        >>> from ansys.dpf import core as dpf
+        >>>
+        >>> # Create the DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>> # Add two result files covering different domains
+        >>> my_data_sources.set_domain_result_file_path(path='/tmp/file0.rst', key='rst', domain_id=0)
+        >>> my_data_sources.set_domain_result_file_path(path='/tmp/file1.rst', key='rst', domain_id=1)
+        >>> # Retrieve the label space for the first path (domain_id=0)
+        >>> label_space_0 = my_data_sources.label_space_for_path(index=0)
+        >>> # Retrieve the label space for the second path (domain_id=1)
+        >>> label_space_1 = my_data_sources.label_space_for_path(index=1)
+
+        """
+        from ansys.dpf.core import LabelSpace
+
+        return LabelSpace(self._api.data_sources_get_label_space_by_path_index(self, index))
 
     @property
     def streams_container(self) -> dpf.StreamsContainer:

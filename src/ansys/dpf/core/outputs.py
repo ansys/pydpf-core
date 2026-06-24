@@ -59,7 +59,7 @@ class Output(Generic[T]):
             self._python_expected_types.append(map_types_to_python[cpp_type])
         self.aliases = self._spec.aliases
 
-    def get_data(self) -> T:
+    def get_data(self) -> T:  # noqa: C901
         """Retrieve the output of the operator."""
         type_output = self._spec.type_names[0]
 
@@ -174,14 +174,6 @@ class _Outputs:
                     docstr += "{:<5}{:<4}{:<20}".format(*line)
                     docstr += "\n"
         return docstr
-
-
-def _clearRepeatedMessage(message):
-    try:
-        while True:
-            message.pop(len(message) - 1)
-    except:
-        pass
 
 
 def _make_printable_type(type):

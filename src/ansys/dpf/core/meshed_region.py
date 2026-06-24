@@ -37,11 +37,11 @@ import numpy as np
 
 from ansys.dpf.core import field, property_field, scoping, server as server_module
 from ansys.dpf.core.cache import class_handling_cache
-from ansys.dpf.core.check_version import meets_version, server_meet_version, version_requires
+from ansys.dpf.core.check_version import meets_version, version_requires
 from ansys.dpf.core.common import (
     locations,
+    natures,
     nodal_properties,
-    types,
 )
 from ansys.dpf.core.elements import Elements, element_types
 import ansys.dpf.core.errors
@@ -134,12 +134,11 @@ class MeshedRegion:
         # object_name -> protobuf.message, DPFObject*
         if mesh is not None:
             self._internal_obj = mesh
+        # if no mesh object, create one
+        elif self._server.has_client():
+            self._internal_obj = self._api.meshed_region_new_on_client(self._server.client)
         else:
-            # if no mesh object, create one
-            if self._server.has_client():
-                self._internal_obj = self._api.meshed_region_new_on_client(self._server.client)
-            else:
-                self._internal_obj = self._api.meshed_region_new()
+            self._internal_obj = self._api.meshed_region_new()
 
         self._full_grid = None
         self._elements = None
@@ -292,6 +291,57 @@ class MeshedRegion:
         unit: str
         """
         return self._api.meshed_region_set_unit(self, unit)
+
+    @property
+    def bounding_box(self):
+        """
+        Bounding box of the meshed region.
+
+        Returns the minimum and maximum coordinates along each dimension (x, y, z)
+        of the nodes in the meshed region as a Field.
+
+        Returns
+        -------
+        bounding_box : Field
+            Field with overall location containing the bounding box data.
+            The field is a vector with 6 components (x_min, y_min, z_min, x_max, y_max, z_max).
+
+        Examples
+        --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.find_static_rst())
+        >>> meshed_region = model.metadata.meshed_region
+        >>> bbox = meshed_region.bounding_box
+        >>> print(bbox)
+        DPF bounding_box Field
+          Location: overall
+          Unit: m
+          1 entities
+          Data: 6 components and 1 elementary data
+          IDs                   data(m)
+          ------------          ----------
+          0                     0.000000e+00   3.000000e-02   0.000000e+00   3.000000e-02   6.000000e-02   3.000000e-02
+
+        """
+        from ansys.dpf.core import fields_factory, operators
+
+        node_coordinates_op = operators.mesh.node_coordinates(mesh=self, server=self._server)
+        min_max = operators.min_max.min_max(field=node_coordinates_op, server=self._server)
+        field_min = min_max.outputs.field_min()
+        field_max = min_max.outputs.field_max()
+
+        # Create a field with overall location and format [x_min, y_min, z_min; x_max, y_max, z_max]
+        bbox_field = fields_factory.create_overall_field(
+            value=[*field_min.data_as_list, *field_max.data_as_list],
+            server=self._server,
+            nature=natures.vector,
+            num_comp=6,
+            num_entities=1,
+        )
+        bbox_field.name = "bounding_box"
+        bbox_field.unit = field_min.unit
+        return bbox_field
 
     def __del__(self):
         """Delete this instance of the meshed region."""
@@ -639,7 +689,7 @@ class MeshedRegion:
         >>> deep_copy = meshed_region.deep_copy(server=other_server)
 
         """
-        if self._server.config.legacy:
+        if self._server.config.legacy and not meets_version(self._server.version, "8.0"):
             if self.nodes.scoping is None:  # empty Mesh
                 return MeshedRegion()
             node_ids = self.nodes.scoping.ids
@@ -695,15 +745,12 @@ class MeshedRegion:
             if isinstance(field_out, int):
                 res = property_field.PropertyField(server=self._server, property_field=field_out)
                 return res
+            elif field_out.datatype == "int":
+                return property_field.PropertyField(server=self._server, property_field=field_out)
             else:
-                if field_out.datatype == "int":
-                    return property_field.PropertyField(
-                        server=self._server, property_field=field_out
-                    )
-                else:
-                    # Not sure we go through here since the only datatype not int is coordinates,
-                    # which is already dealt with previously.
-                    return field.Field(server=self._server, field=field_out)
+                # Not sure we go through here since the only datatype not int is coordinates,
+                # which is already dealt with previously.
+                return field.Field(server=self._server, field=field_out)
 
     def is_empty(self) -> bool:
         """Whether the mesh is empty.

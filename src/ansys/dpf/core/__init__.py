@@ -34,6 +34,7 @@ if any([c in installed for c in check_for]):
                       f"dependencies to run correctly.")
 
 from ansys.dpf.core.dpf_operator import Operator, Config
+from ansys.dpf.core.misc import find_ansys
 from ansys.dpf.core.model import Model
 from ansys.dpf.core.field import Field, FieldDefinition
 from ansys.dpf.core.custom_type_field import CustomTypeField  # noqa: F401

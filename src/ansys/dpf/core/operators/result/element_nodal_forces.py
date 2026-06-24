@@ -142,6 +142,10 @@ class element_nodal_forces(Operator):
     13      Pretension
     ======= ======================================================
 
+    element_nodal_forces fields contain STATIC, DAMPING and INERTIA forces
+    stored as components (when available). STATIC: components 0 -> 2.
+    DAMPING: components 3 -> 5. INERTIA components 6 -> 8
+
 
     Inputs
     ------
@@ -178,7 +182,7 @@ class element_nodal_forces(Operator):
     extend_to_mid_nodes: bool, optional
         Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True
     split_force_components: bool, optional
-        If this pin is set to true, the output fields container splits the ENF by degree of freedom ("dof" label, 0 for translation, 1 for rotation, 2 for temperature) and derivative order ("derivative_order" label, 0 for stiffness terms, 1 for damping terms and 2 for inertial terms). Default is false.
+        DEPRECATED. If this pin is set to true, the output fields container splits the ENF by degree of freedom ("dof" label, 0 for translation, 1 for rotation, 2 for temperature) and derivative order ("derivative_order" label, 0 for stiffness terms, 1 for damping terms and 2 for inertial terms). Default is false.
 
     Outputs
     -------
@@ -432,6 +436,10 @@ elshape Related elements
 12      Multi-Point Constraint
 13      Pretension
 ======= ======================================================
+
+element_nodal_forces fields contain STATIC, DAMPING and INERTIA forces
+stored as components (when available). STATIC: components 0 -> 2.
+DAMPING: components 3 -> 5. INERTIA components 6 -> 8
 """
         spec = Specification(
             description=description,
@@ -543,7 +551,7 @@ elshape Related elements
                     name="split_force_components",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""If this pin is set to true, the output fields container splits the ENF by degree of freedom ("dof" label, 0 for translation, 1 for rotation, 2 for temperature) and derivative order ("derivative_order" label, 0 for stiffness terms, 1 for damping terms and 2 for inertial terms). Default is false.""",
+                    document=r"""DEPRECATED. If this pin is set to true, the output fields container splits the ENF by degree of freedom ("dof" label, 0 for translation, 1 for rotation, 2 for temperature) and derivative order ("derivative_order" label, 0 for stiffness terms, 1 for damping terms and 2 for inertial terms). Default is false.""",
                 ),
             },
             map_output_pin_spec={
@@ -1056,7 +1064,7 @@ class InputsElementNodalForces(_Inputs):
     def split_force_components(self) -> Input[bool]:
         r"""Allows to connect split_force_components input to the operator.
 
-        If this pin is set to true, the output fields container splits the ENF by degree of freedom ("dof" label, 0 for translation, 1 for rotation, 2 for temperature) and derivative order ("derivative_order" label, 0 for stiffness terms, 1 for damping terms and 2 for inertial terms). Default is false.
+        DEPRECATED. If this pin is set to true, the output fields container splits the ENF by degree of freedom ("dof" label, 0 for translation, 1 for rotation, 2 for temperature) and derivative order ("derivative_order" label, 0 for stiffness terms, 1 for damping terms and 2 for inertial terms). Default is false.
 
         Returns
         -------

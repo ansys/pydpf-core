@@ -112,7 +112,7 @@ class PropertyField(_FieldBase):
         self._api.init_property_field_environment(self)
 
     @staticmethod
-    def _field_create_internal_obj(
+    def _field_create_internal_obj(  # noqa: PLR0913
         api: property_field_abstract_api.PropertyFieldAbstractAPI,
         server,
         nature,
@@ -133,13 +133,12 @@ class PropertyField(_FieldBase):
                 return api.csproperty_field_new_location(
                     nentities, nentities * dim.component_count, location
                 )
+        elif client is not None:
+            return api.csproperty_field_new_on_client(
+                client, nentities, nentities * dim.component_count
+            )
         else:
-            if client is not None:
-                return api.csproperty_field_new_on_client(
-                    client, nentities, nentities * dim.component_count
-                )
-            else:
-                return api.csproperty_field_new(nentities, nentities * dim.component_count)
+            return api.csproperty_field_new(nentities, nentities * dim.component_count)
 
     @version_requires("8.1")
     def _load_field_definition(self):

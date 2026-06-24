@@ -21,17 +21,11 @@
 # SOFTWARE.
 
 import numpy as np
-import pytest
 
 from ansys.dpf import core
 from ansys.dpf.core import common
-import conftest
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="for_each not implemented below 6.0",
-)
 def test_incremental_results(server_type, plate_msup):
     ds = core.DataSources(plate_msup, server=server_type)
     scoping = core.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)
@@ -61,10 +55,6 @@ def test_incremental_results(server_type, plate_msup):
         assert np.isclose(ref_field.data, inc_field.data).all()
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="for_each not implemented below 6.0",
-)
 def test_incremental_minmax(server_type, plate_msup):
     ds = core.DataSources(plate_msup, server=server_type)
     scoping = core.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)
@@ -94,10 +84,6 @@ def test_incremental_minmax(server_type, plate_msup):
     assert np.isclose(ref_field_max.data, inc_field_max.data).all()
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="for_each not implemented below 6.0",
-)
 def test_incremental_accumulate(server_type, plate_msup):
     ds = core.DataSources(plate_msup, server=server_type)
     scoping = core.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)
@@ -125,10 +111,6 @@ def test_incremental_accumulate(server_type, plate_msup):
     assert np.isclose(ref_field.data, inc_field.data).all()
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="for_each not implemented below 6.0",
-)
 def test_incremental_average(server_type, plate_msup):
     ds = core.DataSources(plate_msup, server=server_type)
     scoping = core.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)
@@ -155,10 +137,6 @@ def test_incremental_average(server_type, plate_msup):
     assert np.isclose(ref_field.data, inc_field.data).all()
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="for_each not implemented below 6.0",
-)
 def test_incremental_estimation(server_type, plate_msup):
     ds = core.DataSources(plate_msup, server=server_type)
     scoping = core.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)

@@ -22,9 +22,9 @@
 
 import datetime
 from importlib import reload
+from importlib.util import find_spec
 import os
 from pathlib import Path
-import pkgutil
 import platform
 
 import pytest
@@ -240,7 +240,7 @@ def test_uploadinfolder_emptyfolder(tmpdir, server_type_remote_process):
 def test_load_plugin_correctly(server_type):
     from ansys.dpf import core as dpf
 
-    actual_path = Path(pkgutil.get_loader("ansys.dpf.core").path).parent
+    actual_path = Path(find_spec("ansys.dpf.core").origin).parent
 
     base = dpf.BaseService(server=server_type)
     if server_type.os == "nt":
@@ -263,7 +263,7 @@ def test_load_plugin_correctly_remote():
         server.external_ip, server.external_port, as_global=False
     )
 
-    actual_path = Path(pkgutil.get_loader("ansys.dpf.core").path).parent
+    actual_path = Path(find_spec("ansys.dpf.core").origin).parent
 
     if server.os == "posix":
         dpf.load_library("libAns.Dpf.Math.so", "math_operators", server=server_connected)

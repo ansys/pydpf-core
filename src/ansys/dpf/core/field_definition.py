@@ -29,7 +29,11 @@ import warnings
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.available_result import Homogeneity
-from ansys.dpf.core.check_version import server_meet_version_and_raise, version_requires
+from ansys.dpf.core.check_version import (
+    server_meet_version,
+    server_meet_version_and_raise,
+    version_requires,
+)
 from ansys.dpf.core.common import natures, shell_layers
 from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.gate import (
@@ -70,11 +74,10 @@ class FieldDefinition:
         # step4: if object exists, take the instance, else create it
         if field_definition is not None:
             self._internal_obj = field_definition
+        elif self._server.has_client():
+            self._internal_obj = self._api.field_definition_new_on_client(self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.field_definition_new_on_client(self._server.client)
-            else:
-                self._internal_obj = self._api.field_definition_new()
+            self._internal_obj = self._api.field_definition_new()
 
     @property
     def location(self):
@@ -112,18 +115,30 @@ class FieldDefinition:
 
         Returns
         -------
-        str
-            Units of the field.
+        str or tuple
+            Units of the field. If the field has a dimensionless homogeneity with a named unit
+            (requires DPF 11.0 / 2026 R1 or above), returns a tuple of
+            ``(Homogeneity.dimensionless, unit_name)``. Otherwise, returns the unit string.
         """
         unit = integral_types.MutableString(256)
-        unused = [
-            integral_types.MutableInt32(),
-            integral_types.MutableInt32(),
-            integral_types.MutableDouble(),
-            integral_types.MutableDouble(),
-        ]
-        self._api.csfield_definition_fill_unit(self, unit, *unused)
-        return str(unit)
+        size = integral_types.MutableInt32()
+        homogeneity_id = integral_types.MutableInt32()
+        factor = integral_types.MutableDouble()
+        shift = integral_types.MutableDouble()
+        self._api.csfield_definition_fill_unit(self, unit, size, homogeneity_id, factor, shift)
+
+        unit_str = str(unit)
+
+        # Check if homogeneity is dimensionless
+        # If so, return tuple to preserve the dimensionless + named unit information
+        if (
+            server_meet_version("11.0", self._server)
+            and homogeneity_id.val.value == Homogeneity.dimensionless.value
+            and unit_str
+        ):
+            return (Homogeneity.dimensionless, unit_str)
+        else:
+            return unit_str
 
     @property
     def shell_layers(self):
@@ -229,7 +244,7 @@ class FieldDefinition:
         # setter with explicit homogeneity: homogeneity is taken into account if it is dimensionless
         if (
             isinstance(value, tuple)
-            and len(value) == 2
+            and len(value) == 2  # noqa: PLR2004
             and isinstance(value[0], Homogeneity)
             and isinstance(value[1], str)
         ):

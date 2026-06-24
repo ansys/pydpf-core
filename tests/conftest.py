@@ -109,6 +109,35 @@ def testfiles_dir():
 
 
 @pytest.fixture()
+def tmp_path_server(tmp_path):
+    """Return a temporary directory path that is accessible by the DPF server.
+
+    When the server runs in Docker the standard ``tmp_path`` fixture points to a
+    host path that the container cannot reach.  This fixture instead creates a
+    temporary directory inside the already-mounted test-files volume and translates
+    the path to its container equivalent before yielding it.  Cleanup is handled
+    automatically regardless of the execution environment.
+    """
+    if running_docker:
+        import shutil
+        import tempfile
+
+        local_dir = tempfile.mkdtemp(dir=_get_test_files_directory())
+        # Translate host path to container path using the mounted-volumes mapping.
+        # (DockerConfig has the dict; RunningDockerConfig.replace_with_mounted_volumes
+        # uses the same logic.)
+        server_path = os.path.normpath(local_dir)
+        for host, container in ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes.items():
+            server_path = server_path.replace(os.path.normpath(host), container)
+        try:
+            yield server_path
+        finally:
+            shutil.rmtree(local_dir, ignore_errors=True)
+    else:
+        yield str(tmp_path)
+
+
+@pytest.fixture()
 def allkindofcomplexity():
     """Resolve the path of the "allKindOfComplexity.rst" result file."""
     return examples.download_all_kinds_of_complexity()
@@ -345,8 +374,8 @@ def cfx_mixing_elbow():
 
 DEFAULT_ANSYS_PATH = core._global_server().ansys_path
 
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0 = meets_version(
-    get_server_version(core._global_server()), "12.0"
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0 = meets_version(
+    get_server_version(core._global_server()), "2027.1.0pre0"
 )
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0 = meets_version(
     get_server_version(core._global_server()), "11.0"
@@ -369,18 +398,6 @@ SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0 = meets_version(
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1 = meets_version(
     get_server_version(core._global_server()), "7.1"
 )
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0 = meets_version(
-    get_server_version(core._global_server()), "7.0"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2 = meets_version(
-    get_server_version(core._global_server()), "6.2"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1 = meets_version(
-    get_server_version(core._global_server()), "6.1"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 = meets_version(
-    get_server_version(core._global_server()), "6.0"
-)
 
 
 IS_USING_GATEBIN = _try_use_gatebin()
@@ -391,14 +408,11 @@ def raises_for_servers_version_under(version):
     parameter. Else it makes sure that the test fails by raising a "DpfVersionNotSupported"
     error.
     """
+    server_meets_version = meets_version(get_server_version(core._global_server()), version)
 
     def decorator(func):
         @pytest.mark.xfail(
-            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0
-            if version == "6.0"
-            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0
-            if version == "10.0"
-            else True,
+            not server_meets_version,
             reason=f"Requires server version greater than or equal to {version}",
             raises=core.errors.DpfVersionNotSupported,
         )

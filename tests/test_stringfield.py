@@ -21,11 +21,11 @@
 # SOFTWARE.
 
 import numpy as np
+import pytest
 
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.common import locations
-import conftest
 
 
 def test_scopingdata_string_field(server_type):
@@ -137,3 +137,26 @@ def test_print_string_field(server_type):
     field.scoping.location = dpf.core.locations.nodal
     assert "20 Nodal entities" in str(field)
     assert "20 elementary data" in str(field)
+
+
+@pytest.mark.xfail(
+    reason="StringField.entity_data_offsets requires CSStringField_GetDataPointer_For_DpfVector in DPF server.",
+    strict=False,
+)
+def test_entity_data_offsets_string_field(server_type):
+    # Build a StringField with entities of different sizes so that the data
+    # pointer is populated automatically by append.
+    sfield = dpf.core.StringField(server=server_type)
+    sfield.append(["label_a", "label_b"], 10)  # entity 10: 2 strings -> offset 0
+    sfield.append(["label_c"], 20)  # entity 20: 1 string  -> offset 2
+
+    offsets = sfield.entity_data_offsets
+    assert len(offsets) == 2
+    assert offsets[0] == 0
+    assert offsets[1] == 2
+
+    # Round-trip: overwrite offsets and read back
+    sfield.entity_data_offsets = [0, 3]
+    offsets = sfield.entity_data_offsets
+    assert offsets[0] == 0
+    assert offsets[1] == 3
