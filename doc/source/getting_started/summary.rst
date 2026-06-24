@@ -19,6 +19,11 @@ For more information regarding installing, managing, and running DPF servers, se
 Install PyDPF-Core
 ==================
 
+.. note::
+   These instructions assume you are familiar
+   with ``pip`` and the command line. If they are new to you, you should read
+   the `Python Packaging User Guide Tutorial`_ on pip before proceeding.
+
 To install PyDPF-Core, in a Python environment, run this command:
 
 .. code::
