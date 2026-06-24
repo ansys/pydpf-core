@@ -157,3 +157,14 @@ you can create issues to report bugs and request new features. On the `PyDPF-Cor
 page on the Ansys Developer portal, you can post questions, share ideas, and get community feedback. 
 
 To reach the project support team, email `pyansys.core@ansys.com <pyansys.core@ansys.com>`_.
+
+Ansys developer ecosystem resources
+-----------------------------------
+
+Ansys also has an extensive developer ecosystem where you can find assistance for a variety of issues.
+
+- `Developer Portal`_: Blog posts, documentation, and guide
+- `Developer Forum`_: Scripting and usage support for PyAnsys and other Ansys developer tools
+- `Ansys Innovation Space`_: Product support forum and training materials
+- `Ansys Learning Hub`_: Training, courses and learning plans
+
