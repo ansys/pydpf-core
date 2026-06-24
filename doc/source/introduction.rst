@@ -24,6 +24,9 @@ transform this data. You can also chain operators together to create simple
 or complex data-processing workflows that you can reuse for repeated or
 future evaluations.
 
+Look for available operators and their descriptions with the `DPF Operators Search
+<https://developer.ansys.com/docs/dpf/operators-search>`_.
+
 The data in DPF is defined based on physics-agnostic mathematical quantities 
 described in self-sufficient entities called **fields**. This allows DPF to be 
 a modular and easy-to-use tool with a large range of capabilities. 
@@ -154,3 +157,14 @@ you can create issues to report bugs and request new features. On the `PyDPF-Cor
 page on the Ansys Developer portal, you can post questions, share ideas, and get community feedback. 
 
 To reach the project support team, email `pyansys.core@ansys.com <pyansys.core@ansys.com>`_.
+
+Ansys developer ecosystem resources
+-----------------------------------
+
+Ansys also has an extensive developer ecosystem where you can find assistance for a variety of issues.
+
+- `Developer Portal`_: Blog posts, documentation, and guide
+- `Developer Forum`_: Scripting and usage support for PyAnsys and other Ansys developer tools
+- `Ansys Innovation Space`_: Product support forum and training materials
+- `Ansys Learning Hub`_: Training, courses and learning plans
+

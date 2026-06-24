@@ -2695,6 +2695,18 @@ def load_api(path):
 		dll.MeshedRegion_fast_cursor.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.POINTER(ctypes.c_int32)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), )
 		dll.MeshedRegion_fast_cursor.restype = ctypes.c_bool
 
+	if hasattr(dll, "MeshedRegion_SetPlyLayerSupport"):
+		dll.MeshedRegion_SetPlyLayerSupport.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.MeshedRegion_SetPlyLayerSupport.restype = None
+
+	if hasattr(dll, "MeshedRegion_GetPlyLayerSupport"):
+		dll.MeshedRegion_GetPlyLayerSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.MeshedRegion_GetPlyLayerSupport.restype = ctypes.c_void_p
+
+	if hasattr(dll, "MeshedRegion_HasPlyLayerSupport"):
+		dll.MeshedRegion_HasPlyLayerSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.MeshedRegion_HasPlyLayerSupport.restype = ctypes.c_bool
+
 	if hasattr(dll, "MeshedRegion_New_on_client"):
 		dll.MeshedRegion_New_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.MeshedRegion_New_on_client.restype = ctypes.c_void_p
