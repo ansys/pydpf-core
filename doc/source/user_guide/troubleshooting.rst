@@ -115,15 +115,6 @@ method:
     from ansys.dpf import core as dpf
     dpf.settings.disable_interpreter_properties_evaluation()
 
-Ansys developer ecosystem resources
------------------------------------
-
-Ansys has an extensive developer ecosystem where you can find assistance for a variety of issues.
-
-- `Developer Portal <_developer_portal>`_: Blog posts, documentation, and guide
-  - `Developer Forum <_developer_forum>`_: Scripting and usage support for PyAnsys and other Ansys developer tools
-- `Ansys Innovation Space <_ansys_innovation_space>`_: Product support forum and training materials
-- `GitHub <_PyDPF-Core repository>`_: Development support, bug reporting, feature requests, and more.
 Additional help resources
 -------------------------
 
@@ -161,4 +152,3 @@ Ansys also has an extensive developer ecosystem where you can find assistance fo
 - `Developer Forum`_: Scripting and usage support for PyAnsys and other Ansys developer tools
 - `Ansys Innovation Space`_: Product support forum and training materials
 - `Ansys Learning Hub`_: Training, courses and learning plans
-- 
