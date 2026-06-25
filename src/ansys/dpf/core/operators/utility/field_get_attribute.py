@@ -22,15 +22,15 @@ if TYPE_CHECKING:
 
 
 class field_get_attribute(Operator):
-    r"""Gets a property from an input field/field container. A Fieldin pin 0, a
-    property name (string) in pin 1 are expected as inputs
+    r"""Gets a property from an input field / fields container. A Field in pin 0
+    and a property name (string) in pin 1 are expected as inputs.
 
 
     Inputs
     ------
     field: Field or FieldsContainer
     property_name: str
-        Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.
+        Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping', 'header' and 'datasize'.
 
     Outputs
     -------
@@ -75,8 +75,8 @@ class field_get_attribute(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Gets a property from an input field/field container. A Fieldin pin 0, a
-property name (string) in pin 1 are expected as inputs
+        description = r"""Gets a property from an input field / fields container. A Field in pin 0
+and a property name (string) in pin 1 are expected as inputs.
 """
         spec = Specification(
             description=description,
@@ -91,7 +91,7 @@ property name (string) in pin 1 are expected as inputs
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document=r"""Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.""",
+                    document=r"""Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping', 'header' and 'datasize'.""",
                 ),
             },
             map_output_pin_spec={
@@ -202,7 +202,7 @@ class InputsFieldGetAttribute(_Inputs):
     def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
-        Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping' and 'header'.
+        Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping', 'header' and 'datasize'.
 
         Returns
         -------

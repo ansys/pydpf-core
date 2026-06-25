@@ -29,15 +29,15 @@ class fc_get_attribute(Operator):
     ------
     fields_container: FieldsContainer
     property_name: str
-        Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping", "base_name", "field_names" and "field".
+        Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping", "base_name", "field_names", "field" and "num_fields".
     property_identifier: str or int, optional
         Additional pin for some property : the label name for "label_scoping" or "label_values", the field index (default 0) for "field_scoping" or "field".
 
     Outputs
     -------
-    property: Scoping or TimeFreqSupport or dict or Field or str or
+    property: Scoping or TimeFreqSupport or dict or Field or int or str or
       StringField
-        Returns a Scoping for property: "label_scoping", a vector of int for "label_values", a time freq support for "time_freq_support", a vector of string for "labels", a LabelSpace for "field_scoping", and a "field" for "field". For "base_name" the container name (string) and for "field_names" a StringField containing individual field names.
+        Returns a Scoping for property: "label_scoping", a vector of int for "label_values", a time freq support for "time_freq_support", a vector of string for "labels", a LabelSpace for "field_scoping", a Field for "field", and an integer for "num_fields". For "base_name" the container name (string) and for "field_names" a StringField containing individual field names.
 
     Examples
     --------
@@ -105,7 +105,7 @@ container in input.
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document=r"""Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping", "base_name", "field_names" and "field".""",
+                    document=r"""Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping", "base_name", "field_names", "field" and "num_fields".""",
                 ),
                 2: PinSpecification(
                     name="property_identifier",
@@ -124,11 +124,12 @@ container in input.
                         "vector<string>",
                         "label_space",
                         "field",
+                        "int32",
                         "string",
                         "string_field",
                     ],
                     optional=False,
-                    document=r"""Returns a Scoping for property: "label_scoping", a vector of int for "label_values", a time freq support for "time_freq_support", a vector of string for "labels", a LabelSpace for "field_scoping", and a "field" for "field". For "base_name" the container name (string) and for "field_names" a StringField containing individual field names.""",
+                    document=r"""Returns a Scoping for property: "label_scoping", a vector of int for "label_values", a time freq support for "time_freq_support", a vector of string for "labels", a LabelSpace for "field_scoping", a Field for "field", and an integer for "num_fields". For "base_name" the container name (string) and for "field_names" a StringField containing individual field names.""",
                 ),
             },
         )
@@ -234,7 +235,7 @@ class InputsFcGetAttribute(_Inputs):
     def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
-        Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping", "base_name", "field_names" and "field".
+        Supported property names are: "label_scoping", "label_values", "time_freq_support", "labels", "field_scoping", "base_name", "field_names", "field" and "num_fields".
 
         Returns
         -------
@@ -335,6 +336,14 @@ class OutputsFcGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_field)
+        self.property_as_int32 = Output(
+            _modify_output_spec_with_one_type(
+                fc_get_attribute._spec().output_pin(0), "int32"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_as_int32)
         self.property_as_string = Output(
             _modify_output_spec_with_one_type(
                 fc_get_attribute._spec().output_pin(0), "string"

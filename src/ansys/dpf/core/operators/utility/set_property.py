@@ -25,9 +25,9 @@ if TYPE_CHECKING:
 
 
 class set_property(Operator):
-    r"""Sets a property to an input field/field container. A Fieldin pin 0, a
-    property name (string) in pin 1 and a valid property value in pin 2 are
-    expected as inputs
+    r"""Sets a property to an input field / fields container. A Field in pin 0,
+    a property name (string) in pin 1 and a valid property value in pin 2
+    are expected as inputs.
 
 
     Inputs
@@ -89,9 +89,9 @@ class set_property(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Sets a property to an input field/field container. A Fieldin pin 0, a
-property name (string) in pin 1 and a valid property value in pin 2 are
-expected as inputs
+        description = r"""Sets a property to an input field / fields container. A Field in pin 0,
+a property name (string) in pin 1 and a valid property value in pin 2
+are expected as inputs.
 """
         spec = Specification(
             description=description,
