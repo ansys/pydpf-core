@@ -37,12 +37,11 @@ import numpy as np
 
 from ansys.dpf.core import field, property_field, scoping, server as server_module
 from ansys.dpf.core.cache import class_handling_cache
-from ansys.dpf.core.check_version import meets_version, server_meet_version, version_requires
+from ansys.dpf.core.check_version import meets_version, version_requires
 from ansys.dpf.core.common import (
     locations,
     natures,
     nodal_properties,
-    types,
 )
 from ansys.dpf.core.elements import Elements, element_types
 import ansys.dpf.core.errors
@@ -135,12 +134,11 @@ class MeshedRegion:
         # object_name -> protobuf.message, DPFObject*
         if mesh is not None:
             self._internal_obj = mesh
+        # if no mesh object, create one
+        elif self._server.has_client():
+            self._internal_obj = self._api.meshed_region_new_on_client(self._server.client)
         else:
-            # if no mesh object, create one
-            if self._server.has_client():
-                self._internal_obj = self._api.meshed_region_new_on_client(self._server.client)
-            else:
-                self._internal_obj = self._api.meshed_region_new()
+            self._internal_obj = self._api.meshed_region_new()
 
         self._full_grid = None
         self._elements = None
@@ -695,7 +693,7 @@ class MeshedRegion:
         >>> deep_copy = meshed_region.deep_copy(server=other_server)
 
         """
-        if self._server.config.legacy:
+        if self._server.config.legacy and not meets_version(self._server.version, "8.0"):
             if self.nodes.scoping is None:  # empty Mesh
                 return MeshedRegion()
             node_ids = self.nodes.scoping.ids
@@ -751,15 +749,12 @@ class MeshedRegion:
             if isinstance(field_out, int):
                 res = property_field.PropertyField(server=self._server, property_field=field_out)
                 return res
+            elif field_out.datatype == "int":
+                return property_field.PropertyField(server=self._server, property_field=field_out)
             else:
-                if field_out.datatype == "int":
-                    return property_field.PropertyField(
-                        server=self._server, property_field=field_out
-                    )
-                else:
-                    # Not sure we go through here since the only datatype not int is coordinates,
-                    # which is already dealt with previously.
-                    return field.Field(server=self._server, field=field_out)
+                # Not sure we go through here since the only datatype not int is coordinates,
+                # which is already dealt with previously.
+                return field.Field(server=self._server, field=field_out)
 
     def is_empty(self) -> bool:
         """Whether the mesh is empty.

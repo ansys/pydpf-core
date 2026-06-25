@@ -24,20 +24,19 @@
 
 from __future__ import annotations
 
-import logging
 import os
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import TYPE_CHECKING
 import warnings
 import weakref
 
-from ansys.dpf.core import errors, misc, server as server_module
+from ansys.dpf.core import errors, server as server_module
 
 if TYPE_CHECKING:  # pragma: noqa
     from ansys.dpf.core import AnyServerType
+from ansys.dpf.core._version import CALENDAR_VERSIONING_FIRST_MAJOR
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.runtime_config import (
-    RuntimeClientConfig,
     RuntimeCoreConfig,
 )
 from ansys.dpf.gate import (
@@ -560,9 +559,9 @@ class BaseService:
         Available with server's version starting at 6.0 (Ansys 2023R2).
         """
         if self._server().has_client():
-            error = self._api.data_processing_release_on_client(self._server().client, 1)
+            self._api.data_processing_release_on_client(self._server().client, 1)
         else:
-            error = self._api.data_processing_release(1)
+            self._api.data_processing_release(1)
 
     @version_requires("4.0")
     def get_runtime_core_config(self):
@@ -615,13 +614,41 @@ class BaseService:
             proc_id = self._api.data_processing_process_id_on_client(client=self._server().client)
         else:
             proc_id = self._api.data_processing_process_id()
-        # server version
+        # server version - first get major/minor to detect calendar versioning (major >= 2027)
         if self._server().has_client():
             self._api.data_processing_get_server_version_on_client(
                 client=self._server().client, major=serv_ver_maj, minor=serv_ver_min
             )
         else:
             self._api.data_processing_get_server_version(major=serv_ver_maj, minor=serv_ver_min)
+        if int(serv_ver_maj) >= CALENDAR_VERSIONING_FIRST_MAJOR:
+            serv_ver_micro = integral_types.MutableInt32(-1)
+            serv_ver_modifier = integral_types.MutableString(size=0)
+            if self._server().has_client():
+                self._api.data_processing_get_server_version_full_on_client(
+                    client=self._server().client,
+                    major=serv_ver_maj,
+                    minor=serv_ver_min,
+                    micro=serv_ver_micro,
+                    modifier=serv_ver_modifier,
+                )
+            else:
+                self._api.data_processing_get_server_version_full(
+                    major=serv_ver_maj,
+                    minor=serv_ver_min,
+                    micro=serv_ver_micro,
+                    modifier=serv_ver_modifier,
+                )
+            version_str = (
+                str(int(serv_ver_maj))
+                + "."
+                + str(int(serv_ver_min))
+                + "."
+                + str(int(serv_ver_micro))
+                + str(serv_ver_modifier)
+            )
+        else:
+            version_str = str(int(serv_ver_maj)) + "." + str(int(serv_ver_min))
         # server os
         if self._server().has_client():
             serv_os = self._api.data_processing_get_os_on_client(client=self._server().client)
@@ -632,7 +659,7 @@ class BaseService:
             "server_ip": serv_ip,
             "server_port": serv_port,
             "server_process_id": proc_id,
-            "server_version": str(int(serv_ver_maj)) + "." + str(int(serv_ver_min)),
+            "server_version": version_str,
             "os": serv_os,
         }
 
@@ -696,7 +723,7 @@ class BaseService:
             download service only available for server with gRPC communication protocol
             """
             raise errors.ServerTypeError(txt)
-        client_path = self._api.data_processing_download_file(
+        self._api.data_processing_download_file(
             client=self._server().client,
             server_file_path=str(server_file_path),
             to_client_file_path=str(to_client_file_path),
@@ -788,7 +815,7 @@ class BaseService:
         """
         server_paths = []
         for root, subdirectories, files in os.walk(client_folder_path):
-            root = Path(root)
+            root = Path(root)  # noqa: PLW2901
             for subdirectory in subdirectories:
                 subdir = root / subdirectory
                 for filename in subdir.iterdir():
@@ -813,7 +840,7 @@ class BaseService:
             break
         return server_paths
 
-    def _upload_and_get_server_path(
+    def _upload_and_get_server_path(  # noqa: PLR0913
         self,
         specific_extension,
         f,

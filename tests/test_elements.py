@@ -20,10 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import conftest
 import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core.elements import element_types
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0
 
 
 @pytest.fixture()
@@ -53,7 +55,7 @@ def tetra_element_descriptor(model_elements):
 
 
 @pytest.fixture()
-def line_element_descriptor(model_elements):
+def beam_element_descriptor(model_elements):
     el_index = model_elements.scoping.index(10834)
     return dpf.element_types.descriptor(model_elements[el_index].type)
 
@@ -137,22 +139,37 @@ def test_tetra_element_descriptor(tetra_element_descriptor):
     )
 
 
-def test_line_element_descriptor(line_element_descriptor):
-    check_element_attributes(
-        line_element_descriptor,
-        18,
-        "Linear 2-nodes Line",
-        "line2",
-        "beam",
-        2,
-        0,
-        2,
-        False,
-        False,
-        True,
-        False,
-    )
-
+def test_beam_element_descriptor(beam_element_descriptor):
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0:
+        check_element_attributes(
+            beam_element_descriptor,
+            30,
+            "Linear 3-nodes Beam",
+            "beam3",
+            "beam",
+            2,
+            0,
+            3,
+            False,
+            False,
+            True,
+            False,
+        )
+    else:
+        check_element_attributes(
+            beam_element_descriptor,
+            18,
+            "Linear 2-nodes Line",
+            "line2",
+            "beam",
+            2,
+            0,
+            2,
+            False,
+            False,
+            True,
+            False,
+        )
 
 def test_no_element_descriptor():
     # descriptor = dpf.element_types.descriptor(89)
@@ -730,16 +747,16 @@ def test_edge2():
     check_from_enum_id(
         28,
         element_types.Edge2,
-        "Edge2",
+        "Linear 2-nodes Edge",
         "edge2",
         "beam",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        2,
+        0,
+        2,
+        False,
+        False,
+        True,
+        False,
     )
 
 
@@ -747,16 +764,16 @@ def test_edge3():
     check_from_enum_id(
         29,
         element_types.Edge3,
-        "Edge3",
+        "Quadratic 3-nodes Edge",
         "edge3",
         "beam",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        2,
+        1,
+        3,
+        False,
+        False,
+        True,
+        True,
     )
 
 
@@ -764,7 +781,7 @@ def test_beam3():
     check_from_enum_id(
         30,
         element_types.Beam3,
-        "Beam3",
+        "Linear 3-nodes Beam",
         "beam3",
         "beam",
         2,
@@ -781,16 +798,16 @@ def test_beam4():
     check_from_enum_id(
         31,
         element_types.Beam4,
-        "Beam4",
+        "Quadratic 4-nodes Beam",
         "beam4",
         "beam",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        2,
+        1,
+        4,
+        False,
+        False,
+        True,
+        True,
     )
 
 

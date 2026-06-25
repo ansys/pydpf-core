@@ -1,6 +1,6 @@
-.. _contributing_as_a_developer:
-
 .. include:: ../links.rst
+
+.. _contributing_as_a_developer:
 
 Contributing as a developer
 ###########################

@@ -155,7 +155,7 @@ def test_result_displacement_model():
         assert len(results.displacement.split_by_body.eval()) == 44
     else:
         assert len(results.displacement.split_by_body.eval()) == 32
-    if server_meet_version("12.0", model._server):
+    if server_meet_version("2027.1.0pre0", model._server):
         assert len(results.displacement.split_by_shape.eval()) == 6
     else:
         assert len(results.displacement.split_by_shape.eval()) == 4
@@ -177,7 +177,7 @@ def test_result_stress_model():
         assert len(results.stress.split_by_body.eval()) == 44
     else:
         assert len(results.stress.split_by_body.eval()) == 32
-        if server_meet_version("12.0", model._server):
+        if server_meet_version("2027.1.0pre0", model._server):
             assert len(results.stress.split_by_shape.eval()) == 6
         else:
             assert len(results.stress.split_by_shape.eval()) == 4

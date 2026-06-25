@@ -18,23 +18,41 @@ from ansys.dpf.core.server_types import AnyServerType
 if TYPE_CHECKING:
     from ansys.dpf.core.data_sources import DataSources
     from ansys.dpf.core.field import Field
+    from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.streams_container import StreamsContainer
 
 
 class material_property_of_element(Operator):
-    r"""Loads the appropriate operator based on the data sources and retrieves
-    material properties.
+    r"""Reads a named scalar material property (pin 6) for each element from
+    result files. The property value is taken from the linear (constant)
+    material data assigned to each element’s material. The output is a
+    scalar field at elemental location. If a default value is provided via
+    pin 7, all elements receive that value unless the property exists for
+    their material, in which case the material value takes precedence. If no
+    default value is provided and filter_zero_values (pin 8) is true,
+    elements whose property value is exactly zero are excluded from the
+    output.
 
 
     Inputs
     ------
+    mesh_scoping: Scoping, optional
+        Element scoping that restricts which elements are processed. If not provided, all elements in the result file are used.
     streams_container: StreamsContainer, optional
+        Streams containing the result file. If provided, data_sources is ignored.
     data_sources: DataSources
+        Data sources used to open the result file when streams_container is not provided.
+    property_name: str
+        Name of the linear scalar material property to extract, for example "EX" for Young's modulus or "DENS" for density.
+    default_value: float, optional
+        Scalar value assigned to elements whose material does not define the requested property. If not set, those elements are excluded from the output.
+    filter_zero_values: bool, optional
+        When true and no default_value is set, elements whose property value is exactly zero are excluded from the output. Defaults to false.
 
     Outputs
     -------
     material_properties: Field
-        material properties
+        Scalar field at elemental location containing the requested material property value for each processed element.
 
     Examples
     --------
@@ -44,15 +62,27 @@ class material_property_of_element(Operator):
     >>> op = dpf.operators.result.material_property_of_element()
 
     >>> # Make input connections
+    >>> my_mesh_scoping = dpf.Scoping()
+    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_streams_container = dpf.StreamsContainer()
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_property_name = str()
+    >>> op.inputs.property_name.connect(my_property_name)
+    >>> my_default_value = float()
+    >>> op.inputs.default_value.connect(my_default_value)
+    >>> my_filter_zero_values = bool()
+    >>> op.inputs.filter_zero_values.connect(my_filter_zero_values)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.material_property_of_element(
+    ...     mesh_scoping=my_mesh_scoping,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
+    ...     property_name=my_property_name,
+    ...     default_value=my_default_value,
+    ...     filter_zero_values=my_filter_zero_values,
     ... )
 
     >>> # Get output data
@@ -60,7 +90,15 @@ class material_property_of_element(Operator):
     """
 
     def __init__(
-        self, streams_container=None, data_sources=None, config=None, server=None
+        self,
+        mesh_scoping=None,
+        streams_container=None,
+        data_sources=None,
+        property_name=None,
+        default_value=None,
+        filter_zero_values=None,
+        config=None,
+        server=None,
     ):
         super().__init__(
             name="MaterialPropertyOfElement",
@@ -69,30 +107,69 @@ class material_property_of_element(Operator):
             inputs_type=InputsMaterialPropertyOfElement,
             outputs_type=OutputsMaterialPropertyOfElement,
         )
+        if mesh_scoping is not None:
+            self.inputs.mesh_scoping.connect(mesh_scoping)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
+        if property_name is not None:
+            self.inputs.property_name.connect(property_name)
+        if default_value is not None:
+            self.inputs.default_value.connect(default_value)
+        if filter_zero_values is not None:
+            self.inputs.filter_zero_values.connect(filter_zero_values)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Loads the appropriate operator based on the data sources and retrieves
-material properties.
+        description = r"""Reads a named scalar material property (pin 6) for each element from
+result files. The property value is taken from the linear (constant)
+material data assigned to each element’s material. The output is a
+scalar field at elemental location. If a default value is provided via
+pin 7, all elements receive that value unless the property exists for
+their material, in which case the material value takes precedence. If no
+default value is provided and filter_zero_values (pin 8) is true,
+elements whose property value is exactly zero are excluded from the
+output.
 """
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                1: PinSpecification(
+                    name="mesh_scoping",
+                    type_names=["scoping"],
+                    optional=True,
+                    document=r"""Element scoping that restricts which elements are processed. If not provided, all elements in the result file are used.""",
+                ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Streams containing the result file. If provided, data_sources is ignored.""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Data sources used to open the result file when streams_container is not provided.""",
+                ),
+                6: PinSpecification(
+                    name="property_name",
+                    type_names=["string"],
+                    optional=False,
+                    document=r"""Name of the linear scalar material property to extract, for example "EX" for Young's modulus or "DENS" for density.""",
+                ),
+                7: PinSpecification(
+                    name="default_value",
+                    type_names=["double"],
+                    optional=True,
+                    document=r"""Scalar value assigned to elements whose material does not define the requested property. If not set, those elements are excluded from the output.""",
+                ),
+                8: PinSpecification(
+                    name="filter_zero_values",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""When true and no default_value is set, elements whose property value is exactly zero are excluded from the output. Defaults to false.""",
                 ),
             },
             map_output_pin_spec={
@@ -100,7 +177,7 @@ material properties.
                     name="material_properties",
                     type_names=["field"],
                     optional=False,
-                    document=r"""material properties""",
+                    document=r"""Scalar field at elemental location containing the requested material property value for each processed element.""",
                 ),
             },
         )
@@ -158,14 +235,26 @@ class InputsMaterialPropertyOfElement(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.result.material_property_of_element()
+    >>> my_mesh_scoping = dpf.Scoping()
+    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_streams_container = dpf.StreamsContainer()
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_property_name = str()
+    >>> op.inputs.property_name.connect(my_property_name)
+    >>> my_default_value = float()
+    >>> op.inputs.default_value.connect(my_default_value)
+    >>> my_filter_zero_values = bool()
+    >>> op.inputs.filter_zero_values.connect(my_filter_zero_values)
     """
 
     def __init__(self, op: Operator):
         super().__init__(material_property_of_element._spec().inputs, op)
+        self._mesh_scoping: Input[Scoping] = Input(
+            material_property_of_element._spec().input_pin(1), 1, op, -1
+        )
+        self._inputs.append(self._mesh_scoping)
         self._streams_container: Input[StreamsContainer] = Input(
             material_property_of_element._spec().input_pin(3), 3, op, -1
         )
@@ -174,10 +263,45 @@ class InputsMaterialPropertyOfElement(_Inputs):
             material_property_of_element._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
+        self._property_name: Input[str] = Input(
+            material_property_of_element._spec().input_pin(6), 6, op, -1
+        )
+        self._inputs.append(self._property_name)
+        self._default_value: Input[float] = Input(
+            material_property_of_element._spec().input_pin(7), 7, op, -1
+        )
+        self._inputs.append(self._default_value)
+        self._filter_zero_values: Input[bool] = Input(
+            material_property_of_element._spec().input_pin(8), 8, op, -1
+        )
+        self._inputs.append(self._filter_zero_values)
+
+    @property
+    def mesh_scoping(self) -> Input[Scoping]:
+        r"""Allows to connect mesh_scoping input to the operator.
+
+        Element scoping that restricts which elements are processed. If not provided, all elements in the result file are used.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.material_property_of_element()
+        >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+        >>> # or
+        >>> op.inputs.mesh_scoping(my_mesh_scoping)
+        """
+        return self._mesh_scoping
 
     @property
     def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
+
+        Streams containing the result file. If provided, data_sources is ignored.
 
         Returns
         -------
@@ -198,6 +322,8 @@ class InputsMaterialPropertyOfElement(_Inputs):
     def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
+        Data sources used to open the result file when streams_container is not provided.
+
         Returns
         -------
         input:
@@ -212,6 +338,69 @@ class InputsMaterialPropertyOfElement(_Inputs):
         >>> op.inputs.data_sources(my_data_sources)
         """
         return self._data_sources
+
+    @property
+    def property_name(self) -> Input[str]:
+        r"""Allows to connect property_name input to the operator.
+
+        Name of the linear scalar material property to extract, for example "EX" for Young's modulus or "DENS" for density.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.material_property_of_element()
+        >>> op.inputs.property_name.connect(my_property_name)
+        >>> # or
+        >>> op.inputs.property_name(my_property_name)
+        """
+        return self._property_name
+
+    @property
+    def default_value(self) -> Input[float]:
+        r"""Allows to connect default_value input to the operator.
+
+        Scalar value assigned to elements whose material does not define the requested property. If not set, those elements are excluded from the output.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.material_property_of_element()
+        >>> op.inputs.default_value.connect(my_default_value)
+        >>> # or
+        >>> op.inputs.default_value(my_default_value)
+        """
+        return self._default_value
+
+    @property
+    def filter_zero_values(self) -> Input[bool]:
+        r"""Allows to connect filter_zero_values input to the operator.
+
+        When true and no default_value is set, elements whose property value is exactly zero are excluded from the output. Defaults to false.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.material_property_of_element()
+        >>> op.inputs.filter_zero_values.connect(my_filter_zero_values)
+        >>> # or
+        >>> op.inputs.filter_zero_values(my_filter_zero_values)
+        """
+        return self._filter_zero_values
 
 
 class OutputsMaterialPropertyOfElement(_Outputs):
@@ -237,7 +426,7 @@ class OutputsMaterialPropertyOfElement(_Outputs):
     def material_properties(self) -> Output[Field]:
         r"""Allows to get material_properties output of the operator
 
-        material properties
+        Scalar field at elemental location containing the requested material property value for each processed element.
 
         Returns
         -------

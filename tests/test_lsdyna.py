@@ -21,14 +21,11 @@
 # SOFTWARE.
 
 import numpy as np
-import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core.check_version import server_meet_version
-import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0,
 )
 
 
@@ -359,7 +356,7 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     ke_mod = kinetic_energy_op_2.eval()
 
     assert np.allclose(ke_fc[0].data[39], ke_mod[0].data[39])
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0:
         assert ke_fc[0].unit == "ft*lbf"
         assert ke_mod[0].unit == "ft*lbf"
     else:
@@ -382,7 +379,7 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
         part_eroded_kinetic_energy_fc[0].data[39],
         part_eroded_kinetic_energy_model[0].data[39],
     )
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0:
         assert part_eroded_kinetic_energy_fc[0].unit == "ft*lbf"
         assert part_eroded_kinetic_energy_model[0].unit == "ft*lbf"
     else:
@@ -402,7 +399,7 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     ie_mod = internal_energy_op_2.eval()
 
     assert np.allclose(ie_fc[0].data[39], ie_mod[0].data[39])
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0:
         assert ie_fc[0].unit == "ft*lbf"
         assert ie_mod[0].unit == "ft*lbf"
     else:
@@ -422,7 +419,7 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     erie_mod = part_eroded_internal_energy_op_2.eval()
 
     assert np.allclose(erie_fc[0].data[39], erie_mod[0].data[39])
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0:
         assert erie_fc[0].unit == "ft*lbf"
         assert erie_mod[0].unit == "ft*lbf"
     else:
@@ -458,7 +455,7 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     mv_mod = part_momentum_op_2.eval()
 
     assert np.allclose(mv_fc[0].data[39], mv_mod[0].data[39])
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0:
         assert mv_fc[0].unit == "slug*ft/s"
         assert mv_mod[0].unit == "slug*ft/s"
     else:
@@ -478,7 +475,7 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     rbv_mod = part_rigid_body_velocity_op_2.eval()
 
     assert np.allclose(rbv_fc[0].data[39], rbv_mod[0].data[39])
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0:
         assert rbv_fc[0].unit == "ft/s"
         assert rbv_mod[0].unit == "ft/s"
     else:
@@ -503,7 +500,7 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     cf_mod = interface_contact_force_op_2.eval()
 
     assert np.allclose(cf_fc[0].data[0], cf_mod[0].data[0])
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0:
         assert cf_fc[0].unit == "lbf"
         assert cf_mod[0].unit == "lbf"
     else:

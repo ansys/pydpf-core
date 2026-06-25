@@ -34,7 +34,6 @@ from ansys.dpf.core.vtk_helper import (
     dpf_property_field_to_vtk,
     vtk_mesh_is_valid,
 )
-import conftest
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -173,7 +172,6 @@ def test_dpf_property_field_to_vtk(simple_rst, server_type):
     model = dpf.Model(simple_rst, server=server_type)
     mesh = model.metadata.meshed_region
     property_field = mesh.property_field(property_name="mat")
-    print(property_field)
     # PropertyField to VTK
     ug = dpf_property_field_to_vtk(
         property_field=property_field, meshed_region=mesh, field_name="mat_id"
@@ -238,7 +236,6 @@ def test_vtk_mesh_is_valid_polyhedron():
     cells_1 = [5, 4, 4, 1, 2, 5, 4, 3, 0, 1, 4, 3, 2, 1, 0, 3, 3, 4, 5, 4, 5, 2, 0, 3]
     grid = pv.UnstructuredGrid([len(cells_1), *cells_1], cell_types, nodes_1)
     validity = vtk_mesh_is_valid(grid)
-    print(validity)
     assert validity.valid
     assert "valid" in validity.msg
     assert validity.grid.active_scalars_name == "ValidityState"
@@ -278,7 +275,6 @@ def test_vtk_mesh_is_valid_polyhedron():
     ]
     grid = pv.UnstructuredGrid([len(cells_2), *cells_2], cell_types, nodes_1)
     validity = vtk_mesh_is_valid(grid)
-    print(validity)
     assert not validity.valid  # bad face orientation
     assert len(validity.wrong_number_of_points) == 0
     assert len(validity.intersecting_edges) == 0

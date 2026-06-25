@@ -29,7 +29,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0,
 )
 
 
@@ -160,7 +160,7 @@ def test_repr_available_results_list(model):
 
 def test_print_available_result_with_qualifiers(cfx_heating_coil, server_type):
     model = Model(cfx_heating_coil(server=server_type), server=server_type)
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_12_0:
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0:
         ref = """DPF Result
 ----------
 specific_heat

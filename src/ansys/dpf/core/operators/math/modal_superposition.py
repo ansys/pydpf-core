@@ -11,6 +11,7 @@ from warnings import warn
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs
+from ansys.dpf.core.outputs import _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
@@ -29,20 +30,21 @@ class modal_superposition(Operator):
 
     Inputs
     ------
-    modal_basis: FieldsContainer
+    modal_basis: FieldsContainer or CustomTypeFieldsContainer
         One field by mode with each field representing a mode shape on nodes or elements.
-    solution_in_modal_space: FieldsContainer
+    solution_in_modal_space: FieldsContainer or CustomTypeFieldsContainer
         One field by time/frequency with each field having a ponderating coefficient for each mode of the modal_basis pin.
-    incremental_fc: FieldsContainer, optional
+    incremental_fc: FieldsContainer or CustomTypeFieldsContainer, optional
         If a non-empty fields container is introduced, it is modified, and sent to the output, to add the contribution of the requested expansion. The label spaces produced from the multiplication must be the same as the incremental ones.
-    time_scoping: Scoping, optional
+    time_scoping: Scoping or ScopingsContainer, optional
         Compute the result on a subset of the time frequency domain defined in the solution_in_modal_space fields container.
     mesh_scoping: Scoping or ScopingsContainer, optional
         Compute the result on a subset of the space domain defined in the modal_basis fields container.
 
     Outputs
     -------
-    fields_container: FieldsContainer
+    fields_container: FieldsContainer or CustomTypeFieldsContainer
+        Expanded mode superposition solution.
 
     Examples
     --------
@@ -115,25 +117,25 @@ by multiplying a modal basis (in 0)by the solution in this modal space
             map_input_pin_spec={
                 0: PinSpecification(
                     name="modal_basis",
-                    type_names=["fields_container"],
+                    type_names=["fields_container", "custom_type_fields_container"],
                     optional=False,
                     document=r"""One field by mode with each field representing a mode shape on nodes or elements.""",
                 ),
                 1: PinSpecification(
                     name="solution_in_modal_space",
-                    type_names=["fields_container"],
+                    type_names=["fields_container", "custom_type_fields_container"],
                     optional=False,
                     document=r"""One field by time/frequency with each field having a ponderating coefficient for each mode of the modal_basis pin.""",
                 ),
                 2: PinSpecification(
                     name="incremental_fc",
-                    type_names=["fields_container"],
+                    type_names=["fields_container", "custom_type_fields_container"],
                     optional=True,
                     document=r"""If a non-empty fields container is introduced, it is modified, and sent to the output, to add the contribution of the requested expansion. The label spaces produced from the multiplication must be the same as the incremental ones.""",
                 ),
                 3: PinSpecification(
                     name="time_scoping",
-                    type_names=["scoping", "vector<int32>"],
+                    type_names=["scoping", "scopings_container"],
                     optional=True,
                     document=r"""Compute the result on a subset of the time frequency domain defined in the solution_in_modal_space fields container.""",
                 ),
@@ -147,9 +149,9 @@ by multiplying a modal basis (in 0)by the solution in this modal space
             map_output_pin_spec={
                 0: PinSpecification(
                     name="fields_container",
-                    type_names=["fields_container"],
+                    type_names=["fields_container", "custom_type_fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Expanded mode superposition solution.""",
                 ),
             },
         )
@@ -235,7 +237,7 @@ class InputsModalSuperposition(_Inputs):
             modal_superposition._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._incremental_fc)
-        self._time_scoping: Input[Scoping] = Input(
+        self._time_scoping: Input[Scoping | ScopingsContainer] = Input(
             modal_superposition._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._time_scoping)
@@ -308,7 +310,7 @@ class InputsModalSuperposition(_Inputs):
         return self._incremental_fc
 
     @property
-    def time_scoping(self) -> Input[Scoping]:
+    def time_scoping(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect time_scoping input to the operator.
 
         Compute the result on a subset of the time frequency domain defined in the solution_in_modal_space fields container.
@@ -364,25 +366,20 @@ class OutputsModalSuperposition(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(modal_superposition._spec().outputs, op)
-        self._fields_container: Output[FieldsContainer] = Output(
-            modal_superposition._spec().output_pin(0), 0, op
+        self.fields_container_as_fields_container = Output(
+            _modify_output_spec_with_one_type(
+                modal_superposition._spec().output_pin(0), "fields_container"
+            ),
+            0,
+            op,
         )
-        self._outputs.append(self._fields_container)
-
-    @property
-    def fields_container(self) -> Output[FieldsContainer]:
-        r"""Allows to get fields_container output of the operator
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.math.modal_superposition()
-        >>> # Get the output from op.outputs. ...
-        >>> result_fields_container = op.outputs.fields_container()
-        """
-        return self._fields_container
+        self._outputs.append(self.fields_container_as_fields_container)
+        self.fields_container_as_custom_type_fields_container = Output(
+            _modify_output_spec_with_one_type(
+                modal_superposition._spec().output_pin(0),
+                "custom_type_fields_container",
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.fields_container_as_custom_type_fields_container)

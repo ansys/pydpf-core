@@ -1,7 +1,7 @@
 name: "Pull Request Labeler"
 on:
   pull_request:
-    types: [unlabeled]
+    types: [opened, reopened, synchronize, edited]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -21,10 +21,10 @@ jobs:
 
     # Label based on modified files
     - name: "Label based on changed files"
-      uses: actions/labeler@634933edcd8ababfe52f92936142cc22ac488b1b # v6.0.1
+      uses: actions/labeler@f27b608878404679385c85cfa523b85ccb86e213 # v6.1.0
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        sync-labels: ''
+        sync-labels: false
 
     # Label based on branch name
     - uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf # v1.0.0
@@ -87,5 +87,7 @@ jobs:
           - [enhancement](https://github.com/ansys/pydpf-core/pulls?q=label%3Aenhancement+)
           - [documentation](https://github.com/ansys/pydpf-core/pulls?q=label%3Adocumentation+)
           - [examples](https://github.com/ansys/pydpf-core/pulls?q=label%3Aexamples+)
+          - [tutorials](https://github.com/ansys/pydpf-core/pulls?q=label%3Atutorials+)
           - [maintenance](https://github.com/ansys/pydpf-core/pulls?q=label%3Amaintenance+)
+          - [dependencies](https://github.com/ansys/pydpf-core/pulls?q=label%3Adependencies+)
           - [CI/CD](https://github.com/ansys/pydpf-core/pulls?q=label%3Aci%2Fcd+)

@@ -233,7 +233,7 @@ class Field(_FieldBase):
         self._api.init_field_environment(self)
 
     @staticmethod
-    def _field_create_internal_obj(
+    def _field_create_internal_obj(  # noqa: PLR0913
         api: field_abstract_api.FieldAbstractAPI,
         server,
         nature,
@@ -465,6 +465,10 @@ class Field(_FieldBase):
 
     def _set_data_pointer(self, data):
         return self._api.csfield_set_data_pointer(self, _get_size_of_list(data), data)
+
+    # Keep the private alias for backward compatibility (used in deep_copy and
+    # by external code that may already reference _data_pointer directly).
+    _data_pointer = property(_get_data_pointer, _set_data_pointer)
 
     def _get_data(self, np_array=True):
         try:
@@ -830,7 +834,7 @@ class Field(_FieldBase):
 
     def __pow__(self, value):
         """Compute element-wise field[i]^2."""
-        if value != 2:
+        if value != 2:  # noqa: PLR2004
             raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
 
@@ -944,7 +948,7 @@ class Field(_FieldBase):
         f.location = self.location
         f.field_definition = self.field_definition.deep_copy(server)
         with suppress(Exception):
-            f._data_pointer = self._data_pointer
+            f.entity_data_offsets = self.entity_data_offsets
 
         # A field can only have ONE support (mesh OR time_freq_support).
         # Setting one overwrites the other, so they must be mutually exclusive.

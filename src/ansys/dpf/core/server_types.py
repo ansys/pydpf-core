@@ -47,9 +47,13 @@ import warnings
 
 import psutil
 
-import ansys.dpf.core as core
+from ansys.dpf import core
 from ansys.dpf.core import __version__, errors, server_context, server_factory
-from ansys.dpf.core._version import min_server_version, server_to_ansys_version
+from ansys.dpf.core._version import (
+    CALENDAR_VERSIONING_FIRST_MAJOR,
+    min_server_version,
+    server_to_ansys_version,
+)
 from ansys.dpf.core.check_version import get_server_version, meets_version, version_requires
 from ansys.dpf.core.server_context import AvailableServerContexts, ServerContext
 from ansys.dpf.gate import data_processing_grpcapi, load_api
@@ -60,7 +64,7 @@ if TYPE_CHECKING:  # pragma: no cover
 import logging
 
 LOG = logging.getLogger(__name__)
-DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 50054))
+DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", "50054"))
 LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
 RUNNING_DOCKER = server_factory.create_default_docker_config()
 
@@ -73,7 +77,7 @@ def _get_dll_path(name, ansys_path=None):
     ANSYS_INSTALL = Path(core.misc.get_ansys_path(ansys_path))
     api_path = load_api._get_path_in_install()
     if api_path is None:
-        raise ImportError(f"Could not find API path in install.")
+        raise ImportError("Could not find API path in install.")
     SUB_FOLDERS = ANSYS_INSTALL / api_path
     if ISPOSIX:
         name = "lib" + name
@@ -105,16 +109,15 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
             "Unable to locate the directory containing DPF at "
             f'"{dpf_run_dir}"'
         )
-    else:
-        if not dpf_run_dir.joinpath(executable).exists():
-            raise FileNotFoundError(
-                f'DPF executable not found at "{dpf_run_dir}".  '
-                f'Unable to locate the executable "{executable}"'
-            )
+    elif not dpf_run_dir.joinpath(executable).exists():
+        raise FileNotFoundError(
+            f'DPF executable not found at "{dpf_run_dir}".  '
+            f'Unable to locate the executable "{executable}"'
+        )
     return dpf_run_dir
 
 
-def _run_launch_server_process(
+def _run_launch_server_process(  # noqa: PLR0913
     ip,
     port,
     ansys_path=None,
@@ -168,7 +171,7 @@ def _run_launch_server_process(
     return process
 
 
-def _wait_and_check_server_connection(
+def _wait_and_check_server_connection(  # noqa: PLR0913, C901
     process, port, timeout, lines, current_errors, stderr=None, stdout=None
 ):
     if not stderr:
@@ -223,7 +226,7 @@ def _wait_and_check_server_connection(
         raise RuntimeError(errstr)
 
 
-def launch_dpf(
+def launch_dpf(  # noqa: PLR0913
     ansys_path,
     ip=LOCALHOST,
     port=DPF_DEFAULT_PORT,
@@ -442,7 +445,7 @@ class GhostServer:
     @property
     def port(self) -> int:
         """Returns the port of shutdown server if the shutdown happened less than 10s ago."""
-        if time.time() - self.closed_time > 10:
+        if time.time() - self.closed_time > 10:  # noqa: PLR2004
             return -1
         return self._port
 
@@ -691,6 +694,8 @@ class BaseServer(abc.ABC):
         """Return string representation of the instance."""
         return f"DPF Server: {self.info}"
 
+    __hash__ = None
+
     @abc.abstractmethod
     def __eq__(self, other_server):
         """Must be implemented by subclasses."""
@@ -848,7 +853,7 @@ class GrpcServer(CServer):
         Path to a directory containing the certificates to use for mTLS authentication.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,
@@ -964,7 +969,8 @@ class GrpcServer(CServer):
         Returns
         -------
         version : str
-            The version of the server in 'major.minor' format.
+            The version of the server in 'major.minor.micro[modifier]' format for servers
+            using calendar versioning (major >= 2027), or 'major.minor' for older servers.
         """
         if not self._version:
             from ansys.dpf.gate import data_processing_capi, integral_types
@@ -973,7 +979,17 @@ class GrpcServer(CServer):
             major = integral_types.MutableInt32()
             minor = integral_types.MutableInt32()
             api.data_processing_get_server_version_on_client(self.client, major, minor)
-            self._version = str(int(major)) + "." + str(int(minor))
+            if int(major) >= CALENDAR_VERSIONING_FIRST_MAJOR:
+                micro = integral_types.MutableInt32()
+                modifier = integral_types.MutableString(size=0)
+                api.data_processing_get_server_version_full_on_client(
+                    self.client, major, minor, micro, modifier
+                )
+                self._version = (
+                    str(int(major)) + "." + str(int(minor)) + "." + str(int(micro)) + str(modifier)
+                )
+            else:
+                self._version = str(int(major)) + "." + str(int(minor))
         return self._version
 
     @property
@@ -1015,6 +1031,8 @@ class GrpcServer(CServer):
 
             self._docker_config.remove_docker_image()
             self.live = False
+
+    __hash__ = None
 
     def __eq__(self, other_server):
         """Return true, if ***** are equals."""
@@ -1181,7 +1199,8 @@ class InProcessServer(CServer):
         Returns
         -------
         version : str
-            The version of the InProcess server in the format "major.minor".
+            The version of the InProcess server in the format "major.minor.micro[modifier]" for
+            servers using calendar versioning (major >= 2027), or "major.minor" for older servers.
         """
         if self._version is None:
             from ansys.dpf.gate import data_processing_capi, integral_types
@@ -1190,7 +1209,15 @@ class InProcessServer(CServer):
             major = integral_types.MutableInt32()
             minor = integral_types.MutableInt32()
             api.data_processing_get_server_version(major, minor)
-            out = str(int(major)) + "." + str(int(minor))
+            if int(major) >= CALENDAR_VERSIONING_FIRST_MAJOR:
+                micro = integral_types.MutableInt32()
+                modifier = integral_types.MutableString(size=0)
+                api.data_processing_get_server_version_full(major, minor, micro, modifier)
+                out = (
+                    str(int(major)) + "." + str(int(minor)) + "." + str(int(micro)) + str(modifier)
+                )
+            else:
+                out = str(int(major)) + "." + str(int(minor))
             self._version = out
         return self._version
 
@@ -1209,6 +1236,8 @@ class InProcessServer(CServer):
 
     def shutdown(self):  # noqa: D102
         pass
+
+    __hash__ = None
 
     def __eq__(self, other_server):
         """Return true, if the ip and the port are equals."""
@@ -1315,7 +1344,7 @@ class LegacyGrpcServer(BaseServer):
         Path to a directory containing the certificates to use for mTLS authentication.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913, PLR0915, C901
         self,
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,
@@ -1347,7 +1376,6 @@ class LegacyGrpcServer(BaseServer):
         self.channel = None
 
         # Load Ans.Dpf.Grpc?
-        import grpc
 
         # check valid ip and port
         check_valid_ip(ip)
@@ -1368,27 +1396,26 @@ class LegacyGrpcServer(BaseServer):
                 address = self._remote_instance.services["grpc"].uri
                 ip = address.split(":")[-2]
                 port = int(address.split(":")[-1])
+            elif docker_config.use_docker:
+                self.docker_config = server_factory.RunningDockerConfig(docker_config)
+                launch_dpf_on_docker(
+                    running_docker_config=self.docker_config,
+                    ansys_path=ansys_path,
+                    ip=ip,
+                    port=port,
+                    timeout=timeout,
+                )
             else:
-                if docker_config.use_docker:
-                    self.docker_config = server_factory.RunningDockerConfig(docker_config)
-                    launch_dpf_on_docker(
-                        running_docker_config=self.docker_config,
-                        ansys_path=ansys_path,
-                        ip=ip,
-                        port=port,
-                        timeout=timeout,
-                    )
-                else:
-                    launch_dpf(
-                        ansys_path,
-                        ip,
-                        port,
-                        timeout=timeout,
-                        context=context,
-                        grpc_mode=self._grpc_mode,
-                        certificates_dir=self._certs_dir,
-                    )
-                    self._local_server = True
+                launch_dpf(
+                    ansys_path,
+                    ip,
+                    port,
+                    timeout=timeout,
+                    context=context,
+                    grpc_mode=self._grpc_mode,
+                    certificates_dir=self._certs_dir,
+                )
+                self._local_server = True
         from ansys.dpf.core import misc, settings
 
         if misc.RUNTIME_CLIENT_CONFIG is not None:
@@ -1618,6 +1645,8 @@ class LegacyGrpcServer(BaseServer):
         config.grpc_mode = self._grpc_mode
         config.certificates_dir = self._certs_dir
         return config
+
+    __hash__ = None
 
     def __eq__(self, other_server):
         """Return true, if the ip and the port are equals."""

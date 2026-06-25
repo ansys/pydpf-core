@@ -242,6 +242,18 @@ class Nodes:
         coordinates_field:
             Field with all the coordinates for the nodes.
 
+        .. warning::
+            This property returns a **live reference** to the mesh's internal
+            field object, not an independent copy. Mutating the returned
+            field's scoping or data modifies the mesh's internal state;
+            subsequent accesses to this property will reflect those mutations.
+
+            To work with an isolated copy, call :meth:`ansys.dpf.core.Field.deep_copy`
+            on the returned field before modifying it::
+
+                coords = nodes.coordinates_field.deep_copy()
+                # coords is now independent - safe to modify
+
         Examples
         --------
         >>> import ansys.dpf.core as dpf

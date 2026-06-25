@@ -817,6 +817,10 @@ def load_api(path):
 		dll.DataProcessing_getServerVersion.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_getServerVersion.restype = None
 
+	if hasattr(dll, "DataProcessing_getServerVersionFull"):
+		dll.DataProcessing_getServerVersionFull.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.POINTER(ctypes.c_char)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_getServerVersionFull.restype = None
+
 	if hasattr(dll, "DataProcessing_getOs"):
 		dll.DataProcessing_getOs.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_getOs.restype = ctypes.POINTER(ctypes.c_char)
@@ -925,9 +929,17 @@ def load_api(path):
 		dll.DataProcessing_getServerVersion_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_getServerVersion_on_client.restype = None
 
+	if hasattr(dll, "DataProcessing_getServerVersionFull_on_client"):
+		dll.DataProcessing_getServerVersionFull_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.POINTER(ctypes.c_char)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_getServerVersionFull_on_client.restype = None
+
 	if hasattr(dll, "DataProcessing_getGrpcClientServerVersion"):
 		dll.DataProcessing_getGrpcClientServerVersion.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_getGrpcClientServerVersion.restype = None
+
+	if hasattr(dll, "DataProcessing_getGrpcClientServerVersionFull"):
+		dll.DataProcessing_getGrpcClientServerVersionFull.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.POINTER(ctypes.c_char)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_getGrpcClientServerVersionFull.restype = None
 
 	if hasattr(dll, "DataProcessing_getServerIpAndPort"):
 		dll.DataProcessing_getServerIpAndPort.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -2683,6 +2695,18 @@ def load_api(path):
 		dll.MeshedRegion_fast_cursor.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.POINTER(ctypes.c_int32)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), )
 		dll.MeshedRegion_fast_cursor.restype = ctypes.c_bool
 
+	if hasattr(dll, "MeshedRegion_SetPlyLayerSupport"):
+		dll.MeshedRegion_SetPlyLayerSupport.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.MeshedRegion_SetPlyLayerSupport.restype = None
+
+	if hasattr(dll, "MeshedRegion_GetPlyLayerSupport"):
+		dll.MeshedRegion_GetPlyLayerSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.MeshedRegion_GetPlyLayerSupport.restype = ctypes.c_void_p
+
+	if hasattr(dll, "MeshedRegion_HasPlyLayerSupport"):
+		dll.MeshedRegion_HasPlyLayerSupport.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.MeshedRegion_HasPlyLayerSupport.restype = ctypes.c_bool
+
 	if hasattr(dll, "MeshedRegion_New_on_client"):
 		dll.MeshedRegion_New_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.MeshedRegion_New_on_client.restype = ctypes.c_void_p
@@ -4121,9 +4145,17 @@ def load_api(path):
 		dll.CSStringField_SetCScoping.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSStringField_SetCScoping.restype = None
 
+	if hasattr(dll, "CSStringField_GetDataPointer"):
+		dll.CSStringField_GetDataPointer.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSStringField_GetDataPointer.restype = ctypes.POINTER(ctypes.c_int32)
+
 	if hasattr(dll, "CSStringField_SetDataPointer"):
 		dll.CSStringField_SetDataPointer.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSStringField_SetDataPointer.restype = None
+
+	if hasattr(dll, "CSStringField_GetDataPointer_For_DpfVector"):
+		dll.CSStringField_GetDataPointer_For_DpfVector.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.POINTER(ctypes.c_int32)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSStringField_GetDataPointer_For_DpfVector.restype = None
 
 	if hasattr(dll, "CSStringField_PushBack"):
 		dll.CSStringField_PushBack.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.POINTER(ctypes.c_char)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )

@@ -13,7 +13,6 @@ It will update the current repo
 or the repo defined by the environment variable "ANSYSDPFCORE_ROOT" if it exists.
 """
 
-import glob
 import os
 from pathlib import Path
 import platform

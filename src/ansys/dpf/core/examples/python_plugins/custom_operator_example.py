@@ -114,7 +114,9 @@ class CustomOperator(CustomOperatorBase):
         # # If function returns None, there is no Field connected to this input
         if field is None:
             # # Try requesting the input as a FieldsContainer
-            field: dpf.FieldsContainer = self.get_input(0, dpf.FieldsContainer).get_field(0)
+            fc = dpf.FieldsContainer = self.get_input(0, dpf.FieldsContainer)
+            if fc:
+                field: dpf.Field = fc.get_field(0)
         # # If the input is optional, set its default value
         # # If the input is not optional and empty, raise an error
         if field is None:

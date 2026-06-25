@@ -53,7 +53,7 @@ jobs:
         os: ["ubuntu-latest"]
 
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
 
@@ -136,6 +136,15 @@ jobs:
           echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
 
           echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
+
+      - name: "Test API Entry"
+        shell: bash
+        working-directory: tests
+        run: |
+          cd entry
+          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results10.xml  .
+        if: always()
+        timeout-minutes: 10
 
       - name: "Test API"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
@@ -236,15 +245,6 @@ jobs:
           command: |
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results13.xml test_documentation/.
 
-#      - name: "Test API Entry"
-#        shell: bash
-#        working-directory: tests
-#        run: |
-#          cd entry
-#          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results10.xml  .
-#        if: always()
-#        timeout-minutes: 10
-
       - name: "Upload Test Results"
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -253,7 +253,7 @@ jobs:
         timeout-minutes: 5
 
       - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
           report_type: coverage
@@ -262,7 +262,7 @@ jobs:
 
       - name: "Upload test analytics results to Codecov"
         if: ${{ !cancelled() }}
-        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           report_type: test_results

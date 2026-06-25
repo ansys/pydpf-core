@@ -17,6 +17,8 @@ import pyvista
 from pyvista.plotting.utilities.sphinx_gallery import DynamicScraper
 
 from ansys.dpf.core import __version__, server, server_factory
+from packaging.version import Version as PkgVersion
+
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
 
 # Make sphinx_utilities modules importable
@@ -73,12 +75,18 @@ for example in sorted(
     glob(r"../sphinx_gallery_tutorials/**/*.py")
 ):
     minimum_version_str = get_example_required_minimum_dpf_version(example)
-    if float(server_version) - float(minimum_version_str) < -0.05:
+    if PkgVersion(server_version) < PkgVersion(minimum_version_str):
         example_name = example.split(os.path.sep)[-1]
         print(f"Example/tutorial {example_name} skipped as it requires DPF {minimum_version_str}.")
         ignored_pattern += f"|{example_name}"
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
+if (server_version == "2027.1.0pre0"):
+    ignored_pattern += "|00-wrapping_numpy_capabilities.py"
+    ignored_pattern += "|01-package_python_operators.py"
+    ignored_pattern += "|02-python_operators_with_dependencies.py"
+    ignored_pattern += "|custom_operators.py"
+    ignored_pattern += "|log_in_custom_operator.py"
 ignored_pattern += r")"
 
 exclude_patterns = []
@@ -86,7 +94,7 @@ for tutorial_file in glob(str(Path("tutorials")/"**"/"*.rst")):
     if Path(tutorial_file).name == "index.rst":
         continue
     minimum_version_str = get_tutorial_version_requirements(tutorial_file)
-    if float(server_version) - float(minimum_version_str) < -0.05:
+    if PkgVersion(server_version) < PkgVersion(minimum_version_str):
         print(f"Tutorial {Path(tutorial_file).name} skipped as it requires DPF {minimum_version_str}.")
         exclude_patterns.append(tutorial_file.replace("\\", "/"))
 

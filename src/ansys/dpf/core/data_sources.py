@@ -42,7 +42,7 @@ from ansys.dpf.gate import (
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf import core as dpf
-    from ansys.dpf.core import LabelSpace, server_types
+    from ansys.dpf.core import LabelSpace
     from ansys.dpf.core.server_types import AnyServerType
     from ansys.grpc.dpf import data_sources_pb2
 
@@ -123,11 +123,10 @@ class DataSources:
             else:
                 self._internal_obj = None
                 raise errors.DpfValueError("Data source must be gRPC data sources message type")
+        elif self._server.has_client():
+            self._internal_obj = self._api.data_sources_new_on_client(self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.data_sources_new_on_client(self._server.client)
-            else:
-                self._internal_obj = self._api.data_sources_new("data_sources")
+            self._internal_obj = self._api.data_sources_new("data_sources")
 
         if result_path is not None:
             self.set_result_file_path(result_path, key=key)
@@ -361,11 +360,10 @@ class DataSources:
                 self._api.data_sources_add_domain_file_path_with_key_utf8(
                     self, str(filepath), key, domain_id
                 )
+        elif key == "":
+            self._api.data_sources_add_file_path_utf8(self, str(filepath))
         else:
-            if key == "":
-                self._api.data_sources_add_file_path_utf8(self, str(filepath))
-            else:
-                self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
+            self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
 
     def add_domain_file_path(
         self, filepath: Union[str, os.PathLike], key: str, domain_id: int
