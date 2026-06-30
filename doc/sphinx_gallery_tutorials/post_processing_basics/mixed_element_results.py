@@ -30,15 +30,17 @@ Process elemental nodal results on mixed-element meshes
 Iterate an elemental nodal result on a mixed-element mesh and process each
 element shape separately with numpy.
 
-When a mesh combines several element types (for example ``Tet4``, ``Hex20`` and
-``Quad4``), an ``ElementalNodal`` |Field| has a different number of rows per
-element because each shape has a different node count. This tutorial shows how
-to discover the element types in bulk via the |PropertyField| returned by
-|Elements|, how :func:`get_entity_data_by_id() <ansys.dpf.core.field.Field.get_entity_data_by_id>`
-exposes the variable shape per element, how to split the result by element
-shape into a uniform per-shape |FieldsContainer| ready for numpy operations,
-and how to extend a corner-only field to the mid-side nodes of quadratic
-elements.
+When a mesh combines several element types (for example ``Tet10``, ``Hex20``
+and ``Quad4``), an ``ElementalNodal`` |Field| stores a different number of
+rows per element because each shape uses a different storage convention
+(typically the corner nodes of solids, or the nodes-times-layers of shells).
+This tutorial shows how to discover the element types in bulk via the
+|PropertyField| returned by |Elements|, how
+:func:`get_entity_data_by_id() <ansys.dpf.core.field.Field.get_entity_data_by_id>`
+exposes the variable shape per element, how to obtain a uniform per-shape
+|Field| by restricting the result operator to a per-shape |Scoping| so the
+data is ready for vectorised numpy operations, and how to extend a
+corner-only field to the mid-side nodes of quadratic elements.
 """
 ###############################################################################
 # Load a mixed-element result file
@@ -126,15 +128,18 @@ print(stress_field)
 
 ###############################################################################
 # :func:`get_entity_data_by_id() <ansys.dpf.core.field.Field.get_entity_data_by_id>`
-# returns a 2D array with shape ``(n_integration_nodes, n_components)`` for the
-# requested element. On a mixed mesh, the row count of the returned array
-# matches the ``n_nodes`` of that element's type.
+# returns a 2D array with shape ``(n_rows, n_components)`` for the requested
+# element. The row count depends on the solver's storage convention for that
+# element type: solid elements typically store stress at the corner nodes only
+# (``n_corner_nodes``), while shells store stress at the nodes times the
+# through-thickness layer count, so the row count does not always equal
+# ``n_nodes``.
 
 # For each element type, take one representative element from the result
 # scoping (via numpy on the PropertyField data) and show its data shape
 result_eids = np.asarray(stress_field.scoping.ids)
 in_result = np.isin(mesh_eids, result_eids)
-print(f"{'element':>9s}  {'type':>12s}  {'shape':>10s}  expected n_nodes")
+print(f"{'element':>9s}  {'type':>12s}  {'shape':>10s}  n_nodes  n_corner_nodes")
 for type_id in unique_type_ids:
     descriptor = dpf.element_types.descriptor(dpf.element_types(int(type_id)))
     eid_candidates = mesh_eids[(type_data == int(type_id)) & in_result]
@@ -143,52 +148,60 @@ for type_id in unique_type_ids:
     eid = int(eid_candidates[0])
     entity_data = stress_field.get_entity_data_by_id(eid)
     print(
-        f"{eid:9d}  {descriptor.name:>12s}  {str(entity_data.shape):>10s}  " f"{descriptor.n_nodes}"
+        f"{eid:9d}  {descriptor.name:>12s}  {str(entity_data.shape):>10s}  "
+        f"{descriptor.n_nodes:7d}  {descriptor.n_corner_nodes:14d}"
     )
 
 ###############################################################################
-# Split the result by element shape
-# ---------------------------------
+# Get a uniform per-shape field via a per-shape scoping
+# -----------------------------------------------------
 #
 # Iterating element by element to handle the variable row count is rarely what
-# you want. Many result operators expose a ``split_shells`` boolean input that
-# splits the output |FieldsContainer| by element shape. When ``split_shells``
-# is ``True``, the output container carries an additional ``elshape`` label and
-# holds one |Field| per element shape. Within each per-shape sub-field, every
-# element has the same node count, so the flat ``data`` array reshapes
-# naturally to ``(n_elements, n_nodes, n_components)`` and is ready for
-# vectorised numpy operations.
+# you want. To obtain a uniform per-shape result instead, build a |Scoping|
+# that contains only the element IDs of one geometric element type (using a
+# numpy mask on the |PropertyField| data array), then re-evaluate the result
+# operator with that |Scoping| connected to its ``mesh_scoping`` input. All
+# elements of the resulting |Field| then share the same row count, so the flat
+# ``data`` array reshapes naturally to ``(n_elements, rows_per_element,
+# n_components)`` and is ready for vectorised numpy operations.
+#
+# Pick the ``Tet10`` element shape (a quadratic solid) so the next step can
+# demonstrate ``extend_to_mid_nodes`` on its output.
 
-# Request the same stress result split by element shape
-stress_per_shape_op = ops.result.stress(
+# Build a per-shape Elemental Scoping from the PropertyField data
+target_descriptor = dpf.element_types.descriptor(dpf.element_types.Tet10)
+target_type_id = int(dpf.element_types.Tet10.value)
+target_eids = mesh_eids[type_data == target_type_id].tolist()
+target_scoping = dpf.Scoping(ids=target_eids, location=dpf.locations.elemental)
+print(f"Per-shape scoping: {target_descriptor.name}, {len(target_scoping.ids)} elements")
+
+# Request the stress restricted to those elements
+shape_fc = ops.result.stress(
     data_sources=my_model.metadata.data_sources,
     requested_location=dpf.locations.elemental_nodal,
-    split_shells=True,
-)
-stress_per_shape_fc = stress_per_shape_op.eval()
-print(stress_per_shape_fc)
-
-###############################################################################
-# Pick one per-shape sub-field and run a vectorised numpy operation on it. For
-# each element of that shape, compute the mean stress over its integration
-# nodes - a single reshape plus one ``mean`` call replaces a per-element loop.
-
-# Get the first sub-field (one element shape) and its descriptor
-shape_field = stress_per_shape_fc[0]
-shape_label = stress_per_shape_fc.get_label_scoping("elshape").ids[0]
-shape_descriptor = dpf.element_types.descriptor(dpf.element_types(int(shape_label)))
-print(f"Working on shape: {shape_descriptor.name} (n_nodes={shape_descriptor.n_nodes})")
+    mesh_scoping=target_scoping,
+).eval()
+shape_field = shape_fc[0]
 print(shape_field)
 
-# Reshape the flat data array to (n_elements, n_nodes, n_components)
+# Verify the row count is uniform across all elements of this shape
 n_elements = len(shape_field.scoping.ids)
 n_components = shape_field.component_count
-shape_data = np.asarray(shape_field.data).reshape(
-    n_elements, shape_descriptor.n_nodes, n_components
+total_rows = np.asarray(shape_field.data).size // n_components
+rows_per_element = total_rows // n_elements
+assert (
+    n_elements * rows_per_element * n_components == np.asarray(shape_field.data).size
+), "Per-shape field data is not uniform across elements"
+print(
+    f"{target_descriptor.name}: rows_per_element={rows_per_element} "
+    f"(n_corner_nodes={target_descriptor.n_corner_nodes}, n_nodes={target_descriptor.n_nodes})"
 )
+
+# Reshape the flat data array to (n_elements, rows_per_element, n_components)
+shape_data = np.asarray(shape_field.data).reshape(n_elements, rows_per_element, n_components)
 print(f"Reshaped data: {shape_data.shape}")
 
-# Compute the mean stress tensor over the integration nodes of each element
+# Compute the mean stress tensor over the storage rows of each element
 mean_stress_per_element = shape_data.mean(axis=1)
 print(f"Per-element mean stress shape: {mean_stress_per_element.shape}")
 
@@ -196,72 +209,35 @@ print(f"Per-element mean stress shape: {mean_stress_per_element.shape}")
 # Extend a corner-only field to the mid-side nodes
 # ------------------------------------------------
 #
-# Some workflows produce an ``ElementalNodal`` field that only holds values at
-# the corner nodes of quadratic elements (for example, projecting a nodal
-# result back to the element nodes without copying the mid-side values). The
+# For quadratic solids such as ``Tet10`` and ``Hex20``, the ``ElementalNodal``
+# stress field above holds one row per **corner** node, not per geometric
+# node. To obtain values at all geometric nodes (including the mid-side ones),
+# apply the
 # :class:`extend_to_mid_nodes <ansys.dpf.core.operators.averaging.extend_to_mid_nodes.extend_to_mid_nodes>`
 # operator (or its
 # :class:`extend_to_mid_nodes_fc <ansys.dpf.core.operators.averaging.extend_to_mid_nodes_fc.extend_to_mid_nodes_fc>`
-# variant for a |FieldsContainer|) fills those missing mid-side values by
-# interpolation, so the field becomes consistent with the geometric node count
-# of the elements.
-#
-# To set up a clean demonstration, project the nodal von Mises stress back to
-# ``ElementalNodal`` with
-# :class:`nodal_to_elemental_nodal_fc <ansys.dpf.core.operators.averaging.nodal_to_elemental_nodal_fc.nodal_to_elemental_nodal_fc>`
-# and ``extend_to_mid_nodes=False``. Then call ``extend_to_mid_nodes`` on a
-# quadratic per-shape sub-field and observe the per-element row count growing
-# from ``n_corner_nodes`` to ``n_nodes``.
+# variant for a |FieldsContainer|). It fills the missing mid-side values by
+# interpolation, so the per-element row count grows from ``n_corner_nodes`` to
+# ``n_nodes``.
 
-# Extract a nodal scalar result (von Mises stress at nodes)
-vm_op = ops.result.stress_von_mises(
-    data_sources=my_model.metadata.data_sources,
-    requested_location=dpf.locations.nodal,
+# Use the per-shape Tet10 field obtained above as the corner-only input
+first_eid = int(shape_field.scoping.ids[0])
+before_shape = shape_field.get_entity_data_by_id(first_eid).shape
+print(
+    f"Before extend_to_mid_nodes: element {first_eid} "
+    f"({target_descriptor.name}) data shape = {before_shape} "
+    f"(n_corner_nodes = {target_descriptor.n_corner_nodes})"
 )
-vm_nodal_fc = vm_op.eval()
 
-# Project the nodal result back to elemental nodal on corner nodes only
-corner_only_fc = ops.averaging.nodal_to_elemental_nodal_fc(
-    fields_container=vm_nodal_fc,
+# Apply extend_to_mid_nodes_fc to fill the mid-side node values
+extended_fc = ops.averaging.extend_to_mid_nodes_fc(
+    fields_container=shape_fc,
     mesh=my_model.metadata.meshed_region,
-    extend_to_mid_nodes=False,
 ).eval()
-corner_only_field = corner_only_fc[0]
-
-# Pick one quadratic element from the corner-only field via numpy filtering
-quadratic_descriptor = None
-quadratic_eid = None
-corner_only_eids = np.asarray(corner_only_field.scoping.ids)
-in_corner_only = np.isin(mesh_eids, corner_only_eids)
-for type_id in unique_type_ids:
-    descriptor = dpf.element_types.descriptor(dpf.element_types(int(type_id)))
-    if not descriptor.is_quadratic:
-        continue
-    candidates = mesh_eids[(type_data == int(type_id)) & in_corner_only]
-    if len(candidates) > 0:
-        quadratic_descriptor = descriptor
-        quadratic_eid = int(candidates[0])
-        break
-
-if quadratic_eid is None:
-    print("No quadratic element shape found in this dataset.")
-else:
-    # Show the row count of the chosen element before extension
-    before_shape = corner_only_field.get_entity_data_by_id(quadratic_eid).shape
-    print(
-        f"Before extend_to_mid_nodes: element {quadratic_eid} "
-        f"({quadratic_descriptor.name}) data shape = {before_shape} "
-        f"(n_corner_nodes = {quadratic_descriptor.n_corner_nodes})"
-    )
-
-    # Apply extend_to_mid_nodes to fill the mid-side node values
-    extended_field = ops.averaging.extend_to_mid_nodes(
-        field=corner_only_field,
-        mesh=my_model.metadata.meshed_region,
-    ).eval()
-    after_shape = extended_field.get_entity_data_by_id(quadratic_eid).shape
-    print(
-        f"After  extend_to_mid_nodes: element {quadratic_eid} "
-        f"({quadratic_descriptor.name}) data shape = {after_shape} "
-        f"(n_nodes = {quadratic_descriptor.n_nodes})"
-    )
+extended_field = extended_fc[0]
+after_shape = extended_field.get_entity_data_by_id(first_eid).shape
+print(
+    f"After  extend_to_mid_nodes: element {first_eid} "
+    f"({target_descriptor.name}) data shape = {after_shape} "
+    f"(n_nodes = {target_descriptor.n_nodes})"
+)
