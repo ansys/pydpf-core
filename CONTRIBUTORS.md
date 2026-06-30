@@ -27,6 +27,7 @@
 * [guptadivya1501](https://github.com/guptadivya1501)
 * [hoangxuyenle](https://github.com/hoangxuyenle)
 * [Hélène Lachambre](https://github.com/anshlachamb)
+* [James Derrick](https://github.com/jgd10)
 * [Jamil HAJJAR](https://github.com/ansjhajjar)
 * [janvonrickenbach](https://github.com/janvonrickenbach)
 * [Jean-Francois Thuong](https://github.com/jfthuong)
