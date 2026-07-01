@@ -1,0 +1,454 @@
+
+
+
+
+
+
+:class:`ds_get_attribute`
+=========================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.ds_get_attribute.ds_get_attribute(data_sources=None, property_name=None, property_index=None, property_key=None, property_result_key=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   A DataSources in pin 0 and a property name (string) in pin 1 are
+   expected in input. An index refering to the property can also be
+   provided.
+
+
+   :param data_sources:
+   :type data_sources: DataSources
+   :param property_name: Accepted inputs are: 'file_path' (returns string), 'result_file_name' (returns string), 'domain_file_path' (returns string), 'domain_result_file_name' (returns string), 'num_keys' (returns int), num_result_key (returns int), num_file_path (returns int), 'num_result_file_path' (returns int), 'key_by_index' (returns string), 'result_key_by_index' (returns string), 'path_by_index' (returns string), 'path_key_by_index' (returns string).
+   :type property_name: str
+   :param property_index: Index for the property. Must be set for 'domain_file_path', 'domain_result_file_name' 'key_by_index', 'result_key_by_index', 'path_by_index' and 'path_key_by_index' properties.
+   :type property_index: int, optional
+   :param property_key: Key to look for. Must be set for 'file_path' and 'domain_file_path' properties.
+   :type property_key: str, optional
+   :param property_result_key: Result key to look for. Can be used for 'file_path', 'result_file_name', 'domain_file_path' and 'domain_result_file_name'.
+   :type property_result_key: str, optional
+
+   :returns: **property** -- Property value.
+   :rtype: str or int
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.utility.ds_get_attribute()
+
+   >>> # Make input connections
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_property_name = str()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> my_property_index = int()
+   >>> op.inputs.property_index.connect(my_property_index)
+   >>> my_property_key = str()
+   >>> op.inputs.property_key.connect(my_property_key)
+   >>> my_property_result_key = str()
+   >>> op.inputs.property_result_key.connect(my_property_result_key)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.utility.ds_get_attribute(
+   ...     data_sources=my_data_sources,
+   ...     property_name=my_property_name,
+   ...     property_index=my_property_index,
+   ...     property_key=my_property_key,
+   ...     property_result_key=my_property_result_key,
+   ... )
+
+   >>> # Get output data
+   >>> result_property = op.outputs.property()
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: ds_get_attribute
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect an input on the operator using a pin number.
+          * - :py:attr:`~connect_operator_as_input`
+            - Connect an operator as an input on a pin.
+          * - :py:attr:`~get_output`
+            - Retrieve the output of the operator on the pin number.
+          * - :py:attr:`~run`
+            - Evaluate this operator.
+          * - :py:attr:`~eval`
+            - Evaluate this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+          * - :py:attr:`~progress_bar`
+            - Enable or disable progress bar display when requesting the operator's output.
+          * - :py:attr:`~config`
+            - Copy of the operator's current configuration.
+          * - :py:attr:`~id`
+            - Retrieve the unique identifier of the operator.
+          * - :py:attr:`~specification`
+            - Returns the Specification (or documentation) of this Operator.
+          * - :py:attr:`~changelog`
+            - Return the changelog of this operator.
+          * - :py:attr:`~version`
+            - Return the current version of the operator.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~name`
+            - 
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+          * - :py:attr:`~operator_specification`
+            - Documents an Operator with its description (what the Operator does),its inputs and outputs and some properties.
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__del__`
+            - Delete this instance.
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+          * - :py:attr:`~__add__`
+            - Add two fields or two fields containers.
+          * - :py:attr:`~__sub__`
+            - Subtract two fields or two fields containers.
+          * - :py:attr:`~__pow__`
+            - Raise each element of a field or a fields container to power 2.
+          * - :py:attr:`~__mul__`
+            - Multiply two fields or two fields containers.
+          * - :py:attr:`~__truediv__`
+            - Perform division with another operator or a scalar.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.ds_get_attribute import ds_get_attribute
+
+Property detail
+---------------
+
+.. py:property:: inputs
+   :type: InputsDsGetAttribute
+
+
+   Enables to connect inputs to the operator
+
+   :returns: An instance of InputsDsGetAttribute.
+   :rtype: inputs
+
+.. py:property:: outputs
+   :type: OutputsDsGetAttribute
+
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: An instance of OutputsDsGetAttribute.
+   :rtype: outputs
+
+.. py:property:: progress_bar
+   :type: bool
+
+
+   Enable or disable progress bar display when requesting the operator's output.
+
+   With this property, the user can choose to print a progress bar when
+   the operator's output is requested, default is False
+
+.. py:property:: config
+
+   Copy of the operator's current configuration.
+
+   You can modify the copy of the configuration and then use ``operator.config = new_config``
+   or instantiate an operator with the new configuration as a parameter.
+
+   For information on an operator's options, see the documentation for that operator.
+
+   :returns: Copy of the operator's current configuration.
+   :rtype: :class:`ansys.dpf.core.config.Config`
+
+   .. rubric:: Examples
+
+   Modify the copy of an operator's configuration and set it as current config
+   of the operator.
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.add()
+   >>> config_add = op.config
+   >>> config_add.set_work_by_index_option(True)
+   >>> op.config = config_add
+
+.. py:property:: id
+   :type: int
+
+
+   Retrieve the unique identifier of the operator.
+
+   This property returns the unique ID associated with the operator.
+   This property is lazily initialized.
+
+   :returns: The unique identifier of the operator.
+   :rtype: int
+
+   .. rubric:: Notes
+
+   Property available with server's version starting at 10.0.
+
+.. py:property:: specification
+
+   Returns the Specification (or documentation) of this Operator.
+
+   :rtype: Specification
+
+.. py:property:: changelog
+   :type: ansys.dpf.core.changelog.Changelog
+
+
+   Return the changelog of this operator.
+
+   Requires DPF 11.0 (2026 R1) or above.
+
+   :returns: Changelog of the operator.
+   :rtype: changelog
+
+.. py:property:: version
+   :type: packaging.version.Version
+
+
+   Return the current version of the operator.
+
+   Requires DPF 11.0 (2026 R1) or above.
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: name
+   :value: None
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+
+   :returns: A new Config instance equivalent to the default config for this operator.
+   :rtype: config
+
+
+.. py:method:: connect(pin, inpt, pin_out=0)
+
+   Connect an input on the operator using a pin number.
+
+   :param pin: Number of the input pin.
+   :type pin: int
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
+   :param ScopingsContainer: Operator, os.PathLike Object to connect to.
+   :param MeshedRegion: Operator, os.PathLike Object to connect to.
+   :param MeshesContainer: Operator, os.PathLike Object to connect to.
+   :param DataSources: Operator, os.PathLike Object to connect to.
+   :param CyclicSupport: Operator, os.PathLike Object to connect to.
+   :param dict: Operator, os.PathLike Object to connect to.
+   :param Outputs: Operator, os.PathLike Object to connect to.
+   :param pin_out: If the input is an operator, the output pin of the input operator. The default is ``0``.
+   :type pin_out: int, optional
+
+   .. rubric:: Examples
+
+   Compute the minimum of displacement by chaining the ``"U"`` and ``"min_max_fc"`` operators.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> data_src = dpf.DataSources(examples.find_multishells_rst())
+   >>> disp_op = dpf.operators.result.displacement()
+   >>> disp_op.inputs.data_sources(data_src)
+   >>> max_fc_op = dpf.operators.min_max.min_max_fc()
+   >>> max_fc_op.inputs.connect(disp_op.outputs)
+   >>> max_field = max_fc_op.outputs.field_max()
+   >>> max_field.data
+   DPFArray([[0.59428386, 0.00201751, 0.0006032 ]]...
+
+
+.. py:method:: connect_operator_as_input(pin, op)
+
+   Connect an operator as an input on a pin.
+
+   :param pin: Number of the output pin. The default is ``0``.
+   :type pin: int
+   :param op: Requested type of the output. The default is ``None``.
+   :type op: :class:`ansys.dpf.core.dpf_operator.Operator`
+
+
+.. py:method:: get_output(pin=0, output_type=None)
+
+   Retrieve the output of the operator on the pin number.
+
+   To activate the progress bar for server version higher or equal to 3.0,
+   use ``my_op.progress_bar=True``
+
+   :param pin: Number of the output pin. The default is ``0``.
+   :type pin: int, optional
+   :param output_type: Requested type of the output. The default is ``None``.
+   :type output_type: :class:`ansys.dpf.core.common.types`, type,  optional
+
+   :returns: Output of the operator.
+   :rtype: type
+
+
+.. py:method:: __del__()
+
+   Delete this instance.
+
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: Description of the entity.
+   :rtype: str
+
+
+.. py:method:: run()
+
+   Evaluate this operator.
+
+
+.. py:method:: eval(pin=None)
+
+   Evaluate this operator.
+
+   :param pin: Number of the output pin. The default is ``None``.
+   :type pin: int
+
+   :returns: **output** -- Returns the first output of the operator by default and the output of a
+             given pin when specified. Or, it only evaluates the operator without output.
+   :rtype: FieldsContainer, Field, MeshedRegion, Scoping
+
+   .. rubric:: Examples
+
+   Use the ``eval`` method.
+
+   >>> from ansys.dpf import core as dpf
+   >>> import ansys.dpf.core.operators.math as math
+   >>> from ansys.dpf.core import examples
+   >>> data_src = dpf.DataSources(examples.find_multishells_rst())
+   >>> disp_op = dpf.operators.result.displacement()
+   >>> disp_op.inputs.data_sources(data_src)
+   >>> normfc = math.norm_fc(disp_op).eval()
+
+
+.. py:method:: __add__(fields_b)
+
+   Add two fields or two fields containers.
+
+   :returns: **add**
+   :rtype: operators.math.add_fc
+
+
+.. py:method:: __sub__(fields_b)
+
+   Subtract two fields or two fields containers.
+
+   :returns: **minus**
+   :rtype: operators.math.minus_fc
+
+
+.. py:method:: __pow__(value)
+
+   Raise each element of a field or a fields container to power 2.
+
+
+.. py:method:: __mul__(value)
+
+   Multiply two fields or two fields containers.
+
+   :returns: **mul**
+   :rtype: operators.math.generalized_inner_product_fc
+
+
+.. py:method:: operator_specification(op_name, server=None)
+   :staticmethod:
+
+
+   Documents an Operator with its description (what the Operator does),its inputs and outputs and some properties.
+
+
+.. py:method:: __truediv__(inpt)
+
+   Perform division with another operator or a scalar.
+
+   This method allows the use of the division operator (`/`) between an
+   `Operator` instance and either another `Operator` or a scalar value (float).
+
+
+
+
+

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.beam_s_shear_force
+   :inherited-members:

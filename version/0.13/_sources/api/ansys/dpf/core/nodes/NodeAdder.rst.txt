@@ -1,0 +1,77 @@
+
+
+
+
+
+
+:class:`NodeAdder`
+==================
+
+.. py:class:: ansys.dpf.core.nodes.NodeAdder
+
+   Adds a new node to a meshed region.
+
+   .. rubric:: Examples
+
+   Create a meshed region from scratch.
+
+   >>> import ansys.dpf.core as dpf
+   >>> meshed_region = dpf.MeshedRegion(num_nodes=4,num_elements=1)
+   >>> i=0
+   >>> for node in meshed_region.nodes.add_nodes(4):
+   ...     node.id = i+1
+   ...     node.coordinates = [float(i), float(i), 0.0]
+   ...     i=i+1
+
+
+
+.. py:currentmodule:: NodeAdder
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~id`
+            - ID of the node.
+          * - :py:attr:`~coordinates`
+            - Coordinates of the node.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.nodes import NodeAdder
+
+Property detail
+---------------
+
+.. py:property:: id
+
+   ID of the node.
+
+.. py:property:: coordinates
+
+   Coordinates of the node.
+
+
+
+
+
+

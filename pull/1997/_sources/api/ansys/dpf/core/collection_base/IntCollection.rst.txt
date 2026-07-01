@@ -1,0 +1,371 @@
+
+
+
+
+
+
+:class:`IntCollection`
+======================
+
+
+.. py:class:: ansys.dpf.core.collection_base.IntCollection(list=None, server=None, collection=None)
+
+   Bases: :py:obj:`CollectionBase`\ [\ :py:obj:`int`\ ]
+
+
+   Creates a collection of integers with a list.
+
+   The collection of integral is the equivalent of an array of
+   data sent server side. It can be used to efficiently stream
+   large data to the server.
+
+   :param list: list to transfer server side
+   :type list: list[int], numpy.array
+
+   .. rubric:: Notes
+
+   Used by default by the ``'Operator'`` and the``'Workflow'`` when a
+   list is connected or returned.
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: IntCollection
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~create_subtype`
+            - Create a sub type.
+          * - :py:attr:`~get_integral_entries`
+            - Get integral entries.
+          * - :py:attr:`~set_labels`
+            - Set labels for scoping the collection.
+          * - :py:attr:`~add_label`
+            - Add the requested label to scope the collection.
+          * - :py:attr:`~has_label`
+            - Check if a collection has a specified label.
+          * - :py:attr:`~get_entries_indices`
+            - Retrieve the indices of the entries corresponding a requested label space .
+          * - :py:attr:`~get_label_space`
+            - Retrieve the label space of an entry at a requested index.
+          * - :py:attr:`~get_available_ids_for_label`
+            - Retrieve the IDs assigned to an input label.
+          * - :py:attr:`~get_label_scoping`
+            - Retrieve the scoping for an input label.
+          * - :py:attr:`~set_support`
+            - Set the support of the collection for a given label.
+          * - :py:attr:`~get_support`
+            - Get the support of the collection for a given label.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~name`
+            - Name of the Collection.
+          * - :py:attr:`~labels`
+            - Provides for getting scoping labels as a property.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~entries_type`
+            - 
+          * - :py:attr:`~owned`
+            - 
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~integral_collection`
+            - Create a collection of integral type with a list.
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - Retrieve the entry at a requested index value.
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+          * - :py:attr:`~__len__`
+            - Retrieve the number of entries.
+          * - :py:attr:`~__del__`
+            - Delete the entry.
+          * - :py:attr:`~__iter__`
+            - Return iterator.
+          * - :py:attr:`~__next__`
+            - Return next element in iteration.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.collection_base import IntCollection
+
+Property detail
+---------------
+
+.. py:property:: name
+
+   Name of the Collection.
+
+   .. rubric:: Notes
+
+   Available starting with DPF 2024 R2 pre0.
+
+   :rtype: str
+
+.. py:property:: labels
+   :type: List[str]
+
+
+   Provides for getting scoping labels as a property.
+
+   :returns: List of labels scoping the collection.
+   :rtype: List[str]
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: entries_type
+
+.. py:attribute:: owned
+   :value: False
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: create_subtype(obj_by_copy)
+
+   Create a sub type.
+
+
+.. py:method:: get_integral_entries()
+
+   Get integral entries.
+
+
+.. py:method:: integral_collection(inpt, server: ansys.dpf.core.server_types.BaseServer = None)
+   :staticmethod:
+
+
+   Create a collection of integral type with a list.
+
+   The collection of integral is the equivalent of an array of
+   data sent server side. It can be used to efficiently stream
+   large data to the server.
+
+   :param inpt: list to transfer server side
+   :type inpt: list[float], list[int], numpy.array
+
+   :rtype: IntegralCollection
+
+   .. rubric:: Notes
+
+   Used by default by the ``'Operator'`` and the``'Workflow'`` when a
+   list is connected or returned.
+
+
+.. py:method:: set_labels(labels)
+
+   Set labels for scoping the collection.
+
+   :param labels: Labels to scope entries to. For example, ``["time", "complex"]``.
+   :type labels: list[str], optional
+
+
+.. py:method:: add_label(label, default_value=None)
+
+   Add the requested label to scope the collection.
+
+   :param label: Labels to scope the entries to. For example, ``"time"``.
+   :type label: str
+   :param default_value: Default value for existing fields in the collection. The default
+                         is ``None``.
+   :type default_value: int, optional
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> coll = dpf.FieldsContainer()
+   >>> coll.add_label('time')
+
+
+.. py:method:: has_label(label) -> bool
+
+   Check if a collection has a specified label.
+
+   :param label: Label to search for. For example, ``"time"``.
+   :type label: str
+
+   :returns: ``True`` when successful, ``False`` when failed.
+   :rtype: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> coll = dpf.FieldsContainer()
+   >>> coll.add_label('time')
+   >>> coll.has_label('time')
+   True
+
+   >>> coll.has_label('complex')
+   False
+
+
+.. py:method:: get_entries_indices(label_space)
+
+   Retrieve the indices of the entries corresponding a requested label space .
+
+   .. rubric:: Notes
+
+   Available starting with DPF 2025R1.
+
+   :param label_space: Label space or index. For example,
+                       ``{"time": 1, "complex": 0}`` or the index of the field.
+   :type label_space: dict[str,int]
+
+   :returns: **indices** -- Indices of the entries corresponding to the request.
+   :rtype: list[int], list[Field], list[MeshedRegion]
+
+
+.. py:method:: get_label_space(index)
+
+   Retrieve the label space of an entry at a requested index.
+
+   :param index: Index of the entry.
+   :type index: int
+
+   :returns: **label_space** -- Scoping of the requested entry. For example,
+             ``{"time": 1, "complex": 0}``.
+   :rtype: dict(str:int)
+
+
+.. py:method:: get_available_ids_for_label(label='time')
+
+   Retrieve the IDs assigned to an input label.
+
+   :param label: Name of the input label. The default is ``"time"``.
+   :type label: str
+
+   :returns: **ids** -- List of IDs assigned to the input label.
+   :rtype: list[int]
+
+
+.. py:method:: get_label_scoping(label='time')
+
+   Retrieve the scoping for an input label.
+
+   This method allows you to retrieve a list of IDs for a given input label in the
+   collection. For example, if the label ``el_type`` exists in the collection, you
+   can use the `get_lable_scoping` method to retrieve a list of IDS with this label.
+   You can then use these IDs to request a given entity inside the collection.
+
+   :param label: Name of the input label.
+   :type label: str
+
+   :returns: **scoping** -- IDs scoped to the input label.
+   :rtype: Scoping
+
+
+.. py:method:: __getitem__(index)
+
+   Retrieve the entry at a requested index value.
+
+   :param index: Index value.
+   :type index: int
+
+   :returns: **entry** -- Entry at the index value.
+   :rtype: Field , Scoping
+
+
+.. py:method:: set_support(label: str, support: ansys.dpf.core.support.Support) -> None
+
+   Set the support of the collection for a given label.
+
+   .. rubric:: Notes
+
+   Available starting with DPF 2023 R1.
+
+
+.. py:method:: get_support(label: str) -> ansys.dpf.core.support.Support
+
+   Get the support of the collection for a given label.
+
+   .. rubric:: Notes
+
+   Available starting with DPF 2023 R1.
+
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: **description** -- Description of the entity.
+   :rtype: str
+
+
+.. py:method:: __len__()
+
+   Retrieve the number of entries.
+
+
+.. py:method:: __del__()
+
+   Delete the entry.
+
+
+.. py:method:: __iter__()
+
+   Return iterator.
+
+
+.. py:method:: __next__() -> TYPE
+
+   Return next element in iteration.
+
+
+
+
+

@@ -1,0 +1,32 @@
+
+
+
+
+
+
+:class:`ConfigSpecification`
+============================
+
+.. py:class:: ansys.dpf.core.operator_specification.ConfigSpecification(*arg, **kw)
+
+   Bases: :py:obj:`dict`
+
+
+   Dictionary of the available configuration options and their specification.
+
+   (:class:`ansys.dpf.core.operator_specification.ConfigOptionSpec`)
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operator_specification import ConfigSpecification
+
+
+
+
+

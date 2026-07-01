@@ -1,0 +1,211 @@
+
+
+
+
+
+
+:class:`RunningDockerConfig`
+============================
+
+
+.. py:class:: ansys.dpf.core.server_factory.RunningDockerConfig(docker_config: DockerConfig = None, server_id: int = None, docker_server_port: int = None)
+
+   Holds all the configuration options and the process information of a running Docker image of a DPF server.
+
+   :param docker_config: ``DockerConfig`` used to start the docker.
+   :type docker_config: DockerConfig, optional
+   :param server_id: Running Docker Container id.
+   :type server_id: int, optional
+   :param docker_server_port: Local port exposed to the docker image.
+   :type docker_server_port: int, optional
+
+
+
+
+.. py:currentmodule:: RunningDockerConfig
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~replace_with_mounted_volumes`
+            - Replace local path found in the list of mounted volumes by their mounted path in the docker.
+          * - :py:attr:`~remove_docker_image`
+            - Stop and Removes the Docker image with its id==server_id.
+          * - :py:attr:`~listen_to_process`
+            - Search inside the Docker Container stdout log to fill in this instance's attributes.
+          * - :py:attr:`~docker_run_cmd_command`
+            - Return a docker run command using DockerConfig attributes and specified ports.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~use_docker`
+            - Whether the DPF server should be started in a Docker Container by default.
+          * - :py:attr:`~docker_server_port`
+            - Port used inside the Docker Container to run the gRPC server.
+          * - :py:attr:`~server_id`
+            - Running Docker Container id.
+          * - :py:attr:`~docker_name`
+            - Name of Docker running Image.
+          * - :py:attr:`~mounted_volumes`
+            - Dictionary of local path to docker path of volumes mounted in the Docker Image.
+          * - :py:attr:`~extra_args`
+            - Extra arguments used in the ``docker run`` command.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Return a string representation of the RunningDockerConfig instance.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.server_factory import RunningDockerConfig
+
+Property detail
+---------------
+
+.. py:property:: use_docker
+   :type: bool
+
+
+   Whether the DPF server should be started in a Docker Container by default.
+
+   :rtype: bool
+
+.. py:property:: docker_server_port
+   :type: int
+
+
+   Port used inside the Docker Container to run the gRPC server.
+
+   :rtype: int
+
+.. py:property:: server_id
+   :type: int
+
+
+   Running Docker Container id.
+
+   :rtype: int
+
+.. py:property:: docker_name
+   :type: str
+
+
+   Name of Docker running Image.
+
+   :rtype: str
+
+.. py:property:: mounted_volumes
+   :type: dict
+
+
+   Dictionary of local path to docker path of volumes mounted in the Docker Image.
+
+   These paths are checked for when result files are looked for by the server to prevent from
+   uploading them.
+
+   :rtype: dict
+
+.. py:property:: extra_args
+   :type: str
+
+
+   Extra arguments used in the ``docker run`` command.
+
+   :rtype: str
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: replace_with_mounted_volumes(path: str) -> str
+
+   Replace local path found in the list of mounted volumes by their mounted path in the docker.
+
+   :param path: Path to search for occurrences of mounted volumes.
+   :type path: str
+
+   :returns: **path**
+   :rtype: str
+
+
+.. py:method:: remove_docker_image() -> None
+
+   Stop and Removes the Docker image with its id==server_id.
+
+
+.. py:method:: listen_to_process(log: logging.Logger, cmd_lines: list, lines: list, timeout: float, stdout: bool = True) -> None
+
+   Search inside the Docker Container stdout log to fill in this instance's attributes.
+
+   :param log: Instance of ``logging`` to add debug info to.
+   :param cmd_lines: Stdout of the shell process run ``docker run`` command.
+   :type cmd_lines: list
+   :param lines: Internal Container's stdout are copied into ``lines``.
+   :type lines: list
+   :param timeout: When to stop searching for stdout.
+   :type timeout: float
+   :param stdout: Whether to check stdout or stderr.
+   :type stdout: bool, optional
+
+
+.. py:method:: docker_run_cmd_command(docker_server_port: int, local_port: int) -> str
+
+   Return a docker run command using DockerConfig attributes and specified ports.
+
+   Creates the docker run command with the ``DockerConfig`` attributes as well
+   as the ``docker_server_port`` and ``local_port`` passed in as parameters.
+
+   :param docker_server_port: Port used inside the Docker Container to run the gRPC server.
+   :type docker_server_port: int
+   :param local_port: Port exposed outside the Docker container bounded to the internal
+                      ``docker_server_port``.
+   :type local_port: int
+
+   :rtype: str
+
+
+.. py:method:: __str__()
+
+   Return a string representation of the RunningDockerConfig instance.
+
+   This method provides a human-readable string summarizing the docker configuration, and
+   the server id.
+
+   :returns: String representation of the RunningDockerConfig instance.
+   :rtype: str
+
+
+
+
+

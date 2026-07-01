@@ -1,0 +1,263 @@
+
+
+
+
+
+
+:class:`InputsScalarsToField`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.scalars_to_field.InputsScalarsToField(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   scalars_to_field operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> my_double_or_vector_double = float()
+   >>> op.inputs.double_or_vector_double.connect(my_double_or_vector_double)
+   >>> my_unit = str()
+   >>> op.inputs.unit.connect(my_unit)
+   >>> my_location = str()
+   >>> op.inputs.location.connect(my_location)
+   >>> my_num_entity = int()
+   >>> op.inputs.num_entity.connect(my_num_entity)
+   >>> my_num_comp = int()
+   >>> op.inputs.num_comp.connect(my_num_comp)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+
+
+
+
+
+
+.. py:currentmodule:: InputsScalarsToField
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~double_or_vector_double`
+            - Allows to connect double_or_vector_double input to the operator.
+          * - :py:attr:`~unit`
+            - Allows to connect unit input to the operator.
+          * - :py:attr:`~location`
+            - Allows to connect location input to the operator.
+          * - :py:attr:`~num_entity`
+            - Allows to connect num_entity input to the operator.
+          * - :py:attr:`~num_comp`
+            - Allows to connect num_comp input to the operator.
+          * - :py:attr:`~scoping`
+            - Allows to connect scoping input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.scalars_to_field import InputsScalarsToField
+
+Property detail
+---------------
+
+.. py:property:: double_or_vector_double
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect double_or_vector_double input to the operator.
+
+   Data of the field, default is 0-field. Specify a double to have a field of same value or specify directly the data vector.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.double_or_vector_double.connect(my_double_or_vector_double)
+   >>> # or
+   >>> op.inputs.double_or_vector_double(my_double_or_vector_double)
+
+.. py:property:: unit
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect unit input to the operator.
+
+   Unit symbol (m, Hz, kg, ...)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.unit.connect(my_unit)
+   >>> # or
+   >>> op.inputs.unit(my_unit)
+
+.. py:property:: location
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect location input to the operator.
+
+   Location of the field ex 'Nodal', 'ElementalNodal', 'Elemental'... Default is 'numeric'.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.location.connect(my_location)
+   >>> # or
+   >>> op.inputs.location(my_location)
+
+.. py:property:: num_entity
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect num_entity input to the operator.
+
+   Number of field entities. Default is 1 or the size of the scoping in input if specified.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.num_entity.connect(my_num_entity)
+   >>> # or
+   >>> op.inputs.num_entity(my_num_entity)
+
+.. py:property:: num_comp
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect num_comp input to the operator.
+
+   Number of field components. Default is 1.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.num_comp.connect(my_num_comp)
+   >>> # or
+   >>> op.inputs.num_comp(my_num_comp)
+
+.. py:property:: scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect scoping input to the operator.
+
+   Scoping.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> # or
+   >>> op.inputs.scoping(my_scoping)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

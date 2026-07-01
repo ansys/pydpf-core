@@ -1,0 +1,251 @@
+
+
+
+
+
+
+:class:`InputsScalarsToField`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.scalars_to_field.InputsScalarsToField(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   scalars_to_field operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> my_double_or_vector_double = float()
+   >>> op.inputs.double_or_vector_double.connect(my_double_or_vector_double)
+   >>> my_unit = str()
+   >>> op.inputs.unit.connect(my_unit)
+   >>> my_location = str()
+   >>> op.inputs.location.connect(my_location)
+   >>> my_num_entities = int()
+   >>> op.inputs.num_entities.connect(my_num_entities)
+   >>> my_num_components = int()
+   >>> op.inputs.num_components.connect(my_num_components)
+   >>> my_scoping = dpf.Scoping()
+   >>> op.inputs.scoping.connect(my_scoping)
+
+
+
+
+
+
+
+.. py:currentmodule:: InputsScalarsToField
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~double_or_vector_double`
+            - Allows to connect double_or_vector_double input to the operator.
+          * - :py:attr:`~unit`
+            - Allows to connect unit input to the operator.
+          * - :py:attr:`~location`
+            - Allows to connect location input to the operator.
+          * - :py:attr:`~num_entities`
+            - Allows to connect num_entities input to the operator.
+          * - :py:attr:`~num_components`
+            - Allows to connect num_components input to the operator.
+          * - :py:attr:`~scoping`
+            - Allows to connect scoping input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getattr__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.scalars_to_field import InputsScalarsToField
+
+Property detail
+---------------
+
+.. py:property:: double_or_vector_double
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect double_or_vector_double input to the operator.
+
+   Data of the field. Default is 0-field. Specify a double to create a field with uniform values, or a vector for explicit data per entity
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.double_or_vector_double.connect(my_double_or_vector_double)
+   >>> # or
+   >>> op.inputs.double_or_vector_double(my_double_or_vector_double)
+
+.. py:property:: unit
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect unit input to the operator.
+
+   Unit symbol (m, Hz, kg, ...). Default is dimensionless
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.unit.connect(my_unit)
+   >>> # or
+   >>> op.inputs.unit(my_unit)
+
+.. py:property:: location
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect location input to the operator.
+
+   Location of the field: 'Nodal', 'ElementalNodal', 'Elemental', etc. Default is 'numeric'
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.location.connect(my_location)
+   >>> # or
+   >>> op.inputs.location(my_location)
+
+.. py:property:: num_entities
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect num_entities input to the operator.
+
+   Number of field entities. Default is 1, or the size of the scoping if provided
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.num_entities.connect(my_num_entities)
+   >>> # or
+   >>> op.inputs.num_entities(my_num_entities)
+
+.. py:property:: num_components
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect num_components input to the operator.
+
+   Number of field components per entity. Default is 1 for scalar, >1 for vector
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.num_components.connect(my_num_components)
+   >>> # or
+   >>> op.inputs.num_components(my_num_components)
+
+.. py:property:: scoping
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to connect scoping input to the operator.
+
+   Scoping defining entity IDs and locations. If provided, overrides num_entities
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.scalars_to_field()
+   >>> op.inputs.scoping.connect(my_scoping)
+   >>> # or
+   >>> op.inputs.scoping(my_scoping)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getattr__(name)
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

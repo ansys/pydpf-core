@@ -1,0 +1,213 @@
+
+
+
+
+
+
+:class:`Stream`
+===============
+
+
+.. py:class:: ansys.dpf.core.stream.Stream(file_path: str | pathlib.Path)
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Abstract base class for a DPF external stream.
+
+   A stream is an open, ready-to-use data source.  Once the underlying file
+   is opened it stays open and keeps data in cache so that subsequent
+   evaluations are faster.  To close the file and free the cache, call
+   :meth:`release`.
+
+   Subclasses must override :attr:`stream_type_name`, :attr:`time_freq_support`,
+   and :attr:`result_info`.  They may also override :meth:`_create_handle` and
+   :meth:`_release_handle` to manage a custom resource instead of the default
+   binary file handle.
+
+   Once instantiated, a stream can be registered with a
+   :class:`~ansys.dpf.core.streams_container.StreamsContainer` via
+   :meth:`~ansys.dpf.core.streams_container.StreamsContainer.add_stream` so
+   that DPF operators can consume it.
+
+   .. note::
+
+      Streams are only meaningful when used with a
+      :class:`~ansys.dpf.core.streams_container.StreamsContainer`, which itself
+      requires an InProcess server configuration.
+
+   .. rubric:: Examples
+
+   Define a minimal concrete stream for an RST result file:
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> from ansys.dpf.core.stream import Stream
+   ...
+   >>> class RstStream(Stream):
+   ...     @property
+   ...     def stream_type_name(self) -> str:
+   ...         return "rst"
+   ...     @property
+   ...     def time_freq_support(self):
+   ...         return dpf.TimeFreqSupport()
+   ...     @property
+   ...     def result_info(self):
+   ...         return dpf.ResultInfo()
+   ...
+   >>> rst_path = examples.find_simple_bar()
+   >>> stream = RstStream(rst_path)
+   >>> sc = dpf.StreamsContainer()
+   >>> sc.add_stream(stream, group=1, is_result=1, result=1)
+
+
+
+
+.. py:currentmodule:: Stream
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~release`
+            - Close the file and release cached data.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~stream_type_name`
+            - Type identifier recognised by the DPF server for this stream.
+          * - :py:attr:`~file_path`
+            - Absolute path to the file backing this stream.
+          * - :py:attr:`~time_freq_support`
+            - Time/frequency support describing the available time steps.
+          * - :py:attr:`~result_info`
+            - Metadata describing the results available in this stream.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__slots__`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__delete__`
+            - Release resources when the descriptor protocol deletes this object.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.stream import Stream
+
+Property detail
+---------------
+
+.. py:property:: stream_type_name
+   :type: str
+
+
+   Type identifier recognised by the DPF server for this stream.
+
+   The value must match a stream type registered on the server side
+   (for example ``"rst"``, ``"d3plot"``, ``"cgns"``).
+   Subclasses **must** override this property to return the correct type
+   string; the base-class implementation returns the placeholder
+   ``"stream_type"``.
+
+   :returns: Stream type identifier.
+   :rtype: str
+
+.. py:property:: file_path
+   :type: str
+
+
+   Absolute path to the file backing this stream.
+
+   :returns: Path to the result file as a string.
+   :rtype: str
+
+.. py:property:: time_freq_support
+   :type: ansys.dpf.core.TimeFreqSupport
+
+   :abstractmethod:
+
+
+   Time/frequency support describing the available time steps.
+
+   :returns: Object describing the time and frequency sets available in this
+             stream.
+   :rtype: ansys.dpf.core.TimeFreqSupport
+
+.. py:property:: result_info
+   :type: ansys.dpf.core.ResultInfo
+
+   :abstractmethod:
+
+
+   Metadata describing the results available in this stream.
+
+   :returns: Object containing solver type, available result quantities, and
+             unit system information.
+   :rtype: ansys.dpf.core.ResultInfo
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: __slots__
+   :value: ()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: release()
+
+   Close the file and release cached data.
+
+   After calling this method the stream is no longer usable.  Any
+   subsequent read requests routed through a
+   :class:`~ansys.dpf.core.streams_container.StreamsContainer` that
+   references this stream will fail.
+
+
+.. py:method:: __delete__()
+
+   Release resources when the descriptor protocol deletes this object.
+
+
+
+
+

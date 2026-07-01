@@ -1,0 +1,200 @@
+
+
+
+
+
+
+:class:`InputsPrepareMappingWorkflow`
+=====================================
+
+
+.. py:class:: ansys.dpf.core.operators.mapping.prepare_mapping_workflow.InputsPrepareMappingWorkflow(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   prepare_mapping_workflow operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.prepare_mapping_workflow()
+   >>> my_input_support = dpf.Field()
+   >>> op.inputs.input_support.connect(my_input_support)
+   >>> my_output_support = dpf.Field()
+   >>> op.inputs.output_support.connect(my_output_support)
+   >>> my_filter_radius = float()
+   >>> op.inputs.filter_radius.connect(my_filter_radius)
+   >>> my_influence_box = float()
+   >>> op.inputs.influence_box.connect(my_influence_box)
+
+
+
+
+
+
+.. py:currentmodule:: InputsPrepareMappingWorkflow
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~input_support`
+            - Allows to connect input_support input to the operator.
+          * - :py:attr:`~output_support`
+            - Allows to connect output_support input to the operator.
+          * - :py:attr:`~filter_radius`
+            - Allows to connect filter_radius input to the operator.
+          * - :py:attr:`~influence_box`
+            - Allows to connect influence_box input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.prepare_mapping_workflow import InputsPrepareMappingWorkflow
+
+Property detail
+---------------
+
+.. py:property:: input_support
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.meshed_region.MeshedRegion]
+
+
+   Allows to connect input_support input to the operator.
+
+   Source support from which to map results. Can be a mesh region or a field containing 3D coordinates (vector field with 3 components). If a field is provided, its coordinate data is used directly for RBF construction. If the field has an associated mesh support, it will be used for automatic filter radius calculation.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.prepare_mapping_workflow()
+   >>> op.inputs.input_support.connect(my_input_support)
+   >>> # or
+   >>> op.inputs.input_support(my_input_support)
+
+.. py:property:: output_support
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.meshed_region.MeshedRegion]
+
+
+   Allows to connect output_support input to the operator.
+
+   Target support to which results will be mapped. Can be a mesh region or a field containing 3D target coordinates (vector field with 3 components). If a field is provided, its coordinate data is used directly as target locations. If a mesh region is provided, its coordinates are extracted and a mesh support is attached to the output. The output workflow always exposes an 'optional_target_support' input pin. When this pin is provided, it acts as the default for that exposed pin, so the workflow can execute without further input; when omitted, 'optional_target_support' must be connected before the workflow is executed.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.prepare_mapping_workflow()
+   >>> op.inputs.output_support.connect(my_output_support)
+   >>> # or
+   >>> op.inputs.output_support(my_output_support)
+
+.. py:property:: filter_radius
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect filter_radius input to the operator.
+
+   Radius size for the RBF filter. If not provided and the source support (pin 0) is or carries a mesh region, automatically calculated from the source mesh tetrahedra as the average tetrahedron volume divided by 2. If no mesh is accessible from pin 0, this pin must be supplied explicitly.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.prepare_mapping_workflow()
+   >>> op.inputs.filter_radius.connect(my_filter_radius)
+   >>> # or
+   >>> op.inputs.filter_radius(my_filter_radius)
+
+.. py:property:: influence_box
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect influence_box input to the operator.
+
+   Size of the influence box for RBF interpolation. Defines the spatial extent for neighbor search. If not provided, defaults to 4 times the filter radius.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.prepare_mapping_workflow()
+   >>> op.inputs.influence_box.connect(my_influence_box)
+   >>> # or
+   >>> op.inputs.influence_box(my_influence_box)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

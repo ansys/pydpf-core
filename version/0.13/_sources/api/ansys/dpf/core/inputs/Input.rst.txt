@@ -1,0 +1,122 @@
+
+
+
+
+
+
+:class:`Input`
+==============
+
+.. py:class:: ansys.dpf.core.inputs.Input(spec, pin, operator, count_ellipsis=-1)
+
+   Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+
+   Used to connect inputs to the Operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> data_src = dpf.DataSources(examples.find_msup_transient())
+   >>> disp_op = dpf.operators.result.displacement()
+   >>> isinstance(disp_op.inputs.data_sources, dpf.inputs.Input)
+   True
+   >>> disp_op.inputs.data_sources(data_src)
+   >>> disp_op.inputs.time_scoping([2])
+
+
+
+
+
+.. py:currentmodule:: Input
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (entity or operator output) to a specified input pin of this operator.
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~aliases`
+            - 
+          * - :py:attr:`~name`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__call__`
+            - Allow instances to be called like a function.
+          * - :py:attr:`~__str__`
+            - Provide detailed string representation of the class.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.inputs import Input
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: aliases
+
+.. py:attribute:: name
+
+
+
+Method detail
+-------------
+
+.. py:method:: connect(inpt)
+
+   Connect any input (entity or operator output) to a specified input pin of this operator.
+
+   :param inpt:
+   :type inpt: str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion, Enum,
+   :param Output: Input of the operator.
+   :param Outputs: Input of the operator.
+   :param Operator: Input of the operator.
+   :param os.PathLike: Input of the operator.
+
+
+.. py:method:: __call__(inpt)
+
+   Allow instances to be called like a function.
+
+
+.. py:method:: __str__()
+
+   Provide detailed string representation of the class.
+
+
+
+
+

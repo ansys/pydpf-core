@@ -1,0 +1,170 @@
+
+
+.. _sphx_glr_examples_03-advanced:
+
+.. _advanced_examples:
+
+Advanced and miscellaneous examples
+===================================
+These demos show advanced use cases demonstrating high level of workflow customization
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Multi-stage cyclic symmetry using advanced customization">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_00-multistage_advanced_options_thumb.png
+    :alt: Multi-stage cyclic symmetry using advanced customization
+
+  :ref:`sphx_glr_examples_03-advanced_00-multistage_advanced_options.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Multi-stage cyclic symmetry using advanced customization</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Solve harmonic problem (with damping) using matrix inverse">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_01-solve_harmonic_problem_thumb.png
+    :alt: Solve harmonic problem (with damping) using matrix inverse
+
+  :ref:`sphx_glr_examples_03-advanced_01-solve_harmonic_problem.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Solve harmonic problem (with damping) using matrix inverse</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Average elemental stress on a given volume">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_02-volume_averaged_stress_thumb.png
+    :alt: Average elemental stress on a given volume
+
+  :ref:`sphx_glr_examples_03-advanced_02-volume_averaged_stress.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Average elemental stress on a given volume</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Exchange data between servers">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_03-exchange_data_between_servers_thumb.png
+    :alt: Exchange data between servers
+
+  :ref:`sphx_glr_examples_03-advanced_03-exchange_data_between_servers.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Exchange data between servers</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Extrapolate results available at Gaussian or quadrature points to nodal points for a field or f...">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_04-extrapolation_stress_3d_thumb.png
+    :alt: Extrapolation method for stress result of a 3D element
+
+  :ref:`sphx_glr_examples_03-advanced_04-extrapolation_stress_3d.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Extrapolation method for stress result of a 3D element</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Extrapolate results available at Gaussian or quadrature points to nodal points for a field or f...">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_05-extrapolation_strain_2d_thumb.png
+    :alt: Extrapolation method for strain result of a 2D element
+
+  :ref:`sphx_glr_examples_03-advanced_05-extrapolation_strain_2d.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Extrapolation method for strain result of a 2D element</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Stress gradient normal to a defined node">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_06-stress_gradient_path_thumb.png
+    :alt: Stress gradient normal to a defined node
+
+  :ref:`sphx_glr_examples_03-advanced_06-stress_gradient_path.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Stress gradient normal to a defined node</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example is taken from Workshop 02.1 from Ansys Mechanical Advanced Topics. Instead of usin...">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_10-asme_secviii_divtwo_thumb.png
+    :alt: Pressure vessel analysis according to an ASME standard
+
+  :ref:`sphx_glr_examples_03-advanced_10-asme_secviii_divtwo.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Pressure vessel analysis according to an ASME standard</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/03-advanced/00-multistage_advanced_options
+   /examples/03-advanced/01-solve_harmonic_problem
+   /examples/03-advanced/02-volume_averaged_stress
+   /examples/03-advanced/03-exchange_data_between_servers
+   /examples/03-advanced/04-extrapolation_stress_3d
+   /examples/03-advanced/05-extrapolation_strain_2d
+   /examples/03-advanced/06-stress_gradient_path
+   /examples/03-advanced/10-asme_secviii_divtwo
+

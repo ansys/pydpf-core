@@ -1,0 +1,167 @@
+
+
+
+
+
+
+:class:`InputsIdenticalSc`
+==========================
+
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_sc.InputsIdenticalSc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   identical_sc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_sc()
+   >>> my_scopings_containerA = dpf.ScopingsContainer()
+   >>> op.inputs.scopings_containerA.connect(my_scopings_containerA)
+   >>> my_scopings_containerB = dpf.ScopingsContainer()
+   >>> op.inputs.scopings_containerB.connect(my_scopings_containerB)
+
+
+
+
+
+
+.. py:currentmodule:: InputsIdenticalSc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scopings_containerA`
+            - Allows to connect scopings_containerA input to the operator.
+          * - :py:attr:`~scopings_containerB`
+            - Allows to connect scopings_containerB input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_sc import InputsIdenticalSc
+
+Property detail
+---------------
+
+.. py:property:: scopings_containerA
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect scopings_containerA input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_sc()
+   >>> op.inputs.scopings_containerA.connect(my_scopings_containerA)
+   >>> # or
+   >>> op.inputs.scopings_containerA(my_scopings_containerA)
+
+.. py:property:: scopings_containerB
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect scopings_containerB input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_sc()
+   >>> op.inputs.scopings_containerB.connect(my_scopings_containerB)
+   >>> # or
+   >>> op.inputs.scopings_containerB(my_scopings_containerB)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+
