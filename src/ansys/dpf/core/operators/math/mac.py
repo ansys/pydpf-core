@@ -21,25 +21,35 @@ if TYPE_CHECKING:
 
 
 class mac(Operator):
-    r"""Computes MAC Matrix between two fields container, both for real and
-    complex cases. For mixed cases (real-complex and complex) only the real
-    part is considered. Providing inputs with the same component scoping is
-    an user responsability.
+    r"""Computes the `Modal Assurance Criterion
+    (MAC) <https://ansyshelp.ansys.com/public/account/secured?returnurl=/Views/Secured/corp/v261/en/ans_thry/thy_post16.html>`__
+    matrix between two sets of mode shapes. For each pair of modes
+    :math:`\phi_i` (from container A) and :math:`\phi_j` (from container B):
+
+    .. math:: MAC_{ij} = \frac{|\phi_i^{\,*T} M \phi_j|^2}{(\phi_i^{\,*T} M \phi_i)(\phi_j^{\,*T} M \phi_j)}
+
+    where :math:`^{*T}` denotes the conjugate transpose and :math:`M` is the
+    optional mass weighting matrix. When :math:`M` is omitted, the standard
+    (unweighted) inner product is used.
+
+    For mixed real-complex input (one container real, one complex), only the
+    real parts are used. Both containers must share the same number of
+    components; this is not verified by the operator.
 
 
     Inputs
     ------
     fields_containerA: FieldsContainer
-        Fields Container A.
+        Fields container $A$. Must have a time label and contain one field per mode shape.
     fields_containerB: FieldsContainer
-        Fields Container B.
-    weights: Field
-        Field M, optional weighting for MAC Matrix computation.
+        Fields container $B$. Must have a time label and contain one field per mode shape.
+    weights: Field, optional
+        Optional mass weighting field $M$. When omitted, the standard unweighted inner product is used.
 
     Outputs
     -------
     field: Field
-        MAC Matrix for all the combinations between mode fields of Field Container A and Field Container B. Results listed row by row.
+        MAC matrix of size $N_A \times N_B$, where $N_A$ and $N_B$ are the number of mode shapes in containers A and B respectively. Entries are stored row by row: entry at position $(i,j)$ is $MAC_{ij}$.
 
     Examples
     --------
@@ -99,10 +109,20 @@ class mac(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes MAC Matrix between two fields container, both for real and
-complex cases. For mixed cases (real-complex and complex) only the real
-part is considered. Providing inputs with the same component scoping is
-an user responsability.
+        description = r"""Computes the `Modal Assurance Criterion
+(MAC) <https://ansyshelp.ansys.com/public/account/secured?returnurl=/Views/Secured/corp/v261/en/ans_thry/thy_post16.html>`__
+matrix between two sets of mode shapes. For each pair of modes
+:math:`\phi_i` (from container A) and :math:`\phi_j` (from container B):
+
+.. math:: MAC_{ij} = \frac{|\phi_i^{\,*T} M \phi_j|^2}{(\phi_i^{\,*T} M \phi_i)(\phi_j^{\,*T} M \phi_j)}
+
+where :math:`^{*T}` denotes the conjugate transpose and :math:`M` is the
+optional mass weighting matrix. When :math:`M` is omitted, the standard
+(unweighted) inner product is used.
+
+For mixed real-complex input (one container real, one complex), only the
+real parts are used. Both containers must share the same number of
+components; this is not verified by the operator.
 """
         spec = Specification(
             description=description,
@@ -111,19 +131,19 @@ an user responsability.
                     name="fields_containerA",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields Container A.""",
+                    document=r"""Fields container $A$. Must have a time label and contain one field per mode shape.""",
                 ),
                 1: PinSpecification(
                     name="fields_containerB",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields Container B.""",
+                    document=r"""Fields container $B$. Must have a time label and contain one field per mode shape.""",
                 ),
                 2: PinSpecification(
                     name="weights",
                     type_names=["field"],
-                    optional=False,
-                    document=r"""Field M, optional weighting for MAC Matrix computation.""",
+                    optional=True,
+                    document=r"""Optional mass weighting field $M$. When omitted, the standard unweighted inner product is used.""",
                     aliases=["ponderation"],
                 ),
             },
@@ -132,7 +152,7 @@ an user responsability.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""MAC Matrix for all the combinations between mode fields of Field Container A and Field Container B. Results listed row by row.""",
+                    document=r"""MAC matrix of size $N_A \times N_B$, where $N_A$ and $N_B$ are the number of mode shapes in containers A and B respectively. Entries are stored row by row: entry at position $(i,j)$ is $MAC_{ij}$.""",
                 ),
             },
         )
@@ -215,7 +235,7 @@ class InputsMac(_Inputs):
     def fields_containerA(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerA input to the operator.
 
-        Fields Container A.
+        Fields container $A$. Must have a time label and contain one field per mode shape.
 
         Returns
         -------
@@ -236,7 +256,7 @@ class InputsMac(_Inputs):
     def fields_containerB(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_containerB input to the operator.
 
-        Fields Container B.
+        Fields container $B$. Must have a time label and contain one field per mode shape.
 
         Returns
         -------
@@ -257,7 +277,7 @@ class InputsMac(_Inputs):
     def weights(self) -> Input[Field]:
         r"""Allows to connect weights input to the operator.
 
-        Field M, optional weighting for MAC Matrix computation.
+        Optional mass weighting field $M$. When omitted, the standard unweighted inner product is used.
 
         Returns
         -------
@@ -308,7 +328,7 @@ class OutputsMac(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        MAC Matrix for all the combinations between mode fields of Field Container A and Field Container B. Results listed row by row.
+        MAC matrix of size $N_A \times N_B$, where $N_A$ and $N_B$ are the number of mode shapes in containers A and B respectively. Entries are stored row by row: entry at position $(i,j)$ is $MAC_{ij}$.
 
         Returns
         -------
