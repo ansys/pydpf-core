@@ -20,8 +20,18 @@ if TYPE_CHECKING:
 
 
 class modal_damping_ratio(Operator):
-    r"""Computes damping ratio for each mode shape as X_i = const + ratio_i +
-    m_coefficient / (2\ *omega_i) + k_coefficient* omega_i/2.
+    r"""Computes the `Rayleigh
+    damping <https://en.wikipedia.org/wiki/Rayleigh_dissipation_function>`__
+    ratio for each mode shape using the formula:
+
+    .. math:: \xi_i = C + r_i + \frac{\alpha}{2\,\omega_i} + \frac{\beta\,\omega_i}{2}
+
+    where :math:`\omega_i` is the natural angular frequency of mode
+    :math:`i` (pin 0), :math:`C` is the constant damping ratio (pin 1,
+    default :math:`0`), :math:`r_i` is the mode-specific damping ratio (pin
+    2, default :math:`0`), :math:`\alpha` is the mass-proportional Rayleigh
+    coefficient (pin 3), and :math:`\beta` is the stiffness-proportional
+    Rayleigh coefficient (pin 4).
 
 
     Inputs
@@ -40,7 +50,7 @@ class modal_damping_ratio(Operator):
     Outputs
     -------
     field: Field
-        field of modal damping ratio.
+        Field of modal damping ratios $\xi_i$, one value per mode, in the same order as the input natural frequencies.
 
     Examples
     --------
@@ -104,8 +114,18 @@ class modal_damping_ratio(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes damping ratio for each mode shape as X_i = const + ratio_i +
-m_coefficient / (2\ *omega_i) + k_coefficient* omega_i/2.
+        description = r"""Computes the `Rayleigh
+damping <https://en.wikipedia.org/wiki/Rayleigh_dissipation_function>`__
+ratio for each mode shape using the formula:
+
+.. math:: \xi_i = C + r_i + \frac{\alpha}{2\,\omega_i} + \frac{\beta\,\omega_i}{2}
+
+where :math:`\omega_i` is the natural angular frequency of mode
+:math:`i` (pin 0), :math:`C` is the constant damping ratio (pin 1,
+default :math:`0`), :math:`r_i` is the mode-specific damping ratio (pin
+2, default :math:`0`), :math:`\alpha` is the mass-proportional Rayleigh
+coefficient (pin 3), and :math:`\beta` is the stiffness-proportional
+Rayleigh coefficient (pin 4).
 """
         spec = Specification(
             description=description,
@@ -146,7 +166,7 @@ m_coefficient / (2\ *omega_i) + k_coefficient* omega_i/2.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""field of modal damping ratio.""",
+                    document=r"""Field of modal damping ratios $\xi_i$, one value per mode, in the same order as the input natural frequencies.""",
                 ),
             },
         )
@@ -368,7 +388,7 @@ class OutputsModalDampingRatio(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        field of modal damping ratio.
+        Field of modal damping ratios $\xi_i$, one value per mode, in the same order as the input natural frequencies.
 
         Returns
         -------

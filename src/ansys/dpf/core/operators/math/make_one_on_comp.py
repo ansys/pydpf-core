@@ -20,18 +20,26 @@ if TYPE_CHECKING:
 
 
 class make_one_on_comp(Operator):
-    r"""Takes the input field’s scoping and creates a field full of zeros,
-    except for the indexes from pin 1 that will hold 1.0.
+    r"""Returns a scalar field with the same scoping as the input field. All
+    values are set to :math:`0.0`, except for entity at index :math:`k` in
+    the scoping (pin 1) where the value is set to :math:`1.0`. This produces
+    the standard basis vector :math:`e_k` over the input scoping. The output
+    is always scalar (one component per entity), regardless of the input
+    field’s dimensionality. Note: :math:`k` is the zero-based iteration
+    index within the field’s scoping, not the entity ID.
 
 
     Inputs
     ------
     fieldA: Field
+        Input field. Its scoping is used as the scoping of the output field.
     scalar_int: int
+        Zero-based iteration index $k$ of the entity to set to $1.0$.
 
     Outputs
     -------
     field: Field
+        Scalar output field (one component per entity) with the same scoping as the input. All values are $0.0$ except the entity at iteration index $k$ which holds $1.0$.
 
     Examples
     --------
@@ -71,8 +79,13 @@ class make_one_on_comp(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Takes the input field’s scoping and creates a field full of zeros,
-except for the indexes from pin 1 that will hold 1.0.
+        description = r"""Returns a scalar field with the same scoping as the input field. All
+values are set to :math:`0.0`, except for entity at index :math:`k` in
+the scoping (pin 1) where the value is set to :math:`1.0`. This produces
+the standard basis vector :math:`e_k` over the input scoping. The output
+is always scalar (one component per entity), regardless of the input
+field’s dimensionality. Note: :math:`k` is the zero-based iteration
+index within the field’s scoping, not the entity ID.
 """
         spec = Specification(
             description=description,
@@ -81,13 +94,13 @@ except for the indexes from pin 1 that will hold 1.0.
                     name="fieldA",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Input field. Its scoping is used as the scoping of the output field.""",
                 ),
                 1: PinSpecification(
                     name="scalar_int",
                     type_names=["int32"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Zero-based iteration index $k$ of the entity to set to $1.0$.""",
                 ),
             },
             map_output_pin_spec={
@@ -95,7 +108,7 @@ except for the indexes from pin 1 that will hold 1.0.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Scalar output field (one component per entity) with the same scoping as the input. All values are $0.0$ except the entity at iteration index $k$ which holds $1.0$.""",
                 ),
             },
         )
@@ -174,6 +187,8 @@ class InputsMakeOneOnComp(_Inputs):
     def fieldA(self) -> Input[Field]:
         r"""Allows to connect fieldA input to the operator.
 
+        Input field. Its scoping is used as the scoping of the output field.
+
         Returns
         -------
         input:
@@ -192,6 +207,8 @@ class InputsMakeOneOnComp(_Inputs):
     @property
     def scalar_int(self) -> Input[int]:
         r"""Allows to connect scalar_int input to the operator.
+
+        Zero-based iteration index $k$ of the entity to set to $1.0$.
 
         Returns
         -------
@@ -231,6 +248,8 @@ class OutputsMakeOneOnComp(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Scalar output field (one component per entity) with the same scoping as the input. All values are $0.0$ except the entity at iteration index $k$ which holds $1.0$.
 
         Returns
         -------

@@ -24,24 +24,51 @@ if TYPE_CHECKING:
 
 
 class accumulation_per_scoping(Operator):
-    r"""This operator calculates the sum and the percentage of total sum of the
-    input fields container for each scoping of the scopings container.
+    r"""For each scoping in the input scopings container, computes the
+    entity-wise sum of the input fields container values over that scoping,
+    and the percentage of that sum relative to a master sum. The sum is
+    computed independently for each field in the container; the output
+    contains one output field per input field, regardless of the container
+    label (time, complex, or other).
+
+    The master sum is computed by summing all entity values of the input
+    fields container restricted to the master scoping when provided, or of
+    the full input fields container otherwise.
+
+    For cyclic and multistage models, the master scoping and the input
+    scopings container are first expanded to the full mesh. When a master
+    scoping is provided, each scoping in the input scopings container is
+    intersected with it before accumulation.
+
+    Each output field contains one entity per scoping plus one master
+    entity: - entity id :math:`0` holds the master sum (or :math:`100\%` for
+    the percentage output). - entity ids :math:`1` to :math:`N` hold the sum
+    (or percentage of the master sum) for the :math:`N` scopings of the
+    input scopings container, in the same order.
+
+    The percentage is set to :math:`0` when the master sum is below machine
+    epsilon.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
+        Fields container containing the values to accumulate per scoping.
     mesh_scoping: Scoping, optional
-        Master scoping. All scopings in the Scopings Container will be intersected with this scoping.
-    streams_container: StreamsContainer
-    data_sources: DataSources
+        Master scoping. When provided, each scoping in the input scopings container is intersected with it, and the master sum is computed over this scoping. When omitted, the master sum is computed over the full input fields container and no intersection is performed.
+    streams_container: StreamsContainer, optional
+        Streams describing the source result file. Required when no data sources is provided. Used to detect cyclic and multistage models and expand the scopings accordingly. Takes precedence over the data sources when both are provided.
+    data_sources: DataSources, optional
+        Data sources describing the source result file. Required when no streams is provided. Used to detect cyclic and multistage models and expand the scopings accordingly.
     scopings_container: ScopingsContainer
-        The intersection between the of the first will be used.
+        Scopings container. The sum of the input fields container is computed over each scoping it contains. Must contain at least one scoping.
 
     Outputs
     -------
     accumulation_per_scoping: FieldsContainer
+        Fields container with one field per input field. Each field holds the master sum at entity id $0$ and the per-scoping sums at entity ids $1$ to $N$, following the order of the input scopings container.
     accumulation_per_scoping_percentage: FieldsContainer
+        Fields container with the same layout as the accumulation output. Entity id $0$ is $100$, entity ids $1$ to $N$ contain the per-scoping sum expressed as a percentage of the master sum, or $0$ when the master sum is below machine epsilon.
 
     Examples
     --------
@@ -106,8 +133,30 @@ class accumulation_per_scoping(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""This operator calculates the sum and the percentage of total sum of the
-input fields container for each scoping of the scopings container.
+        description = r"""For each scoping in the input scopings container, computes the
+entity-wise sum of the input fields container values over that scoping,
+and the percentage of that sum relative to a master sum. The sum is
+computed independently for each field in the container; the output
+contains one output field per input field, regardless of the container
+label (time, complex, or other).
+
+The master sum is computed by summing all entity values of the input
+fields container restricted to the master scoping when provided, or of
+the full input fields container otherwise.
+
+For cyclic and multistage models, the master scoping and the input
+scopings container are first expanded to the full mesh. When a master
+scoping is provided, each scoping in the input scopings container is
+intersected with it before accumulation.
+
+Each output field contains one entity per scoping plus one master
+entity: - entity id :math:`0` holds the master sum (or :math:`100\%` for
+the percentage output). - entity ids :math:`1` to :math:`N` hold the sum
+(or percentage of the master sum) for the :math:`N` scopings of the
+input scopings container, in the same order.
+
+The percentage is set to :math:`0` when the master sum is below machine
+epsilon.
 """
         spec = Specification(
             description=description,
@@ -116,31 +165,31 @@ input fields container for each scoping of the scopings container.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container containing the values to accumulate per scoping.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document=r"""Master scoping. All scopings in the Scopings Container will be intersected with this scoping.""",
+                    document=r"""Master scoping. When provided, each scoping in the input scopings container is intersected with it, and the master sum is computed over this scoping. When omitted, the master sum is computed over the full input fields container and no intersection is performed.""",
                 ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
-                    optional=False,
-                    document=r"""""",
+                    optional=True,
+                    document=r"""Streams describing the source result file. Required when no data sources is provided. Used to detect cyclic and multistage models and expand the scopings accordingly. Takes precedence over the data sources when both are provided.""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
-                    optional=False,
-                    document=r"""""",
+                    optional=True,
+                    document=r"""Data sources describing the source result file. Required when no streams is provided. Used to detect cyclic and multistage models and expand the scopings accordingly.""",
                 ),
                 5: PinSpecification(
                     name="scopings_container",
                     type_names=["scopings_container"],
                     optional=False,
-                    document=r"""The intersection between the of the first will be used.""",
+                    document=r"""Scopings container. The sum of the input fields container is computed over each scoping it contains. Must contain at least one scoping.""",
                 ),
             },
             map_output_pin_spec={
@@ -148,13 +197,13 @@ input fields container for each scoping of the scopings container.
                     name="accumulation_per_scoping",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container with one field per input field. Each field holds the master sum at entity id $0$ and the per-scoping sums at entity ids $1$ to $N$, following the order of the input scopings container.""",
                 ),
                 1: PinSpecification(
                     name="accumulation_per_scoping_percentage",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container with the same layout as the accumulation output. Entity id $0$ is $100$, entity ids $1$ to $N$ contain the per-scoping sum expressed as a percentage of the master sum, or $0$ when the master sum is below machine epsilon.""",
                 ),
             },
         )
@@ -251,6 +300,8 @@ class InputsAccumulationPerScoping(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        Fields container containing the values to accumulate per scoping.
+
         Returns
         -------
         input:
@@ -270,7 +321,7 @@ class InputsAccumulationPerScoping(_Inputs):
     def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
-        Master scoping. All scopings in the Scopings Container will be intersected with this scoping.
+        Master scoping. When provided, each scoping in the input scopings container is intersected with it, and the master sum is computed over this scoping. When omitted, the master sum is computed over the full input fields container and no intersection is performed.
 
         Returns
         -------
@@ -291,6 +342,8 @@ class InputsAccumulationPerScoping(_Inputs):
     def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
+        Streams describing the source result file. Required when no data sources is provided. Used to detect cyclic and multistage models and expand the scopings accordingly. Takes precedence over the data sources when both are provided.
+
         Returns
         -------
         input:
@@ -309,6 +362,8 @@ class InputsAccumulationPerScoping(_Inputs):
     @property
     def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
+
+        Data sources describing the source result file. Required when no streams is provided. Used to detect cyclic and multistage models and expand the scopings accordingly.
 
         Returns
         -------
@@ -329,7 +384,7 @@ class InputsAccumulationPerScoping(_Inputs):
     def scopings_container(self) -> Input[ScopingsContainer]:
         r"""Allows to connect scopings_container input to the operator.
 
-        The intersection between the of the first will be used.
+        Scopings container. The sum of the input fields container is computed over each scoping it contains. Must contain at least one scoping.
 
         Returns
         -------
@@ -375,6 +430,8 @@ class OutputsAccumulationPerScoping(_Outputs):
     def accumulation_per_scoping(self) -> Output[FieldsContainer]:
         r"""Allows to get accumulation_per_scoping output of the operator
 
+        Fields container with one field per input field. Each field holds the master sum at entity id $0$ and the per-scoping sums at entity ids $1$ to $N$, following the order of the input scopings container.
+
         Returns
         -------
         output:
@@ -392,6 +449,8 @@ class OutputsAccumulationPerScoping(_Outputs):
     @property
     def accumulation_per_scoping_percentage(self) -> Output[FieldsContainer]:
         r"""Allows to get accumulation_per_scoping_percentage output of the operator
+
+        Fields container with the same layout as the accumulation output. Entity id $0$ is $100$, entity ids $1$ to $N$ contain the per-scoping sum expressed as a percentage of the master sum, or $0$ when the master sum is below machine epsilon.
 
         Returns
         -------
