@@ -144,10 +144,10 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def time_freq_support_get_imaginary_freqs_cummulative_index(timeFreq, dVal, i1, i2):
-        return TimeFreqSupportGRPCAPI._cumulative_index_request(True, timeFreq, dVal)
+        return TimeFreqSupportGRPCAPI._cumulative_index_request(1, timeFreq, dVal)
     @staticmethod
     def time_freq_support_get_time_freq_cummulative_index_by_value(timeFreq, dVal, i1, i2):
-        return TimeFreqSupportGRPCAPI._cumulative_index_request(False, timeFreq, dVal)
+        return TimeFreqSupportGRPCAPI._cumulative_index_request(0, timeFreq, dVal)
 
 
     @staticmethod
@@ -181,7 +181,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
         from ansys.grpc.dpf import time_freq_support_pb2
         request = time_freq_support_pb2.GetRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
-        request.complex = False
+        request.complex = 0
         request.step_substep.step = stepIndex
         request.step_substep.substep = subStepIndex
         return TimeFreqSupportGRPCAPI.get(timeFreq, request).frequency
@@ -191,7 +191,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
         from ansys.grpc.dpf import time_freq_support_pb2
         request = time_freq_support_pb2.GetRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
-        request.complex = True
+        request.complex = 1
         request.step_substep.step = stepIndex
         request.step_substep.substep = subStepIndex
         return TimeFreqSupportGRPCAPI.get(timeFreq, request).frequency
@@ -201,7 +201,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
         from ansys.grpc.dpf import time_freq_support_pb2
         request = time_freq_support_pb2.GetRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
-        request.complex = False
+        request.complex = 0
         request.cumulative_index = iCumulativeIndex
         return TimeFreqSupportGRPCAPI.get(timeFreq, request).frequency
 
@@ -210,6 +210,6 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
         from ansys.grpc.dpf import time_freq_support_pb2
         request = time_freq_support_pb2.GetRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
-        request.complex = True
+        request.complex = 1
         request.cumulative_index = iCumulativeIndex
         return TimeFreqSupportGRPCAPI.get(timeFreq, request).frequency
