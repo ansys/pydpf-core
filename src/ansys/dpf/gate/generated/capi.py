@@ -182,6 +182,10 @@ def load_api(path):
 		dll.Any_newFrom_FieldsContainer.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Any_newFrom_FieldsContainer.restype = ctypes.c_void_p
 
+	if hasattr(dll, "Any_newFrom_PropertyFieldsContainer"):
+		dll.Any_newFrom_PropertyFieldsContainer.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Any_newFrom_PropertyFieldsContainer.restype = ctypes.c_void_p
+
 	if hasattr(dll, "Any_newFrom_ScopingsContainer"):
 		dll.Any_newFrom_ScopingsContainer.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Any_newFrom_ScopingsContainer.restype = ctypes.c_void_p
@@ -423,6 +427,10 @@ def load_api(path):
 	if hasattr(dll, "Collection_OfCustomTypeFieldNew"):
 		dll.Collection_OfCustomTypeFieldNew.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Collection_OfCustomTypeFieldNew.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Collection_OfPropertyFieldNew"):
+		dll.Collection_OfPropertyFieldNew.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Collection_OfPropertyFieldNew.restype = ctypes.c_void_p
 
 	if hasattr(dll, "Collection_OfAnyNew"):
 		dll.Collection_OfAnyNew.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -2921,6 +2929,10 @@ def load_api(path):
 	if hasattr(dll, "Operator_getoutput_MeshesContainer"):
 		dll.Operator_getoutput_MeshesContainer.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Operator_getoutput_MeshesContainer.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Operator_getoutput_PropertyFieldsContainer"):
+		dll.Operator_getoutput_PropertyFieldsContainer.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Operator_getoutput_PropertyFieldsContainer.restype = ctypes.c_void_p
 
 	if hasattr(dll, "Operator_getoutput_CustomTypeFieldsContainer"):
 		dll.Operator_getoutput_CustomTypeFieldsContainer.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )

@@ -238,6 +238,15 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		return res
 
 	@staticmethod
+	def collection_of_property_field_new():
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_OfPropertyFieldNew(ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def collection_of_any_new():
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
