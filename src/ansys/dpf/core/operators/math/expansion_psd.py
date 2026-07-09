@@ -20,26 +20,66 @@ if TYPE_CHECKING:
 
 
 class expansion_psd(Operator):
-    r"""Computes the PSD response for one-sigma solution.
+    r"""Computes the response power spectral density (RPSD) or 1-sigma response
+    from a PSD analysis by combining mode shapes (or harmonic results),
+    covariance matrices, and optionally static shapes.
+
+    **Response type** - If pin 5 is false (default) and constant covariance
+    matrices are provided: 1-sigma response is computed from mode shapes
+    (label “time”) and covariance matrix :math:`Q` (only labels “Mode_i” and
+    “Mode_j”):
+    :math:`\displaystyle \sigma_k = \sqrt{\sum_{i=1}^N{\sum_{j=1}^N{\phi_{ik} \phi_{jk} Q_{ij}}}}`
+    - If pin 5 is false (default) and frequency-dependent covariance
+    matrices are provided: RPSD response is computed from mode shapes (label
+    “time”) and modal PSD matrix :math:`R(\omega)` (labels “Mode_i”,
+    “Mode_j” and “time”):
+    :math:`\displaystyle S_k(\omega) = \sum_{i=1}^N{\sum_{j=1}^N{\phi_{ik} \phi_{jk} R_{ij}(\omega)}}`
+    - If pin 5 is true: RPSD response is computed from harmonic results
+    amplitude (label “input_dof_index” and “time”) and input PSD matrix
+    :math:`\bar{S}(\omega)` (labels “input_dof_index_i”, “input_dof_index_j”
+    and “time”):
+    :math:`\displaystyle S_k(\omega) = \sum_{i=1}^N{\sum_{j=1}^N{u_{ik}(\omega) u_{jk}(\omega) \bar{S}_{ij}(\omega)}}`
+
+    **Absolute/relative response computation**: - If static shapes (pin 1)
+    are provided and non-empty: computes absolute response
+    (:math:`\sigma^2 = \sigma_{\text{rel}}^2 + \sigma_{\text{stat}}^2 + 2 \sigma_{\text{rel,stat}}^2`).
+    - If static shapes are empty or not provided: computes relative response
+    from mode-mode covariance terms only
+    (:math:`\sigma^2 = \sigma_{\text{rel}}^2`). - If input mode shapes or
+    harmonic results are empty: output contains an empty field with the same
+    label structure and support as the covariance matrix input.
 
 
     Inputs
     ------
     mode_shapes: FieldsContainer
-        Fields container containing the mode shapes from modal analysis file: mode shapes for dynamic and pseudo-static displacements
+        Fields container containing the expansion vectors (mode shapes or harmonic results). Label conventions are defined by pin 5.
     static_shapes: FieldsContainer, optional
-        Fields container containing the static shapes (base excitations) from spectral analysis file
+        Fields container containing the static shapes (base excitations) from spectral analysis file. If not empty, pins 3 and 4 are required.
     rel_rel_covar_matrix: FieldsContainer
-        Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration mode-mode shapes
+        Fields container containing the dynamic covariance or PSD matrix (relative-relative term). Covariance and PSD matrices can both represent displacement, velocity, or acceleration. Label conventions are defined by pin 5.
     stat_stat_covar_matrix: FieldsContainer, optional
-        Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration static-static shapes
+        Fields container containing the static covariance or PSD matrix (static-static term). Covariance and PSD matrices can both represent displacement, velocity, or acceleration. Label conventions are defined by pin 5.
     rel_stat_covar_matrix: FieldsContainer, optional
-        Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration mode-static shapes
+        Fields container containing the dynamic-static covariance or PSD matrix (relative-static term). Covariance and PSD matrices can both represent displacement, velocity, or acceleration. Label conventions are defined by pin 5.
+    is_rpsd_from_harm: bool, optional
+
+        Boolean value selecting the PSD expansion source:
+        - false (default): expansion from mode shapes.
+        - true: expansion from harmonic results.
+
+        This flag also defines covariance matrix label conventions for pins 2, 3, and 4:
+        - If false: expected labels are "Mode_i" and "Mode_j"; label "time" is additionally expected for frequency-dependent PSD data.
+        - If true: expected labels are "input_dof_index_i", "input_dof_index_j", and "time".
+
+        Similarly, mode shapes label convention for pin 0 is:
+        - If false: expected label is "time".
+        - If true: expected labels are "input_dof_index" and "time".
 
     Outputs
     -------
     psd: FieldsContainer
-        PSD solution per label
+        Response PSD (if frequency-dependent matrices) or 1-sigma response per output label space. Can contain an empty field when mode shapes are empty.
 
     Examples
     --------
@@ -59,6 +99,8 @@ class expansion_psd(Operator):
     >>> op.inputs.stat_stat_covar_matrix.connect(my_stat_stat_covar_matrix)
     >>> my_rel_stat_covar_matrix = dpf.FieldsContainer()
     >>> op.inputs.rel_stat_covar_matrix.connect(my_rel_stat_covar_matrix)
+    >>> my_is_rpsd_from_harm = bool()
+    >>> op.inputs.is_rpsd_from_harm.connect(my_is_rpsd_from_harm)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.expansion_psd(
@@ -67,6 +109,7 @@ class expansion_psd(Operator):
     ...     rel_rel_covar_matrix=my_rel_rel_covar_matrix,
     ...     stat_stat_covar_matrix=my_stat_stat_covar_matrix,
     ...     rel_stat_covar_matrix=my_rel_stat_covar_matrix,
+    ...     is_rpsd_from_harm=my_is_rpsd_from_harm,
     ... )
 
     >>> # Get output data
@@ -80,6 +123,7 @@ class expansion_psd(Operator):
         rel_rel_covar_matrix=None,
         stat_stat_covar_matrix=None,
         rel_stat_covar_matrix=None,
+        is_rpsd_from_harm=None,
         config=None,
         server=None,
     ):
@@ -100,10 +144,39 @@ class expansion_psd(Operator):
             self.inputs.stat_stat_covar_matrix.connect(stat_stat_covar_matrix)
         if rel_stat_covar_matrix is not None:
             self.inputs.rel_stat_covar_matrix.connect(rel_stat_covar_matrix)
+        if is_rpsd_from_harm is not None:
+            self.inputs.is_rpsd_from_harm.connect(is_rpsd_from_harm)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the PSD response for one-sigma solution.
+        description = r"""Computes the response power spectral density (RPSD) or 1-sigma response
+from a PSD analysis by combining mode shapes (or harmonic results),
+covariance matrices, and optionally static shapes.
+
+**Response type** - If pin 5 is false (default) and constant covariance
+matrices are provided: 1-sigma response is computed from mode shapes
+(label “time”) and covariance matrix :math:`Q` (only labels “Mode_i” and
+“Mode_j”):
+:math:`\displaystyle \sigma_k = \sqrt{\sum_{i=1}^N{\sum_{j=1}^N{\phi_{ik} \phi_{jk} Q_{ij}}}}`
+- If pin 5 is false (default) and frequency-dependent covariance
+matrices are provided: RPSD response is computed from mode shapes (label
+“time”) and modal PSD matrix :math:`R(\omega)` (labels “Mode_i”,
+“Mode_j” and “time”):
+:math:`\displaystyle S_k(\omega) = \sum_{i=1}^N{\sum_{j=1}^N{\phi_{ik} \phi_{jk} R_{ij}(\omega)}}`
+- If pin 5 is true: RPSD response is computed from harmonic results
+amplitude (label “input_dof_index” and “time”) and input PSD matrix
+:math:`\bar{S}(\omega)` (labels “input_dof_index_i”, “input_dof_index_j”
+and “time”):
+:math:`\displaystyle S_k(\omega) = \sum_{i=1}^N{\sum_{j=1}^N{u_{ik}(\omega) u_{jk}(\omega) \bar{S}_{ij}(\omega)}}`
+
+**Absolute/relative response computation**: - If static shapes (pin 1)
+are provided and non-empty: computes absolute response
+(:math:`\sigma^2 = \sigma_{\text{rel}}^2 + \sigma_{\text{stat}}^2 + 2 \sigma_{\text{rel,stat}}^2`).
+- If static shapes are empty or not provided: computes relative response
+from mode-mode covariance terms only
+(:math:`\sigma^2 = \sigma_{\text{rel}}^2`). - If input mode shapes or
+harmonic results are empty: output contains an empty field with the same
+label structure and support as the covariance matrix input.
 """
         spec = Specification(
             description=description,
@@ -112,31 +185,48 @@ class expansion_psd(Operator):
                     name="mode_shapes",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container containing the mode shapes from modal analysis file: mode shapes for dynamic and pseudo-static displacements""",
+                    document=r"""Fields container containing the expansion vectors (mode shapes or harmonic results). Label conventions are defined by pin 5.""",
                 ),
                 1: PinSpecification(
                     name="static_shapes",
                     type_names=["fields_container"],
                     optional=True,
-                    document=r"""Fields container containing the static shapes (base excitations) from spectral analysis file""",
+                    document=r"""Fields container containing the static shapes (base excitations) from spectral analysis file. If not empty, pins 3 and 4 are required.""",
                 ),
                 2: PinSpecification(
                     name="rel_rel_covar_matrix",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration mode-mode shapes """,
+                    document=r"""Fields container containing the dynamic covariance or PSD matrix (relative-relative term). Covariance and PSD matrices can both represent displacement, velocity, or acceleration. Label conventions are defined by pin 5.""",
                 ),
                 3: PinSpecification(
                     name="stat_stat_covar_matrix",
                     type_names=["fields_container"],
                     optional=True,
-                    document=r"""Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration static-static shapes """,
+                    document=r"""Fields container containing the static covariance or PSD matrix (static-static term). Covariance and PSD matrices can both represent displacement, velocity, or acceleration. Label conventions are defined by pin 5.""",
                 ),
                 4: PinSpecification(
                     name="rel_stat_covar_matrix",
                     type_names=["fields_container"],
                     optional=True,
-                    document=r"""Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration mode-static shapes """,
+                    document=r"""Fields container containing the dynamic-static covariance or PSD matrix (relative-static term). Covariance and PSD matrices can both represent displacement, velocity, or acceleration. Label conventions are defined by pin 5.""",
+                ),
+                5: PinSpecification(
+                    name="is_rpsd_from_harm",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""
+Boolean value selecting the PSD expansion source:
+- false (default): expansion from mode shapes.
+- true: expansion from harmonic results.
+
+This flag also defines covariance matrix label conventions for pins 2, 3, and 4:
+- If false: expected labels are "Mode_i" and "Mode_j"; label "time" is additionally expected for frequency-dependent PSD data.
+- If true: expected labels are "input_dof_index_i", "input_dof_index_j", and "time".
+
+Similarly, mode shapes label convention for pin 0 is:
+- If false: expected label is "time".
+- If true: expected labels are "input_dof_index" and "time".""",
                 ),
             },
             map_output_pin_spec={
@@ -144,7 +234,7 @@ class expansion_psd(Operator):
                     name="psd",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""PSD solution per label""",
+                    document=r"""Response PSD (if frequency-dependent matrices) or 1-sigma response per output label space. Can contain an empty field when mode shapes are empty.""",
                 ),
             },
         )
@@ -212,6 +302,8 @@ class InputsExpansionPsd(_Inputs):
     >>> op.inputs.stat_stat_covar_matrix.connect(my_stat_stat_covar_matrix)
     >>> my_rel_stat_covar_matrix = dpf.FieldsContainer()
     >>> op.inputs.rel_stat_covar_matrix.connect(my_rel_stat_covar_matrix)
+    >>> my_is_rpsd_from_harm = bool()
+    >>> op.inputs.is_rpsd_from_harm.connect(my_is_rpsd_from_harm)
     """
 
     def __init__(self, op: Operator):
@@ -236,12 +328,16 @@ class InputsExpansionPsd(_Inputs):
             expansion_psd._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._rel_stat_covar_matrix)
+        self._is_rpsd_from_harm: Input[bool] = Input(
+            expansion_psd._spec().input_pin(5), 5, op, -1
+        )
+        self._inputs.append(self._is_rpsd_from_harm)
 
     @property
     def mode_shapes(self) -> Input[FieldsContainer]:
         r"""Allows to connect mode_shapes input to the operator.
 
-        Fields container containing the mode shapes from modal analysis file: mode shapes for dynamic and pseudo-static displacements
+        Fields container containing the expansion vectors (mode shapes or harmonic results). Label conventions are defined by pin 5.
 
         Returns
         -------
@@ -262,7 +358,7 @@ class InputsExpansionPsd(_Inputs):
     def static_shapes(self) -> Input[FieldsContainer]:
         r"""Allows to connect static_shapes input to the operator.
 
-        Fields container containing the static shapes (base excitations) from spectral analysis file
+        Fields container containing the static shapes (base excitations) from spectral analysis file. If not empty, pins 3 and 4 are required.
 
         Returns
         -------
@@ -283,7 +379,7 @@ class InputsExpansionPsd(_Inputs):
     def rel_rel_covar_matrix(self) -> Input[FieldsContainer]:
         r"""Allows to connect rel_rel_covar_matrix input to the operator.
 
-        Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration mode-mode shapes
+        Fields container containing the dynamic covariance or PSD matrix (relative-relative term). Covariance and PSD matrices can both represent displacement, velocity, or acceleration. Label conventions are defined by pin 5.
 
         Returns
         -------
@@ -304,7 +400,7 @@ class InputsExpansionPsd(_Inputs):
     def stat_stat_covar_matrix(self) -> Input[FieldsContainer]:
         r"""Allows to connect stat_stat_covar_matrix input to the operator.
 
-        Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration static-static shapes
+        Fields container containing the static covariance or PSD matrix (static-static term). Covariance and PSD matrices can both represent displacement, velocity, or acceleration. Label conventions are defined by pin 5.
 
         Returns
         -------
@@ -325,7 +421,7 @@ class InputsExpansionPsd(_Inputs):
     def rel_stat_covar_matrix(self) -> Input[FieldsContainer]:
         r"""Allows to connect rel_stat_covar_matrix input to the operator.
 
-        Fields container containing covariance matrices from a psd file: covariance matrix terms for displacement/velocity/acceleration mode-static shapes
+        Fields container containing the dynamic-static covariance or PSD matrix (relative-static term). Covariance and PSD matrices can both represent displacement, velocity, or acceleration. Label conventions are defined by pin 5.
 
         Returns
         -------
@@ -341,6 +437,38 @@ class InputsExpansionPsd(_Inputs):
         >>> op.inputs.rel_stat_covar_matrix(my_rel_stat_covar_matrix)
         """
         return self._rel_stat_covar_matrix
+
+    @property
+    def is_rpsd_from_harm(self) -> Input[bool]:
+        r"""Allows to connect is_rpsd_from_harm input to the operator.
+
+
+        Boolean value selecting the PSD expansion source:
+        - false (default): expansion from mode shapes.
+        - true: expansion from harmonic results.
+
+        This flag also defines covariance matrix label conventions for pins 2, 3, and 4:
+        - If false: expected labels are "Mode_i" and "Mode_j"; label "time" is additionally expected for frequency-dependent PSD data.
+        - If true: expected labels are "input_dof_index_i", "input_dof_index_j", and "time".
+
+        Similarly, mode shapes label convention for pin 0 is:
+        - If false: expected label is "time".
+        - If true: expected labels are "input_dof_index" and "time".
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.expansion_psd()
+        >>> op.inputs.is_rpsd_from_harm.connect(my_is_rpsd_from_harm)
+        >>> # or
+        >>> op.inputs.is_rpsd_from_harm(my_is_rpsd_from_harm)
+        """
+        return self._is_rpsd_from_harm
 
 
 class OutputsExpansionPsd(_Outputs):
@@ -366,7 +494,7 @@ class OutputsExpansionPsd(_Outputs):
     def psd(self) -> Output[FieldsContainer]:
         r"""Allows to get psd output of the operator
 
-        PSD solution per label
+        Response PSD (if frequency-dependent matrices) or 1-sigma response per output label space. Can contain an empty field when mode shapes are empty.
 
         Returns
         -------
