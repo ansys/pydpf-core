@@ -168,10 +168,6 @@ class AnyAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def any_new_from_property_fields_container(any):
-		raise NotImplementedError
-
-	@staticmethod
 	def any_new_from_scopings_container(any):
 		raise NotImplementedError
 

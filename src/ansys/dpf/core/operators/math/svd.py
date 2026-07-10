@@ -20,29 +20,23 @@ if TYPE_CHECKING:
 
 
 class svd(Operator):
-    r"""Computes the `Singular Value Decomposition
-    (SVD) <https://en.wikipedia.org/wiki/Singular_value_decomposition>`__
-    :math:`A = U \Sigma V^{*T}` for each matrix field in the input fields
-    container. Both real and complex matrices are supported. The
-    decomposition satisfies :math:`A = U S V^T` (real) or
-    :math:`A = U S V^{*T}` (complex), where :math:`S` contains the singular
-    values, :math:`U` is left-unitary, and :math:`V^T` (or :math:`V^{*T}`)
-    is right-unitary.
+    r"""Computes the matrix singular value decomposition (SVD) for each field in
+    the given fields container.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Fields container of matrix fields to decompose. May be real or complex (complex label required for complex inputs). Each field must represent a matrix.
+        fields_container
 
     Outputs
     -------
     s_svd: FieldsContainer
-        Singular values $S$ of the decomposition $A = U S V^{*T}$. Same label structure as the input.
+        Singular values of the input data, where A=U.S.Vt
     u_svd: FieldsContainer
-        Left unitary matrix $U$ of the decomposition $A = U S V^{*T}$. Same label structure as the input.
+        U of the input data, where A=U.S.Vt
     vt_svd: FieldsContainer
-        Conjugate transpose of the right unitary matrix $V^{*T}$ of the decomposition $A = U S V^{*T}$. Same label structure as the input.
+        Vt of the input data, where A=U.S.Vt
 
     Examples
     --------
@@ -79,14 +73,8 @@ class svd(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the `Singular Value Decomposition
-(SVD) <https://en.wikipedia.org/wiki/Singular_value_decomposition>`__
-:math:`A = U \Sigma V^{*T}` for each matrix field in the input fields
-container. Both real and complex matrices are supported. The
-decomposition satisfies :math:`A = U S V^T` (real) or
-:math:`A = U S V^{*T}` (complex), where :math:`S` contains the singular
-values, :math:`U` is left-unitary, and :math:`V^T` (or :math:`V^{*T}`)
-is right-unitary.
+        description = r"""Computes the matrix singular value decomposition (SVD) for each field in
+the given fields container.
 """
         spec = Specification(
             description=description,
@@ -95,7 +83,7 @@ is right-unitary.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container of matrix fields to decompose. May be real or complex (complex label required for complex inputs). Each field must represent a matrix.""",
+                    document=r"""fields_container""",
                 ),
             },
             map_output_pin_spec={
@@ -103,19 +91,19 @@ is right-unitary.
                     name="s_svd",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Singular values $S$ of the decomposition $A = U S V^{*T}$. Same label structure as the input.""",
+                    document=r"""Singular values of the input data, where A=U.S.Vt""",
                 ),
                 1: PinSpecification(
                     name="u_svd",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Left unitary matrix $U$ of the decomposition $A = U S V^{*T}$. Same label structure as the input.""",
+                    document=r"""U of the input data, where A=U.S.Vt""",
                 ),
                 2: PinSpecification(
                     name="vt_svd",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Conjugate transpose of the right unitary matrix $V^{*T}$ of the decomposition $A = U S V^{*T}$. Same label structure as the input.""",
+                    document=r"""Vt of the input data, where A=U.S.Vt""",
                 ),
             },
         )
@@ -188,7 +176,7 @@ class InputsSvd(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Fields container of matrix fields to decompose. May be real or complex (complex label required for complex inputs). Each field must represent a matrix.
+        fields_container
 
         Returns
         -------
@@ -233,7 +221,7 @@ class OutputsSvd(_Outputs):
     def s_svd(self) -> Output[FieldsContainer]:
         r"""Allows to get s_svd output of the operator
 
-        Singular values $S$ of the decomposition $A = U S V^{*T}$. Same label structure as the input.
+        Singular values of the input data, where A=U.S.Vt
 
         Returns
         -------
@@ -253,7 +241,7 @@ class OutputsSvd(_Outputs):
     def u_svd(self) -> Output[FieldsContainer]:
         r"""Allows to get u_svd output of the operator
 
-        Left unitary matrix $U$ of the decomposition $A = U S V^{*T}$. Same label structure as the input.
+        U of the input data, where A=U.S.Vt
 
         Returns
         -------
@@ -273,7 +261,7 @@ class OutputsSvd(_Outputs):
     def vt_svd(self) -> Output[FieldsContainer]:
         r"""Allows to get vt_svd output of the operator
 
-        Conjugate transpose of the right unitary matrix $V^{*T}$ of the decomposition $A = U S V^{*T}$. Same label structure as the input.
+        Vt of the input data, where A=U.S.Vt
 
         Returns
         -------

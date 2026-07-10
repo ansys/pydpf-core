@@ -20,34 +20,25 @@ if TYPE_CHECKING:
 
 
 class time_integration(Operator):
-    r"""Computes the cumulative
-    `integral <https://en.wikipedia.org/wiki/Integral>`__ of a scalar
-    time-varying field using adaptive numerical integration. The input field
-    must have a time-frequency support that provides the time values.
-
-    When ``resample_output`` (pin 1) is true, the output time steps are
-    resampled by the integrator (producing a new time support); when false,
-    the output reuses the input time support. The optional integration
-    constant (pin 4) is added to all output values as an initial condition.
+    r"""Integrates a field of time varying quantities over time
 
 
     Inputs
     ------
     field: Field
-        Scalar time-varying field to integrate. Must have a time-frequency support.
+        field
     resample_output: bool, optional
-        When true, the output is resampled to an adaptively chosen set of time steps. When false (default), the output uses the same time support as the input.
+        Resample the output
     absolute_error: float, optional
-        Absolute error tolerance for the resampling step. Only used when pin 1 is true.
+        Absolute error for the resampling
     minimum_step_size: float, optional
-        Minimum time step size allowed during resampling. Only used when pin 1 is true.
+        Minimum time step size for the resamplig
     integration_constant: float, optional
-        Constant added to all integrated values as an initial condition. Default is $0$.
+        Constant to be added to the integrated field
 
     Outputs
     -------
     field: Field
-        Integrated scalar field. Has the same unit as (input unit $\times$ second). The time support is either the input support (when pin 1 is false) or a resampled support (when pin 1 is true).
 
     Examples
     --------
@@ -111,15 +102,7 @@ class time_integration(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the cumulative
-`integral <https://en.wikipedia.org/wiki/Integral>`__ of a scalar
-time-varying field using adaptive numerical integration. The input field
-must have a time-frequency support that provides the time values.
-
-When ``resample_output`` (pin 1) is true, the output time steps are
-resampled by the integrator (producing a new time support); when false,
-the output reuses the input time support. The optional integration
-constant (pin 4) is added to all output values as an initial condition.
+        description = r"""Integrates a field of time varying quantities over time
 """
         spec = Specification(
             description=description,
@@ -128,31 +111,31 @@ constant (pin 4) is added to all output values as an initial condition.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Scalar time-varying field to integrate. Must have a time-frequency support.""",
+                    document=r"""field""",
                 ),
                 1: PinSpecification(
                     name="resample_output",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""When true, the output is resampled to an adaptively chosen set of time steps. When false (default), the output uses the same time support as the input.""",
+                    document=r"""Resample the output""",
                 ),
                 2: PinSpecification(
                     name="absolute_error",
                     type_names=["double"],
                     optional=True,
-                    document=r"""Absolute error tolerance for the resampling step. Only used when pin 1 is true.""",
+                    document=r"""Absolute error for the resampling""",
                 ),
                 3: PinSpecification(
                     name="minimum_step_size",
                     type_names=["double"],
                     optional=True,
-                    document=r"""Minimum time step size allowed during resampling. Only used when pin 1 is true.""",
+                    document=r"""Minimum time step size for the resamplig""",
                 ),
                 4: PinSpecification(
                     name="integration_constant",
                     type_names=["double"],
                     optional=True,
-                    document=r"""Constant added to all integrated values as an initial condition. Default is $0$.""",
+                    document=r"""Constant to be added to the integrated field""",
                 ),
             },
             map_output_pin_spec={
@@ -160,7 +143,7 @@ constant (pin 4) is added to all output values as an initial condition.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Integrated scalar field. Has the same unit as (input unit $\times$ second). The time support is either the input support (when pin 1 is false) or a resampled support (when pin 1 is true).""",
+                    document=r"""""",
                 ),
             },
         )
@@ -257,7 +240,7 @@ class InputsTimeIntegration(_Inputs):
     def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
-        Scalar time-varying field to integrate. Must have a time-frequency support.
+        field
 
         Returns
         -------
@@ -278,7 +261,7 @@ class InputsTimeIntegration(_Inputs):
     def resample_output(self) -> Input[bool]:
         r"""Allows to connect resample_output input to the operator.
 
-        When true, the output is resampled to an adaptively chosen set of time steps. When false (default), the output uses the same time support as the input.
+        Resample the output
 
         Returns
         -------
@@ -299,7 +282,7 @@ class InputsTimeIntegration(_Inputs):
     def absolute_error(self) -> Input[float]:
         r"""Allows to connect absolute_error input to the operator.
 
-        Absolute error tolerance for the resampling step. Only used when pin 1 is true.
+        Absolute error for the resampling
 
         Returns
         -------
@@ -320,7 +303,7 @@ class InputsTimeIntegration(_Inputs):
     def minimum_step_size(self) -> Input[float]:
         r"""Allows to connect minimum_step_size input to the operator.
 
-        Minimum time step size allowed during resampling. Only used when pin 1 is true.
+        Minimum time step size for the resamplig
 
         Returns
         -------
@@ -341,7 +324,7 @@ class InputsTimeIntegration(_Inputs):
     def integration_constant(self) -> Input[float]:
         r"""Allows to connect integration_constant input to the operator.
 
-        Constant added to all integrated values as an initial condition. Default is $0$.
+        Constant to be added to the integrated field
 
         Returns
         -------
@@ -381,8 +364,6 @@ class OutputsTimeIntegration(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
-
-        Integrated scalar field. Has the same unit as (input unit $\times$ second). The time support is either the input support (when pin 1 is false) or a resampled support (when pin 1 is true).
 
         Returns
         -------

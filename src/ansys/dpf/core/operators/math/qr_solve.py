@@ -20,26 +20,19 @@ if TYPE_CHECKING:
 
 
 class qr_solve(Operator):
-    r"""Solves the linear system :math:`A x = b` using `QR
-    factorization <https://en.wikipedia.org/wiki/QR_decomposition>`__. For
-    each time set, :math:`A` (pin 0) is factored via QR and the solution
-    :math:`x` is obtained by back-substitution against :math:`b` (pin 1).
-    Both real and complex systems are supported. The input matrix :math:`A`
-    must have at least as many rows as columns. The output unit is (unit of
-    :math:`b`) / (unit of :math:`A`).
+    r"""Computes the solution using QR factorization.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Fields container representing the matrix $A$. May be real or complex (complex label required for complex systems).
+        fields_container
     rhs: FieldsContainer
-        Fields container representing the right-hand side $b$. Must have the same number of rows as $A$ and matching label structure.
+        fields_container
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Solution fields container $x$ satisfying $A x \approx b$. Same label structure as the input. Unit is (unit of $b$) / (unit of $A$).
 
     Examples
     --------
@@ -79,13 +72,7 @@ class qr_solve(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Solves the linear system :math:`A x = b` using `QR
-factorization <https://en.wikipedia.org/wiki/QR_decomposition>`__. For
-each time set, :math:`A` (pin 0) is factored via QR and the solution
-:math:`x` is obtained by back-substitution against :math:`b` (pin 1).
-Both real and complex systems are supported. The input matrix :math:`A`
-must have at least as many rows as columns. The output unit is (unit of
-:math:`b`) / (unit of :math:`A`).
+        description = r"""Computes the solution using QR factorization.
 """
         spec = Specification(
             description=description,
@@ -94,13 +81,13 @@ must have at least as many rows as columns. The output unit is (unit of
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container representing the matrix $A$. May be real or complex (complex label required for complex systems).""",
+                    document=r"""fields_container""",
                 ),
                 1: PinSpecification(
                     name="rhs",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container representing the right-hand side $b$. Must have the same number of rows as $A$ and matching label structure.""",
+                    document=r"""fields_container""",
                 ),
             },
             map_output_pin_spec={
@@ -108,7 +95,7 @@ must have at least as many rows as columns. The output unit is (unit of
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Solution fields container $x$ satisfying $A x \approx b$. Same label structure as the input. Unit is (unit of $b$) / (unit of $A$).""",
+                    document=r"""""",
                 ),
             },
         )
@@ -187,7 +174,7 @@ class InputsQrSolve(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Fields container representing the matrix $A$. May be real or complex (complex label required for complex systems).
+        fields_container
 
         Returns
         -------
@@ -208,7 +195,7 @@ class InputsQrSolve(_Inputs):
     def rhs(self) -> Input[FieldsContainer]:
         r"""Allows to connect rhs input to the operator.
 
-        Fields container representing the right-hand side $b$. Must have the same number of rows as $A$ and matching label structure.
+        fields_container
 
         Returns
         -------
@@ -248,8 +235,6 @@ class OutputsQrSolve(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
-
-        Solution fields container $x$ satisfying $A x \approx b$. Same label structure as the input. Unit is (unit of $b$) / (unit of $A$).
 
         Returns
         -------

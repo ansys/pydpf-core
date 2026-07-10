@@ -21,46 +21,36 @@ if TYPE_CHECKING:
 
 
 class fft_multi_harmonic_minmax(Operator):
-    r"""Finds the minimum and maximum of a multi-harmonic field over one period
-    using an adaptive time-stepping gradient method. The field is expressed
-    as a `Fourier series <https://en.wikipedia.org/wiki/Fourier_series>`__
-    over harmonic orders corresponding to integer multiples of the operating
-    speed (RPMs). For each spatial entity, the series is evaluated at
-    adaptively chosen time instants over one period and the pointwise
-    minimum and maximum are extracted.
-
-    ElementalNodal locations are not supported.
+    r"""Evaluate min max fields on multi harmonic solution. min and max fields
+    are calculated based on evaluating a fourier series sum wrt rpms and
+    using the gradient method for adaptive time steping
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Complex multi-harmonic results fields container. Must have a complex label and a time-frequency support whose values are the harmonic excitation frequencies (RPMs). ElementalNodal results are not supported.
     rpm_scoping: Scoping, optional
-        RPM scoping. When provided, only the selected RPM set IDs are included in the Fourier series. When omitted, all available RPMs are used.
+        rpm scoping, by default the fourier series sum is evaluated using all the rpms
     fs_ratio: int, optional
-        Oversampling ratio used to set the uniform time step as $1/(f_{max} \times \mathit{fs_ratio})$. Default is $20$.
+        field or fields container with only one field is expected
     num_subdivisions: int, optional
-        Number of uniform time subdivisions per period. When provided, overrides the adaptive step computation. Default is $-1$ (adaptive).
+        connect number subdivisions, used for uniform discretization
     max_num_subdivisions: int, optional
-        Maximum number of time subdivisions to avoid excessively fine discretisation. Default is $8000$.
+        connect max number subdivisions, used to avoid huge number of sudivisions
     num_cycles: int, optional
-        Number of periods over which the signal is evaluated. Default is $2$.
+        Number of cycle of the periodic signal (default is 2)
     use_harmonic_zero: bool, optional
-        When true, includes the harmonic-zero (constant) term for the first RPM. Default is false.
+        use harmonic zero for first rpm (default is false)
     calculate_time_series: bool, optional
-        When true (default), computes the full time series at output pin 2. Set to false to skip the time-series output and only compute min and max, which reduces computation time.
+        calculates time series output (output pin 2), setting it to false enhance performance if only min/max are required (default is true)
     substeps_selector: optional
-        List of harmonic order (substep) indices to include. When omitted, all available substeps are used.
+        substeps to evaluate (frequencies), by default the operator is evaluated using all the available steps
 
     Outputs
     -------
     field_min: FieldsContainer
-        Fields container of pointwise minimum values over one period. Same spatial layout as the input.
     field_max: FieldsContainer
-        Fields container of pointwise maximum values over one period. Same spatial layout as the input.
     all_fields: FieldsContainer
-        Full time-series fields container over the evaluation period. Only produced when pin 7 is true (default).
 
     Examples
     --------
@@ -150,15 +140,9 @@ class fft_multi_harmonic_minmax(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Finds the minimum and maximum of a multi-harmonic field over one period
-using an adaptive time-stepping gradient method. The field is expressed
-as a `Fourier series <https://en.wikipedia.org/wiki/Fourier_series>`__
-over harmonic orders corresponding to integer multiples of the operating
-speed (RPMs). For each spatial entity, the series is evaluated at
-adaptively chosen time instants over one period and the pointwise
-minimum and maximum are extracted.
-
-ElementalNodal locations are not supported.
+        description = r"""Evaluate min max fields on multi harmonic solution. min and max fields
+are calculated based on evaluating a fourier series sum wrt rpms and
+using the gradient method for adaptive time steping
 """
         spec = Specification(
             description=description,
@@ -167,55 +151,55 @@ ElementalNodal locations are not supported.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Complex multi-harmonic results fields container. Must have a complex label and a time-frequency support whose values are the harmonic excitation frequencies (RPMs). ElementalNodal results are not supported.""",
+                    document=r"""""",
                 ),
                 1: PinSpecification(
                     name="rpm_scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document=r"""RPM scoping. When provided, only the selected RPM set IDs are included in the Fourier series. When omitted, all available RPMs are used.""",
+                    document=r"""rpm scoping, by default the fourier series sum is evaluated using all the rpms""",
                 ),
                 2: PinSpecification(
                     name="fs_ratio",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Oversampling ratio used to set the uniform time step as $1/(f_{max} \times \mathit{fs_ratio})$. Default is $20$.""",
+                    document=r"""field or fields container with only one field is expected""",
                 ),
                 3: PinSpecification(
                     name="num_subdivisions",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Number of uniform time subdivisions per period. When provided, overrides the adaptive step computation. Default is $-1$ (adaptive).""",
+                    document=r"""connect number subdivisions, used for uniform discretization""",
                 ),
                 4: PinSpecification(
                     name="max_num_subdivisions",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Maximum number of time subdivisions to avoid excessively fine discretisation. Default is $8000$.""",
+                    document=r"""connect max number subdivisions, used to avoid huge number of sudivisions""",
                 ),
                 5: PinSpecification(
                     name="num_cycles",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Number of periods over which the signal is evaluated. Default is $2$.""",
+                    document=r"""Number of cycle of the periodic signal (default is 2)""",
                 ),
                 6: PinSpecification(
                     name="use_harmonic_zero",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""When true, includes the harmonic-zero (constant) term for the first RPM. Default is false.""",
+                    document=r"""use harmonic zero for first rpm (default is false)""",
                 ),
                 7: PinSpecification(
                     name="calculate_time_series",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""When true (default), computes the full time series at output pin 2. Set to false to skip the time-series output and only compute min and max, which reduces computation time.""",
+                    document=r"""calculates time series output (output pin 2), setting it to false enhance performance if only min/max are required (default is true)""",
                 ),
                 8: PinSpecification(
                     name="substeps_selector",
                     type_names=["vector<int32>"],
                     optional=True,
-                    document=r"""List of harmonic order (substep) indices to include. When omitted, all available substeps are used.""",
+                    document=r"""substeps to evaluate (frequencies), by default the operator is evaluated using all the available steps""",
                 ),
             },
             map_output_pin_spec={
@@ -223,19 +207,19 @@ ElementalNodal locations are not supported.
                     name="field_min",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container of pointwise minimum values over one period. Same spatial layout as the input.""",
+                    document=r"""""",
                 ),
                 1: PinSpecification(
                     name="field_max",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container of pointwise maximum values over one period. Same spatial layout as the input.""",
+                    document=r"""""",
                 ),
                 2: PinSpecification(
                     name="all_fields",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Full time-series fields container over the evaluation period. Only produced when pin 7 is true (default).""",
+                    document=r"""""",
                 ),
             },
         )
@@ -356,8 +340,6 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Complex multi-harmonic results fields container. Must have a complex label and a time-frequency support whose values are the harmonic excitation frequencies (RPMs). ElementalNodal results are not supported.
-
         Returns
         -------
         input:
@@ -377,7 +359,7 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
     def rpm_scoping(self) -> Input[Scoping]:
         r"""Allows to connect rpm_scoping input to the operator.
 
-        RPM scoping. When provided, only the selected RPM set IDs are included in the Fourier series. When omitted, all available RPMs are used.
+        rpm scoping, by default the fourier series sum is evaluated using all the rpms
 
         Returns
         -------
@@ -398,7 +380,7 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
     def fs_ratio(self) -> Input[int]:
         r"""Allows to connect fs_ratio input to the operator.
 
-        Oversampling ratio used to set the uniform time step as $1/(f_{max} \times \mathit{fs_ratio})$. Default is $20$.
+        field or fields container with only one field is expected
 
         Returns
         -------
@@ -419,7 +401,7 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
     def num_subdivisions(self) -> Input[int]:
         r"""Allows to connect num_subdivisions input to the operator.
 
-        Number of uniform time subdivisions per period. When provided, overrides the adaptive step computation. Default is $-1$ (adaptive).
+        connect number subdivisions, used for uniform discretization
 
         Returns
         -------
@@ -440,7 +422,7 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
     def max_num_subdivisions(self) -> Input[int]:
         r"""Allows to connect max_num_subdivisions input to the operator.
 
-        Maximum number of time subdivisions to avoid excessively fine discretisation. Default is $8000$.
+        connect max number subdivisions, used to avoid huge number of sudivisions
 
         Returns
         -------
@@ -461,7 +443,7 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
     def num_cycles(self) -> Input[int]:
         r"""Allows to connect num_cycles input to the operator.
 
-        Number of periods over which the signal is evaluated. Default is $2$.
+        Number of cycle of the periodic signal (default is 2)
 
         Returns
         -------
@@ -482,7 +464,7 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
     def use_harmonic_zero(self) -> Input[bool]:
         r"""Allows to connect use_harmonic_zero input to the operator.
 
-        When true, includes the harmonic-zero (constant) term for the first RPM. Default is false.
+        use harmonic zero for first rpm (default is false)
 
         Returns
         -------
@@ -503,7 +485,7 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
     def calculate_time_series(self) -> Input[bool]:
         r"""Allows to connect calculate_time_series input to the operator.
 
-        When true (default), computes the full time series at output pin 2. Set to false to skip the time-series output and only compute min and max, which reduces computation time.
+        calculates time series output (output pin 2), setting it to false enhance performance if only min/max are required (default is true)
 
         Returns
         -------
@@ -524,7 +506,7 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
     def substeps_selector(self) -> Input:
         r"""Allows to connect substeps_selector input to the operator.
 
-        List of harmonic order (substep) indices to include. When omitted, all available substeps are used.
+        substeps to evaluate (frequencies), by default the operator is evaluated using all the available steps
 
         Returns
         -------
@@ -575,8 +557,6 @@ class OutputsFftMultiHarmonicMinmax(_Outputs):
     def field_min(self) -> Output[FieldsContainer]:
         r"""Allows to get field_min output of the operator
 
-        Fields container of pointwise minimum values over one period. Same spatial layout as the input.
-
         Returns
         -------
         output:
@@ -595,8 +575,6 @@ class OutputsFftMultiHarmonicMinmax(_Outputs):
     def field_max(self) -> Output[FieldsContainer]:
         r"""Allows to get field_max output of the operator
 
-        Fields container of pointwise maximum values over one period. Same spatial layout as the input.
-
         Returns
         -------
         output:
@@ -614,8 +592,6 @@ class OutputsFftMultiHarmonicMinmax(_Outputs):
     @property
     def all_fields(self) -> Output[FieldsContainer]:
         r"""Allows to get all_fields output of the operator
-
-        Full time-series fields container over the evaluation period. Only produced when pin 7 is true (default).
 
         Returns
         -------

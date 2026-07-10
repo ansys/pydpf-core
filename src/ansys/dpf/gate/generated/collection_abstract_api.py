@@ -108,10 +108,6 @@ class CollectionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def collection_of_property_field_new():
-		raise NotImplementedError
-
-	@staticmethod
 	def collection_of_any_new():
 		raise NotImplementedError
 

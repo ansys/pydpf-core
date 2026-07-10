@@ -20,23 +20,18 @@ if TYPE_CHECKING:
 
 
 class matrix_inverse(Operator):
-    r"""Computes the `matrix
-    inverse <https://en.wikipedia.org/wiki/Invertible_matrix>`__ for each
-    complex square matrix field in the input fields container. Both real and
-    imaginary parts must be present (complex label required). The input
-    fields must be square (:math:`n \times n`) matrices; non-square inputs
-    throw an error. The output unit is the inverse of the input unit.
+    r"""Computes the complex matrix inverse for each field in the given fields
+    container.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
-        Fields container of complex square matrix fields to invert. Must have a complex label with real (index 0) and imaginary (index 1) parts. Each field must be a square matrix.
+        fields_container
 
     Outputs
     -------
     fields_container: FieldsContainer
-        Fields container of inverted complex matrices. Same label structure as the input. Unit is the inverse of the input unit.
 
     Examples
     --------
@@ -71,12 +66,8 @@ class matrix_inverse(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the `matrix
-inverse <https://en.wikipedia.org/wiki/Invertible_matrix>`__ for each
-complex square matrix field in the input fields container. Both real and
-imaginary parts must be present (complex label required). The input
-fields must be square (:math:`n \times n`) matrices; non-square inputs
-throw an error. The output unit is the inverse of the input unit.
+        description = r"""Computes the complex matrix inverse for each field in the given fields
+container.
 """
         spec = Specification(
             description=description,
@@ -85,7 +76,7 @@ throw an error. The output unit is the inverse of the input unit.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container of complex square matrix fields to invert. Must have a complex label with real (index 0) and imaginary (index 1) parts. Each field must be a square matrix.""",
+                    document=r"""fields_container""",
                 ),
             },
             map_output_pin_spec={
@@ -93,7 +84,7 @@ throw an error. The output unit is the inverse of the input unit.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container of inverted complex matrices. Same label structure as the input. Unit is the inverse of the input unit.""",
+                    document=r"""""",
                 ),
             },
         )
@@ -166,7 +157,7 @@ class InputsMatrixInverse(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Fields container of complex square matrix fields to invert. Must have a complex label with real (index 0) and imaginary (index 1) parts. Each field must be a square matrix.
+        fields_container
 
         Returns
         -------
@@ -206,8 +197,6 @@ class OutputsMatrixInverse(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
-
-        Fields container of inverted complex matrices. Same label structure as the input. Unit is the inverse of the input unit.
 
         Returns
         -------

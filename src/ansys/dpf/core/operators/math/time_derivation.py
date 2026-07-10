@@ -20,28 +20,19 @@ if TYPE_CHECKING:
 
 
 class time_derivation(Operator):
-    r"""Computes the time
-    `derivative <https://en.wikipedia.org/wiki/Derivative>`__ of a scalar
-    time-varying field. The input field must have a time-frequency support
-    that provides the time values.
-
-    When ``spline_fitting`` (pin 1) is true, the derivative is computed from
-    a `cubic spline <https://en.wikipedia.org/wiki/Cubic_spline>`__ fit
-    through the input data, producing smooth derivatives. When false
-    (default), finite differences are used.
+    r"""Derives a field of time varying quantities with respect to time
 
 
     Inputs
     ------
     field: Field
-        Scalar time-varying field to differentiate. Must have a time-frequency support.
+        field
     spline_fitting: bool, optional
-        When true, fits a cubic spline to the input data and computes the derivative analytically from the spline. When false (default), uses finite differences.
+        Uses spline fitting on the input field to compute smooth derivatives
 
     Outputs
     -------
     field: Field
-        Time derivative field. Has the same time support and scoping as the input. Unit is (input unit / second).
 
     Examples
     --------
@@ -81,15 +72,7 @@ class time_derivation(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the time
-`derivative <https://en.wikipedia.org/wiki/Derivative>`__ of a scalar
-time-varying field. The input field must have a time-frequency support
-that provides the time values.
-
-When ``spline_fitting`` (pin 1) is true, the derivative is computed from
-a `cubic spline <https://en.wikipedia.org/wiki/Cubic_spline>`__ fit
-through the input data, producing smooth derivatives. When false
-(default), finite differences are used.
+        description = r"""Derives a field of time varying quantities with respect to time
 """
         spec = Specification(
             description=description,
@@ -98,13 +81,13 @@ through the input data, producing smooth derivatives. When false
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Scalar time-varying field to differentiate. Must have a time-frequency support.""",
+                    document=r"""field""",
                 ),
                 1: PinSpecification(
                     name="spline_fitting",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""When true, fits a cubic spline to the input data and computes the derivative analytically from the spline. When false (default), uses finite differences.""",
+                    document=r"""Uses spline fitting on the input field to compute smooth derivatives""",
                 ),
             },
             map_output_pin_spec={
@@ -112,7 +95,7 @@ through the input data, producing smooth derivatives. When false
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Time derivative field. Has the same time support and scoping as the input. Unit is (input unit / second).""",
+                    document=r"""""",
                 ),
             },
         )
@@ -191,7 +174,7 @@ class InputsTimeDerivation(_Inputs):
     def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
-        Scalar time-varying field to differentiate. Must have a time-frequency support.
+        field
 
         Returns
         -------
@@ -212,7 +195,7 @@ class InputsTimeDerivation(_Inputs):
     def spline_fitting(self) -> Input[bool]:
         r"""Allows to connect spline_fitting input to the operator.
 
-        When true, fits a cubic spline to the input data and computes the derivative analytically from the spline. When false (default), uses finite differences.
+        Uses spline fitting on the input field to compute smooth derivatives
 
         Returns
         -------
@@ -252,8 +235,6 @@ class OutputsTimeDerivation(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
-
-        Time derivative field. Has the same time support and scoping as the input. Unit is (input unit / second).
 
         Returns
         -------

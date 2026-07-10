@@ -17,36 +17,23 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.field import Field
-    from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.scoping import Scoping
 
 
 class fft_eval(Operator):
-    r"""Reconstructs the time-domain signal from a complex FFT coefficients
-    container. For each complex coefficient at frequency :math:`f_k`,
-    evaluates the `inverse Fourier
-    series <https://en.wikipedia.org/wiki/Fourier_series>`__:
-
-    .. math:: f(t) = \sum_k \bigl(\mathrm{Re}[k]\,\cos(2\pi f_k t) + \mathrm{Im}[k]\,\sin(2\pi f_k t)\bigr)
-
-    The sum runs over all frequency set IDs in the input, or over the
-    scoping from pin 1 when provided. Only scalar fields (one component) are
-    supported.
+    r"""Evaluate the fast fourier transforms at a given set of fields.
 
 
     Inputs
     ------
-    fields_container: FieldsContainer
-        Complex FFT coefficients container, as produced by the `fft` operator. Must have a complex label and a frequency-valued time-frequency support.
-    time_scoping: Scoping, optional
-        Frequency scoping. When provided, only the selected frequency set IDs contribute to the reconstruction. When omitted, all set IDs are used.
     field_t: Field
-        Field of time values at which to evaluate the reconstructed signal. The output contains one entity per entry in this field.
+        field of values to evaluate
+    time_scoping: Scoping, optional
+        if specified only the results at these set ids are used
 
     Outputs
     -------
     field: Field
-        Reconstructed time-domain fields container. One output field per input label combination (excluding the complex label), each evaluated at the time values from pin 2.
     offset: Field
 
     Examples
@@ -57,18 +44,15 @@ class fft_eval(Operator):
     >>> op = dpf.operators.math.fft_eval()
 
     >>> # Make input connections
-    >>> my_fields_container = dpf.FieldsContainer()
-    >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_time_scoping = dpf.Scoping()
-    >>> op.inputs.time_scoping.connect(my_time_scoping)
     >>> my_field_t = dpf.Field()
     >>> op.inputs.field_t.connect(my_field_t)
+    >>> my_time_scoping = dpf.Scoping()
+    >>> op.inputs.time_scoping.connect(my_time_scoping)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.fft_eval(
-    ...     fields_container=my_fields_container,
-    ...     time_scoping=my_time_scoping,
     ...     field_t=my_field_t,
+    ...     time_scoping=my_time_scoping,
     ... )
 
     >>> # Get output data
@@ -76,14 +60,7 @@ class fft_eval(Operator):
     >>> result_offset = op.outputs.offset()
     """
 
-    def __init__(
-        self,
-        fields_container=None,
-        time_scoping=None,
-        field_t=None,
-        config=None,
-        server=None,
-    ):
+    def __init__(self, field_t=None, time_scoping=None, config=None, server=None):
         super().__init__(
             name="fft_eval",
             config=config,
@@ -91,46 +68,29 @@ class fft_eval(Operator):
             inputs_type=InputsFftEval,
             outputs_type=OutputsFftEval,
         )
-        if fields_container is not None:
-            self.inputs.fields_container.connect(fields_container)
-        if time_scoping is not None:
-            self.inputs.time_scoping.connect(time_scoping)
         if field_t is not None:
             self.inputs.field_t.connect(field_t)
+        if time_scoping is not None:
+            self.inputs.time_scoping.connect(time_scoping)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Reconstructs the time-domain signal from a complex FFT coefficients
-container. For each complex coefficient at frequency :math:`f_k`,
-evaluates the `inverse Fourier
-series <https://en.wikipedia.org/wiki/Fourier_series>`__:
-
-.. math:: f(t) = \sum_k \bigl(\mathrm{Re}[k]\,\cos(2\pi f_k t) + \mathrm{Im}[k]\,\sin(2\pi f_k t)\bigr)
-
-The sum runs over all frequency set IDs in the input, or over the
-scoping from pin 1 when provided. Only scalar fields (one component) are
-supported.
+        description = r"""Evaluate the fast fourier transforms at a given set of fields.
 """
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="fields_container",
-                    type_names=["fields_container"],
+                    name="field_t",
+                    type_names=["field"],
                     optional=False,
-                    document=r"""Complex FFT coefficients container, as produced by the `fft` operator. Must have a complex label and a frequency-valued time-frequency support.""",
+                    document=r"""field of values to evaluate""",
                 ),
                 1: PinSpecification(
                     name="time_scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document=r"""Frequency scoping. When provided, only the selected frequency set IDs contribute to the reconstruction. When omitted, all set IDs are used.""",
-                ),
-                2: PinSpecification(
-                    name="field_t",
-                    type_names=["field"],
-                    optional=False,
-                    document=r"""Field of time values at which to evaluate the reconstructed signal. The output contains one entity per entry in this field.""",
+                    document=r"""if specified only the results at these set ids are used""",
                 ),
             },
             map_output_pin_spec={
@@ -138,7 +98,7 @@ supported.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Reconstructed time-domain fields container. One output field per input label combination (excluding the complex label), each evaluated at the time values from pin 2.""",
+                    document=r"""""",
                 ),
                 2: PinSpecification(
                     name="offset",
@@ -202,74 +162,26 @@ class InputsFftEval(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.math.fft_eval()
-    >>> my_fields_container = dpf.FieldsContainer()
-    >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_time_scoping = dpf.Scoping()
-    >>> op.inputs.time_scoping.connect(my_time_scoping)
     >>> my_field_t = dpf.Field()
     >>> op.inputs.field_t.connect(my_field_t)
+    >>> my_time_scoping = dpf.Scoping()
+    >>> op.inputs.time_scoping.connect(my_time_scoping)
     """
 
     def __init__(self, op: Operator):
         super().__init__(fft_eval._spec().inputs, op)
-        self._fields_container: Input[FieldsContainer] = Input(
-            fft_eval._spec().input_pin(0), 0, op, -1
-        )
-        self._inputs.append(self._fields_container)
+        self._field_t: Input[Field] = Input(fft_eval._spec().input_pin(0), 0, op, -1)
+        self._inputs.append(self._field_t)
         self._time_scoping: Input[Scoping] = Input(
             fft_eval._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._time_scoping)
-        self._field_t: Input[Field] = Input(fft_eval._spec().input_pin(2), 2, op, -1)
-        self._inputs.append(self._field_t)
-
-    @property
-    def fields_container(self) -> Input[FieldsContainer]:
-        r"""Allows to connect fields_container input to the operator.
-
-        Complex FFT coefficients container, as produced by the `fft` operator. Must have a complex label and a frequency-valued time-frequency support.
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.math.fft_eval()
-        >>> op.inputs.fields_container.connect(my_fields_container)
-        >>> # or
-        >>> op.inputs.fields_container(my_fields_container)
-        """
-        return self._fields_container
-
-    @property
-    def time_scoping(self) -> Input[Scoping]:
-        r"""Allows to connect time_scoping input to the operator.
-
-        Frequency scoping. When provided, only the selected frequency set IDs contribute to the reconstruction. When omitted, all set IDs are used.
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.math.fft_eval()
-        >>> op.inputs.time_scoping.connect(my_time_scoping)
-        >>> # or
-        >>> op.inputs.time_scoping(my_time_scoping)
-        """
-        return self._time_scoping
 
     @property
     def field_t(self) -> Input[Field]:
         r"""Allows to connect field_t input to the operator.
 
-        Field of time values at which to evaluate the reconstructed signal. The output contains one entity per entry in this field.
+        field of values to evaluate
 
         Returns
         -------
@@ -285,6 +197,27 @@ class InputsFftEval(_Inputs):
         >>> op.inputs.field_t(my_field_t)
         """
         return self._field_t
+
+    @property
+    def time_scoping(self) -> Input[Scoping]:
+        r"""Allows to connect time_scoping input to the operator.
+
+        if specified only the results at these set ids are used
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.fft_eval()
+        >>> op.inputs.time_scoping.connect(my_time_scoping)
+        >>> # or
+        >>> op.inputs.time_scoping(my_time_scoping)
+        """
+        return self._time_scoping
 
 
 class OutputsFftEval(_Outputs):
@@ -310,8 +243,6 @@ class OutputsFftEval(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
-
-        Reconstructed time-domain fields container. One output field per input label combination (excluding the complex label), each evaluated at the time values from pin 2.
 
         Returns
         -------

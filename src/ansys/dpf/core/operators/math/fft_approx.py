@@ -22,44 +22,38 @@ if TYPE_CHECKING:
 
 
 class fft_approx(Operator):
-    r"""Computes a frequency-filtered smooth curve fitting using the `Fast
-    Fourier
-    Transform <https://en.wikipedia.org/wiki/Fast_Fourier_transform>`__ and
-    cubic spline interpolation, operating along the time axis for each
-    spatial entity. For each entity (node i), the time-series :math:`y(t)`
-    is fitted; the FFT filter removes frequency components above the cutoff
-    frequency (pin 7), and the cubic spline reconstructs the filtered signal
-    at the original time steps. First and second time derivatives of the
-    fitted curve are available at output pins 1 and 2.
+    r"""Computes the fitting curve using FFT filtering and cubic fitting in
+    space (node i: x=time, y=data), with the possibility to compute the
+    first and the second derivatives of the curve.
 
 
     Inputs
     ------
     time_scoping: Scoping, optional
-        Time scoping to select which time steps are used as input. When omitted, all time steps in the fields container are used.
+        A time scoping to rescope / split the fields container given as input.
     mesh_scoping: Scoping or ScopingsContainer, optional
-        Spatial scoping to restrict which entities are processed. When omitted, all entities in the fields container are processed.
+        A space (mesh entities) scoping (or scopings container) to rescope / split the fields container given as input.
     entity_to_fit: FieldsContainer
-        Time-varying fields container to fit. Nodal and elemental locations are supported (elemental-nodal inputs are averaged to elemental).
+        Data changing in time to be fitted.
     component_number: int
-        Zero-based index of the component to fit. For example, $0$ for the X-component, $1$ for Y, and so on. Required when the input has more than one component.
-    first_derivative: bool, optional
-        When true, computes the first time derivative of the fitted curve at output pin 1. Default is false.
-    second_derivative: bool, optional
-        When true, computes the second time derivative of the fitted curve at output pin 2. Default is false.
-    fit_data: bool, optional
-        When true, computes the fitted values at output pin 0. Default is false.
+        Component number as an integer, for example '0' for X-displacement, '1' for Y-displacement, and so on.
+    first_derivative: bool
+        Calculate the first derivative (bool). The default is false.
+    second_derivative: bool
+        Calculate the second derivative (bool). The default is false.
+    fit_data: bool
+        Calculate the fitted values (bool). The default is false
     cutoff_fr: float or int, optional
-        Cutoff frequency for the FFT filter. Harmonics above this frequency are removed before spline fitting. Default is $10$.
+        Cutoff frequency.
 
     Outputs
     -------
     fitted_entity_y: FieldsContainer
-        Fitted time-series fields container. Only produced when pin 6 is true. Same spatial and time layout as the input.
+        The fitted entity is fitted using FFT along the space scoping (node i: x=time, y=data). Fitted Y is expected to be close to the input data.
     first_der_dy: FieldsContainer
-        First time derivative $\mathrm{d}y/\mathrm{d}t$ of the fitted curve. Only produced when pin 4 is true. Same layout as pin 0.
+        The first derivative (dY) from the fitted Y.
     second_der_d2y: FieldsContainer
-        Second time derivative $\mathrm{d}^2y/\mathrm{d}t^2$ of the fitted curve. Only produced when pin 5 is true. Same layout as pin 0.
+        The second derivative (d2Y) from the fitted Y.
 
     Examples
     --------
@@ -143,15 +137,9 @@ class fft_approx(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes a frequency-filtered smooth curve fitting using the `Fast
-Fourier
-Transform <https://en.wikipedia.org/wiki/Fast_Fourier_transform>`__ and
-cubic spline interpolation, operating along the time axis for each
-spatial entity. For each entity (node i), the time-series :math:`y(t)`
-is fitted; the FFT filter removes frequency components above the cutoff
-frequency (pin 7), and the cubic spline reconstructs the filtered signal
-at the original time steps. First and second time derivatives of the
-fitted curve are available at output pins 1 and 2.
+        description = r"""Computes the fitting curve using FFT filtering and cubic fitting in
+space (node i: x=time, y=data), with the possibility to compute the
+first and the second derivatives of the curve.
 """
         spec = Specification(
             description=description,
@@ -160,49 +148,49 @@ fitted curve are available at output pins 1 and 2.
                     name="time_scoping",
                     type_names=["vector<int32>", "scoping"],
                     optional=True,
-                    document=r"""Time scoping to select which time steps are used as input. When omitted, all time steps in the fields container are used.""",
+                    document=r"""A time scoping to rescope / split the fields container given as input.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["umap<int32,int32>", "scoping", "scopings_container"],
                     optional=True,
-                    document=r"""Spatial scoping to restrict which entities are processed. When omitted, all entities in the fields container are processed.""",
+                    document=r"""A space (mesh entities) scoping (or scopings container) to rescope / split the fields container given as input.""",
                 ),
                 2: PinSpecification(
                     name="entity_to_fit",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Time-varying fields container to fit. Nodal and elemental locations are supported (elemental-nodal inputs are averaged to elemental).""",
+                    document=r"""Data changing in time to be fitted.""",
                 ),
                 3: PinSpecification(
                     name="component_number",
                     type_names=["int32"],
                     optional=False,
-                    document=r"""Zero-based index of the component to fit. For example, $0$ for the X-component, $1$ for Y, and so on. Required when the input has more than one component.""",
+                    document=r"""Component number as an integer, for example '0' for X-displacement, '1' for Y-displacement, and so on.""",
                 ),
                 4: PinSpecification(
                     name="first_derivative",
                     type_names=["bool"],
-                    optional=True,
-                    document=r"""When true, computes the first time derivative of the fitted curve at output pin 1. Default is false.""",
+                    optional=False,
+                    document=r"""Calculate the first derivative (bool). The default is false.""",
                 ),
                 5: PinSpecification(
                     name="second_derivative",
                     type_names=["bool"],
-                    optional=True,
-                    document=r"""When true, computes the second time derivative of the fitted curve at output pin 2. Default is false.""",
+                    optional=False,
+                    document=r"""Calculate the second derivative (bool). The default is false.""",
                 ),
                 6: PinSpecification(
                     name="fit_data",
                     type_names=["bool"],
-                    optional=True,
-                    document=r"""When true, computes the fitted values at output pin 0. Default is false.""",
+                    optional=False,
+                    document=r"""Calculate the fitted values (bool). The default is false""",
                 ),
                 7: PinSpecification(
                     name="cutoff_fr",
                     type_names=["double", "int32"],
                     optional=True,
-                    document=r"""Cutoff frequency for the FFT filter. Harmonics above this frequency are removed before spline fitting. Default is $10$.""",
+                    document=r"""Cutoff frequency.""",
                 ),
             },
             map_output_pin_spec={
@@ -210,19 +198,19 @@ fitted curve are available at output pins 1 and 2.
                     name="fitted_entity_y",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fitted time-series fields container. Only produced when pin 6 is true. Same spatial and time layout as the input.""",
+                    document=r"""The fitted entity is fitted using FFT along the space scoping (node i: x=time, y=data). Fitted Y is expected to be close to the input data.""",
                 ),
                 1: PinSpecification(
                     name="first_der_dy",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""First time derivative $\mathrm{d}y/\mathrm{d}t$ of the fitted curve. Only produced when pin 4 is true. Same layout as pin 0.""",
+                    document=r"""The first derivative (dY) from the fitted Y.""",
                 ),
                 2: PinSpecification(
                     name="second_der_d2y",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Second time derivative $\mathrm{d}^2y/\mathrm{d}t^2$ of the fitted curve. Only produced when pin 5 is true. Same layout as pin 0.""",
+                    document=r"""The second derivative (d2Y) from the fitted Y.""",
                 ),
             },
         )
@@ -335,7 +323,7 @@ class InputsFftApprox(_Inputs):
     def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
-        Time scoping to select which time steps are used as input. When omitted, all time steps in the fields container are used.
+        A time scoping to rescope / split the fields container given as input.
 
         Returns
         -------
@@ -356,7 +344,7 @@ class InputsFftApprox(_Inputs):
     def mesh_scoping(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect mesh_scoping input to the operator.
 
-        Spatial scoping to restrict which entities are processed. When omitted, all entities in the fields container are processed.
+        A space (mesh entities) scoping (or scopings container) to rescope / split the fields container given as input.
 
         Returns
         -------
@@ -377,7 +365,7 @@ class InputsFftApprox(_Inputs):
     def entity_to_fit(self) -> Input[FieldsContainer]:
         r"""Allows to connect entity_to_fit input to the operator.
 
-        Time-varying fields container to fit. Nodal and elemental locations are supported (elemental-nodal inputs are averaged to elemental).
+        Data changing in time to be fitted.
 
         Returns
         -------
@@ -398,7 +386,7 @@ class InputsFftApprox(_Inputs):
     def component_number(self) -> Input[int]:
         r"""Allows to connect component_number input to the operator.
 
-        Zero-based index of the component to fit. For example, $0$ for the X-component, $1$ for Y, and so on. Required when the input has more than one component.
+        Component number as an integer, for example '0' for X-displacement, '1' for Y-displacement, and so on.
 
         Returns
         -------
@@ -419,7 +407,7 @@ class InputsFftApprox(_Inputs):
     def first_derivative(self) -> Input[bool]:
         r"""Allows to connect first_derivative input to the operator.
 
-        When true, computes the first time derivative of the fitted curve at output pin 1. Default is false.
+        Calculate the first derivative (bool). The default is false.
 
         Returns
         -------
@@ -440,7 +428,7 @@ class InputsFftApprox(_Inputs):
     def second_derivative(self) -> Input[bool]:
         r"""Allows to connect second_derivative input to the operator.
 
-        When true, computes the second time derivative of the fitted curve at output pin 2. Default is false.
+        Calculate the second derivative (bool). The default is false.
 
         Returns
         -------
@@ -461,7 +449,7 @@ class InputsFftApprox(_Inputs):
     def fit_data(self) -> Input[bool]:
         r"""Allows to connect fit_data input to the operator.
 
-        When true, computes the fitted values at output pin 0. Default is false.
+        Calculate the fitted values (bool). The default is false
 
         Returns
         -------
@@ -482,7 +470,7 @@ class InputsFftApprox(_Inputs):
     def cutoff_fr(self) -> Input[float | int]:
         r"""Allows to connect cutoff_fr input to the operator.
 
-        Cutoff frequency for the FFT filter. Harmonics above this frequency are removed before spline fitting. Default is $10$.
+        Cutoff frequency.
 
         Returns
         -------
@@ -533,7 +521,7 @@ class OutputsFftApprox(_Outputs):
     def fitted_entity_y(self) -> Output[FieldsContainer]:
         r"""Allows to get fitted_entity_y output of the operator
 
-        Fitted time-series fields container. Only produced when pin 6 is true. Same spatial and time layout as the input.
+        The fitted entity is fitted using FFT along the space scoping (node i: x=time, y=data). Fitted Y is expected to be close to the input data.
 
         Returns
         -------
@@ -553,7 +541,7 @@ class OutputsFftApprox(_Outputs):
     def first_der_dy(self) -> Output[FieldsContainer]:
         r"""Allows to get first_der_dy output of the operator
 
-        First time derivative $\mathrm{d}y/\mathrm{d}t$ of the fitted curve. Only produced when pin 4 is true. Same layout as pin 0.
+        The first derivative (dY) from the fitted Y.
 
         Returns
         -------
@@ -573,7 +561,7 @@ class OutputsFftApprox(_Outputs):
     def second_der_d2y(self) -> Output[FieldsContainer]:
         r"""Allows to get second_der_d2y output of the operator
 
-        Second time derivative $\mathrm{d}^2y/\mathrm{d}t^2$ of the fitted curve. Only produced when pin 5 is true. Same layout as pin 0.
+        The second derivative (d2Y) from the fitted Y.
 
         Returns
         -------

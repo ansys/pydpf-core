@@ -216,10 +216,6 @@ class OperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def operator_getoutput_property_fields_container(op, iOutput):
-		raise NotImplementedError
-
-	@staticmethod
 	def operator_getoutput_custom_type_fields_container(op, iOutput):
 		raise NotImplementedError
 
