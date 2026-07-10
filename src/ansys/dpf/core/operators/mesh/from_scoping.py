@@ -38,6 +38,8 @@ class from_scoping(Operator):
     nodes_only: bool, optional
         returns mesh with nodes only (without any elements or property fields). Default is false.
     mesh: MeshedRegion
+    only_add_essential_properties: bool, optional
+        When true, includes only essential native property fields like connectivity and elype for FEM meshes; face_to_nodes_connectivity and faces_types for Face meshes; and connectivity, elype, face_to_nodes_connectivity, faces_types, elements_to_faces_connectivity and elements_faces_reversed for FVM meshes) while skipping materials, sections, and other custom properties. Default is false. Applicable for FEM, FVM & face meshes.
 
     Outputs
     -------
@@ -59,6 +61,8 @@ class from_scoping(Operator):
     >>> op.inputs.nodes_only.connect(my_nodes_only)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_only_add_essential_properties = bool()
+    >>> op.inputs.only_add_essential_properties.connect(my_only_add_essential_properties)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.from_scoping(
@@ -66,6 +70,7 @@ class from_scoping(Operator):
     ...     inclusive=my_inclusive,
     ...     nodes_only=my_nodes_only,
     ...     mesh=my_mesh,
+    ...     only_add_essential_properties=my_only_add_essential_properties,
     ... )
 
     >>> # Get output data
@@ -78,6 +83,7 @@ class from_scoping(Operator):
         inclusive=None,
         nodes_only=None,
         mesh=None,
+        only_add_essential_properties=None,
         config=None,
         server=None,
     ):
@@ -96,6 +102,10 @@ class from_scoping(Operator):
             self.inputs.nodes_only.connect(nodes_only)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
+        if only_add_essential_properties is not None:
+            self.inputs.only_add_essential_properties.connect(
+                only_add_essential_properties
+            )
 
     @staticmethod
     def _spec() -> Specification:
@@ -132,6 +142,12 @@ the rest of the property fields are not present in the output mesh.
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document=r"""""",
+                ),
+                205: PinSpecification(
+                    name="only_add_essential_properties",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""When true, includes only essential native property fields like connectivity and elype for FEM meshes; face_to_nodes_connectivity and faces_types for Face meshes; and connectivity, elype, face_to_nodes_connectivity, faces_types, elements_to_faces_connectivity and elements_faces_reversed for FVM meshes) while skipping materials, sections, and other custom properties. Default is false. Applicable for FEM, FVM & face meshes.""",
                 ),
             },
             map_output_pin_spec={
@@ -205,6 +221,8 @@ class InputsFromScoping(_Inputs):
     >>> op.inputs.nodes_only.connect(my_nodes_only)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_only_add_essential_properties = bool()
+    >>> op.inputs.only_add_essential_properties.connect(my_only_add_essential_properties)
     """
 
     def __init__(self, op: Operator):
@@ -225,6 +243,10 @@ class InputsFromScoping(_Inputs):
             from_scoping._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._mesh)
+        self._only_add_essential_properties: Input[bool] = Input(
+            from_scoping._spec().input_pin(205), 205, op, -1
+        )
+        self._inputs.append(self._only_add_essential_properties)
 
     @property
     def scoping(self) -> Input[Scoping]:
@@ -307,6 +329,27 @@ class InputsFromScoping(_Inputs):
         >>> op.inputs.mesh(my_mesh)
         """
         return self._mesh
+
+    @property
+    def only_add_essential_properties(self) -> Input[bool]:
+        r"""Allows to connect only_add_essential_properties input to the operator.
+
+        When true, includes only essential native property fields like connectivity and elype for FEM meshes; face_to_nodes_connectivity and faces_types for Face meshes; and connectivity, elype, face_to_nodes_connectivity, faces_types, elements_to_faces_connectivity and elements_faces_reversed for FVM meshes) while skipping materials, sections, and other custom properties. Default is false. Applicable for FEM, FVM & face meshes.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.from_scoping()
+        >>> op.inputs.only_add_essential_properties.connect(my_only_add_essential_properties)
+        >>> # or
+        >>> op.inputs.only_add_essential_properties(my_only_add_essential_properties)
+        """
+        return self._only_add_essential_properties
 
 
 class OutputsFromScoping(_Outputs):

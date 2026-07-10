@@ -35,7 +35,7 @@ class mapdl_split_on_facet_indices(Operator):
     Inputs
     ------
     fields_container: FieldsContainer
-        Fields container to split, with generic number of labels (e.g. time, zone, complex...), and the Fields of the FieldsContainer will have location Elemental and the Scoping Ids will be the Element Ids on the skin mesh.
+        Fields container to split, with generic number of labels (e.g. time, zone, complex...). Fields may have Elemental or ElementalNodal location; scoping ids are skin element ids.
     property_field_new_elements_to_old: PropertyField
         This property field provides, for each new face element ID (in the scoping), the corresponding 3D volume element index (in the data) it has been extracted from. The 3D volume element ID can be found with the element scoping of the input mesh.
     facet_indices: PropertyField
@@ -137,7 +137,7 @@ indices in the solid mesh.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container to split, with generic number of labels (e.g. time, zone, complex...), and the Fields of the FieldsContainer will have location Elemental and the Scoping Ids will be the Element Ids on the skin mesh.""",
+                    document=r"""Fields container to split, with generic number of labels (e.g. time, zone, complex...). Fields may have Elemental or ElementalNodal location; scoping ids are skin element ids.""",
                 ),
                 1: PinSpecification(
                     name="property_field_new_elements_to_old",
@@ -280,7 +280,7 @@ class InputsMapdlSplitOnFacetIndices(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
-        Fields container to split, with generic number of labels (e.g. time, zone, complex...), and the Fields of the FieldsContainer will have location Elemental and the Scoping Ids will be the Element Ids on the skin mesh.
+        Fields container to split, with generic number of labels (e.g. time, zone, complex...). Fields may have Elemental or ElementalNodal location; scoping ids are skin element ids.
 
         Returns
         -------
