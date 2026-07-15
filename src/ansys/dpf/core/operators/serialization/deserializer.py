@@ -26,8 +26,8 @@ class deserializer(Operator):
 
     Inputs
     ------
-    stream_type: int
-        0 for ASCII (default), and 1 for binary
+    stream_type: int, optional
+        0 for ASCII (default), and 1 for binary. If not provided, the type is auto-detected from the file.
     file_path: str
         file path
 
@@ -86,8 +86,8 @@ entities.
                 -1: PinSpecification(
                     name="stream_type",
                     type_names=["int32"],
-                    optional=False,
-                    document=r"""0 for ASCII (default), and 1 for binary""",
+                    optional=True,
+                    document=r"""0 for ASCII (default), and 1 for binary. If not provided, the type is auto-detected from the file.""",
                 ),
                 0: PinSpecification(
                     name="file_path",
@@ -186,7 +186,7 @@ class InputsDeserializer(_Inputs):
     def stream_type(self) -> Input[int]:
         r"""Allows to connect stream_type input to the operator.
 
-        0 for ASCII (default), and 1 for binary
+        0 for ASCII (default), and 1 for binary. If not provided, the type is auto-detected from the file.
 
         Returns
         -------
