@@ -52,7 +52,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: ansys/actions/code-style@d946b24b9a765f4169bcc94afdb27bd1a0533741 # v10.3.2
+      - uses: ansys/actions/code-style@84b6533ae76f5dde69a1df26c18682160a8121cf # v10.3.5
         with:
           use-python-cache: false
 
