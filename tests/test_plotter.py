@@ -259,7 +259,7 @@ def test_field_elemental_nodal_plot_multiple_solid_types():
     model = dpf.core.Model(examples.download_hemisphere())
     stress = model.results.stress()
     fc = stress.outputs.fields_container()
-    f = fc[1]
+    f = fc[0]
     f.plot()
 
 
@@ -431,7 +431,7 @@ def test_dpf_plotter_add_field_elemental_nodal_multiple_solids():
 
     field: core.Field = core.operators.result.stress(
         data_sources=core.DataSources(examples.download_hemisphere()),
-    ).eval()[1]
+    ).eval()[0]
     plt = DpfPlotter()
     plt.add_field(field=field)
     plt.show_figure()

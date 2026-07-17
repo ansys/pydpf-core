@@ -325,14 +325,16 @@ def test_id_indeces_mapping_on_elements_2(allkindofcomplexity, server_type):
     if server_meet_version("15.0", mesh._server):
         assert len(elements) == 10497
         assert mapping[23] == 31
+        assert mapping[4520] == 2172
     elif server_meet_version("9.0", mesh._server):
         assert len(elements) == 10294
         assert mapping[23] == 24
+        assert mapping[4520] == 2011
     else:
         assert len(elements) == 10292
         assert mapping[23] == 24
+        assert mapping[4520] == 2011
 
-    assert mapping[4520] == 2011
 
 
 def test_named_selection_mesh(allkindofcomplexity, server_type):
