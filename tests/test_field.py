@@ -511,8 +511,8 @@ def test_mesh_support_field_model(allkindofcomplexity):
     f = stress.outputs.fields_container()[0]
     mesh = f.meshed_region
     assert len(mesh.nodes.scoping) == 15129
-    if server_meet_version("15.0", model._server):
-        assert len(mesh.elements.scoping) == 10497 
+    if server_meet_version("2027.1.0pre0", model._server):
+        assert len(mesh.elements.scoping) == 10497
     elif server_meet_version("9.0", model._server):
         assert len(mesh.elements.scoping) == 10294
     else:
