@@ -322,7 +322,9 @@ def test_id_indeces_mapping_on_elements_2(allkindofcomplexity, server_type):
     mapping = mesh.elements.mapping_id_to_index
     elements = mesh.elements
     assert len(mapping) == len(elements)
-    if server_meet_version("9.0", mesh._server):
+    if server_meet_version("15.0", mesh._server):
+        assert len(elements) == 10497 
+    elif server_meet_version("9.0", mesh._server):
         assert len(elements) == 10294
     else:
         assert len(elements) == 10292

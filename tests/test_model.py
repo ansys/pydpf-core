@@ -218,7 +218,9 @@ def test_result_time_scoping(plate_msup):
 def test_result_split_subset(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     vol = model.results.elemental_volume
-    if server_meet_version("9.0", model._server):
+    if server_meet_version("15.0", model._server):
+        assert len(vol.split_by_body.eval()) == 14
+    elif server_meet_version("9.0", model._server):
         assert len(vol.split_by_body.eval()) == 13
     else:
         assert len(vol.split_by_body.eval()) == 11
