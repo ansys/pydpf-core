@@ -220,13 +220,13 @@ def test_result_split_subset(allkindofcomplexity):
     vol = model.results.elemental_volume
     if server_meet_version("15.0", model._server):
         assert len(vol.split_by_body.eval()) == 14
-    	assert len(vol.split_by_body.eval()[0].scoping) == 203
+        assert len(vol.split_by_body.eval()[0].scoping) == 203
     elif server_meet_version("9.0", model._server):
         assert len(vol.split_by_body.eval()) == 13
-    	assert len(vol.split_by_body.eval()[0].scoping) == 105
+        assert len(vol.split_by_body.eval()[0].scoping) == 105
     else:
         assert len(vol.split_by_body.eval()) == 11
-    	assert len(vol.split_by_body.eval()[0].scoping) == 105
+        assert len(vol.split_by_body.eval()[0].scoping) == 105
     assert len(vol.on_mesh_scoping([1, 2, 3, 10992]).split_by_body.eval()) == 2
     assert len(vol.eval()[0].scoping) == 3
     assert len(vol.eval()[1].scoping) == 1
