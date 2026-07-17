@@ -125,6 +125,8 @@ class Any:
             scoping,
             string_field,
             workflow,
+            meshed_region,
+            meshes_container
         )
 
         if issubclass(obj, int):
@@ -222,6 +224,16 @@ class Any:
             return (
                 self._api.any_new_from_cyclic_support,
                 self._api.any_get_as_cyclic_support,
+            )
+        elif issubclass(obj, meshed_region.MeshedRegion):
+            return (
+                self._api.any_new_from_meshed_region,
+                self._api.any_get_as_meshed_region,
+            )
+        elif issubclass(obj, meshes_container.MeshesContainer):
+            return (
+                self._api.any_new_from_meshes_container,
+                self._api.any_get_as_meshes_container,
             )
         elif issubclass(obj, Any):
             return (

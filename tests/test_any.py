@@ -169,3 +169,29 @@ def test_cast_fields_container_any(server_type):
     new_entity = any_dpf.cast()
 
     assert entity.name == new_entity.name
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="any does not support operator below 10.0",
+)
+def test_cast_meshed_region_any(server_type):
+    entity = dpf.MeshedRegion(server=server_type)
+    entity.unit = "mm"
+    any_dpf = dpf.Any.new_from(entity)
+    new_entity = any_dpf.cast()
+
+    assert entity.unit == new_entity.unit
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
+    reason="any does not support operator below 10.0",
+)
+def test_cast_meshes_container_any(server_type):
+    entity = dpf.MeshesContainer(server=server_type)
+    entity.add_label("idx")
+    entity.add_mesh({"idx": 0}, dpf.MeshedRegion(server=server_type))
+
+    any_dpf = dpf.Any.new_from(entity)
+    new_entity = any_dpf.cast()
+
+    assert entity.get_label_space(0) == new_entity.get_label_space(0)
