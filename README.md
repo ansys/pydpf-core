@@ -19,14 +19,7 @@ apps for both data input and data output, including visualization and
 result plots. It can access data from solver result files and other neutral
 formats, such as CSV, HDF5, and VTK files.
 
-The latest version of DPF supports Ansys solver results files for:
-
-- Mechanical APDL (`.rst`, `.mode`, `.rfrq`, `.rdsp`, `.rth`)
-- LS-DYNA (`.d3plot`, `.binout`)
-- Fluent (`.cas/dat.h5`, `.flprj`)
-- CFX (`.cas/dat.cff`, `.flprj`, `.res`)
-
-For more information on file support, see the [main page](https://dpf.docs.pyansys.com/version/stable/index.html)
+For information on file support, see the [main page](https://dpf.docs.pyansys.com/version/stable/index.html)
 in the PyDPF-Core documentation.
 
 Using the many DPF operators that are available, you can manipulate and
