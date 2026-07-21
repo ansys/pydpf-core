@@ -187,7 +187,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
 
     @staticmethod
     def any_get_as_meshed_region(any):
-        return AnyGRPCAPI._get_as(any).meshed_region
+        return AnyGRPCAPI._get_as(any).mesh
     @staticmethod
     def any_get_as_meshes_container(any):
         return AnyGRPCAPI._get_as(any).meshes_container
