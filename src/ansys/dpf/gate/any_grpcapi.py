@@ -64,7 +64,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (generic_support.GenericSupport, base_pb2.Type.GENERIC_SUPPORT),
                 (cyclic_support.CyclicSupport, base_pb2.Type.CYCLIC_SUPPORT),
                 (meshed_region.MeshedRegion, base_pb2.Type.MESHED_REGION),
-                (meshes_container.MeshesContainer, base_pb2.Type.MESHES_CONTAINER),
+                (meshes_container.MeshesContainer, base_pb2.Type.COLLECTION, base_pb2.Type.MESHED_REGION),
                 (scoping.Scoping, base_pb2.Type.SCOPING),
                 (data_tree.DataTree, base_pb2.Type.DATA_TREE),
                 (workflow.Workflow, base_pb2.Type.WORKFLOW),
