@@ -35,8 +35,6 @@ from .forward_fields_container import forward_fields_container
 from .forward_meshes_container import forward_meshes_container
 from .get_active_operators import get_active_operators
 from .get_operators import get_operators
-from .get_workflow_step_index_current_memory import get_workflow_step_index_current_memory
-from .get_workflow_step_index_operator_statuses import get_workflow_step_index_operator_statuses
 from .hdf5dpf_workglow_provider import hdf5dpf_workglow_provider
 from .html_doc import html_doc
 from .incremental_concatenate_as_fc import incremental_concatenate_as_fc
