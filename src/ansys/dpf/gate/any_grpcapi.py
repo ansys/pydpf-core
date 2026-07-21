@@ -44,6 +44,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
             meshes_container,
             string_field,
             scoping,
+            scopings_container,
             data_tree,
             custom_type_field,
             collection_base,
@@ -66,6 +67,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (meshed_region.MeshedRegion, base_pb2.Type.MESHED_REGION),
                 (meshes_container.MeshesContainer, base_pb2.Type.COLLECTION, base_pb2.Type.MESHED_REGION),
                 (scoping.Scoping, base_pb2.Type.SCOPING),
+                (scopings_container.ScopingsContainer, base_pb2.Type.COLLECTION.SCOPING),
                 (data_tree.DataTree, base_pb2.Type.DATA_TREE),
                 (workflow.Workflow, base_pb2.Type.WORKFLOW),
                 (collection_base.CollectionBase, base_pb2.Type.COLLECTION, base_pb2.Type.ANY),
@@ -146,6 +148,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def any_get_as_scoping(any):
         return AnyGRPCAPI._get_as(any).scoping
+
+    @staticmethod
+    def any_get_as_scopings_container(any):
+        return AnyGRPCAPI._get_as(any).scopings_container
 
     @staticmethod
     def any_get_as_data_sources(any):
@@ -266,6 +272,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
 
     @staticmethod
     def any_new_from_scoping(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
+    def any_new_from_scopings_container(any):
         return AnyGRPCAPI._new_from(any, any._server)
 
     @staticmethod

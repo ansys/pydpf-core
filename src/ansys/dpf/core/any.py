@@ -125,6 +125,7 @@ class Any:
             meshes_container,
             property_field,
             scoping,
+            scopings_container,
             string_field,
             workflow,
         )
@@ -179,6 +180,11 @@ class Any:
             return (
                 self._api.any_new_from_scoping,
                 self._api.any_get_as_scoping,
+            )
+        elif issubclass(obj, scopings_container.ScopingsContainer):
+            return (
+                self._api.any_new_from_scopings_container,
+                self._api.any_get_as_scopings_container,
             )
         elif issubclass(obj, data_tree.DataTree):
             return (
