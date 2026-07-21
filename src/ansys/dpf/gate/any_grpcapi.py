@@ -40,6 +40,8 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
             data_sources,
             generic_data_container,
             generic_support,
+            meshed_region,
+            meshes_container,
             string_field,
             scoping,
             data_tree,
@@ -61,6 +63,8 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (generic_data_container.GenericDataContainer, base_pb2.Type.GENERIC_DATA_CONTAINER),
                 (generic_support.GenericSupport, base_pb2.Type.GENERIC_SUPPORT),
                 (cyclic_support.CyclicSupport, base_pb2.Type.CYCLIC_SUPPORT),
+                (meshed_region.MeshedRegion, base_pb2.Type.MESHED_REGION),
+                (meshes_container.MeshesContainer, base_pb2.Type.MESHES_CONTAINER),
                 (scoping.Scoping, base_pb2.Type.SCOPING),
                 (data_tree.DataTree, base_pb2.Type.DATA_TREE),
                 (workflow.Workflow, base_pb2.Type.WORKFLOW),
@@ -176,6 +180,13 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         return AnyGRPCAPI._get_as(any).cyc_support
 
     @staticmethod
+    def any_get_as_meshed_region(any):
+        return AnyGRPCAPI._get_as(any).meshed_region
+    @staticmethod
+    def any_get_as_meshes_container(any):
+        return AnyGRPCAPI._get_as(any).meshes_container
+
+    @staticmethod
     def _new_from(any, client=None):
         from ansys.grpc.dpf import dpf_any_pb2
         request = dpf_any_pb2.CreateRequest()
@@ -280,3 +291,12 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def any_new_from_cyclic_support(any):
         return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
+    def any_new_from_meshed_region(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
+    def any_new_from_meshes_container(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
