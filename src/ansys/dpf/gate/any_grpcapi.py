@@ -151,7 +151,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
 
     @staticmethod
     def any_get_as_scopings_container(any):
-        return AnyGRPCAPI._get_as(any).scopings_container
+        return AnyGRPCAPI._get_as(any).collection
 
     @staticmethod
     def any_get_as_data_sources(any):
