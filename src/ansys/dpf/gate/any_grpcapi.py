@@ -67,7 +67,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (meshed_region.MeshedRegion, base_pb2.Type.MESHED_REGION),
                 (meshes_container.MeshesContainer, base_pb2.Type.COLLECTION, base_pb2.Type.MESHED_REGION),
                 (scoping.Scoping, base_pb2.Type.SCOPING),
-                (scopings_container.ScopingsContainer, base_pb2.Type.COLLECTION.SCOPING),
+                (scopings_container.ScopingsContainer, base_pb2.Type.COLLECTION, base_pb2.Type.SCOPING),
                 (data_tree.DataTree, base_pb2.Type.DATA_TREE),
                 (workflow.Workflow, base_pb2.Type.WORKFLOW),
                 (collection_base.CollectionBase, base_pb2.Type.COLLECTION, base_pb2.Type.ANY),
