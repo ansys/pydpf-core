@@ -122,7 +122,6 @@ class Any:
             generic_data_container,
             generic_support,
             meshed_region,
-            meshes_container,
             property_field,
             scoping,
             string_field,
@@ -229,11 +228,6 @@ class Any:
             return (
                 self._api.any_new_from_meshed_region,
                 self._api.any_get_as_meshed_region,
-            )
-        elif issubclass(obj, meshes_container.MeshesContainer):
-            return (
-                self._api.any_new_from_meshes_container,
-                self._api.any_get_as_meshes_container,
             )
         elif issubclass(obj, Any):
             return (
