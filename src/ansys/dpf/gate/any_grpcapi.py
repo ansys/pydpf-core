@@ -190,7 +190,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         return AnyGRPCAPI._get_as(any).mesh
     @staticmethod
     def any_get_as_meshes_container(any):
-        return AnyGRPCAPI._get_as(any).meshes_container
+        return AnyGRPCAPI._get_as(any).collection
 
     @staticmethod
     def _new_from(any, client=None):
