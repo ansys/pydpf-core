@@ -106,17 +106,6 @@ class TestServerConfigs:
         # print(dpf.core.SERVER_CONFIGURATION)
         start_local_server(timeout=20)
         assert has_local_server()
-
-        import ctypes.util
-        import ctypes
-        # Try both names
-        for name in ["hdf5-parallel-2.1.0", "hdf5-serial-2.1.0", "hdf5", "libhdf5"]:
-            try:
-                h = ctypes.WinDLL(name)
-                print(f"Loaded: {name} -> {ctypes.util.find_library(name)}")
-            except OSError:
-                pass
-
         shutdown_all_session_servers()
 
     def test_server_env_path_cleanup(self, server_config):
