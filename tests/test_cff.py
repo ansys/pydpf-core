@@ -29,6 +29,10 @@ import conftest
 def test_cff_model(server_type, fluent_multi_species):
     import ctypes.util
     import ctypes
+
+    ds = fluent_multi_species(server_type)
+    model = dpf.Model(ds, server=server_type)
+
     # Try both names
     for name in ["hdf5-parallel-2.1.0", "hdf5-serial-2.1.0", "hdf5", "libhdf5"]:
         try:
@@ -37,8 +41,6 @@ def test_cff_model(server_type, fluent_multi_species):
         except:
             pass
 
-    ds = fluent_multi_species(server_type)
-    model = dpf.Model(ds, server=server_type)
     assert "Fluid" in str(model)
     assert model is not None
     mesh = model.metadata.meshed_region
