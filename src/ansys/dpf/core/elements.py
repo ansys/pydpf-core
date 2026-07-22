@@ -531,7 +531,7 @@ class Elements:
         >>> elements = model.metadata.meshed_region.elements
         >>> field = elements.element_types_field
         >>> print(field.data)
-        [ 1  1  1  ...
+        [1  1  1  ...
 
         """
         return self._mesh.field_of_properties(elemental_properties.element_type)
