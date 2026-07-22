@@ -326,7 +326,7 @@ jobs:
       #      export DPF_DEFAULT_GRPC_MODE=insecure
       #      tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-service,kill-servers
 
-      - name: "Run compatible tests in parallel"
+      - name: "Run cff tests"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
@@ -337,7 +337,7 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox run-parallel --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -m ciparalleltests
+            tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-cff,kill-servers
 
       - name: "Combine coverage results"
         shell: bash
