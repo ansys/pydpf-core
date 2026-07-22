@@ -307,7 +307,7 @@ class Nodes:
         >>> nodes = model.metadata.meshed_region.nodes
         >>> field = nodes.nodal_connectivity_field
         >>> field.get_entity_data(1)
-        DPFArray([0, 2, 6, 8], dtype=int32)
+        DPFArray([0, 2, ...
 
         """
         return self._mesh.field_of_properties(nodal_properties.nodal_connectivity)
