@@ -337,7 +337,7 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results2.xml tests/test_cff
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results2.xml tests/test_cff.py
 
       - name: "Combine coverage results"
         shell: bash
