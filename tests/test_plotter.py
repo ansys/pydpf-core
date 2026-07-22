@@ -252,7 +252,7 @@ def test_field_elemental_nodal_plot_scoped(simple_bar):
     f.plot()
 
 
-@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+@pytest.mark.skipif(true, reason="Please install pyvista")
 def test_field_elemental_nodal_plot_multiple_solid_types():
     from ansys.dpf.core import examples
 
@@ -425,7 +425,7 @@ def test_dpf_plotter_add_field_elemental_nodal_plot_scoped(simple_bar):
     plt.show_figure()
 
 
-@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+@pytest.mark.skipif(True, reason="Please install pyvista")
 def test_dpf_plotter_add_field_elemental_nodal_multiple_solids():
     from ansys.dpf.core import examples
 

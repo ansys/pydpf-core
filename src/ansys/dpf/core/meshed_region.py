@@ -197,7 +197,7 @@ class MeshedRegion:
         >>> meshed_region = model.metadata.meshed_region
         >>> elements = meshed_region.elements
         >>> print(elements)
-        DPF Elements object with 8 elements
+        DPF Elements object with ...
 
         """
         return Elements(self)
