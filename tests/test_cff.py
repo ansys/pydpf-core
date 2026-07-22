@@ -37,7 +37,7 @@ def test_cff_model(server_type, fluent_multi_species):
     for name in ["hdf5-parallel-2.1.0", "hdf5-serial-2.1.0", "hdf5", "libhdf5"]:
         try:
             h = ctypes.WinDLL(name)
-            print(f"Loaded: {name} -> {ctypes.util.find_library(name)}")
+            assert name in "this_is_my_string"
         except:
             pass
 
