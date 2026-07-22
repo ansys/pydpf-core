@@ -132,7 +132,7 @@ class zstd_compress_fc(Operator):
                 ),
                 1: PinSpecification(
                     name="output_bytes_size",
-                    type_names=["int32"],
+                    type_names=["uint64"],
                     optional=False,
                     document=r"""Total size of the compressed data in bytes (sum of the sizes in the vector of output pin 1).""",
                 ),
