@@ -28,6 +28,10 @@ class CollectionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def collection_of_uint64_new():
+		raise NotImplementedError
+
+	@staticmethod
 	def collection_get_data_as_int(collection, size):
 		raise NotImplementedError
 
@@ -37,6 +41,10 @@ class CollectionAbstractAPI:
 
 	@staticmethod
 	def collection_get_data_as_char(collection, size):
+		raise NotImplementedError
+
+	@staticmethod
+	def collection_get_data_as_uint64(collection, size):
 		raise NotImplementedError
 
 	@staticmethod
@@ -52,6 +60,10 @@ class CollectionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def collection_add_uint64_entry(collection, obj):
+		raise NotImplementedError
+
+	@staticmethod
 	def collection_set_int_entry(collection, index, obj):
 		raise NotImplementedError
 
@@ -61,6 +73,10 @@ class CollectionAbstractAPI:
 
 	@staticmethod
 	def collection_set_string_entry(collection, index, obj):
+		raise NotImplementedError
+
+	@staticmethod
+	def collection_set_uint64_entry(collection, index, obj):
 		raise NotImplementedError
 
 	@staticmethod
@@ -76,6 +92,10 @@ class CollectionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def collection_get_uint64_entry(collection, index):
+		raise NotImplementedError
+
+	@staticmethod
 	def collection_set_data_as_int(collection, data, size):
 		raise NotImplementedError
 
@@ -84,11 +104,19 @@ class CollectionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def collection_set_data_as_uint64(collection, data, size):
+		raise NotImplementedError
+
+	@staticmethod
 	def collection_get_data_as_int_for_dpf_vector(collection, out, data, size):
 		raise NotImplementedError
 
 	@staticmethod
 	def collection_get_data_as_double_for_dpf_vector(collection, out, data, size):
+		raise NotImplementedError
+
+	@staticmethod
+	def collection_get_data_as_uint64_for_dpf_vector(collection, out, data, size):
 		raise NotImplementedError
 
 	@staticmethod
@@ -285,5 +313,9 @@ class CollectionAbstractAPI:
 
 	@staticmethod
 	def collection_of_string_new_local(client):
+		raise NotImplementedError
+
+	@staticmethod
+	def collection_of_uint64_new_on_client(client):
 		raise NotImplementedError
 

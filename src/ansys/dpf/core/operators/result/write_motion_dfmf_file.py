@@ -52,6 +52,12 @@ class write_motion_dfmf_file(Operator):
     dfmffile_path: str
         path with motion dfmf extension where the export occurs
     rstfile_path: str
+    output_node_type: int, optional
+        defines the output node type (0: all nodes, 1: use wireframe, 2: used wireframe + edge decimation, default: 0)
+    wireframe_threshold_scale: float, optional
+        defines the threshold scale for wireframe (default: 2.0)
+    edge_decimation_angular_limit_in_radian: float, optional
+        defines the angular limit in radian for edge decimation (default: 1.0)
 
     Outputs
     -------
@@ -104,6 +110,12 @@ class write_motion_dfmf_file(Operator):
     >>> op.inputs.dfmffile_path.connect(my_dfmffile_path)
     >>> my_rstfile_path = str()
     >>> op.inputs.rstfile_path.connect(my_rstfile_path)
+    >>> my_output_node_type = int()
+    >>> op.inputs.output_node_type.connect(my_output_node_type)
+    >>> my_wireframe_threshold_scale = float()
+    >>> op.inputs.wireframe_threshold_scale.connect(my_wireframe_threshold_scale)
+    >>> my_edge_decimation_angular_limit_in_radian = float()
+    >>> op.inputs.edge_decimation_angular_limit_in_radian.connect(my_edge_decimation_angular_limit_in_radian)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.write_motion_dfmf_file(
@@ -126,6 +138,9 @@ class write_motion_dfmf_file(Operator):
     ...     invrt_8=my_invrt_8,
     ...     dfmffile_path=my_dfmffile_path,
     ...     rstfile_path=my_rstfile_path,
+    ...     output_node_type=my_output_node_type,
+    ...     wireframe_threshold_scale=my_wireframe_threshold_scale,
+    ...     edge_decimation_angular_limit_in_radian=my_edge_decimation_angular_limit_in_radian,
     ... )
 
     >>> # Get output data
@@ -153,6 +168,9 @@ class write_motion_dfmf_file(Operator):
         invrt_8=None,
         dfmffile_path=None,
         rstfile_path=None,
+        output_node_type=None,
+        wireframe_threshold_scale=None,
+        edge_decimation_angular_limit_in_radian=None,
         config=None,
         server=None,
     ):
@@ -201,6 +219,14 @@ class write_motion_dfmf_file(Operator):
             self.inputs.dfmffile_path.connect(dfmffile_path)
         if rstfile_path is not None:
             self.inputs.rstfile_path.connect(rstfile_path)
+        if output_node_type is not None:
+            self.inputs.output_node_type.connect(output_node_type)
+        if wireframe_threshold_scale is not None:
+            self.inputs.wireframe_threshold_scale.connect(wireframe_threshold_scale)
+        if edge_decimation_angular_limit_in_radian is not None:
+            self.inputs.edge_decimation_angular_limit_in_radian.connect(
+                edge_decimation_angular_limit_in_radian
+            )
 
     @staticmethod
     def _spec() -> Specification:
@@ -323,6 +349,24 @@ class write_motion_dfmf_file(Operator):
                     optional=False,
                     document=r"""""",
                 ),
+                19: PinSpecification(
+                    name="output_node_type",
+                    type_names=["int32"],
+                    optional=True,
+                    document=r"""defines the output node type (0: all nodes, 1: use wireframe, 2: used wireframe + edge decimation, default: 0)""",
+                ),
+                20: PinSpecification(
+                    name="wireframe_threshold_scale",
+                    type_names=["double"],
+                    optional=True,
+                    document=r"""defines the threshold scale for wireframe (default: 2.0)""",
+                ),
+                21: PinSpecification(
+                    name="edge_decimation_angular_limit_in_radian",
+                    type_names=["double"],
+                    optional=True,
+                    document=r"""defines the angular limit in radian for edge decimation (default: 1.0)""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -425,6 +469,12 @@ class InputsWriteMotionDfmfFile(_Inputs):
     >>> op.inputs.dfmffile_path.connect(my_dfmffile_path)
     >>> my_rstfile_path = str()
     >>> op.inputs.rstfile_path.connect(my_rstfile_path)
+    >>> my_output_node_type = int()
+    >>> op.inputs.output_node_type.connect(my_output_node_type)
+    >>> my_wireframe_threshold_scale = float()
+    >>> op.inputs.wireframe_threshold_scale.connect(my_wireframe_threshold_scale)
+    >>> my_edge_decimation_angular_limit_in_radian = float()
+    >>> op.inputs.edge_decimation_angular_limit_in_radian.connect(my_edge_decimation_angular_limit_in_radian)
     """
 
     def __init__(self, op: Operator):
@@ -503,6 +553,18 @@ class InputsWriteMotionDfmfFile(_Inputs):
             write_motion_dfmf_file._spec().input_pin(18), 18, op, -1
         )
         self._inputs.append(self._rstfile_path)
+        self._output_node_type: Input[int] = Input(
+            write_motion_dfmf_file._spec().input_pin(19), 19, op, -1
+        )
+        self._inputs.append(self._output_node_type)
+        self._wireframe_threshold_scale: Input[float] = Input(
+            write_motion_dfmf_file._spec().input_pin(20), 20, op, -1
+        )
+        self._inputs.append(self._wireframe_threshold_scale)
+        self._edge_decimation_angular_limit_in_radian: Input[float] = Input(
+            write_motion_dfmf_file._spec().input_pin(21), 21, op, -1
+        )
+        self._inputs.append(self._edge_decimation_angular_limit_in_radian)
 
     @property
     def model_data(self) -> Input[PropertyField]:
@@ -874,6 +936,69 @@ class InputsWriteMotionDfmfFile(_Inputs):
         >>> op.inputs.rstfile_path(my_rstfile_path)
         """
         return self._rstfile_path
+
+    @property
+    def output_node_type(self) -> Input[int]:
+        r"""Allows to connect output_node_type input to the operator.
+
+        defines the output node type (0: all nodes, 1: use wireframe, 2: used wireframe + edge decimation, default: 0)
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.write_motion_dfmf_file()
+        >>> op.inputs.output_node_type.connect(my_output_node_type)
+        >>> # or
+        >>> op.inputs.output_node_type(my_output_node_type)
+        """
+        return self._output_node_type
+
+    @property
+    def wireframe_threshold_scale(self) -> Input[float]:
+        r"""Allows to connect wireframe_threshold_scale input to the operator.
+
+        defines the threshold scale for wireframe (default: 2.0)
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.write_motion_dfmf_file()
+        >>> op.inputs.wireframe_threshold_scale.connect(my_wireframe_threshold_scale)
+        >>> # or
+        >>> op.inputs.wireframe_threshold_scale(my_wireframe_threshold_scale)
+        """
+        return self._wireframe_threshold_scale
+
+    @property
+    def edge_decimation_angular_limit_in_radian(self) -> Input[float]:
+        r"""Allows to connect edge_decimation_angular_limit_in_radian input to the operator.
+
+        defines the angular limit in radian for edge decimation (default: 1.0)
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.write_motion_dfmf_file()
+        >>> op.inputs.edge_decimation_angular_limit_in_radian.connect(my_edge_decimation_angular_limit_in_radian)
+        >>> # or
+        >>> op.inputs.edge_decimation_angular_limit_in_radian(my_edge_decimation_angular_limit_in_radian)
+        """
+        return self._edge_decimation_angular_limit_in_radian
 
 
 class OutputsWriteMotionDfmfFile(_Outputs):

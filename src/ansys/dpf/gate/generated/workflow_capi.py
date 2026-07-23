@@ -451,6 +451,15 @@ class WorkflowCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 		return res
 
 	@staticmethod
+	def work_flow_connect_uint(wf, pin_name, value):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.WorkFlow_connect_uint(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), utils.to_uint64(value), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def work_flow_connect_string(wf, pin_name, value):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -617,6 +626,15 @@ class WorkflowCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.WorkFlow_connect_vector_double(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), utils.to_double_ptr(ptrValue), utils.to_int32(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def work_flow_connect_vector_uint(wf, pin_name, ptrValue, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.WorkFlow_connect_vector_uint(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), utils.to_uint64_ptr(ptrValue), utils.to_int32(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -838,6 +856,15 @@ class WorkflowCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 		return res
 
 	@staticmethod
+	def work_flow_getoutput_uint_collection(wf, pin_name):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.WorkFlow_getoutput_UIntCollection(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def work_flow_getoutput_operator(wf, pin_name):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -947,6 +974,15 @@ class WorkflowCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.WorkFlow_getoutput_bool(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def work_flow_getoutput_uint(wf, pin_name):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.WorkFlow_getoutput_uint(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
