@@ -125,6 +125,9 @@ install = [
   "psutil==7.2.2",
   "tqdm==4.68.3"
 ]
+operator_doc = [
+  "jinja2==3.1.6"
+]
 
 [project.urls]
 Homepage = "https://dpf.docs.pyansys.com/"
