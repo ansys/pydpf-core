@@ -473,6 +473,24 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		return res
 
 	@staticmethod
+	def external_operator_get_in_uint64(operator_data, pin_index):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_getInUInt64(operator_data, utils.to_int32(pin_index), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_put_out_uint64(operator_data, pin_index, data):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_putOutUInt64(operator_data, utils.to_int32(pin_index), utils.to_uint64(data), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def external_operator_get_in_double(operator_data, pin_index):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -491,19 +509,19 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		return res
 
 	@staticmethod
-	def external_operator_get_in_long_long(operator_data, pin_index):
+	def external_operator_get_in_int64(operator_data, pin_index):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
-		res = capi.dll.ExternalOperator_getInLongLong(operator_data, utils.to_int32(pin_index), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		res = capi.dll.ExternalOperator_getInInt64(operator_data, utils.to_int32(pin_index), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
 
 	@staticmethod
-	def external_operator_put_out_long_long(operator_data, pin_index, data):
+	def external_operator_put_out_int64(operator_data, pin_index, data):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
-		res = capi.dll.ExternalOperator_putOutLongLong(operator_data, utils.to_int32(pin_index), utils.to_uint64(data), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		res = capi.dll.ExternalOperator_putOutInt64(operator_data, utils.to_int32(pin_index), utils.to_int64(data), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -562,6 +580,24 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.ExternalOperator_putOutVecint(operator_data, utils.to_int32(pin_index), utils.to_int32_ptr(data), utils.to_int32(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_get_in_vec_uint64(operator_data, pin_index, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_getInVecUInt64(operator_data, utils.to_int32(pin_index), utils.to_int32_ptr(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_put_out_vec_uint64(operator_data, pin_index, data, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_putOutVecUInt64(operator_data, utils.to_int32(pin_index), utils.to_uint64_ptr(data), utils.to_int32(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
