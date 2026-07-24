@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`OutputsRealConstantsProvider`
+=====================================
+
+
+.. py:class:: ansys.dpf.core.operators.metadata.real_constants_provider.OutputsRealConstantsProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   real_constants_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.real_constants_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_real_constants = op.outputs.real_constants()
+
+
+
+
+
+.. py:currentmodule:: OutputsRealConstantsProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~real_constants`
+            - Allows to get real_constants output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.real_constants_provider import OutputsRealConstantsProvider
+
+Property detail
+---------------
+
+.. py:property:: real_constants
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.field.Field]
+
+
+   Allows to get real_constants output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.real_constants_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_real_constants = op.outputs.real_constants()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

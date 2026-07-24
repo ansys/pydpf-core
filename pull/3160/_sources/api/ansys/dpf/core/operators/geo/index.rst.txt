@@ -1,0 +1,154 @@
+
+
+
+
+
+
+The ``geo`` package
+=======================
+
+.. py:module:: ansys.dpf.core.operators.geo
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: geo
+.. tab-set::
+
+
+    .. tab-item:: Submodules
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.cartesian_to_spherical`
+            - cartesian_to_spherical
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.cartesian_to_spherical_fc`
+            - cartesian_to_spherical_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.element_nodal_contribution`
+            - element_nodal_contribution
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time`
+            - elements_facets_surfaces_over_time
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.elements_volume`
+            - elements_volume
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.elements_volumes_over_time`
+            - elements_volumes_over_time
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.faces_area`
+            - faces_area
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.gauss_to_node`
+            - gauss_to_node
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.integrate_over_elements`
+            - integrate_over_elements
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.normals`
+            - normals
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.normals_provider_nl`
+            - normals_provider_nl
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.rotate`
+            - rotate
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.rotate_fc`
+            - rotate_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs`
+            - rotate_in_cylindrical_cs
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc`
+            - rotate_in_cylindrical_cs_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.spherical_to_cartesian`
+            - spherical_to_cartesian
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.spherical_to_cartesian_fc`
+            - spherical_to_cartesian_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo.to_polar_coordinates`
+            - to_polar_coordinates
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-fa-file"></span> cartesian_to_spherical</api/ansys/dpf/core/operators/geo/cartesian_to_spherical/index>
+    <span class="nf nf-fa-file"></span> cartesian_to_spherical_fc</api/ansys/dpf/core/operators/geo/cartesian_to_spherical_fc/index>
+    <span class="nf nf-fa-file"></span> element_nodal_contribution</api/ansys/dpf/core/operators/geo/element_nodal_contribution/index>
+    <span class="nf nf-fa-file"></span> elements_facets_surfaces_over_time</api/ansys/dpf/core/operators/geo/elements_facets_surfaces_over_time/index>
+    <span class="nf nf-fa-file"></span> elements_volume</api/ansys/dpf/core/operators/geo/elements_volume/index>
+    <span class="nf nf-fa-file"></span> elements_volumes_over_time</api/ansys/dpf/core/operators/geo/elements_volumes_over_time/index>
+    <span class="nf nf-fa-file"></span> faces_area</api/ansys/dpf/core/operators/geo/faces_area/index>
+    <span class="nf nf-fa-file"></span> gauss_to_node</api/ansys/dpf/core/operators/geo/gauss_to_node/index>
+    <span class="nf nf-fa-file"></span> integrate_over_elements</api/ansys/dpf/core/operators/geo/integrate_over_elements/index>
+    <span class="nf nf-fa-file"></span> normals</api/ansys/dpf/core/operators/geo/normals/index>
+    <span class="nf nf-fa-file"></span> normals_provider_nl</api/ansys/dpf/core/operators/geo/normals_provider_nl/index>
+    <span class="nf nf-fa-file"></span> rotate</api/ansys/dpf/core/operators/geo/rotate/index>
+    <span class="nf nf-fa-file"></span> rotate_fc</api/ansys/dpf/core/operators/geo/rotate_fc/index>
+    <span class="nf nf-fa-file"></span> rotate_in_cylindrical_cs</api/ansys/dpf/core/operators/geo/rotate_in_cylindrical_cs/index>
+    <span class="nf nf-fa-file"></span> rotate_in_cylindrical_cs_fc</api/ansys/dpf/core/operators/geo/rotate_in_cylindrical_cs_fc/index>
+    <span class="nf nf-fa-file"></span> spherical_to_cartesian</api/ansys/dpf/core/operators/geo/spherical_to_cartesian/index>
+    <span class="nf nf-fa-file"></span> spherical_to_cartesian_fc</api/ansys/dpf/core/operators/geo/spherical_to_cartesian_fc/index>
+    <span class="nf nf-fa-file"></span> to_polar_coordinates</api/ansys/dpf/core/operators/geo/to_polar_coordinates/index>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

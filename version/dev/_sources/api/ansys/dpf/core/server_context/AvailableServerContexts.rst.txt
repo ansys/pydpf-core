@@ -1,0 +1,84 @@
+
+
+
+
+
+
+:class:`AvailableServerContexts`
+================================
+
+
+.. py:class:: ansys.dpf.core.server_context.AvailableServerContexts
+
+   Defines available server contexts.
+
+
+
+.. py:currentmodule:: AvailableServerContexts
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~no_context`
+            - 
+          * - :py:attr:`~pre_defined_environment`
+            - DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will
+          * - :py:attr:`~premium`
+            - Gets the Specific premium DataProcessingCore.xml to load most plugins with their
+          * - :py:attr:`~custom_defined`
+            - Loads the xml named "DpfCustomDefined.xml" that the user can modify.
+          * - :py:attr:`~entry`
+            - Loads the minimum number of plugins for a basic usage. Is the default.
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.server_context import AvailableServerContexts
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: no_context
+
+.. py:attribute:: pre_defined_environment
+
+   DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will
+   be taken
+
+.. py:attribute:: premium
+
+   Gets the Specific premium DataProcessingCore.xml to load most plugins with their
+   environments.
+
+.. py:attribute:: custom_defined
+
+   Loads the xml named "DpfCustomDefined.xml" that the user can modify.
+
+.. py:attribute:: entry
+
+   Loads the minimum number of plugins for a basic usage. Is the default.
+
+
+
+
+

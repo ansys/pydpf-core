@@ -1,0 +1,216 @@
+
+
+
+
+
+
+:class:`InputsFilteringMaxOverTime`
+===================================
+
+.. py:class:: ansys.dpf.core.operators.filter.filtering_max_over_time.InputsFilteringMaxOverTime(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   filtering_max_over_time operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.filtering_max_over_time()
+   >>> my_invariant_fc_operator = str()
+   >>> op.inputs.invariant_fc_operator.connect(my_invariant_fc_operator)
+   >>> my_output_pin = int()
+   >>> op.inputs.output_pin.connect(my_output_pin)
+   >>> my_list_of_results = str()
+   >>> op.inputs.list_of_results.connect(my_list_of_results)
+   >>> my_threshold = float()
+   >>> op.inputs.threshold.connect(my_threshold)
+
+
+
+
+
+
+.. py:currentmodule:: InputsFilteringMaxOverTime
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~invariant_fc_operator`
+            - Allows to connect invariant_fc_operator input to the operator.
+          * - :py:attr:`~output_pin`
+            - Allows to connect output_pin input to the operator.
+          * - :py:attr:`~list_of_results`
+            - Allows to connect list_of_results input to the operator.
+          * - :py:attr:`~threshold`
+            - Allows to connect threshold input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.filter.filtering_max_over_time import InputsFilteringMaxOverTime
+
+Property detail
+---------------
+
+.. py:property:: invariant_fc_operator
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect invariant_fc_operator input to the operator.
+
+   Name of the invariant operator to be used to calculate filter (available: eqv_fc, invariants_deriv_fc, invariants_fc).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.filtering_max_over_time()
+   >>> op.inputs.invariant_fc_operator.connect(my_invariant_fc_operator)
+   >>> # or
+   >>> op.inputs.invariant_fc_operator(my_invariant_fc_operator)
+
+.. py:property:: output_pin
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect output_pin input to the operator.
+
+   Output pin of the invariant operator. Default = 0.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.filtering_max_over_time()
+   >>> op.inputs.output_pin.connect(my_output_pin)
+   >>> # or
+   >>> op.inputs.output_pin(my_output_pin)
+
+.. py:property:: list_of_results
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect list_of_results input to the operator.
+
+   If no result is given, filter will be applied on Stresses and Strains
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.filtering_max_over_time()
+   >>> op.inputs.list_of_results.connect(my_list_of_results)
+   >>> # or
+   >>> op.inputs.list_of_results(my_list_of_results)
+
+.. py:property:: threshold
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect threshold input to the operator.
+
+   Threshold from which the operator will filter.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.filtering_max_over_time()
+   >>> op.inputs.threshold.connect(my_threshold)
+   >>> # or
+   >>> op.inputs.threshold(my_threshold)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

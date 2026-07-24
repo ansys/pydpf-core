@@ -1,0 +1,141 @@
+
+
+
+
+
+
+:class:`LabelSpace`
+===================
+
+
+.. py:class:: ansys.dpf.core.label_space.LabelSpace(label_space: dict[str, int] | LabelSpace | None = None, obj: object | None = None, server: ansys.dpf.core.server.AnyServerType | None = None)
+
+   A class representing a label space, which allows storage and management of key-value pairs (labels).
+
+
+
+
+
+
+
+.. py:currentmodule:: LabelSpace
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fill`
+            - Fill the label space with the provided dictionary of labels.
+
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Return a string representation of the LabelSpace instance with keys ordered.
+          * - :py:attr:`~__iter__`
+            - Iterate over the labels in the label space, yielding (key, value) pairs.
+          * - :py:attr:`~__dict__`
+            - Return a dictionary representation of the LabelSpace instance with keys ordered.
+          * - :py:attr:`~__del__`
+            - Destructor for cleaning up the label space resources.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.label_space import LabelSpace
+
+
+
+Method detail
+-------------
+
+.. py:method:: fill(label_space: dict[str, int]) -> None
+
+   Fill the label space with the provided dictionary of labels.
+
+   :param label_space: A dictionary where keys are labels (str) and values are indices (int) to be added to the label space.
+   :type label_space: dict
+
+   .. rubric:: Examples
+
+   >>> label_space = LabelSpace()
+   >>> label_space.fill({"time": 1, "node": 42})
+   >>> print(label_space)
+   {'node': 42, 'time': 1}
+
+
+.. py:method:: __str__() -> str
+
+   Return a string representation of the LabelSpace instance with keys ordered.
+
+   :returns: A string representation of the label space, formatted as a dictionary with sorted keys.
+   :rtype: str
+
+   .. rubric:: Examples
+
+   >>> label_space = LabelSpace(label_space={"time": 1, "node": 42})
+   >>> print(label_space)
+   {'node': 42, 'time': 1}
+
+
+.. py:method:: __iter__() -> collections.abc.Generator[tuple[str, int], None, None]
+
+   Iterate over the labels in the label space, yielding (key, value) pairs.
+
+   :Yields: *tuple* -- A tuple of (key, value) for each label in the label space.
+
+   .. rubric:: Examples
+
+   >>> label_space = LabelSpace(label_space={"time": 1, "node": 42})
+   >>> for key, value in sorted(label_space):
+   ...     print(key, value)
+   node 42
+   time 1
+
+
+.. py:method:: __dict__() -> dict[str, int]
+
+   Return a dictionary representation of the LabelSpace instance with keys ordered.
+
+   :returns: A dictionary where keys are label names (str) and values are label indices (int).
+   :rtype: dict
+
+   .. rubric:: Examples
+
+   >>> label_space = LabelSpace(label_space={"time": 1, "node": 42})
+   >>> d = label_space.__dict__()
+   >>> print(d)
+   {'node': 42, 'time': 1}
+
+
+.. py:method:: __del__() -> None
+
+   Destructor for cleaning up the label space resources.
+
+   :rtype: None
+
+
+
+
+

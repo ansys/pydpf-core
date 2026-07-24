@@ -1,0 +1,265 @@
+
+
+
+
+
+
+:class:`InputsOnCoordinates`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.mapping.on_coordinates.InputsOnCoordinates(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   on_coordinates operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_coordinates = dpf.Field()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> my_create_support = bool()
+   >>> op.inputs.create_support.connect(my_create_support)
+   >>> my_mapping_on_scoping = bool()
+   >>> op.inputs.mapping_on_scoping.connect(my_mapping_on_scoping)
+   >>> my_tolerance = float()
+   >>> op.inputs.tolerance.connect(my_tolerance)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_use_quadratic_elements = bool()
+   >>> op.inputs.use_quadratic_elements.connect(my_use_quadratic_elements)
+
+
+
+
+
+
+.. py:currentmodule:: InputsOnCoordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~coordinates`
+            - Allows to connect coordinates input to the operator.
+          * - :py:attr:`~create_support`
+            - Allows to connect create_support input to the operator.
+          * - :py:attr:`~mapping_on_scoping`
+            - Allows to connect mapping_on_scoping input to the operator.
+          * - :py:attr:`~tolerance`
+            - Allows to connect tolerance input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~use_quadratic_elements`
+            - Allows to connect use_quadratic_elements input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.on_coordinates import InputsOnCoordinates
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect fields_container input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: coordinates
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.fields_container.FieldsContainer | ansys.dpf.core.meshed_region.MeshedRegion | ansys.dpf.core.meshes_container.MeshesContainer]
+
+
+   Allows to connect coordinates input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> # or
+   >>> op.inputs.coordinates(my_coordinates)
+
+.. py:property:: create_support
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect create_support input to the operator.
+
+   if this pin is set to true, then, a support associated to the fields consisting of points is created
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.create_support.connect(my_create_support)
+   >>> # or
+   >>> op.inputs.create_support(my_create_support)
+
+.. py:property:: mapping_on_scoping
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect mapping_on_scoping input to the operator.
+
+   if this pin is set to true, then the mapping between the coordinates and the fields is created only on the first field scoping
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.mapping_on_scoping.connect(my_mapping_on_scoping)
+   >>> # or
+   >>> op.inputs.mapping_on_scoping(my_mapping_on_scoping)
+
+.. py:property:: tolerance
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect tolerance input to the operator.
+
+   Tolerance used in the iterative algorithm to locate coordinates inside the mesh. Default value: 5e-5.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.tolerance.connect(my_tolerance)
+   >>> # or
+   >>> op.inputs.tolerance(my_tolerance)
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.meshed_region.MeshedRegion | ansys.dpf.core.meshes_container.MeshesContainer]
+
+
+   Allows to connect mesh input to the operator.
+
+   if the first field in input has no mesh in support, then the mesh in this pin is expected (default is false), if a meshes container with several meshes is set, it should be on the same label spaces as the coordinates fields container
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: use_quadratic_elements
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect use_quadratic_elements input to the operator.
+
+   If this pin is set to true, the element search for each coordinate is computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.use_quadratic_elements.connect(my_use_quadratic_elements)
+   >>> # or
+   >>> op.inputs.use_quadratic_elements(my_use_quadratic_elements)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

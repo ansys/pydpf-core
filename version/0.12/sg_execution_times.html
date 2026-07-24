@@ -1,0 +1,944 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Computation times &#8212; PyDPF-Core</title>
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="_static/css\ansys_sphinx_theme.css?v=3ea42de1" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ed0b7eb7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+ 
+<link href="_static/css/breadcrumbs.css" rel="stylesheet" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=1c405622"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js\table.js?v=b64f5182"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'sg_execution_times';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.14.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.12';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="icon" href="_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="canonical" href="https://dpf.docs.pyansys.com/version/stable/sg_execution_times.html" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container"><!-- Debugging: html_theme_options =  -->
+ 
+<!-- Include the MeiliSearch CSS stylesheet only if theme present -->
+<link href="_static/css/meilisearch.css" rel="stylesheet" />
+
+<!-- Create a search bar form with a text input and a dropdown selector for the search index -->
+<form
+  class="bd-search d-flex align-items-center"
+  action="search.html"
+  method="get"
+>
+  <i class="fa fa-search" aria-hidden="true" id="search-icon"></i>
+  <input
+    type="search"
+    placeholder="Search"
+    class="form-control"
+    id="search-bar-input"
+    autofocus
+  />
+  <span class="search-button__kbd-shortcut"
+    ><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span
+  >
+  <style>
+    .bd-search .search-button__kbd-shortcut {
+      right: 33%;
+    }
+  </style>
+  
+  <select id="indexUidSelector" class="index-select">
+    
+    <option value="pydpf-core-v0-12">PyDPF-Core</option>
+    
+  </select>
+  
+  <!-- Include the MeiliSearch JavaScript library for the search bar -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+
+    
+  <script>
+    var HOST_URL = "https://backend.search.pyansys.com/";
+    var API_KEY = "9fbccc76c147935ce2b562a9ee0c6669276987572dc1f22491cea72e9e99f35d";
+    var indexUid = "pydpf-core-v0-12";
+  </script>
+
+  <script src="_static/js/meilisearch_theme_wrap.js"></script>
+</form>
+</div>
+  </div>
+   
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <script>document.write(`<img src="_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="PyDPF-Core - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links-2">
+                    More
+                </button>
+                <ul id="pst-nav-more-links-2" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page">Computation times</li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="computation-times">
+<span id="sphx-glr-sg-execution-times"></span><h1>Computation times<a class="headerlink" href="#computation-times" title="Permalink to this heading">#</a></h1>
+<p><strong>06:03.109</strong> total execution time for 63 files <strong>from all galleries</strong>:</p>
+<div class="docutils container">
+<style scoped>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+</style>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script type="text/javascript" class="init">
+$(document).ready( function () {
+    $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+} );
+</script><table class="table table-striped sg-datatable">
+<thead>
+<tr class="row-odd"><th class="head"><p>Example</p></th>
+<th class="head"><p>Time</p></th>
+<th class="head"><p>Mem (MB)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/08-python-operators/02-python_operators_with_dependencies.html#sphx-glr-examples-08-python-operators-02-python-operators-with-dependencies-py"><span class="std std-ref">Create a plug-in package that has third-party dependencies</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\08-python-operators\02-python_operators_with_dependencies.py</span></code>)</p></td>
+<td><p>00:46.667</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/02-modal_analyses/01-plot_and_animate_modes.html#sphx-glr-examples-02-modal-analyses-01-plot-and-animate-modes-py"><span class="std std-ref">Plot and animate mode shapes with DPF</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\02-modal_analyses\01-plot_and_animate_modes.py</span></code>)</p></td>
+<td><p>00:25.549</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/06-plotting/06-animate_results.html#sphx-glr-examples-06-plotting-06-animate-results-py"><span class="std std-ref">Review of available animation commands</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\06-plotting\06-animate_results.py</span></code>)</p></td>
+<td><p>00:12.726</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/09-averaging/01-average_across_bodies.html#sphx-glr-examples-09-averaging-01-average-across-bodies-py"><span class="std std-ref">Average across bodies</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\09-averaging\01-average_across_bodies.py</span></code>)</p></td>
+<td><p>00:12.420</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/06-plotting/00-basic_plotting.html#sphx-glr-examples-06-plotting-00-basic-plotting-py"><span class="std std-ref">Review of available plotting commands</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\06-plotting\00-basic_plotting.py</span></code>)</p></td>
+<td><p>00:12.340</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/03-harmonic_analyses/01-modal_superposition.html#sphx-glr-examples-03-harmonic-analyses-01-modal-superposition-py"><span class="std std-ref">Expand harmonic modal superposition with DPF</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\03-harmonic_analyses\01-modal_superposition.py</span></code>)</p></td>
+<td><p>00:10.255</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/04-advanced/03-exchange_data_between_servers.html#sphx-glr-examples-04-advanced-03-exchange-data-between-servers-py"><span class="std std-ref">Exchange data between servers</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\04-advanced\03-exchange_data_between_servers.py</span></code>)</p></td>
+<td><p>00:09.725</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/05-file-IO/02-hdf5_serialize_and_read.html#sphx-glr-examples-05-file-io-02-hdf5-serialize-and-read-py"><span class="std std-ref">HDF5 export and import operations</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\05-file-IO\02-hdf5_serialize_and_read.py</span></code>)</p></td>
+<td><p>00:09.663</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/06-plotting/05-plot_on_warped_mesh.html#sphx-glr-examples-06-plotting-05-plot-on-warped-mesh-py"><span class="std std-ref">Warp the mesh by a field for plotting</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\06-plotting\05-plot_on_warped_mesh.py</span></code>)</p></td>
+<td><p>00:09.565</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/04-advanced/13-manage_licensing.html#sphx-glr-examples-04-advanced-13-manage-licensing-py"><span class="std std-ref">Manage the DPF licensing logic using the server context</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\04-advanced\13-manage_licensing.py</span></code>)</p></td>
+<td><p>00:09.400</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/07-distributed-post/02-distributed-msup_expansion.html#sphx-glr-examples-07-distributed-post-02-distributed-msup-expansion-py"><span class="std std-ref">Distributed mode superposition (MSUP)</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\07-distributed-post\02-distributed-msup_expansion.py</span></code>)</p></td>
+<td><p>00:08.993</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/05-file-IO/04-basic-load-file.html#sphx-glr-examples-05-file-io-04-basic-load-file-py"><span class="std std-ref">Working with a result file</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\05-file-IO\04-basic-load-file.py</span></code>)</p></td>
+<td><p>00:08.957</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/14-lsdyna/00-lsdyna_operators.html#sphx-glr-examples-14-lsdyna-00-lsdyna-operators-py"><span class="std std-ref">Results extraction and analysis from LS-DYNA sources</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\14-lsdyna\00-lsdyna_operators.py</span></code>)</p></td>
+<td><p>00:08.847</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/13-streamlines/00_plot_3d_streamlines.html#sphx-glr-examples-13-streamlines-00-plot-3d-streamlines-py"><span class="std std-ref">Compute and plot 3D streamlines</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\13-streamlines\00_plot_3d_streamlines.py</span></code>)</p></td>
+<td><p>00:08.377</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/04-advanced/12-read_distributed_files.html#sphx-glr-examples-04-advanced-12-read-distributed-files-py"><span class="std std-ref">Read results from distributed files</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\04-advanced\12-read_distributed_files.py</span></code>)</p></td>
+<td><p>00:08.208</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/12-fluids/02-fluids_results.html#sphx-glr-examples-12-fluids-02-fluids-results-py"><span class="std std-ref">Explore Fluids results</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\12-fluids\02-fluids_results.py</span></code>)</p></td>
+<td><p>00:08.131</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/07-distributed-post/03-distributed-msup_expansion_steps.html#sphx-glr-examples-07-distributed-post-03-distributed-msup-expansion-steps-py"><span class="std std-ref">Distributed MSUP distributed modal response</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\07-distributed-post\03-distributed-msup_expansion_steps.py</span></code>)</p></td>
+<td><p>00:07.931</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/00-basic/09-results_over_space_subset.html#sphx-glr-examples-00-basic-09-results-over-space-subset-py"><span class="std std-ref">Scope results over custom space domains</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\00-basic\09-results_over_space_subset.py</span></code>)</p></td>
+<td><p>00:07.534</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/00-basic/00-basic_example.html#sphx-glr-examples-00-basic-00-basic-example-py"><span class="std std-ref">Basic DPF-Core usage</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\00-basic\00-basic_example.py</span></code>)</p></td>
+<td><p>00:07.504</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/04-advanced/05-extrapolation_strain_2d.html#sphx-glr-examples-04-advanced-05-extrapolation-strain-2d-py"><span class="std std-ref">Extrapolation method for strain result of a 2D element</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\04-advanced\05-extrapolation_strain_2d.py</span></code>)</p></td>
+<td><p>00:07.130</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/02-modal_analyses/00-compare_modes.html#sphx-glr-examples-02-modal-analyses-00-compare-modes-py"><span class="std std-ref">Use Result Helpers to compare mode shapes for solids and then shells</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\02-modal_analyses\00-compare_modes.py</span></code>)</p></td>
+<td><p>00:06.889</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/04-advanced/04-extrapolation_stress_3d.html#sphx-glr-examples-04-advanced-04-extrapolation-stress-3d-py"><span class="std std-ref">Extrapolation method for stress result of a 3D element</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\04-advanced\04-extrapolation_stress_3d.py</span></code>)</p></td>
+<td><p>00:06.690</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/03-harmonic_analyses/00-multi_harmonic.html#sphx-glr-examples-03-harmonic-analyses-00-multi-harmonic-py"><span class="std std-ref">Multi-harmonic response example</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\03-harmonic_analyses\00-multi_harmonic.py</span></code>)</p></td>
+<td><p>00:06.175</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/10-mesh_operations/13-nodes_in_local_coordinate_system.html#sphx-glr-examples-10-mesh-operations-13-nodes-in-local-coordinate-system-py"><span class="std std-ref">Convert nodal coordinates field to local coordinate system</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\10-mesh_operations\13-nodes_in_local_coordinate_system.py</span></code>)</p></td>
+<td><p>00:06.102</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/08-python-operators/00-wrapping_numpy_capabilities.html#sphx-glr-examples-08-python-operators-00-wrapping-numpy-capabilities-py"><span class="std std-ref">Create a basic operator plugin</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\08-python-operators\00-wrapping_numpy_capabilities.py</span></code>)</p></td>
+<td><p>00:05.864</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/08-python-operators/01-package_python_operators.html#sphx-glr-examples-08-python-operators-01-package-python-operators-py"><span class="std std-ref">Create a plug-in package with multiple operators</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\08-python-operators\01-package_python_operators.py</span></code>)</p></td>
+<td><p>00:05.675</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/04-advanced/02-volume_averaged_stress.html#sphx-glr-examples-04-advanced-02-volume-averaged-stress-py"><span class="std std-ref">Average elemental stress on a given volume</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\04-advanced\02-volume_averaged_stress.py</span></code>)</p></td>
+<td><p>00:05.377</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/11-cyclic-symmetry/02-modal_cyclic_no_expansion.html#sphx-glr-examples-11-cyclic-symmetry-02-modal-cyclic-no-expansion-py"><span class="std std-ref">Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\11-cyclic-symmetry\02-modal_cyclic_no_expansion.py</span></code>)</p></td>
+<td><p>00:05.347</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/04-advanced/06-stress_gradient_path.html#sphx-glr-examples-04-advanced-06-stress-gradient-path-py"><span class="std std-ref">Stress gradient normal to a defined node</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\04-advanced\06-stress_gradient_path.py</span></code>)</p></td>
+<td><p>00:05.285</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/00-basic/03-create_entities.html#sphx-glr-examples-00-basic-03-create-entities-py"><span class="std std-ref">Create your own entities using DPF operators</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\00-basic\03-create_entities.py</span></code>)</p></td>
+<td><p>00:05.268</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/07-distributed-post/01-distributed_workflows_on_remote.html#sphx-glr-examples-07-distributed-post-01-distributed-workflows-on-remote-py"><span class="std std-ref">Create a custom workflow on distributed processes</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\07-distributed-post\01-distributed_workflows_on_remote.py</span></code>)</p></td>
+<td><p>00:05.143</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/12-fluids/01-fluids_mesh.html#sphx-glr-examples-12-fluids-01-fluids-mesh-py"><span class="std std-ref">Explore Fluids mesh</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\12-fluids\01-fluids_mesh.py</span></code>)</p></td>
+<td><p>00:05.127</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/06-plotting/07-plot_on_geometries.html#sphx-glr-examples-06-plotting-07-plot-on-geometries-py"><span class="std std-ref">Plot on geometry elements</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\06-plotting\07-plot_on_geometries.py</span></code>)</p></td>
+<td><p>00:04.581</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/00-basic/07-use_result_helpers.html#sphx-glr-examples-00-basic-07-use-result-helpers-py"><span class="std std-ref">Use result helpers to load custom data</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\00-basic\07-use_result_helpers.py</span></code>)</p></td>
+<td><p>00:04.441</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/07-distributed-post/00-distributed_total_disp.html#sphx-glr-examples-07-distributed-post-00-distributed-total-disp-py"><span class="std std-ref">Postprocessing of displacement on distributed processes</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\07-distributed-post\00-distributed_total_disp.py</span></code>)</p></td>
+<td><p>00:04.439</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/05-file-IO/01-reduced_matrices_export.html#sphx-glr-examples-05-file-io-01-reduced-matrices-export-py"><span class="std std-ref">Get reduced matrices and make export</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\05-file-IO\01-reduced_matrices_export.py</span></code>)</p></td>
+<td><p>00:04.086</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/12-fluids/00-fluids_model.html#sphx-glr-examples-12-fluids-00-fluids-model-py"><span class="std std-ref">Explore Fluids models</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\12-fluids\00-fluids_model.py</span></code>)</p></td>
+<td><p>00:04.050</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/12-fluids/03-fluids_isosurface.html#sphx-glr-examples-12-fluids-03-fluids-isosurface-py"><span class="std std-ref">Compute iso-surfaces on fluid models</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\12-fluids\03-fluids_isosurface.py</span></code>)</p></td>
+<td><p>00:03.971</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/04-advanced/14-incremental_evaluation.html#sphx-glr-examples-04-advanced-14-incremental-evaluation-py"><span class="std std-ref">Use incremental evaluation helper</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\04-advanced\14-incremental_evaluation.py</span></code>)</p></td>
+<td><p>00:03.861</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/00-basic/05-use_local_data.html#sphx-glr-examples-00-basic-05-use-local-data-py"><span class="std std-ref">Bring a field’s data locally to improve performance</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\00-basic\05-use_local_data.py</span></code>)</p></td>
+<td><p>00:03.391</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/10-mesh_operations/05-skin_extraction.html#sphx-glr-examples-10-mesh-operations-05-skin-extraction-py"><span class="std std-ref">Extract the skin from a mesh</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\10-mesh_operations\05-skin_extraction.py</span></code>)</p></td>
+<td><p>00:03.316</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/13-streamlines/01_plot_surface_streamlines.html#sphx-glr-examples-13-streamlines-01-plot-surface-streamlines-py"><span class="std std-ref">Compute and plot 2D streamlines</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\13-streamlines\01_plot_surface_streamlines.py</span></code>)</p></td>
+<td><p>00:02.436</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/11-cyclic-symmetry/03-cyclic_multi_stage.html#sphx-glr-examples-11-cyclic-symmetry-03-cyclic-multi-stage-py"><span class="std std-ref">Multi-stage cyclic symmetry example</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\11-cyclic-symmetry\03-cyclic_multi_stage.py</span></code>)</p></td>
+<td><p>00:01.657</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/04-advanced/11-cycles_to_failure.html#sphx-glr-examples-04-advanced-11-cycles-to-failure-py"><span class="std std-ref">Calculate the number of cycles to fatigue failure</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\04-advanced\11-cycles_to_failure.py</span></code>)</p></td>
+<td><p>00:01.626</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/11-cyclic-symmetry/01-modal_cyclic.html#sphx-glr-examples-11-cyclic-symmetry-01-modal-cyclic-py"><span class="std std-ref">Expand mesh and results for modal cyclic symmetry</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\11-cyclic-symmetry\01-modal_cyclic.py</span></code>)</p></td>
+<td><p>00:01.594</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/04-advanced/00-multistage_advanced_options.html#sphx-glr-examples-04-advanced-00-multistage-advanced-options-py"><span class="std std-ref">Multi-stage cyclic symmetry using advanced customization</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\04-advanced\00-multistage_advanced_options.py</span></code>)</p></td>
+<td><p>00:01.516</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/06-plotting/03-labels.html#sphx-glr-examples-06-plotting-03-labels-py"><span class="std std-ref">Add nodal labels on plots</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\06-plotting\03-labels.py</span></code>)</p></td>
+<td><p>00:01.313</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/09-averaging/00-compute_and_average.html#sphx-glr-examples-09-averaging-00-compute-and-average-py"><span class="std std-ref">Averaging order</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\09-averaging\00-compute_and_average.py</span></code>)</p></td>
+<td><p>00:01.235</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/04-advanced/10-asme_secviii_divtwo.html#sphx-glr-examples-04-advanced-10-asme-secviii-divtwo-py"><span class="std std-ref">Pressure vessel analysis according to an ASME standard</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\04-advanced\10-asme_secviii_divtwo.py</span></code>)</p></td>
+<td><p>00:01.063</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/06-plotting/04-plot_on_path.html#sphx-glr-examples-06-plotting-04-plot-on-path-py"><span class="std std-ref">Plot results on a specific path</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\06-plotting\04-plot_on_path.py</span></code>)</p></td>
+<td><p>00:00.922</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/00-basic/01-basic_operators.html#sphx-glr-examples-00-basic-01-basic-operators-py"><span class="std std-ref">Operators overview</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\00-basic\01-basic_operators.py</span></code>)</p></td>
+<td><p>00:00.906</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/06-plotting/01-compare_results.html#sphx-glr-examples-06-plotting-01-compare-results-py"><span class="std std-ref">Compare results using the plotter</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\06-plotting\01-compare_results.py</span></code>)</p></td>
+<td><p>00:00.688</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/06-plotting/02-solution_combination.html#sphx-glr-examples-06-plotting-02-solution-combination-py"><span class="std std-ref">Load case combination for principal stress</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\06-plotting\02-solution_combination.py</span></code>)</p></td>
+<td><p>00:00.672</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/10-mesh_operations/00-create_polygons_and_polyhedrons.html#sphx-glr-examples-10-mesh-operations-00-create-polygons-and-polyhedrons-py"><span class="std std-ref">Create and display a mesh with polygon and polyhedron elements</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\10-mesh_operations\00-create_polygons_and_polyhedrons.py</span></code>)</p></td>
+<td><p>00:00.642</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/00-basic/08-results_over_time_subset.html#sphx-glr-examples-00-basic-08-results-over-time-subset-py"><span class="std std-ref">Scope results over custom time domains</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\00-basic\08-results_over_time_subset.py</span></code>)</p></td>
+<td><p>00:00.516</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/01-transient_analyses/00-basic_transient.html#sphx-glr-examples-01-transient-analyses-00-basic-transient-py"><span class="std std-ref">Transient analysis result example</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\01-transient_analyses\00-basic_transient.py</span></code>)</p></td>
+<td><p>00:00.500</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/01-transient_analyses/01-transient_easy_time_scoping.html#sphx-glr-examples-01-transient-analyses-01-transient-easy-time-scoping-py"><span class="std std-ref">Choose a time scoping for a transient analysis</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\01-transient_analyses\01-transient_easy_time_scoping.py</span></code>)</p></td>
+<td><p>00:00.387</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/04-advanced/01-solve_harmonic_problem.html#sphx-glr-examples-04-advanced-01-solve-harmonic-problem-py"><span class="std std-ref">Solve harmonic problem (with damping) using matrix inverse</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\04-advanced\01-solve_harmonic_problem.py</span></code>)</p></td>
+<td><p>00:00.172</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/05-file-IO/00-hdf5_double_float_comparison.html#sphx-glr-examples-05-file-io-00-hdf5-double-float-comparison-py"><span class="std std-ref">HDF5 export and compare precision</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\05-file-IO\00-hdf5_double_float_comparison.py</span></code>)</p></td>
+<td><p>00:00.172</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/00-basic/02-basic_field_containers.html#sphx-glr-examples-00-basic-02-basic-field-containers-py"><span class="std std-ref">Field and field containers overview</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\00-basic\02-basic_field_containers.py</span></code>)</p></td>
+<td><p>00:00.047</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/00-basic/10-math_operations.html#sphx-glr-examples-00-basic-10-math-operations-py"><span class="std std-ref">Mathematical Operations</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\00-basic\10-math_operations.py</span></code>)</p></td>
+<td><p>00:00.031</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="examples/00-basic/12-get_material_properties.html#sphx-glr-examples-00-basic-12-get-material-properties-py"><span class="std std-ref">Get material properties from the result file</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\00-basic\12-get_material_properties.py</span></code>)</p></td>
+<td><p>00:00.016</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="examples/04-advanced/07-load_plugin.html#sphx-glr-examples-04-advanced-07-load-plugin-py"><span class="std std-ref">Load plugin</span></a> (<code class="docutils literal notranslate"><span class="pre">..\..\examples\04-advanced\07-load_plugin.py</span></code>)</p></td>
+<td><p>00:00.000</p></td>
+<td><p>0.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="_sources/sg_execution_times.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2024 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  0.16.5. <br />Last updated on
+  <span id="date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var lastModifiedDate = new Date(document.lastModified);
+  var date = lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("date").innerHTML = date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

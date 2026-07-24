@@ -1,0 +1,117 @@
+
+
+.. _sphx_glr_examples_06-distributed-post:
+
+.. _distributed_post:
+
+Examples for postprocessing on distributed processes
+====================================================
+These examples show how to create workflows on different processes (possibly on
+different machines) and connect them.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This diagram helps you to understand this example. It shows the operator chain that is used to ...">
+
+.. only:: html
+
+  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_00-distributed_total_disp_thumb.png
+    :alt: Postprocessing of displacement on distributed processes
+
+  :ref:`sphx_glr_examples_06-distributed-post_00-distributed_total_disp.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Postprocessing of displacement on distributed processes</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="    digraph foo {         graph [pad=&quot;0&quot;, nodesep=&quot;0.3&quot;, ranksep=&quot;0.3&quot;]         node [shape=box...">
+
+.. only:: html
+
+  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_01-distributed_workflows_on_remote_thumb.png
+    :alt: Create a custom workflow on distributed processes
+
+  :ref:`sphx_glr_examples_06-distributed-post_01-distributed_workflows_on_remote.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Create a custom workflow on distributed processes</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The following diagram helps you to understand this example. It shows the operator chain that is...">
+
+.. only:: html
+
+  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_02-distributed-msup_expansion_thumb.png
+    :alt: Distributed mode superposition (MSUP)
+
+  :ref:`sphx_glr_examples_06-distributed-post_02-distributed-msup_expansion.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Distributed mode superposition (MSUP)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The following diagram helps you to understand this example. It shows the operator chain that is...">
+
+.. only:: html
+
+  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_03-distributed-msup_expansion_steps_thumb.png
+    :alt: Distributed MSUP distributed modal response
+
+  :ref:`sphx_glr_examples_06-distributed-post_03-distributed-msup_expansion_steps.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Distributed MSUP distributed modal response</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Average Stress in distributed Workflows">
+
+.. only:: html
+
+  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_06-distributed_stress_averaging_thumb.png
+    :alt: Average Stress in distributed Workflows
+
+  :ref:`sphx_glr_examples_06-distributed-post_06-distributed_stress_averaging.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Average Stress in distributed Workflows</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/06-distributed-post/00-distributed_total_disp
+   /examples/06-distributed-post/01-distributed_workflows_on_remote
+   /examples/06-distributed-post/02-distributed-msup_expansion
+   /examples/06-distributed-post/03-distributed-msup_expansion_steps
+   /examples/06-distributed-post/06-distributed_stress_averaging
+

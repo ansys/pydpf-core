@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`OutputsLayerOrientationProvider`
+========================================
+
+
+.. py:class:: ansys.dpf.core.operators.result.layer_orientation_provider.OutputsLayerOrientationProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   layer_orientation_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.layer_orientation_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_layer_orientation_data = op.outputs.layer_orientation_data()
+
+
+
+
+
+.. py:currentmodule:: OutputsLayerOrientationProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~layer_orientation_data`
+            - Allows to get layer_orientation_data output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.layer_orientation_provider import OutputsLayerOrientationProvider
+
+Property detail
+---------------
+
+.. py:property:: layer_orientation_data
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get layer_orientation_data output of the operator
+
+   Requested data as FieldsContainer.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.layer_orientation_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_layer_orientation_data = op.outputs.layer_orientation_data()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

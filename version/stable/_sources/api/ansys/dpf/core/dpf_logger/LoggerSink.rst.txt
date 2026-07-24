@@ -1,0 +1,69 @@
+
+
+
+
+
+
+:class:`LoggerSink`
+===================
+
+
+.. py:class:: ansys.dpf.core.dpf_logger.LoggerSink(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   DPF logging sinks.
+
+
+
+.. py:currentmodule:: LoggerSink
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~stdout`
+            - 
+          * - :py:attr:`~file`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.dpf_logger import LoggerSink
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: stdout
+   :value: 0
+
+
+.. py:attribute:: file
+   :value: 1
+
+
+
+
+
+

@@ -1,0 +1,137 @@
+
+
+
+
+
+
+:class:`Animator`
+=================
+
+
+.. py:class:: ansys.dpf.core.animator.Animator(workflow=None, **kwargs)
+
+   The DPF Animator class.
+
+   Drives an animation by repeatedly connecting per-frame values to a
+   :class:`~ansys.dpf.core.Workflow` and rendering the result with PyVista.
+   Two output types are supported:
+
+   * **Field output** (default): the workflow returns a
+     :class:`~ansys.dpf.core.Field` per frame, rendered as a contour plot.
+   * **Mesh output** (``output_type=core.types.meshed_region``): the workflow
+     returns a :class:`~ansys.dpf.core.MeshedRegion` per frame, rendered as a
+     geometry plot.  Optionally the workflow also exposes a ``"to_render_field"``
+     output for coloring and/or a ``"deform_by"`` output for mesh deformation.
+
+
+
+.. py:currentmodule:: Animator
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~animate`
+            - Animate the workflow of the Animator, using inputs.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~workflow`
+            - Workflow used to generate a Field at each frame of the animation.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.animator import Animator
+
+Property detail
+---------------
+
+.. py:property:: workflow
+   :type: ansys.dpf.core.Workflow
+
+
+   Workflow used to generate a Field at each frame of the animation.
+
+   By default, the "to_render" Field output will be plotted,
+   and the "loop_over" input defines what the animation iterates on.
+   Optionally, the workflow can also have a "deform_by" Field output,
+   used to deform the mesh support.
+
+   :returns: **workflow**
+   :rtype: Workflow
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: animate(loop_over: ansys.dpf.core.Field, output_name: str = 'to_render', input_name: str = 'loop_over', save_as: str = None, scale_factor: Union[float, Sequence[float]] = 1.0, freq_kwargs: dict = None, shell_layer: ansys.dpf.core.shell_layers = core.shell_layers.top, label: str = None, output_type=None, **kwargs)
+
+   Animate the workflow of the Animator, using inputs.
+
+   :param loop_over: Field of values to loop over.
+                     Can for example be a subset of sets of TimeFreqSupport.time_frequencies.
+                     The unit of the Field will be displayed if present.
+   :param output_name: Name of the workflow output to retrieve for rendering each frame.
+                       For Field animations (default) this should return a
+                       :class:`~ansys.dpf.core.Field`; for mesh animations it should return a
+                       :class:`~ansys.dpf.core.MeshedRegion`.  Defaults to ``"to_render"``.
+   :param input_name: Name of the workflow input to feed the per-frame value into.
+                      Defaults to ``"loop_over"`` (0-based frame index list for mode-shape animations).
+                      Use ``"label_space"`` together with *label* for label-space-based animations.
+   :param save_as: Path of file to save the animation to. Defaults to None. Can be of any format supported
+                   by pyvista.Plotter.write_frame (.gif, .mp4, ...).
+   :param scale_factor: Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
+                        scaling frequency-dependent.
+   :param freq_kwargs: Dictionary of kwargs given to the :func:`pyvista.Plotter.add_text` method, used to
+                       format the frequency information. Can also contain a "fmt" key,
+                       defining the format for the frequency displayed with a string such as ".3e".
+   :param shell_layer: Enum used to set the shell layer if the field to plot
+                       contains shell elements. Defaults to top layer.
+   :param label: Name of the collection label being animated.  When set, the per-frame
+                 workflow input receives a ``{label: label_id}`` dict instead of a
+                 0-based index list, which is required by operators such as
+                 :class:`~ansys.dpf.core.operators.utility.extract_sub_fc` and
+                 :class:`~ansys.dpf.core.operators.utility.extract_sub_mc`.  Also
+                 used as the prefix in the per-frame overlay text
+                 (e.g. ``"mat"`` → ``"mat=3"``, ``"time"`` → ``"t=0.001 s"``).
+                 Defaults to ``None`` (mode-shape animation, index-list input).
+   :type label: str, optional
+   :param output_type: Expected type of the workflow's *output_name* output.  Use
+                       ``core.types.meshed_region`` to animate a :class:`~ansys.dpf.core.MeshesContainer`;
+                       leave as ``None`` (or ``core.types.field``) for the standard Field animation.
+   :type output_type: core.types, optional
+   :param \*\*kwargs: Additional keyword arguments for the animator.
+                      Used by :func:`pyvista.Plotter` (off_screen, cpos, ...),
+                      or by :func:`pyvista.Plotter.open_movie`
+                      (framerate, quality, ...)
+   :type \*\*kwargs: optional
+
+
+
+
+

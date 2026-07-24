@@ -1,0 +1,127 @@
+
+
+
+
+
+
+:class:`OutputsEntityExtractor`
+===============================
+
+
+.. py:class:: ansys.dpf.core.operators.math.entity_extractor.OutputsEntityExtractor(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   entity_extractor operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.entity_extractor()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+   >>> result_int32 = op.outputs.int32()
+
+
+
+
+
+.. py:currentmodule:: OutputsEntityExtractor
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to get field output of the operator
+          * - :py:attr:`~int32`
+            - Allows to get int32 output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.entity_extractor import OutputsEntityExtractor
+
+Property detail
+---------------
+
+.. py:property:: field
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.field.Field]
+
+
+   Allows to get field output of the operator
+
+   Single-entity scalar field holding the first component of the extracted entity. The entity ID is the ID of the $k$-th entity in the input scoping. Always scalar regardless of the input field's dimensionality.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.entity_extractor()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field = op.outputs.field()
+
+.. py:property:: int32
+   :type: ansys.dpf.core.outputs.Output[int]
+
+
+   Allows to get int32 output of the operator
+
+   Echo of the input index $k$ (pin 1).
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.entity_extractor()
+   >>> # Get the output from op.outputs. ...
+   >>> result_int32 = op.outputs.int32()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

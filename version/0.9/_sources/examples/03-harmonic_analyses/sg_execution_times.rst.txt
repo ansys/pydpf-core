@@ -1,0 +1,14 @@
+
+:orphan:
+
+.. _sphx_glr_examples_03-harmonic_analyses_sg_execution_times:
+
+Computation times
+=================
+**00:38.747** total execution time for **examples_03-harmonic_analyses** files:
+
++---------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_03-harmonic_analyses_01-modal_superposition.py` (``01-modal_superposition.py``) | 00:30.820 | 0.0 MB |
++---------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_03-harmonic_analyses_00-multi_harmonic.py` (``00-multi_harmonic.py``)           | 00:07.927 | 0.0 MB |
++---------------------------------------------------------------------------------------------------------+-----------+--------+

@@ -1,0 +1,148 @@
+
+
+
+
+
+
+:class:`OutputsSvd`
+===================
+
+
+.. py:class:: ansys.dpf.core.operators.math.svd.OutputsSvd(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   svd operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.svd()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_s_svd = op.outputs.s_svd()
+   >>> result_u_svd = op.outputs.u_svd()
+   >>> result_vt_svd = op.outputs.vt_svd()
+
+
+
+
+
+.. py:currentmodule:: OutputsSvd
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~s_svd`
+            - Allows to get s_svd output of the operator
+          * - :py:attr:`~u_svd`
+            - Allows to get u_svd output of the operator
+          * - :py:attr:`~vt_svd`
+            - Allows to get vt_svd output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.svd import OutputsSvd
+
+Property detail
+---------------
+
+.. py:property:: s_svd
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get s_svd output of the operator
+
+   Singular values of the input data, where A=U.S.Vt
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.svd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_s_svd = op.outputs.s_svd()
+
+.. py:property:: u_svd
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get u_svd output of the operator
+
+   U of the input data, where A=U.S.Vt
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.svd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_u_svd = op.outputs.u_svd()
+
+.. py:property:: vt_svd
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get vt_svd output of the operator
+
+   Vt of the input data, where A=U.S.Vt
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.svd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_vt_svd = op.outputs.vt_svd()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

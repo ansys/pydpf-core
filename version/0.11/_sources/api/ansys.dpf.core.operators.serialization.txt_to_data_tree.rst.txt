@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.serialization.txt_to_data_tree
+   :inherited-members:

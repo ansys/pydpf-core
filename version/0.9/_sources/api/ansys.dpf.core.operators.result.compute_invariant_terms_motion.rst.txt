@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.compute_invariant_terms_motion
+   :inherited-members:

@@ -1,0 +1,43 @@
+
+:orphan:
+
+.. _sphx_glr_tutorials_export_data_sg_execution_times:
+
+
+Computation times
+=================
+**00:23.562** total execution time for 3 files **from tutorials\export_data**:
+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr_tutorials_export_data_migrate_to_vtu.py` (``migrate_to_vtu.py``)
+     - 00:21.925
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_export_data_vtk_helper.py` (``vtk_helper.py``)
+     - 00:01.230
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_export_data_vtu_export.py` (``vtu_export.py``)
+     - 00:00.407
+     - 0.0

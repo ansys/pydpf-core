@@ -1,0 +1,263 @@
+
+
+.. _sphx_glr_examples_04-advanced:
+
+.. _advanced_examples:
+
+Advanced and miscellaneous examples
+===================================
+These examples show advanced use cases to demonstrate the high level of workflow customization.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand on selected sectors the mesh and results from a multi-stage cyclic analysis. It also shows how to use the cyclic support for advanced postprocessing">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_00-multistage_advanced_options_thumb.png
+    :alt:
+
+  :doc:`/examples/04-advanced/00-multistage_advanced_options`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Multi-stage cyclic symmetry using advanced customization</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a harmonic (over frequencies) fields container for an analysis with damping. This fields container is then used to solve the problem Ma+Dv+Ku=F by inverting the matrix">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_01-solve_harmonic_problem_thumb.png
+    :alt:
+
+  :doc:`/examples/04-advanced/01-solve_harmonic_problem`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Solve harmonic problem (with damping) using matrix inverse</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to find the minimum list of surrounding elements for a given node to get a minimum volume. For each list of elements, the elemental stress equivalent is multiplied by the volume of each element. This result is then accumulated to divide it by the total volume.">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_02-volume_averaged_stress_thumb.png
+    :alt:
+
+  :doc:`/examples/04-advanced/02-volume_averaged_stress`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Average elemental stress on a given volume</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, two DPF servers are started, and a workflow is created with a part on both servers. This example shows how you can read data from a given machine and transform this data on another machine without any more difficulties than working on a local computer.">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_03-exchange_data_between_servers_thumb.png
+    :alt:
+
+  :doc:`/examples/04-advanced/03-exchange_data_between_servers`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Exchange data between servers</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to compute the stress nodal components from Gaussian points (integration points) for a 3D element using extrapolation.">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_04-extrapolation_stress_3d_thumb.png
+    :alt:
+
+  :doc:`/examples/04-advanced/04-extrapolation_stress_3d`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Extrapolation method for stress result of a 3D element</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to compute the stress nodal components from Gaussian points (integration points) for a 2D element using extrapolation.">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_05-extrapolation_strain_2d_thumb.png
+    :alt:
+
+  :doc:`/examples/04-advanced/05-extrapolation_strain_2d`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Extrapolation method for strain result of a 2D element</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to plot a stress gradient normal to a selected node. Because the example is based on creating a path along the normal, the selected node must be on the surface of the geometry. A path is created of a defined length.">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_06-stress_gradient_path_thumb.png
+    :alt:
+
+  :doc:`/examples/04-advanced/06-stress_gradient_path`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Stress gradient normal to a defined node</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a plugin that is not loaded automatically.">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_07-load_plugin_thumb.png
+    :alt:
+
+  :doc:`/examples/04-advanced/07-load_plugin`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Load plugin</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how you can use PyDPF to postprocess a Mechanical model according to the ASME Section VIII Division 2 standard for pressure vessel designs.">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_10-asme_secviii_divtwo_thumb.png
+    :alt:
+
+  :doc:`/examples/04-advanced/10-asme_secviii_divtwo`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Pressure vessel analysis according to an ASME standard</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to generate and use a result file to calculate the cycles to failure result for a simple model.">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_11-cycles_to_failure_thumb.png
+    :alt:
+
+  :doc:`/examples/04-advanced/11-cycles_to_failure`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Calculate the number of cycles to fatigue failure</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Solvers usually solve analysis with distributed architecture. In this case, one file is written by spatial or temporal domains. DPF is capable of reading one result in distributed files. This allows it to skip the merging of files on the solver side, which is time-consuming and often doubles the memory used.">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_12-read_distributed_files_thumb.png
+    :alt:
+
+  :doc:`/examples/04-advanced/12-read_distributed_files`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Read results from distributed files</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to manage the licensing logic of a DPF server using a ServerContext.">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_13-manage_licensing_thumb.png
+    :alt:
+
+  :doc:`/examples/04-advanced/13-manage_licensing`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Manage the DPF licensing logic using the server context</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows you how to use the incremental evaluation helper.">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_14-incremental_evaluation_thumb.png
+    :alt:
+
+  :doc:`/examples/04-advanced/14-incremental_evaluation`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Use incremental evaluation helper</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/04-advanced/00-multistage_advanced_options
+   /examples/04-advanced/01-solve_harmonic_problem
+   /examples/04-advanced/02-volume_averaged_stress
+   /examples/04-advanced/03-exchange_data_between_servers
+   /examples/04-advanced/04-extrapolation_stress_3d
+   /examples/04-advanced/05-extrapolation_strain_2d
+   /examples/04-advanced/06-stress_gradient_path
+   /examples/04-advanced/07-load_plugin
+   /examples/04-advanced/10-asme_secviii_divtwo
+   /examples/04-advanced/11-cycles_to_failure
+   /examples/04-advanced/12-read_distributed_files
+   /examples/04-advanced/13-manage_licensing
+   /examples/04-advanced/14-incremental_evaluation
+

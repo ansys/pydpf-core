@@ -1,0 +1,48 @@
+
+
+.. _sphx_glr_examples_16-maths-ops:
+
+.. _mathematical_operations_examples:
+
+Mathematical examples
+=====================
+
+These examples show how to do mathematical operations with PyDPF-Core structures.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to do some matrix operations, including basic mathematical operations (power, add and multiply by a constant, add field containers and invert) and separating and assembling fields and fields containers.">
+
+.. only:: html
+
+  .. image:: /examples/16-maths-ops/images/thumb/sphx_glr_01-matrix-operations_thumb.png
+    :alt:
+
+  :doc:`/examples/16-maths-ops/01-matrix-operations`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Matrix Operations</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/16-maths-ops/01-matrix-operations
+

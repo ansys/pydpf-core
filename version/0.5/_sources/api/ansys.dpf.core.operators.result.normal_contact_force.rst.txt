@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.normal_contact_force
+   :inherited-members:
