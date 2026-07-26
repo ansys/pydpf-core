@@ -7744,7 +7744,166 @@ Only properties available in the mesh will be exported.</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="26" ellipsis = "false"></pin-number-optional></td><td><pin-name name="split_shells"></pin-name></td><td><req-type typeName="(bool)"></req-type></td><td><div class = "pin-des-text"><p>If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value is false if averaging is not required and true if averaging is required.</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="27" ellipsis = "false"></pin-number-optional></td><td><pin-name name="shell_layer"></pin-name></td><td><req-type typeName="(int32)"></req-type></td><td><div class = "pin-des-text"><p>If connected, this pin allows you to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="28" ellipsis = "false"></pin-number-optional></td><td><pin-name name="extend_to_mid_nodes"></pin-name></td><td><req-type typeName="(bool)"></req-type></td><td><div class = "pin-des-text"><p>Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True</p>
-</div></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="allow_ansys_element_library_computation" default="0" doc="BETA: User authorizes DPF to compute elemental results through the Ansys Element Library.Material and geometric nonlinearities are not allowed. Only linear analysis are supported.0: Not Authorized (default), 1: Only if result is not present, 2: Always use AEL." types="int32" ></config-spec><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><config-spec name="num_threads" default="0" doc="Number of threads to use to run in parallel" types="int32" ></config-spec><config-spec name="run_in_parallel" default="true" doc="Loops are allowed to run in parallel if the value of this config is set to true." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="creep_strain" license="none" cat="result" plugin="core" cpp-name="EPCR"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New","0.1.0":"Add pin eExtendMidNodesPin to add/remove mid-nodes when averaging from ElementalNodal to Nodal. Default:True"}'></op-changelog></div><div class="operator" id="cartesian to spherical coordinates (fields container)" scripting_name="cartesian_to_spherical_fc"plugin="core"cat="geo"><h1 class="op-des-h1">geo: cartesian to spherical coordinates (fields container)</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>Converts 3D field from cartesian coordinates to spherical coordinates.</p>
+</div></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="allow_ansys_element_library_computation" default="0" doc="BETA: User authorizes DPF to compute elemental results through the Ansys Element Library.Material and geometric nonlinearities are not allowed. Only linear analysis are supported.0: Not Authorized (default), 1: Only if result is not present, 2: Always use AEL." types="int32" ></config-spec><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><config-spec name="num_threads" default="0" doc="Number of threads to use to run in parallel" types="int32" ></config-spec><config-spec name="run_in_parallel" default="true" doc="Loops are allowed to run in parallel if the value of this config is set to true." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="creep_strain" license="none" cat="result" plugin="core" cpp-name="EPCR"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New","0.1.0":"Add pin eExtendMidNodesPin to add/remove mid-nodes when averaging from ElementalNodal to Nodal. Default:True"}'></op-changelog></div><div class="operator" id="transpose fields container" scripting_name="transpose_fields_container"plugin="core"cat="utility"><h1 class="op-des-h1">utility: transpose fields container</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>Transposes a fields container so that the fields' scoping becomes the container's scoping and a chosen label (default: time) becomes the fields' scoping.</p>
+<p>Input layout (example with time label, 2 body labels, 3 nodes):
+FC labels: [time, body]
+Field 0: {time:1, body:1} -&gt; scoping {n1, n2, n3}, data [...]
+Field 1: {time:1, body:2} -&gt; scoping {n4, n5}, data [...]
+Field 2: {time:2, body:1} -&gt; scoping {n1, n2, n3}, data [...]
+Field 3: {time:2, body:2} -&gt; scoping {n4, n5}, data [...]</p>
+<p>Output layout (transposed on time):
+FC labels: [Nodal, body]
+Field 0: {Nodal:n1, body:1} -&gt; scoping {t1, t2}, data [gathered from fields 0,2]
+Field 1: {Nodal:n2, body:1} -&gt; scoping {t1, t2}, data [gathered from fields 0,2]
+Field 1: {Nodal:n3, body:1} -&gt; scoping {t1, t2}, data [gathered from fields 0,2]
+Field 2: {Nodal:n4, body:2} -&gt; scoping {t1, t2}, data [gathered from fields 1,3]
+Field 3: {Nodal:n5, body:2} -&gt; scoping {t1, t2}, data [gathered from fields 1,3]
+...</p>
+<p>Each output field gathers one entity's data across all values of the transposed label from the input fields that share the same non-transposed labels. All input fields sharing a labelspace where only the transposed label changes must have the same scoping and location.</p>
+</div></figure><div class="op-version">Version 1.0.0</div><h2 class="op-des-h2">Inputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td><td><div class = "pin-des-text"><p>It is assumed that the fields container consists of fields having the same scoping.</p>
+</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="1" ellipsis = "false"></pin-number-optional></td><td><pin-name name="label"></pin-name></td><td><req-type typeName="(string)"></req-type></td><td><div class = "pin-des-text"><p>fields container label to use as fields label (default is time)</p>
+</div></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="transpose_fields_container" license="none" cat="utility" plugin="core" cpp-name="transpose_fields_container"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New","0.0.1":"Internal refactoring to use Scoping Iterators.","1.0.0":"Internal refactoring to mutualize all labels approach and enhance performance.Remove input pin 2 as it was never used/tested.Support multiple entity data per field (e.g. elemental nodal results)."}'></op-changelog></div><div class="operator" id="accu eqv creep strain" scripting_name="accu_eqv_creep_strain"plugin="core"cat="result"><h1 class="op-des-h1">result: accu eqv creep strain</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>Read/compute element nodal accumulated equivalent creep strain by calling the readers defined by the datasources.</p>
+<ul>
+<li>The 'requested_location' and 'mesh_scoping' inputs are processed to see if they need scoping transposition or result averaging. The resulting output fields have a 'Nodal', 'ElementalNodal' or 'Elemental' location.</li>
+<li>Once the need for averaging has been detected, the behavior of the combined connection of the 'split_shells' and 'shell_layer' pins is:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Averaging is needed</th>
+<th>'split_shells'</th>
+<th>'shell_layer'</th>
+<th>Expected output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No</td>
+<td>Not connected/false</td>
+<td>Not connected</td>
+<td>Location as in the result file. Fields with all element shapes combined. All shell layers present.</td>
+</tr>
+<tr>
+<td>No</td>
+<td>true</td>
+<td>Not connected</td>
+<td>Location as in the result file. Fields split according to element shapes. All shell layers present.</td>
+</tr>
+<tr>
+<td>No</td>
+<td>true</td>
+<td>Connected</td>
+<td>Location as in the result file. Fields split according to element shapes. Only the requested shell layer present.</td>
+</tr>
+<tr>
+<td>No</td>
+<td>Not connected/false</td>
+<td>Connected</td>
+<td>Location as in the result file. Fields with all element shapes combined. Only the requested shell layer present.</td>
+</tr>
+<tr>
+<td>Yes</td>
+<td>Not connected/true</td>
+<td>Not connected</td>
+<td>Location as requested. Fields split according to element shapes. All shell layers present.</td>
+</tr>
+<tr>
+<td>Yes</td>
+<td>false</td>
+<td>Not connected</td>
+<td>Location as requested. Fields with all element shapes combined. All shell layers present.</td>
+</tr>
+<tr>
+<td>Yes</td>
+<td>false</td>
+<td>Connected</td>
+<td>Location as requested. Fields with all element shapes combined. Only the requested shell layer present.</td>
+</tr>
+<tr>
+<td>Yes</td>
+<td>Not connected/true</td>
+<td>Connected</td>
+<td>Location as requested. Fields split according to element shapes. Only the requested shell layer present.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The available 'elshape' values are:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>elshape</th>
+<th>Related elements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Shell (generic)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Solid</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Beam</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Skin</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Contact</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Load</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Point</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Shell with 1 result across thickness (membrane)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Shell with 2 results across thickness (top/bottom)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Shell with 3 results across thickness (top/bottom/mid)</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Gasket</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Multi-Point Constraint</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Pretension</td>
+</tr>
+</tbody>
+</table>
+</div></figure><div class="op-version">Version 1.0.0</div><h2 class="op-des-h2">Supported file types</h2><supported-file-types content='{"hdf5":["h5dpf"],"mapdl":["rst","rstp"]}'></supported-file-types><h2 class="op-des-h2">Inputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number-optional n="0" ellipsis = "false"></pin-number-optional></td><td><pin-name name="time_scoping"></pin-name></td><td><req-type typeName="(scoping | int32 | vector<int32> | double | field | vector<double>)"></req-type></td><td><div class = "pin-des-text"><p>time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on &quot;TimeFreq_steps&quot;. Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.</p>
+</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="1" ellipsis = "false"></pin-number-optional></td><td><pin-name name="mesh_scoping"></pin-name></td><td><req-type typeName="(scopings_container | scoping)"></req-type></td><td><div class = "pin-des-text"><p>nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains</p>
+</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="2" ellipsis = "false"></pin-number-optional></td><td><pin-name name="fields_container (modified inplace)"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td><td><div class = "pin-des-text"><p>Fields container already allocated modified inplace</p>
+</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="3" ellipsis = "false"></pin-number-optional></td><td><pin-name name="streams_container"></pin-name></td><td><req-type typeName="(streams_container)"></req-type></td><td><div class = "pin-des-text"><p>result file container allowed to be kept open to cache data</p>
+</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number n="4" ellipsis = "false"></pin-number></td><td><pin-name name="data_sources"></pin-name></td><td><req-type typeName="(data_sources)"></req-type></td><td><div class = "pin-des-text"><p>result file path container, used if no streams are set</p>
+</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="7" ellipsis = "false"></pin-number-optional></td><td><pin-name name="mesh"></pin-name></td><td><req-type typeName="(abstract_meshed_region | meshes_container)"></req-type></td><td><div class = "pin-des-text"><p>prevents from reading the mesh in the result files</p>
+</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="9" ellipsis = "false"></pin-number-optional></td><td><pin-name name="requested_location"></pin-name></td><td><req-type typeName="(string)"></req-type></td><td><div class = "pin-des-text"><p>requested location Nodal, Elemental or ElementalNodal</p>
+</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="22" ellipsis = "false"></pin-number-optional></td><td><pin-name name="read_beams"></pin-name></td><td><req-type typeName="(bool)"></req-type></td><td><div class = "pin-des-text"><p>elemental nodal beam results are read if this pin is set to true (default is false)</p>
+</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="26" ellipsis = "false"></pin-number-optional></td><td><pin-name name="split_shells"></pin-name></td><td><req-type typeName="(bool)"></req-type></td><td><div class = "pin-des-text"><p>If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value is false if averaging is not required and true if averaging is required.</p>
+</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="27" ellipsis = "false"></pin-number-optional></td><td><pin-name name="shell_layer"></pin-name></td><td><req-type typeName="(int32)"></req-type></td><td><div class = "pin-des-text"><p>If connected, this pin allows you to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.</p>
+</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="28" ellipsis = "false"></pin-number-optional></td><td><pin-name name="extend_to_mid_nodes"></pin-name></td><td><req-type typeName="(bool)"></req-type></td><td><div class = "pin-des-text"><p>Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True</p>
+</div></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="allow_ansys_element_library_computation" default="0" doc="BETA: User authorizes DPF to compute elemental results through the Ansys Element Library.Material and geometric nonlinearities are not allowed. Only linear analysis are supported.0: Not Authorized (default), 1: Only if result is not present, 2: Always use AEL." types="int32" ></config-spec><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><config-spec name="num_threads" default="0" doc="Number of threads to use to run in parallel" types="int32" ></config-spec><config-spec name="run_in_parallel" default="true" doc="Loops are allowed to run in parallel if the value of this config is set to true." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="accu_eqv_creep_strain" license="none" cat="result" plugin="core" cpp-name="ENL_CREQ"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New","1.0.0":"This operator had previously the bool_rotate_to_global pin exposed and set as True while rotations to global were not performed and results were output in the Solution Coordinate System."}'></op-changelog></div><div class="operator" id="cartesian to spherical coordinates (fields container)" scripting_name="cartesian_to_spherical_fc"plugin="core"cat="geo"><h1 class="op-des-h1">geo: cartesian to spherical coordinates (fields container)</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>Converts 3D field from cartesian coordinates to spherical coordinates.</p>
 </div></figure><div class="op-version">Version 0.0.1</div><h2 class="op-des-h2">Inputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><config-spec name="num_threads" default="0" doc="Number of threads to use to run in parallel" types="int32" ></config-spec><config-spec name="run_in_parallel" default="true" doc="Loops are allowed to run in parallel if the value of this config is set to true." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="cartesian_to_spherical_fc" license="any_dpf_supported_increments" cat="geo" plugin="core" cpp-name="cartesian_to_spherical_fc"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New","0.0.1":"Fix exception type preservation during parallel execution."}'></op-changelog></div><div class="operator" id="reaction force X" scripting_name="reaction_force_X"plugin="core"cat="result"><h1 class="op-des-h1">result: reaction force X</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>Read/compute nodal reaction forces X component of the vector (1st component) by calling the readers defined by the datasources.</p>
 </div></figure><div class="op-version">Version 0.0.0</div><h2 class="op-des-h2">Supported file types</h2><supported-file-types content='{"hdf5":["h5dpf"]}'></supported-file-types><h2 class="op-des-h2">Inputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number-optional n="0" ellipsis = "false"></pin-number-optional></td><td><pin-name name="time_scoping"></pin-name></td><td><req-type typeName="(scoping | int32 | vector<int32> | double | field | vector<double>)"></req-type></td><td><div class = "pin-des-text"><p>time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on &quot;TimeFreq_steps&quot;. Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="1" ellipsis = "false"></pin-number-optional></td><td><pin-name name="mesh_scoping"></pin-name></td><td><req-type typeName="(scopings_container | scoping)"></req-type></td><td><div class = "pin-des-text"><p>nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains</p>
@@ -10040,13 +10199,13 @@ $C$ is the constant damping ratio (pin 1, default $0$),
 $r_i$ is the mode-specific damping ratio (pin 2, default $0$),
 $\alpha$ is the mass-proportional Rayleigh coefficient (pin 3),
 and $\beta$ is the stiffness-proportional Rayleigh coefficient (pin 4).</p>
-</div></figure><div class="op-version">Version 0.0.1</div><h2 class="op-des-h2">Inputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="natural_freq"></pin-name></td><td><req-type typeName="(vector<double>)"></req-type></td><td><div class = "pin-des-text"><p>input vector expects natural frequencies.</p>
+</div></figure><div class="op-version">Version 0.1.0</div><h2 class="op-des-h2">Inputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="natural_freq"></pin-name></td><td><req-type typeName="(vector<double> | field | time_freq_support)"></req-type></td><td><div class = "pin-des-text"><p>input vector expects natural frequencies.</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="1" ellipsis = "false"></pin-number-optional></td><td><pin-name name="const_ratio"></pin-name></td><td><req-type typeName="(double)"></req-type></td><td><div class = "pin-des-text"><p>constant modal damping ratio</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="2" ellipsis = "false"></pin-number-optional></td><td><pin-name name="ratio_by_modes"></pin-name></td><td><req-type typeName="(vector<double>)"></req-type></td><td><div class = "pin-des-text"><p>modal damping ratio for each mode shape</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number n="3" ellipsis = "false"></pin-number></td><td><pin-name name="m_coefficient"></pin-name></td><td><req-type typeName="(double)"></req-type></td><td><div class = "pin-des-text"><p>global mass matrix multiplier</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number n="4" ellipsis = "false"></pin-number></td><td><pin-name name="k_coefficient"></pin-name></td><td><req-type typeName="(double)"></req-type></td><td><div class = "pin-des-text"><p>global stiffness matrix multiplier</p>
 </div></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="field"></pin-name></td><td><req-type typeName="(field)"></req-type></td><td><div class = "pin-des-text"><p>Field of modal damping ratios $\xi_i$, one value per mode, in the same order as the input natural frequencies.</p>
-</div></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="modal_damping_ratio" license="any_dpf_supported_increments" cat="math" plugin="core" cpp-name="modal_damping_ratio"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New","0.0.1":"Rewrite description to use LaTeX Rayleigh damping formula and identify each input coefficient."}'></op-changelog></div><div class="operator" id="band pass (field)" scripting_name="field_band_pass"plugin="core"cat="filter"><h1 class="op-des-h1">filter: band pass (field)</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>The band pass filter returns all the values above (but not equal to) the minimum threshold value and below (but not equal to) the maximum threshold value in input.</p>
+</div></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="modal_damping_ratio" license="any_dpf_supported_increments" cat="math" plugin="core" cpp-name="modal_damping_ratio"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New","0.0.1":"Rewrite description to use LaTeX Rayleigh damping formula and identify each input coefficient.","0.1.0":"Input pin 0 now accepts a field or a time/freq support."}'></op-changelog></div><div class="operator" id="band pass (field)" scripting_name="field_band_pass"plugin="core"cat="filter"><h1 class="op-des-h1">filter: band pass (field)</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>The band pass filter returns all the values above (but not equal to) the minimum threshold value and below (but not equal to) the maximum threshold value in input.</p>
 </div></figure><div class="op-version">Version 0.0.1</div><h2 class="op-des-h2">Inputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="field"></pin-name></td><td><req-type typeName="(field | fields_container)"></req-type></td><td><div class = "pin-des-text"><p>field or fields container with only one field is expected</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number n="1" ellipsis = "false"></pin-number></td><td><pin-name name="min_threshold"></pin-name></td><td><req-type typeName="(double | field)"></req-type></td><td><div class = "pin-des-text"><p>A minimum threshold scalar or a field containing one value is expected.</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="2" ellipsis = "false"></pin-number-optional></td><td><pin-name name="max_threshold"></pin-name></td><td><req-type typeName="(double | field)"></req-type></td><td><div class = "pin-des-text"><p>A maximum threshold scalar or a field containing one value is expected.</p>
@@ -12833,148 +12992,7 @@ When a master scoping is provided, each scoping in the input scopings container 
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="26" ellipsis = "false"></pin-number-optional></td><td><pin-name name="split_shells"></pin-name></td><td><req-type typeName="(bool)"></req-type></td><td><div class = "pin-des-text"><p>If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value is false if averaging is not required and true if averaging is required.</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="27" ellipsis = "false"></pin-number-optional></td><td><pin-name name="shell_layer"></pin-name></td><td><req-type typeName="(int32)"></req-type></td><td><div class = "pin-des-text"><p>If connected, this pin allows you to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="28" ellipsis = "false"></pin-number-optional></td><td><pin-name name="extend_to_mid_nodes"></pin-name></td><td><req-type typeName="(bool)"></req-type></td><td><div class = "pin-des-text"><p>Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True</p>
-</div></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="allow_ansys_element_library_computation" default="0" doc="BETA: User authorizes DPF to compute elemental results through the Ansys Element Library.Material and geometric nonlinearities are not allowed. Only linear analysis are supported.0: Not Authorized (default), 1: Only if result is not present, 2: Always use AEL." types="int32" ></config-spec><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><config-spec name="num_threads" default="0" doc="Number of threads to use to run in parallel" types="int32" ></config-spec><config-spec name="run_in_parallel" default="true" doc="Loops are allowed to run in parallel if the value of this config is set to true." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="plastic_state_variable" license="none" cat="result" plugin="core" cpp-name="ENL_PSV"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New","1.0.0":"This operator had previously the bool_rotate_to_global pin exposed and set as True while rotations to global were not performed and results were output in the Solution Coordinate System."}'></op-changelog></div><div class="operator" id="accu eqv creep strain" scripting_name="accu_eqv_creep_strain"plugin="core"cat="result"><h1 class="op-des-h1">result: accu eqv creep strain</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>Read/compute element nodal accumulated equivalent creep strain by calling the readers defined by the datasources.</p>
-<ul>
-<li>The 'requested_location' and 'mesh_scoping' inputs are processed to see if they need scoping transposition or result averaging. The resulting output fields have a 'Nodal', 'ElementalNodal' or 'Elemental' location.</li>
-<li>Once the need for averaging has been detected, the behavior of the combined connection of the 'split_shells' and 'shell_layer' pins is:</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>Averaging is needed</th>
-<th>'split_shells'</th>
-<th>'shell_layer'</th>
-<th>Expected output</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>No</td>
-<td>Not connected/false</td>
-<td>Not connected</td>
-<td>Location as in the result file. Fields with all element shapes combined. All shell layers present.</td>
-</tr>
-<tr>
-<td>No</td>
-<td>true</td>
-<td>Not connected</td>
-<td>Location as in the result file. Fields split according to element shapes. All shell layers present.</td>
-</tr>
-<tr>
-<td>No</td>
-<td>true</td>
-<td>Connected</td>
-<td>Location as in the result file. Fields split according to element shapes. Only the requested shell layer present.</td>
-</tr>
-<tr>
-<td>No</td>
-<td>Not connected/false</td>
-<td>Connected</td>
-<td>Location as in the result file. Fields with all element shapes combined. Only the requested shell layer present.</td>
-</tr>
-<tr>
-<td>Yes</td>
-<td>Not connected/true</td>
-<td>Not connected</td>
-<td>Location as requested. Fields split according to element shapes. All shell layers present.</td>
-</tr>
-<tr>
-<td>Yes</td>
-<td>false</td>
-<td>Not connected</td>
-<td>Location as requested. Fields with all element shapes combined. All shell layers present.</td>
-</tr>
-<tr>
-<td>Yes</td>
-<td>false</td>
-<td>Connected</td>
-<td>Location as requested. Fields with all element shapes combined. Only the requested shell layer present.</td>
-</tr>
-<tr>
-<td>Yes</td>
-<td>Not connected/true</td>
-<td>Connected</td>
-<td>Location as requested. Fields split according to element shapes. Only the requested shell layer present.</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>The available 'elshape' values are:</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>elshape</th>
-<th>Related elements</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>Shell (generic)</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Solid</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Beam</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Skin</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Contact</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Load</td>
-</tr>
-<tr>
-<td>7</td>
-<td>Point</td>
-</tr>
-<tr>
-<td>8</td>
-<td>Shell with 1 result across thickness (membrane)</td>
-</tr>
-<tr>
-<td>9</td>
-<td>Shell with 2 results across thickness (top/bottom)</td>
-</tr>
-<tr>
-<td>10</td>
-<td>Shell with 3 results across thickness (top/bottom/mid)</td>
-</tr>
-<tr>
-<td>11</td>
-<td>Gasket</td>
-</tr>
-<tr>
-<td>12</td>
-<td>Multi-Point Constraint</td>
-</tr>
-<tr>
-<td>13</td>
-<td>Pretension</td>
-</tr>
-</tbody>
-</table>
-</div></figure><div class="op-version">Version 1.0.0</div><h2 class="op-des-h2">Supported file types</h2><supported-file-types content='{"hdf5":["h5dpf"],"mapdl":["rst","rstp"]}'></supported-file-types><h2 class="op-des-h2">Inputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number-optional n="0" ellipsis = "false"></pin-number-optional></td><td><pin-name name="time_scoping"></pin-name></td><td><req-type typeName="(scoping | int32 | vector<int32> | double | field | vector<double>)"></req-type></td><td><div class = "pin-des-text"><p>time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on &quot;TimeFreq_steps&quot;. Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="1" ellipsis = "false"></pin-number-optional></td><td><pin-name name="mesh_scoping"></pin-name></td><td><req-type typeName="(scopings_container | scoping)"></req-type></td><td><div class = "pin-des-text"><p>nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="2" ellipsis = "false"></pin-number-optional></td><td><pin-name name="fields_container (modified inplace)"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td><td><div class = "pin-des-text"><p>Fields container already allocated modified inplace</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="3" ellipsis = "false"></pin-number-optional></td><td><pin-name name="streams_container"></pin-name></td><td><req-type typeName="(streams_container)"></req-type></td><td><div class = "pin-des-text"><p>result file container allowed to be kept open to cache data</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number n="4" ellipsis = "false"></pin-number></td><td><pin-name name="data_sources"></pin-name></td><td><req-type typeName="(data_sources)"></req-type></td><td><div class = "pin-des-text"><p>result file path container, used if no streams are set</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="7" ellipsis = "false"></pin-number-optional></td><td><pin-name name="mesh"></pin-name></td><td><req-type typeName="(abstract_meshed_region | meshes_container)"></req-type></td><td><div class = "pin-des-text"><p>prevents from reading the mesh in the result files</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="9" ellipsis = "false"></pin-number-optional></td><td><pin-name name="requested_location"></pin-name></td><td><req-type typeName="(string)"></req-type></td><td><div class = "pin-des-text"><p>requested location Nodal, Elemental or ElementalNodal</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="22" ellipsis = "false"></pin-number-optional></td><td><pin-name name="read_beams"></pin-name></td><td><req-type typeName="(bool)"></req-type></td><td><div class = "pin-des-text"><p>elemental nodal beam results are read if this pin is set to true (default is false)</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="26" ellipsis = "false"></pin-number-optional></td><td><pin-name name="split_shells"></pin-name></td><td><req-type typeName="(bool)"></req-type></td><td><div class = "pin-des-text"><p>If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value is false if averaging is not required and true if averaging is required.</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="27" ellipsis = "false"></pin-number-optional></td><td><pin-name name="shell_layer"></pin-name></td><td><req-type typeName="(int32)"></req-type></td><td><div class = "pin-des-text"><p>If connected, this pin allows you to extract the result only on the selected shell layer(s). The available values are: 0: Top, 1: Bottom, 2: TopBottom, 3: Mid, 4: TopBottomMid.</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="28" ellipsis = "false"></pin-number-optional></td><td><pin-name name="extend_to_mid_nodes"></pin-name></td><td><req-type typeName="(bool)"></req-type></td><td><div class = "pin-des-text"><p>Compute mid nodes (when available) by averaging the neighbour corner nodes. Default: True</p>
-</div></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="allow_ansys_element_library_computation" default="0" doc="BETA: User authorizes DPF to compute elemental results through the Ansys Element Library.Material and geometric nonlinearities are not allowed. Only linear analysis are supported.0: Not Authorized (default), 1: Only if result is not present, 2: Always use AEL." types="int32" ></config-spec><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><config-spec name="num_threads" default="0" doc="Number of threads to use to run in parallel" types="int32" ></config-spec><config-spec name="run_in_parallel" default="true" doc="Loops are allowed to run in parallel if the value of this config is set to true." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="accu_eqv_creep_strain" license="none" cat="result" plugin="core" cpp-name="ENL_CREQ"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New","1.0.0":"This operator had previously the bool_rotate_to_global pin exposed and set as True while rotations to global were not performed and results were output in the Solution Coordinate System."}'></op-changelog></div><div class="operator" id="plastic strain energy density" scripting_name="plastic_strain_energy_density"plugin="core"cat="result"><h1 class="op-des-h1">result: plastic strain energy density</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>Read/compute element nodal plastic strain energy density by calling the readers defined by the datasources.</p>
+</div></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="allow_ansys_element_library_computation" default="0" doc="BETA: User authorizes DPF to compute elemental results through the Ansys Element Library.Material and geometric nonlinearities are not allowed. Only linear analysis are supported.0: Not Authorized (default), 1: Only if result is not present, 2: Always use AEL." types="int32" ></config-spec><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><config-spec name="num_threads" default="0" doc="Number of threads to use to run in parallel" types="int32" ></config-spec><config-spec name="run_in_parallel" default="true" doc="Loops are allowed to run in parallel if the value of this config is set to true." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="plastic_state_variable" license="none" cat="result" plugin="core" cpp-name="ENL_PSV"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New","1.0.0":"This operator had previously the bool_rotate_to_global pin exposed and set as True while rotations to global were not performed and results were output in the Solution Coordinate System."}'></op-changelog></div><div class="operator" id="plastic strain energy density" scripting_name="plastic_strain_energy_density"plugin="core"cat="result"><h1 class="op-des-h1">result: plastic strain energy density</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>Read/compute element nodal plastic strain energy density by calling the readers defined by the datasources.</p>
 <ul>
 <li>The 'requested_location' and 'mesh_scoping' inputs are processed to see if they need scoping transposition or result averaging. The resulting output fields have a 'Nodal', 'ElementalNodal' or 'Elemental' location.</li>
 <li>Once the need for averaging has been detected, the behavior of the combined connection of the 'split_shells' and 'shell_layer' pins is:</li>
@@ -15492,7 +15510,7 @@ If <code>permissive</code> is disabled (default), errors are thrown for invalid 
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="3" ellipsis = "false"></pin-number-optional></td><td><pin-name name="streams"></pin-name></td><td><req-type typeName="(streams_container)"></req-type></td><td><div class = "pin-des-text"><p>Result file container allowed to be kept open to cache data.</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number n="4" ellipsis = "false"></pin-number></td><td><pin-name name="data_sources"></pin-name></td><td><req-type typeName="(data_sources)"></req-type></td><td><div class = "pin-des-text"><p>Result file path container, used if no streams are set.</p>
 </div></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="real_constants"></pin-name></td><td><req-type typeName="(field)"></req-type></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><config-spec name="num_threads" default="0" doc="Number of threads to use to run in parallel" types="int32" ></config-spec><config-spec name="run_in_parallel" default="true" doc="Loops are allowed to run in parallel if the value of this config is set to true." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="real_constants_provider" license="none" cat="metadata" plugin="core" cpp-name="real_constants_provider"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New"}'></op-changelog></div><div class="operator" id="coordinate system data provider" scripting_name="coordinate_system_data_provider"plugin="core"cat="metadata"><h1 class="op-des-h1">metadata: coordinate system data provider</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>Reads coordinate systems data from the result files contained in the streams or data sources.</p>
-</div></figure><div class="op-version">Version 0.0.0</div><h2 class="op-des-h2">Supported file types</h2><supported-file-types content='{"mapdl":["cms","rst","mode","rth","rstp","rfrq","rdsp","dsub"]}'></supported-file-types><h2 class="op-des-h2">Inputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number-optional n="1" ellipsis = "false"></pin-number-optional></td><td><pin-name name="solver_coordinate_system_ids"></pin-name></td><td><req-type typeName="(int32 | vector<int32>)"></req-type></td><td><div class = "pin-des-text"><p>Coorfinate System ids to recover used by the solver. If not set, all available materials to be recovered.</p>
+</div></figure><div class="op-version">Version 0.0.0</div><h2 class="op-des-h2">Supported file types</h2><supported-file-types content='{"hdf5":["h5dpf"],"mapdl":["cms","rst","mode","rth","rstp","rfrq","rdsp","dsub"]}'></supported-file-types><h2 class="op-des-h2">Inputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number-optional n="1" ellipsis = "false"></pin-number-optional></td><td><pin-name name="solver_coordinate_system_ids"></pin-name></td><td><req-type typeName="(int32 | vector<int32>)"></req-type></td><td><div class = "pin-des-text"><p>Coorfinate System ids to recover used by the solver. If not set, all available materials to be recovered.</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="3" ellipsis = "false"></pin-number-optional></td><td><pin-name name="streams"></pin-name></td><td><req-type typeName="(streams_container)"></req-type></td><td><div class = "pin-des-text"><p>Result file container allowed to be kept open to cache data.</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number n="4" ellipsis = "false"></pin-number></td><td><pin-name name="data_sources"></pin-name></td><td><req-type typeName="(data_sources)"></req-type></td><td><div class = "pin-des-text"><p>Result file path container, used if no streams are set.</p>
 </div></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "true"></pin-number></td><td><pin-name name="coordinate_system_data"></pin-name></td><td><req-type typeName="(generic_data_container)"></req-type></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><config-spec name="num_threads" default="0" doc="Number of threads to use to run in parallel" types="int32" ></config-spec><config-spec name="run_in_parallel" default="true" doc="Loops are allowed to run in parallel if the value of this config is set to true." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="coordinate_system_data_provider" license="none" cat="metadata" plugin="core" cpp-name="coordinate_systems_data_provider"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New"}'></op-changelog></div><div class="operator" id="splitter::streams" scripting_name="split_streams"plugin="core"cat="logic"><h1 class="op-des-h1">logic: splitter::streams</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>Splits a Streams into multiple coherent streams, actual number of outputs is always less or equal to the given desired number of ouputs.</p>
@@ -16622,15 +16640,7 @@ Get the XZ shear component (02 component).</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="20" ellipsis = "false"></pin-number-optional></td><td><pin-name name="wireframe_threshold_scale"></pin-name></td><td><req-type typeName="(double)"></req-type></td><td><div class = "pin-des-text"><p>defines the threshold scale for wireframe (default: 2.0)</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="21" ellipsis = "false"></pin-number-optional></td><td><pin-name name="edge_decimation_angular_limit_in_radian"></pin-name></td><td><req-type typeName="(double)"></req-type></td><td><div class = "pin-des-text"><p>defines the angular limit in radian for edge decimation (default: 1.0)</p>
 </div></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="dfmf_data_source"></pin-name></td><td><req-type typeName="(data_sources)"></req-type></td><td><div class = "pin-des-text"><p>Data Source containing the dfmf file generated.</p>
-</div></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="write_motion_dfmf_file" license="none" cat="result" plugin="core" cpp-name="write_motion_dfmf_file"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New","0.1.0":"Added optional inputs for output node type, wireframe threshold scale, and edge decimation angular limit."}'></op-changelog></div><div class="operator" id="split on facet indices" scripting_name="mapdl_split_on_facet_indices"plugin="mapdl"cat="result"><h1 class="op-des-h1">result: split on facet indices</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>Splits each Field in a FieldsContainer defined on the skin elements of a mesh according to the local facets indices of its corresponding solid element. The output FieldsContainer retains the original labels and adds a 'facet' label, which indicates at which facet of the solid mesh was the original skin element located. The facet ids are according to MAPDL convention. The scoping of the output Fields reflects the element indices in the solid mesh.</p>
-</div></figure><div class="op-version">Version 0.0.3</div><h2 class="op-des-h2">Inputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td><td><div class = "pin-des-text"><p>Fields container to split, with generic number of labels (e.g. time, zone, complex...). Fields may have Elemental or ElementalNodal location; scoping ids are skin element ids.</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number n="1" ellipsis = "false"></pin-number></td><td><pin-name name="property_field_new_elements_to_old"></pin-name></td><td><req-type typeName="(property_field)"></req-type></td><td><div class = "pin-des-text"><p>This property field provides, for each new face element ID (in the scoping), the corresponding 3D volume element index (in the data) it has been extracted from. The 3D volume element ID can be found with the element scoping of the input mesh.</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number n="2" ellipsis = "false"></pin-number></td><td><pin-name name="facet_indices"></pin-name></td><td><req-type typeName="(property_field)"></req-type></td><td><div class = "pin-des-text"><p>This property field gives, for each new face element ID (in the scoping), the corresponding face index on the source 3D volume element. The 3D volume element can be extracted from the previous output.</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number n="3" ellipsis = "false"></pin-number></td><td><pin-name name="volume_mesh"></pin-name></td><td><req-type typeName="(abstract_meshed_region)"></req-type></td><td><div class = "pin-des-text"><p>The solid support.</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="185" ellipsis = "false"></pin-number-optional></td><td><pin-name name="degenerated_tets"></pin-name></td><td><req-type typeName="(scoping)"></req-type></td><td><div class = "pin-des-text"><p>Elemental scoping of tet elements. If connected, the tets in the scoping are treated as degenerated tets (SOLID185), and the rest as non-degenerated tets (SOLID285). Pins 185 and 285 are mutually exclusionary (they cannot be connected at the same time), and if none of them is connected, all tets are treated as non-degenerated (SOLID285).</p>
-</div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number-optional n="285" ellipsis = "false"></pin-number-optional></td><td><pin-name name="non_degenerated_tets"></pin-name></td><td><req-type typeName="(scoping)"></req-type></td><td><div class = "pin-des-text"><p>Elemental scoping of tet elements. If connected, the tets in the scoping are treated as non-degenerated tets (SOLID285), and the rest as degenerated tets (SOLID185). Pins 185 and 285 are mutually exclusionary (they cannot be connected at the same time), and if none of them is connected, all tets are treated as non-degenerated (SOLID285).</p>
-</div></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td><td><div class = "pin-des-text"><p>Output splitted fields containter</p>
-</div></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="mapdl_split_on_facet_indices" license="none" cat="result" plugin="mapdl" cpp-name="mapdl::split_on_facet_indices"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New","0.0.1":"ElementalNodal fields are now supported.","0.0.2":"Replaced generic std::logic_error throws with structured SplitOnFacetIndices exception types carrying operator context and remediation hints.","0.0.3":"Fix bug for ElementalNodal fields values reordering."}'></op-changelog></div><div class="operator" id="split to acmo facet indices" scripting_name="mapdl_split_to_acmo_facet_indices"plugin="mapdl"cat="result"><h1 class="op-des-h1">result: split to acmo facet indices</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>This will retain the already existing labels from the input FC and will change the facet label to now mean ACMO facet indices.Each Field in the input will be split/merged into several Fields, redistributing the data to the appropriate entity.</p>
+</div></td></tr></tbody></table></div><h2 class="op-des-h2">Configurations</h2><config-spec name="mutex" default="false" doc="If this option is set to true, the shared memory is prevented from being simultaneously accessed by multiple threads." types="bool" ></config-spec><h2 class="op-des-h2">Scripting</h2><scripting-part scripting_name="write_motion_dfmf_file" license="none" cat="result" plugin="core" cpp-name="write_motion_dfmf_file"></scripting-part><h2 class="op-des-h2">Changelog</h2><op-changelog content='{"0.0.0":"New","0.1.0":"Added optional inputs for output node type, wireframe threshold scale, and edge decimation angular limit."}'></op-changelog></div><div class="operator" id="split to acmo facet indices" scripting_name="mapdl_split_to_acmo_facet_indices"plugin="mapdl"cat="result"><h1 class="op-des-h1">result: split to acmo facet indices</h1><figure class="figure-op-des"> <figcaption > Description  </figcaption><div class = "figure-op-des-text"><p>This will retain the already existing labels from the input FC and will change the facet label to now mean ACMO facet indices.Each Field in the input will be split/merged into several Fields, redistributing the data to the appropriate entity.</p>
 </div></figure><div class="op-version">Version 0.0.2</div><h2 class="op-des-h2">Inputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td><td><div class = "pin-des-text"><p>Fields container to split, with generic number of labels (e.g. time, zone, complex...), 'facet' label is compulsory.The Scopings of the Fields will be the Element Ids on the skin mesh.</p>
 </div></td></tr></tbody></table><table class="pin-box"><tbody><tr><td><pin-number n="1" ellipsis = "false"></pin-number></td><td><pin-name name="property_fields_container_element_types"></pin-name></td><td><req-type typeName="(property_fields_container)"></req-type></td><td><div class = "pin-des-text"><p>It should only have the 'facet' label. For each facet, it stores a PropertyField with the element types of the corresponding elements.The scoping should be the same as the scoping of the corresponding Field in input 0.</p>
 </div></td></tr></tbody></table></div><h2 class="op-des-h2">Outputs</h2><div><table class="pin-box"><tbody><tr><td><pin-number n="0" ellipsis = "false"></pin-number></td><td><pin-name name="fields_container"></pin-name></td><td><req-type typeName="(fields_container)"></req-type></td><td><div class = "pin-des-text"><p>Output splitted fields containter</p>

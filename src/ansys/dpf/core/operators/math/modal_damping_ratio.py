@@ -17,6 +17,7 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.field import Field
+    from ansys.dpf.core.time_freq_support import TimeFreqSupport
 
 
 class modal_damping_ratio(Operator):
@@ -36,7 +37,7 @@ class modal_damping_ratio(Operator):
 
     Inputs
     ------
-    natural_freq:
+    natural_freq: Field or TimeFreqSupport
         input vector expects natural frequencies.
     const_ratio: float, optional
         constant modal damping ratio
@@ -60,7 +61,7 @@ class modal_damping_ratio(Operator):
     >>> op = dpf.operators.math.modal_damping_ratio()
 
     >>> # Make input connections
-    >>> my_natural_freq = dpf.()
+    >>> my_natural_freq = dpf.Field()
     >>> op.inputs.natural_freq.connect(my_natural_freq)
     >>> my_const_ratio = float()
     >>> op.inputs.const_ratio.connect(my_const_ratio)
@@ -132,7 +133,7 @@ Rayleigh coefficient (pin 4).
             map_input_pin_spec={
                 0: PinSpecification(
                     name="natural_freq",
-                    type_names=["vector<double>"],
+                    type_names=["vector<double>", "field", "time_freq_support"],
                     optional=False,
                     document=r"""input vector expects natural frequencies.""",
                 ),
@@ -224,7 +225,7 @@ class InputsModalDampingRatio(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.math.modal_damping_ratio()
-    >>> my_natural_freq = dpf.()
+    >>> my_natural_freq = dpf.Field()
     >>> op.inputs.natural_freq.connect(my_natural_freq)
     >>> my_const_ratio = float()
     >>> op.inputs.const_ratio.connect(my_const_ratio)
@@ -238,7 +239,7 @@ class InputsModalDampingRatio(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(modal_damping_ratio._spec().inputs, op)
-        self._natural_freq: Input = Input(
+        self._natural_freq: Input[Field | TimeFreqSupport] = Input(
             modal_damping_ratio._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._natural_freq)
@@ -260,7 +261,7 @@ class InputsModalDampingRatio(_Inputs):
         self._inputs.append(self._k_coefficient)
 
     @property
-    def natural_freq(self) -> Input:
+    def natural_freq(self) -> Input[Field | TimeFreqSupport]:
         r"""Allows to connect natural_freq input to the operator.
 
         input vector expects natural frequencies.
