@@ -21,8 +21,9 @@ if TYPE_CHECKING:
 
 
 class rescope_fc(Operator):
-    r"""Rescopes a field on the given scoping. If an ID does not exist in the
-    original field, the default value (in 2) is used when defined.
+    r"""Rescopes a fields container on the given scoping. If an ID does not
+    exist in the original fields container, the default value (in 2) is used
+    when defined.
 
 
     Inputs
@@ -86,8 +87,9 @@ class rescope_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Rescopes a field on the given scoping. If an ID does not exist in the
-original field, the default value (in 2) is used when defined.
+        description = r"""Rescopes a fields container on the given scoping. If an ID does not
+exist in the original fields container, the default value (in 2) is used
+when defined.
 """
         spec = Specification(
             description=description,

@@ -20,17 +20,28 @@ if TYPE_CHECKING:
 
 
 class entity_extractor(Operator):
-    r"""Extracts an entity from a field, based on its ID.
+    r"""Extracts a single scalar value from a field by its zero-based scoping
+    index :math:`k` (pin 1). The output field contains one entity: the
+    entity whose scoping index is :math:`k`, with its entity ID resolved
+    from the input scoping and its first data component copied. Only the
+    first component is extracted regardless of the input field’s
+    dimensionality. Note: :math:`k` is the index within the field’s scoping,
+    not the entity ID.
 
 
     Inputs
     ------
     fieldA: Field
+        Input field from which the entity is extracted.
     scalar_int: int
+        Zero-based scoping index $k$ of the entity to extract.
 
     Outputs
     -------
     field: Field
+        Single-entity scalar field holding the first component of the extracted entity. The entity ID is the ID of the $k$-th entity in the input scoping. Always scalar regardless of the input field's dimensionality.
+    int32: int
+        Echo of the input index $k$ (pin 1).
 
     Examples
     --------
@@ -53,6 +64,7 @@ class entity_extractor(Operator):
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
+    >>> result_int32 = op.outputs.int32()
     """
 
     def __init__(self, fieldA=None, scalar_int=None, config=None, server=None):
@@ -70,7 +82,13 @@ class entity_extractor(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Extracts an entity from a field, based on its ID.
+        description = r"""Extracts a single scalar value from a field by its zero-based scoping
+index :math:`k` (pin 1). The output field contains one entity: the
+entity whose scoping index is :math:`k`, with its entity ID resolved
+from the input scoping and its first data component copied. Only the
+first component is extracted regardless of the input field’s
+dimensionality. Note: :math:`k` is the index within the field’s scoping,
+not the entity ID.
 """
         spec = Specification(
             description=description,
@@ -79,13 +97,13 @@ class entity_extractor(Operator):
                     name="fieldA",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Input field from which the entity is extracted.""",
                 ),
                 1: PinSpecification(
                     name="scalar_int",
                     type_names=["int32"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Zero-based scoping index $k$ of the entity to extract.""",
                 ),
             },
             map_output_pin_spec={
@@ -93,7 +111,13 @@ class entity_extractor(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Single-entity scalar field holding the first component of the extracted entity. The entity ID is the ID of the $k$-th entity in the input scoping. Always scalar regardless of the input field's dimensionality.""",
+                ),
+                1: PinSpecification(
+                    name="int32",
+                    type_names=["int32"],
+                    optional=False,
+                    document=r"""Echo of the input index $k$ (pin 1).""",
                 ),
             },
         )
@@ -172,6 +196,8 @@ class InputsEntityExtractor(_Inputs):
     def fieldA(self) -> Input[Field]:
         r"""Allows to connect fieldA input to the operator.
 
+        Input field from which the entity is extracted.
+
         Returns
         -------
         input:
@@ -190,6 +216,8 @@ class InputsEntityExtractor(_Inputs):
     @property
     def scalar_int(self) -> Input[int]:
         r"""Allows to connect scalar_int input to the operator.
+
+        Zero-based scoping index $k$ of the entity to extract.
 
         Returns
         -------
@@ -217,6 +245,7 @@ class OutputsEntityExtractor(_Outputs):
     >>> op = dpf.operators.math.entity_extractor()
     >>> # Connect inputs : op.inputs. ...
     >>> result_field = op.outputs.field()
+    >>> result_int32 = op.outputs.int32()
     """
 
     def __init__(self, op: Operator):
@@ -225,10 +254,14 @@ class OutputsEntityExtractor(_Outputs):
             entity_extractor._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._field)
+        self._int32: Output[int] = Output(entity_extractor._spec().output_pin(1), 1, op)
+        self._outputs.append(self._int32)
 
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Single-entity scalar field holding the first component of the extracted entity. The entity ID is the ID of the $k$-th entity in the input scoping. Always scalar regardless of the input field's dimensionality.
 
         Returns
         -------
@@ -243,3 +276,23 @@ class OutputsEntityExtractor(_Outputs):
         >>> result_field = op.outputs.field()
         """
         return self._field
+
+    @property
+    def int32(self) -> Output[int]:
+        r"""Allows to get int32 output of the operator
+
+        Echo of the input index $k$ (pin 1).
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.entity_extractor()
+        >>> # Get the output from op.outputs. ...
+        >>> result_int32 = op.outputs.int32()
+        """
+        return self._int32
