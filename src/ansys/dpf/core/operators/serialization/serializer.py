@@ -26,7 +26,7 @@ class serializer(Operator):
     Inputs
     ------
     stream_type: int
-        0 for ASCII (default), and 1 for binary
+        0 for ASCII, and 1 for binary (default)
     file_path: str
     any_input1: Any
         any input
@@ -102,7 +102,7 @@ class serializer(Operator):
                     name="stream_type",
                     type_names=["int32"],
                     optional=False,
-                    document=r"""0 for ASCII (default), and 1 for binary""",
+                    document=r"""0 for ASCII, and 1 for binary (default)""",
                 ),
                 0: PinSpecification(
                     name="file_path",
@@ -213,7 +213,7 @@ class InputsSerializer(_Inputs):
     def stream_type(self) -> Input[int]:
         r"""Allows to connect stream_type input to the operator.
 
-        0 for ASCII (default), and 1 for binary
+        0 for ASCII, and 1 for binary (default)
 
         Returns
         -------

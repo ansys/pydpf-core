@@ -144,6 +144,15 @@ class OperatorCAPI(operator_abstract_api.OperatorAbstractAPI):
 		return res
 
 	@staticmethod
+	def operator_connect_uint(op, iPin, value):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_connect_uint(op._internal_obj if op is not None else None, utils.to_int32(iPin), utils.to_uint64(value), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def operator_connect_double(op, iPin, value):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -229,6 +238,15 @@ class OperatorCAPI(operator_abstract_api.OperatorAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Operator_connect_vector_double(op._internal_obj if op is not None else None, utils.to_int32(iPin), utils.to_double_ptr(ptrValue), utils.to_int32(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def operator_connect_vector_uint(op, iPin, ptrValue, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_connect_vector_uint(op._internal_obj if op is not None else None, utils.to_int32(iPin), utils.to_uint64_ptr(ptrValue), utils.to_int32(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -600,6 +618,15 @@ class OperatorCAPI(operator_abstract_api.OperatorAbstractAPI):
 		return res
 
 	@staticmethod
+	def operator_getoutput_uint(op, iOutput):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_getoutput_uint(op._internal_obj if op is not None else None, utils.to_int32(iOutput), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def operator_getoutput_time_freq_support(op, iOutput):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -703,6 +730,15 @@ class OperatorCAPI(operator_abstract_api.OperatorAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Operator_getoutput_DoubleCollection(op._internal_obj if op is not None else None, utils.to_int32(iOutput), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def operator_getoutput_uint_collection(op, iOutput):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_getoutput_UIntCollection(op._internal_obj if op is not None else None, utils.to_int32(iOutput), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

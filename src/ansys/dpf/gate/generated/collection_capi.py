@@ -54,6 +54,15 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		return res
 
 	@staticmethod
+	def collection_of_uint64_new():
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_OfUInt64New(ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def collection_get_data_as_int(collection, size):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -83,6 +92,15 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		return newres
 
 	@staticmethod
+	def collection_get_data_as_uint64(collection, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_GetDataAsUInt64(collection._internal_obj if collection is not None else None, ctypes.byref(utils.to_int32(size)), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def collection_add_int_entry(collection, obj):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -110,6 +128,15 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		return res
 
 	@staticmethod
+	def collection_add_uint64_entry(collection, obj):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_AddUInt64Entry(collection._internal_obj if collection is not None else None, utils.to_uint64(obj), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def collection_set_int_entry(collection, index, obj):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -132,6 +159,15 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Collection_SetStringEntry(collection._internal_obj if collection is not None else None, utils.to_int32(index), utils.to_char_ptr(obj), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def collection_set_uint64_entry(collection, index, obj):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_SetUInt64Entry(collection._internal_obj if collection is not None else None, utils.to_int32(index), utils.to_uint64(obj), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -166,6 +202,15 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		return newres
 
 	@staticmethod
+	def collection_get_uint64_entry(collection, index):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_GetUInt64Entry(collection._internal_obj if collection is not None else None, utils.to_int32(index), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def collection_set_data_as_int(collection, data, size):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -184,6 +229,15 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		return res
 
 	@staticmethod
+	def collection_set_data_as_uint64(collection, data, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_SetDataAsUInt64(collection._internal_obj if collection is not None else None, utils.to_uint64_ptr(data), utils.to_int32(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def collection_get_data_as_int_for_dpf_vector(collection, out, data, size):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -197,6 +251,15 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Collection_GetDataAsDouble_For_DpfVector(collection._internal_obj if collection is not None else None, out._internal_obj, utils.to_double_ptr_ptr(data), utils.to_int32_ptr(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def collection_get_data_as_uint64_for_dpf_vector(collection, out, data, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_GetDataAsUInt64_For_DpfVector(collection._internal_obj if collection is not None else None, out._internal_obj, data, utils.to_int32_ptr(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -642,6 +705,15 @@ class CollectionCAPI(collection_abstract_api.CollectionAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Collection_OfStringNew_local(client._internal_obj if client is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def collection_of_uint64_new_on_client(client):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Collection_OfUInt64New_on_client(client._internal_obj if client is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
