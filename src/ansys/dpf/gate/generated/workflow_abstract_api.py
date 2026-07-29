@@ -200,6 +200,10 @@ class WorkflowAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def work_flow_connect_uint(wf, pin_name, value):
+		raise NotImplementedError
+
+	@staticmethod
 	def work_flow_connect_string(wf, pin_name, value):
 		raise NotImplementedError
 
@@ -273,6 +277,10 @@ class WorkflowAbstractAPI:
 
 	@staticmethod
 	def work_flow_connect_vector_double(wf, pin_name, ptrValue, size):
+		raise NotImplementedError
+
+	@staticmethod
+	def work_flow_connect_vector_uint(wf, pin_name, ptrValue, size):
 		raise NotImplementedError
 
 	@staticmethod
@@ -372,6 +380,10 @@ class WorkflowAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def work_flow_getoutput_uint_collection(wf, pin_name):
+		raise NotImplementedError
+
+	@staticmethod
 	def work_flow_getoutput_operator(wf, pin_name):
 		raise NotImplementedError
 
@@ -417,6 +429,10 @@ class WorkflowAbstractAPI:
 
 	@staticmethod
 	def work_flow_getoutput_bool(wf, pin_name):
+		raise NotImplementedError
+
+	@staticmethod
+	def work_flow_getoutput_uint(wf, pin_name):
 		raise NotImplementedError
 
 	@staticmethod

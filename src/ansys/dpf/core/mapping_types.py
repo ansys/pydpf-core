@@ -78,6 +78,8 @@ map_types_to_python["vector<bool>"] = "list[bool]"
 map_types_to_python["vector<int32>"] = "list[int]"
 map_types_to_python["vector<double>"] = "list[float]"
 map_types_to_python["vector<string>"] = "list[str]"
+map_types_to_python["vector<uint64>"] = "list[int]"
+map_types_to_python["uint64"] = "int"
 map_types_to_python["b"] = "bool"
 
 
@@ -104,6 +106,8 @@ def reflection_type_to_cpp_type(reflection_type: str) -> str:
         reflection_type = "streams"
     if reflection_type == "int32":
         return "int"
+    elif reflection_type == "uint64":
+        return "uint64_t"
     elif reflection_type in ["double", "bool"]:
         return reflection_type
     elif reflection_type == "string":

@@ -68,6 +68,10 @@ class OperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_connect_uint(op, iPin, value):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_connect_double(op, iPin, value):
 		raise NotImplementedError
 
@@ -105,6 +109,10 @@ class OperatorAbstractAPI:
 
 	@staticmethod
 	def operator_connect_vector_double(op, iPin, ptrValue, size):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_connect_vector_uint(op, iPin, ptrValue, size):
 		raise NotImplementedError
 
 	@staticmethod
@@ -216,6 +224,10 @@ class OperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_getoutput_property_fields_container(op, iOutput):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_getoutput_custom_type_fields_container(op, iOutput):
 		raise NotImplementedError
 
@@ -264,6 +276,10 @@ class OperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_getoutput_uint(op, iOutput):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_getoutput_time_freq_support(op, iOutput):
 		raise NotImplementedError
 
@@ -309,6 +325,10 @@ class OperatorAbstractAPI:
 
 	@staticmethod
 	def operator_getoutput_double_collection(op, iOutput):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_getoutput_uint_collection(op, iOutput):
 		raise NotImplementedError
 
 	@staticmethod

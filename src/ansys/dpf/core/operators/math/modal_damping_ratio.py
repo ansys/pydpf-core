@@ -17,16 +17,27 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.field import Field
+    from ansys.dpf.core.time_freq_support import TimeFreqSupport
 
 
 class modal_damping_ratio(Operator):
-    r"""Computes damping ratio for each mode shape as X_i = const + ratio_i +
-    m_coefficient / (2\ *omega_i) + k_coefficient* omega_i/2.
+    r"""Computes the `Rayleigh
+    damping <https://en.wikipedia.org/wiki/Rayleigh_dissipation_function>`__
+    ratio for each mode shape using the formula:
+
+    .. math:: \xi_i = C + r_i + \frac{\alpha}{2\,\omega_i} + \frac{\beta\,\omega_i}{2}
+
+    where :math:`\omega_i` is the natural angular frequency of mode
+    :math:`i` (pin 0), :math:`C` is the constant damping ratio (pin 1,
+    default :math:`0`), :math:`r_i` is the mode-specific damping ratio (pin
+    2, default :math:`0`), :math:`\alpha` is the mass-proportional Rayleigh
+    coefficient (pin 3), and :math:`\beta` is the stiffness-proportional
+    Rayleigh coefficient (pin 4).
 
 
     Inputs
     ------
-    natural_freq:
+    natural_freq: Field or TimeFreqSupport
         input vector expects natural frequencies.
     const_ratio: float, optional
         constant modal damping ratio
@@ -40,7 +51,7 @@ class modal_damping_ratio(Operator):
     Outputs
     -------
     field: Field
-        field of modal damping ratio.
+        Field of modal damping ratios $\xi_i$, one value per mode, in the same order as the input natural frequencies.
 
     Examples
     --------
@@ -50,7 +61,7 @@ class modal_damping_ratio(Operator):
     >>> op = dpf.operators.math.modal_damping_ratio()
 
     >>> # Make input connections
-    >>> my_natural_freq = dpf.()
+    >>> my_natural_freq = dpf.Field()
     >>> op.inputs.natural_freq.connect(my_natural_freq)
     >>> my_const_ratio = float()
     >>> op.inputs.const_ratio.connect(my_const_ratio)
@@ -104,15 +115,25 @@ class modal_damping_ratio(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes damping ratio for each mode shape as X_i = const + ratio_i +
-m_coefficient / (2\ *omega_i) + k_coefficient* omega_i/2.
+        description = r"""Computes the `Rayleigh
+damping <https://en.wikipedia.org/wiki/Rayleigh_dissipation_function>`__
+ratio for each mode shape using the formula:
+
+.. math:: \xi_i = C + r_i + \frac{\alpha}{2\,\omega_i} + \frac{\beta\,\omega_i}{2}
+
+where :math:`\omega_i` is the natural angular frequency of mode
+:math:`i` (pin 0), :math:`C` is the constant damping ratio (pin 1,
+default :math:`0`), :math:`r_i` is the mode-specific damping ratio (pin
+2, default :math:`0`), :math:`\alpha` is the mass-proportional Rayleigh
+coefficient (pin 3), and :math:`\beta` is the stiffness-proportional
+Rayleigh coefficient (pin 4).
 """
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
                     name="natural_freq",
-                    type_names=["vector<double>"],
+                    type_names=["vector<double>", "field", "time_freq_support"],
                     optional=False,
                     document=r"""input vector expects natural frequencies.""",
                 ),
@@ -146,7 +167,7 @@ m_coefficient / (2\ *omega_i) + k_coefficient* omega_i/2.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""field of modal damping ratio.""",
+                    document=r"""Field of modal damping ratios $\xi_i$, one value per mode, in the same order as the input natural frequencies.""",
                 ),
             },
         )
@@ -204,7 +225,7 @@ class InputsModalDampingRatio(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.math.modal_damping_ratio()
-    >>> my_natural_freq = dpf.()
+    >>> my_natural_freq = dpf.Field()
     >>> op.inputs.natural_freq.connect(my_natural_freq)
     >>> my_const_ratio = float()
     >>> op.inputs.const_ratio.connect(my_const_ratio)
@@ -218,7 +239,7 @@ class InputsModalDampingRatio(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(modal_damping_ratio._spec().inputs, op)
-        self._natural_freq: Input = Input(
+        self._natural_freq: Input[Field | TimeFreqSupport] = Input(
             modal_damping_ratio._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._natural_freq)
@@ -240,7 +261,7 @@ class InputsModalDampingRatio(_Inputs):
         self._inputs.append(self._k_coefficient)
 
     @property
-    def natural_freq(self) -> Input:
+    def natural_freq(self) -> Input[Field | TimeFreqSupport]:
         r"""Allows to connect natural_freq input to the operator.
 
         input vector expects natural frequencies.
@@ -368,7 +389,7 @@ class OutputsModalDampingRatio(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        field of modal damping ratio.
+        Field of modal damping ratios $\xi_i$, one value per mode, in the same order as the input natural frequencies.
 
         Returns
         -------

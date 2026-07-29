@@ -21,21 +21,33 @@ if TYPE_CHECKING:
 
 
 class fft_gradient_eval(Operator):
-    r"""Evaluate min max based on the fast fourier transform at a given field,
-    using gradient method for adaptative time step.
+    r"""Reconstitutes the time-domain signal from a complex FFT coefficients
+    container and finds its minimum and maximum using an adaptive time-step
+    gradient method. For each harmonic component at frequency :math:`f_k`,
+    the signal is:
+
+    .. math:: F(t) = \sum_k A_k \sin(2\pi f_k t - \phi_k + \tfrac{\pi}{2})
+
+    where :math:`A_k` and :math:`\phi_k` are the amplitude and phase derived
+    from the complex FFT coefficients. The adaptive stepping enlarges the
+    time step when the signal is far from a candidate extremum (controlled
+    by the oversampling ratio from pin 2), and refines near the extremum.
+    Only scalar fields are supported.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
+        Complex FFT coefficients container, as produced by the `fft` operator. Must have a complex label and a frequency-valued time-frequency support. Only scalar fields are supported.
     time_scoping: Scoping, optional
-        if specified only the results at these set ids are used
+        Frequency scoping. When provided, only the selected frequency set IDs contribute to the reconstruction. When omitted, all set IDs are used.
     fs_ratio: int, optional
-        default value = 20
+        Oversampling ratio used to set the base time step as $1/(f_{max} \times \mathit{fs_ratio})$. Default is $20$.
 
     Outputs
     -------
     coefficients: FieldsContainer
+        Time-domain fields container evaluated at the adaptive time steps. One output field per input label combination (excluding the complex label).
 
     Examples
     --------
@@ -87,8 +99,18 @@ class fft_gradient_eval(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Evaluate min max based on the fast fourier transform at a given field,
-using gradient method for adaptative time step.
+        description = r"""Reconstitutes the time-domain signal from a complex FFT coefficients
+container and finds its minimum and maximum using an adaptive time-step
+gradient method. For each harmonic component at frequency :math:`f_k`,
+the signal is:
+
+.. math:: F(t) = \sum_k A_k \sin(2\pi f_k t - \phi_k + \tfrac{\pi}{2})
+
+where :math:`A_k` and :math:`\phi_k` are the amplitude and phase derived
+from the complex FFT coefficients. The adaptive stepping enlarges the
+time step when the signal is far from a candidate extremum (controlled
+by the oversampling ratio from pin 2), and refines near the extremum.
+Only scalar fields are supported.
 """
         spec = Specification(
             description=description,
@@ -97,19 +119,19 @@ using gradient method for adaptative time step.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Complex FFT coefficients container, as produced by the `fft` operator. Must have a complex label and a frequency-valued time-frequency support. Only scalar fields are supported.""",
                 ),
                 1: PinSpecification(
                     name="time_scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document=r"""if specified only the results at these set ids are used""",
+                    document=r"""Frequency scoping. When provided, only the selected frequency set IDs contribute to the reconstruction. When omitted, all set IDs are used.""",
                 ),
                 2: PinSpecification(
                     name="fs_ratio",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""default value = 20""",
+                    document=r"""Oversampling ratio used to set the base time step as $1/(f_{max} \times \mathit{fs_ratio})$. Default is $20$.""",
                 ),
             },
             map_output_pin_spec={
@@ -117,7 +139,7 @@ using gradient method for adaptative time step.
                     name="coefficients",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Time-domain fields container evaluated at the adaptive time steps. One output field per input label combination (excluding the complex label).""",
                 ),
             },
         )
@@ -202,6 +224,8 @@ class InputsFftGradientEval(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        Complex FFT coefficients container, as produced by the `fft` operator. Must have a complex label and a frequency-valued time-frequency support. Only scalar fields are supported.
+
         Returns
         -------
         input:
@@ -221,7 +245,7 @@ class InputsFftGradientEval(_Inputs):
     def time_scoping(self) -> Input[Scoping]:
         r"""Allows to connect time_scoping input to the operator.
 
-        if specified only the results at these set ids are used
+        Frequency scoping. When provided, only the selected frequency set IDs contribute to the reconstruction. When omitted, all set IDs are used.
 
         Returns
         -------
@@ -242,7 +266,7 @@ class InputsFftGradientEval(_Inputs):
     def fs_ratio(self) -> Input[int]:
         r"""Allows to connect fs_ratio input to the operator.
 
-        default value = 20
+        Oversampling ratio used to set the base time step as $1/(f_{max} \times \mathit{fs_ratio})$. Default is $20$.
 
         Returns
         -------
@@ -282,6 +306,8 @@ class OutputsFftGradientEval(_Outputs):
     @property
     def coefficients(self) -> Output[FieldsContainer]:
         r"""Allows to get coefficients output of the operator
+
+        Time-domain fields container evaluated at the adaptive time steps. One output field per input label combination (excluding the complex label).
 
         Returns
         -------
