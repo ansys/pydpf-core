@@ -113,6 +113,7 @@ jobs:
         run: |
           pip install -U pip
           pip install --group build
+          pip install --group operator_doc
 
       - name: "List installed packages"
         shell: bash
