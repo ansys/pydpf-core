@@ -217,7 +217,6 @@ from .magnetic_scalar_potential import magnetic_scalar_potential
 from .magnetic_vector_potential import magnetic_vector_potential
 from .mapdl_material_properties import mapdl_material_properties
 from .mapdl_section import mapdl_section
-from .mapdl_split_on_facet_indices import mapdl_split_on_facet_indices
 from .mapdl_split_to_acmo_facet_indices import mapdl_split_to_acmo_facet_indices
 from .mass_flow_rate import mass_flow_rate
 from .mass_fraction import mass_fraction

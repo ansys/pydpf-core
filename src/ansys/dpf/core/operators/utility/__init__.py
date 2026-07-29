@@ -83,6 +83,7 @@ from .set_property import set_property
 from .split_in_for_each_range import split_in_for_each_range
 from .strain_from_voigt import strain_from_voigt
 from .strain_from_voigt_fc import strain_from_voigt_fc
+from .transpose_fields_container import transpose_fields_container
 from .txt_file_to_dpf import txt_file_to_dpf
 from .unitary_field import unitary_field
 from .weighted_merge_fields_by_label import weighted_merge_fields_by_label
