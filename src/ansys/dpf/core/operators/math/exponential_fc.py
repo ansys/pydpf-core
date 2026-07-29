@@ -31,6 +31,8 @@ class exponential_fc(Operator):
     ------
     fields_container: FieldsContainer
         Dimensionless field, fields container, or numeric data.
+    apply_to_time_freq_support: bool, optional
+        Boolean value indicating if the exponential must be applied to the time/frequency values of the time/frequency support attached to the fields container (if present). Default to false.
 
     Outputs
     -------
@@ -47,17 +49,26 @@ class exponential_fc(Operator):
     >>> # Make input connections
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_apply_to_time_freq_support = bool()
+    >>> op.inputs.apply_to_time_freq_support.connect(my_apply_to_time_freq_support)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.exponential_fc(
     ...     fields_container=my_fields_container,
+    ...     apply_to_time_freq_support=my_apply_to_time_freq_support,
     ... )
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    def __init__(self, fields_container=None, config=None, server=None):
+    def __init__(
+        self,
+        fields_container=None,
+        apply_to_time_freq_support=None,
+        config=None,
+        server=None,
+    ):
         super().__init__(
             name="exponential_fc",
             config=config,
@@ -67,6 +78,8 @@ class exponential_fc(Operator):
         )
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
+        if apply_to_time_freq_support is not None:
+            self.inputs.apply_to_time_freq_support.connect(apply_to_time_freq_support)
 
     @staticmethod
     def _spec() -> Specification:
@@ -84,6 +97,12 @@ dimensionless.
                     type_names=["fields_container"],
                     optional=False,
                     document=r"""Dimensionless field, fields container, or numeric data.""",
+                ),
+                1: PinSpecification(
+                    name="apply_to_time_freq_support",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""Boolean value indicating if the exponential must be applied to the time/frequency values of the time/frequency support attached to the fields container (if present). Default to false.""",
                 ),
             },
             map_output_pin_spec={
@@ -151,6 +170,8 @@ class InputsExponentialFc(_Inputs):
     >>> op = dpf.operators.math.exponential_fc()
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_apply_to_time_freq_support = bool()
+    >>> op.inputs.apply_to_time_freq_support.connect(my_apply_to_time_freq_support)
     """
 
     def __init__(self, op: Operator):
@@ -159,6 +180,10 @@ class InputsExponentialFc(_Inputs):
             exponential_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
+        self._apply_to_time_freq_support: Input[bool] = Input(
+            exponential_fc._spec().input_pin(1), 1, op, -1
+        )
+        self._inputs.append(self._apply_to_time_freq_support)
 
     @property
     def fields_container(self) -> Input[FieldsContainer]:
@@ -180,6 +205,27 @@ class InputsExponentialFc(_Inputs):
         >>> op.inputs.fields_container(my_fields_container)
         """
         return self._fields_container
+
+    @property
+    def apply_to_time_freq_support(self) -> Input[bool]:
+        r"""Allows to connect apply_to_time_freq_support input to the operator.
+
+        Boolean value indicating if the exponential must be applied to the time/frequency values of the time/frequency support attached to the fields container (if present). Default to false.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.exponential_fc()
+        >>> op.inputs.apply_to_time_freq_support.connect(my_apply_to_time_freq_support)
+        >>> # or
+        >>> op.inputs.apply_to_time_freq_support(my_apply_to_time_freq_support)
+        """
+        return self._apply_to_time_freq_support
 
 
 class OutputsExponentialFc(_Outputs):
