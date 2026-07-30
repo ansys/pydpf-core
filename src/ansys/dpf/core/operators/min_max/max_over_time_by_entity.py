@@ -20,20 +20,34 @@ if TYPE_CHECKING:
 
 
 class max_over_time_by_entity(Operator):
-    r"""Evaluates maximum over time/frequency.
+    r"""Thin wrapper around ``min_max_over_time_by_entity`` that exposes only
+    the per-entity, per-component maximum across all time or frequency
+    steps.
+
+    The result forwarded on output pin 0 is pin 1 of
+    ``min_max_over_time_by_entity`` (the ``max`` fields container), with the
+    same shape: one value per entity, per component and per shell layer when
+    available.
+
+    **When to use:** you only need the per-entity maximum over time. Prefer
+    ``min_max_over_time_by_entity`` directly when you also need the minimum,
+    the time of extremum, or the incremental behaviour on multiple output
+    pins.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
+        Fields container aggregated per entity across all time or frequency steps. Must expose the `time` label; otherwise the input is forwarded unchanged by the underlying operator.
     abs_value: bool, optional
-        Should use absolute value.
+        When `true`, absolute values of the field entries are used before the max is computed. Default: `false`.
     compute_amplitude: bool, optional
-        Do calculate amplitude.
+        When `true` and the input fields container has the `complex` label, the amplitude of the complex values is used before the max is computed. Ignored otherwise. Default: `false`.
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Per-entity, per-component maximum across all time or frequency steps. Same shape as pin 1 of `min_max_over_time_by_entity`.
 
     Examples
     --------
@@ -85,7 +99,19 @@ class max_over_time_by_entity(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Evaluates maximum over time/frequency.
+        description = r"""Thin wrapper around ``min_max_over_time_by_entity`` that exposes only
+the per-entity, per-component maximum across all time or frequency
+steps.
+
+The result forwarded on output pin 0 is pin 1 of
+``min_max_over_time_by_entity`` (the ``max`` fields container), with the
+same shape: one value per entity, per component and per shell layer when
+available.
+
+**When to use:** you only need the per-entity maximum over time. Prefer
+``min_max_over_time_by_entity`` directly when you also need the minimum,
+the time of extremum, or the incremental behaviour on multiple output
+pins.
 """
         spec = Specification(
             description=description,
@@ -94,19 +120,19 @@ class max_over_time_by_entity(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container aggregated per entity across all time or frequency steps. Must expose the `time` label; otherwise the input is forwarded unchanged by the underlying operator.""",
                 ),
                 3: PinSpecification(
                     name="abs_value",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""Should use absolute value.""",
+                    document=r"""When `true`, absolute values of the field entries are used before the max is computed. Default: `false`.""",
                 ),
                 4: PinSpecification(
                     name="compute_amplitude",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""Do calculate amplitude.""",
+                    document=r"""When `true` and the input fields container has the `complex` label, the amplitude of the complex values is used before the max is computed. Ignored otherwise. Default: `false`.""",
                 ),
             },
             map_output_pin_spec={
@@ -114,7 +140,7 @@ class max_over_time_by_entity(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Per-entity, per-component maximum across all time or frequency steps. Same shape as pin 1 of `min_max_over_time_by_entity`.""",
                 ),
             },
         )
@@ -199,6 +225,8 @@ class InputsMaxOverTimeByEntity(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        Fields container aggregated per entity across all time or frequency steps. Must expose the `time` label; otherwise the input is forwarded unchanged by the underlying operator.
+
         Returns
         -------
         input:
@@ -218,7 +246,7 @@ class InputsMaxOverTimeByEntity(_Inputs):
     def abs_value(self) -> Input[bool]:
         r"""Allows to connect abs_value input to the operator.
 
-        Should use absolute value.
+        When `true`, absolute values of the field entries are used before the max is computed. Default: `false`.
 
         Returns
         -------
@@ -239,7 +267,7 @@ class InputsMaxOverTimeByEntity(_Inputs):
     def compute_amplitude(self) -> Input[bool]:
         r"""Allows to connect compute_amplitude input to the operator.
 
-        Do calculate amplitude.
+        When `true` and the input fields container has the `complex` label, the amplitude of the complex values is used before the max is computed. Ignored otherwise. Default: `false`.
 
         Returns
         -------
@@ -279,6 +307,8 @@ class OutputsMaxOverTimeByEntity(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Per-entity, per-component maximum across all time or frequency steps. Same shape as pin 1 of `min_max_over_time_by_entity`.
 
         Returns
         -------
