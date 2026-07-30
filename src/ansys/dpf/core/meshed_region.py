@@ -28,7 +28,6 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:  # pragma: nocover
     from ansys.dpf.core.field import Field
-    from ansys.dpf.core.field_base import _FieldBase
     from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.property_field import PropertyField
     from ansys.dpf.core.scoping import Scoping
@@ -651,9 +650,7 @@ class MeshedRegion:
             if self.is_empty():
                 raise dpf_errors.EmptyMeshPlottingError
             pl = DpfPlotter(**kwargs)
-            shell_layer = (
-                shell_layers if shell_layers is not None else eshell_layers.top
-            )
+            shell_layer = shell_layers if shell_layers is not None else eshell_layers.top
             common_kwargs = dict(
                 meshed_region=self,
                 deform_by=deform_by,
@@ -827,7 +824,7 @@ class MeshedRegion:
         idx = np.searchsorted(keys, element_types_field.data, sorter=sort_idx)
         return np.asarray(list(size_map.values()))[sort_idx][idx]
 
-    def scatter_field_to_location(
+    def scatter_field_to_location(  # noqa: PLR0912, C901
         self,
         source: Field | PropertyField | FieldsContainer,
         location: locations = None,
@@ -930,18 +927,10 @@ class MeshedRegion:
             if location == locations.elemental_nodal:
                 # Expand ind/mask so each element contributes one slot per node.
                 mask = np.asarray(
-                    [
-                        mask_i
-                        for i, mask_i in enumerate(mask)
-                        for _ in range(n_nodes_list[ind[i]])
-                    ]
+                    [mask_i for i, mask_i in enumerate(mask) for _ in range(n_nodes_list[ind[i]])]
                 )
                 ind = np.asarray(
-                    [
-                        first_index[ind_i] + j
-                        for ind_i in ind
-                        for j in range(n_nodes_list[ind_i])
-                    ]
+                    [first_index[ind_i] + j for ind_i in ind for j in range(n_nodes_list[ind_i])]
                 )
             overall_data[ind] = f.data[mask]
 

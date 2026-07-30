@@ -129,9 +129,7 @@ def _build_contour_grid(
             meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
         )
     elif as_linear != meshed_region.as_linear:
-        grid = meshed_region._as_vtk(
-            meshed_region.nodes.coordinates_field, as_linear=as_linear
-        )
+        grid = meshed_region._as_vtk(meshed_region.nodes.coordinates_field, as_linear=as_linear)
         meshed_region.as_linear = as_linear
     else:
         grid = meshed_region.grid
@@ -609,12 +607,8 @@ class _PyVistaPlotter:
             fields_container = _extend_container_to_mid_nodes(fields_container)
         fields_container = fields_container.normalize_shell_layers(shell_layer)
 
-        overall_data = meshed_region.scatter_field_to_location(
-            fields_container, location=location
-        )
-        grid = _build_contour_grid(
-            meshed_region, location, deform_by, scale_factor, as_linear
-        )
+        overall_data = meshed_region.scatter_field_to_location(fields_container, location=location)
+        grid = _build_contour_grid(meshed_region, location, deform_by, scale_factor, as_linear)
 
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
@@ -1278,12 +1272,8 @@ class _VisualizationInterfacePlotter:
             fields_container = _extend_container_to_mid_nodes(fields_container)
         fields_container = fields_container.normalize_shell_layers(shell_layer)
 
-        overall_data = meshed_region.scatter_field_to_location(
-            fields_container, location=location
-        )
-        grid = _build_contour_grid(
-            meshed_region, location, deform_by, scale_factor, as_linear
-        )
+        overall_data = meshed_region.scatter_field_to_location(fields_container, location=location)
+        grid = _build_contour_grid(meshed_region, location, deform_by, scale_factor, as_linear)
 
         kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.add_mesh, **kwargs)
         self._plotter.plot(grid, scalars=overall_data, **kwargs_in)
@@ -2001,9 +1991,7 @@ class Plotter:
             ),
             stacklevel=2,
         )
-        return plot_chart(
-            fields_container, off_screen=off_screen, screenshot=screenshot
-        )
+        return plot_chart(fields_container, off_screen=off_screen, screenshot=screenshot)
 
     def plot_contour(
         self,

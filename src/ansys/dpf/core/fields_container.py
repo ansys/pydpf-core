@@ -650,9 +650,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
 
         # Guard: reject empty meshes early with the same error the legacy
         # ``Plotter.plot_contour`` raised, so callers get a consistent error type.
-        reference_field = next(
-            (f for f in filtered_fc if len(f.data) != 0), None
-        )
+        reference_field = next((f for f in filtered_fc if len(f.data) != 0), None)
         if reference_field is not None and reference_field.meshed_region.is_empty():
             raise dpf_errors.EmptyMeshPlottingError
 
