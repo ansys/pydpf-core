@@ -687,3 +687,76 @@ def test_meshed_region_bounding_box(simple_bar_model):
     coords_field = mesh.nodes.coordinates_field
     if coords_field.unit:
         assert bbox.unit == coords_field.unit
+
+
+# ---------------------------------------------------------------------------
+# scatter_field_to_location
+# ---------------------------------------------------------------------------
+
+
+def test_scatter_field_to_location_field_shape(simple_bar_model):
+    """A nodal displacement Field scatters to a (n_nodes, n_components) array."""
+    mesh = simple_bar_model.metadata.meshed_region
+    disp = simple_bar_model.results.displacement().eval()[0]
+
+    arr = mesh.scatter_field_to_location(disp)
+
+    assert arr.shape == (len(mesh.nodes), disp.component_count)
+    # displacement is fully-scoped on this model -> no NaN
+    assert not np.isnan(arr).any()
+    # Values must match the field data for a scoping that covers every node
+    ind, mask = mesh.nodes.map_scoping(disp.scoping)
+    expected = np.full(arr.shape, np.nan)
+    expected[ind] = disp.data[mask]
+    assert np.allclose(arr, expected)
+
+
+def test_scatter_field_to_location_partial_scoping_yields_nans(simple_bar_model):
+    """Nodes not present in ``source``'s scoping produce NaNs in the output."""
+    mesh = simple_bar_model.metadata.meshed_region
+    disp = simple_bar_model.results.displacement().eval()[0]
+
+    # Keep only the first few nodes in the scoping
+    kept_ids = list(disp.scoping.ids)[:5]
+    partial = dpf.core.fields_factory.field_from_array(
+        np.zeros((len(kept_ids), 3)) + 42.0, server=simple_bar_model._server
+    )
+    partial.scoping = dpf.core.Scoping(
+        ids=kept_ids, location=dpf.core.locations.nodal, server=simple_bar_model._server
+    )
+    partial.location = dpf.core.locations.nodal
+
+    arr = mesh.scatter_field_to_location(partial)
+
+    # Positions in kept_ids are 42.0, all others are NaN
+    ind, _ = mesh.nodes.map_scoping(partial.scoping)
+    assert np.allclose(arr[ind], 42.0)
+    mask_nan = np.ones(arr.shape[0], dtype=bool)
+    mask_nan[ind] = False
+    assert np.isnan(arr[mask_nan]).all()
+
+
+def test_scatter_field_to_location_fields_container_matches_field(simple_bar_model):
+    """A single-entry FieldsContainer scatters identically to its single Field."""
+    mesh = simple_bar_model.metadata.meshed_region
+    disp = simple_bar_model.results.displacement().eval()[0]
+
+    fc = dpf.core.FieldsContainer(server=simple_bar_model._server)
+    fc.add_label("id")
+    fc.add_field({"id": 1}, disp)
+
+    arr_field = mesh.scatter_field_to_location(disp)
+    arr_container = mesh.scatter_field_to_location(fc)
+
+    assert arr_field.shape == arr_container.shape
+    assert np.allclose(arr_field, arr_container, equal_nan=True)
+
+
+def test_scatter_field_to_location_invalid_location_raises(simple_bar_model):
+    """An unsupported location string raises ``ValueError``."""
+    mesh = simple_bar_model.metadata.meshed_region
+    disp = simple_bar_model.results.displacement().eval()[0]
+
+    with pytest.raises(ValueError, match="location"):
+        mesh.scatter_field_to_location(disp, location="not_a_location")
+

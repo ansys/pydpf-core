@@ -550,7 +550,7 @@ class Field(_FieldBase):
         >>> fields_container = disp.outputs.fields_container()
         >>> field = fields_container[0]
         >>> mesh.plot(field)
-        ([], <pyvista.plotting.plotter.Plotter ...>)
+        (None, <pyvista.plotting.plotter.Plotter ...>)
 
         Parameters
         ----------
@@ -567,19 +567,22 @@ class Field(_FieldBase):
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
+        from ansys.dpf.core import errors as dpf_errors
+        from ansys.dpf.core.common import shell_layers as eshell_layers
         from ansys.dpf.core.plotter import DpfPlotter
 
         if meshed_region is None:
             meshed_region = self.meshed_region
-        show_axes = kwargs.pop("show_axes", True)
+        if meshed_region.is_empty():
+            raise dpf_errors.EmptyMeshPlottingError
         pl = DpfPlotter(**kwargs)
-        pl.add_fields_container(
+        pl.add_field(
             self,
             meshed_region=meshed_region,
-            shell_layers=shell_layers,
             deform_by=deform_by,
             scale_factor=scale_factor,
-            show_axes=show_axes,
+            shell_layer=shell_layers if shell_layers is not None else eshell_layers.top,
+            show_axes=kwargs.pop("show_axes", True),
             **kwargs,
         )
         kwargs.pop("notebook", None)
