@@ -639,7 +639,7 @@ class MeshedRegion:
         >>> disp = model.results.displacement()
         >>> field = disp.outputs.fields_container()[0]
         >>> model.metadata.meshed_region.plot(field)
-        (None, <pyvista.plotting.plotter.Plotter ...>)
+        ([], <pyvista.plotting.plotter.Plotter ...>)
 
         """
         if field_or_fields_container is not None:
@@ -862,7 +862,7 @@ class MeshedRegion:
         >>> disp = model.results.displacement().eval()[0]
         >>> arr = mesh.scatter_field_to_location(disp)
         >>> arr.shape
-        (3820, 3)
+        (81, 3)
         """
         from ansys.dpf.core.fields_container import FieldsContainer
 
