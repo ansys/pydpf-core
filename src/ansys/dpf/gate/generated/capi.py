@@ -1515,6 +1515,14 @@ def load_api(path):
 		dll.ExternalOperator_putException.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_char), )
 		dll.ExternalOperator_putException.restype = None
 
+	if hasattr(dll, "ExternalOperator_setExceptionType"):
+		dll.ExternalOperator_setExceptionType.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), )
+		dll.ExternalOperator_setExceptionType.restype = None
+
+	if hasattr(dll, "ExternalOperator_addExceptionAttribute"):
+		dll.ExternalOperator_addExceptionAttribute.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_char), )
+		dll.ExternalOperator_addExceptionAttribute.restype = None
+
 	if hasattr(dll, "ExternalOperator_putOutCollection"):
 		dll.ExternalOperator_putOutCollection.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_putOutCollection.restype = None

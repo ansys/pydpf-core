@@ -22,32 +22,61 @@ if TYPE_CHECKING:
 
 
 class min_max_over_label_fc(Operator):
-    r"""Create two fields (0 min 1 max) by looping over the fields container in
-    input and taking the min/max value by component through all the fields
-    having the same id for the label set in input (in pin 1). If no label is
-    specified or if the specified label doesn’t exist, the operation is done
-    over all the fields. The fields out are located on the label set in
-    input, so their scoping are the labels ids.For each min max value, the
-    label id for one other fields container labels is kept and returned in a
-    scoping in pin 2 (min) and 3 (max).The field’s scoping ids of the value
-    kept in min max are also returned in the scopings in pin 4 (min) and 5
-    (max).
+    r"""Groups the fields of the input fields container by the given label and,
+    within each group, computes the per-component minimum and maximum across
+    all fields of the group.
+
+    If the label is not set or does not exist in the fields container, the
+    operation runs over all fields as a single group.
+
+    Outputs:
+
+    - Pins 0 and 1: fields of per-group, per-component minima and maxima.
+      Their scoping is the set of label ids (or a single entity when no
+      label applies).
+    - Pins 2 and 3 (optional): for each output entry, the id of one
+      remaining label of the input fields container corresponding to the
+      field that provided the minimum and maximum, respectively.
+    - Pins 4 and 5: for each output entry, the input scoping id of the
+      entity within the source field that provided the minimum and maximum.
+
+    Input fields with no data are excluded from the output.
+
+    Within each input field, all elementary values contribute to the
+    per-group reduction: elemental-nodal expansions and shell-layer values
+    (when present) are folded into the same per-component min/max.
+
+    **When to use:** fields in the container are indexed by one or more
+    labels (for example ``body``, ``zone``) and you want one per-component
+    extremum per label id, collapsing every entity of each group into a
+    single output entry. Example: peak of each stress component per body
+    when the container is labelled by body id. Without a label, all entities
+    of all fields collapse into a single output entity, equivalent to
+    ``min_max(min_max_fc(...))``. Use ``min_max_by_entity`` to keep entity
+    resolution instead, or ``min_max_fc`` to keep per-field resolution.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
+        Fields container whose fields are grouped by the label passed on pin 1.
     label: str
-        label name from the fields container
+        Name of the label used to group the fields of the input fields container. If not set or not present, all fields are used as a single group.
 
     Outputs
     -------
     field_min: Field
+        Field of per-group, per-component minima. Scoped on the label ids used for grouping.
     field_max: Field
+        Field of per-group, per-component maxima. Scoped on the label ids used for grouping.
     domain_ids_min: Scoping, optional
+        For each entry of the output minimum field, the id of one remaining label of the input fields container from the field that provided the minimum. Populated only when the input fields container has more than one label.
     domain_ids_max: Scoping, optional
+        For each entry of the output maximum field, the id of one remaining label of the input fields container from the field that provided the maximum. Populated only when the input fields container has more than one label.
     scoping_ids_min: Scoping
+        For each entry of the output minimum field, the input scoping id of the entity within the source field that provided the minimum.
     scoping_ids_max: Scoping
+        For each entry of the output maximum field, the input scoping id of the entity within the source field that provided the maximum.
 
     Examples
     --------
@@ -92,16 +121,38 @@ class min_max_over_label_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Create two fields (0 min 1 max) by looping over the fields container in
-input and taking the min/max value by component through all the fields
-having the same id for the label set in input (in pin 1). If no label is
-specified or if the specified label doesn’t exist, the operation is done
-over all the fields. The fields out are located on the label set in
-input, so their scoping are the labels ids.For each min max value, the
-label id for one other fields container labels is kept and returned in a
-scoping in pin 2 (min) and 3 (max).The field’s scoping ids of the value
-kept in min max are also returned in the scopings in pin 4 (min) and 5
-(max).
+        description = r"""Groups the fields of the input fields container by the given label and,
+within each group, computes the per-component minimum and maximum across
+all fields of the group.
+
+If the label is not set or does not exist in the fields container, the
+operation runs over all fields as a single group.
+
+Outputs:
+
+- Pins 0 and 1: fields of per-group, per-component minima and maxima.
+  Their scoping is the set of label ids (or a single entity when no
+  label applies).
+- Pins 2 and 3 (optional): for each output entry, the id of one
+  remaining label of the input fields container corresponding to the
+  field that provided the minimum and maximum, respectively.
+- Pins 4 and 5: for each output entry, the input scoping id of the
+  entity within the source field that provided the minimum and maximum.
+
+Input fields with no data are excluded from the output.
+
+Within each input field, all elementary values contribute to the
+per-group reduction: elemental-nodal expansions and shell-layer values
+(when present) are folded into the same per-component min/max.
+
+**When to use:** fields in the container are indexed by one or more
+labels (for example ``body``, ``zone``) and you want one per-component
+extremum per label id, collapsing every entity of each group into a
+single output entry. Example: peak of each stress component per body
+when the container is labelled by body id. Without a label, all entities
+of all fields collapse into a single output entity, equivalent to
+``min_max(min_max_fc(...))``. Use ``min_max_by_entity`` to keep entity
+resolution instead, or ``min_max_fc`` to keep per-field resolution.
 """
         spec = Specification(
             description=description,
@@ -110,13 +161,13 @@ kept in min max are also returned in the scopings in pin 4 (min) and 5
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container whose fields are grouped by the label passed on pin 1.""",
                 ),
                 1: PinSpecification(
                     name="label",
                     type_names=["string"],
                     optional=False,
-                    document=r"""label name from the fields container""",
+                    document=r"""Name of the label used to group the fields of the input fields container. If not set or not present, all fields are used as a single group.""",
                 ),
             },
             map_output_pin_spec={
@@ -124,37 +175,37 @@ kept in min max are also returned in the scopings in pin 4 (min) and 5
                     name="field_min",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field of per-group, per-component minima. Scoped on the label ids used for grouping.""",
                 ),
                 1: PinSpecification(
                     name="field_max",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field of per-group, per-component maxima. Scoped on the label ids used for grouping.""",
                 ),
                 2: PinSpecification(
                     name="domain_ids_min",
                     type_names=["scoping"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""For each entry of the output minimum field, the id of one remaining label of the input fields container from the field that provided the minimum. Populated only when the input fields container has more than one label.""",
                 ),
                 3: PinSpecification(
                     name="domain_ids_max",
                     type_names=["scoping"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""For each entry of the output maximum field, the id of one remaining label of the input fields container from the field that provided the maximum. Populated only when the input fields container has more than one label.""",
                 ),
                 4: PinSpecification(
                     name="scoping_ids_min",
                     type_names=["scoping"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""For each entry of the output minimum field, the input scoping id of the entity within the source field that provided the minimum.""",
                 ),
                 5: PinSpecification(
                     name="scoping_ids_max",
                     type_names=["scoping"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""For each entry of the output maximum field, the input scoping id of the entity within the source field that provided the maximum.""",
                 ),
             },
         )
@@ -233,6 +284,8 @@ class InputsMinMaxOverLabelFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        Fields container whose fields are grouped by the label passed on pin 1.
+
         Returns
         -------
         input:
@@ -252,7 +305,7 @@ class InputsMinMaxOverLabelFc(_Inputs):
     def label(self) -> Input[str]:
         r"""Allows to connect label input to the operator.
 
-        label name from the fields container
+        Name of the label used to group the fields of the input fields container. If not set or not present, all fields are used as a single group.
 
         Returns
         -------
@@ -318,6 +371,8 @@ class OutputsMinMaxOverLabelFc(_Outputs):
     def field_min(self) -> Output[Field]:
         r"""Allows to get field_min output of the operator
 
+        Field of per-group, per-component minima. Scoped on the label ids used for grouping.
+
         Returns
         -------
         output:
@@ -335,6 +390,8 @@ class OutputsMinMaxOverLabelFc(_Outputs):
     @property
     def field_max(self) -> Output[Field]:
         r"""Allows to get field_max output of the operator
+
+        Field of per-group, per-component maxima. Scoped on the label ids used for grouping.
 
         Returns
         -------
@@ -354,6 +411,8 @@ class OutputsMinMaxOverLabelFc(_Outputs):
     def domain_ids_min(self) -> Output[Scoping]:
         r"""Allows to get domain_ids_min output of the operator
 
+        For each entry of the output minimum field, the id of one remaining label of the input fields container from the field that provided the minimum. Populated only when the input fields container has more than one label.
+
         Returns
         -------
         output:
@@ -371,6 +430,8 @@ class OutputsMinMaxOverLabelFc(_Outputs):
     @property
     def domain_ids_max(self) -> Output[Scoping]:
         r"""Allows to get domain_ids_max output of the operator
+
+        For each entry of the output maximum field, the id of one remaining label of the input fields container from the field that provided the maximum. Populated only when the input fields container has more than one label.
 
         Returns
         -------
@@ -390,6 +451,8 @@ class OutputsMinMaxOverLabelFc(_Outputs):
     def scoping_ids_min(self) -> Output[Scoping]:
         r"""Allows to get scoping_ids_min output of the operator
 
+        For each entry of the output minimum field, the input scoping id of the entity within the source field that provided the minimum.
+
         Returns
         -------
         output:
@@ -407,6 +470,8 @@ class OutputsMinMaxOverLabelFc(_Outputs):
     @property
     def scoping_ids_max(self) -> Output[Scoping]:
         r"""Allows to get scoping_ids_max output of the operator
+
+        For each entry of the output maximum field, the input scoping id of the entity within the source field that provided the maximum.
 
         Returns
         -------
