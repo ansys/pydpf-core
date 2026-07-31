@@ -20,20 +20,43 @@ if TYPE_CHECKING:
 
 
 class min_max_by_time(Operator):
-    r"""Evaluates minimum, maximum by time or frequency over all the entities of
-    each field
+    r"""For each time or frequency step of the input fields container, computes
+    the per-component minimum and maximum across all entities of the field
+    at that step.
+
+    Results exposed by component, collapsed by time, shell layers (when
+    available).
+
+    The result is grouped by all labels of the input fields container except
+    ``time``. For every remaining label combination, the output minimum (pin
+    0) and maximum (pin 1) each contain one field whose entity ids are the
+    time or frequency step ids and whose values are the per-component minima
+    and maxima at that step.
+
+    If the input does not contain the ``time`` label, the input fields
+    container is forwarded unchanged.
+
+    **When to use:** you want to keep the time or frequency axis but reduce
+    across entities, giving one per-component min/max value per step.
+    Example: peak displacement across the mesh at every time step of a
+    transient analysis. Use ``min_max_over_time_by_entity`` for the dual
+    reduction (keep entities, collapse time), or ``min_max_fc_inc`` for the
+    incremental variant.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
+        Fields container aggregated per time or frequency step. Must expose the `time` label to trigger the aggregation; otherwise the input is forwarded unchanged.
     compute_absolute_value: bool, optional
-        Calculate the absolute value of field entities before computing the min/max.
+        When set to `true`, absolute values of the field entries are used before the min and max are computed. Default: `false`.
 
     Outputs
     -------
     min: FieldsContainer
+        Per-component minima grouped by all input labels except `time`. Within each output field, entity ids are the time or frequency step ids.
     max: FieldsContainer
+        Per-component maxima grouped by all input labels except `time`. Within each output field, entity ids are the time or frequency step ids.
 
     Examples
     --------
@@ -80,8 +103,28 @@ class min_max_by_time(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Evaluates minimum, maximum by time or frequency over all the entities of
-each field
+        description = r"""For each time or frequency step of the input fields container, computes
+the per-component minimum and maximum across all entities of the field
+at that step.
+
+Results exposed by component, collapsed by time, shell layers (when
+available).
+
+The result is grouped by all labels of the input fields container except
+``time``. For every remaining label combination, the output minimum (pin
+0) and maximum (pin 1) each contain one field whose entity ids are the
+time or frequency step ids and whose values are the per-component minima
+and maxima at that step.
+
+If the input does not contain the ``time`` label, the input fields
+container is forwarded unchanged.
+
+**When to use:** you want to keep the time or frequency axis but reduce
+across entities, giving one per-component min/max value per step.
+Example: peak displacement across the mesh at every time step of a
+transient analysis. Use ``min_max_over_time_by_entity`` for the dual
+reduction (keep entities, collapse time), or ``min_max_fc_inc`` for the
+incremental variant.
 """
         spec = Specification(
             description=description,
@@ -90,13 +133,13 @@ each field
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container aggregated per time or frequency step. Must expose the `time` label to trigger the aggregation; otherwise the input is forwarded unchanged.""",
                 ),
                 2: PinSpecification(
                     name="compute_absolute_value",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""Calculate the absolute value of field entities before computing the min/max.""",
+                    document=r"""When set to `true`, absolute values of the field entries are used before the min and max are computed. Default: `false`.""",
                 ),
             },
             map_output_pin_spec={
@@ -104,13 +147,13 @@ each field
                     name="min",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Per-component minima grouped by all input labels except `time`. Within each output field, entity ids are the time or frequency step ids.""",
                 ),
                 1: PinSpecification(
                     name="max",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Per-component maxima grouped by all input labels except `time`. Within each output field, entity ids are the time or frequency step ids.""",
                 ),
             },
         )
@@ -189,6 +232,8 @@ class InputsMinMaxByTime(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        Fields container aggregated per time or frequency step. Must expose the `time` label to trigger the aggregation; otherwise the input is forwarded unchanged.
+
         Returns
         -------
         input:
@@ -208,7 +253,7 @@ class InputsMinMaxByTime(_Inputs):
     def compute_absolute_value(self) -> Input[bool]:
         r"""Allows to connect compute_absolute_value input to the operator.
 
-        Calculate the absolute value of field entities before computing the min/max.
+        When set to `true`, absolute values of the field entries are used before the min and max are computed. Default: `false`.
 
         Returns
         -------
@@ -254,6 +299,8 @@ class OutputsMinMaxByTime(_Outputs):
     def min(self) -> Output[FieldsContainer]:
         r"""Allows to get min output of the operator
 
+        Per-component minima grouped by all input labels except `time`. Within each output field, entity ids are the time or frequency step ids.
+
         Returns
         -------
         output:
@@ -271,6 +318,8 @@ class OutputsMinMaxByTime(_Outputs):
     @property
     def max(self) -> Output[FieldsContainer]:
         r"""Allows to get max output of the operator
+
+        Per-component maxima grouped by all input labels except `time`. Within each output field, entity ids are the time or frequency step ids.
 
         Returns
         -------

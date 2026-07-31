@@ -21,18 +21,34 @@ if TYPE_CHECKING:
 
 
 class min_max_fc_inc(Operator):
-    r"""Compute the component-wise minimum (out 0) and maximum (out 1) over a
-    fields container.
+    r"""Incremental variant that computes, for each time or frequency step of
+    the input fields container, the per-component minimum and maximum across
+    all successive calls of the operator.
+
+    At each call, results are merged with the previously-cached extrema. The
+    output minimum (pin 0) and maximum (pin 1) are fields with one entity
+    per time or frequency step of the input.
+
+    **When to use:** the full set of fields does not fit in memory and
+    results must be aggregated over successive server calls, one fields
+    container at a time. Example: peak of each stress component per time
+    step accumulated over a long transient analysis processed one chunk of
+    time steps at a time. Use ``min_max_by_time`` for the non-incremental
+    variant, or ``min_max_inc`` when input arrives one field at a time
+    instead of one fields container at a time.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
+        Fields container for the current increment. Must expose a time-frequency support so that output entries can be indexed by time or frequency step.
 
     Outputs
     -------
     field_min: Field
+        Field of per-step, per-component minima aggregated across all calls of the operator so far.
     field_max: Field
+        Field of per-step, per-component maxima aggregated across all calls of the operator so far.
 
     Examples
     --------
@@ -68,8 +84,21 @@ class min_max_fc_inc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Compute the component-wise minimum (out 0) and maximum (out 1) over a
-fields container.
+        description = r"""Incremental variant that computes, for each time or frequency step of
+the input fields container, the per-component minimum and maximum across
+all successive calls of the operator.
+
+At each call, results are merged with the previously-cached extrema. The
+output minimum (pin 0) and maximum (pin 1) are fields with one entity
+per time or frequency step of the input.
+
+**When to use:** the full set of fields does not fit in memory and
+results must be aggregated over successive server calls, one fields
+container at a time. Example: peak of each stress component per time
+step accumulated over a long transient analysis processed one chunk of
+time steps at a time. Use ``min_max_by_time`` for the non-incremental
+variant, or ``min_max_inc`` when input arrives one field at a time
+instead of one fields container at a time.
 """
         spec = Specification(
             description=description,
@@ -78,7 +107,7 @@ fields container.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container for the current increment. Must expose a time-frequency support so that output entries can be indexed by time or frequency step.""",
                 ),
             },
             map_output_pin_spec={
@@ -86,13 +115,13 @@ fields container.
                     name="field_min",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field of per-step, per-component minima aggregated across all calls of the operator so far.""",
                 ),
                 1: PinSpecification(
                     name="field_max",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field of per-step, per-component maxima aggregated across all calls of the operator so far.""",
                 ),
             },
         )
@@ -165,6 +194,8 @@ class InputsMinMaxFcInc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        Fields container for the current increment. Must expose a time-frequency support so that output entries can be indexed by time or frequency step.
+
         Returns
         -------
         input:
@@ -209,6 +240,8 @@ class OutputsMinMaxFcInc(_Outputs):
     def field_min(self) -> Output[Field]:
         r"""Allows to get field_min output of the operator
 
+        Field of per-step, per-component minima aggregated across all calls of the operator so far.
+
         Returns
         -------
         output:
@@ -226,6 +259,8 @@ class OutputsMinMaxFcInc(_Outputs):
     @property
     def field_max(self) -> Output[Field]:
         r"""Allows to get field_max output of the operator
+
+        Field of per-step, per-component maxima aggregated across all calls of the operator so far.
 
         Returns
         -------

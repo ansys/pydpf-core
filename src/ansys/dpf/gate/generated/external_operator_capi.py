@@ -104,6 +104,16 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		return res
 
 	@staticmethod
+	def external_operator_set_exception_type(operator_data, type):
+		res = capi.dll.ExternalOperator_setExceptionType(operator_data, utils.to_char_ptr(type))
+		return res
+
+	@staticmethod
+	def external_operator_add_exception_attribute(operator_data, key, value):
+		res = capi.dll.ExternalOperator_addExceptionAttribute(operator_data, utils.to_char_ptr(key), utils.to_char_ptr(value))
+		return res
+
+	@staticmethod
 	def external_operator_put_out_collection(operator_data, pin_index, data):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
