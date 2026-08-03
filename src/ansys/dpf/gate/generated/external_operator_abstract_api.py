@@ -52,6 +52,14 @@ class ExternalOperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def external_operator_set_exception_type(operator_data, type):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_add_exception_attribute(operator_data, key, value):
+		raise NotImplementedError
+
+	@staticmethod
 	def external_operator_put_out_collection(operator_data, pin_index, data):
 		raise NotImplementedError
 

@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: PyAnsys Vulnerability check (on ${{ github.ref == 'refs/heads/main' && 'main' || 'dev mode' }})
-        uses: ansys/actions/check-vulnerabilities@84b6533ae76f5dde69a1df26c18682160a8121cf # v10.3.5
+        uses: ansys/actions/check-vulnerabilities@9dc4e3161033d2c2485fbf9687d40cfb7a661fb2 # v10.3.6
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
           python-package-name: "ansys-dpf-core"
