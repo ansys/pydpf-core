@@ -56,9 +56,9 @@ if TYPE_CHECKING:  # pragma: no cover
 def _coerce_to_fields_container(
     source: Field | FieldsContainer,
 ) -> FieldsContainer:
-    """Wrap ``source`` in a single-entry :class:`FieldsContainer` if it is a Field.
+    """Wrap source in a single-entry FieldsContainer if it is a Field.
 
-    A :class:`FieldsContainer` argument is returned unchanged.
+    A FieldsContainer argument is returned unchanged.
     """
     if isinstance(source, dpf.core.FieldsContainer):
         return source
@@ -71,7 +71,7 @@ def _coerce_to_fields_container(
 
 
 def _validate_container_for_plotting(fields_container: FieldsContainer) -> None:
-    """Raise if ``fields_container`` cannot be plotted as a single contour.
+    """Raise exception if fields_container cannot be plotted as a single contour.
 
     Raises
     ------
@@ -101,7 +101,7 @@ def _extend_container_to_mid_nodes(
 
 
 def _find_reference_field(fields_container: FieldsContainer):
-    """Return the first non-empty field in ``fields_container``, or ``None``."""
+    """Return the first non-empty field in FieldsContainer, or None."""
     for f in fields_container:
         if len(f.data) != 0:
             return f
@@ -115,13 +115,7 @@ def _build_contour_grid(
     scale_factor: float,
     as_linear: bool,
 ):
-    """Build and return the VTK grid used for contour plotting.
-
-    Encapsulates the ``elemental_nodal`` / ``deform_by`` / ``as_linear`` branching
-    shared by :meth:`_PyVistaPlotter.add_field`,
-    :meth:`_PyVistaPlotter.add_fields_container`, and their visualization-interface
-    counterparts.
-    """
+    """Build and return the VTK grid used for contour plotting."""
     if location == locations.elemental_nodal:
         as_linear = False
     if deform_by:
@@ -130,12 +124,17 @@ def _build_contour_grid(
         )
     elif as_linear != meshed_region.as_linear:
         grid = meshed_region._as_vtk(meshed_region.nodes.coordinates_field, as_linear=as_linear)
+        # Refresh the cached grid so a subsequent plot on the same mesh sees
+        # the ``as_linear`` state that was just switched.
+        meshed_region._full_grid = grid
         meshed_region.as_linear = as_linear
     else:
         grid = meshed_region.grid
     if location == locations.elemental_nodal:
         grid = grid.shrink(1.0)
-    grid.set_active_scalars(None)
+    # ``clear_data`` (not ``set_active_scalars(None)``) drops previously attached
+    # scalar arrays; otherwise a prior plot's array can hijack the scalar bar.
+    grid.clear_data()
     return grid
 
 
@@ -500,23 +499,7 @@ class _PyVistaPlotter:
             overall_data[:] = field.data[0]
         # Filter kwargs for add_mesh
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
-        # Have to remove any active scalar field from the pre-existing grid object,
-        # otherwise we get two scalar bars when calling several plot_contour on the same mesh
-        # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
-        if location == locations.elemental_nodal:
-            as_linear = False
-        if deform_by:
-            grid = meshed_region._as_vtk(
-                meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
-            )
-        elif as_linear != meshed_region.as_linear:
-            grid = meshed_region._as_vtk(meshed_region.nodes.coordinates_field, as_linear=as_linear)
-            meshed_region.as_linear = as_linear
-        else:
-            grid = meshed_region.grid
-        if location == locations.elemental_nodal:
-            grid = grid.shrink(1.0)
-        grid.set_active_scalars(None)
+        grid = _build_contour_grid(meshed_region, location, deform_by, scale_factor, as_linear)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
         # If deformed geometry, print the scale_factor
@@ -1158,23 +1141,7 @@ class _VisualizationInterfacePlotter:
         else:
             overall_data[:] = field.data[0]
 
-        # Have to remove any active scalar field from the pre-existing grid object,
-        # otherwise we get two scalar bars when calling several plot_contour on the same mesh
-        # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
-        if location == locations.elemental_nodal:
-            as_linear = False
-        if deform_by:
-            grid = meshed_region._as_vtk(
-                meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
-            )
-        elif as_linear != meshed_region.as_linear:
-            grid = meshed_region._as_vtk(meshed_region.nodes.coordinates_field, as_linear=as_linear)
-            meshed_region.as_linear = as_linear
-        else:
-            grid = meshed_region.grid
-        if location == locations.elemental_nodal:
-            grid = grid.shrink(1.0)
-        grid.set_active_scalars(None)
+        grid = _build_contour_grid(meshed_region, location, deform_by, scale_factor, as_linear)
 
         # Filter kwargs for pv.Plotter.add_mesh (final destination)
         import pyvista as pv
