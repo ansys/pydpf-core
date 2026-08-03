@@ -1685,9 +1685,8 @@ class DpfPlotter:
         """Add a fields container as a single contour to the plotter.
 
         The container's fields are scatter-merged into a single array sized to
-        the mesh location; positions absent from any field's scoping are drawn
-        with the ``nan_color`` (grey by default). This is the multi-field
-        counterpart to :meth:`add_field`.
+        the mesh location; positions absent from any field's scoping are colored
+        grey. This is the multi-field counterpart to :meth:`add_field`.
 
         Parameters
         ----------

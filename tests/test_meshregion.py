@@ -699,7 +699,7 @@ def test_scatter_field_to_location_field_shape(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     disp = simple_bar_model.results.displacement().eval()[0]
 
-    arr = mesh.scatter_field_to_location(disp)
+    arr = mesh._scatter_field_to_location(disp)
 
     assert arr.shape == (len(mesh.nodes), disp.component_count)
     # displacement is fully-scoped on this model -> no NaN
@@ -726,7 +726,7 @@ def test_scatter_field_to_location_partial_scoping_yields_nans(simple_bar_model)
     )
     partial.location = dpf.core.locations.nodal
 
-    arr = mesh.scatter_field_to_location(partial)
+    arr = mesh._scatter_field_to_location(partial)
 
     # Positions in kept_ids are 42.0, all others are NaN
     ind, _ = mesh.nodes.map_scoping(partial.scoping)
@@ -745,8 +745,8 @@ def test_scatter_field_to_location_fields_container_matches_field(simple_bar_mod
     fc.add_label("id")
     fc.add_field({"id": 1}, disp)
 
-    arr_field = mesh.scatter_field_to_location(disp)
-    arr_container = mesh.scatter_field_to_location(fc)
+    arr_field = mesh._scatter_field_to_location(disp)
+    arr_container = mesh._scatter_field_to_location(fc)
 
     assert arr_field.shape == arr_container.shape
     assert np.allclose(arr_field, arr_container, equal_nan=True)
@@ -758,5 +758,5 @@ def test_scatter_field_to_location_invalid_location_raises(simple_bar_model):
     disp = simple_bar_model.results.displacement().eval()[0]
 
     with pytest.raises(ValueError, match="location"):
-        mesh.scatter_field_to_location(disp, location="not_a_location")
+        mesh._scatter_field_to_location(disp, location="not_a_location")
 

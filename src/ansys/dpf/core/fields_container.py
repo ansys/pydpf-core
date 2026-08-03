@@ -529,23 +529,20 @@ class FieldsContainer(CollectionBase["field.Field"]):
         """
         return self.get_label_scoping("time")
 
-    def normalize_shell_layers(
+    def _normalize_shell_layers(
         self,
         shell_layer: shell_layers = shell_layers.top,
     ) -> FieldsContainer:
         """Return a container with shell layers normalized to a single layer.
 
-        Fields whose :attr:`~field.Field.shell_layers` is
-        :attr:`~common.shell_layers.topbottom` or
-        :attr:`~common.shell_layers.topbottommid` are converted to ``shell_layer``
-        using the :class:`~operators.utility.change_shell_layers` operator. Fields
-        that already have a single-layer format are passed through unchanged.
+        Fields whose shell_layers is ``topbottom`` or ``topbottommid`` are converted to ``shell_layer``
+        ``change_shell_layers`` operator. Fields that already have a single-layer format are passed
+        through unchanged.
 
         Parameters
         ----------
         shell_layer:
-            The target shell layer. Defaults to
-            :attr:`~common.shell_layers.top`.
+            The target shell layer. Defaults to ``shell_layers.top``.
 
         Returns
         -------
@@ -555,10 +552,8 @@ class FieldsContainer(CollectionBase["field.Field"]):
 
         Notes
         -----
-        For :attr:`~common.locations.elemental_nodal` fields, the operator is
-        applied per field (with ``merge=True``) because
-        :class:`~operators.utility.change_shell_layers` does not support
-        elemental-nodal data on a whole container.
+        For elemental_nodal fields, the operator is applied per field (with ``merge=True``) because
+        ``change_shell_layers`` operator does not support elemental-nodal data on a whole container.
         """
         from ansys.dpf.core.common import locations, types
 
@@ -593,7 +588,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
     ) -> FieldsContainer:
         """Normalize shell layers per field for elemental_nodal containers.
 
-        ``change_shell_layers`` does not support elemental_nodal fields when applied
+        ``change_shell_layers`` operator does not support elemental_nodal fields when applied
         to a fields_container, so we iterate and apply the operator per field with
         ``merge=True``.
         """

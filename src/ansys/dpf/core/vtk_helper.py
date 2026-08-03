@@ -792,7 +792,7 @@ def _map_field_to_mesh(
     field: dpf.Field | dpf.PropertyField, meshed_region: dpf.MeshedRegion
 ) -> np.ndarray:
     """Return an NumPy array of 'Field.data' mapped to the mesh on the field's location."""
-    return meshed_region.scatter_field_to_location(field)
+    return meshed_region._scatter_field_to_location(field)
 
 
 def dpf_property_field_to_vtk(

@@ -824,7 +824,7 @@ class MeshedRegion:
         idx = np.searchsorted(keys, element_types_field.data, sorter=sort_idx)
         return np.asarray(list(size_map.values()))[sort_idx][idx]
 
-    def scatter_field_to_location(  # noqa: PLR0912, C901
+    def _scatter_field_to_location(  # noqa: PLR0912, C901
         self,
         source: Field | PropertyField | FieldsContainer,
         location: locations = None,
@@ -832,15 +832,13 @@ class MeshedRegion:
         """Return a NumPy array of ``source`` data mapped to the mesh at the given location.
 
         Positions in the mesh that are not present in ``source``'s scoping are filled
-        with ``NaN``. For a :class:`~fields_container.FieldsContainer`, fields are
-        iterated in order and later fields overwrite earlier ones where their scopings
-        overlap.
+        with ``NaN``. For a ``FieldsContainer``, fields are iterated in order and later
+        fields overwrite earlier ones where their scopings overlap.
 
         Parameters
         ----------
         source:
-            The :class:`~field.Field`, :class:`~property_field.PropertyField`, or
-            :class:`~fields_container.FieldsContainer` to scatter onto the mesh.
+            The ``Field``, or ``PropertyField``, or ``FieldsContainer`` to scatter onto the mesh.
         location:
             The mesh location to scatter onto. If ``None``, inferred from ``source``.
             Accepted locations are ``nodal``, ``elemental``, ``faces``,
@@ -860,7 +858,7 @@ class MeshedRegion:
         >>> model = dpf.Model(examples.find_static_rst())
         >>> mesh = model.metadata.meshed_region
         >>> disp = model.results.displacement().eval()[0]
-        >>> arr = mesh.scatter_field_to_location(disp)
+        >>> arr = mesh._scatter_field_to_location(disp)
         >>> arr.shape
         (81, 3)
         """

@@ -721,13 +721,13 @@ def test_normalize_shell_layers_type_error(server_type):
     """Passing anything other than a ``shell_layers`` enum raises ``TypeError``."""
     fc = FieldsContainer(server=server_type)
     with pytest.raises(TypeError, match="core.shell_layers"):
-        fc.normalize_shell_layers(shell_layer="top")
+        fc._normalize_shell_layers(shell_layer="top")
 
 
 def test_normalize_shell_layers_empty_container_returns_self(server_type):
     """An empty container has no work to do and is returned unchanged."""
     fc = FieldsContainer(server=server_type)
-    result = fc.normalize_shell_layers()
+    result = fc._normalize_shell_layers()
     assert result is fc
 
 
@@ -740,7 +740,7 @@ def test_normalize_shell_layers_converts_multi_layer_stress(allkindofcomplexity)
     # Sanity: this fixture provides a multi-layer shell result
     assert stress_fc[0].shell_layers == shell_layers.topbottommid
 
-    normalized = stress_fc.normalize_shell_layers(shell_layer=shell_layers.top)
+    normalized = stress_fc._normalize_shell_layers(shell_layer=shell_layers.top)
 
     # A new container is returned when conversion actually happened
     assert normalized is not stress_fc
