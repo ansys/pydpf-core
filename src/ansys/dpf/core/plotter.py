@@ -590,7 +590,7 @@ class _PyVistaPlotter:
             fields_container = _extend_container_to_mid_nodes(fields_container)
         fields_container = fields_container._normalize_shell_layers(shell_layer)
 
-        overall_data = meshed_region.scatter_field_to_location(fields_container, location=location)
+        overall_data = meshed_region._scatter_field_to_location(fields_container, location=location)
         grid = _build_contour_grid(meshed_region, location, deform_by, scale_factor, as_linear)
 
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
@@ -1239,7 +1239,7 @@ class _VisualizationInterfacePlotter:
             fields_container = _extend_container_to_mid_nodes(fields_container)
         fields_container = fields_container._normalize_shell_layers(shell_layer)
 
-        overall_data = meshed_region.scatter_field_to_location(fields_container, location=location)
+        overall_data = meshed_region._scatter_field_to_location(fields_container, location=location)
         grid = _build_contour_grid(meshed_region, location, deform_by, scale_factor, as_linear)
 
         kwargs_in = _sort_supported_kwargs(bound_method=pv.Plotter.add_mesh, **kwargs)
