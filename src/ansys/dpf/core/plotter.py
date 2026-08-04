@@ -1882,10 +1882,10 @@ def plot_chart(fields_container, off_screen=False, screenshot=None):
 class Plotter:
     """Plots fields and meshed regions in DPF-Core.
 
-        .. deprecated::
-            This class is deprecated. Use :class:`DpfPlotter` instead
-            (see :meth:`DpfPlotter.add_field` and
-            :meth:`DpfPlotter.add_fields_container`).
+    .. deprecated:: 0.17.0
+        This class is deprecated. Use :class:`DpfPlotter` instead
+        (see :meth:`DpfPlotter.add_field` and
+        :meth:`DpfPlotter.add_fields_container`).
 
     Parameters
     ----------
@@ -1909,8 +1909,8 @@ class Plotter:
     def plot_mesh(self, **kwargs):
         """Plot the mesh using PyVista.
 
-            .. deprecated::
-                :class:`Plotter` is deprecated. Use :class:`DpfPlotter` instead.
+        .. deprecated:: 0.17.0
+            :class:`Plotter` is deprecated. Use :class:`DpfPlotter` instead.
 
         Parameters
         ----------
@@ -1935,9 +1935,9 @@ class Plotter:
         This is a valid method if ``time_freq_support`` contains
         several time steps, such as in a transient analysis.
 
-            .. deprecated::
-                Use the module-level :func:`ansys.dpf.core.plotter.plot_chart`
-                instead.
+        .. deprecated:: 0.17.0
+            Use the module-level :func:`ansys.dpf.core.plotter.plot_chart`
+            instead.
 
         Parameters
         ----------
@@ -1975,8 +1975,8 @@ class Plotter:
         You cannot plot a fields container containing results at several
         time steps. Use :func:`FieldsContainer.animate` instead.
 
-            .. deprecated::
-                :class:`Plotter` is deprecated. Use :class:`DpfPlotter` instead.
+        .. deprecated:: 0.17.0
+            :class:`Plotter` is deprecated. Use :class:`DpfPlotter` instead.
 
         Parameters
         ----------
