@@ -32,8 +32,8 @@ class hdf5dpf_generate_result_file(Operator):
     ------
     h5_chunk_size: int, optional
         Size of each HDF5 chunk in kilobytes (KB). Default: 1 MB when compression is enabled; for uncompressed datasets, the default is the full dataset size x dimension.
-    append_mode: bool, optional
-        Experimental: Allow appending chunked data to the file. This disables fields container content deduplication.
+    append_mode: bool or int, optional
+        Experimental: Allow appending chunked data to the file. This disables fields container content deduplication.0 (false) is default for not appending, 1 (true) for appending, 2 for appending just the time freq support(used in live mapdl export)
     dataset_size_compression_threshold: int, optional
         Integer value that defines the minimum dataset size (in bytes) to use h5 native compression Applicable for arrays of floats, doubles and integers.
     h5_native_compression: int or DataTree, optional
@@ -171,9 +171,9 @@ class hdf5dpf_generate_result_file(Operator):
                 ),
                 -6: PinSpecification(
                     name="append_mode",
-                    type_names=["bool"],
+                    type_names=["bool", "int32"],
                     optional=True,
-                    document=r"""Experimental: Allow appending chunked data to the file. This disables fields container content deduplication.""",
+                    document=r"""Experimental: Allow appending chunked data to the file. This disables fields container content deduplication.0 (false) is default for not appending, 1 (true) for appending, 2 for appending just the time freq support(used in live mapdl export)""",
                 ),
                 -5: PinSpecification(
                     name="dataset_size_compression_threshold",
@@ -325,7 +325,7 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
             hdf5dpf_generate_result_file._spec().input_pin(-7), -7, op, -1
         )
         self._inputs.append(self._h5_chunk_size)
-        self._append_mode: Input[bool] = Input(
+        self._append_mode: Input[bool | int] = Input(
             hdf5dpf_generate_result_file._spec().input_pin(-6), -6, op, -1
         )
         self._inputs.append(self._append_mode)
@@ -388,10 +388,10 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         return self._h5_chunk_size
 
     @property
-    def append_mode(self) -> Input[bool]:
+    def append_mode(self) -> Input[bool | int]:
         r"""Allows to connect append_mode input to the operator.
 
-        Experimental: Allow appending chunked data to the file. This disables fields container content deduplication.
+        Experimental: Allow appending chunked data to the file. This disables fields container content deduplication.0 (false) is default for not appending, 1 (true) for appending, 2 for appending just the time freq support(used in live mapdl export)
 
         Returns
         -------
