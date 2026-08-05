@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 
 
 class compute_element_centroids(Operator):
-    r"""Computes the element centroids of the mesh. It also outputs the element
+    r"""Computes the element centroids of the mesh and optionally the element
     measure.
 
 
@@ -30,6 +30,10 @@ class compute_element_centroids(Operator):
     ------
     element_scoping: Scoping, optional
         If provided, only the centroids of the elements in the scoping are computed.
+    algorithm: int, optional
+        Centroid algorithm: weighted_average = 1 (default), arithmetic_average = 2. Note: arithmetic_average only supports compute_measure = false.
+    compute_measure: bool, optional
+        If true (default), computes and returns measure on pin 1. If false, only centroids are returned. Note: compute_measure = true is only supported with weighted_average algorithm.
     mesh: MeshedRegion
         Mesh to compute centroids
 
@@ -38,7 +42,7 @@ class compute_element_centroids(Operator):
     centroids: Field
         element centroids.
     measure: Field
-        element measure (length, surface or volume depending on the dimension of the element).
+        element measure (length, surface or volume depending on the dimension of the element), returned only when compute_measure is true.
 
     Examples
     --------
@@ -50,12 +54,18 @@ class compute_element_centroids(Operator):
     >>> # Make input connections
     >>> my_element_scoping = dpf.Scoping()
     >>> op.inputs.element_scoping.connect(my_element_scoping)
+    >>> my_algorithm = int()
+    >>> op.inputs.algorithm.connect(my_algorithm)
+    >>> my_compute_measure = bool()
+    >>> op.inputs.compute_measure.connect(my_compute_measure)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.scoping.compute_element_centroids(
     ...     element_scoping=my_element_scoping,
+    ...     algorithm=my_algorithm,
+    ...     compute_measure=my_compute_measure,
     ...     mesh=my_mesh,
     ... )
 
@@ -64,7 +74,15 @@ class compute_element_centroids(Operator):
     >>> result_measure = op.outputs.measure()
     """
 
-    def __init__(self, element_scoping=None, mesh=None, config=None, server=None):
+    def __init__(
+        self,
+        element_scoping=None,
+        algorithm=None,
+        compute_measure=None,
+        mesh=None,
+        config=None,
+        server=None,
+    ):
         super().__init__(
             name="compute_element_centroids",
             config=config,
@@ -74,12 +92,16 @@ class compute_element_centroids(Operator):
         )
         if element_scoping is not None:
             self.inputs.element_scoping.connect(element_scoping)
+        if algorithm is not None:
+            self.inputs.algorithm.connect(algorithm)
+        if compute_measure is not None:
+            self.inputs.compute_measure.connect(compute_measure)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the element centroids of the mesh. It also outputs the element
+        description = r"""Computes the element centroids of the mesh and optionally the element
 measure.
 """
         spec = Specification(
@@ -90,6 +112,18 @@ measure.
                     type_names=["scoping"],
                     optional=True,
                     document=r"""If provided, only the centroids of the elements in the scoping are computed.""",
+                ),
+                2: PinSpecification(
+                    name="algorithm",
+                    type_names=["int32"],
+                    optional=True,
+                    document=r"""Centroid algorithm: weighted_average = 1 (default), arithmetic_average = 2. Note: arithmetic_average only supports compute_measure = false.""",
+                ),
+                3: PinSpecification(
+                    name="compute_measure",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""If true (default), computes and returns measure on pin 1. If false, only centroids are returned. Note: compute_measure = true is only supported with weighted_average algorithm.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -109,7 +143,7 @@ measure.
                     name="measure",
                     type_names=["field"],
                     optional=False,
-                    document=r"""element measure (length, surface or volume depending on the dimension of the element).""",
+                    document=r"""element measure (length, surface or volume depending on the dimension of the element), returned only when compute_measure is true.""",
                 ),
             },
         )
@@ -169,6 +203,10 @@ class InputsComputeElementCentroids(_Inputs):
     >>> op = dpf.operators.scoping.compute_element_centroids()
     >>> my_element_scoping = dpf.Scoping()
     >>> op.inputs.element_scoping.connect(my_element_scoping)
+    >>> my_algorithm = int()
+    >>> op.inputs.algorithm.connect(my_algorithm)
+    >>> my_compute_measure = bool()
+    >>> op.inputs.compute_measure.connect(my_compute_measure)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     """
@@ -179,6 +217,14 @@ class InputsComputeElementCentroids(_Inputs):
             compute_element_centroids._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._element_scoping)
+        self._algorithm: Input[int] = Input(
+            compute_element_centroids._spec().input_pin(2), 2, op, -1
+        )
+        self._inputs.append(self._algorithm)
+        self._compute_measure: Input[bool] = Input(
+            compute_element_centroids._spec().input_pin(3), 3, op, -1
+        )
+        self._inputs.append(self._compute_measure)
         self._mesh: Input[MeshedRegion] = Input(
             compute_element_centroids._spec().input_pin(7), 7, op, -1
         )
@@ -204,6 +250,48 @@ class InputsComputeElementCentroids(_Inputs):
         >>> op.inputs.element_scoping(my_element_scoping)
         """
         return self._element_scoping
+
+    @property
+    def algorithm(self) -> Input[int]:
+        r"""Allows to connect algorithm input to the operator.
+
+        Centroid algorithm: weighted_average = 1 (default), arithmetic_average = 2. Note: arithmetic_average only supports compute_measure = false.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.scoping.compute_element_centroids()
+        >>> op.inputs.algorithm.connect(my_algorithm)
+        >>> # or
+        >>> op.inputs.algorithm(my_algorithm)
+        """
+        return self._algorithm
+
+    @property
+    def compute_measure(self) -> Input[bool]:
+        r"""Allows to connect compute_measure input to the operator.
+
+        If true (default), computes and returns measure on pin 1. If false, only centroids are returned. Note: compute_measure = true is only supported with weighted_average algorithm.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.scoping.compute_element_centroids()
+        >>> op.inputs.compute_measure.connect(my_compute_measure)
+        >>> # or
+        >>> op.inputs.compute_measure(my_compute_measure)
+        """
+        return self._compute_measure
 
     @property
     def mesh(self) -> Input[MeshedRegion]:
@@ -275,7 +363,7 @@ class OutputsComputeElementCentroids(_Outputs):
     def measure(self) -> Output[Field]:
         r"""Allows to get measure output of the operator
 
-        element measure (length, surface or volume depending on the dimension of the element).
+        element measure (length, surface or volume depending on the dimension of the element), returned only when compute_measure is true.
 
         Returns
         -------

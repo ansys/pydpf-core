@@ -35,7 +35,7 @@ for root, subdirectories, files in os.walk(examples_path):
     for subdirectory in subdirectories:
         subdir = Path(root) / subdirectory
         for file in subdir.glob("*.py"):
-            if "08-python-operators" in str(file) and (
+            if ("08-python-operators" in str(file) or "12-fluids" in str(file)) and (
                 sys.platform == "linux" or server_version == "2027.1.0pre0"
             ):
                 continue

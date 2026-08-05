@@ -21,28 +21,38 @@ if TYPE_CHECKING:
 
 
 class correlation(Operator):
-    r"""Takes two fields and a weighting and computes their correlation:
-    aMb/(\||aMa|\|.||bMb|\|). If several b fields are provided (via a fields
-    container), correlation is computed for each of them.
+    r"""Computes the `correlation
+    coefficient <https://en.wikipedia.org/wiki/Pearson_correlation_coefficient>`__
+    :math:`\rho(a,b)` between two fields using an optional `weighting field
+    :math:`M` <https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Weighted_correlation_coefficient>`__:
+
+    .. math:: \rho(a,b) = \frac{\sum_i a_i\,M_i\,b_i}{\sqrt{\sum_i a_i^2\,M_i}\cdot\sqrt{\sum_i b_i^2\,M_i}}
+
+    The sums run over the intersection of the scopings of :math:`a`,
+    :math:`b`, and :math:`M`. When no weighting field :math:`M` is provided,
+    the standard (unweighted) :math:`L^2` dot product is used. If a fields
+    container is provided at pin 1, the correlation coefficient is computed
+    independently for each field in the container against the reference
+    field :math:`a`.
 
 
     Inputs
     ------
     fieldA: Field or float
-        Field a. The reference field.
+        Reference field $a$.
     fieldB: Field or FieldsContainer
-        Field b. If a fields container is provided, correlation is computed for each field.
-    weights: Field or FieldsContainer
-        Field M, optional weighting for correlation computation.
-    absoluteValue: bool
-        If true, correlation factor is ||aMb||/(||aMa||.||bMb||)
+        Field $b$, or a fields container. When a fields container is provided, the correlation is computed independently for each field against the reference field $a$.
+    weights: Field or FieldsContainer, optional
+        Optional weighting field $M$. When omitted, the standard unweighted $L^2$ inner product is used.
+    absoluteValue: bool, optional
+        When true, returns $|\rho|$ instead of $\rho$.
 
     Outputs
     -------
     field: Field
-        Correlation factor for each input field b.
+        Correlation coefficient for each input field $b$. The output field contains one entity per input field, labelled from $1$ to $N$.
     index: int
-        If several b are provided, this output contains the index of the highest correlation factor.
+        Zero-based index of the field in the input fields container that produced the highest correlation coefficient. Only meaningful when pin 1 receives a fields container.
 
     Examples
     --------
@@ -109,9 +119,19 @@ class correlation(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Takes two fields and a weighting and computes their correlation:
-aMb/(\||aMa|\|.||bMb|\|). If several b fields are provided (via a fields
-container), correlation is computed for each of them.
+        description = r"""Computes the `correlation
+coefficient <https://en.wikipedia.org/wiki/Pearson_correlation_coefficient>`__
+:math:`\rho(a,b)` between two fields using an optional `weighting field
+:math:`M` <https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Weighted_correlation_coefficient>`__:
+
+.. math:: \rho(a,b) = \frac{\sum_i a_i\,M_i\,b_i}{\sqrt{\sum_i a_i^2\,M_i}\cdot\sqrt{\sum_i b_i^2\,M_i}}
+
+The sums run over the intersection of the scopings of :math:`a`,
+:math:`b`, and :math:`M`. When no weighting field :math:`M` is provided,
+the standard (unweighted) :math:`L^2` dot product is used. If a fields
+container is provided at pin 1, the correlation coefficient is computed
+independently for each field in the container against the reference
+field :math:`a`.
 """
         spec = Specification(
             description=description,
@@ -120,26 +140,26 @@ container), correlation is computed for each of them.
                     name="fieldA",
                     type_names=["field", "double", "vector<double>"],
                     optional=False,
-                    document=r"""Field a. The reference field.""",
+                    document=r"""Reference field $a$.""",
                 ),
                 1: PinSpecification(
                     name="fieldB",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document=r"""Field b. If a fields container is provided, correlation is computed for each field.""",
+                    document=r"""Field $b$, or a fields container. When a fields container is provided, the correlation is computed independently for each field against the reference field $a$.""",
                 ),
                 2: PinSpecification(
                     name="weights",
                     type_names=["field", "fields_container"],
-                    optional=False,
-                    document=r"""Field M, optional weighting for correlation computation.""",
+                    optional=True,
+                    document=r"""Optional weighting field $M$. When omitted, the standard unweighted $L^2$ inner product is used.""",
                     aliases=["ponderation"],
                 ),
                 3: PinSpecification(
                     name="absoluteValue",
                     type_names=["bool"],
-                    optional=False,
-                    document=r"""If true, correlation factor is ||aMb||/(||aMa||.||bMb||)""",
+                    optional=True,
+                    document=r"""When true, returns $|\rho|$ instead of $\rho$.""",
                 ),
             },
             map_output_pin_spec={
@@ -147,13 +167,13 @@ container), correlation is computed for each of them.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""Correlation factor for each input field b.""",
+                    document=r"""Correlation coefficient for each input field $b$. The output field contains one entity per input field, labelled from $1$ to $N$.""",
                 ),
                 1: PinSpecification(
                     name="index",
                     type_names=["int32"],
                     optional=False,
-                    document=r"""If several b are provided, this output contains the index of the highest correlation factor.""",
+                    document=r"""Zero-based index of the field in the input fields container that produced the highest correlation coefficient. Only meaningful when pin 1 receives a fields container.""",
                 ),
             },
         )
@@ -244,7 +264,7 @@ class InputsCorrelation(_Inputs):
     def fieldA(self) -> Input[Field | float]:
         r"""Allows to connect fieldA input to the operator.
 
-        Field a. The reference field.
+        Reference field $a$.
 
         Returns
         -------
@@ -265,7 +285,7 @@ class InputsCorrelation(_Inputs):
     def fieldB(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect fieldB input to the operator.
 
-        Field b. If a fields container is provided, correlation is computed for each field.
+        Field $b$, or a fields container. When a fields container is provided, the correlation is computed independently for each field against the reference field $a$.
 
         Returns
         -------
@@ -286,7 +306,7 @@ class InputsCorrelation(_Inputs):
     def weights(self) -> Input[Field | FieldsContainer]:
         r"""Allows to connect weights input to the operator.
 
-        Field M, optional weighting for correlation computation.
+        Optional weighting field $M$. When omitted, the standard unweighted $L^2$ inner product is used.
 
         Returns
         -------
@@ -307,7 +327,7 @@ class InputsCorrelation(_Inputs):
     def absoluteValue(self) -> Input[bool]:
         r"""Allows to connect absoluteValue input to the operator.
 
-        If true, correlation factor is ||aMb||/(||aMa||.||bMb||)
+        When true, returns $|\rho|$ instead of $\rho$.
 
         Returns
         -------
@@ -361,7 +381,7 @@ class OutputsCorrelation(_Outputs):
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
 
-        Correlation factor for each input field b.
+        Correlation coefficient for each input field $b$. The output field contains one entity per input field, labelled from $1$ to $N$.
 
         Returns
         -------
@@ -381,7 +401,7 @@ class OutputsCorrelation(_Outputs):
     def index(self) -> Output[int]:
         r"""Allows to get index output of the operator
 
-        If several b are provided, this output contains the index of the highest correlation factor.
+        Zero-based index of the field in the input fields container that produced the highest correlation coefficient. Only meaningful when pin 1 receives a fields container.
 
         Returns
         -------
