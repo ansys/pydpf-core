@@ -58,7 +58,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: ansys/actions/check-actions-security@84b6533ae76f5dde69a1df26c18682160a8121cf # v10.3.5
+      - uses: ansys/actions/check-actions-security@9dc4e3161033d2c2485fbf9687d40cfb7a661fb2 # v10.3.6
 
   pick_server_suffix:
     name: "Pick Server Suffix"
@@ -101,7 +101,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: ansys/actions/code-style@84b6533ae76f5dde69a1df26c18682160a8121cf # v10.3.5
+      - uses: ansys/actions/code-style@9dc4e3161033d2c2485fbf9687d40cfb7a661fb2 # v10.3.6
         with:
           use-python-cache: false
 
@@ -214,7 +214,7 @@ jobs:
       contents: write # Required for pushing documentation to gh-pages
       pull-requests: write # Required for posting deployment status comments
     steps:
-      - uses: ansys/actions/doc-deploy-pr@84b6533ae76f5dde69a1df26c18682160a8121cf # v10.3.5
+      - uses: ansys/actions/doc-deploy-pr@9dc4e3161033d2c2485fbf9687d40cfb7a661fb2 # v10.3.6
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
@@ -235,7 +235,7 @@ jobs:
       pull-requests: write # Required for posting deployment status comments
     steps:
       - name: "Upload development documentation"
-        uses: ansys/actions/doc-deploy-dev@84b6533ae76f5dde69a1df26c18682160a8121cf # v10.3.5
+        uses: ansys/actions/doc-deploy-dev@9dc4e3161033d2c2485fbf9687d40cfb7a661fb2 # v10.3.6
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
