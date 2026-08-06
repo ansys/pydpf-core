@@ -22,6 +22,7 @@
 
 """Dimensionality."""
 
+from ansys.dpf.core import server as server_module
 from ansys.dpf.core.check_version import meets_version
 from ansys.dpf.core.common import natures
 
@@ -44,7 +45,13 @@ class Dimensionality:
 
     """
 
-    def __init__(self, dim_vec=None, nature: natures = natures.vector):  # noqa: C901
+    def __init__(
+        self, dim_vec=None, nature: natures = natures.vector, dimensionality=None, server=None
+    ):  # noqa: C901
+        # step 1: get server
+        self._server = server_module.get_or_create_server(
+            dimensionality._server if isinstance(dimensionality, Dimensionality) else server
+        )
         self.dim = dim_vec
         self.nature = nature
         # set nature
