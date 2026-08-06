@@ -2001,7 +2001,6 @@ class Plotter:
 
         shell_layer = shell_layers if shell_layers is not None else eshell_layers.top
 
-        pl = DpfPlotter(plotter_type=PlotterBackend.PYVISTA, **kwargs)
         common_kwargs = dict(
             meshed_region=mesh,
             deform_by=deform_by,
@@ -2010,11 +2009,13 @@ class Plotter:
             show_axes=kwargs.pop("show_axes", True),
         )
         if isinstance(field_or_fields_container, dpf.core.FieldsContainer):
-            pl.add_fields_container(field_or_fields_container, **common_kwargs, **kwargs)
+            self._internal_plotter.add_fields_container(
+                field_or_fields_container, **common_kwargs, **kwargs
+            )
         elif isinstance(field_or_fields_container, dpf.core.Field):
-            pl.add_field(field_or_fields_container, **common_kwargs, **kwargs)
+            self._internal_plotter.add_field(field_or_fields_container, **common_kwargs, **kwargs)
         else:
             raise TypeError("Only field or fields_container can be plotted.")
 
         kwargs.pop("notebook", None)
-        return pl.show_figure(**kwargs)
+        return self._internal_plotter.show_figure(**kwargs)
