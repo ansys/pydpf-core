@@ -22,8 +22,8 @@
 
 """Dimensionality."""
 
-from ansys.dpf.core.common import natures
 from ansys.dpf.core.check_version import meets_version
+from ansys.dpf.core.common import natures
 
 
 class Dimensionality:
@@ -96,14 +96,14 @@ class Dimensionality:
         if not meets_version(self._server.version, "16.2"):
             for comp in self.dim:
                 count *= comp
-        else: # mirroring the numberOfComponent API in DPF Framework
+        else:  # mirroring the numberOfComponent API in DPF Framework
             match self.nature:
                 case natures.scalar:
                     count = 1
                 case natures.vector:
                     count = self.dim[0]
                 case natures.symmatrix:
-                    count = (self.dim[0] * self.dim[1] + 1)/2
+                    count = (self.dim[0] * self.dim[1] + 1) / 2
                 case _:
                     for comp in self.dim:
                         count *= comp
