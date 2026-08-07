@@ -110,7 +110,7 @@ class Dimensionality:
                 case natures.vector:
                     count = self.dim[0]
                 case natures.symmatrix:
-                    count = (self.dim[0] * self.dim[1] + 1) / 2
+                    count = (self.dim[0] * (self.dim[1] + 1)) // 2
                 case _:
                     for comp in self.dim:
                         count *= comp

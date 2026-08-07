@@ -73,7 +73,7 @@ def test_create_custom_type_field_push_back(server_type):
 def test_set_get_entity_data_offsets_custom_type_field(server_type):
     field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_type)
     field_def = dpf.core.FieldDefinition(server=server_type)
-    field_def.dimensionality = dpf.core.Dimensionality({3}, dpf.core.natures.vector)
+    field_def.dimensionality = dpf.core.Dimensionality([3], dpf.core.natures.vector)
     field.field_definition = field_def
     scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_type)
     field.scoping = scop
@@ -133,7 +133,7 @@ def test_set_get_field_def_custom_type_field(server_type):
 def test_mutable_data_custom_type_field(server_clayer):
     field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_clayer)
     field_def = dpf.core.FieldDefinition(server=server_clayer)
-    field_def.dimensionality = dpf.core.Dimensionality({3}, dpf.core.natures.vector)
+    field_def.dimensionality = dpf.core.Dimensionality([3], dpf.core.natures.vector)
     field.field_definition = field_def
     scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_clayer)
     field.scoping = scop
@@ -170,7 +170,7 @@ def test_mutable_data_custom_type_field(server_clayer):
 def get_float_field(server_clayer):
     field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_clayer)
     field_def = dpf.core.FieldDefinition(server=server_clayer)
-    field_def.dimensionality = dpf.core.Dimensionality({3}, dpf.core.natures.vector)
+    field_def.dimensionality = dpf.core.Dimensionality([3], dpf.core.natures.vector)
     field.field_definition = field_def
     scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_clayer)
     field.scoping = scop
