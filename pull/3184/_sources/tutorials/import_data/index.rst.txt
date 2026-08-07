@@ -1,0 +1,208 @@
+
+
+.. _sphx_glr_tutorials_import_data:
+
+.. _ref_tutorials_import_data:
+
+===========
+Import Data
+===========
+
+These tutorials demonstrate how to represent data in DPF: either from manual input or
+from simulation result files.
+
+.. grid:: 1 1 3 3
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card:: Load custom data
+       :link: ref_tutorials_load_custom_data
+       :link-type: ref
+       :text-align: center
+
+       Learn how to build DPF data storage structures from custom data.
+
+    .. grid-item-card:: Import a result file in DPF
+       :link: ref_tutorials_import_result_file
+       :link-type: ref
+       :text-align: center
+
+       This tutorial shows how to import a result file in DPF.
+
+       +++
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+
+    .. grid-item-card:: Extract and explore results metadata
+       :link: ref_tutorials_extract_and_explore_results_metadata
+       :link-type: ref
+       :text-align: center
+
+       This tutorial shows how to extract and explore results metadata from a result file.
+
+       +++
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+
+    .. grid-item-card:: Extract and explore results data
+       :link: ref_tutorials_extract_and_explore_results_data
+       :link-type: ref
+       :text-align: center
+
+       This tutorial shows how to extract and explore results data from a result file.
+
+       +++
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+
+    .. grid-item-card:: Narrow down data
+       :link: ref_tutorials_narrow_down_data
+       :link-type: ref
+       :text-align: center
+
+       This tutorial explains how to scope your results over time and mesh domains.
+
+       +++
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+
+    .. grid-item-card:: Speed up data requests from files using streams
+       :link: ref_tutorials_import_data_streams_for_multiple_operators
+       :link-type: ref
+       :text-align: center
+
+       Use a streams container to avoid redundant file I/O when requesting
+       multiple results from the same result file.
+
+.. raw:: html
+
+   <style>.sphx-glr-thumbnails { display: none; }</style>
+
+
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This tutorial shows how to represent your custom data in DPF data storage structures.">
+
+.. only:: html
+
+  .. image:: /tutorials/import_data/images/thumb/sphx_glr_load_custom_data_thumb.png
+    :alt:
+
+  :doc:`/tutorials/import_data/load_custom_data`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Load custom data in DPF</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="MAPDL :bdg-lsdyna:`LS-DYNA` FLUENT :bdg-cfx:`CFX`">
+
+.. only:: html
+
+  .. image:: /tutorials/import_data/images/thumb/sphx_glr_import_result_file_thumb.png
+    :alt:
+
+  :doc:`/tutorials/import_data/import_result_file`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Import a result file in DPF</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="MAPDL :bdg-lsdyna:`LS-DYNA` FLUENT :bdg-cfx:`CFX`">
+
+.. only:: html
+
+  .. image:: /tutorials/import_data/images/thumb/sphx_glr_extract_and_explore_results_metadata_thumb.png
+    :alt:
+
+  :doc:`/tutorials/import_data/extract_and_explore_results_metadata`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Extract and explore results metadata</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="MAPDL :bdg-lsdyna:`LS-DYNA` FLUENT :bdg-cfx:`CFX`">
+
+.. only:: html
+
+  .. image:: /tutorials/import_data/images/thumb/sphx_glr_extract_and_explore_results_data_thumb.png
+    :alt:
+
+  :doc:`/tutorials/import_data/extract_and_explore_results_data`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Extract and explore results data</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="MAPDL :bdg-lsdyna:`LS-DYNA` FLUENT :bdg-cfx:`CFX`">
+
+.. only:: html
+
+  .. image:: /tutorials/import_data/images/thumb/sphx_glr_narrow_down_data_thumb.png
+    :alt:
+
+  :doc:`/tutorials/import_data/narrow_down_data`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Narrow down data</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Reduce I/O overhead when extracting multiple results from the same file by opening it once and reusing cached metadata through a streams container.">
+
+.. only:: html
+
+  .. image:: /tutorials/import_data/images/thumb/sphx_glr_streams_for_multiple_operators_thumb.png
+    :alt:
+
+  :doc:`/tutorials/import_data/streams_for_multiple_operators`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Speed up data requests from files using streams</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /tutorials/import_data/load_custom_data
+   /tutorials/import_data/import_result_file
+   /tutorials/import_data/extract_and_explore_results_metadata
+   /tutorials/import_data/extract_and_explore_results_data
+   /tutorials/import_data/narrow_down_data
+   /tutorials/import_data/streams_for_multiple_operators
+

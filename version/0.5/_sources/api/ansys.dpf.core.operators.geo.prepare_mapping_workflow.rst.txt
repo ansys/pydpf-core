@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.geo.prepare_mapping_workflow
+   :inherited-members:

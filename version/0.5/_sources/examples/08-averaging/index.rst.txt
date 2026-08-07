@@ -1,0 +1,43 @@
+
+
+.. _sphx_glr_examples_08-averaging:
+
+.. _averaging_examples
+
+Averaging Examples
+==================
+These demos showcase the use of some of the averaging operators of DPF.
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Averaging order">
+
+.. only:: html
+
+  .. image:: /examples/08-averaging/images/thumb/sphx_glr_00-compute_and_average_thumb.png
+    :alt: Averaging order
+
+  :ref:`sphx_glr_examples_08-averaging_00-compute_and_average.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Averaging order</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/08-averaging/00-compute_and_average
+

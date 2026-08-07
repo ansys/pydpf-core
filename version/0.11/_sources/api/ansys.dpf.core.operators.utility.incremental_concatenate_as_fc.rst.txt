@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.incremental_concatenate_as_fc
+   :inherited-members:

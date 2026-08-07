@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.global_sliding_interface_energy
+   :inherited-members:

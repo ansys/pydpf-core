@@ -1,0 +1,154 @@
+
+
+
+
+
+
+:class:`InputsRelativeError`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.math.relative_error.InputsRelativeError(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   relative_error operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.relative_error()
+   >>> my_value = dpf.Field()
+   >>> op.inputs.value.connect(my_value)
+   >>> my_reference = dpf.Field()
+   >>> op.inputs.reference.connect(my_reference)
+
+
+
+
+
+
+.. py:currentmodule:: InputsRelativeError
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~value`
+            - Allows to connect value input to the operator.
+          * - :py:attr:`~reference`
+            - Allows to connect reference input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.relative_error import InputsRelativeError
+
+Property detail
+---------------
+
+.. py:property:: value
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.fields_container.FieldsContainer | float]
+
+
+   Allows to connect value input to the operator.
+
+   field or fields container with only one field is expected
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.relative_error()
+   >>> op.inputs.value.connect(my_value)
+   >>> # or
+   >>> op.inputs.value(my_value)
+
+.. py:property:: reference
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.fields_container.FieldsContainer | float]
+
+
+   Allows to connect reference input to the operator.
+
+   field or fields container with only one field is expected
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.relative_error()
+   >>> op.inputs.reference.connect(my_reference)
+   >>> # or
+   >>> op.inputs.reference(my_reference)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

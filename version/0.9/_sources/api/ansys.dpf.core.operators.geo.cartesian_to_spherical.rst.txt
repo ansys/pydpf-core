@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.geo.cartesian_to_spherical
+   :inherited-members:

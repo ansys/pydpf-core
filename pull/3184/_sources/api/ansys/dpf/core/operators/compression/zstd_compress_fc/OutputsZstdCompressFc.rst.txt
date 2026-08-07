@@ -1,0 +1,133 @@
+
+
+
+
+
+
+:class:`OutputsZstdCompressFc`
+==============================
+
+
+.. py:class:: ansys.dpf.core.operators.compression.zstd_compress_fc.OutputsZstdCompressFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   zstd_compress_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.zstd_compress_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_compressed_fc = op.outputs.compressed_fc()
+   >>> result_output_bytes_size = op.outputs.output_bytes_size()
+
+
+
+
+
+.. py:currentmodule:: OutputsZstdCompressFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~compressed_fc`
+            - Allows to get compressed_fc output of the operator
+          * - :py:attr:`~output_bytes_size`
+            - Allows to get output_bytes_size output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.zstd_compress_fc import OutputsZstdCompressFc
+
+Property detail
+---------------
+
+.. py:property:: compressed_fc
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get compressed_fc output of the operator
+
+   Collection of generic data containers containing the following elements needed for the decompression of each field :
+   - Uncompressed metadata (header, support, field definition)
+   - Compressed data
+   - Compressed scoping and its location
+   - Compressed data pointer if it exists
+   - Input field type (field or custom type field)
+
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.zstd_compress_fc()
+   >>> # Get the output from op.outputs. ...
+   >>> result_compressed_fc = op.outputs.compressed_fc()
+
+.. py:property:: output_bytes_size
+   :type: ansys.dpf.core.outputs.Output[int]
+
+
+   Allows to get output_bytes_size output of the operator
+
+   Total size of the compressed data in bytes (sum of the sizes in the vector of output pin 1).
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.zstd_compress_fc()
+   >>> # Get the output from op.outputs. ...
+   >>> result_output_bytes_size = op.outputs.output_bytes_size()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

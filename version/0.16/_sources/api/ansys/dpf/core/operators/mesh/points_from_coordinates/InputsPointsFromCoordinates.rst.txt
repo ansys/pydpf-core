@@ -1,0 +1,150 @@
+
+
+
+
+
+
+:class:`InputsPointsFromCoordinates`
+====================================
+
+
+.. py:class:: ansys.dpf.core.operators.mesh.points_from_coordinates.InputsPointsFromCoordinates(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   points_from_coordinates operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.points_from_coordinates()
+   >>> my_nodes_to_keep = dpf.Scoping()
+   >>> op.inputs.nodes_to_keep.connect(my_nodes_to_keep)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+
+
+
+.. py:currentmodule:: InputsPointsFromCoordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~nodes_to_keep`
+            - Allows to connect nodes_to_keep input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.points_from_coordinates import InputsPointsFromCoordinates
+
+Property detail
+---------------
+
+.. py:property:: nodes_to_keep
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping | ansys.dpf.core.scopings_container.ScopingsContainer]
+
+
+   Allows to connect nodes_to_keep input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.points_from_coordinates()
+   >>> op.inputs.nodes_to_keep.connect(my_nodes_to_keep)
+   >>> # or
+   >>> op.inputs.nodes_to_keep(my_nodes_to_keep)
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.meshed_region.MeshedRegion | ansys.dpf.core.meshes_container.MeshesContainer]
+
+
+   Allows to connect mesh input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.points_from_coordinates()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

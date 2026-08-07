@@ -1,0 +1,150 @@
+
+
+
+
+
+
+:class:`InputsCombineLevelset`
+==============================
+
+
+.. py:class:: ansys.dpf.core.operators.mesh.combine_levelset.InputsCombineLevelset(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   combine_levelset operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.combine_levelset()
+   >>> my_fieldA = dpf.Field()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> my_fieldB = dpf.Field()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+
+
+
+
+
+
+.. py:currentmodule:: InputsCombineLevelset
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fieldA`
+            - Allows to connect fieldA input to the operator.
+          * - :py:attr:`~fieldB`
+            - Allows to connect fieldB input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.combine_levelset import InputsCombineLevelset
+
+Property detail
+---------------
+
+.. py:property:: fieldA
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field]
+
+
+   Allows to connect fieldA input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.combine_levelset()
+   >>> op.inputs.fieldA.connect(my_fieldA)
+   >>> # or
+   >>> op.inputs.fieldA(my_fieldA)
+
+.. py:property:: fieldB
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field]
+
+
+   Allows to connect fieldB input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.combine_levelset()
+   >>> op.inputs.fieldB.connect(my_fieldB)
+   >>> # or
+   >>> op.inputs.fieldB(my_fieldB)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

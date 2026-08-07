@@ -1,0 +1,260 @@
+
+
+
+
+
+
+The ``core.py`` module
+======================
+
+.. py:module:: ansys.dpf.core.core
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: core
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.core.BaseService`
+            - The Base Service class allows to make generic requests to dpf's server.
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~load_library`
+            - Load a DPF plugin (a binary library of operators).
+
+
+          * - :py:obj:`~upload_file_in_tmp_folder`
+            - Upload a file from the client to a temporary server folder deleted on server shutdown.
+
+
+          * - :py:obj:`~upload_files_in_folder`
+            - Upload all the files from a folder of the client to the target server folder path.
+
+
+          * - :py:obj:`~download_file`
+            - Download a file from the server to the target client file path.
+
+
+          * - :py:obj:`~download_files_in_folder`
+            - Download all the files from a folder of the server to the target client folder path.
+
+
+          * - :py:obj:`~upload_file`
+            - Upload a file from the client to the target server file path.
+
+
+          * - :py:obj:`~make_tmp_dir_server`
+            - Create a temporary folder server side. Only one temporary folder can be created by server instance.
+
+
+
+
+    .. tab-item:: Constants
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~CONFIGURATION`
+            - 
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> BaseService</api/ansys/dpf/core/core/BaseService>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Core.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: load_library(filename: str | pathlib.Path, name: str = None, symbol: str = 'LoadOperators', server: ansys.dpf.core.AnyServerType = None, generate_operators: bool = False) -> str
+
+   Load a DPF plugin (a binary library of operators).
+
+   Set `generate_operators=True` to also make the operators available in the current
+   installation of `ansys-dpf-core`.
+
+   :param filename: Filename or path to the operator library.
+   :param name: Name to give the plugin once loaded. Defaults to the name of the library file.
+   :param symbol: The name of the entrypoint of the plugin, which is the function recording the operators.
+   :param server: Server to load the plugin onto. Defaults to the global server.
+   :param generate_operators: Whether to generate the Python modules for the operators of the library.
+                              This updates the ansys.dpf.core.operators package of the current installation.
+
+   .. rubric:: Examples
+
+   Load the mesh operators for Windows (for Linux, just use
+   'libmeshOperatorsCore.so' instead of 'meshOperatorsCore.dll')
+
+   >>> from ansys.dpf import core as dpf
+   >>> # dpf.load_library('meshOperatorsCore.dll', 'mesh_operators')
+
+
+.. py:function:: upload_file_in_tmp_folder(file_path, new_file_name=None, server=None)
+
+   Upload a file from the client to a temporary server folder deleted on server shutdown.
+
+   :param file_path: file path on the client side to upload
+   :type file_path: str or os.PathLike
+   :param new_file_name: name to give to the file server side,
+                         if no name is specified, the same name as the input file is given
+   :type new_file_name: str, optional
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+   :returns: **server_file_path** -- path generated server side
+   :rtype: str
+
+   .. rubric:: Notes
+
+   Is not implemented for usage with type(server)=
+   :class:`ansys.dpf.core.server_types.InProcessServer`.
+
+
+.. py:function:: upload_files_in_folder(to_server_folder_path, client_folder_path, specific_extension=None, server=None)
+
+   Upload all the files from a folder of the client to the target server folder path.
+
+   :param to_server_folder_path: folder path target where will be uploaded files on the server side
+   :type to_server_folder_path: str or os.PathLike
+   :param client_folder_path: folder path where the files that must be uploaded are located
+                              on client side
+   :type client_folder_path: str or os.PathLike
+   :param specific_extension (optional): copies only the files with the given extension
+   :type specific_extension (optional): str
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+   :returns: **paths** -- new file paths server side
+   :rtype: list of str
+
+
+.. py:function:: download_file(server_file_path, to_client_file_path, server=None)
+
+   Download a file from the server to the target client file path.
+
+   :param server_file_path: file path to download on the server side
+   :type server_file_path: str or os.PathLike
+   :param to_client_file_path: file path target where the file will be located client side
+   :type to_client_file_path: str or os.PathLike
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+   .. rubric:: Notes
+
+   Is not implemented for usage with type(server)=
+   :class:`ansys.dpf.core.server_types.InProcessServer`.
+
+
+.. py:function:: download_files_in_folder(server_folder_path, to_client_folder_path, specific_extension=None, server=None)
+
+   Download all the files from a folder of the server to the target client folder path.
+
+   :param server_folder_path: folder path to download on the server side
+   :type server_folder_path: str or os.PathLike
+   :param to_client_folder_path: folder path target where the files will be located client side
+   :type to_client_folder_path: str or os.PathLike
+   :param specific_extension (optional): copies only the files with the given extension
+   :type specific_extension (optional): str
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+   :returns: **paths** -- new file paths client side
+   :rtype: list of str
+
+
+.. py:function:: upload_file(file_path, to_server_file_path, server=None)
+
+   Upload a file from the client to the target server file path.
+
+   :param file_path: file path on the client side to upload
+   :type file_path: str or os.PathLike
+   :param to_server_file_path: file path target where the file will be located server side
+   :type to_server_file_path: str or os.PathLike
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+   :returns: **server_file_path** -- path generated server side
+   :rtype: str
+
+
+.. py:function:: make_tmp_dir_server(server=None)
+
+   Create a temporary folder server side. Only one temporary folder can be created by server instance.
+
+   The folder will be deleted when the server is stopped.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+   :returns: **path** -- path to the temporary dir
+   :rtype: str
+
+
+.. py:data:: CONFIGURATION
+
+
+

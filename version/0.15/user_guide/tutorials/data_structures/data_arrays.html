@@ -1,0 +1,1854 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Data Arrays &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles\ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=f3be7b20" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../../_static/documentation_options.js?v=52d5597a"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/tutorials/data_structures/data_arrays';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.15';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Processing data basics" href="../post_processing_basics/index.html" />
+    <link rel="prev" title="DPF data structures" href="index.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.15.0" />
+  <meta property="og:site_name" content="PyAnsys" />
+  <meta name="physics" content="Structures" />
+  <link rel="canonical" href="https://dpf.docs.pyansys.com/version/stable/user_guide/tutorials/data_structures/data_arrays.html" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Starting with PyDPF-Core 0.15.0, gRPC communication with the DPF server defaults to requiring mTLS authentication.
+Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dpf_server.html#run-dpf-server-in-secure-mode-with-mtls'>this page</a> for more information.</div>
+</aside>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">DPF data structures</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Data Arrays</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../post_processing_basics/index.html">Processing data basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../import_data/index.html">Import Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../animate/index.html">Animate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/index.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_operators_and_plugins/index.html">Custom Operators and Plugins</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/concepts.html">Terms and concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/waysofusing.html">DPF capabilities and scripting languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/stepbystep.html">DPF usage</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Troubleshooting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../index.html" class="nav-link">User guide</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">DPF data structures</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Data Arrays</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="data-arrays">
+<span id="ref-tutorials-data-arrays"></span><h1>Data Arrays<a class="headerlink" href="#data-arrays" title="Link to this heading">#</a></h1>
+<p>To process your data with DPF, you must format it according to the DPF data model.
+You can achieve this either by using DPF data readers on result files, or by using
+data to build DPF data storage containers.</p>
+<p>It is important to be aware of how the data is structured in those containers to understand how to create them and how operators process them.</p>
+<p>The data containers can be:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Raw data storage structures</strong>: data arrays (such as a <code class="docutils literal notranslate"><span class="pre">Field</span></code>) or data maps (such as a <code class="docutils literal notranslate"><span class="pre">DataTree</span></code>)</p></li>
+<li><p><strong>Collections</strong>: homogeneous groups of labeled raw data storage structures (such as a <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> for a group of labeled fields)</p></li>
+</ul>
+</div></blockquote>
+<p>This tutorial presents how to define and manipulate DPF data arrays specifically.</p>
+<p><a class="reference download internal" download="" href="../../../_downloads/a3a64b34ffdf10907739ab04058f8893/data_arrays.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Python</span> <span class="pre">script</span></code></a>
+<a class="reference download internal" download="" href="../../../_downloads/2d7c9f1bea64a5faee62c34d6f93f65b/data_arrays.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Jupyter</span> <span class="pre">notebook</span></code></a></p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>A data array in DPF usually represents a mathematical field, hence the base name <code class="docutils literal notranslate"><span class="pre">Field</span></code>.</p>
+<p>Different types of <code class="docutils literal notranslate"><span class="pre">Field</span></code> store different data types:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> stores float values</p></li>
+<li><p>a <a class="reference internal" href="../../../api/ansys/dpf/core/string_field/StringField.html#ansys.dpf.core.string_field.StringField" title="ansys.dpf.core.string_field.StringField"><code class="xref py py-class docutils literal notranslate"><span class="pre">StringField</span></code></a> stores string values</p></li>
+<li><p>a <a class="reference internal" href="../../../api/ansys/dpf/core/property_field/PropertyField.html#ansys.dpf.core.property_field.PropertyField" title="ansys.dpf.core.property_field.PropertyField"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyField</span></code></a> stores integer values</p></li>
+<li><p>a <a class="reference internal" href="../../../api/ansys/dpf/core/custom_type_field/CustomTypeField.html#ansys.dpf.core.custom_type_field.CustomTypeField" title="ansys.dpf.core.custom_type_field.CustomTypeField"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomTypeField</span></code></a> stores values of a custom type (among valid numpy.dtype)</p></li>
+</ul>
+</div></blockquote>
+<p>A <code class="docutils literal notranslate"><span class="pre">Field</span></code> is always associated to:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">location</span></code>, which defines the type entity the data applies to.
+You can check the <a class="reference internal" href="../../../api/ansys/dpf/core/common/locations.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">locations</span></code></a> list to know what is available.
+Locations related to mesh entities include: <code class="docutils literal notranslate"><span class="pre">nodal</span></code>, <code class="docutils literal notranslate"><span class="pre">elemental</span></code>, or <code class="docutils literal notranslate"><span class="pre">elemental_nodal</span></code>, <code class="docutils literal notranslate"><span class="pre">zone</span></code>, <code class="docutils literal notranslate"><span class="pre">faces</span></code>.
+Locations related to time, frequency, or mode are <code class="docutils literal notranslate"><span class="pre">modal</span></code>, <code class="docutils literal notranslate"><span class="pre">time_freq</span></code>, and <code class="docutils literal notranslate"><span class="pre">time_freq_step</span></code>.</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">scoping</span></code>, which is the list of entity IDs each data point in the <code class="docutils literal notranslate"><span class="pre">Field</span></code> relates to.
+For example, the <code class="docutils literal notranslate"><span class="pre">scoping</span></code> of a <code class="docutils literal notranslate"><span class="pre">nodal</span></code> <code class="docutils literal notranslate"><span class="pre">Field</span></code> represents a list of node IDs.
+It can represent a subset of the <code class="docutils literal notranslate"><span class="pre">support</span></code> of the field.
+The data in a <code class="docutils literal notranslate"><span class="pre">Field</span></code> is ordered the same way as the IDs in its <code class="docutils literal notranslate"><span class="pre">scoping</span></code>.</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">support</span></code>, which is a data container holding information about the model for the type of entity the <code class="docutils literal notranslate"><span class="pre">location</span></code> targets.
+If the <code class="docutils literal notranslate"><span class="pre">location</span></code> relates to mesh entities such as nodes or elements, the <code class="docutils literal notranslate"><span class="pre">support</span></code> of the <code class="docutils literal notranslate"><span class="pre">Field</span></code> is an object holding data
+related to the mesh, called a <code class="docutils literal notranslate"><span class="pre">MeshedRegion</span></code>.</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">dimensionality</span></code>, which gives the structure of the data based on the number of components and dimensions.
+Indeed, a DPF <code class="docutils literal notranslate"><span class="pre">Field</span></code> can store data for a 3D vector field, a scalar field, a matrix field,
+but also store data for a multi-component field (for example, a symmetrical matrix field for each component of the stress field).</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">data</span></code> array, which holds the actual data in a vector, accessed according to the <code class="docutils literal notranslate"><span class="pre">dimensionality</span></code>.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="create-fields-based-on-result-files">
+<h2>Create fields based on result files<a class="headerlink" href="#create-fields-based-on-result-files" title="Link to this heading">#</a></h2>
+<p>In this tutorial we are going to use the result file from a fluid analysis to showcase the
+<a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>, <a class="reference internal" href="../../../api/ansys/dpf/core/property_field/PropertyField.html#ansys.dpf.core.property_field.PropertyField" title="ansys.dpf.core.property_field.PropertyField"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyField</span></code></a>, and <a class="reference internal" href="../../../api/ansys/dpf/core/string_field/StringField.html#ansys.dpf.core.string_field.StringField" title="ansys.dpf.core.string_field.StringField"><code class="xref py py-class docutils literal notranslate"><span class="pre">StringField</span></code></a>.</p>
+<p>The <a class="reference internal" href="../../../api/ansys/dpf/core/model/Model.html#ansys.dpf.core.model.Model" title="ansys.dpf.core.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a> class creates and evaluates common readers for the files it is given,
+such as a mesh provider, a result info provider, and a streams provider.
+It provides dynamically built methods to extract the results available in the files, as well as many shortcuts
+to facilitate exploration of the available data.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the ansys.dpf.core module as ``dpf``</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="c1"># Import the examples module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="c1"># Create a data source targeting the example file</span>
+<span class="n">my_data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">result_path</span><span class="o">=</span><span class="n">examples</span><span class="o">.</span><span class="n">download_fluent_axial_comp</span><span class="p">()[</span><span class="s2">&quot;flprj&quot;</span><span class="p">])</span>
+<span class="c1"># Create a model from the data source</span>
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">my_data_sources</span><span class="p">)</span>
+<span class="c1"># Print information available for the analysis</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+Transient analysis
+Unit system: Custom: m, kg, N, s, V, A, K
+Physics Type: Fluid
+Available results:
+     -  enthalpy: Elemental Enthalpy  
+     -  mass_flow_rate: Faces Mass Flow Rate
+     -  static_pressure: ElementalAndFaces Static Pressure
+     -  mean_static_pressure: Elemental Mean Static Pressure
+     -  rms_static_pressure: Elemental Rms Static Pressure
+     -  surface_heat_rate: Faces Surface Heat Rate
+     -  density: ElementalAndFaces Density
+     -  wall_shear_stress: Faces Wall Shear Stress
+     -  temperature: ElementalAndFaces Temperature
+     -  mean_temperature: ElementalAndFaces Mean Temperature
+     -  rms_temperature: Elemental Rms Temperature
+     -  velocity: ElementalAndFaces Velocity
+     -  mean_velocity: Elemental Mean Velocity
+     -  rms_velocity: Elemental Rms Velocity
+Available qualifier labels:
+     - zone: default-interior:0 (2), rotor-hub (3), rotor-shroud (4), rotor-inlet (5), rotor-interface (6), rotor-blade-1 (7), rotor-blade-2 (8), rotor-per-1-shadow (9), rotor-per-1 (10), rotor-per-2-shadow (11), rotor-per-2 (12), fluid-rotor (13), default-interior (15), stator-hub (16), stator-shroud (17), stator-interface (18), stator-outlet (19), stator-blade-1 (20), stator-blade-2 (21), stator-blade-3 (22), stator-blade-4 (23), stator-per-2 (24), stator-per-2-shadow (25), stator-per-1 (26), stator-per-1-shadow (27), fluid-stator (28)
+     - phase: phase-1 (1)
+------------------------------
+DPF  Meshed Region: 
+  16660 nodes 
+  13856 elements 
+  44242 faces 
+  Unit: m 
+  With solid (3D) elements
+------------------------------
+DPF  Time/Freq Support: 
+  Number of sets: 3 
+Cumulative     Time (s)       LoadStep       Substep         
+1              0.009587       1              1               
+2              0.009593       2              1               
+3              0.009600       3              1               
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <a class="reference internal" href="../../../api/ansys/dpf/core/mesh_info/MeshInfo.html#ansys.dpf.core.mesh_info.MeshInfo" title="ansys.dpf.core.mesh_info.MeshInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshInfo</span></code></a> class stores information relative to the <a class="reference internal" href="../../../api/ansys/dpf/core/meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></a> of the analysis.
+It stores some of its data as fields of strings or fields of integers, which we extract next.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the mesh metadata</span>
+<span class="n">my_mesh_info</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">mesh_info</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_mesh_info</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF MeshInfo
+------------------------------
+with properties:
+  num_cells           	int
+  num_nodes           	int
+  num_faces           	int
+  body_names          	StringField
+  body_cell_topology  	PropertyField
+  body_face_topology  	PropertyField
+  body_scoping        	Scoping
+  cell_zone_names     	StringField
+  cell_zone_elements  	PropertyField
+  cell_zone_scoping   	Scoping
+  face_zone_names     	StringField
+  face_zone_elements  	PropertyField
+  face_zone_scoping   	Scoping
+  zone_names          	StringField
+  num_elem_zone       	PropertyField
+  zone_scoping        	Scoping
+  splittable_by       	StringField
+</pre></div>
+</div>
+</div>
+</div>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Field</label><div class="sd-tab-content docutils">
+<p>You can obtain a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> from a model by requesting a result.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Request the collection of temperature result fields from the model and take the first one.</span>
+<span class="n">my_temp_field</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">temperature</span><span class="o">.</span><span class="n">eval</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># Print the field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_temp_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF T Field
+  Location: Elemental
+  Unit: K
+  13856 entities 
+  Data: 1 components and 13856 elementary data 
+
+  Elemental
+  IDs                   data(K)
+  ------------          ----------
+  1                     2.761285e+02   
+                        
+  2                     2.760320e+02   
+                        
+  3                     2.761719e+02   
+                        
+  ...
+
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>The field is located on nodes since it stores the displacement at each node.</p>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+StringField</label><div class="sd-tab-content docutils">
+<p>You can obtain a <a class="reference internal" href="../../../api/ansys/dpf/core/string_field/StringField.html#ansys.dpf.core.string_field.StringField" title="ansys.dpf.core.string_field.StringField"><code class="xref py py-class docutils literal notranslate"><span class="pre">StringField</span></code></a> from a <a class="reference internal" href="../../../api/ansys/dpf/core/mesh_info/MeshInfo.html#ansys.dpf.core.mesh_info.MeshInfo" title="ansys.dpf.core.mesh_info.MeshInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshInfo</span></code></a> by requesting the names of the zones in the model.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Request the name of the face zones in the fluid analysis</span>
+<span class="n">my_string_field</span> <span class="o">=</span> <span class="n">my_mesh_info</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;face_zone_names&quot;</span><span class="p">)</span>
+<span class="c1"># Print the field of strings</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_string_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF String Field
+  24 zone entities 
+  Data:24 elementary data 
+
+  zone
+  IDs                   data
+  ------------          ----------
+  2                     default-interior:0
+                        
+  3                     rotor-hub      
+                        
+  4                     rotor-shroud   
+                        
+  ...
+
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>The field is located on zones since it stores the name of each zone.</p>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+PropertyField</label><div class="sd-tab-content docutils">
+<p>You can obtain a <a class="reference internal" href="../../../api/ansys/dpf/core/property_field/PropertyField.html#ansys.dpf.core.property_field.PropertyField" title="ansys.dpf.core.property_field.PropertyField"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyField</span></code></a> from a <a class="reference internal" href="../../../api/ansys/dpf/core/mesh_info/MeshInfo.html#ansys.dpf.core.mesh_info.MeshInfo" title="ansys.dpf.core.mesh_info.MeshInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshInfo</span></code></a> by requesting the element types in the mesh.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the body_face_topology property field</span>
+<span class="n">my_property_field</span> <span class="o">=</span> <span class="n">my_mesh_info</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;body_face_topology&quot;</span><span class="p">)</span>
+<span class="c1"># Print the field of integers</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_property_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Property Field
+  2 entities 
+  Data: 1 components and 24 elementary data 
+
+  Body
+  IDs                   data
+  ------------          ----------
+  13                    2              
+                        3              
+                        4              
+                        ...
+
+  28                    15             
+                        16             
+                        17             
+                        ...
+
+
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>The field is located on elements since it stores the element type ID for each element.</p>
+</div>
+</div>
+</section>
+<section id="create-fields-from-scratch">
+<h2>Create fields from scratch<a class="headerlink" href="#create-fields-from-scratch" title="Link to this heading">#</a></h2>
+<p>You can also create a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>, <a class="reference internal" href="../../../api/ansys/dpf/core/string_field/StringField.html#ansys.dpf.core.string_field.StringField" title="ansys.dpf.core.string_field.StringField"><code class="xref py py-class docutils literal notranslate"><span class="pre">StringField</span></code></a> or <a class="reference internal" href="../../../api/ansys/dpf/core/property_field/PropertyField.html#ansys.dpf.core.property_field.PropertyField" title="ansys.dpf.core.property_field.PropertyField"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyField</span></code></a> from scratch based on your data.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+Field</label><div class="sd-tab-content docutils">
+<p>First create a 3D vector field defined for two nodes.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a 3D vector field ready to hold data for two entities</span>
+<span class="c1"># The constructor creates 3D vector fields by default</span>
+<span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Set the data values as a flat vector</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]</span>
+<span class="c1"># Associate the data to nodes</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span>
+<span class="c1"># Set the IDs of the nodes the data applies to</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="c1"># Define the unit (only available for the Field type)</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span>
+<span class="c1"># Print the field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: Nodal
+  Unit: m
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data(m)
+  ------------          ----------
+  1                     1.000000e+00   2.000000e+00   3.000000e+00   
+                        
+  2                     4.000000e+00   5.000000e+00   6.000000e+00   
+                        
+
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now create a 3x3 symmetric matrix field defined for a single element.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the nature to symmatrix</span>
+<span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nature</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">natures</span><span class="o">.</span><span class="n">symmatrix</span><span class="p">)</span>
+<span class="c1"># The symmatrix dimensions defaults to 3x3</span>
+<span class="c1"># Set the data values as a flat vector</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]</span>
+<span class="c1"># Associate the data to elements</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental</span>
+<span class="c1"># Set the IDs of the nodes the data applies to</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="c1"># Define the unit (only available for the Field type)</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;Pa&quot;</span>
+<span class="c1"># Print the field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: Elemental
+  Unit: Pa
+  1 entities 
+  Data: 6 components and 1 elementary data 
+
+  IDs                   data(Pa)
+  ------------          ----------
+  1                     1.000000e+00   2.000000e+00   3.000000e+00   4.000000e+00   5.000000e+00   6.000000e+00   
+                        
+
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now create a 2x3 matrix field defined for a single fluid element face.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the nature to matrix and the location to elemental</span>
+<span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nature</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">natures</span><span class="o">.</span><span class="n">matrix</span><span class="p">)</span>
+<span class="c1"># Set the matrix dimensions to 2x3</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">dimensionality</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Dimensionality</span><span class="p">(</span><span class="n">dim_vec</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">nature</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">natures</span><span class="o">.</span><span class="n">matrix</span><span class="p">)</span>
+<span class="c1"># Set the data values as a flat vector</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]</span>
+<span class="c1"># Associate the data to faces</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">faces</span>
+<span class="c1"># Set the IDs of the face the data applies to</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="c1"># Define the unit (only available for the Field type)</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;mm&quot;</span>
+<span class="c1"># Print the field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: Faces
+  Unit: mm
+  1 entities 
+  Data: 6 components and 1 elementary data 
+
+  IDs                   data(mm)
+  ------------          ----------
+  1                     1.000000e+00   2.000000e+00   3.000000e+00   4.000000e+00   5.000000e+00   6.000000e+00   
+                        
+
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+StringField</label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a string field with data for two elements</span>
+<span class="n">my_string_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">StringField</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Set the string values</span>
+<span class="n">my_string_field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;string_1&quot;</span><span class="p">,</span> <span class="s2">&quot;string_2&quot;</span><span class="p">]</span>
+<span class="c1"># Set the location</span>
+<span class="n">my_string_field</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental</span>
+<span class="c1"># Set the element IDs</span>
+<span class="n">my_string_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="c1"># Print the string field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_string_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF String Field
+  2 Elemental entities 
+  Data:2 elementary data 
+
+  Elemental
+  IDs                   data
+  ------------          ----------
+  1                     string_1       
+                        
+  2                     string_2       
+                        
+
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-5">
+PropertyField</label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a property field with data for two modes</span>
+<span class="n">my_property_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Set the data values</span>
+<span class="n">my_property_field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+<span class="c1"># Set the location</span>
+<span class="c1"># For DPF 26R1 and above, directly set the location of the PropertyField</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core.check_version</span><span class="w"> </span><span class="kn">import</span> <span class="n">meets_version</span>
+<span class="k">if</span> <span class="n">meets_version</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">SERVER</span><span class="o">.</span><span class="n">version</span><span class="p">,</span> <span class="s2">&quot;11.0&quot;</span><span class="p">):</span>
+    <span class="n">my_property_field</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">modal</span>
+<span class="c1"># For DPF older than 26R1, you must set the location with a Scoping</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">my_property_field</span><span class="o">.</span><span class="n">scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">modal</span><span class="p">)</span>
+<span class="c1"># Set the mode IDs</span>
+<span class="n">my_property_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="c1"># Print the property field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_property_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Property Field
+  2 entities 
+  Data: 1 components and 2 elementary data 
+
+  Modal
+  IDs                   data
+  ------------          ----------
+  1                     12             
+                        
+  2                     25             
+                        
+
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-a-field-with-the-fields-factory">
+<h2>Create a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> with the fields_factory<a class="headerlink" href="#create-a-field-with-the-fields-factory" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="../../../api/ansys/dpf/core/fields_factory/index.html#module-ansys.dpf.core.fields_factory" title="ansys.dpf.core.fields_factory"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fields_factory</span></code></a> module provides helpers to create a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a>:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-6">
+Scalar Field</label><div class="sd-tab-content docutils">
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">create_scalar_field</span></code> to create a scalar field:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a scalar field ready to hold data for two entities</span>
+<span class="c1"># The field is nodal by default</span>
+<span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_scalar_field</span><span class="p">(</span><span class="n">num_entities</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="c1"># Print the field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 1 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     1.000000e+00   
+                        
+  2                     2.000000e+00   
+                        
+
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-7">
+Generic Vector Field</label><div class="sd-tab-content docutils">
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">create_vector_field</span></code> to create a generic vector field:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a 2D vector field ready to hold data for two entities</span>
+<span class="c1"># The field is nodal by default</span>
+<span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_vector_field</span><span class="p">(</span><span class="n">num_entities</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_comp</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="c1"># Print the field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 2 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     1.000000e+00   2.000000e+00   
+                        
+  2                     3.000000e+00   4.000000e+00   
+                        
+
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-8" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-8">
+3D Vector Field</label><div class="sd-tab-content docutils">
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">create_3d_vector_field</span></code> to create a 3D vector field:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a 3D vector field ready to hold data for two entities</span>
+<span class="c1"># The field is nodal by default</span>
+<span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_3d_vector_field</span><span class="p">(</span><span class="n">num_entities</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="c1"># Print the field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     1.000000e+00   2.000000e+00   3.000000e+00   
+                        
+  2                     4.000000e+00   5.000000e+00   6.000000e+00   
+                        
+
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-9" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-9">
+Generic Matrix Field</label><div class="sd-tab-content docutils">
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">create_matrix_field</span></code> to create a generic matrix field:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a 2x3 matrix field ready to hold data for two entities</span>
+<span class="c1"># The field is nodal by default</span>
+<span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_matrix_field</span><span class="p">(</span><span class="n">num_entities</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_lines</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_col</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="c1"># Print the field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 6 components and 1 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     1.000000e+00   2.000000e+00   3.000000e+00   4.000000e+00   5.000000e+00   6.000000e+00   
+                        
+  2                     0.000000e+00   0.000000e+00   0.000000e+00   0.000000e+00   0.000000e+00   0.000000e+00   
+                        
+
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-10" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-10">
+3x3 Matrix Field</label><div class="sd-tab-content docutils">
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">create_tensor_field</span></code> to create a 3x3 matrix field:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a 3x3 matrix field ready to hold data for two entities</span>
+<span class="c1"># The field is nodal by default</span>
+<span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_tensor_field</span><span class="p">(</span><span class="n">num_entities</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">]</span>
+<span class="n">my_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="c1"># Print the field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 6 components and 1 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     1.000000e+00   2.000000e+00   3.000000e+00   4.000000e+00   5.000000e+00   6.000000e+00   
+                        
+  2                     7.000000e+00   8.000000e+00   9.000000e+00   1.289459e-307  0.000000e+00   0.000000e+00   
+                        
+
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-11" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-11">
+Overall Field</label><div class="sd-tab-content docutils">
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">create_overall_field</span></code> to create a field with a single value for the whole support:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a field storing a value applied to every node in the support</span>
+<span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_overall_field</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="c1"># Print the field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: overall
+  Unit: 
+  1 entities 
+  Data: 1 components and 1 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  0                     1.000000e+00   
+                        
+
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-12" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-12">
+Field from Array</label><div class="sd-tab-content docutils">
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">field_from_array</span></code> to create a scalar, 3D vector, or symmetric matrix field directly from a numpy array or a Python list</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a scalar field from a 1D array or a list</span>
+<span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]</span>
+<span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">field_from_array</span><span class="p">(</span><span class="n">arr</span><span class="o">=</span><span class="n">arr</span><span class="p">)</span>
+<span class="c1"># Print the field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: Nodal
+  Unit: 
+  6 entities 
+  Data: 1 components and 6 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     1.000000e+00   
+                        
+  2                     2.000000e+00   
+                        
+  3                     3.000000e+00   
+                        
+  ...
+
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a 3D vector field from an array or a list</span>
+<span class="n">arr</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]]</span>
+<span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">field_from_array</span><span class="p">(</span><span class="n">arr</span><span class="o">=</span><span class="n">arr</span><span class="p">)</span>
+<span class="c1"># Print the field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: Nodal
+  Unit: 
+  2 entities 
+  Data: 3 components and 2 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     1.000000e+00   2.000000e+00   3.000000e+00   
+                        
+  2                     4.000000e+00   5.000000e+00   6.000000e+00   
+                        
+
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a symmetric matrix field from an array or a list</span>
+<span class="n">arr</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]]</span>
+<span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">field_from_array</span><span class="p">(</span><span class="n">arr</span><span class="o">=</span><span class="n">arr</span><span class="p">)</span>
+<span class="c1"># Print the field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Field
+  Location: Nodal
+  Unit: 
+  1 entities 
+  Data: 6 components and 1 elementary data 
+
+  IDs                   data
+  ------------          ----------
+  1                     1.000000e+00   2.000000e+00   3.000000e+00   4.000000e+00   5.000000e+00   6.000000e+00   
+                        
+
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="access-the-field-metadata">
+<h2>Access the field metadata<a class="headerlink" href="#access-the-field-metadata" title="Link to this heading">#</a></h2>
+<p>The metadata associated to a field includes its name, its location, its scoping,
+the shape of the data stored, its number of components, and its unit.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-13" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-13">
+Field</label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Location of the fields data</span>
+<span class="n">my_location</span> <span class="o">=</span> <span class="n">my_temp_field</span><span class="o">.</span><span class="n">location</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_location</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Fields scoping</span>
+<span class="n">my_scoping</span> <span class="o">=</span> <span class="n">my_temp_field</span><span class="o">.</span><span class="n">scoping</span>  <span class="c1"># Location entities type and number</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scoping&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">my_scoping</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">my_scoping_ids</span> <span class="o">=</span> <span class="n">my_temp_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>  <span class="c1"># Available ids of locations components</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scoping.ids&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_scoping_ids</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Elementary data count</span>
+<span class="c1"># Number of the location entities (how many data vectors we have)</span>
+<span class="n">my_elementary_data_count</span> <span class="o">=</span> <span class="n">my_temp_field</span><span class="o">.</span><span class="n">elementary_data_count</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;elementary_data_count&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_elementary_data_count</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Components count</span>
+<span class="c1"># Vectors dimension, here we have a displacement so we expect to have 3 components (X, Y and Z)</span>
+<span class="n">my_component_count</span> <span class="o">=</span> <span class="n">my_temp_field</span><span class="o">.</span><span class="n">component_count</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;components_count&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_component_count</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Size</span>
+<span class="c1"># Length of the data entire vector (equal to the number of elementary data times the number of components.)</span>
+<span class="n">my_field_size</span> <span class="o">=</span> <span class="n">my_temp_field</span><span class="o">.</span><span class="n">size</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_field_size</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Fields shape</span>
+<span class="c1"># Gives a tuple with the elementary data count and the components count</span>
+<span class="n">my_shape</span> <span class="o">=</span> <span class="n">my_temp_field</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shape&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_shape</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Units</span>
+<span class="n">my_unit</span> <span class="o">=</span> <span class="n">my_temp_field</span><span class="o">.</span><span class="n">unit</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unit&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_unit</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>location 
+ Elemental 
+
+scoping 
+ DPF  Scoping: 
+  with Elemental location and 13856 entities
+ 
+
+scoping.ids 
+ [    1     2     3 ... 13854 13855 13856] 
+
+elementary_data_count 
+ 13856 
+
+components_count 
+ 1 
+
+size 
+ 13856 
+
+shape 
+ 13856 
+
+unit 
+ K 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-14" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-14">
+StringField</label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Location of the fields data</span>
+<span class="n">my_location</span> <span class="o">=</span> <span class="n">my_string_field</span><span class="o">.</span><span class="n">location</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_location</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># StringFields scoping</span>
+<span class="n">my_scoping</span> <span class="o">=</span> <span class="n">my_string_field</span><span class="o">.</span><span class="n">scoping</span>  <span class="c1"># Location entities type and number</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scoping&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">my_scoping</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">my_scoping_ids</span> <span class="o">=</span> <span class="n">my_string_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>  <span class="c1"># Available ids of locations components</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scoping.ids&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_scoping_ids</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Elementary data count</span>
+<span class="c1"># Number of the location entities (how many data vectors we have)</span>
+<span class="n">my_elementary_data_count</span> <span class="o">=</span> <span class="n">my_string_field</span><span class="o">.</span><span class="n">elementary_data_count</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;elementary_data_count&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_elementary_data_count</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Components count</span>
+<span class="c1"># Data dimension, here we expect one name by zone</span>
+<span class="n">my_component_count</span> <span class="o">=</span> <span class="n">my_string_field</span><span class="o">.</span><span class="n">component_count</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;components_count&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_component_count</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Size</span>
+<span class="c1"># Length of the data entire array (equal to the number of elementary data times the number of components.)</span>
+<span class="n">my_field_size</span> <span class="o">=</span> <span class="n">my_string_field</span><span class="o">.</span><span class="n">size</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_field_size</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Fields shape</span>
+<span class="c1"># Gives a tuple with the elementary data count and the components count</span>
+<span class="n">my_shape</span> <span class="o">=</span> <span class="n">my_string_field</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shape&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_shape</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>location 
+ Elemental 
+
+scoping 
+ DPF  Scoping: 
+  with Elemental location and 2 entities
+ 
+
+scoping.ids 
+ [1 2] 
+
+elementary_data_count 
+ 2 
+
+components_count 
+ 1 
+
+size 
+ 2 
+
+shape 
+ 2 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-15" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-15">
+PropertyField</label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Location of the fields data</span>
+<span class="n">my_location</span> <span class="o">=</span> <span class="n">my_property_field</span><span class="o">.</span><span class="n">location</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_location</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Fields scoping</span>
+<span class="n">my_scoping</span> <span class="o">=</span> <span class="n">my_property_field</span><span class="o">.</span><span class="n">scoping</span>  <span class="c1"># Location entities type and number</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scoping&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">my_scoping</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">my_scoping_ids</span> <span class="o">=</span> <span class="n">my_property_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>  <span class="c1"># Available ids of locations components</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scoping.ids&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_scoping_ids</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Elementary data count</span>
+<span class="c1"># Number of the location entities (how many data vectors we have)</span>
+<span class="n">my_elementary_data_count</span> <span class="o">=</span> <span class="n">my_property_field</span><span class="o">.</span><span class="n">elementary_data_count</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;elementary_data_count&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_elementary_data_count</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Components count</span>
+<span class="c1"># Data dimension, we expect to have one id by face that makes part of a body</span>
+<span class="n">my_component_count</span> <span class="o">=</span> <span class="n">my_property_field</span><span class="o">.</span><span class="n">component_count</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;components_count&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_component_count</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Size</span>
+<span class="c1"># Length of the data entire array (equal to the number of elementary data times the number of components.)</span>
+<span class="n">my_field_size</span> <span class="o">=</span> <span class="n">my_property_field</span><span class="o">.</span><span class="n">size</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_field_size</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Fields shape</span>
+<span class="c1"># Gives a tuple with the elementary data count and the components count</span>
+<span class="n">my_shape</span> <span class="o">=</span> <span class="n">my_property_field</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shape&quot;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">my_shape</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>location 
+ Modal 
+
+scoping 
+ DPF  Scoping: 
+  with Modal location and 2 entities
+ 
+
+scoping.ids 
+ [1 2] 
+
+elementary_data_count 
+ 2 
+
+components_count 
+ 1 
+
+size 
+ 2 
+
+shape 
+ 2 
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="access-the-field-data">
+<h2>Access the field data<a class="headerlink" href="#access-the-field-data" title="Link to this heading">#</a></h2>
+<p>A <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> object is a client-side representation of the field server-side.
+When a remote DPF server is used, the data of the field is also stored remotely.</p>
+<p>To build efficient remote postprocessing workflows, the amount of data exchanged between the client and the remote server has to be minimal.</p>
+<p>This is managed with operators and a completely remote workflow, requesting only the initial data needed to build the workflow, and the output of the workflow.</p>
+<p>It is for example important when interacting with remote data to remember that any PyDPF request for the
+<code class="docutils literal notranslate"><span class="pre">Field.data</span></code> downloads the whole array to your local machine.</p>
+<p>This is particularly inefficient within scripts handling a large amount of data where the request
+is made to perform an action locally which could have been made remotely with a DPF operator.</p>
+<p>For example, if you want to know the entity-wise maximum of the field, you should prefer the
+<code class="docutils literal notranslate"><span class="pre">min_max.min_max_by_entity</span></code> operator to the <code class="docutils literal notranslate"><span class="pre">array.max()</span></code> method from <code class="docutils literal notranslate"><span class="pre">numpy</span></code>.</p>
+<section id="get-the-complete-array">
+<h3>Get the complete array<a class="headerlink" href="#get-the-complete-array" title="Link to this heading">#</a></h3>
+<p>The field’s <code class="docutils literal notranslate"><span class="pre">data</span></code> is ordered with respect to its <code class="docutils literal notranslate"><span class="pre">scoping</span> <span class="pre">ids</span></code> (as shown above).
+To access the entire data in the field as an array (<code class="docutils literal notranslate"><span class="pre">numpy</span></code> array``):</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-16" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-16">
+Field</label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_data_array</span> <span class="o">=</span> <span class="n">my_temp_field</span><span class="o">.</span><span class="n">data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_data_array</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[276.12852414 276.03204537 276.17186547 ... 304.13925596 324.34370722
+ 316.09748279]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that this array is a genuine, local, numpy array (overloaded by the DPFArray).</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">my_data_array</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;ansys.dpf.gate.dpf_array.DPFArray&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-17" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-17">
+StringField</label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_data_array</span> <span class="o">=</span> <span class="n">my_string_field</span><span class="o">.</span><span class="n">data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_data_array</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPFVectorString[&#39;string_1&#39;, &#39;string_2&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-18" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-18">
+PropertyField</label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_data_array</span> <span class="o">=</span> <span class="n">my_property_field</span><span class="o">.</span><span class="n">data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_data_array</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[12 25]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="get-data-for-a-single-entity">
+<h3>Get data for a single entity<a class="headerlink" href="#get-data-for-a-single-entity" title="Link to this heading">#</a></h3>
+<p>If you need to access an individual node or element, request it
+using either the <code class="xref py py-func docutils literal notranslate"><span class="pre">get_entity_data()</span></code> or
+<code class="xref py py-func docutils literal notranslate"><span class="pre">get_entity_data_by_id()</span></code> methods:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-19" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-19">
+Field</label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the data from the third element in the field</span>
+<span class="n">my_temp_field</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([275.3473736])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the data from the element with id 533</span>
+<span class="n">my_temp_field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">533</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([276.30236262])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that this would correspond to an index of 2 within the
+field. Be aware that scoping IDs are not sequential. You would
+get the index of element 532 in the field with:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get index of the element with id 533</span>
+<span class="n">my_temp_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">533</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>532
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>While these methods are acceptable when requesting data for a few elements
+or nodes, they should not be used when looping over the entire array. For efficiency,
+a field’s data can be recovered locally before sending a large number of requests:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a deep copy of the field that can be accessed and modified locally.</span>
+<span class="k">with</span> <span class="n">my_temp_field</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>When using a remote DPF server, accessing a field’s data within the <code class="docutils literal notranslate"><span class="pre">with</span></code> context manager
+ensures deletion of local data when exiting the <code class="docutils literal notranslate"><span class="pre">with</span></code> block. Following this approach is
+advisable for efficient remote processing workflows since it guarantees non-persistence of
+unnecessary local data, especially if the data is not needed beyond the code being executed
+within the <code class="docutils literal notranslate"><span class="pre">with</span></code> block.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-fields-based-on-result-files">Create fields based on result files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-fields-from-scratch">Create fields from scratch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-field-with-the-fields-factory">Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code> with the fields_factory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-the-field-metadata">Access the field metadata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-the-field-data">Access the field data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-complete-array">Get the complete array</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-data-for-a-single-entity">Get data for a single entity</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/user_guide/tutorials/data_structures/data_arrays.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.6.3. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

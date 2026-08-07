@@ -1,0 +1,68 @@
+
+
+.. _sphx_glr_tutorials_animate:
+
+.. _ref_tutorials_animate:
+
+=======
+Animate
+=======
+
+These tutorials demonstrate how to visualize data as an animation.
+
+.. grid:: 1 1 3 3
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card:: Animate data over time
+       :link: ref_tutorials_animate_time
+       :link-type: ref
+       :text-align: center
+
+       This tutorial shows how to animate your results data over time.
+
+       +++
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+
+.. raw:: html
+
+   <style>.sphx-glr-thumbnails { display: none; }</style>
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="MAPDL :bdg-lsdyna:`LS-DYNA` FLUENT :bdg-cfx:`CFX`">
+
+.. only:: html
+
+  .. image:: /tutorials/animate/images/thumb/sphx_glr_animate_time_thumb.png
+    :alt:
+
+  :doc:`/tutorials/animate/animate_time`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Animate data over time</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /tutorials/animate/animate_time
+

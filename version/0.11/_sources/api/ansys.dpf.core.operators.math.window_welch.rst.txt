@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.window_welch
+   :inherited-members:

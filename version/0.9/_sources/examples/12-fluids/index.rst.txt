@@ -1,0 +1,98 @@
+
+
+.. _sphx_glr_examples_12-fluids:
+
+.. _fluids_examples:
+
+Fluids examples
+========================
+These examples show how to post-process Fluid models.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to explore Ansys Fluent and Ansys CFX models employing the MeshIn...">
+
+.. only:: html
+
+  .. image:: /examples/12-fluids/images/thumb/sphx_glr_00-fluids_model_thumb.png
+    :alt: Explore Fluids models
+
+  :ref:`sphx_glr_examples_12-fluids_00-fluids_model.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Explore Fluids models</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Explore Fluids mesh">
+
+.. only:: html
+
+  .. image:: /examples/12-fluids/images/thumb/sphx_glr_01-fluids_mesh_thumb.png
+    :alt: Explore Fluids mesh
+
+  :ref:`sphx_glr_examples_12-fluids_01-fluids_mesh.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Explore Fluids mesh</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Explore Fluids results">
+
+.. only:: html
+
+  .. image:: /examples/12-fluids/images/thumb/sphx_glr_02-fluids_results_thumb.png
+    :alt: Explore Fluids results
+
+  :ref:`sphx_glr_examples_12-fluids_02-fluids_results.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Explore Fluids results</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to compute iso-surfaces on fluid models.">
+
+.. only:: html
+
+  .. image:: /examples/12-fluids/images/thumb/sphx_glr_03-fluids_isosurface_thumb.png
+    :alt: Compute iso-surfaces on fluid models
+
+  :ref:`sphx_glr_examples_12-fluids_03-fluids_isosurface.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Compute iso-surfaces on fluid models</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/12-fluids/00-fluids_model
+   /examples/12-fluids/01-fluids_mesh
+   /examples/12-fluids/02-fluids_results
+   /examples/12-fluids/03-fluids_isosurface
+

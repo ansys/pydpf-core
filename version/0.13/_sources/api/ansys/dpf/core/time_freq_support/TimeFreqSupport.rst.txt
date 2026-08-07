@@ -1,0 +1,393 @@
+
+
+
+
+
+
+:class:`TimeFreqSupport`
+========================
+
+.. py:class:: ansys.dpf.core.time_freq_support.TimeFreqSupport(time_freq_support=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.support.Support`
+
+
+   Represents a time frequency support, a description of a temporal or frequency analysis.
+
+   This class stores values such as the frequencies (time/complex), RPMs, and harmonic indices.
+   The RPM value is a step (or load step)-based value.
+   The time frequencies, complex frequencies, and harmonic indices are set-based values.
+   There is one set value for each step/substep combination.
+
+   :param time_freq_support:
+   :type time_freq_support: ctypes.c_void_p, ansys.grpc.dpf.time_freq_support_pb2.TimeFreqSupport
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: ansys.dpf.core.server, optional
+
+   .. rubric:: Examples
+
+   Create a time frequency support from a model.
+
+   >>> from ansys.dpf.core import Model
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = Model(transient)
+   >>> time_freq_support = model.metadata.time_freq_support # printable
+
+
+
+
+
+.. py:currentmodule:: TimeFreqSupport
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~get_harmonic_indices`
+            - Retrieve the field of harmonic indices for the active result.
+          * - :py:attr:`~set_harmonic_indices`
+            - Set the harmonic indices values of the time frequency support.
+          * - :py:attr:`~get_frequency`
+            - Retrieve the frequency corresponding to a requested step/substep or cumulative index.
+          * - :py:attr:`~get_cumulative_index`
+            - Retrieve the cumulative index corresponding to the requested step/substep or frequency.
+          * - :py:attr:`~append_step`
+            - Append a step with all its field values in the time frequencies support.
+          * - :py:attr:`~deep_copy`
+            - Create a deep copy of the data for a time frequency support on a given server.
+          * - :py:attr:`~field_support_by_property`
+            - Return a Field supporting (describing) a given property.
+          * - :py:attr:`~prop_field_support_by_property`
+            - Return a PropertyField supporting (describing) a given property.
+          * - :py:attr:`~string_field_support_by_property`
+            - Return a StringField supporting (describing) a given property.
+          * - :py:attr:`~available_field_supported_properties`
+            - Return the list of property names supported by a Field.
+          * - :py:attr:`~available_prop_field_supported_properties`
+            - Return the list of property names supported by a PropertyField.
+          * - :py:attr:`~available_string_field_supported_properties`
+            - Return the list of property names supported by a StringField.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_frequencies`
+            - Field of time frequencies or time values for the active result.
+          * - :py:attr:`~complex_frequencies`
+            - Field of complex frequencies for the active result.
+          * - :py:attr:`~rpms`
+            - Field of RPMs for the active result.
+          * - :py:attr:`~n_sets`
+            - Number of result sets.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+          * - :py:attr:`~__del__`
+            - Clean up resources associated with the instance.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.time_freq_support import TimeFreqSupport
+
+Property detail
+---------------
+
+.. py:property:: time_frequencies
+
+   Field of time frequencies or time values for the active result.
+
+   Frequencies field can have one value by set.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf.core import Model
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = Model(transient)
+   >>> time_freq_support = model.metadata.time_freq_support
+   >>> freq = time_freq_support.time_frequencies
+   >>> freq.data
+   <BLANKLINE>
+   ...rray([0.        , 0.019975  , 0.039975  , 0.059975  , 0.079975  ,
+          0.099975  , 0.119975  , 0.139975  , 0.159975  , 0.179975  ,
+          0.199975  , 0.218975  , 0.238975  , 0.258975  , 0.278975  ,
+          0.298975  , 0.318975  , 0.338975  , 0.358975  , 0.378975  ,
+          0.398975  , 0.417975  , 0.437975  , 0.457975  , 0.477975  ,
+          0.497975  , 0.517975  , 0.53754972, 0.55725277, 0.57711786,
+          0.59702054, 0.61694639, 0.63683347, 0.65673452, 0.67662783])
+
+.. py:property:: complex_frequencies
+
+   Field of complex frequencies for the active result.
+
+   Complex frequencies field can have one value by set.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf.core import Model
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = Model(transient)
+   >>> time_freq_support = model.metadata.time_freq_support
+   >>> freq = time_freq_support.complex_frequencies
+
+.. py:property:: rpms
+
+   Field of RPMs for the active result.
+
+   The RPM field has one value by load step.
+
+   Returns ``None`` if the result has no RPMs.
+
+.. py:property:: n_sets
+
+   Number of result sets.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf.core import Model
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = Model(transient)
+   >>> time_freq_support = model.metadata.time_freq_support
+   >>> time_freq_support.n_sets
+   35
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: **description**
+   :rtype: str
+
+
+.. py:method:: get_harmonic_indices(stage_num=0)
+
+   Retrieve the field of harmonic indices for the active result.
+
+   :returns: * **field** (*dpf.core.Field*) -- Field of all harmonic indices in the model (complex or
+               real).  ``None`` if result is not cyclic and contains no
+               harmonic indices.
+             * **stage_num** (*int, default: 0, optional*) -- Targeted stage number.
+
+
+.. py:method:: set_harmonic_indices(harmonic_indices, stage_num=0)
+
+   Set the harmonic indices values of the time frequency support.
+
+   :param harmonic_indices: Field of harmonic indices that must be set.
+   :type harmonic_indices: Field
+   :param stage_num: Stage number that is defined by these harmonic indices.
+   :type stage_num: int, default: 0, optional
+
+
+.. py:method:: get_frequency(step=0, substep=0, cumulative_index=None, cplx=False)
+
+   Retrieve the frequency corresponding to a requested step/substep or cumulative index.
+
+   :param step: Index of the step (one-based).
+   :type step: int, optional
+   :param substep: Index of the substep (one-based).
+   :type substep: int, optional
+   :param cumulative_index: Cumulative index (one-based).
+   :type cumulative_index: int, optional
+   :param cplx: Whether to return a complex frequency. The  default is ``False``.
+   :type cplx: bool
+
+   :returns: **frequency** -- Frequency of the step or substep.
+   :rtype: double
+
+
+.. py:method:: get_cumulative_index(step=0, substep=0, freq=None, cplx=False)
+
+   Retrieve the cumulative index corresponding to the requested step/substep or frequency.
+
+   :param step: Analysis step.
+   :type step: int, optional
+   :param substep: Analysis substep.
+   :type substep: int, optional
+   :param freq: Frequency in Hz.
+   :type freq: double, optional
+   :param cplx: Whether to return a complex frequency. The default is ``False``.
+   :type cplx: False, optional
+
+   :returns: **index** -- Cumulative index based on either the step, substep, or
+             frequency.
+   :rtype: int
+
+
+.. py:method:: append_step(step_id, step_time_frequencies, step_complex_frequencies=None, rpm_value=None, step_harmonic_indices=None)
+
+   Append a step with all its field values in the time frequencies support.
+
+   The RPM value is a step (or load step)-based value.
+   The values for time frequencies, complex frequencies, and harmonic indices are set-based.
+   There is one set value for each step/substep combination.
+
+   It is necessary that each call of my_time_freq_support.append_step(kwargs**) contains
+   the same arguments.
+
+   It is necessary that time_frequencies/complex_frequencies/harmonic_indices lists have
+   the same size if specified in the same my_time_freq_support.append_step(kwargs**) call.
+
+   :param step_id: ID of the step to add.
+   :type step_id: int
+   :param step_time_frequencies: Values for time frequencies related to the specified step.
+   :type step_time_frequencies: list of int/float
+   :param step_complex_frequencies: Values for complex frequencies related to the specified step.
+   :type step_complex_frequencies: list of int/float, optional
+   :param rpm_value: Value for RPM value for the specified step.
+   :type rpm_value: int/float, optional
+   :param step_harmonic_indices: Dictionary of ``{ int : list of int/float } = { stage_num : harmonic_indices }``
+                                 or a list of int/float. In this case, stage_num default value is 0.
+                                 Harmonic indices are values related to the specified step.
+   :type step_harmonic_indices: optional, dictionary or list
+
+   .. rubric:: Example
+
+   >>> from ansys.dpf.core import TimeFreqSupport
+
+   >>> tfq = TimeFreqSupport()
+   >>> tfq.append_step(1, [0.1, 0.21, 1.0], rpm_value = 2.0)
+   >>> tfq.append_step(2, [1.1, 2.0], rpm_value = 2.3)
+
+   >>> tfq2 = TimeFreqSupport()
+   >>> tfq2.append_step(1, [0.1, 0.21, 1.0], rpm_value = 2.0, step_harmonic_indices = [1.0, 2.0, 3.0])
+   >>> tfq2.append_step(2, [1.1, 2.0], rpm_value = 2.3, step_harmonic_indices = [1.0, 2.0])
+   >>> tfq2.append_step(3, [0.23, 0.25], rpm_value = 3.0, step_harmonic_indices = [1.0, 2.0])
+
+   >>> tfq3 = TimeFreqSupport()
+   >>> tfq3.append_step(1, [0.1, 0.21, 1.0], rpm_value = 2.0, step_harmonic_indices = {1: [1.0, 2.0, 3.0], 2: [1.0, 2.0, 2.5]})
+
+
+.. py:method:: deep_copy(server=None)
+
+   Create a deep copy of the data for a time frequency support on a given server.
+
+   This method is useful for passing data from one server instance to another.
+
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: ansys.dpf.core.server, optional
+
+   :returns: **tf_copy**
+   :rtype: TimeFreqSupport
+
+
+.. py:method:: field_support_by_property(property_name: str)
+
+   Return a Field supporting (describing) a given property.
+
+   :rtype: Field
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+.. py:method:: prop_field_support_by_property(property_name: str)
+
+   Return a PropertyField supporting (describing) a given property.
+
+   :rtype: PropertyField
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+.. py:method:: string_field_support_by_property(property_name: str)
+
+   Return a StringField supporting (describing) a given property.
+
+   :rtype: StringField
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+.. py:method:: available_field_supported_properties()
+
+   Return the list of property names supported by a Field.
+
+   :rtype: list
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+.. py:method:: available_prop_field_supported_properties()
+
+   Return the list of property names supported by a PropertyField.
+
+   :rtype: list
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+.. py:method:: available_string_field_supported_properties()
+
+   Return the list of property names supported by a StringField.
+
+   :rtype: list
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 5.0.
+
+
+.. py:method:: __del__()
+
+   Clean up resources associated with the instance.
+
+   This method calls the deleter function to release resources. If an exception
+   occurs during deletion, a warning is issued.
+
+   :raises Warning: If an exception occurs while attempting to delete resources.
+
+
+
+
+
