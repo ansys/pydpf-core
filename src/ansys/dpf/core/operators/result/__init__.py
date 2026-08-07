@@ -120,7 +120,6 @@ from .element_orientations_X import element_orientations_X
 from .element_orientations_Y import element_orientations_Y
 from .element_orientations_Z import element_orientations_Z
 from .elemental_heat_generation import elemental_heat_generation
-from .elemental_mass import elemental_mass
 from .elemental_volume import elemental_volume
 from .emissivity import emissivity
 from .emitted_radiation_heat_flux import emitted_radiation_heat_flux
