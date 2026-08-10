@@ -43,6 +43,34 @@ class DPFServerException(Exception):
 
     For legacy flat-string errors these attributes stay ``None``/empty and the
     behavior is unchanged.
+
+    Examples
+    --------
+    Catch a server error raised while evaluating an operator and inspect the
+    structured root cause:
+
+    >>> import ansys.dpf.core as dpf
+    >>> from ansys.dpf.core import operators as ops
+    >>> data_sources = dpf.DataSources("non_existing_file.rst")
+    >>> displacement = ops.result.displacement(data_sources=data_sources)
+    >>> try:  # doctest: +SKIP
+    ...     displacement.eval()
+    ... except dpf.errors.DPFServerException as error:
+    ...     # ``str(error)`` is a short, actionable message (root cause and,
+    ...     # when available, a remediation suggestion).
+    ...     print(str(error))
+    ...     # The following attributes are populated when the server reports a
+    ...     # structured error; otherwise they stay ``None``/empty.
+    ...     print(error.type)  # stable category, e.g. "file_not_found"
+    ...     print(error.suggestion)  # remediation hint, when the operator provides one
+    ...     print(error.fields)  # extra typed data, e.g. {"filepath": "..."}
+    ...     # ``chain`` lists the operators the error crossed, from the
+    ...     # outermost operator down to the root cause.
+    ...     for frame in error.chain:
+    ...         print(frame.name, frame.id)
+    ...     # Branch on the stable ``type`` to recover from a specific failure.
+    ...     if error.type == "file_not_found":
+    ...         pass  # e.g. prompt the user for a valid path and retry
     """
 
     def __init__(self, msg=""):

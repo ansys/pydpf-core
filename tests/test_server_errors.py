@@ -53,6 +53,68 @@ def test_server_exception_from_workflow():
     assert exception.__notes__
 
 
+def test_server_exception_structure_from_operator():
+    """Trigger a real operator error and show how to handle the structured error.
+
+    The operator points at a non-existing result file, so the server raises a
+    failure while evaluating it.
+    """
+    ds = dpf.DataSources(r"dummy/file.rst")
+    op = ops.result.displacement(data_sources=ds)
+
+    with pytest.raises(errors.DPFServerException) as exception_info:
+        op.eval()
+
+    exception = exception_info.value
+
+    # A short, human-readable message is always available for display.
+    assert str(exception)
+
+    if exception.type is not None:
+        # Structured server error: the typed root cause is separated from the
+        # operator chain instead of being concatenated into one flat string.
+        assert exception.what
+        assert exception.what in str(exception)
+        # `fields` holds the root-cause typed attributes (e.g. a file path),
+        # `chain` lists the operators the error passed through.
+        assert isinstance(exception.fields, dict)
+        assert isinstance(exception.chain, list)
+        for frame in exception.chain:
+            assert frame.name  # the failing operator is reported through the chain
+        # Client code branches on the stable `type` to recover from a category,
+        # for example a missing input file:
+        if exception.type == "file_not_found":
+            assert "filepath" in exception.fields or exception.suggestion is not None
+    else:
+        # Legacy flat-string server: the operator chain is kept as a note.
+        assert exception.__notes__
+
+
+def test_server_exception_structure_from_workflow():
+    """Trigger a real workflow error and show how to identify the failing operator."""
+    op = dpf.operators.result.displacement(data_sources=dpf.DataSources("toto.rst"))
+
+    wf = dpf.Workflow()
+    wf.add_operator(op)
+    wf.set_output_name("out", op.outputs.fields_container)
+
+    with pytest.raises(errors.DPFServerException) as exception_info:
+        wf.get_output("out", output_type=dpf.FieldsContainer)
+
+    exception = exception_info.value
+    assert str(exception)
+
+    if exception.type is not None:
+        assert exception.what
+        assert exception.what in str(exception)
+        # In a chained workflow, `chain` identifies which operators the error
+        # crossed, from the outermost operator down to the root cause.
+        assert isinstance(exception.chain, list)
+        assert all(frame.name for frame in exception.chain)
+    else:
+        assert exception.__notes__
+
+
 def test_server_exception_legacy_flat_string():
     exception = errors.DPFServerException("V:751<-native::recursor:1930<-actual root cause")
     assert str(exception) == "actual root cause"
