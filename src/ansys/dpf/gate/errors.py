@@ -1,17 +1,62 @@
+import json
 import types
 import sys
+from collections import namedtuple
 from functools import wraps
 
+OperatorFrame = namedtuple("OperatorFrame", ["name", "id"])
+"""An operator that a structured DPF error passed through (name and id)."""
+
+
+def _parse_structured_error(msg):
+    """Return the parsed structured DPF error, or ``None`` when ``msg`` is not one.
+
+    A structured error is a JSON document holding a ``"frames"`` mapping, keyed by
+    string indices where ``"0"`` is the innermost root cause.
+    """
+    if not isinstance(msg, str):
+        return None
+    text = msg.strip()
+    if not text.startswith("{"):
+        return None
+    try:
+        data = json.loads(text)
+    except ValueError:
+        return None
+    if not isinstance(data, dict) or "frames" not in data:
+        return None
+    return data
+
+
 class DPFServerException(Exception):
-    """Error raised when the DPF server has encountered an error."""
+    """Error raised when the DPF server has encountered an error.
+
+    When the server reports a structured error, these attributes are populated
+    from the root cause and its nested chain:
+
+    - ``type``: stable error type of the root cause (``None`` if unknown).
+    - ``what``: root cause message.
+    - ``suggestion``: remediation hint provided by the operator, if any.
+    - ``fields``: remaining typed attributes of the root cause frame.
+    - ``chain``: list of :class:`OperatorFrame` the error passed through, from
+      the outermost operator down to the root cause.
+
+    For legacy flat-string errors these attributes stay ``None``/empty and the
+    behavior is unchanged.
+    """
 
     def __init__(self, msg=""):
-        message_parts = msg.rsplit('<-', maxsplit=1)
-        error_note = ""
-        if len(message_parts) == 1:
-            error_message = message_parts[0]
+        self.type = None
+        self.what = None
+        self.suggestion = None
+        self.fields = {}
+        self.chain = []
+
+        structured = _parse_structured_error(msg)
+        if structured is not None:
+            error_message, error_note = self._init_structured(structured)
         else:
-            error_note, error_message = message_parts
+            error_message, error_note = self._init_legacy(msg)
 
         Exception.__init__(self, error_message)
         if sys.version_info >= (3, 11): #add_note method is supported only in python >= 3.11
@@ -20,6 +65,48 @@ class DPFServerException(Exception):
             if not hasattr(self, "__notes__"): #if the system is python < 3.11 we custom our own notes property
                 self.__notes__ = []
             self.__notes__.append(error_note)
+
+    def _init_structured(self, data):
+        """Populate structured attributes and return the (message, note) pair."""
+        frames_raw = data.get("frames", {})
+        # Frames are keyed by string indices; "0" is the innermost root cause.
+        frames = [frames_raw[key] for key in sorted(frames_raw, key=int)]
+        root = frames[0] if frames else {}
+
+        self.type = root.get("type")
+        self.what = root.get("what", "")
+        self.suggestion = root.get("suggestion")
+        self.fields = {
+            key: value
+            for key, value in root.items()
+            if key not in ("type", "what", "suggestion")
+        }
+        # Operator frames, from the outermost operator down to the root cause.
+        self.chain = [
+            OperatorFrame(frame.get("operator_name"), frame.get("operator_id"))
+            for frame in reversed(frames)
+            if frame.get("type") == "opframe"
+        ]
+
+        error_message = self.what
+        if self.suggestion:
+            error_message = f"{self.what}\nSuggestion: {self.suggestion}"
+
+        if self.chain:
+            error_note = "Operator chain: " + " <- ".join(
+                f"{frame.name} ({frame.id})" for frame in self.chain
+            )
+        else:
+            error_note = ""
+        return error_message, error_note
+
+    def _init_legacy(self, msg):
+        """Split a legacy flat-string error into a (message, note) pair."""
+        message_parts = msg.rsplit('<-', maxsplit=1)
+        if len(message_parts) == 1:
+            return message_parts[0], ""
+        error_note, error_message = message_parts
+        return error_message, error_note
 
 
 class DPFServerNullObject(Exception):
