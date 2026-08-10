@@ -17,38 +17,29 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.data_sources import DataSources
-    from ansys.dpf.core.field import Field
     from ansys.dpf.core.fields_container import FieldsContainer
-    from ansys.dpf.core.meshed_region import MeshedRegion
-    from ansys.dpf.core.meshes_container import MeshesContainer
     from ansys.dpf.core.scoping import Scoping
-    from ansys.dpf.core.scopings_container import ScopingsContainer
     from ansys.dpf.core.streams_container import StreamsContainer
 
 
 class elemental_mass(Operator):
-    r"""Read/compute element mass by calling the readers defined by the
-    datasources.
+    r"""Computes elemental mass by multiplying elemental volume (ENG_VOL) by
+    elemental density (DENS).
 
 
     Inputs
     ------
-    time_scoping: Scoping or int or float or Field, optional
+    time_scoping: Scoping or int, optional
         time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
-    mesh_scoping: ScopingsContainer or Scoping, optional
-        nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains
-    fields_container: FieldsContainer, optional
-        Fields container already allocated modified inplace
     streams_container: StreamsContainer, optional
         result file container allowed to be kept open to cache data
     data_sources: DataSources
         result file path container, used if no streams are set
-    mesh: MeshedRegion or MeshesContainer, optional
-        prevents from reading the mesh in the result files
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Elemental mass fields container.
 
     Examples
     --------
@@ -60,25 +51,16 @@ class elemental_mass(Operator):
     >>> # Make input connections
     >>> my_time_scoping = dpf.Scoping()
     >>> op.inputs.time_scoping.connect(my_time_scoping)
-    >>> my_mesh_scoping = dpf.ScopingsContainer()
-    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
-    >>> my_fields_container = dpf.FieldsContainer()
-    >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_streams_container = dpf.StreamsContainer()
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_mesh = dpf.MeshedRegion()
-    >>> op.inputs.mesh.connect(my_mesh)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.elemental_mass(
     ...     time_scoping=my_time_scoping,
-    ...     mesh_scoping=my_mesh_scoping,
-    ...     fields_container=my_fields_container,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
-    ...     mesh=my_mesh,
     ... )
 
     >>> # Get output data
@@ -88,11 +70,8 @@ class elemental_mass(Operator):
     def __init__(
         self,
         time_scoping=None,
-        mesh_scoping=None,
-        fields_container=None,
         streams_container=None,
         data_sources=None,
-        mesh=None,
         config=None,
         server=None,
     ):
@@ -105,49 +84,24 @@ class elemental_mass(Operator):
         )
         if time_scoping is not None:
             self.inputs.time_scoping.connect(time_scoping)
-        if mesh_scoping is not None:
-            self.inputs.mesh_scoping.connect(mesh_scoping)
-        if fields_container is not None:
-            self.inputs.fields_container.connect(fields_container)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
-        if mesh is not None:
-            self.inputs.mesh.connect(mesh)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Read/compute element mass by calling the readers defined by the
-datasources.
+        description = r"""Computes elemental mass by multiplying elemental volume (ENG_VOL) by
+elemental density (DENS).
 """
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
                     name="time_scoping",
-                    type_names=[
-                        "scoping",
-                        "int32",
-                        "vector<int32>",
-                        "double",
-                        "field",
-                        "vector<double>",
-                    ],
+                    type_names=["scoping", "vector<int32>", "int32"],
                     optional=True,
                     document=r"""time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.""",
-                ),
-                1: PinSpecification(
-                    name="mesh_scoping",
-                    type_names=["scopings_container", "scoping"],
-                    optional=True,
-                    document=r"""nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains""",
-                ),
-                2: PinSpecification(
-                    name="fields_container",
-                    type_names=["fields_container"],
-                    optional=True,
-                    document=r"""Fields container already allocated modified inplace""",
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -161,19 +115,13 @@ datasources.
                     optional=False,
                     document=r"""result file path container, used if no streams are set""",
                 ),
-                7: PinSpecification(
-                    name="mesh",
-                    type_names=["abstract_meshed_region", "meshes_container"],
-                    optional=True,
-                    document=r"""prevents from reading the mesh in the result files""",
-                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Elemental mass fields container.""",
                 ),
             },
         )
@@ -233,32 +181,18 @@ class InputsElementalMass(_Inputs):
     >>> op = dpf.operators.result.elemental_mass()
     >>> my_time_scoping = dpf.Scoping()
     >>> op.inputs.time_scoping.connect(my_time_scoping)
-    >>> my_mesh_scoping = dpf.ScopingsContainer()
-    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
-    >>> my_fields_container = dpf.FieldsContainer()
-    >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_streams_container = dpf.StreamsContainer()
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_mesh = dpf.MeshedRegion()
-    >>> op.inputs.mesh.connect(my_mesh)
     """
 
     def __init__(self, op: Operator):
         super().__init__(elemental_mass._spec().inputs, op)
-        self._time_scoping: Input[Scoping | int | float | Field] = Input(
+        self._time_scoping: Input[Scoping | int] = Input(
             elemental_mass._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping: Input[ScopingsContainer | Scoping] = Input(
-            elemental_mass._spec().input_pin(1), 1, op, -1
-        )
-        self._inputs.append(self._mesh_scoping)
-        self._fields_container: Input[FieldsContainer] = Input(
-            elemental_mass._spec().input_pin(2), 2, op, -1
-        )
-        self._inputs.append(self._fields_container)
         self._streams_container: Input[StreamsContainer] = Input(
             elemental_mass._spec().input_pin(3), 3, op, -1
         )
@@ -267,13 +201,9 @@ class InputsElementalMass(_Inputs):
             elemental_mass._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
-        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
-            elemental_mass._spec().input_pin(7), 7, op, -1
-        )
-        self._inputs.append(self._mesh)
 
     @property
-    def time_scoping(self) -> Input[Scoping | int | float | Field]:
+    def time_scoping(self) -> Input[Scoping | int]:
         r"""Allows to connect time_scoping input to the operator.
 
         time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
@@ -292,48 +222,6 @@ class InputsElementalMass(_Inputs):
         >>> op.inputs.time_scoping(my_time_scoping)
         """
         return self._time_scoping
-
-    @property
-    def mesh_scoping(self) -> Input[ScopingsContainer | Scoping]:
-        r"""Allows to connect mesh_scoping input to the operator.
-
-        nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.elemental_mass()
-        >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
-        >>> # or
-        >>> op.inputs.mesh_scoping(my_mesh_scoping)
-        """
-        return self._mesh_scoping
-
-    @property
-    def fields_container(self) -> Input[FieldsContainer]:
-        r"""Allows to connect fields_container input to the operator.
-
-        Fields container already allocated modified inplace
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.elemental_mass()
-        >>> op.inputs.fields_container.connect(my_fields_container)
-        >>> # or
-        >>> op.inputs.fields_container(my_fields_container)
-        """
-        return self._fields_container
 
     @property
     def streams_container(self) -> Input[StreamsContainer]:
@@ -377,27 +265,6 @@ class InputsElementalMass(_Inputs):
         """
         return self._data_sources
 
-    @property
-    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
-        r"""Allows to connect mesh input to the operator.
-
-        prevents from reading the mesh in the result files
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.elemental_mass()
-        >>> op.inputs.mesh.connect(my_mesh)
-        >>> # or
-        >>> op.inputs.mesh(my_mesh)
-        """
-        return self._mesh
-
 
 class OutputsElementalMass(_Outputs):
     """Intermediate class used to get outputs from
@@ -421,6 +288,8 @@ class OutputsElementalMass(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Elemental mass fields container.
 
         Returns
         -------

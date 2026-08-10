@@ -1,0 +1,29 @@
+digraph A{
+subgraph cluster_A {
+color = blue ;
+subgraph cluster_0{
+	color = black ;
+	shape = square ;
+	label = "forward (11480)";
+	op0in0[color=red label="0\nany" shape=square]
+	op0in0 -> op0out0[color="none"]
+	op0out0[color=green label="0\nany" shape=square]
+}
+subgraph cluster_1{
+	color = black ;
+	shape = square ;
+	label = "forward (11479)";
+	op1in0[color=red label="0\nany" shape=square]
+	op1in0 -> op1out0[color="none"]
+	op1out0[color=green label="0\nany" shape=square]
+}
+}
+op1out0 -> op0in0
+"wf_output"[label ="wf_output" color=blue];
+op0out0 -> "wf_output"
+"prewf_input"[label="prewf_input"color=blue];
+prewf_input -> "op1in0"
+"prewf_output"[label ="prewf_output" color=blue];
+op1out0 -> "prewf_output"
+rankdir=LR; 
+ }
