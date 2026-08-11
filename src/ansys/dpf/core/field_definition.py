@@ -33,6 +33,7 @@ from ansys.dpf.core.check_version import (
     server_meet_version,
     server_meet_version_and_raise,
     version_requires,
+    meets_version,
 )
 from ansys.dpf.core.common import natures, shell_layers
 from ansys.dpf.core.dimensionality import Dimensionality
@@ -276,13 +277,20 @@ class FieldDefinition:
             value = value.value
         self._api.csfield_definition_set_shell_layers(self, value)
 
+
     @dimensionality.setter
     def dimensionality(self, value: Dimensionality):
-        if not isinstance(value, Dimensionality):
-            raise TypeError("the dimensionality needs to be of type Dimensionality")
-        self._api.csfield_definition_set_dimensionality(
-            self, int(value.nature.value), value.dim, len(value.dim)
-        )
+
+            if not isinstance(value, Dimensionality):
+                raise TypeError("the dimensionality needs to be of type Dimensionality")
+            if not meets_version(self._server.version, "16.2"):
+                self._api.csfield_definition_set_dimensionality(
+                    self, int(value.nature.value), value.dim, len(value.dim))
+            else: #mirroring the HGP setDimensions
+                self._api.csfield_definition_set_dimensionality(
+                    self, value.component_count, value.dim, len(value.dim))
+
+
 
     def deep_copy(self, server=None):
         """Create a deep copy of the field_definition's data on a given server.
