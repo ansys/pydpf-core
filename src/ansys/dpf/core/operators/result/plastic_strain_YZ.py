@@ -54,7 +54,7 @@ class plastic_strain_YZ(Operator):
     read_cyclic: int, optional
         if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
     read_beams: bool, optional
-        elemental nodal beam results are read if this pin is set to true (default is false)
+        elemental nodal beam results are read if this pin is set to true (default is true)
 
     Outputs
     -------
@@ -225,7 +225,7 @@ location can be Nodal/ElementalNodal/Elemental.
                     name="read_beams",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""elemental nodal beam results are read if this pin is set to true (default is false)""",
+                    document=r"""elemental nodal beam results are read if this pin is set to true (default is true)""",
                 ),
             },
             map_output_pin_spec={
@@ -549,7 +549,7 @@ class InputsPlasticStrainYz(_Inputs):
     def read_beams(self) -> Input[bool]:
         r"""Allows to connect read_beams input to the operator.
 
-        elemental nodal beam results are read if this pin is set to true (default is false)
+        elemental nodal beam results are read if this pin is set to true (default is true)
 
         Returns
         -------
