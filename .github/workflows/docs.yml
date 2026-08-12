@@ -146,6 +146,10 @@ jobs:
         run: |
           quarto --version
 
+      - name: Verify tinytex is installed
+        run: |
+          quarto install tinytex --no-prompt --update-path
+
       - name: "Install Poppler for PDF to PNG conversion"
         shell: powershell
         run: |
