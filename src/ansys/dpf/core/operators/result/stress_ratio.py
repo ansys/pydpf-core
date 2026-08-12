@@ -160,7 +160,7 @@ class stress_ratio(Operator):
     requested_location: str, optional
         requested location Nodal, Elemental or ElementalNodal
     read_beams: bool, optional
-        elemental nodal beam results are read if this pin is set to true (default is false)
+        elemental nodal beam results are read if this pin is set to true (default is true)
     split_shells: bool, optional
         If true, this pin forces the results to be split by element shape, indicated by the presence of the 'elshape' label in the output. If false, the results for all elements shapes are combined. Default value is false if averaging is not required and true if averaging is required.
     shell_layer: int, optional
@@ -441,7 +441,7 @@ elshape Related elements
                     name="read_beams",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""elemental nodal beam results are read if this pin is set to true (default is false)""",
+                    document=r"""elemental nodal beam results are read if this pin is set to true (default is true)""",
                 ),
                 26: PinSpecification(
                     name="split_shells",
@@ -747,7 +747,7 @@ class InputsStressRatio(_Inputs):
     def read_beams(self) -> Input[bool]:
         r"""Allows to connect read_beams input to the operator.
 
-        elemental nodal beam results are read if this pin is set to true (default is false)
+        elemental nodal beam results are read if this pin is set to true (default is true)
 
         Returns
         -------

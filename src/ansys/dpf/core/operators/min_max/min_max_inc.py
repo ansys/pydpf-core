@@ -21,21 +21,40 @@ if TYPE_CHECKING:
 
 
 class min_max_inc(Operator):
-    r"""Compute the component-wise minimum (out 0) and maximum (out 1) over
-    coming fields.
+    r"""Incremental variant that computes, for each component, the minimum and
+    the maximum of successive input fields across all calls of the operator.
+
+    At each call, the per-component minimum and maximum are updated by
+    comparing the current input field with the previously-cached extrema.
+
+    When the optional ``domain_id`` pin is connected, outputs 2 and 3
+    return, for each component, the domain id of the call that produced the
+    minimum and maximum, respectively.
+
+    **When to use:** successive fields arrive one at a time (typically
+    streamed from a solver) and the full history does not fit in memory.
+    Example: running envelope of nodal stress updated at each iteration of a
+    transient run. Use ``min_max`` for the non-incremental variant, or
+    ``min_max_fc_inc`` when input arrives one fields container at a time.
 
 
     Inputs
     ------
     field: Field
+        Input field for the current increment. Combined with the previously-cached extrema.
     domain_id: int, optional
+        Optional identifier for the current call. When set, outputs 2 and 3 track the domain id that produced each per-component minimum and maximum.
 
     Outputs
     -------
     field_min: Field
+        Per-component minimum aggregated across all calls of the operator so far.
     field_max: Field
+        Per-component maximum aggregated across all calls of the operator so far.
     domain_ids_min: Scoping
+        For each component of the output minimum, the id of the call (as passed on the `domain_id` input pin) that produced the current minimum. Populated only when the `domain_id` input pin is connected.
     domain_ids_max: Scoping
+        For each component of the output maximum, the id of the call (as passed on the `domain_id` input pin) that produced the current maximum. Populated only when the `domain_id` input pin is connected.
 
     Examples
     --------
@@ -78,8 +97,21 @@ class min_max_inc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Compute the component-wise minimum (out 0) and maximum (out 1) over
-coming fields.
+        description = r"""Incremental variant that computes, for each component, the minimum and
+the maximum of successive input fields across all calls of the operator.
+
+At each call, the per-component minimum and maximum are updated by
+comparing the current input field with the previously-cached extrema.
+
+When the optional ``domain_id`` pin is connected, outputs 2 and 3
+return, for each component, the domain id of the call that produced the
+minimum and maximum, respectively.
+
+**When to use:** successive fields arrive one at a time (typically
+streamed from a solver) and the full history does not fit in memory.
+Example: running envelope of nodal stress updated at each iteration of a
+transient run. Use ``min_max`` for the non-incremental variant, or
+``min_max_fc_inc`` when input arrives one fields container at a time.
 """
         spec = Specification(
             description=description,
@@ -88,13 +120,13 @@ coming fields.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Input field for the current increment. Combined with the previously-cached extrema.""",
                 ),
                 17: PinSpecification(
                     name="domain_id",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Optional identifier for the current call. When set, outputs 2 and 3 track the domain id that produced each per-component minimum and maximum.""",
                 ),
             },
             map_output_pin_spec={
@@ -102,25 +134,25 @@ coming fields.
                     name="field_min",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Per-component minimum aggregated across all calls of the operator so far.""",
                 ),
                 1: PinSpecification(
                     name="field_max",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Per-component maximum aggregated across all calls of the operator so far.""",
                 ),
                 2: PinSpecification(
                     name="domain_ids_min",
                     type_names=["scoping"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""For each component of the output minimum, the id of the call (as passed on the `domain_id` input pin) that produced the current minimum. Populated only when the `domain_id` input pin is connected.""",
                 ),
                 3: PinSpecification(
                     name="domain_ids_max",
                     type_names=["scoping"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""For each component of the output maximum, the id of the call (as passed on the `domain_id` input pin) that produced the current maximum. Populated only when the `domain_id` input pin is connected.""",
                 ),
             },
         )
@@ -197,6 +229,8 @@ class InputsMinMaxInc(_Inputs):
     def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
+        Input field for the current increment. Combined with the previously-cached extrema.
+
         Returns
         -------
         input:
@@ -215,6 +249,8 @@ class InputsMinMaxInc(_Inputs):
     @property
     def domain_id(self) -> Input[int]:
         r"""Allows to connect domain_id input to the operator.
+
+        Optional identifier for the current call. When set, outputs 2 and 3 track the domain id that produced each per-component minimum and maximum.
 
         Returns
         -------
@@ -270,6 +306,8 @@ class OutputsMinMaxInc(_Outputs):
     def field_min(self) -> Output[Field]:
         r"""Allows to get field_min output of the operator
 
+        Per-component minimum aggregated across all calls of the operator so far.
+
         Returns
         -------
         output:
@@ -287,6 +325,8 @@ class OutputsMinMaxInc(_Outputs):
     @property
     def field_max(self) -> Output[Field]:
         r"""Allows to get field_max output of the operator
+
+        Per-component maximum aggregated across all calls of the operator so far.
 
         Returns
         -------
@@ -306,6 +346,8 @@ class OutputsMinMaxInc(_Outputs):
     def domain_ids_min(self) -> Output[Scoping]:
         r"""Allows to get domain_ids_min output of the operator
 
+        For each component of the output minimum, the id of the call (as passed on the `domain_id` input pin) that produced the current minimum. Populated only when the `domain_id` input pin is connected.
+
         Returns
         -------
         output:
@@ -323,6 +365,8 @@ class OutputsMinMaxInc(_Outputs):
     @property
     def domain_ids_max(self) -> Output[Scoping]:
         r"""Allows to get domain_ids_max output of the operator
+
+        For each component of the output maximum, the id of the call (as passed on the `domain_id` input pin) that produced the current maximum. Populated only when the `domain_id` input pin is connected.
 
         Returns
         -------

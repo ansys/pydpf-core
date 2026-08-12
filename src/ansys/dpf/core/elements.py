@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -939,6 +939,19 @@ class element_types(Enum):
     GeneralPlaceholder = 32
     Polygon = 33
     Polyhedron = 34
+    Edge2With1ExtraNode = 35
+    Edge2With2ExtraNode = 36
+    Edge3With1ExtraNode = 37
+    Edge3With2ExtraNode = 38
+    Surface3With1ExtraNode = 39
+    Surface4With1ExtraNode = 40
+    Surface6With1ExtraNode = 41
+    Surface8With1ExtraNode = 42
+    Surface3With2ExtraNode = 43
+    Surface4With2ExtraNode = 44
+    Surface6With2ExtraNode = 45
+    Surface8With2ExtraNode = 46
+    Line2With2ExtraNode = 47
 
     @staticmethod
     def _descriptors():
@@ -1206,16 +1219,56 @@ class element_types(Enum):
                 element_types.EMagCircle, "EMagCircle", "EMagCircle", "shell"
             ),
             element_types.Surface3: ElementDescriptor(
-                element_types.Surface3, "Surface3", "surface3", "shell"
+                element_types.Surface3,
+                "Linear 3-nodes Triangle Surface",
+                "surface3",
+                "shell",
+                3,
+                0,
+                3,
+                False,
+                True,
+                False,
+                False,
             ),
             element_types.Surface4: ElementDescriptor(
-                element_types.Surface4, "Surface4", "surface4", "shell"
+                element_types.Surface4,
+                "Linear 4-nodes Quadrangle Surface",
+                "surface4",
+                "shell",
+                4,
+                0,
+                4,
+                False,
+                True,
+                False,
+                False,
             ),
             element_types.Surface6: ElementDescriptor(
-                element_types.Surface6, "Surface6", "surface6", "shell"
+                element_types.Surface6,
+                "Quadratic 6-nodes Triangle Surface",
+                "surface6",
+                "shell",
+                3,
+                3,
+                6,
+                False,
+                True,
+                False,
+                True,
             ),
             element_types.Surface8: ElementDescriptor(
-                element_types.Surface8, "Surface8", "surface8", "shell"
+                element_types.Surface8,
+                "Quadratic 8-nodes Quadrangle Surface",
+                "surface8",
+                "shell",
+                4,
+                4,
+                8,
+                False,
+                True,
+                False,
+                True,
             ),
             element_types.Edge2: ElementDescriptor(
                 element_types.Edge2,
@@ -1296,6 +1349,175 @@ class element_types(Enum):
                 -1,
                 True,
                 False,
+                False,
+            ),
+            element_types.Edge2With1ExtraNode: ElementDescriptor(
+                element_types.Edge2With1ExtraNode,
+                "Linear 2-nodes Edge with 1 extra node",
+                "edge2with1extranode",
+                "beam",
+                2,
+                0,
+                3,
+                False,
+                False,
+                True,
+                False,
+            ),
+            element_types.Edge2With2ExtraNode: ElementDescriptor(
+                element_types.Edge2With2ExtraNode,
+                "Linear 2-nodes Edge with 2 extra node",
+                "edge2with2extranode",
+                "beam",
+                2,
+                0,
+                4,
+                False,
+                False,
+                True,
+                False,
+            ),
+            element_types.Edge3With1ExtraNode: ElementDescriptor(
+                element_types.Edge3With1ExtraNode,
+                "Quadratic 3-nodes Edge with 1 extra node",
+                "edge3with1extranode",
+                "beam",
+                2,
+                1,
+                4,
+                False,
+                False,
+                True,
+                True,
+            ),
+            element_types.Edge3With2ExtraNode: ElementDescriptor(
+                element_types.Edge3With2ExtraNode,
+                "Quadratic 3-nodes Edge with 2 extra node",
+                "edge3with2extranode",
+                "beam",
+                2,
+                1,
+                5,
+                False,
+                False,
+                True,
+                True,
+            ),
+            element_types.Surface3With1ExtraNode: ElementDescriptor(
+                element_types.Surface3With1ExtraNode,
+                "Linear 3-nodes Surface with 1 extra node",
+                "surface3with1extranode",
+                "shell",
+                3,
+                0,
+                4,
+                False,
+                True,
+                False,
+                False,
+            ),
+            element_types.Surface4With1ExtraNode: ElementDescriptor(
+                element_types.Surface4With1ExtraNode,
+                "Linear 4-nodes Surface with 1 extra node",
+                "surface4with1extranode",
+                "shell",
+                4,
+                0,
+                5,
+                False,
+                True,
+                False,
+                False,
+            ),
+            element_types.Surface6With1ExtraNode: ElementDescriptor(
+                element_types.Surface6With1ExtraNode,
+                "Quadratic 6-nodes Surface with 1 extra node",
+                "surface6with1extranode",
+                "shell",
+                3,
+                3,
+                7,
+                False,
+                True,
+                False,
+                True,
+            ),
+            element_types.Surface8With1ExtraNode: ElementDescriptor(
+                element_types.Surface8With1ExtraNode,
+                "Quadratic 8-nodes Surface with 1 extra node",
+                "surface8with1extranode",
+                "shell",
+                4,
+                4,
+                9,
+                False,
+                True,
+                False,
+                True,
+            ),
+            element_types.Surface3With2ExtraNode: ElementDescriptor(
+                element_types.Surface3With2ExtraNode,
+                "Linear 3-nodes Surface with 2 extra node",
+                "surface3with2extranode",
+                "shell",
+                3,
+                0,
+                5,
+                False,
+                True,
+                False,
+                False,
+            ),
+            element_types.Surface4With2ExtraNode: ElementDescriptor(
+                element_types.Surface4With2ExtraNode,
+                "Linear 4-nodes Surface with 2 extra node",
+                "surface4with2extranode",
+                "shell",
+                4,
+                0,
+                6,
+                False,
+                True,
+                False,
+                False,
+            ),
+            element_types.Surface6With2ExtraNode: ElementDescriptor(
+                element_types.Surface6With2ExtraNode,
+                "Quadratic 6-nodes Surface with 2 extra node",
+                "surface6with2extranode",
+                "shell",
+                3,
+                3,
+                8,
+                False,
+                True,
+                False,
+                True,
+            ),
+            element_types.Surface8With2ExtraNode: ElementDescriptor(
+                element_types.Surface8With2ExtraNode,
+                "Quadratic 8-nodes Surface with 2 extra node",
+                "surface8with2extranode",
+                "shell",
+                4,
+                4,
+                10,
+                False,
+                True,
+                False,
+                True,
+            ),
+            element_types.Line2With2ExtraNode: ElementDescriptor(
+                element_types.Line2With2ExtraNode,
+                "Linear 2-nodes Line with 2 extra node",
+                "line2with2extranode",
+                "beam",
+                2,
+                0,
+                4,
+                False,
+                False,
+                True,
                 False,
             ),
         }

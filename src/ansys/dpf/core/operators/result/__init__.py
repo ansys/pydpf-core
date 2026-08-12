@@ -49,6 +49,7 @@ from .compute_total_strain_XZ import compute_total_strain_XZ
 from .compute_total_strain_Y import compute_total_strain_Y
 from .compute_total_strain_YZ import compute_total_strain_YZ
 from .compute_total_strain_Z import compute_total_strain_Z
+from .contact_element_heat_flow import contact_element_heat_flow
 from .contact_fluid_penetration_pressure import contact_fluid_penetration_pressure
 from .contact_friction_stress import contact_friction_stress
 from .contact_gap_distance import contact_gap_distance
@@ -58,6 +59,7 @@ from .contact_sliding_distance import contact_sliding_distance
 from .contact_status import contact_status
 from .contact_surface_heat_flux import contact_surface_heat_flux
 from .contact_total_stress import contact_total_stress
+from .convection_heat_flow_rate import convection_heat_flow_rate
 from .coordinate_system import coordinate_system
 from .coordinates import coordinates
 from .creep_strain import creep_strain
@@ -290,6 +292,7 @@ from .pressure import pressure
 from .pretension import pretension
 from .prns_to_field import prns_to_field
 from .radiation_area import radiation_area
+from .radiation_heat_flow_rate import radiation_heat_flow_rate
 from .raw_acceleration import raw_acceleration
 from .raw_displacement import raw_displacement
 from .raw_reaction_force import raw_reaction_force
@@ -375,6 +378,18 @@ from .total_contact_moment import total_contact_moment
 from .total_mass import total_mass
 from .total_pressure import total_pressure
 from .total_strain import total_strain
+from .total_strain_X import total_strain_X
+from .total_strain_XY import total_strain_XY
+from .total_strain_XZ import total_strain_XZ
+from .total_strain_Y import total_strain_Y
+from .total_strain_YZ import total_strain_YZ
+from .total_strain_Z import total_strain_Z
+from .total_strain_eqv import total_strain_eqv
+from .total_strain_intensity import total_strain_intensity
+from .total_strain_max_shear import total_strain_max_shear
+from .total_strain_principal_1 import total_strain_principal_1
+from .total_strain_principal_2 import total_strain_principal_2
+from .total_strain_principal_3 import total_strain_principal_3
 from .total_temperature import total_temperature
 from .transform_invariant_terms_rbd import transform_invariant_terms_rbd
 from .transient_rayleigh_integration import transient_rayleigh_integration
