@@ -18,6 +18,12 @@ class _ConfigProxy:
         config = self._operator._api.operator_get_config(self._operator)
         return Config(config=config, server=self._operator._server, spec=self._operator._spec)
 
-    def __getattr__(self, item):
-        """Delegates all calls to Config class"""
-        return getattr(self._get_temp_config(), item)
+    def __getattr__(self, name):
+        """Delegate reads, but intercept set_*_option for auto-sync."""
+        if name.startswith('set_') and name.endswith('_option'):
+            def wrapped_setter(value):
+                cfg = self._get_temp_config()
+                getattr(cfg, name)(value)
+                self._operator.config = cfg
+            return wrapped_setter
+        return getattr(self._get_temp_config(), name)
