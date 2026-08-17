@@ -678,7 +678,7 @@ class Operator:
         >>> op.config = config_add
 
         """
-        if not hasattr(self, 'config_proxy'):
+        if not hasattr(self, "config_proxy"):
             self._config_proxy = _ConfigProxy(self)
         return self._config_proxy
 
