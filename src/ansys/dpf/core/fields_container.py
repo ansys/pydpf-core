@@ -536,7 +536,7 @@ class FieldsContainer(CollectionBase["field.Field"]):
         """Return a container with shell layers normalized to a single layer.
 
         Fields whose shell_layers is ``topbottom`` or ``topbottommid`` are converted to ``shell_layer``
-        ``change_shell_layers`` operator. Fields that already have a single-layer format are passed
+        using the ``change_shell_layers`` operator. Fields that already have a single-layer format are passed
         through unchanged.
 
         Parameters
@@ -628,30 +628,21 @@ class FieldsContainer(CollectionBase["field.Field"]):
             For more information on accepted keyword arguments, see :func:`~field.Field.plot` and
             :class:`~plotter.DpfPlotter`.
         """
-        from ansys.dpf.core import errors as dpf_errors, plotter
+        from ansys.dpf.core import plotter
 
         if label_space is None:
             label_space = {}
 
-        # Build a FieldsContainer restricted to the selected label_space so we can
-        # scatter-merge onto the mesh (later fields overwrite earlier ones).
-        filtered_fc = FieldsContainer(server=self._server)
-        for label in self.labels:
-            filtered_fc.add_label(label)
-        for i, _ in enumerate(self):
-            label_space_i = self.get_label_space(i)
-            if all(label_space_i.get(k) == v for k, v in label_space.items()):
-                filtered_fc.add_field(label_space=label_space_i, field=self[i])
-
-        # Guard: reject empty meshes early with the same error the legacy
-        # ``Plotter.plot_contour`` raised, so callers get a consistent error type.
-        reference_field = next((f for f in filtered_fc if len(f.data) != 0), None)
-        if reference_field is not None and reference_field.meshed_region.is_empty():
-            raise dpf_errors.EmptyMeshPlottingError
+        fields = self.get_fields(label_space=label_space)
+        # Field with the same support will override each other so we first merge them
+        merge_op = dpf.core.operators.utility.merge_fields()
+        for i, f in enumerate(fields):
+            merge_op.connect(i, f)
+        merged_field = merge_op.eval()
 
         plt = plotter.DpfPlotter(**kwargs)
         plt.add_fields_container(
-            fields_container=filtered_fc,
+            fields_container=merged_field,
             show_axes=kwargs.pop("show_axes", True),
             **kwargs,
         )

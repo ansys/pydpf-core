@@ -644,20 +644,20 @@ class MeshedRegion:
         """
         if field_or_fields_container is not None:
             from ansys.dpf.core import errors as dpf_errors
-            from ansys.dpf.core.common import shell_layers as eshell_layers
             from ansys.dpf.core.fields_container import FieldsContainer
 
             if self.is_empty():
                 raise dpf_errors.EmptyMeshPlottingError
             pl = DpfPlotter(**kwargs)
-            shell_layer = shell_layers if shell_layers is not None else eshell_layers.top
             common_kwargs = dict(
                 meshed_region=self,
                 deform_by=deform_by,
                 scale_factor=scale_factor,
-                shell_layer=shell_layer,
                 show_axes=kwargs.pop("show_axes", True),
             )
+            if shell_layers is not None:
+                common_kwargs["shell_layers"] = shell_layers
+
             if isinstance(field_or_fields_container, FieldsContainer):
                 pl.add_fields_container(field_or_fields_container, **common_kwargs, **kwargs)
             else:
@@ -878,7 +878,7 @@ class MeshedRegion:
                 reference_field = f
                 break
         if reference_field is None:
-            raise ValueError("Cannot scatter empty source: no field contains any data.")
+            raise ValueError("Cannot scatter empty source: all fields are empty.")
 
         if location is None:
             location = reference_field.location
