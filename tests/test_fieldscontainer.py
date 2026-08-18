@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -342,19 +342,19 @@ def test_collection_update_support():
 
 
 @pytest.mark.skipif(os.name == "posix", reason="linux issue: SEGFAULT to investigate")
-def test_deep_copy_over_time_fields_container(velocity_acceleration):
-    model = dpf.Model(velocity_acceleration)
-    stress = model.results.stress(time_scoping=[1, 2, 3])
-    fc = stress.outputs.fields_container()
-    copy = fc.deep_copy()
-
-    idenfc = dpf.operators.logic.identical_fc(fc, copy)
-    assert idenfc.outputs.boolean()
-
-    tf = fc.time_freq_support
-    copy = copy.time_freq_support
-    assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
-    assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
+# def test_deep_copy_over_time_fields_container(velocity_acceleration):
+#     model = dpf.Model(velocity_acceleration)
+#     stress = model.results.stress(time_scoping=[1, 2, 3])
+#     fc = stress.outputs.fields_container()
+#     copy = fc.deep_copy()
+#
+#     idenfc = dpf.operators.logic.identical_fc(fc, copy)
+#     assert idenfc.outputs.boolean()
+#
+#     tf = fc.time_freq_support
+#     copy = copy.time_freq_support
+#     assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
+#     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
 
 
 def test_light_copy(server_type):

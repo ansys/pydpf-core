@@ -31,7 +31,7 @@ class adapt_with_scopings_container(Operator):
     Inputs
     ------
     field_or_fields_container: FieldsContainer or Field
-        Fields container to rescope, or a single field (which will be converted to a container)
+        Fields container to rescope, or a single field (which will be converted to a container).
     scopings_container: ScopingsContainer
         Container with target scopings for rescoping operations
     keep_empty_fields: bool, optional
@@ -104,7 +104,7 @@ rescoped fields.
                     name="field_or_fields_container",
                     type_names=["fields_container", "field"],
                     optional=False,
-                    document=r"""Fields container to rescope, or a single field (which will be converted to a container)""",
+                    document=r"""Fields container to rescope, or a single field (which will be converted to a container).""",
                 ),
                 1: PinSpecification(
                     name="scopings_container",
@@ -209,7 +209,7 @@ class InputsAdaptWithScopingsContainer(_Inputs):
     def field_or_fields_container(self) -> Input[FieldsContainer | Field]:
         r"""Allows to connect field_or_fields_container input to the operator.
 
-        Fields container to rescope, or a single field (which will be converted to a container)
+        Fields container to rescope, or a single field (which will be converted to a container).
 
         Returns
         -------
