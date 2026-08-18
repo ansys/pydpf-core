@@ -633,11 +633,13 @@ class FieldsContainer(CollectionBase["field.Field"]):
         if label_space is None:
             label_space = {}
 
-        # Build a FieldsContainer restricted to the selected label_space so we can
-        # scatter-merge onto the mesh (later fields overwrite earlier ones).
         filtered_fc = FieldsContainer(server=self._server)
+        # Declare the same labels as self so add_field() doesn't fail
         for label in self.labels:
             filtered_fc.add_label(label)
+        # Keep only the fields matching the requested label_space; these are later
+        # scatter-merged onto the mesh when add_fields_container is called (later
+        # fields overwrite earlier ones on overlap).
         for i, _ in enumerate(self):
             label_space_i = self.get_label_space(i)
             if all(label_space_i.get(k) == v for k, v in label_space.items()):
