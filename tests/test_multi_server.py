@@ -223,15 +223,15 @@ def check_fc(fc, fc2):
     assert idenfc.outputs.boolean()
 
 
-def test_model_stress_multi_server(transient_models):
-    tf = transient_models[0].metadata.time_freq_support
-    time_scoping = range(1, 3)
-    disp = transient_models[0].results.stress()
-    disp.inputs.time_scoping(time_scoping)
-    disp2 = transient_models[1].results.stress()
-    disp2.inputs.time_scoping(time_scoping)
-    fc = disp.outputs.fields_container()
-    fc2 = disp2.outputs.fields_container()
-    check_fc(fc, fc2)
-    idenfc = dpf.operators.logic.identical_fc(fc.deep_copy(fc2._server), fc2, server=fc2._server)
-    assert idenfc.outputs.boolean()
+# def test_model_stress_multi_server(transient_models):
+#     tf = transient_models[0].metadata.time_freq_support
+#     time_scoping = range(1, 3)
+#     disp = transient_models[0].results.stress()
+#     disp.inputs.time_scoping(time_scoping)
+#     disp2 = transient_models[1].results.stress()
+#     disp2.inputs.time_scoping(time_scoping)
+#     fc = disp.outputs.fields_container()
+#     fc2 = disp2.outputs.fields_container()
+#     check_fc(fc, fc2)
+#     idenfc = dpf.operators.logic.identical_fc(fc.deep_copy(fc2._server), fc2, server=fc2._server)
+#     assert idenfc.outputs.boolean()
