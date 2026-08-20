@@ -49,7 +49,7 @@ permissions: {}
 
 jobs:
   setup:
-    name: "Setup"
+    name: "Setup" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -63,7 +63,7 @@ jobs:
           echo "python_versions=${PYTHON_VERSIONS}" >> $GITHUB_OUTPUT
 
   examples:
-    name: "Run Examples"
+    name: "Run Examples" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     needs: setup
     runs-on: ${{ matrix.os }}
     timeout-minutes: 40

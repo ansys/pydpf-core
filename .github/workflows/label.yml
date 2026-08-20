@@ -28,7 +28,7 @@ jobs:
 
     # Label based on branch name
     - uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf # v1.0.0
-      if: |
+      if: | # zizmor: ignore[superfluous-actions]
         startsWith(github.event.pull_request.head.ref, 'doc') || 
         startsWith(github.event.pull_request.head.ref, 'docs')
       with:
@@ -36,14 +36,14 @@ jobs:
 
     # Label based on branch name
     - uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf # v1.0.0
-      if: |
+      if: | # zizmor: ignore[superfluous-actions]
         startsWith(github.event.pull_request.head.ref, 'example') || 
         startsWith(github.event.pull_request.head.ref, 'examples')
       with:
         labels: examples
 
     - uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf # v1.0.0
-      if: |
+      if: | # zizmor: ignore[superfluous-actions]
         startsWith(github.event.pull_request.head.ref, 'docker') ||
         startsWith(github.event.pull_request.head.ref, 'no-ci') ||
         startsWith(github.event.pull_request.head.ref, 'ci')
@@ -51,18 +51,18 @@ jobs:
         labels: CI/CD
 
     - uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf # v1.0.0
-      if: startsWith(github.event.pull_request.head.ref, 'maint')
+      if: startsWith(github.event.pull_request.head.ref, 'maint') # zizmor: ignore[superfluous-actions]
       with:
         labels: maintenance
 
     - uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf # v1.0.0
-      if: startsWith(github.event.pull_request.head.ref, 'feat')
+      if: startsWith(github.event.pull_request.head.ref, 'feat') # zizmor: ignore[superfluous-actions]
       with:
         labels: |
           enhancement
 
     - uses: actions-ecosystem/action-add-labels@18f1af5e3544586314bbe15c0273249c770b2daf # v1.0.0
-      if: |
+      if: | # zizmor: ignore[superfluous-actions]
         startsWith(github.event.pull_request.head.ref, 'fix') ||
         startsWith(github.event.pull_request.head.ref, 'patch')
       with:
@@ -75,7 +75,7 @@ jobs:
       pull-requests: write # Required for posting label suggestion comments
     needs: labeler
     steps:
-    - name: Suggest to add labels
+    - name: Suggest to add labels # zizmor: ignore[superfluous-actions]
       uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
       # Execute only when no labels have been applied to the pull request
       if: toJSON(github.event.pull_request.labels.*.name) == '[]'

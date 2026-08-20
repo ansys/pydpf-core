@@ -42,7 +42,7 @@ permissions: {}
 
 jobs:
   docker_tests:
-    name: "Build and Test On Docker"
+    name: "Build and Test On Docker" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
