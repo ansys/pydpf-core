@@ -1488,4 +1488,7 @@ def test_field_definition_set_dimensionality_component_count_matrix(server_type)
     field_definition = FieldDefinition(server=server_type)
     field_definition.dimensionality = dimensionality
 
-    assert field_definition.dimensionality == dpf.core.Dimensionality([3,3], dpf.core.natures.symmatrix)
+    if not meets_version(server_type.version, "16.2"):
+        assert field_definition.dimensionality == dpf.core.Dimensionality([3,3], dpf.core.natures.symmatrix)
+    else:
+        assert field_definition.dimensionality == dpf.core.Dimensionality([3,3], dpf.core.natures.matrix)
