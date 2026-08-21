@@ -250,43 +250,43 @@ def test_field_definition_field(allkindofcomplexity):
     assert f.location == dpf.core.locations.nodal
 
 
-# def test_field_definition_modif_field(allkindofcomplexity):
-#     dataSource = dpf.core.DataSources()
-#     dataSource.set_result_file_path(allkindofcomplexity)
-#     op = dpf.core.Operator("U")
-#     op.connect(4, dataSource)
-#
-#     fcOut = op.get_output(0, dpf.core.types.fields_container)
-#     f = fcOut[0]
-#     fielddef = f.field_definition
-#     assert fielddef.unit == "m"
-#     assert fielddef.location == dpf.core.locations.nodal
-#     assert fielddef.dimensionality.nature == dpf.core.natures.vector
-#     assert fielddef.dimensionality.dim == [3]
-#     assert fielddef.shell_layers == dpf.core.shell_layers.layerindependent
-#
-#     fielddef.unit = "mm"
-#     assert fielddef.unit == "mm"
-#     fielddef.location = dpf.core.locations.elemental
-#     assert fielddef.location == dpf.core.locations.elemental
-#     fielddef.dimensionality = dpf.core.Dimensionality.scalar_dim()
-#     assert fielddef.dimensionality.nature == dpf.core.natures.scalar
-#     assert fielddef.dimensionality.dim == [1]
-#
-#     fielddef.dimensionality = dpf.core.Dimensionality.tensor_dim()
-#     assert fielddef.dimensionality.nature == dpf.core.natures.symmatrix
-#     assert fielddef.dimensionality.dim == [3, 3]
-#
-#     fielddef.dimensionality = dpf.core.Dimensionality.vector_3d_dim()
-#     assert fielddef.dimensionality.nature == dpf.core.natures.vector
-#     assert fielddef.dimensionality.dim == [3]
-#
-#     fielddef.dimensionality = dpf.core.Dimensionality.vector_dim(4)
-#     assert fielddef.dimensionality.nature == dpf.core.natures.vector
-#     assert fielddef.dimensionality.dim == [4]
-#
-#     fielddef.shell_layers = dpf.core.shell_layers.bottom
-#     assert fielddef.shell_layers == dpf.core.shell_layers.bottom
+def test_field_definition_modif_field(allkindofcomplexity):
+    dataSource = dpf.core.DataSources()
+    dataSource.set_result_file_path(allkindofcomplexity)
+    op = dpf.core.Operator("U")
+    op.connect(4, dataSource)
+
+    fcOut = op.get_output(0, dpf.core.types.fields_container)
+    f = fcOut[0]
+    fielddef = f.field_definition
+    assert fielddef.unit == "m"
+    assert fielddef.location == dpf.core.locations.nodal
+    assert fielddef.dimensionality.nature == dpf.core.natures.vector
+    assert fielddef.dimensionality.dim == [3]
+    assert fielddef.shell_layers == dpf.core.shell_layers.layerindependent
+
+    fielddef.unit = "mm"
+    assert fielddef.unit == "mm"
+    fielddef.location = dpf.core.locations.elemental
+    assert fielddef.location == dpf.core.locations.elemental
+    fielddef.dimensionality = dpf.core.Dimensionality.scalar_dim()
+    assert fielddef.dimensionality.nature == dpf.core.natures.scalar
+    assert fielddef.dimensionality.dim == [1]
+
+    fielddef.dimensionality = dpf.core.Dimensionality.tensor_dim()
+    assert fielddef.dimensionality.nature == dpf.core.natures.symmatrix
+    assert fielddef.dimensionality.dim == [3, 3]
+
+    fielddef.dimensionality = dpf.core.Dimensionality.vector_3d_dim()
+    assert fielddef.dimensionality.nature == dpf.core.natures.vector
+    assert fielddef.dimensionality.dim == [3]
+
+    fielddef.dimensionality = dpf.core.Dimensionality.vector_dim(4)
+    assert fielddef.dimensionality.nature == dpf.core.natures.vector
+    assert fielddef.dimensionality.dim == [4]
+
+    fielddef.shell_layers = dpf.core.shell_layers.bottom
+    assert fielddef.shell_layers == dpf.core.shell_layers.bottom
 
 
 def test_field_definition_set_in_field(allkindofcomplexity):
@@ -1166,59 +1166,59 @@ def test_deep_copy_field():
 
 
 @pytest.mark.slow
-# def test_deep_copy_elemental_nodal_field(allkindofcomplexity):
-#     model = dpf.core.Model(allkindofcomplexity)
-#     stress = model.results.stress()
-#     field = stress.outputs.fields_container()[0]
-#     copy = field.deep_copy()
-#     iden = dpf.core.operators.logic.identical_fields(field, copy)
-#
-#     try:
-#         assert iden.outputs.boolean()
-#     except AssertionError as e:
-#         print(iden.outputs.message())
-#         raise e
-#
-#     mesh = field.meshed_region
-#     copy = copy.meshed_region
-#     assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
-#     assert np.allclose(copy.elements.scoping.ids, mesh.elements.scoping.ids)
-#     assert copy.unit == mesh.unit
-#     assert np.allclose(copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data)
-#     assert np.allclose(
-#         copy.elements.element_types_field.data, mesh.elements.element_types_field.data
-#     )
-#     assert np.allclose(
-#         copy.elements.connectivities_field.data, mesh.elements.connectivities_field.data
-#     )
-#
-#     assert np.allclose(
-#         copy.nodes.coordinates_field.scoping.ids,
-#         mesh.nodes.coordinates_field.scoping.ids,
-#     )
-#     assert np.allclose(
-#         copy.elements.element_types_field.scoping.ids,
-#         mesh.elements.element_types_field.scoping.ids,
-#     )
-#     assert np.allclose(
-#         copy.elements.connectivities_field.scoping.ids,
-#         mesh.elements.connectivities_field.scoping.ids,
-#     )
+def test_deep_copy_elemental_nodal_field(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    stress = model.results.stress()
+    field = stress.outputs.fields_container()[0]
+    copy = field.deep_copy()
+    iden = dpf.core.operators.logic.identical_fields(field, copy)
+
+    try:
+        assert iden.outputs.boolean()
+    except AssertionError as e:
+        print(iden.outputs.message())
+        raise e
+
+    mesh = field.meshed_region
+    copy = copy.meshed_region
+    assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
+    assert np.allclose(copy.elements.scoping.ids, mesh.elements.scoping.ids)
+    assert copy.unit == mesh.unit
+    assert np.allclose(copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data)
+    assert np.allclose(
+        copy.elements.element_types_field.data, mesh.elements.element_types_field.data
+    )
+    assert np.allclose(
+        copy.elements.connectivities_field.data, mesh.elements.connectivities_field.data
+    )
+
+    assert np.allclose(
+        copy.nodes.coordinates_field.scoping.ids,
+        mesh.nodes.coordinates_field.scoping.ids,
+    )
+    assert np.allclose(
+        copy.elements.element_types_field.scoping.ids,
+        mesh.elements.element_types_field.scoping.ids,
+    )
+    assert np.allclose(
+        copy.elements.connectivities_field.scoping.ids,
+        mesh.elements.connectivities_field.scoping.ids,
+    )
 
 
-# def test_deep_copy_over_time_field(velocity_acceleration):
-#     model = dpf.core.Model(velocity_acceleration)
-#     stress = model.results.stress(time_scoping=[1, 2, 3])
-#     min_max = dpf.core.operators.min_max.min_max_fc(stress)
-#     field = min_max.outputs.field_max()
-#     copy = field.deep_copy()
-#     iden = dpf.core.operators.logic.identical_fields(field, copy)
-#     assert iden.outputs.boolean()
-#
-#     tf = field.time_freq_support
-#     copy = copy.time_freq_support
-#     assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
-#     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
+def test_deep_copy_over_time_field(velocity_acceleration):
+    model = dpf.core.Model(velocity_acceleration)
+    stress = model.results.stress(time_scoping=[1, 2, 3])
+    min_max = dpf.core.operators.min_max.min_max_fc(stress)
+    field = min_max.outputs.field_max()
+    copy = field.deep_copy()
+    iden = dpf.core.operators.logic.identical_fields(field, copy)
+    assert iden.outputs.boolean()
+
+    tf = field.time_freq_support
+    copy = copy.time_freq_support
+    assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
+    assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
 
 
 def test_deep_copy_spec_ncomp_field():
