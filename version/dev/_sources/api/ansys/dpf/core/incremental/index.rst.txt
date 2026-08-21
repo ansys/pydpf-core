@@ -1,0 +1,126 @@
+
+
+
+
+
+
+The ``incremental.py`` module
+=============================
+
+.. py:module:: ansys.dpf.core.incremental
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: incremental
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.incremental.IncrementalHelper`
+            - Provides an API to transform an existing workflow into an incrementally evaluating one.
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~split_workflow_in_chunks`
+            - Transform a workflow into an incrementally evaluating one.
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> IncrementalHelper</api/ansys/dpf/core/incremental/IncrementalHelper>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Incremental.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: split_workflow_in_chunks(start_op: ansys.dpf.core.Operator, end_op: ansys.dpf.core.Operator, scoping: ansys.dpf.core.Scoping, rescope: bool = False, max_bytes: int = 1024**3, dict_inputs: Dict[int, Any] = {}, chunk_size: int = None, scoping_pin: int = None, end_input_pin: int = 0)
+
+   Transform a workflow into an incrementally evaluating one.
+
+   It wraps in one method the functionality of the IncrementalHelper class as well
+   as the estimation of the chunk size.
+
+   If no chunk_size is specified, the function will attempt to estimate the value
+   by calling IncrementalHelper.estimate_size(max_bytes, dict_inputs).
+
+   If no scoping_pin is specified, the function will attempt to deduce the correct pin,
+   which would be the first input pin matching a scoping type.
+
+   :param start_op: Initial operator of the workflow to convert
+   :type start_op: Operator
+   :param end_op: Last operator of the workflow to convert
+   :type end_op: Operator
+   :param scoping: Scoping to split across multiple evaluation
+   :type scoping: Scoping
+   :param rescope: If enabled, will rescope final outputs with the given scoping (default = False)
+   :type rescope: bool, optional
+   :param max_bytes: Max allowed size for the output from the first operator (default = 1024**3)
+   :type max_bytes: int, optional
+   :param dict_inputs: Inputs to pass to the first operator, used only for the estimation run (default = {})
+   :type dict_inputs: dict[int, any], optional
+   :param chunk_size = int: Maximum number of scoping elements to process in an iteration (default = None)
+   :param optional: Maximum number of scoping elements to process in an iteration (default = None)
+   :param scoping_pin: The pin number on the first operator to bind the scoping (default = None)
+   :type scoping_pin: int, optional
+   :param end_input_pin: Pin number of the output to use from the first operator(default = 0)
+   :type end_input_pin: int, optional
+
+
+
+

@@ -1,0 +1,212 @@
+
+
+
+
+
+
+:class:`InputsComputeTimeScoping`
+=================================
+
+.. py:class:: ansys.dpf.core.operators.utility.compute_time_scoping.InputsComputeTimeScoping(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   compute_time_scoping operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.compute_time_scoping()
+   >>> my_time_freq_values = float()
+   >>> op.inputs.time_freq_values.connect(my_time_freq_values)
+   >>> my_step = int()
+   >>> op.inputs.step.connect(my_step)
+   >>> my_interpolation_type = int()
+   >>> op.inputs.interpolation_type.connect(my_interpolation_type)
+   >>> my_time_freq_support = dpf.TimeFreqSupport()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+
+
+
+
+
+
+.. py:currentmodule:: InputsComputeTimeScoping
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_freq_values`
+            - Allows to connect time_freq_values input to the operator.
+          * - :py:attr:`~step`
+            - Allows to connect step input to the operator.
+          * - :py:attr:`~interpolation_type`
+            - Allows to connect interpolation_type input to the operator.
+          * - :py:attr:`~time_freq_support`
+            - Allows to connect time_freq_support input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.compute_time_scoping import InputsComputeTimeScoping
+
+Property detail
+---------------
+
+.. py:property:: time_freq_values
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect time_freq_values input to the operator.
+
+   List of frequencies or times needed. To specify load steps, put a field (and not a list) in input with a scoping located on "TimeFreq_steps".
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.compute_time_scoping()
+   >>> op.inputs.time_freq_values.connect(my_time_freq_values)
+   >>> # or
+   >>> op.inputs.time_freq_values(my_time_freq_values)
+
+.. py:property:: step
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect step input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.compute_time_scoping()
+   >>> op.inputs.step.connect(my_step)
+   >>> # or
+   >>> op.inputs.step(my_step)
+
+.. py:property:: interpolation_type
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect interpolation_type input to the operator.
+
+   1:ramped' or 2:stepped', default is ramped
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.compute_time_scoping()
+   >>> op.inputs.interpolation_type.connect(my_interpolation_type)
+   >>> # or
+   >>> op.inputs.interpolation_type(my_interpolation_type)
+
+.. py:property:: time_freq_support
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect time_freq_support input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.compute_time_scoping()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+   >>> # or
+   >>> op.inputs.time_freq_support(my_time_freq_support)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

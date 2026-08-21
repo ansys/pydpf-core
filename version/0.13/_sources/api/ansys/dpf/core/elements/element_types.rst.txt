@@ -1,0 +1,336 @@
+
+
+
+
+
+
+:class:`element_types`
+======================
+
+.. py:class:: ansys.dpf.core.elements.element_types(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of elements available in a dpf's mesh.
+
+
+
+
+
+.. py:currentmodule:: element_types
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~General`
+            - 
+          * - :py:attr:`~All`
+            - 
+          * - :py:attr:`~Tet10`
+            - 
+          * - :py:attr:`~Hex20`
+            - 
+          * - :py:attr:`~Wedge15`
+            - 
+          * - :py:attr:`~Pyramid13`
+            - 
+          * - :py:attr:`~Tri6`
+            - 
+          * - :py:attr:`~TriShell6`
+            - 
+          * - :py:attr:`~Quad8`
+            - 
+          * - :py:attr:`~QuadShell8`
+            - 
+          * - :py:attr:`~Line3`
+            - 
+          * - :py:attr:`~Point1`
+            - 
+          * - :py:attr:`~Tet4`
+            - 
+          * - :py:attr:`~Hex8`
+            - 
+          * - :py:attr:`~Wedge6`
+            - 
+          * - :py:attr:`~Pyramid5`
+            - 
+          * - :py:attr:`~Tri3`
+            - 
+          * - :py:attr:`~TriShell3`
+            - 
+          * - :py:attr:`~Quad4`
+            - 
+          * - :py:attr:`~QuadShell4`
+            - 
+          * - :py:attr:`~Line2`
+            - 
+          * - :py:attr:`~NumElementTypes`
+            - 
+          * - :py:attr:`~Unknown`
+            - 
+          * - :py:attr:`~EMagLine`
+            - 
+          * - :py:attr:`~EMagArc`
+            - 
+          * - :py:attr:`~EMagCircle`
+            - 
+          * - :py:attr:`~Surface3`
+            - 
+          * - :py:attr:`~Surface4`
+            - 
+          * - :py:attr:`~Surface6`
+            - 
+          * - :py:attr:`~Surface8`
+            - 
+          * - :py:attr:`~Edge2`
+            - 
+          * - :py:attr:`~Edge3`
+            - 
+          * - :py:attr:`~Beam3`
+            - 
+          * - :py:attr:`~Beam4`
+            - 
+          * - :py:attr:`~GeneralPlaceholder`
+            - 
+          * - :py:attr:`~Polygon`
+            - 
+          * - :py:attr:`~Polyhedron`
+            - 
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~shape`
+            - Retrieve the shape of the element.
+          * - :py:attr:`~descriptor`
+            - Retrieve element information.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.elements import element_types
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: General
+   :value: -2
+
+
+.. py:attribute:: All
+   :value: -1
+
+
+.. py:attribute:: Tet10
+   :value: 0
+
+
+.. py:attribute:: Hex20
+   :value: 1
+
+
+.. py:attribute:: Wedge15
+   :value: 2
+
+
+.. py:attribute:: Pyramid13
+   :value: 3
+
+
+.. py:attribute:: Tri6
+   :value: 4
+
+
+.. py:attribute:: TriShell6
+   :value: 5
+
+
+.. py:attribute:: Quad8
+   :value: 6
+
+
+.. py:attribute:: QuadShell8
+   :value: 7
+
+
+.. py:attribute:: Line3
+   :value: 8
+
+
+.. py:attribute:: Point1
+   :value: 9
+
+
+.. py:attribute:: Tet4
+   :value: 10
+
+
+.. py:attribute:: Hex8
+   :value: 11
+
+
+.. py:attribute:: Wedge6
+   :value: 12
+
+
+.. py:attribute:: Pyramid5
+   :value: 13
+
+
+.. py:attribute:: Tri3
+   :value: 14
+
+
+.. py:attribute:: TriShell3
+   :value: 15
+
+
+.. py:attribute:: Quad4
+   :value: 16
+
+
+.. py:attribute:: QuadShell4
+   :value: 17
+
+
+.. py:attribute:: Line2
+   :value: 18
+
+
+.. py:attribute:: NumElementTypes
+   :value: 19
+
+
+.. py:attribute:: Unknown
+   :value: 20
+
+
+.. py:attribute:: EMagLine
+   :value: 21
+
+
+.. py:attribute:: EMagArc
+   :value: 22
+
+
+.. py:attribute:: EMagCircle
+   :value: 23
+
+
+.. py:attribute:: Surface3
+   :value: 24
+
+
+.. py:attribute:: Surface4
+   :value: 25
+
+
+.. py:attribute:: Surface6
+   :value: 26
+
+
+.. py:attribute:: Surface8
+   :value: 27
+
+
+.. py:attribute:: Edge2
+   :value: 28
+
+
+.. py:attribute:: Edge3
+   :value: 29
+
+
+.. py:attribute:: Beam3
+   :value: 30
+
+
+.. py:attribute:: Beam4
+   :value: 31
+
+
+.. py:attribute:: GeneralPlaceholder
+   :value: 32
+
+
+.. py:attribute:: Polygon
+   :value: 33
+
+
+.. py:attribute:: Polyhedron
+   :value: 34
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: shape(element_type)
+   :staticmethod:
+
+
+   Retrieve the shape of the element.
+
+   :rtype: type
+
+
+.. py:method:: descriptor(element_type)
+   :staticmethod:
+
+
+   Retrieve element information.
+
+   This method provides access to an instance of the ``ElementDescriptor`` of the requested
+   element to retrieve such information as the number of nodes and shape.
+
+   :param element_type: Type of the elemment.
+   :type element_type: int
+
+   :returns: Element descriptor instance that provides element information.
+   :rtype: ElementDescriptor
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> elements = model.metadata.meshed_region.elements
+   >>> element = elements[0]
+   >>> type_of_element = element.type
+   >>> type_of_element
+   <element_types.Hex20: 1>
+   >>> element_descriptor = dpf.element_types.descriptor(type_of_element)
+   >>> element_descriptor.name
+   'hex20'
+   >>> element_descriptor.description
+   'Quadratic 20-nodes Hexa'
+
+
+
+
+

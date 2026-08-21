@@ -1,0 +1,188 @@
+
+
+
+
+
+
+The ``settings.py`` module
+==========================
+
+.. py:module:: ansys.dpf.core.settings
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: settings
+.. tab-set::
+
+
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~disable_off_screen_rendering`
+            - No pop up windows appears to plot data with ``matplotlib`` or ``pyvista``.
+
+
+          * - :py:obj:`~set_default_pyvista_config`
+            - Set default pyvista configuration.
+
+
+          * - :py:obj:`~bypass_pv_opengl_osmesa_crash`
+            - Bypass pyvista opengl osmesa crash.
+
+
+          * - :py:obj:`~disable_interpreter_properties_evaluation`
+            - Disable property evaluation on tab key press if the jedi module is installed.
+
+
+          * - :py:obj:`~set_upload_chunk_size`
+            - Set upload chunk size.
+
+
+          * - :py:obj:`~set_dynamic_available_results_capability`
+            - Disable evaluation and dynamic creation of result properties when creating a "Model.
+
+
+          * - :py:obj:`~get_runtime_client_config`
+            - Get the runtime configuration information of Ans.Dpf.GrpcClient binary.
+
+
+          * - :py:obj:`~get_runtime_core_config`
+            - Get the runtime configuration information of Ans.Dpf.GrpcClient binary.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+settings.
+
+Customize the behavior of the module.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: disable_off_screen_rendering() -> None
+
+   No pop up windows appears to plot data with ``matplotlib`` or ``pyvista``.
+
+
+.. py:function:: set_default_pyvista_config()
+
+   Set default pyvista configuration.
+
+
+.. py:function:: bypass_pv_opengl_osmesa_crash()
+
+   Bypass pyvista opengl osmesa crash.
+
+
+.. py:function:: disable_interpreter_properties_evaluation() -> bool
+
+   Disable property evaluation on tab key press if the jedi module is installed.
+
+   If ``jedi`` module is installed (autocompletion module for most of IDEs), disables the
+   property evaluation when tab key is pressed.
+
+   To use in Jupyter Notebook if autocompletion becomes slow.
+
+   :returns: Whether disabling the capability has been possible.
+   :rtype: bool
+
+
+.. py:function:: set_upload_chunk_size(num_bytes=misc.DEFAULT_FILE_CHUNK_SIZE) -> None
+
+   Set upload chunk size.
+
+
+.. py:function:: set_dynamic_available_results_capability(value) -> None
+
+   Disable evaluation and dynamic creation of result properties when creating a "Model.
+
+   Disables the evaluation of the available results and
+   the dynamic creation of the results properties when a ''Model'' is created.
+
+   :param value: With ''True'', models will dynamically generate results properties
+   :type value: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> dpf.settings.set_dynamic_available_results_capability(False)
+   >>> dpf.settings.set_dynamic_available_results_capability(True)
+
+
+.. py:function:: get_runtime_client_config(server=None)
+
+   Get the runtime configuration information of Ans.Dpf.GrpcClient binary.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+   .. rubric:: Notes
+
+   Available from 4.0 server version. Can only be used for
+   a gRPC communication protocol using DPF CLayer.
+
+   :returns: **runtime_config** -- RuntimeClientConfig object that can be used to interact
+             with Ans.Dpf.GrpcClient configuration.
+   :rtype: RuntimeClientConfig
+
+
+.. py:function:: get_runtime_core_config(server=None)
+
+   Get the runtime configuration information of Ans.Dpf.GrpcClient binary.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+   .. rubric:: Notes
+
+   Available from 4.0 server version.
+
+   :returns: **core_config** -- RuntimeCoreConfig object that can be used to interact
+             with DataProcessingCore configuration.
+   :rtype: RuntimeCoreConfig
+
+
+
+

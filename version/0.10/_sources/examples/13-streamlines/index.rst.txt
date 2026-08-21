@@ -1,0 +1,63 @@
+
+
+.. _sphx_glr_examples_13-streamlines:
+
+.. _examples_streamlines:
+
+Streamlines examples
+====================
+These examples show how to compute and plot streamlines.
+
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Compute and plot 3D streamlines">
+
+.. only:: html
+
+  .. image:: /examples/13-streamlines/images/thumb/sphx_glr_00_plot_3d_streamlines_thumb.png
+    :alt: Compute and plot 3D streamlines
+
+  :ref:`sphx_glr_examples_13-streamlines_00_plot_3d_streamlines.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Compute and plot 3D streamlines</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Compute and plot 2D streamlines">
+
+.. only:: html
+
+  .. image:: /examples/13-streamlines/images/thumb/sphx_glr_01_plot_surface_streamlines_thumb.png
+    :alt: Compute and plot 2D streamlines
+
+  :ref:`sphx_glr_examples_13-streamlines_01_plot_surface_streamlines.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Compute and plot 2D streamlines</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/13-streamlines/00_plot_3d_streamlines
+   /examples/13-streamlines/01_plot_surface_streamlines
+

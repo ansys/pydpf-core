@@ -1,0 +1,124 @@
+
+
+
+
+
+
+:class:`elemental_properties`
+=============================
+
+
+.. py:class:: ansys.dpf.core.common.elemental_properties
+
+   Contains strings to define elemental property fields.
+
+   .. attribute:: element_shape = "elshape"
+
+      element shape property data is provided
+
+   .. attribute:: element_type = "eltype"
+
+      element type property data is provided
+
+   .. attribute:: connectivity = "connectivity"
+
+      connectivity property data is provided
+
+   .. attribute:: material = "mat"
+
+      material property data is provided
+
+   .. attribute:: element_properties = "elprops"
+
+      element properties data is provided
+
+   .. attribute:: apdl_element_type = "apdl_element_type"
+
+      apdl element type property data is provided
+
+   .. attribute:: elements_faces_connectivity = "elements_faces_connectivity"
+
+      element faces connectivity property data is provided
+
+
+
+.. py:currentmodule:: elemental_properties
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~element_shape`
+            - 
+          * - :py:attr:`~element_type`
+            - 
+          * - :py:attr:`~connectivity`
+            - 
+          * - :py:attr:`~material`
+            - 
+          * - :py:attr:`~element_properties`
+            - 
+          * - :py:attr:`~apdl_element_type`
+            - 
+          * - :py:attr:`~elements_faces_connectivity`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.common import elemental_properties
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: element_shape
+   :value: 'elshape'
+
+
+.. py:attribute:: element_type
+   :value: 'eltype'
+
+
+.. py:attribute:: connectivity
+   :value: 'connectivity'
+
+
+.. py:attribute:: material
+   :value: 'mat'
+
+
+.. py:attribute:: element_properties
+   :value: 'elprops'
+
+
+.. py:attribute:: apdl_element_type
+   :value: 'apdl_element_type'
+
+
+.. py:attribute:: elements_faces_connectivity
+   :value: 'elements_faces_connectivity'
+
+
+
+
+
+

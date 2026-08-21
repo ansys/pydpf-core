@@ -1,0 +1,105 @@
+
+
+
+
+
+
+The ``result_info.py`` module
+=============================
+
+.. py:module:: ansys.dpf.core.result_info
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: result_info
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.result_info.ResultInfo`
+            - Represents the result information.
+
+
+
+    .. tab-item:: Enums
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.result_info.physics_types`
+            - ``'Physics_types'`` enumerates the different types of physics that an analysis can have.
+
+
+          * - :py:obj:`~ansys.dpf.core.result_info.analysis_types`
+            - ``'Analysis_types'`` enumerates the different types of analysis.
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> ResultInfo</api/ansys/dpf/core/result_info/ResultInfo>
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_enum"></span> physics_types</api/ansys/dpf/core/result_info/physics_types>
+    <span class="nf nf-cod-symbol_enum"></span> analysis_types</api/ansys/dpf/core/result_info/analysis_types>
+
+
+
+
+
+
+
+
+Description
+-----------
+
+ResultInfo.
+
+
+
+
+
+
+
+

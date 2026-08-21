@@ -1,0 +1,48 @@
+
+
+.. _sphx_glr_examples_15-cfx:
+
+.. _examples_cfx:
+
+CFX examples
+============
+These examples show how to post-process CFX result files.
+
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to read Ansys CFX res files.">
+
+.. only:: html
+
+  .. image:: /examples/15-cfx/images/thumb/sphx_glr_00-cfx_res_files_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_15-cfx_00-cfx_res_files.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Read CFX res files</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/15-cfx/00-cfx_res_files
+

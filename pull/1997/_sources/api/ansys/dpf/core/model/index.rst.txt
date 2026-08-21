@@ -1,0 +1,87 @@
+
+
+
+
+
+
+The ``model.py`` module
+=======================
+
+.. py:module:: ansys.dpf.core.model
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: model
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.model.Model`
+            - Connects to a gRPC DPF server and allows access to a result using the DPF framework.
+
+
+          * - :py:obj:`~ansys.dpf.core.model.Metadata`
+            - Contains the metadata of a data source.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> Model</api/ansys/dpf/core/model/Model>
+    <span class="nf nf-cod-symbol_class"></span> Metadata</api/ansys/dpf/core/model/Metadata>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Model.
+
+Module contains the Model class to manage file result models.
+
+
+
+
+
+
+
+

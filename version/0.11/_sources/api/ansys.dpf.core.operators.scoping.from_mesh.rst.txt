@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.scoping.from_mesh
+   :inherited-members:

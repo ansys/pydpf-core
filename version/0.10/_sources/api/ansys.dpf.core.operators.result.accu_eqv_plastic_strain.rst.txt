@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.accu_eqv_plastic_strain
+   :inherited-members:

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.mapdl_material_properties
+   :inherited-members:

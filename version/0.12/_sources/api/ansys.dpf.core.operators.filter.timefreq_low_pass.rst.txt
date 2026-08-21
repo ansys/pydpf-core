@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.filter.timefreq_low_pass
+   :inherited-members:

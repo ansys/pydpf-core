@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`OutputsTxtToDataTree`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.serialization.txt_to_data_tree.OutputsTxtToDataTree(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   txt_to_data_tree operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.txt_to_data_tree()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_data_tree = op.outputs.data_tree()
+
+
+
+
+
+.. py:currentmodule:: OutputsTxtToDataTree
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~data_tree`
+            - Allows to get data_tree output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.txt_to_data_tree import OutputsTxtToDataTree
+
+Property detail
+---------------
+
+.. py:property:: data_tree
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get data_tree output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.txt_to_data_tree()
+   >>> # Get the output from op.outputs. ...
+   >>> result_data_tree = op.outputs.data_tree()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

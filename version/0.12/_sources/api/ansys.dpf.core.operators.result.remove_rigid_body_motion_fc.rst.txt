@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.remove_rigid_body_motion_fc
+   :inherited-members:

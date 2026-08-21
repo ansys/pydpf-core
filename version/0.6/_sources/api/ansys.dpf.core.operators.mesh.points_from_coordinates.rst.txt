@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.mesh.points_from_coordinates
+   :inherited-members:

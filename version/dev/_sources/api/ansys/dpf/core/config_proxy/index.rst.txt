@@ -1,0 +1,48 @@
+
+
+
+
+
+
+The ``config_proxy.py`` module
+==============================
+
+.. py:module:: ansys.dpf.core.config_proxy
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Provide server-synchronized operator configuration access.
+
+`_ConfigProxy` delegates configuration reads to `Config` and synchronizes
+configuration updates with the remote operator. Each write is applied to a
+temporary configuration and then sent back to the operator.
+
+
+
+
+
+

@@ -1,0 +1,154 @@
+
+
+
+
+
+
+:class:`InputsChangeFc`
+=======================
+
+
+.. py:class:: ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   change_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.change_fc()
+   >>> my_field_or_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
+   >>> my_scopings_container = dpf.ScopingsContainer()
+   >>> op.inputs.scopings_container.connect(my_scopings_container)
+
+
+
+
+
+
+.. py:currentmodule:: InputsChangeFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field_or_fields_container`
+            - Allows to connect field_or_fields_container input to the operator.
+          * - :py:attr:`~scopings_container`
+            - Allows to connect scopings_container input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.change_fc import InputsChangeFc
+
+Property detail
+---------------
+
+.. py:property:: field_or_fields_container
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer | ansys.dpf.core.field.Field]
+
+
+   Allows to connect field_or_fields_container input to the operator.
+
+   Field or fields container to rescope
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.change_fc()
+   >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
+   >>> # or
+   >>> op.inputs.field_or_fields_container(my_field_or_fields_container)
+
+.. py:property:: scopings_container
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scopings_container.ScopingsContainer]
+
+
+   Allows to connect scopings_container input to the operator.
+
+   Scopings container for rescoping operation
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.change_fc()
+   >>> op.inputs.scopings_container.connect(my_scopings_container)
+   >>> # or
+   >>> op.inputs.scopings_container(my_scopings_container)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+
