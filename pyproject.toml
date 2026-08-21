@@ -137,6 +137,8 @@ Tracker = "https://github.com/ansys/pydpf-core/issues"
 
 [project.scripts]
 dpf_generate_operators_doc = "ansys.dpf.core.documentation.generate_operators_doc:run_with_args"
+dpf_build_operators_html_doc = "ansys.dpf.core.documentation.build_operators_html_doc:run_with_args"
+dpf_generate_operators = "ansys.dpf.core.operators.build:run_with_args"
 
 [tool.ruff]
 exclude = [

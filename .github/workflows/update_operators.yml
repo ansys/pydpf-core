@@ -121,16 +121,14 @@ jobs:
 
       - name: "Generate Operators"
         shell: bash
-        working-directory: .ci
         run: |
-          python code_generation.py
+          dpf_generate_operators
         timeout-minutes: 5
 
       - name: "Generate Operators Documentation"
         shell: bash
-        working-directory: .ci
         run: |
-          python build_operators_doc.py
+          dpf_build_operators_html_doc --output_path doc/source/_static/dpf_operators.html
         timeout-minutes: 5
 
       - name: "Show changes"
