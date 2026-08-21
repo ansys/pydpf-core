@@ -30,7 +30,7 @@ from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import FieldDefinition, operators as ops
 from ansys.dpf.core.available_result import Homogeneity
-from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.check_version import meets_version, server_meet_version
 from ansys.dpf.core.common import locations, shell_layers
 from ansys.dpf.gate.errors import DPFServerException, DpfVersionNotSupported
 import conftest
@@ -45,6 +45,25 @@ def stress_field(allkindofcomplexity, server_type):
     model = dpf.core.Model(allkindofcomplexity, server=server_type)
     stress = model.results.stress()
     return stress.outputs.fields_container()[0]
+
+
+@pytest.fixture(
+    params=[
+        pytest.param((dpf.core.natures.scalar, [1], 1, 1), id="scalar"),
+        pytest.param((dpf.core.natures.vector, [3], 3, 3), id="vector"),
+        pytest.param((dpf.core.natures.symmatrix, [3, 3], 9, 6), id="symmetric_matrix"),
+        pytest.param((dpf.core.natures.matrix, [3, 3], 9, 9), id="matrix"),
+    ]
+)
+def dimensionality_test_data(request, server_type):
+    nature, dimensions, legacy_component_count, current_component_count = request.param
+    if not meets_version(server_type.version, "16.2"):
+        expected_component_count = legacy_component_count
+    else:
+        expected_component_count = current_component_count
+
+    dimensionality = dpf.core.Dimensionality(dimensions, nature, server=server_type)
+    return dimensionality, expected_component_count
 
 
 def test_create_field(server_type):
@@ -287,6 +306,25 @@ def test_field_definition_modif_field(allkindofcomplexity):
 
     fielddef.shell_layers = dpf.core.shell_layers.bottom
     assert fielddef.shell_layers == dpf.core.shell_layers.bottom
+
+
+def test_dimensionality_component_count(dimensionality_test_data):
+    dimensionality, expected_component_count = dimensionality_test_data
+
+    assert dimensionality.component_count == expected_component_count
+
+
+def test_field_definition_set_dimensionality_component_count(
+    dimensionality_test_data, server_type
+):
+    dimensionality, expected_component_count = dimensionality_test_data
+    field_definition = FieldDefinition(server=server_type)
+
+    field_definition.dimensionality = dimensionality
+    dimensionality_out = field_definition.dimensionality
+
+    assert dimensionality_out == dimensionality
+    assert dimensionality_out.component_count == expected_component_count
 
 
 def test_field_definition_set_in_field(allkindofcomplexity):
