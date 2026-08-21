@@ -45,6 +45,7 @@ serializer
 setuptools
 socio-economic
 substep
+synopsys
 Synopsys
 systyem
 tqdm
