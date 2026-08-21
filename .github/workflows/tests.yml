@@ -86,7 +86,7 @@ permissions: {}
 
 jobs:
   setup:
-    name: "Setup"
+    name: "Setup" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     runs-on: ubuntu-latest
     outputs:
       python_versions: ${{ steps.set_array.outputs.python_versions }}
@@ -98,7 +98,7 @@ jobs:
           echo "python_versions=${PYTHON_VERSIONS}" >> $GITHUB_OUTPUT
 
   tests:
-    name: "Tests"
+    name: "Tests" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     needs: setup
     timeout-minutes: 120
     runs-on: ${{ matrix.os }}

@@ -30,7 +30,7 @@ permissions: {}
 
 jobs:
   update_generated:
-    name: "Update Generated Code"
+    name: "Update Generated Code" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     runs-on: windows-latest
     permissions:
       contents: write # Required for pushing code updates
@@ -138,7 +138,7 @@ jobs:
         run: |
           git status
 
-      - name: "Create Pull Request"
+      - name: "Create Pull Request" # zizmor: ignore[superfluous-actions]
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           delete-branch: true
