@@ -57,6 +57,7 @@
 * [Revathy Venugopal](https://github.com/Revathyvenugopal162)
 * [Ricardo Peixoto Coelho](https://github.com/ricardopeixotocoelho)
 * [Roberto Pastor Muela](https://github.com/RobPasMue)
+* [Sangeeth Simon](https://github.com/Sangsimon)
 * [Sean Ahern](https://github.com/ahernsean)
 * [Theo Meunier](https://github.com/TheoMeunierAnsys)
 * [vsousacosta](https://github.com/vsousacosta)
