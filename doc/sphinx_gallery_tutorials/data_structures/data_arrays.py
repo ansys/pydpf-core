@@ -192,13 +192,13 @@ print(my_symmatrix_field)
 # Create a 2x3 matrix field defined for a single fluid element face:
 
 # Set the nature to matrix
-# my_matrix_field = dpf.Field(nentities=1, nature=dpf.natures.matrix)
-# my_matrix_field.dimensionality = dpf.Dimensionality(dim_vec=[2, 3], nature=dpf.natures.matrix)
-# my_matrix_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-# my_matrix_field.location = dpf.locations.faces
-# my_matrix_field.scoping.ids = [1]
-# my_matrix_field.unit = "mm"
-# print(my_matrix_field)
+my_matrix_field = dpf.Field(nentities=1, nature=dpf.natures.matrix)
+my_matrix_field.dimensionality = dpf.Dimensionality(dim_vec=[2, 3], nature=dpf.natures.matrix)
+my_matrix_field.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+my_matrix_field.location = dpf.locations.faces
+my_matrix_field.scoping.ids = [1]
+my_matrix_field.unit = "mm"
+print(my_matrix_field)
 
 ###############################################################################
 # StringField
