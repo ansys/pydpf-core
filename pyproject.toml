@@ -34,7 +34,7 @@ dependencies = [
     "packaging",
     "protobuf",
     "psutil",
-    "setuptools",
+    "setuptools >=83.0.0",
     "tqdm"
 ]
 
