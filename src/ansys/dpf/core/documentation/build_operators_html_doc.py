@@ -54,7 +54,7 @@ def generate_operators_html_doc(
         print(f"Current context: {SERVER_CONTEXT}")
     dpf.operators.utility.html_doc(str(output_path)).eval()
     if verbose:  # pragma: nocover
-        print("Done.")
+        print(f"Done. The output path is {output_path}")
 
 
 def run_with_args():  # pragma: nocover
