@@ -30,8 +30,9 @@ from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import FieldDefinition, operators as ops
 from ansys.dpf.core.available_result import Homogeneity
-from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.check_version import meets_version, server_meet_version
 from ansys.dpf.core.common import locations, shell_layers
+from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.gate.errors import DPFServerException, DpfVersionNotSupported
 import conftest
 from conftest import (
@@ -45,7 +46,6 @@ def stress_field(allkindofcomplexity, server_type):
     model = dpf.core.Model(allkindofcomplexity, server=server_type)
     stress = model.results.stress()
     return stress.outputs.fields_container()[0]
-
 
 def test_create_field(server_type):
     field = dpf.core.Field(server=server_type)
@@ -250,44 +250,43 @@ def test_field_definition_field(allkindofcomplexity):
     assert f.location == dpf.core.locations.nodal
 
 
-# def test_field_definition_modif_field(allkindofcomplexity):
-#     dataSource = dpf.core.DataSources()
-#     dataSource.set_result_file_path(allkindofcomplexity)
-#     op = dpf.core.Operator("U")
-#     op.connect(4, dataSource)
-#
-#     fcOut = op.get_output(0, dpf.core.types.fields_container)
-#     f = fcOut[0]
-#     fielddef = f.field_definition
-#     assert fielddef.unit == "m"
-#     assert fielddef.location == dpf.core.locations.nodal
-#     assert fielddef.dimensionality.nature == dpf.core.natures.vector
-#     assert fielddef.dimensionality.dim == [3]
-#     assert fielddef.shell_layers == dpf.core.shell_layers.layerindependent
-#
-#     fielddef.unit = "mm"
-#     assert fielddef.unit == "mm"
-#     fielddef.location = dpf.core.locations.elemental
-#     assert fielddef.location == dpf.core.locations.elemental
-#     fielddef.dimensionality = dpf.core.Dimensionality.scalar_dim()
-#     assert fielddef.dimensionality.nature == dpf.core.natures.scalar
-#     assert fielddef.dimensionality.dim == [1]
-#
-#     fielddef.dimensionality = dpf.core.Dimensionality.tensor_dim()
-#     assert fielddef.dimensionality.nature == dpf.core.natures.symmatrix
-#     assert fielddef.dimensionality.dim == [3, 3]
-#
-#     fielddef.dimensionality = dpf.core.Dimensionality.vector_3d_dim()
-#     assert fielddef.dimensionality.nature == dpf.core.natures.vector
-#     assert fielddef.dimensionality.dim == [3]
-#
-#     fielddef.dimensionality = dpf.core.Dimensionality.vector_dim(4)
-#     assert fielddef.dimensionality.nature == dpf.core.natures.vector
-#     assert fielddef.dimensionality.dim == [4]
-#
-#     fielddef.shell_layers = dpf.core.shell_layers.bottom
-#     assert fielddef.shell_layers == dpf.core.shell_layers.bottom
+def test_field_definition_modif_field(allkindofcomplexity):
+    dataSource = dpf.core.DataSources()
+    dataSource.set_result_file_path(allkindofcomplexity)
+    op = dpf.core.Operator("U")
+    op.connect(4, dataSource)
 
+    fcOut = op.get_output(0, dpf.core.types.fields_container)
+    f = fcOut[0]
+    fielddef = f.field_definition
+    assert fielddef.unit == "m"
+    assert fielddef.location == dpf.core.locations.nodal
+    assert fielddef.dimensionality.nature == dpf.core.natures.vector
+    assert fielddef.dimensionality.dim == [3]
+    assert fielddef.shell_layers == dpf.core.shell_layers.layerindependent
+
+    fielddef.unit = "mm"
+    assert fielddef.unit == "mm"
+    fielddef.location = dpf.core.locations.elemental
+    assert fielddef.location == dpf.core.locations.elemental
+    fielddef.dimensionality = dpf.core.Dimensionality.scalar_dim()
+    assert fielddef.dimensionality.nature == dpf.core.natures.scalar
+    assert fielddef.dimensionality.dim == [1]
+
+    fielddef.dimensionality = dpf.core.Dimensionality.tensor_dim()
+    assert fielddef.dimensionality.nature == dpf.core.natures.symmatrix
+    assert fielddef.dimensionality.dim == [3, 3]
+
+    fielddef.dimensionality = dpf.core.Dimensionality.vector_3d_dim()
+    assert fielddef.dimensionality.nature == dpf.core.natures.vector
+    assert fielddef.dimensionality.dim == [3]
+
+    fielddef.dimensionality = dpf.core.Dimensionality.vector_dim(4)
+    assert fielddef.dimensionality.nature == dpf.core.natures.vector
+    assert fielddef.dimensionality.dim == [4]
+
+    fielddef.shell_layers = dpf.core.shell_layers.bottom
+    assert fielddef.shell_layers == dpf.core.shell_layers.bottom
 
 def test_field_definition_set_in_field(allkindofcomplexity):
     dataSource = dpf.core.DataSources()
@@ -482,7 +481,7 @@ def test_mesh_support_field(stress_field):
     mesh = stress_field.meshed_region
     assert len(mesh.nodes.scoping) == 15129
     if server_meet_version("15.0", mesh._server):
-        assert len(mesh.elements.scoping) == 10497 
+        assert len(mesh.elements.scoping) == 10497
     elif server_meet_version("9.0", mesh._server):
         assert len(mesh.elements.scoping) == 10294
     else:
@@ -1166,59 +1165,59 @@ def test_deep_copy_field():
 
 
 @pytest.mark.slow
-# def test_deep_copy_elemental_nodal_field(allkindofcomplexity):
-#     model = dpf.core.Model(allkindofcomplexity)
-#     stress = model.results.stress()
-#     field = stress.outputs.fields_container()[0]
-#     copy = field.deep_copy()
-#     iden = dpf.core.operators.logic.identical_fields(field, copy)
-#
-#     try:
-#         assert iden.outputs.boolean()
-#     except AssertionError as e:
-#         print(iden.outputs.message())
-#         raise e
-#
-#     mesh = field.meshed_region
-#     copy = copy.meshed_region
-#     assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
-#     assert np.allclose(copy.elements.scoping.ids, mesh.elements.scoping.ids)
-#     assert copy.unit == mesh.unit
-#     assert np.allclose(copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data)
-#     assert np.allclose(
-#         copy.elements.element_types_field.data, mesh.elements.element_types_field.data
-#     )
-#     assert np.allclose(
-#         copy.elements.connectivities_field.data, mesh.elements.connectivities_field.data
-#     )
-#
-#     assert np.allclose(
-#         copy.nodes.coordinates_field.scoping.ids,
-#         mesh.nodes.coordinates_field.scoping.ids,
-#     )
-#     assert np.allclose(
-#         copy.elements.element_types_field.scoping.ids,
-#         mesh.elements.element_types_field.scoping.ids,
-#     )
-#     assert np.allclose(
-#         copy.elements.connectivities_field.scoping.ids,
-#         mesh.elements.connectivities_field.scoping.ids,
-#     )
+def test_deep_copy_elemental_nodal_field(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    stress = model.results.stress()
+    field = stress.outputs.fields_container()[0]
+    copy = field.deep_copy()
+    iden = dpf.core.operators.logic.identical_fields(field, copy)
+
+    try:
+        assert iden.outputs.boolean()
+    except AssertionError as e:
+        print(iden.outputs.message())
+        raise e
+
+    mesh = field.meshed_region
+    copy = copy.meshed_region
+    assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
+    assert np.allclose(copy.elements.scoping.ids, mesh.elements.scoping.ids)
+    assert copy.unit == mesh.unit
+    assert np.allclose(copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data)
+    assert np.allclose(
+        copy.elements.element_types_field.data, mesh.elements.element_types_field.data
+    )
+    assert np.allclose(
+        copy.elements.connectivities_field.data, mesh.elements.connectivities_field.data
+    )
+
+    assert np.allclose(
+        copy.nodes.coordinates_field.scoping.ids,
+        mesh.nodes.coordinates_field.scoping.ids,
+    )
+    assert np.allclose(
+        copy.elements.element_types_field.scoping.ids,
+        mesh.elements.element_types_field.scoping.ids,
+    )
+    assert np.allclose(
+        copy.elements.connectivities_field.scoping.ids,
+        mesh.elements.connectivities_field.scoping.ids,
+    )
 
 
-# def test_deep_copy_over_time_field(velocity_acceleration):
-#     model = dpf.core.Model(velocity_acceleration)
-#     stress = model.results.stress(time_scoping=[1, 2, 3])
-#     min_max = dpf.core.operators.min_max.min_max_fc(stress)
-#     field = min_max.outputs.field_max()
-#     copy = field.deep_copy()
-#     iden = dpf.core.operators.logic.identical_fields(field, copy)
-#     assert iden.outputs.boolean()
-#
-#     tf = field.time_freq_support
-#     copy = copy.time_freq_support
-#     assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
-#     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
+def test_deep_copy_over_time_field(velocity_acceleration):
+    model = dpf.core.Model(velocity_acceleration)
+    stress = model.results.stress(time_scoping=[1, 2, 3])
+    min_max = dpf.core.operators.min_max.min_max_fc(stress)
+    field = min_max.outputs.field_max()
+    copy = field.deep_copy()
+    iden = dpf.core.operators.logic.identical_fields(field, copy)
+    assert iden.outputs.boolean()
+
+    tf = field.time_freq_support
+    copy = copy.time_freq_support
+    assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
+    assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
 
 
 def test_deep_copy_spec_ncomp_field():
@@ -1440,3 +1439,56 @@ def test_deep_copy_field_with_dimensionless_unit(server_type):
     assert my_field_copy is not None
     assert my_field_copy.unit == my_field.unit
     assert my_field_copy.unit == (Homogeneity.dimensionless, "some_units")
+
+@pytest.fixture(
+    params=[
+        pytest.param((dpf.core.natures.scalar, [1], 1, 1), id="scalar"),
+        pytest.param((dpf.core.natures.vector, [3], 3, 3), id="vector"),
+        pytest.param((dpf.core.natures.symmatrix, [3, 3], 9, 6), id="symmetric_matrix"),
+    ]
+)
+def dimensionality_test_data(request, server_type):
+    nature, dimensions, legacy_component_count, current_component_count = request.param
+    if not meets_version(server_type.version, "16.2"):
+        expected_component_count = legacy_component_count
+    else:
+        expected_component_count = current_component_count
+
+    dimensionality = dpf.core.Dimensionality(dimensions, nature, server=server_type)
+    return dimensionality, expected_component_count
+
+def test_dimensionality_component_count(dimensionality_test_data):
+    dimensionality, expected_component_count = dimensionality_test_data
+
+    assert dimensionality.component_count == expected_component_count
+
+
+def test_field_definition_set_dimensionality_component_count(
+    dimensionality_test_data, server_type
+):
+    dimensionality, expected_component_count = dimensionality_test_data
+    field_definition = FieldDefinition(server=server_type)
+
+    field_definition.dimensionality = dimensionality
+    dimensionality_out = field_definition.dimensionality
+
+    assert dimensionality_out == dimensionality
+    assert dimensionality_out.component_count == expected_component_count
+
+def test_field_definition_set_dimensionality_component_count_matrix(server_type):
+    nature, dimensions, legacy_component_count, current_component_count = (dpf.core.natures.matrix, [3, 3], 9, 9)
+    if not meets_version(server_type.version, "16.2"):
+        expected_component_count = legacy_component_count
+    else:
+        expected_component_count = current_component_count
+    dimensionality = dpf.core.Dimensionality(dimensions, nature, server=server_type)
+
+    assert dimensionality.component_count == expected_component_count
+
+    field_definition = FieldDefinition(server=server_type)
+    field_definition.dimensionality = dimensionality
+
+    if not meets_version(server_type.version, "16.2"):
+        assert field_definition.dimensionality == dpf.core.Dimensionality([3,3], dpf.core.natures.symmatrix)
+    else:
+        assert field_definition.dimensionality == dpf.core.Dimensionality([3,3], dpf.core.natures.matrix)
