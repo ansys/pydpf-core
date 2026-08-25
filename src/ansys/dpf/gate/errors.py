@@ -8,9 +8,10 @@ from functools import wraps
 OperatorFrame = namedtuple("OperatorFrame", ["name", "id"])
 """An operator that a structured DPF error passed through (name and id)."""
 
-# Legacy C-layer banner that may prefix a structured error, e.g.
-# ``a 'data processing core error' error occurred: {...}``.
-_LEGACY_BANNER = re.compile(r"^a '[^']*' error occurred: ")
+# Legacy banners that may prefix a structured error, e.g.
+# ``a 'data processing core error' error occurred: {...}`` (CAPI raise path) or
+# ``DPF Error: {...}`` (server startup stderr).
+_LEGACY_BANNER = re.compile(r"^(?:a '[^']*' error occurred: |DPF Error: )")
 
 
 def _parse_structured_error(msg):
@@ -33,6 +34,25 @@ def _parse_structured_error(msg):
     if not isinstance(data, dict) or "frames" not in data:
         return None
     return data
+
+
+def format_dpf_error(msg):
+    """Return a human-readable message for a possibly structured DPF error string.
+
+    A structured error (optionally wrapped in a legacy banner) is rendered as its
+    root-cause message, remediation suggestion and operator-chain note. The whole
+    string is tried first, then each line, so a structured payload embedded in
+    multi-line server stderr is still recognized. Non-structured messages are
+    returned unchanged.
+    """
+    if not isinstance(msg, str):
+        return msg
+    for candidate in (msg, *msg.splitlines()):
+        if _parse_structured_error(candidate) is not None:
+            error = DPFServerException(candidate)
+            notes = [note for note in getattr(error, "__notes__", []) if note]
+            return "\n".join([str(error), *notes])
+    return msg
 
 
 class DPFServerException(Exception):

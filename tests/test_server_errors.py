@@ -242,3 +242,50 @@ def test_server_exception_structured_with_legacy_banner():
     assert banner not in str(exception)
     assert exception.chain == [errors.OperatorFrame("fft_eval", "1")]
     assert exception.__notes__ == ["Operator chain: fft_eval (1)"]
+
+
+def test_format_dpf_error_startup_banner():
+    # Server startup stderr prefixes the JSON with a "DPF Error:" banner; the
+    # raw JSON must be rendered as a readable message (see bug 1502483).
+    payload = {
+        "depth": 3,
+        "frames": {
+            "2": {
+                "type": "kernel_clayer",
+                "what": "Exception occurred in C Layer function: "
+                "dataProcessing::Operator_getoutput_streams",
+                "function_name": "dataProcessing::Operator_getoutput_streams",
+            },
+            "1": {
+                "type": "opframe",
+                "what": 'Operator "grpc::stream_provider" (0) threw.',
+                "operator_name": "grpc::stream_provider",
+                "operator_id": "0",
+            },
+            "0": {
+                "type": "cppexception",
+                "what": "error code 10:DPF gRPC mTLS: Missing certificates directory "
+                "on pin 7, define ANSYS_GRPC_CERTIFICATES or use --certs-dir",
+            },
+        },
+    }
+    errstr = "DPF Error: " + json.dumps(payload)
+    formatted = errors.format_dpf_error(errstr)
+
+    assert "{" not in formatted  # no raw JSON leaks through
+    assert formatted.startswith(
+        "error code 10:DPF gRPC mTLS: Missing certificates directory"
+    )
+    assert "Operator chain: grpc::stream_provider (0)" in formatted
+
+
+def test_format_dpf_error_embedded_in_multiline_stderr():
+    # The structured payload may be one line among several in server stderr.
+    payload = {"depth": 1, "frames": {"0": {"type": "cppexception", "what": "boom"}}}
+    errstr = "some warning\nDPF Error: " + json.dumps(payload) + "\ntrailing line"
+    assert errors.format_dpf_error(errstr) == "boom"
+
+
+def test_format_dpf_error_passthrough():
+    # Plain, non-structured stderr is returned unchanged.
+    assert errors.format_dpf_error("plain server stderr") == "plain server stderr"
