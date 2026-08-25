@@ -1,4 +1,5 @@
 import json
+import re
 import types
 import sys
 from collections import namedtuple
@@ -7,16 +8,22 @@ from functools import wraps
 OperatorFrame = namedtuple("OperatorFrame", ["name", "id"])
 """An operator that a structured DPF error passed through (name and id)."""
 
+# Legacy C-layer banner that may prefix a structured error, e.g.
+# ``a 'data processing core error' error occurred: {...}``.
+_LEGACY_BANNER = re.compile(r"^a '[^']*' error occurred: ")
+
 
 def _parse_structured_error(msg):
     """Return the parsed structured DPF error, or ``None`` when ``msg`` is not one.
 
     A structured error is a JSON document holding a ``"frames"`` mapping, keyed by
-    string indices where ``"0"`` is the innermost root cause.
+    string indices where ``"0"`` is the innermost root cause. A legacy C-layer
+    banner (see :data:`_LEGACY_BANNER`) is stripped first; the remainder must then
+    start with ``{`` to be considered a structured error.
     """
     if not isinstance(msg, str):
         return None
-    text = msg.strip()
+    text = _LEGACY_BANNER.sub("", msg.strip(), count=1)
     if not text.startswith("{"):
         return None
     try:
