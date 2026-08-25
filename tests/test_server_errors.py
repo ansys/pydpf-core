@@ -207,7 +207,7 @@ def test_server_exception_not_structured_json():
 
 def test_server_exception_structured_with_legacy_banner():
     # The CAPI path prefixes the JSON with a legacy C-layer banner; it must
-    # still be parsed as a structured error (see bug 1502483).
+    # still be parsed as a structured error.
     payload = {
         "depth": 3,
         "frames": {
