@@ -115,6 +115,7 @@ build = [
   "black==26.5.1",
   "build==1.5.1",
   "chevron==0.14.0",
+  "jinja2==3.1.6",
   "pypandoc_binary==1.17",
   "wheel==0.48.0"
 ]
@@ -206,6 +207,7 @@ where = ["src"]
 [tool.setuptools.package-data]
 "ansys.dpf.gatebin" = ["*.so", "*.dll"]
 "ansys.dpf.core.documentation" = ["toc_template.j2", "operator_doc_template.j2"]
+"ansys.dpf.core.operators" = ["operator.mustache"]
 
 [tool.pytest]
 #filterwarnings = ['ignore:Use explicit output-to-input connections:DeprecationWarning']
