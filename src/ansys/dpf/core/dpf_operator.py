@@ -42,6 +42,7 @@ from ansys.dpf.core.check_version import (
 )
 from ansys.dpf.core.common import types, types_enum_to_types
 from ansys.dpf.core.config import Config
+from ansys.dpf.core.config_proxy import _ConfigProxy
 from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.operator_specification import Specification
@@ -677,8 +678,9 @@ class Operator:
         >>> op.config = config_add
 
         """
-        config = self._api.operator_get_config(self)
-        return Config(config=config, server=self._server, spec=self._spec)
+        if not hasattr(self, "config_proxy"):
+            self._config_proxy = _ConfigProxy(self)
+        return self._config_proxy
 
     @config.setter
     def config(self, value):

@@ -1,4 +1,4 @@
-name: docs # zizmor: ignore[concurrency-limits]
+name: docs # zizmor: ignore[concurrency-limits] , this is a reusable workflow
 
 on:
 # Can be called by the CI
@@ -52,19 +52,19 @@ permissions: {}
 
 jobs:
   doc-style:
-    name: "Check doc style"
+    name: "Check doc style" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write # Required for doc-style action to post comments
     steps:
         - name: "Running documentation style checks"
-          uses: ansys/actions/doc-style@9dc4e3161033d2c2485fbf9687d40cfb7a661fb2 # v10.3.6
+          uses: ansys/actions/doc-style@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
           with:
             token: ${{ secrets.GITHUB_TOKEN }}
 
   docs:
-    name: "Documentation"
+    name: "Documentation" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     runs-on: windows-latest
     permissions:
       contents: read
