@@ -40,7 +40,7 @@ class migrate_to_h5dpf(Operator):
     h5_native_compression: int or DataTree or GenericDataContainer, optional
         Integer value / DataTree that defines the h5 native compression used For Integer Input {0: No Compression (default); 1-9: GZIP Compression : 9 provides maximum compression but at the slowest speed.}For DataTree Input {type: None / GZIP / ZSTD; level: GZIP (1-9) / ZSTD (1-20); num_threads: ZSTD (>0)}
     export_floats: bool or GenericDataContainer, optional
-        Converts double to float to reduce file size (default is true).If False, nodal results are exported as double precision and elemental results as single precision.
+        Converts double to float to reduce file size (default is true).If no value is provided, nodal results are exported as double precision and elemental results as single precision.
     filename: str
         filename of the migrated file, or stream from a previous migration.
     comma_separated_list_of_results: str, optional
@@ -200,7 +200,7 @@ will map an item to a result name. Example of Map: {{ default: wf1},
                     name="export_floats",
                     type_names=["bool", "generic_data_container"],
                     optional=True,
-                    document=r"""Converts double to float to reduce file size (default is true).If False, nodal results are exported as double precision and elemental results as single precision.""",
+                    document=r"""Converts double to float to reduce file size (default is true).If no value is provided, nodal results are exported as double precision and elemental results as single precision.""",
                 ),
                 0: PinSpecification(
                     name="filename",
@@ -452,7 +452,7 @@ class InputsMigrateToH5Dpf(_Inputs):
     def export_floats(self) -> Input[bool | GenericDataContainer]:
         r"""Allows to connect export_floats input to the operator.
 
-        Converts double to float to reduce file size (default is true).If False, nodal results are exported as double precision and elemental results as single precision.
+        Converts double to float to reduce file size (default is true).If no value is provided, nodal results are exported as double precision and elemental results as single precision.
 
         Returns
         -------
