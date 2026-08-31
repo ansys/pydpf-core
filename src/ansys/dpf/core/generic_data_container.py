@@ -209,6 +209,9 @@ class GenericDataContainer:
         if self._internal_obj is not None:
             try:
                 self._deleter_func[0](self._deleter_func[1](self))
-            except Exception as e:
-                print(str(e.args), str(self._deleter_func[0]))
-                warnings.warn(traceback.format_exc())
+            except Exception:
+                # During interpreter shutdown, ``warnings``/``traceback`` may be None.
+                warn = getattr(warnings, "warn", None)
+                format_exc = getattr(traceback, "format_exc", None)
+                if warn is not None and format_exc is not None:
+                    warn(format_exc())

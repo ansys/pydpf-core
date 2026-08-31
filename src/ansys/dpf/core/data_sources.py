@@ -782,9 +782,7 @@ class DataSources:
                 if obj is not None:
                     self._deleter_func[0](obj)
         except Exception:
-            # During interpreter shutdown the ``warnings`` and ``traceback``
-            # module globals (or their functions) may already be torn down;
-            # resolve them safely to avoid a secondary error in __del__.
+            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
             warn = getattr(warnings, "warn", None)
             format_exc = getattr(traceback, "format_exc", None)
             if warn is not None and format_exc is not None:

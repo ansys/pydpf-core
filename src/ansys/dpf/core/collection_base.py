@@ -578,8 +578,12 @@ class CollectionBase(Generic[TYPE]):
                 obj = self._deleter_func[1](self)
                 if obj is not None:
                     self._deleter_func[0](obj)
-        except:
-            warnings.warn(traceback.format_exc())
+        except Exception:
+            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
+            warn = getattr(warnings, "warn", None)
+            format_exc = getattr(traceback, "format_exc", None)
+            if warn is not None and format_exc is not None:
+                warn(format_exc())
 
     def _get_ownership(self):
         self.owned = True
