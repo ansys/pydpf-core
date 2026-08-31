@@ -223,7 +223,7 @@ def _wait_and_check_server_connection(  # noqa: PLR0913, C901
             or "port is already allocated" in errstr
         ):
             raise errors.InvalidPortError(f"Port {port} in use")
-        raise RuntimeError(errstr)
+        raise RuntimeError(errors.format_dpf_error(errstr))
 
 
 def launch_dpf(  # noqa: PLR0913

@@ -1,4 +1,5 @@
 import json
+import re
 import types
 import sys
 from collections import namedtuple
@@ -7,16 +8,23 @@ from functools import wraps
 OperatorFrame = namedtuple("OperatorFrame", ["name", "id"])
 """An operator that a structured DPF error passed through (name and id)."""
 
+# Legacy banners that may prefix a structured error, e.g.
+# ``a 'data processing core error' error occurred: {...}`` (CAPI raise path) or
+# ``DPF Error: {...}`` (server startup stderr).
+_LEGACY_BANNER = re.compile(r"^(?:a '[^']*' error occurred: |DPF Error: )")
+
 
 def _parse_structured_error(msg):
     """Return the parsed structured DPF error, or ``None`` when ``msg`` is not one.
 
     A structured error is a JSON document holding a ``"frames"`` mapping, keyed by
-    string indices where ``"0"`` is the innermost root cause.
+    string indices where ``"0"`` is the innermost root cause. A legacy C-layer
+    banner (see :data:`_LEGACY_BANNER`) is stripped first; the remainder must then
+    start with ``{`` to be considered a structured error.
     """
     if not isinstance(msg, str):
         return None
-    text = msg.strip()
+    text = _LEGACY_BANNER.sub("", msg.strip(), count=1)
     if not text.startswith("{"):
         return None
     try:
@@ -26,6 +34,25 @@ def _parse_structured_error(msg):
     if not isinstance(data, dict) or "frames" not in data:
         return None
     return data
+
+
+def format_dpf_error(msg):
+    """Return a human-readable message for a possibly structured DPF error string.
+
+    A structured error (optionally wrapped in a legacy banner) is rendered as its
+    root-cause message, remediation suggestion and operator-chain note. The whole
+    string is tried first, then each line, so a structured payload embedded in
+    multi-line server stderr is still recognized. Non-structured messages are
+    returned unchanged.
+    """
+    if not isinstance(msg, str):
+        return msg
+    for candidate in (msg, *msg.splitlines()):
+        if _parse_structured_error(candidate) is not None:
+            error = DPFServerException(candidate)
+            notes = [note for note in getattr(error, "__notes__", []) if note]
+            return "\n".join([str(error), *notes])
+    return msg
 
 
 class DPFServerException(Exception):
