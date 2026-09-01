@@ -27,14 +27,14 @@ class is_cyclic(Operator):
     Inputs
     ------
     streams_container: StreamsContainer, optional
-        streams (result file container) (optional)
+        Streams (result file container) (optional)
     data_sources: DataSources
         If the stream is null, retrieves the file path from the data sources.
 
     Outputs
     -------
     file_path: str
-        returns 'single_stage' or 'multi_stage' or an empty string for non cyclic model
+        Returns 'single_stage' or 'multi_stage' or 'not_cyclic' or an empty string if the information is missing.
 
     Examples
     --------
@@ -85,7 +85,7 @@ class is_cyclic(Operator):
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=True,
-                    document=r"""streams (result file container) (optional)""",
+                    document=r"""Streams (result file container) (optional)""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -99,7 +99,7 @@ class is_cyclic(Operator):
                     name="file_path",
                     type_names=["string"],
                     optional=False,
-                    document=r"""returns 'single_stage' or 'multi_stage' or an empty string for non cyclic model""",
+                    document=r"""Returns 'single_stage' or 'multi_stage' or 'not_cyclic' or an empty string if the information is missing.""",
                 ),
             },
         )
@@ -178,7 +178,7 @@ class InputsIsCyclic(_Inputs):
     def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
-        streams (result file container) (optional)
+        Streams (result file container) (optional)
 
         Returns
         -------
@@ -238,7 +238,7 @@ class OutputsIsCyclic(_Outputs):
     def file_path(self) -> Output[str]:
         r"""Allows to get file_path output of the operator
 
-        returns 'single_stage' or 'multi_stage' or an empty string for non cyclic model
+        Returns 'single_stage' or 'multi_stage' or 'not_cyclic' or an empty string if the information is missing.
 
         Returns
         -------
