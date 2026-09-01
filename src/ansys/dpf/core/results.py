@@ -27,9 +27,12 @@ This module contains the Results and Result classes that are created by the mode
 to easily access results in result files.
 """
 
+from __future__ import annotations
+
 import functools
 
 from ansys.dpf.core import Operator, errors
+from ansys.dpf.core.available_result import AvailableResult
 from ansys.dpf.core.custom_fields_container import (
     BodyFieldsContainer,
     ElShapeFieldsContainer,
@@ -121,23 +124,30 @@ class Results:
             self._connect_operators(result_info)
         self._str = str(result_info)
 
-    def __result__(self, result_type, *args):
+    def __result__(self, result_type: AvailableResult, *args) -> Result:
         """
         Create and return a result of the specified type.
 
         Parameters
         ----------
-        result_type : any
+        result_type:
             The type of the result to generate.
-        *args : tuple
+        *args:
             Additional arguments required for creating the result.
 
         Returns
         -------
-        Result
+        Result:
             An instance of the `Result` class, providing access to the specified result.
         """
         return Result(self._connector, self._mesh_by_default, result_type, self._server)
+
+    def __getattr__(self, item):
+        """Inform the requested result is unavailable."""
+        raise AttributeError(
+            f"Result '{item}' is not available. "
+            f"Available results are:\n{list(self._op_map_rev.keys())}"
+        )
 
     def _connect_operators(self, result_info):
         """Dynamically add operators for results.
@@ -295,7 +305,7 @@ class Result:
             print(self._result_info.name)
             raise e
 
-    def __call__(self, time_scoping=None, mesh_scoping=None):
+    def __call__(self, time_scoping=None, mesh_scoping=None) -> Operator:
         """Provide for Result instances to be callable for operator retrieval."""
         op = self._operator
         if time_scoping:

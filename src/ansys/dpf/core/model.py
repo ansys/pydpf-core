@@ -132,7 +132,7 @@ class Model:
         return self._metadata
 
     @property
-    def results(self):
+    def results(self) -> Results:
         """Available results of the model.
 
         Organizes the results from DPF into accessible methods. All the available
