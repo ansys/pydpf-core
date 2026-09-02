@@ -28,7 +28,9 @@ class pres_to_field(Operator):
     filepath: str
         filepath
     columns_to_read: int, optional
-        columns_to_read
+        Indeces of the columns to read. By default it reads all the components.
+    element_type_to_ignore: optional
+        If provided, the data associated to these elements won't be read.
 
     Outputs
     -------
@@ -46,18 +48,28 @@ class pres_to_field(Operator):
     >>> op.inputs.filepath.connect(my_filepath)
     >>> my_columns_to_read = int()
     >>> op.inputs.columns_to_read.connect(my_columns_to_read)
+    >>> my_element_type_to_ignore = dpf.()
+    >>> op.inputs.element_type_to_ignore.connect(my_element_type_to_ignore)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.pres_to_field(
     ...     filepath=my_filepath,
     ...     columns_to_read=my_columns_to_read,
+    ...     element_type_to_ignore=my_element_type_to_ignore,
     ... )
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, filepath=None, columns_to_read=None, config=None, server=None):
+    def __init__(
+        self,
+        filepath=None,
+        columns_to_read=None,
+        element_type_to_ignore=None,
+        config=None,
+        server=None,
+    ):
         super().__init__(
             name="PRES_Reader",
             config=config,
@@ -69,6 +81,8 @@ class pres_to_field(Operator):
             self.inputs.filepath.connect(filepath)
         if columns_to_read is not None:
             self.inputs.columns_to_read.connect(columns_to_read)
+        if element_type_to_ignore is not None:
+            self.inputs.element_type_to_ignore.connect(element_type_to_ignore)
 
     @staticmethod
     def _spec() -> Specification:
@@ -85,9 +99,15 @@ class pres_to_field(Operator):
                 ),
                 1: PinSpecification(
                     name="columns_to_read",
-                    type_names=["int32"],
+                    type_names=["int32", "vector<int32>"],
                     optional=True,
-                    document=r"""columns_to_read""",
+                    document=r"""Indeces of the columns to read. By default it reads all the components.""",
+                ),
+                2: PinSpecification(
+                    name="element_type_to_ignore",
+                    type_names=["umap<int32,int32>"],
+                    optional=True,
+                    document=r"""If provided, the data associated to these elements won't be read.""",
                 ),
             },
             map_output_pin_spec={
@@ -157,6 +177,8 @@ class InputsPresToField(_Inputs):
     >>> op.inputs.filepath.connect(my_filepath)
     >>> my_columns_to_read = int()
     >>> op.inputs.columns_to_read.connect(my_columns_to_read)
+    >>> my_element_type_to_ignore = dpf.()
+    >>> op.inputs.element_type_to_ignore.connect(my_element_type_to_ignore)
     """
 
     def __init__(self, op: Operator):
@@ -169,6 +191,10 @@ class InputsPresToField(_Inputs):
             pres_to_field._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._columns_to_read)
+        self._element_type_to_ignore: Input = Input(
+            pres_to_field._spec().input_pin(2), 2, op, -1
+        )
+        self._inputs.append(self._element_type_to_ignore)
 
     @property
     def filepath(self) -> Input[str]:
@@ -195,7 +221,7 @@ class InputsPresToField(_Inputs):
     def columns_to_read(self) -> Input[int]:
         r"""Allows to connect columns_to_read input to the operator.
 
-        columns_to_read
+        Indeces of the columns to read. By default it reads all the components.
 
         Returns
         -------
@@ -211,6 +237,27 @@ class InputsPresToField(_Inputs):
         >>> op.inputs.columns_to_read(my_columns_to_read)
         """
         return self._columns_to_read
+
+    @property
+    def element_type_to_ignore(self) -> Input:
+        r"""Allows to connect element_type_to_ignore input to the operator.
+
+        If provided, the data associated to these elements won't be read.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.pres_to_field()
+        >>> op.inputs.element_type_to_ignore.connect(my_element_type_to_ignore)
+        >>> # or
+        >>> op.inputs.element_type_to_ignore(my_element_type_to_ignore)
+        """
+        return self._element_type_to_ignore
 
 
 class OutputsPresToField(_Outputs):
