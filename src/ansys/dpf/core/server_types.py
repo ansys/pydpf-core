@@ -151,7 +151,10 @@ def _run_launch_server_process(  # noqa: PLR0913
             AvailableServerContexts.entry,
             AvailableServerContexts.premium,
         ):
-            if context.licensing_context_type == CUSTOM_XML_CONTEXT_TYPE and len(context.xml_path) > 0:  # 2 == custom xml
+            if (
+                context.licensing_context_type == CUSTOM_XML_CONTEXT_TYPE
+                and len(context.xml_path) > 0
+            ):  # 2 == custom xml
                 run_cmd.append(f"--context {context.xml_path}")
             else:
                 run_cmd.append(f"--context {int(context.licensing_context_type)}")
