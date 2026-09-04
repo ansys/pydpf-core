@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -19,6 +19,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
 """Provides utilities for mapping and transforming data types between Python and C++ representations."""
 
 from enum import Enum  # noqa: F401  # pylint: disable=W0611
@@ -78,6 +79,8 @@ map_types_to_python["vector<bool>"] = "list[bool]"
 map_types_to_python["vector<int32>"] = "list[int]"
 map_types_to_python["vector<double>"] = "list[float]"
 map_types_to_python["vector<string>"] = "list[str]"
+map_types_to_python["vector<uint64>"] = "list[int]"
+map_types_to_python["uint64"] = "int"
 map_types_to_python["b"] = "bool"
 
 
@@ -104,6 +107,8 @@ def reflection_type_to_cpp_type(reflection_type: str) -> str:
         reflection_type = "streams"
     if reflection_type == "int32":
         return "int"
+    elif reflection_type == "uint64":
+        return "uint64_t"
     elif reflection_type in ["double", "bool"]:
         return reflection_type
     elif reflection_type == "string":

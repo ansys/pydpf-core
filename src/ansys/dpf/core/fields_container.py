@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -39,6 +39,11 @@ from ansys.dpf.core.common import shell_layers
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Operator, Result
+
+
+# Shell-layer formats that stack multiple layers per element and therefore
+# need conversion (via ``change_shell_layers``) before plotting or scattering.
+_MULTI_LAYER_SHELL_LAYERS = (shell_layers.topbottom, shell_layers.topbottommid)
 
 
 class FieldsContainer(CollectionBase["field.Field"]):
@@ -524,6 +529,85 @@ class FieldsContainer(CollectionBase["field.Field"]):
         """
         return self.get_label_scoping("time")
 
+    def _normalize_shell_layers(
+        self,
+        shell_layer: shell_layers = shell_layers.top,
+    ) -> FieldsContainer:
+        """Return a container with shell layers normalized to a single layer.
+
+        Fields whose shell_layers is ``topbottom`` or ``topbottommid`` are converted to ``shell_layer``
+        using the ``change_shell_layers`` operator. Fields that already have a single-layer format are passed
+        through unchanged.
+
+        Parameters
+        ----------
+        shell_layer:
+            The target shell layer. Defaults to ``shell_layers.top``.
+
+        Returns
+        -------
+        FieldsContainer
+            A container with normalized shell layers. May be ``self`` if no field
+            required conversion.
+
+        Notes
+        -----
+        For elemental_nodal fields, the operator is applied per field (with ``merge=True``) because
+        ``change_shell_layers`` operator does not support elemental-nodal data on a whole container.
+        """
+        from ansys.dpf.core.common import locations, types
+
+        if not isinstance(shell_layer, shell_layers):
+            raise TypeError("shell_layer attribute must be a core.shell_layers instance.")
+
+        # Determine the location of the first non-empty field
+        location = None
+        for f in self:
+            if len(f.data) != 0:
+                location = f.location
+                break
+        if location is None:
+            return self  # empty container - nothing to normalize
+
+        if location == locations.elemental_nodal:
+            return self._normalize_shell_layers_elemental_nodal(shell_layer)
+
+        # Non-elemental_nodal: single container-wide invocation is sufficient
+        change_op = dpf.core.operators.utility.change_shell_layers()
+        for f in self:
+            if f.shell_layers in _MULTI_LAYER_SHELL_LAYERS:
+                change_op.inputs.fields_container.connect(self)
+                change_op.inputs.e_shell_layer.connect(shell_layer.value)
+                return change_op.get_output(0, types.fields_container)
+
+        return self  # no field required conversion
+
+    def _normalize_shell_layers_elemental_nodal(
+        self,
+        shell_layer: shell_layers,
+    ) -> FieldsContainer:
+        """Normalize shell layers per field for elemental_nodal containers.
+
+        ``change_shell_layers`` operator does not support elemental_nodal fields when applied
+        to a fields_container, so we iterate and apply the operator per field with
+        ``merge=True``.
+        """
+        from ansys.dpf.core.common import types
+
+        change_op = dpf.core.operators.utility.change_shell_layers()
+        new_fc = FieldsContainer(server=self._server)
+        for label in self.labels:
+            new_fc.add_label(label)
+        for i, f in enumerate(self):
+            label_space_i = self.get_label_space(i)
+            if f.shell_layers in _MULTI_LAYER_SHELL_LAYERS:
+                change_op.inputs.fields_container.connect(f)
+                change_op.inputs.merge.connect(True)
+                change_op.inputs.e_shell_layer.connect(shell_layer.value)
+                f = change_op.get_output(0, types.field)  # noqa: PLW2901
+            new_fc.add_field(label_space=label_space_i, field=f)
+        return new_fc
+
     def plot(self, label_space: dict = None, **kwargs):
         """Plot the fields in the FieldsContainer for the given LabelSpace.
 
@@ -544,18 +628,36 @@ class FieldsContainer(CollectionBase["field.Field"]):
             For more information on accepted keyword arguments, see :func:`~field.Field.plot` and
             :class:`~plotter.DpfPlotter`.
         """
-        from ansys.dpf.core import plotter
+        from ansys.dpf.core import errors as dpf_errors, plotter
 
-        plt = plotter.DpfPlotter(**kwargs)
         if label_space is None:
             label_space = {}
-        fields = self.get_fields(label_space=label_space)
-        # Fields with same support will override each other so we first merge them
-        merge_op = dpf.core.operators.utility.merge_fields()
-        for i, f in enumerate(fields):
-            merge_op.connect(i, f)
-        merged_field = merge_op.eval()
-        plt.add_field(field=merged_field, **kwargs)
+
+        filtered_fc = FieldsContainer(server=self._server)
+        # Declare the same labels as self so add_field() doesn't fail
+        for label in self.labels:
+            filtered_fc.add_label(label)
+        # Keep only the fields matching the requested label_space; these are later
+        # scatter-merged onto the mesh when add_fields_container is called (later
+        # fields overwrite earlier ones on overlap).
+        for i, _ in enumerate(self):
+            label_space_i = self.get_label_space(i)
+            if all(label_space_i.get(k) == v for k, v in label_space.items()):
+                filtered_fc.add_field(label_space=label_space_i, field=self[i])
+
+        # Guard: reject empty meshes early with the same error the legacy
+        # ``Plotter.plot_contour`` raised, so callers get a consistent error type.
+        reference_field = next((f for f in filtered_fc if len(f.data) != 0), None)
+        if reference_field is not None and reference_field.meshed_region.is_empty():
+            raise dpf_errors.EmptyMeshPlottingError
+
+        plt = plotter.DpfPlotter(**kwargs)
+        plt.add_fields_container(
+            fields_container=filtered_fc,
+            show_axes=kwargs.pop("show_axes", True),
+            **kwargs,
+        )
+        kwargs.pop("notebook", None)
         return plt.show_figure(**kwargs)
 
     def animate(  # noqa: PLR0915

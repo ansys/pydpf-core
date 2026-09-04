@@ -30,12 +30,12 @@ class field_get_attribute(Operator):
     ------
     field: Field or FieldsContainer
     property_name: str
-        Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping', 'header' and 'datasize'.
+        Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping', 'header', 'datasize' and 'data'.
 
     Outputs
     -------
-    property: str or TimeFreqSupport or Scoping or DataTree
-        Property value that is returned. Accepted Outputs are: Field, PropertyField, CustomTypeField or their containers.
+    property: str or TimeFreqSupport or Scoping or DataTree or int
+        Property value that is returned.
 
     Examples
     --------
@@ -91,7 +91,7 @@ and a property name (string) in pin 1 are expected as inputs.
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document=r"""Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping', 'header' and 'datasize'.""",
+                    document=r"""Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping', 'header', 'datasize' and 'data'.""",
                 ),
             },
             map_output_pin_spec={
@@ -102,9 +102,14 @@ and a property name (string) in pin 1 are expected as inputs.
                         "time_freq_support",
                         "scoping",
                         "abstract_data_tree",
+                        "int32",
+                        "vector<double>",
+                        "vector<int32>",
+                        "vector<string>",
+                        "vector<char>",
                     ],
                     optional=False,
-                    document=r"""Property value that is returned. Accepted Outputs are: Field, PropertyField, CustomTypeField or their containers.""",
+                    document=r"""Property value that is returned.""",
                 ),
             },
         )
@@ -202,7 +207,7 @@ class InputsFieldGetAttribute(_Inputs):
     def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
-        Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping', 'header' and 'datasize'.
+        Property to get. Accepted inputs are specific strings namely: 'unit, 'name','time_freq_support', 'scoping', 'header', 'datasize' and 'data'.
 
         Returns
         -------
@@ -266,3 +271,43 @@ class OutputsFieldGetAttribute(_Outputs):
             op,
         )
         self._outputs.append(self.property_as_data_tree)
+        self.property_as_int32 = Output(
+            _modify_output_spec_with_one_type(
+                field_get_attribute._spec().output_pin(0), "int32"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_as_int32)
+        self.property_as_vector_double_ = Output(
+            _modify_output_spec_with_one_type(
+                field_get_attribute._spec().output_pin(0), "vector_double_"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_as_vector_double_)
+        self.property_as_vector_int32_ = Output(
+            _modify_output_spec_with_one_type(
+                field_get_attribute._spec().output_pin(0), "vector_int32_"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_as_vector_int32_)
+        self.property_as_vector_string_ = Output(
+            _modify_output_spec_with_one_type(
+                field_get_attribute._spec().output_pin(0), "vector_string_"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_as_vector_string_)
+        self.property_as_vector_char_ = Output(
+            _modify_output_spec_with_one_type(
+                field_get_attribute._spec().output_pin(0), "vector_char_"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_as_vector_char_)

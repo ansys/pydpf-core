@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -30,6 +30,7 @@ import warnings
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.available_result import Homogeneity
 from ansys.dpf.core.check_version import (
+    meets_version,
     server_meet_version,
     server_meet_version_and_raise,
     version_requires,
@@ -280,9 +281,14 @@ class FieldDefinition:
     def dimensionality(self, value: Dimensionality):
         if not isinstance(value, Dimensionality):
             raise TypeError("the dimensionality needs to be of type Dimensionality")
-        self._api.csfield_definition_set_dimensionality(
-            self, int(value.nature.value), value.dim, len(value.dim)
-        )
+        if not meets_version(self._server.version, "16.2"):
+            self._api.csfield_definition_set_dimensionality(
+                self, int(value.nature.value), value.dim, len(value.dim)
+            )
+        else:  # mirroring the HGP setDimensions
+            self._api.csfield_definition_set_dimensionality(
+                self, value.component_count, value.dim, len(value.dim)
+            )
 
     def deep_copy(self, server=None):
         """Create a deep copy of the field_definition's data on a given server.
@@ -307,6 +313,13 @@ class FieldDefinition:
     def __del__(self):
         """Delete the current instance."""
         try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
+            if hasattr(self, "_deleter_func"):
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    self._deleter_func[0](obj)
+        except Exception:
+            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
+            warn = getattr(warnings, "warn", None)
+            format_exc = getattr(traceback, "format_exc", None)
+            if warn is not None and format_exc is not None:
+                warn(format_exc())

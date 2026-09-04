@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -66,8 +66,9 @@ def test_chart_plotter(plate_msup):
     disp = model.results.displacement()
     disp.inputs.time_scoping.connect(timeids)
     new_fields_container = disp.get_output(0, dpf.core.types.fields_container)
-    pl = Plotter(model.metadata.meshed_region)
-    ret = pl.plot_chart(new_fields_container)
+    with pytest.warns(DeprecationWarning):
+        pl = Plotter(model.metadata.meshed_region)
+        ret = pl.plot_chart(new_fields_container)
     assert ret
 
 
@@ -112,7 +113,8 @@ def test_plotter_on_field(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     field = fc[1]
-    pl = Plotter(model.metadata.meshed_region)
+    with pytest.warns(DeprecationWarning):
+        pl = Plotter(model.metadata.meshed_region)
     fields_container = dpf.core.FieldsContainer()
     fields_container.add_label("time")
     fields_container.add_field({"time": 1}, field)
@@ -127,7 +129,8 @@ def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     avg_op = Operator("to_elemental_fc")
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
-    pl = Plotter(model.metadata.meshed_region)
+    with pytest.warns(DeprecationWarning):
+        pl = Plotter(model.metadata.meshed_region)
     _ = pl.plot_contour(fc)
 
 
@@ -139,7 +142,8 @@ def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     avg_op = Operator("to_nodal_fc")
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
-    pl = Plotter(model.metadata.meshed_region)
+    with pytest.warns(DeprecationWarning):
+        pl = Plotter(model.metadata.meshed_region)
     _ = pl.plot_contour(fc)
 
 
@@ -281,7 +285,8 @@ def test_field_elemental_nodal_plot_multi_shells(multishells):
     from ansys.dpf.core.plotter import Plotter
 
     field = fc[0]
-    plt = Plotter(field.meshed_region)
+    with pytest.warns(DeprecationWarning):
+        plt = Plotter(field.meshed_region)
     plt.plot_contour(fc)
     field.plot()
 
@@ -521,16 +526,6 @@ def test_throw_complex_file(complex_model):
     mesh = model.metadata.meshed_region
     with pytest.raises(dpf_errors.ComplexPlottingError):
         mesh.plot(fc)
-
-
-@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-@pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
-def test_plot_contour_using_vtk_file(complex_model):
-    model = core.Model(complex_model)
-    stress = model.results.displacement()
-    fc = stress.outputs.fields_container()
-    pl = Plotter(model.metadata.meshed_region)
-    pl._plot_contour_using_vtk_file(fc)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")

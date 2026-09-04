@@ -32,7 +32,7 @@ repos:
     -   id: requirements-txt-fixer
 
 -   repo: https://github.com/ansys/pre-commit-hooks
-    rev: v0.4.4
+    rev: v0.8.0
     hooks:
     -   id: add-license-headers
         args:

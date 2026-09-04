@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -30,8 +30,9 @@ from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import FieldDefinition, operators as ops
 from ansys.dpf.core.available_result import Homogeneity
-from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.check_version import meets_version, server_meet_version
 from ansys.dpf.core.common import locations, shell_layers
+from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.gate.errors import DPFServerException, DpfVersionNotSupported
 import conftest
 from conftest import (
@@ -45,7 +46,6 @@ def stress_field(allkindofcomplexity, server_type):
     model = dpf.core.Model(allkindofcomplexity, server=server_type)
     stress = model.results.stress()
     return stress.outputs.fields_container()[0]
-
 
 def test_create_field(server_type):
     field = dpf.core.Field(server=server_type)
@@ -288,7 +288,6 @@ def test_field_definition_modif_field(allkindofcomplexity):
     fielddef.shell_layers = dpf.core.shell_layers.bottom
     assert fielddef.shell_layers == dpf.core.shell_layers.bottom
 
-
 def test_field_definition_set_in_field(allkindofcomplexity):
     dataSource = dpf.core.DataSources()
     dataSource.set_result_file_path(allkindofcomplexity)
@@ -481,7 +480,9 @@ def test_to_nodal(stress_field):
 def test_mesh_support_field(stress_field):
     mesh = stress_field.meshed_region
     assert len(mesh.nodes.scoping) == 15129
-    if server_meet_version("9.0", mesh._server):
+    if server_meet_version("15.0", mesh._server):
+        assert len(mesh.elements.scoping) == 10497
+    elif server_meet_version("9.0", mesh._server):
         assert len(mesh.elements.scoping) == 10294
     else:
         assert len(mesh.elements.scoping) == 10292
@@ -511,7 +512,9 @@ def test_mesh_support_field_model(allkindofcomplexity):
     f = stress.outputs.fields_container()[0]
     mesh = f.meshed_region
     assert len(mesh.nodes.scoping) == 15129
-    if server_meet_version("9.0", model._server):
+    if server_meet_version("15.0", model._server):
+        assert len(mesh.elements.scoping) == 10497
+    elif server_meet_version("9.0", model._server):
         assert len(mesh.elements.scoping) == 10294
     else:
         assert len(mesh.elements.scoping) == 10292
@@ -1436,3 +1439,56 @@ def test_deep_copy_field_with_dimensionless_unit(server_type):
     assert my_field_copy is not None
     assert my_field_copy.unit == my_field.unit
     assert my_field_copy.unit == (Homogeneity.dimensionless, "some_units")
+
+@pytest.fixture(
+    params=[
+        pytest.param((dpf.core.natures.scalar, [1], 1, 1), id="scalar"),
+        pytest.param((dpf.core.natures.vector, [3], 3, 3), id="vector"),
+        pytest.param((dpf.core.natures.symmatrix, [3, 3], 9, 6), id="symmetric_matrix"),
+    ]
+)
+def dimensionality_test_data(request, server_type):
+    nature, dimensions, legacy_component_count, current_component_count = request.param
+    if not meets_version(server_type.version, "16.2"):
+        expected_component_count = legacy_component_count
+    else:
+        expected_component_count = current_component_count
+
+    dimensionality = dpf.core.Dimensionality(dimensions, nature, server=server_type)
+    return dimensionality, expected_component_count
+
+def test_dimensionality_component_count(dimensionality_test_data):
+    dimensionality, expected_component_count = dimensionality_test_data
+
+    assert dimensionality.component_count == expected_component_count
+
+
+def test_field_definition_set_dimensionality_component_count(
+    dimensionality_test_data, server_type
+):
+    dimensionality, expected_component_count = dimensionality_test_data
+    field_definition = FieldDefinition(server=server_type)
+
+    field_definition.dimensionality = dimensionality
+    dimensionality_out = field_definition.dimensionality
+
+    assert dimensionality_out == dimensionality
+    assert dimensionality_out.component_count == expected_component_count
+
+def test_field_definition_set_dimensionality_component_count_matrix(server_type):
+    nature, dimensions, legacy_component_count, current_component_count = (dpf.core.natures.matrix, [3, 3], 9, 9)
+    if not meets_version(server_type.version, "16.2"):
+        expected_component_count = legacy_component_count
+    else:
+        expected_component_count = current_component_count
+    dimensionality = dpf.core.Dimensionality(dimensions, nature, server=server_type)
+
+    assert dimensionality.component_count == expected_component_count
+
+    field_definition = FieldDefinition(server=server_type)
+    field_definition.dimensionality = dimensionality
+
+    if not meets_version(server_type.version, "16.2"):
+        assert field_definition.dimensionality == dpf.core.Dimensionality([3,3], dpf.core.natures.symmatrix)
+    else:
+        assert field_definition.dimensionality == dpf.core.Dimensionality([3,3], dpf.core.natures.matrix)

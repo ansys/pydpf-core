@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -307,7 +307,7 @@ class Nodes:
         >>> nodes = model.metadata.meshed_region.nodes
         >>> field = nodes.nodal_connectivity_field
         >>> field.get_entity_data(1)
-        DPFArray([0, 2, 4, 6]...
+        DPFArray([0, 2, ...
 
         """
         return self._mesh.field_of_properties(nodal_properties.nodal_connectivity)

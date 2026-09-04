@@ -52,6 +52,14 @@ class ExternalOperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def external_operator_set_exception_type(operator_data, type):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_add_exception_attribute(operator_data, key, value):
+		raise NotImplementedError
+
+	@staticmethod
 	def external_operator_put_out_collection(operator_data, pin_index, data):
 		raise NotImplementedError
 
@@ -216,6 +224,14 @@ class ExternalOperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def external_operator_get_in_uint64(operator_data, pin_index):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_put_out_uint64(operator_data, pin_index, data):
+		raise NotImplementedError
+
+	@staticmethod
 	def external_operator_get_in_double(operator_data, pin_index):
 		raise NotImplementedError
 
@@ -224,11 +240,11 @@ class ExternalOperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def external_operator_get_in_long_long(operator_data, pin_index):
+	def external_operator_get_in_int64(operator_data, pin_index):
 		raise NotImplementedError
 
 	@staticmethod
-	def external_operator_put_out_long_long(operator_data, pin_index, data):
+	def external_operator_put_out_int64(operator_data, pin_index, data):
 		raise NotImplementedError
 
 	@staticmethod
@@ -253,6 +269,14 @@ class ExternalOperatorAbstractAPI:
 
 	@staticmethod
 	def external_operator_put_out_vecint(operator_data, pin_index, data, size):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_get_in_vec_uint64(operator_data, pin_index, size):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_put_out_vec_uint64(operator_data, pin_index, data, size):
 		raise NotImplementedError
 
 	@staticmethod

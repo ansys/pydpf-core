@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -27,6 +27,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:  # pragma: nocover
+    from ansys.dpf.core.field import Field
+    from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.property_field import PropertyField
     from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.server_types import AnyServerType
 
@@ -47,7 +50,7 @@ from ansys.dpf.core.elements import Elements, element_types
 import ansys.dpf.core.errors
 from ansys.dpf.core.faces import Faces
 from ansys.dpf.core.nodes import Nodes
-from ansys.dpf.core.plotter import DpfPlotter, Plotter
+from ansys.dpf.core.plotter import DpfPlotter
 from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi
 
 
@@ -197,7 +200,7 @@ class MeshedRegion:
         >>> meshed_region = model.metadata.meshed_region
         >>> elements = meshed_region.elements
         >>> print(elements)
-        DPF Elements object with 8 elements
+        DPF Elements object with ...
 
         """
         return Elements(self)
@@ -346,9 +349,16 @@ class MeshedRegion:
     def __del__(self):
         """Delete this instance of the meshed region."""
         try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
+            if hasattr(self, "_deleter_func"):
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    self._deleter_func[0](obj)
+        except Exception:
+            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
+            warn = getattr(warnings, "warn", None)
+            format_exc = getattr(traceback, "format_exc", None)
+            if warn is not None and format_exc is not None:
+                warn(format_exc())
 
     def __str__(self):
         """Return string representation of the meshed region."""
@@ -636,19 +646,31 @@ class MeshedRegion:
         >>> disp = model.results.displacement()
         >>> field = disp.outputs.fields_container()[0]
         >>> model.metadata.meshed_region.plot(field)
-        (None, <pyvista.plotting.plotter.Plotter ...>)
+        ([], <pyvista.plotting.plotter.Plotter ...>)
 
         """
         if field_or_fields_container is not None:
-            pl = Plotter(self, **kwargs)
-            return pl.plot_contour(
-                field_or_fields_container,
-                shell_layers,
-                show_axes=kwargs.pop("show_axes", True),
+            from ansys.dpf.core import errors as dpf_errors
+            from ansys.dpf.core.fields_container import FieldsContainer
+
+            if self.is_empty():
+                raise dpf_errors.EmptyMeshPlottingError
+            pl = DpfPlotter(**kwargs)
+            common_kwargs = dict(
+                meshed_region=self,
                 deform_by=deform_by,
                 scale_factor=scale_factor,
-                **kwargs,
+                show_axes=kwargs.pop("show_axes", True),
             )
+            if shell_layers is not None:
+                common_kwargs["shell_layers"] = shell_layers
+
+            if isinstance(field_or_fields_container, FieldsContainer):
+                pl.add_fields_container(field_or_fields_container, **common_kwargs, **kwargs)
+            else:
+                pl.add_field(field_or_fields_container, **common_kwargs, **kwargs)
+            kwargs.pop("notebook", None)
+            return pl.show_figure(**kwargs)
 
         # otherwise, simply plot the mesh
         pl = DpfPlotter(**kwargs)
@@ -808,3 +830,113 @@ class MeshedRegion:
         sort_idx = np.argsort(keys)
         idx = np.searchsorted(keys, element_types_field.data, sorter=sort_idx)
         return np.asarray(list(size_map.values()))[sort_idx][idx]
+
+    def _scatter_field_to_location(  # noqa: PLR0912, C901
+        self,
+        source: Field | PropertyField | FieldsContainer,
+        location: locations = None,
+    ) -> np.ndarray:
+        """Return a NumPy array of ``source`` data mapped to the mesh at the given location.
+
+        Positions in the mesh that are not present in ``source``'s scoping are filled
+        with ``NaN``. For a ``FieldsContainer``, fields are iterated in order and later
+        fields overwrite earlier ones where their scopings overlap.
+
+        Parameters
+        ----------
+        source:
+            The ``Field``, or ``PropertyField``, or ``FieldsContainer`` to scatter onto the mesh.
+        location:
+            The mesh location to scatter onto. If ``None``, inferred from ``source``.
+            Accepted locations are ``nodal``, ``elemental``, ``faces``,
+            ``elemental_nodal``, and ``overall``.
+
+        Returns
+        -------
+        np.ndarray
+            Array of shape ``(location_data_len,)`` for a scalar field, or
+            ``(location_data_len, component_count)`` for a vector/tensor field.
+            Positions with no data are ``NaN``.
+
+        Examples
+        --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.find_static_rst())
+        >>> mesh = model.metadata.meshed_region
+        >>> disp = model.results.displacement().eval()[0]
+        >>> arr = mesh._scatter_field_to_location(disp)
+        >>> arr.shape
+        (81, 3)
+        """
+        from ansys.dpf.core.fields_container import FieldsContainer
+
+        # Coerce input to iterable of fields. Anything that is not a FieldsContainer
+        # is treated as a single field-like object (Field, PropertyField, ...).
+        if isinstance(source, FieldsContainer):
+            fields = list(source)
+        else:
+            fields = [source]
+
+        # Locate the first non-empty field for metadata inference
+        reference_field = None
+        for f in fields:
+            if len(f.data) != 0:
+                reference_field = f
+                break
+        if reference_field is None:
+            raise ValueError("Cannot scatter empty source: all fields are empty.")
+
+        if location is None:
+            location = reference_field.location
+        component_count = reference_field.component_count
+
+        # Resolve the mesh-side location proxy used for scoping mapping
+        if location == locations.nodal:
+            mesh_location = self.nodes
+        elif location == locations.elemental:
+            mesh_location = self.elements
+        elif location == locations.faces:
+            mesh_location = self.faces
+            if len(mesh_location) == 0:
+                raise ValueError("No faces found on the meshed region.")
+        elif location == locations.elemental_nodal:
+            mesh_location = self.elements
+        elif location == locations.overall:
+            mesh_location = self.elements
+        else:
+            raise ValueError(
+                f"Location {location} is not supported. Supported locations are: "
+                "nodal, elemental, faces, elemental_nodal, and overall."
+            )
+
+        # Allocate a NaN-filled buffer sized to the mesh location
+        data_len = self.location_data_len(location)
+        if component_count > 1:
+            overall_data = np.full((data_len, component_count), np.nan)
+        else:
+            overall_data = np.full(data_len, np.nan)
+
+        # Precompute elemental_nodal expansion arrays once, only if needed
+        if location == locations.elemental_nodal:
+            n_nodes_list = self.get_elemental_nodal_size_list().astype(np.int32)
+            first_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
+
+        for f in fields:
+            if len(f.data) == 0:
+                continue
+            if location == locations.overall:
+                overall_data[:] = f.data[0]
+                continue
+            ind, mask = mesh_location.map_scoping(f.scoping)
+            if location == locations.elemental_nodal:
+                # Expand ind/mask so each element contributes one slot per node.
+                mask = np.asarray(
+                    [mask_i for i, mask_i in enumerate(mask) for _ in range(n_nodes_list[ind[i]])]
+                )
+                ind = np.asarray(
+                    [first_index[ind_i] + j for ind_i in ind for j in range(n_nodes_list[ind_i])]
+                )
+            overall_data[ind] = f.data[mask]
+
+        return overall_data

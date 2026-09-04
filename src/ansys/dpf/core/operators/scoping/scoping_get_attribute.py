@@ -29,12 +29,12 @@ class scoping_get_attribute(Operator):
     ------
     scoping: Scoping
     property_name: str
-        Supported property names are: "ids", "location".
+        Supported property names are: "ids", "maximum_id", and "location".
 
     Outputs
     -------
     property: str
-        Returns a vector of int for property: "ids" and a string for property: "location".
+        Returns a vector of int for property: "ids" an int for  "maximum_id" and a string for property: "location".
 
     Examples
     --------
@@ -90,7 +90,7 @@ input.
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document=r"""Supported property names are: "ids", "location".""",
+                    document=r"""Supported property names are: "ids", "maximum_id", and "location".""",
                 ),
             },
             map_output_pin_spec={
@@ -98,7 +98,7 @@ input.
                     name="property",
                     type_names=["vector<int32>", "string"],
                     optional=False,
-                    document=r"""Returns a vector of int for property: "ids" and a string for property: "location".""",
+                    document=r"""Returns a vector of int for property: "ids" an int for  "maximum_id" and a string for property: "location".""",
                 ),
             },
         )
@@ -196,7 +196,7 @@ class InputsScopingGetAttribute(_Inputs):
     def property_name(self) -> Input[str]:
         r"""Allows to connect property_name input to the operator.
 
-        Supported property names are: "ids", "location".
+        Supported property names are: "ids", "maximum_id", and "location".
 
         Returns
         -------

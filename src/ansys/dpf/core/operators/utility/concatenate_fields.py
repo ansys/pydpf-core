@@ -29,6 +29,10 @@ class concatenate_fields(Operator):
 
     Inputs
     ------
+    ignore_empty: bool, optional
+        If true, the empty fields will be ignored.
+         If false, they are merged depending on pins -2 and -3.
+        Default is true.
     rescoping_value: float, optional
         Value used to fill the missing values when scopings are different. Default is 0.
     reference_scoping_index: int, optional
@@ -54,6 +58,8 @@ class concatenate_fields(Operator):
     >>> op = dpf.operators.utility.concatenate_fields()
 
     >>> # Make input connections
+    >>> my_ignore_empty = bool()
+    >>> op.inputs.ignore_empty.connect(my_ignore_empty)
     >>> my_rescoping_value = float()
     >>> op.inputs.rescoping_value.connect(my_rescoping_value)
     >>> my_reference_scoping_index = int()
@@ -67,6 +73,7 @@ class concatenate_fields(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.concatenate_fields(
+    ...     ignore_empty=my_ignore_empty,
     ...     rescoping_value=my_rescoping_value,
     ...     reference_scoping_index=my_reference_scoping_index,
     ...     field_support=my_field_support,
@@ -80,6 +87,7 @@ class concatenate_fields(Operator):
 
     def __init__(
         self,
+        ignore_empty=None,
         rescoping_value=None,
         reference_scoping_index=None,
         field_support=None,
@@ -95,6 +103,8 @@ class concatenate_fields(Operator):
             inputs_type=InputsConcatenateFields,
             outputs_type=OutputsConcatenateFields,
         )
+        if ignore_empty is not None:
+            self.inputs.ignore_empty.connect(ignore_empty)
         if rescoping_value is not None:
             self.inputs.rescoping_value.connect(rescoping_value)
         if reference_scoping_index is not None:
@@ -117,6 +127,14 @@ RY, RZ } - Output field : { UX, UY, UZ, RX, RY, RZ }
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -4: PinSpecification(
+                    name="ignore_empty",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""If true, the empty fields will be ignored.
+ If false, they are merged depending on pins -2 and -3.
+Default is true.""",
+                ),
                 -3: PinSpecification(
                     name="rescoping_value",
                     type_names=["double"],
@@ -212,6 +230,8 @@ class InputsConcatenateFields(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.concatenate_fields()
+    >>> my_ignore_empty = bool()
+    >>> op.inputs.ignore_empty.connect(my_ignore_empty)
     >>> my_rescoping_value = float()
     >>> op.inputs.rescoping_value.connect(my_rescoping_value)
     >>> my_reference_scoping_index = int()
@@ -226,6 +246,10 @@ class InputsConcatenateFields(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(concatenate_fields._spec().inputs, op)
+        self._ignore_empty: Input[bool] = Input(
+            concatenate_fields._spec().input_pin(-4), -4, op, -1
+        )
+        self._inputs.append(self._ignore_empty)
         self._rescoping_value: Input[float] = Input(
             concatenate_fields._spec().input_pin(-3), -3, op, -1
         )
@@ -242,6 +266,29 @@ class InputsConcatenateFields(_Inputs):
         self._inputs.append(self._fields1)
         self._fields2: Input = Input(concatenate_fields._spec().input_pin(1), 1, op, 1)
         self._inputs.append(self._fields2)
+
+    @property
+    def ignore_empty(self) -> Input[bool]:
+        r"""Allows to connect ignore_empty input to the operator.
+
+        If true, the empty fields will be ignored.
+         If false, they are merged depending on pins -2 and -3.
+        Default is true.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.concatenate_fields()
+        >>> op.inputs.ignore_empty.connect(my_ignore_empty)
+        >>> # or
+        >>> op.inputs.ignore_empty(my_ignore_empty)
+        """
+        return self._ignore_empty
 
     @property
     def rescoping_value(self) -> Input[float]:

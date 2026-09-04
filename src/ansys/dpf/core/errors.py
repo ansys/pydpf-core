@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -28,6 +28,8 @@ from ansys.dpf.gate.errors import (  # noqa: F401
     DPFServerException,
     DPFServerNullObject,
     DpfVersionNotSupported,
+    OperatorFrame,
+    format_dpf_error,
 )  # noqa: F401
 
 _COMPLEX_PLOTTING_ERROR_MSG = """

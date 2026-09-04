@@ -1,6 +1,6 @@
 [build-system]
 build-backend = "setuptools.build_meta"
-requires = ["setuptools>=82.0.1", "wheel"]
+requires = ["setuptools>=83.0.0", "wheel"]
 
 [project]
 # Check https://setuptools.pypa.io/en/stable/userguide/quickstart.html for all available sections
@@ -34,7 +34,6 @@ dependencies = [
     "packaging",
     "protobuf",
     "psutil",
-    "setuptools",
     "tqdm"
 ]
 
@@ -71,11 +70,11 @@ operator_doc = [
 [dependency-groups]
 
 doc = [
-  "ansys-sphinx-theme[autoapi]==1.7.2",
+  "ansys-sphinx-theme[autoapi]==1.10.0",
   "ansys-tools-visualization-interface>=0.13.0",
   "enum-tools[sphinx]==0.13.0",
   "graphviz==0.21",
-  "imageio==2.37.3",
+  "imageio==2.37.4",
   "imageio-ffmpeg==0.6.0",
   "jupyter_sphinx==0.5.3",
   "pdf2image==1.17.0",
@@ -83,7 +82,7 @@ doc = [
   "pypandoc==1.17",
   "pytest-sphinx==0.7.1",
   "pyvista[jupyter]==0.48.4",
-  "quarto-cli==1.9.38",
+  "quarto-cli==1.10.18",
   "sphinx==8.2.3",
   "sphinx-copybutton==0.5.2",
   "sphinx-gallery==0.21.0",
@@ -95,35 +94,38 @@ doc = [
   "vtk==9.6.0"
 ]
 test = [
-  "ansys-platform-instancemanagement==1.1.2",
-  "ansys-tools-common==0.5.1",
+  "ansys-platform-instancemanagement==1.2.0",
+  "ansys-tools-common==0.5.2",
   "ansys-tools-visualization-interface>=0.13.0",
-  "coverage==7.14.3",
+  "coverage==7.15.4",
   "graphviz==0.21",
-  "imageio==2.37.3",
+  "imageio==2.37.4",
   "imageio-ffmpeg==0.6.0",
   "jinja2==3.1.6",
   "pypandoc_binary==1.17",
   "pytest==9.1.1",
   "pytest-cov==7.1.0",
   "pytest-order==1.5.0",
-  "pytest-rerunfailures==16.3",
+  "pytest-rerunfailures==16.6",
   "pyvista==0.48.4",
   "vtk==9.6.0"
 ]
 build = [
   "black==26.5.1",
-  "build==1.5.0",
+  "build==1.5.1",
   "chevron==0.14.0",
   "pypandoc_binary==1.17",
-  "wheel==0.47.0"
+  "wheel==0.48.0"
 ]
 install = [
   "importlib-metadata==9.0.0",
   "numpy==2.4.1",
-  "packaging==26.2",
+  "packaging==26.3",
   "psutil==7.2.2",
-  "tqdm==4.68.3"
+  "tqdm==4.70.0"
+]
+operator_doc = [
+  "jinja2==3.1.6"
 ]
 
 [project.urls]

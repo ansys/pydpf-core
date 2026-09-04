@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,6 +22,8 @@
 
 """Dimensionality."""
 
+from ansys.dpf.core import server as server_module
+from ansys.dpf.core.check_version import meets_version
 from ansys.dpf.core.common import natures
 
 
@@ -43,7 +45,13 @@ class Dimensionality:
 
     """
 
-    def __init__(self, dim_vec=None, nature: natures = natures.vector):  # noqa: C901
+    def __init__(  # noqa: C901
+        self, dim_vec=None, nature: natures = natures.vector, dimensionality=None, server=None
+    ):
+        # step 1: get server
+        self._server = server_module.get_or_create_server(
+            dimensionality._server if isinstance(dimensionality, Dimensionality) else server
+        )
         self.dim = dim_vec
         self.nature = nature
         # set nature
@@ -92,8 +100,21 @@ class Dimensionality:
             Number of components.
         """
         count = 1
-        for comp in self.dim:
-            count *= comp
+        if not meets_version(self._server.version, "16.2"):
+            for comp in self.dim:
+                count *= comp
+        else:  # mirroring the numberOfComponent API in DPF Framework
+            match self.nature:
+                case natures.scalar:
+                    count = 1
+                case natures.vector:
+                    count = self.dim[0]
+                case natures.symmatrix:
+                    count = (self.dim[0] * (self.dim[1] + 1)) // 2
+                case _:
+                    for comp in self.dim:
+                        count *= comp
+
         return count
 
     @staticmethod

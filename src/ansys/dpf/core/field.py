@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -550,7 +550,7 @@ class Field(_FieldBase):
         >>> fields_container = disp.outputs.fields_container()
         >>> field = fields_container[0]
         >>> mesh.plot(field)
-        (None, <pyvista.plotting.plotter.Plotter ...>)
+        ([], <pyvista.plotting.plotter.Plotter ...>)
 
         Parameters
         ----------
@@ -567,19 +567,26 @@ class Field(_FieldBase):
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
-        from ansys.dpf.core.plotter import Plotter
+        from ansys.dpf.core import errors as dpf_errors
+        from ansys.dpf.core.common import shell_layers as eshell_layers
+        from ansys.dpf.core.plotter import DpfPlotter
 
         if meshed_region is None:
             meshed_region = self.meshed_region
-        pl = Plotter(meshed_region, **kwargs)
-        return pl.plot_contour(
+        if meshed_region.is_empty():
+            raise dpf_errors.EmptyMeshPlottingError
+        pl = DpfPlotter(**kwargs)
+        pl.add_field(
             self,
-            shell_layers,
+            meshed_region=meshed_region,
             deform_by=deform_by,
             scale_factor=scale_factor,
+            shell_layer=shell_layers if shell_layers is not None else eshell_layers.top,
             show_axes=kwargs.pop("show_axes", True),
             **kwargs,
         )
+        kwargs.pop("notebook", None)
+        return pl.show_figure(**kwargs)
 
     def resize(self, nentities, datasize):
         """Allocate memory.

@@ -55,7 +55,7 @@ from .make_one_on_comp import make_one_on_comp
 from .matrix_inverse import matrix_inverse
 from .matrix_product import matrix_product
 from .matrix_product_fc import matrix_product_fc
-from .min_max_over_time import min_max_over_time
+from .mechanical_min_max_over_time import mechanical_min_max_over_time
 from .minus import minus
 from .minus_fc import minus_fc
 from .modal_damping_ratio import modal_damping_ratio

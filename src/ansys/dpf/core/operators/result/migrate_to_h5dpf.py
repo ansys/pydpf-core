@@ -40,17 +40,17 @@ class migrate_to_h5dpf(Operator):
     h5_native_compression: int or DataTree or GenericDataContainer, optional
         Integer value / DataTree that defines the h5 native compression used For Integer Input {0: No Compression (default); 1-9: GZIP Compression : 9 provides maximum compression but at the slowest speed.}For DataTree Input {type: None / GZIP / ZSTD; level: GZIP (1-9) / ZSTD (1-20); num_threads: ZSTD (>0)}
     export_floats: bool or GenericDataContainer, optional
-        Converts double to float to reduce file size (default is true).If False, nodal results are exported as double precision and elemental results as single precision.
+        Converts double to float to reduce file size (default is true).If no value is provided, nodal results are exported as double precision and elemental results as single precision.
     filename: str
-        filename of the migrated file
+        filename of the migrated file, or stream from a previous migration.
     comma_separated_list_of_results: str, optional
         list of results (source operator names) separated by semicolons that will be stored. (Example: U;S;EPEL). If empty, all available results will be converted.
     all_time_sets: bool, optional
         Deprecated. Please use filtering workflows instead to select time scoping. Default is false.
     streams_container: StreamsContainer, optional
-        streams (result file container) (optional)
+        Input stream to migrate (optional)
     data_sources: DataSources, optional
-        if the stream is null then we need to get the file path from the data sources
+        Input data source to migrate. If the stream is null then we need to get the file path from the data sources
     compression_workflow: Workflow or GenericDataContainer, optional
         BETA Option: Applies input compression workflow.
     filtering_workflow: Workflow or GenericDataContainer, optional
@@ -59,6 +59,8 @@ class migrate_to_h5dpf(Operator):
     Outputs
     -------
     migrated_file: DataSources
+    migrated_file_streams: StreamsContainer
+        Stream of the migrated file, for reuse in incremental migration.
 
     Examples
     --------
@@ -108,6 +110,7 @@ class migrate_to_h5dpf(Operator):
 
     >>> # Get output data
     >>> result_migrated_file = op.outputs.migrated_file()
+    >>> result_migrated_file_streams = op.outputs.migrated_file_streams()
     """
 
     def __init__(
@@ -197,13 +200,13 @@ will map an item to a result name. Example of Map: {{ default: wf1},
                     name="export_floats",
                     type_names=["bool", "generic_data_container"],
                     optional=True,
-                    document=r"""Converts double to float to reduce file size (default is true).If False, nodal results are exported as double precision and elemental results as single precision.""",
+                    document=r"""Converts double to float to reduce file size (default is true).If no value is provided, nodal results are exported as double precision and elemental results as single precision.""",
                 ),
                 0: PinSpecification(
                     name="filename",
                     type_names=["string"],
                     optional=False,
-                    document=r"""filename of the migrated file""",
+                    document=r"""filename of the migrated file, or stream from a previous migration.""",
                 ),
                 1: PinSpecification(
                     name="comma_separated_list_of_results",
@@ -221,13 +224,13 @@ will map an item to a result name. Example of Map: {{ default: wf1},
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=True,
-                    document=r"""streams (result file container) (optional)""",
+                    document=r"""Input stream to migrate (optional)""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=True,
-                    document=r"""if the stream is null then we need to get the file path from the data sources""",
+                    document=r"""Input data source to migrate. If the stream is null then we need to get the file path from the data sources""",
                 ),
                 6: PinSpecification(
                     name="compression_workflow",
@@ -248,6 +251,12 @@ will map an item to a result name. Example of Map: {{ default: wf1},
                     type_names=["data_sources"],
                     optional=False,
                     document=r"""""",
+                ),
+                1: PinSpecification(
+                    name="migrated_file_streams",
+                    type_names=["streams_container"],
+                    optional=False,
+                    document=r"""Stream of the migrated file, for reuse in incremental migration.""",
                 ),
             },
         )
@@ -443,7 +452,7 @@ class InputsMigrateToH5Dpf(_Inputs):
     def export_floats(self) -> Input[bool | GenericDataContainer]:
         r"""Allows to connect export_floats input to the operator.
 
-        Converts double to float to reduce file size (default is true).If False, nodal results are exported as double precision and elemental results as single precision.
+        Converts double to float to reduce file size (default is true).If no value is provided, nodal results are exported as double precision and elemental results as single precision.
 
         Returns
         -------
@@ -464,7 +473,7 @@ class InputsMigrateToH5Dpf(_Inputs):
     def filename(self) -> Input[str]:
         r"""Allows to connect filename input to the operator.
 
-        filename of the migrated file
+        filename of the migrated file, or stream from a previous migration.
 
         Returns
         -------
@@ -527,7 +536,7 @@ class InputsMigrateToH5Dpf(_Inputs):
     def streams_container(self) -> Input[StreamsContainer]:
         r"""Allows to connect streams_container input to the operator.
 
-        streams (result file container) (optional)
+        Input stream to migrate (optional)
 
         Returns
         -------
@@ -548,7 +557,7 @@ class InputsMigrateToH5Dpf(_Inputs):
     def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
-        if the stream is null then we need to get the file path from the data sources
+        Input data source to migrate. If the stream is null then we need to get the file path from the data sources
 
         Returns
         -------
@@ -618,6 +627,7 @@ class OutputsMigrateToH5Dpf(_Outputs):
     >>> op = dpf.operators.result.migrate_to_h5dpf()
     >>> # Connect inputs : op.inputs. ...
     >>> result_migrated_file = op.outputs.migrated_file()
+    >>> result_migrated_file_streams = op.outputs.migrated_file_streams()
     """
 
     def __init__(self, op: Operator):
@@ -626,6 +636,10 @@ class OutputsMigrateToH5Dpf(_Outputs):
             migrate_to_h5dpf._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._migrated_file)
+        self._migrated_file_streams: Output[StreamsContainer] = Output(
+            migrate_to_h5dpf._spec().output_pin(1), 1, op
+        )
+        self._outputs.append(self._migrated_file_streams)
 
     @property
     def migrated_file(self) -> Output[DataSources]:
@@ -644,3 +658,23 @@ class OutputsMigrateToH5Dpf(_Outputs):
         >>> result_migrated_file = op.outputs.migrated_file()
         """
         return self._migrated_file
+
+    @property
+    def migrated_file_streams(self) -> Output[StreamsContainer]:
+        r"""Allows to get migrated_file_streams output of the operator
+
+        Stream of the migrated file, for reuse in incremental migration.
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.migrate_to_h5dpf()
+        >>> # Get the output from op.outputs. ...
+        >>> result_migrated_file_streams = op.outputs.migrated_file_streams()
+        """
+        return self._migrated_file_streams

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -396,10 +396,16 @@ class Scoping:
             If an exception occurs while attempting to delete resources.
         """
         try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except Exception as e:
-            print(str(e.args), str(self._deleter_func[0]))
-            warnings.warn(traceback.format_exc())
+            if hasattr(self, "_deleter_func"):
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    self._deleter_func[0](obj)
+        except Exception:
+            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
+            warn = getattr(warnings, "warn", None)
+            format_exc = getattr(traceback, "format_exc", None)
+            if warn is not None and format_exc is not None:
+                warn(format_exc())
 
     def __iter__(self):
         """Return an iterator over the scoping ids."""

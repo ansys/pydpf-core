@@ -21,18 +21,40 @@ if TYPE_CHECKING:
 
 
 class min_max_fc(Operator):
-    r"""Compute the component-wise minimum (out 0) and maximum (out 1) over a
-    fields container.
+    r"""Computes, for each field of the input fields container and for each
+    component, the minimum and the maximum across all entities of that
+    field.
+
+    Also known as component-wise min/max over a fields container.
+
+    The output minimum (pin 0) and maximum (pin 1) are fields with one
+    entity per input field. Each entity holds, for each component, the min
+    or max value found in the corresponding input field. The entity ids in
+    the output scoping are the input field indices in the fields container.
+
+    Within each input field, all elementary values contribute to the
+    reduction: elemental-nodal expansions and shell-layer values (when
+    present) are folded into the same per-component min/max.
+
+    **When to use:** you want one per-component summary per field of the
+    container, without reducing across fields. Example: peak of each stress
+    component per body when the container groups fields by body id. Use
+    ``min_max`` for a single field, ``min_max_by_entity`` to keep per-entity
+    resolution across fields, or ``min_max_over_label_fc`` to group fields
+    by label before reducing.
 
 
     Inputs
     ------
     fields_container: FieldsContainer
+        Fields container over which per-field, per-component minima and maxima are computed.
 
     Outputs
     -------
     field_min: Field
+        Field of per-field, per-component minima. One entity per input field.
     field_max: Field
+        Field of per-field, per-component maxima. One entity per input field.
 
     Examples
     --------
@@ -68,8 +90,27 @@ class min_max_fc(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Compute the component-wise minimum (out 0) and maximum (out 1) over a
-fields container.
+        description = r"""Computes, for each field of the input fields container and for each
+component, the minimum and the maximum across all entities of that
+field.
+
+Also known as component-wise min/max over a fields container.
+
+The output minimum (pin 0) and maximum (pin 1) are fields with one
+entity per input field. Each entity holds, for each component, the min
+or max value found in the corresponding input field. The entity ids in
+the output scoping are the input field indices in the fields container.
+
+Within each input field, all elementary values contribute to the
+reduction: elemental-nodal expansions and shell-layer values (when
+present) are folded into the same per-component min/max.
+
+**When to use:** you want one per-component summary per field of the
+container, without reducing across fields. Example: peak of each stress
+component per body when the container groups fields by body id. Use
+``min_max`` for a single field, ``min_max_by_entity`` to keep per-entity
+resolution across fields, or ``min_max_over_label_fc`` to group fields
+by label before reducing.
 """
         spec = Specification(
             description=description,
@@ -78,7 +119,7 @@ fields container.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Fields container over which per-field, per-component minima and maxima are computed.""",
                 ),
             },
             map_output_pin_spec={
@@ -86,13 +127,13 @@ fields container.
                     name="field_min",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field of per-field, per-component minima. One entity per input field.""",
                 ),
                 1: PinSpecification(
                     name="field_max",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Field of per-field, per-component maxima. One entity per input field.""",
                 ),
             },
         )
@@ -165,6 +206,8 @@ class InputsMinMaxFc(_Inputs):
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
 
+        Fields container over which per-field, per-component minima and maxima are computed.
+
         Returns
         -------
         input:
@@ -205,6 +248,8 @@ class OutputsMinMaxFc(_Outputs):
     def field_min(self) -> Output[Field]:
         r"""Allows to get field_min output of the operator
 
+        Field of per-field, per-component minima. One entity per input field.
+
         Returns
         -------
         output:
@@ -222,6 +267,8 @@ class OutputsMinMaxFc(_Outputs):
     @property
     def field_max(self) -> Output[Field]:
         r"""Allows to get field_max output of the operator
+
+        Field of per-field, per-component maxima. One entity per input field.
 
         Returns
         -------
