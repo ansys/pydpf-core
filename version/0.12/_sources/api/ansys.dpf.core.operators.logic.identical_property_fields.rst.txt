@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.logic.identical_property_fields
+   :inherited-members:

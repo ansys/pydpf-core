@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.current_density
+   :inherited-members:

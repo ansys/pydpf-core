@@ -1,0 +1,365 @@
+
+
+
+
+
+
+:class:`InputsCyclicExpansion`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.result.cyclic_expansion.InputsCyclicExpansion(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   cyclic_expansion operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expansion()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.ScopingsContainer()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_harmonic_index = int()
+   >>> op.inputs.harmonic_index.connect(my_harmonic_index)
+   >>> my_bool_rotate_to_global = bool()
+   >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+   >>> my_map_size_scoping_out = dpf.()
+   >>> op.inputs.map_size_scoping_out.connect(my_map_size_scoping_out)
+   >>> my_normalization_factor = float()
+   >>> op.inputs.normalization_factor.connect(my_normalization_factor)
+   >>> my_merge_stages = bool()
+   >>> op.inputs.merge_stages.connect(my_merge_stages)
+   >>> my_cyclic_support = dpf.CyclicSupport()
+   >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+   >>> my_sectors_to_expand = dpf.Scoping()
+   >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+   >>> my_phi = float()
+   >>> op.inputs.phi.connect(my_phi)
+
+
+
+
+
+
+.. py:currentmodule:: InputsCyclicExpansion
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~harmonic_index`
+            - Allows to connect harmonic_index input to the operator.
+          * - :py:attr:`~bool_rotate_to_global`
+            - Allows to connect bool_rotate_to_global input to the operator.
+          * - :py:attr:`~map_size_scoping_out`
+            - Allows to connect map_size_scoping_out input to the operator.
+          * - :py:attr:`~normalization_factor`
+            - Allows to connect normalization_factor input to the operator.
+          * - :py:attr:`~merge_stages`
+            - Allows to connect merge_stages input to the operator.
+          * - :py:attr:`~cyclic_support`
+            - Allows to connect cyclic_support input to the operator.
+          * - :py:attr:`~sectors_to_expand`
+            - Allows to connect sectors_to_expand input to the operator.
+          * - :py:attr:`~phi`
+            - Allows to connect phi input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.cyclic_expansion import InputsCyclicExpansion
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect time_scoping input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expansion()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: mesh_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mesh_scoping input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expansion()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fields_container input to the operator.
+
+   field container with the base and duplicate sectors
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expansion()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: harmonic_index
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect harmonic_index input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expansion()
+   >>> op.inputs.harmonic_index.connect(my_harmonic_index)
+   >>> # or
+   >>> op.inputs.harmonic_index(my_harmonic_index)
+
+.. py:property:: bool_rotate_to_global
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect bool_rotate_to_global input to the operator.
+
+   default is true
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expansion()
+   >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+   >>> # or
+   >>> op.inputs.bool_rotate_to_global(my_bool_rotate_to_global)
+
+.. py:property:: map_size_scoping_out
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect map_size_scoping_out input to the operator.
+
+   map provider by scoping adapter
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expansion()
+   >>> op.inputs.map_size_scoping_out.connect(my_map_size_scoping_out)
+   >>> # or
+   >>> op.inputs.map_size_scoping_out(my_map_size_scoping_out)
+
+.. py:property:: normalization_factor
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect normalization_factor input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expansion()
+   >>> op.inputs.normalization_factor.connect(my_normalization_factor)
+   >>> # or
+   >>> op.inputs.normalization_factor(my_normalization_factor)
+
+.. py:property:: merge_stages
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect merge_stages input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expansion()
+   >>> op.inputs.merge_stages.connect(my_merge_stages)
+   >>> # or
+   >>> op.inputs.merge_stages(my_merge_stages)
+
+.. py:property:: cyclic_support
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect cyclic_support input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expansion()
+   >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+   >>> # or
+   >>> op.inputs.cyclic_support(my_cyclic_support)
+
+.. py:property:: sectors_to_expand
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect sectors_to_expand input to the operator.
+
+   sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expansion()
+   >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+   >>> # or
+   >>> op.inputs.sectors_to_expand(my_sectors_to_expand)
+
+.. py:property:: phi
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect phi input to the operator.
+
+   angle phi in degrees (default value 0.0)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.cyclic_expansion()
+   >>> op.inputs.phi.connect(my_phi)
+   >>> # or
+   >>> op.inputs.phi(my_phi)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

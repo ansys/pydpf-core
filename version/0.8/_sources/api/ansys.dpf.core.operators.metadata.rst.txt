@@ -1,0 +1,31 @@
+ansys.dpf.core.operators.metadata package
+=========================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.metadata.boundary_condition_provider
+   ansys.dpf.core.operators.metadata.cyclic_mesh_expansion
+   ansys.dpf.core.operators.metadata.cyclic_support_provider
+   ansys.dpf.core.operators.metadata.datasources_provider
+   ansys.dpf.core.operators.metadata.integrate_over_time_freq
+   ansys.dpf.core.operators.metadata.is_cyclic
+   ansys.dpf.core.operators.metadata.material_provider
+   ansys.dpf.core.operators.metadata.material_support_provider
+   ansys.dpf.core.operators.metadata.mesh_property_provider
+   ansys.dpf.core.operators.metadata.mesh_selection_manager_provider
+   ansys.dpf.core.operators.metadata.mesh_support_provider
+   ansys.dpf.core.operators.metadata.property_field_provider_by_name
+   ansys.dpf.core.operators.metadata.result_info_provider
+   ansys.dpf.core.operators.metadata.streams_provider
+   ansys.dpf.core.operators.metadata.time_freq_provider
+   ansys.dpf.core.operators.metadata.time_freq_support_get_attribute
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core.operators.metadata
+   :inherited-members:

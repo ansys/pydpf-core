@@ -1,0 +1,191 @@
+
+
+
+
+
+
+:class:`InputsMeshPlanClip`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.mesh.mesh_plan_clip.InputsMeshPlanClip(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   mesh_plan_clip operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_plan_clip()
+   >>> my_mesh_or_field = dpf.MeshedRegion()
+   >>> op.inputs.mesh_or_field.connect(my_mesh_or_field)
+   >>> my_normal = dpf.Field()
+   >>> op.inputs.normal.connect(my_normal)
+   >>> my_origin = dpf.Field()
+   >>> op.inputs.origin.connect(my_origin)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMeshPlanClip
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh_or_field`
+            - Allows to connect mesh_or_field input to the operator.
+          * - :py:attr:`~normal`
+            - Allows to connect normal input to the operator.
+          * - :py:attr:`~origin`
+            - Allows to connect origin input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.mesh_plan_clip import InputsMeshPlanClip
+
+Property detail
+---------------
+
+.. py:property:: mesh_or_field
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mesh_or_field input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_plan_clip()
+   >>> op.inputs.mesh_or_field.connect(my_mesh_or_field)
+   >>> # or
+   >>> op.inputs.mesh_or_field(my_mesh_or_field)
+
+.. py:property:: normal
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect normal input to the operator.
+
+   An overall 3D vector that gives the normal direction of the plane.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_plan_clip()
+   >>> op.inputs.normal.connect(my_normal)
+   >>> # or
+   >>> op.inputs.normal(my_normal)
+
+.. py:property:: origin
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect origin input to the operator.
+
+   An overall 3D vector that gives a point of the plane.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_plan_clip()
+   >>> op.inputs.origin.connect(my_origin)
+   >>> # or
+   >>> op.inputs.origin(my_origin)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

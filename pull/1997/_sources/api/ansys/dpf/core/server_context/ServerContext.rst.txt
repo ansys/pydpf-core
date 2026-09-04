@@ -1,0 +1,112 @@
+
+
+
+
+
+
+:class:`ServerContext`
+======================
+
+
+.. py:class:: ansys.dpf.core.server_context.ServerContext(context_type=LicensingContextType.premium, xml_path='')
+
+   The context defines whether DPF capabilities requiring a license checkout are allowed.
+
+   xml_path argument won't be taken into account if using LicensingContextType.entry.
+
+   :param context_type: Type of context.
+   :type context_type: LicensingContextType
+   :param xml_path: Path to the xml to load.
+   :type xml_path: str, optional
+
+
+
+
+
+
+.. py:currentmodule:: ServerContext
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~licensing_context_type`
+            - Whether capabilities requiring Licenses checkout should be allowed.
+          * - :py:attr:`~xml_path`
+            - Path to the xml listing the capabilities to load on the server.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Return string representation of the ServerContext instance.
+          * - :py:attr:`~__eq__`
+            - Compare two ServerContext instances for equality.
+          * - :py:attr:`~__ne__`
+            - Check that two server contexts are not equal.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.server_context import ServerContext
+
+Property detail
+---------------
+
+.. py:property:: licensing_context_type
+
+   Whether capabilities requiring Licenses checkout should be allowed.
+
+   :rtype: LicensingContextType
+
+.. py:property:: xml_path
+
+   Path to the xml listing the capabilities to load on the server.
+
+   :rtype: str
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+   Return string representation of the ServerContext instance.
+
+
+.. py:method:: __eq__(other)
+
+   Compare two ServerContext instances for equality.
+
+
+.. py:method:: __ne__(other)
+
+   Check that two server contexts are not equal.
+
+
+
+
+

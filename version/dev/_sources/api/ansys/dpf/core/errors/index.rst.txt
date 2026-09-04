@@ -1,0 +1,136 @@
+
+
+
+
+
+
+The ``errors.py`` module
+========================
+
+.. py:module:: ansys.dpf.core.errors
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: errors
+.. tab-set::
+
+
+
+
+
+
+    .. tab-item:: Exceptions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.errors.DpfValueError`
+            - Error raised when a specific DPF error value must be defined.
+
+
+          * - :py:obj:`~ansys.dpf.core.errors.InvalidTypeError`
+            - Error raised when a parameter has the wrong type.
+
+
+          * - :py:obj:`~ansys.dpf.core.errors.LocationError`
+            - Error raised when using an invalid location.
+
+
+          * - :py:obj:`~ansys.dpf.core.errors.ComplexPlottingError`
+            - Error raised when attempting to plot a field with complex data.
+
+
+          * - :py:obj:`~ansys.dpf.core.errors.FieldContainerPlottingError`
+            - Error raised when attempting to plot a fields_container containing multiple fields.
+
+
+          * - :py:obj:`~ansys.dpf.core.errors.EmptyMeshPlottingError`
+            - Error raised when attempting to plot data with no mesh.
+
+
+          * - :py:obj:`~ansys.dpf.core.errors.InvalidANSYSVersionError`
+            - Error raised when the Ansys version is invalid.
+
+
+          * - :py:obj:`~ansys.dpf.core.errors.InvalidPortError`
+            - Error raised when used an invalid port when starting DPF.
+
+
+          * - :py:obj:`~ansys.dpf.core.errors.ServerTypeError`
+            - Error raised when using a functionality unavailable for this server type.
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~protect_source_op_not_found`
+            - Capture DPF's Server exceptions when a source operator is not found and return a more succinct error message.
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-md-lightning_bolt"></span> DpfValueError</api/ansys/dpf/core/errors/DpfValueError>
+    <span class="nf nf-md-lightning_bolt"></span> InvalidTypeError</api/ansys/dpf/core/errors/InvalidTypeError>
+    <span class="nf nf-md-lightning_bolt"></span> LocationError</api/ansys/dpf/core/errors/LocationError>
+    <span class="nf nf-md-lightning_bolt"></span> ComplexPlottingError</api/ansys/dpf/core/errors/ComplexPlottingError>
+    <span class="nf nf-md-lightning_bolt"></span> FieldContainerPlottingError</api/ansys/dpf/core/errors/FieldContainerPlottingError>
+    <span class="nf nf-md-lightning_bolt"></span> EmptyMeshPlottingError</api/ansys/dpf/core/errors/EmptyMeshPlottingError>
+    <span class="nf nf-md-lightning_bolt"></span> InvalidANSYSVersionError</api/ansys/dpf/core/errors/InvalidANSYSVersionError>
+    <span class="nf nf-md-lightning_bolt"></span> InvalidPortError</api/ansys/dpf/core/errors/InvalidPortError>
+    <span class="nf nf-md-lightning_bolt"></span> ServerTypeError</api/ansys/dpf/core/errors/ServerTypeError>
+
+
+
+
+
+
+
+Description
+-----------
+
+Errors.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: protect_source_op_not_found(func)
+
+   Capture DPF's Server exceptions when a source operator is not found and return a more succinct error message.
+
+
+
+

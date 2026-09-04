@@ -1,0 +1,1263 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Understand cyclic expansion of results &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/ansys-sphinx-theme.css?v=a23b20f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles\ansys-sphinx-theme.css?v=a23b20f3" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=f3be7b20" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../_static/documentation_options.js?v=a64471e3"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/import_data/cyclic_expansion';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Meshes" href="../mesh/index.html" />
+    <link rel="prev" title="Speed up data requests from files using streams" href="streams_for_multiple_operators.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.16.0.dev0" />
+  <meta property="og:site_name" content="PyAnsys" />
+  <meta name="physics" content="Structures" />
+  <meta name="physics" content="Fluids" />
+  <meta name="physics" content="Multiphysics" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Starting with PyDPF-Core 0.15.0, gRPC communication with the DPF server defaults to requiring mTLS authentication.
+Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dpf_server.html#run-dpf-server-in-secure-mode-with-mtls'>this page</a> for more information.</div>
+</aside>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+  
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    
+<!--
+  Announcement Version Loader
+  Dynamically loads the announcement.html content into the announcement_msg div.
+-->
+<div id="announcement_msg" aria-live="polite"></div>
+<script>
+  // Fetch and inject the announcement HTML content
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status} Announcement.html file not found, Please ignore this, if you are in dev/stable documentation`);
+      }
+      return response.text();
+    })
+    .then((text) => {
+      var msgDiv = document.getElementById("announcement_msg");
+      if (msgDiv) {
+        msgDiv.innerHTML = text;
+      }
+    })
+    .catch((error) => {
+      // Log only unexpected fetch errors
+      if (!(error.message && error.message.startsWith("HTTP error: 404"))) {
+        console.error(`Fetch problem: ${error.message} Announcement.html could not be loaded.`);
+      }
+    });
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+  
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../data_structures/index.html">DPF data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../post_processing_basics/index.html">Processing data basics</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Import Data</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="load_custom_data.html">Load custom data in DPF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="import_result_file.html">Import a result file in DPF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_and_explore_results_metadata.html">Extract and explore results metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_and_explore_results_data.html">Extract and explore results data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="narrow_down_data.html">Narrow down data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streams_for_multiple_operators.html">Speed up data requests from files using streams</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Understand cyclic expansion of results</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operators_and_workflows/index.html">Process data with operators and workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../export_data/index.html">Export data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../animate/index.html">Animate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/index.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_operators_and_plugins/index.html">Custom Operators and Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributed_files/index.html">Post-process distributed files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dpf_server/index.html">DPF server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../licensing/index.html">Licensing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mapping/index.html">Mapping</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../index.html" class="nav-link">Tutorials</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">Import Data</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Understand cyclic expansion of results</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-tutorials-import-data-cyclic-expansion-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="understand-cyclic-expansion-of-results">
+<span id="ref-tutorials-import-data-cyclic-expansion"></span><span id="sphx-glr-tutorials-import-data-cyclic-expansion-py"></span><h1>Understand cyclic expansion of results<a class="headerlink" href="#understand-cyclic-expansion-of-results" title="Link to this heading">#</a></h1>
+<p><span class="sd-sphinx-override sd-badge sd-bg-mapdl sd-bg-text-mapdl">MAPDL</span></p>
+<p>Learn how DPF handles cyclic symmetry data and the different cyclic expansion modes.</p>
+<p>When a model possesses cyclic symmetry, only one sector (the base sector) is solved.
+DPF can read these results in different ways depending on the <code class="docutils literal notranslate"><span class="pre">read_cyclic</span></code> option
+passed to a result operator. This tutorial demonstrates the four modes available
+(<code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">3</span></code>) and shows how to perform phase sweeping on the expanded
+results.</p>
+<section id="import-modules-and-load-the-model">
+<h2>Import modules and load the model<a class="headerlink" href="#import-modules-and-load-the-model" title="Link to this heading">#</a></h2>
+<p>Import the required modules and create a <a href="#id1"><span class="problematic" id="id2">|Model|</span></a> from the built-in cyclic
+symmetry example file.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the ansys.dpf.core module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+
+<span class="c1"># Import the examples module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+
+<span class="c1"># Get the path to the cyclic result file</span>
+<span class="n">result_url</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_modal_cyclic_complex</span><span class="p">()</span>
+
+<span class="c1"># Create the Model</span>
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">result_url</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_model</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+Modal analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mechanical
+Available results:
+     -  node_orientations: Nodal Node Euler Angles
+     -  displacement: Nodal Displacement
+------------------------------
+DPF  Meshed Region:
+  3657 nodes
+  1971 elements
+  Unit: m
+  With solid (3D) elements
+------------------------------
+DPF  Time/Freq Support:
+  Number of sets: 20
+  With complex values
+
+Cumulative     Frequency (Hz) LoadStep       Substep        Harmonic index
+1              4835.762046    1              1              0.000000
+2              -4835.762046   1              2              0.000000
+3              7234.790337    1              3              0.000000
+4              -7234.790337   1              4              0.000000
+5              6392.626554    2              1              1.000000
+6              -6392.626554   2              2              1.000000
+7              6392.626555    2              3              1.000000
+8              -6392.626555   2              4              1.000000
+9              10393.671212   3              1              2.000000
+10             -10393.671212  3              2              2.000000
+11             10393.671229   3              3              2.000000
+12             -10393.671229  3              4              2.000000
+13             20590.278527   4              1              3.000000
+14             -20590.278527  4              2              3.000000
+15             20590.278562   4              3              3.000000
+16             -20590.278562  4              4              3.000000
+17             29384.351699   5              1              4.000000
+18             -29384.351699  5              2              4.000000
+19             30633.687681   5              3              4.000000
+20             -30633.687681  5              4              4.000000
+</pre></div>
+</div>
+</section>
+<section id="explore-the-cyclic-metadata">
+<h2>Explore the cyclic metadata<a class="headerlink" href="#explore-the-cyclic-metadata" title="Link to this heading">#</a></h2>
+<p>A cyclic model exposes a
+<a class="reference internal" href="../../api/ansys/dpf/core/cyclic_support/CyclicSupport.html#ansys.dpf.core.cyclic_support.CyclicSupport" title="ansys.dpf.core.cyclic_support.CyclicSupport"><code class="xref py py-class docutils literal notranslate"><span class="pre">CyclicSupport</span></code></a> that
+provides the number of sectors, node counts on the base sector, and the
+mapping between low and high boundary nodes.</p>
+<p>The <a href="#id3"><span class="problematic" id="id4">|TimeFreqSupport|</span></a> describes how solution sets map to harmonic indices and
+mode numbers.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the TimeFreqSupport. In this model we have a damped, cyclic, modal analysis.</span>
+<span class="c1"># Therefore, mode shapes are complex. The model spans 45º, therefore there are 8</span>
+<span class="c1"># sectors and harmonic indices range from 0 to 4. The MAPDL analysis has been run</span>
+<span class="c1"># ensuring that we extract 4 cyclic modes per harmonic index and all harmonic</span>
+<span class="c1"># indices, this means 5*4 = 20 solution sets, so 10 real-imaginary combinations.</span>
+<span class="c1"># In the print of the TimeFreqSupport we can see the 20 solution sets, and by default</span>
+<span class="c1"># only the imaginary part of the frequency is printed. Each LoadStep is a harmonic</span>
+<span class="c1"># index and each substep represents a cyclic mode for each one of them. For both</span>
+<span class="c1"># harmonic indices 0 and 4, modes are standalone, whereas for the intermediate</span>
+<span class="c1"># indices modes come in pairs.</span>
+<span class="n">tfs</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tfs</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Time/Freq Support:
+  Number of sets: 20
+  With complex values
+
+Cumulative     Frequency (Hz) LoadStep       Substep        Harmonic index
+1              4835.762046    1              1              0.000000
+2              -4835.762046   1              2              0.000000
+3              7234.790337    1              3              0.000000
+4              -7234.790337   1              4              0.000000
+5              6392.626554    2              1              1.000000
+6              -6392.626554   2              2              1.000000
+7              6392.626555    2              3              1.000000
+8              -6392.626555   2              4              1.000000
+9              10393.671212   3              1              2.000000
+10             -10393.671212  3              2              2.000000
+11             10393.671229   3              3              2.000000
+12             -10393.671229  3              4              2.000000
+13             20590.278527   4              1              3.000000
+14             -20590.278527  4              2              3.000000
+15             20590.278562   4              3              3.000000
+16             -20590.278562  4              4              3.000000
+17             29384.351699   5              1              4.000000
+18             -29384.351699  5              2              4.000000
+19             30633.687681   5              3              4.000000
+20             -30633.687681  5              4              4.000000
+</pre></div>
+</div>
+<p>Get the CyclicSupport from the ResultInfo. The CyclicSupport allows to understand
+the cyclic information of the model. We can see that we have only 1 stage with 8
+sectors (45º), 3657 nodes on each sector and high/low boundaries with 217 nodes.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">cyc_sup</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">result_info</span><span class="o">.</span><span class="n">cyclic_support</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cyc_sup</span><span class="p">)</span>
+
+<span class="c1"># Print the number of stages and sectors</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of stages: </span><span class="si">{</span><span class="n">cyc_sup</span><span class="o">.</span><span class="n">num_stages</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of sectors (stage 0): </span><span class="si">{</span><span class="n">cyc_sup</span><span class="o">.</span><span class="n">num_sectors</span><span class="p">(</span><span class="n">stage_num</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Print the number of boundary nodes (low-high map)</span>
+<span class="n">low_high</span> <span class="o">=</span> <span class="n">cyc_sup</span><span class="o">.</span><span class="n">low_high_map</span><span class="p">(</span><span class="n">stage_num</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of boundary nodes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">low_high</span><span class="o">.</span><span class="n">scoping</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Cyclic Support:
+  with 1 stages:
+  - stage 0: 8 sectors,
+    with 3657 nodes and 1971 elements in the base sector
+
+Number of stages: 1
+Number of sectors (stage 0): 8
+Number of boundary nodes: 217
+</pre></div>
+</div>
+</section>
+<section id="read-cyclic-mode-0-ignore-cyclic-symmetry">
+<h2>Read cyclic mode 0 - ignore cyclic symmetry<a class="headerlink" href="#read-cyclic-mode-0-ignore-cyclic-symmetry" title="Link to this heading">#</a></h2>
+<p>With <code class="docutils literal notranslate"><span class="pre">read_cyclic=0</span></code>, cyclic symmetry is completely ignored. DPF reads the
+base and duplicate sector data together into a single <a href="#id5"><span class="problematic" id="id6">|Field|</span></a> per solution set.
+Each Field contains data for all nodes stored in the file (base + duplicate
+sector, hence each Field has information for 3657*2 = 7314 nodes). Results are
+extracted at all solution sets. As the solutions are complex, and the information
+in the time scoping pin represents a cumulative id, if we want to read all we
+need to pass 1, 2, … 20/2 ids.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the displacement X operator</span>
+<span class="n">disp_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement_X</span><span class="p">()</span>
+<span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">streams_provider</span><span class="p">)</span>
+<span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tfs</span><span class="o">.</span><span class="n">time_frequencies</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="n">disp_rc0</span> <span class="o">=</span> <span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;read_cyclic=0:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">disp_rc0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>read_cyclic=0:
+DPF displacement(s)Fields Container
+  with 20 field(s)
+  defined on labels: complex time
+
+  with:
+  - field 0 {complex:  0, time:  1} with Nodal location, 1 components and 7314 entities.
+  - field 1 {complex:  1, time:  1} with Nodal location, 1 components and 7314 entities.
+  - field 2 {complex:  0, time:  2} with Nodal location, 1 components and 7314 entities.
+  - field 3 {complex:  1, time:  2} with Nodal location, 1 components and 7314 entities.
+  - field 4 {complex:  0, time:  3} with Nodal location, 1 components and 7314 entities.
+  - field 5 {complex:  1, time:  3} with Nodal location, 1 components and 7314 entities.
+  - field 6 {complex:  0, time:  4} with Nodal location, 1 components and 7314 entities.
+  - field 7 {complex:  1, time:  4} with Nodal location, 1 components and 7314 entities.
+  - field 8 {complex:  0, time:  5} with Nodal location, 1 components and 7314 entities.
+  - field 9 {complex:  1, time:  5} with Nodal location, 1 components and 7314 entities.
+  - field 10 {complex:  0, time:  6} with Nodal location, 1 components and 7314 entities.
+  - field 11 {complex:  1, time:  6} with Nodal location, 1 components and 7314 entities.
+  - field 12 {complex:  0, time:  7} with Nodal location, 1 components and 7314 entities.
+  - field 13 {complex:  1, time:  7} with Nodal location, 1 components and 7314 entities.
+  - field 14 {complex:  0, time:  8} with Nodal location, 1 components and 7314 entities.
+  - field 15 {complex:  1, time:  8} with Nodal location, 1 components and 7314 entities.
+  - field 16 {complex:  0, time:  9} with Nodal location, 1 components and 7314 entities.
+  - field 17 {complex:  1, time:  9} with Nodal location, 1 components and 7314 entities.
+  - field 18 {complex:  0, time:  10} with Nodal location, 1 components and 7314 entities.
+  - field 19 {complex:  1, time:  10} with Nodal location, 1 components and 7314 entities.
+</pre></div>
+</div>
+</section>
+<section id="read-cyclic-mode-1-read-as-cyclic-without-expansion-default">
+<h2>Read cyclic mode 1 - read as cyclic without expansion (default)<a class="headerlink" href="#read-cyclic-mode-1-read-as-cyclic-without-expansion-default" title="Link to this heading">#</a></h2>
+<p>With <code class="docutils literal notranslate"><span class="pre">read_cyclic=1</span></code> (the default), DPF reads the data as cyclic and splits
+results into base sector (<code class="docutils literal notranslate"><span class="pre">base_sector=1</span></code>) and duplicate sector
+(<code class="docutils literal notranslate"><span class="pre">base_sector=0</span></code>) Fields, hence, each Field has 3657 nodes. Harmonic indices
+without a duplicate sector (e.g., first HI = 0) only have the base sector Field,
+we have then 10*2*2 - 2*2*2 = 32 Fields (we lack the 8 combinations between
+base_sector = 0 and time = 1,2,3,4.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set read_cyclic to 1</span>
+<span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">disp_rc1</span> <span class="o">=</span> <span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;read_cyclic=1:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">disp_rc1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>read_cyclic=1:
+DPF displacement(s)Fields Container
+  with 32 field(s)
+  defined on labels: base_sector complex time
+
+  with:
+  - field 0 {complex:  0, base_sector:  1, time:  1} with Nodal location, 1 components and 3657 entities.
+  - field 1 {complex:  1, base_sector:  1, time:  1} with Nodal location, 1 components and 3657 entities.
+  - field 2 {complex:  0, base_sector:  1, time:  2} with Nodal location, 1 components and 3657 entities.
+  - field 3 {complex:  1, base_sector:  1, time:  2} with Nodal location, 1 components and 3657 entities.
+  - field 4 {complex:  0, base_sector:  1, time:  3} with Nodal location, 1 components and 3657 entities.
+  - field 5 {complex:  1, base_sector:  1, time:  3} with Nodal location, 1 components and 3657 entities.
+  - field 6 {complex:  0, base_sector:  1, time:  4} with Nodal location, 1 components and 3657 entities.
+  - field 7 {complex:  1, base_sector:  1, time:  4} with Nodal location, 1 components and 3657 entities.
+  - field 8 {complex:  0, base_sector:  1, time:  5} with Nodal location, 1 components and 3657 entities.
+  - field 9 {complex:  1, base_sector:  1, time:  5} with Nodal location, 1 components and 3657 entities.
+  - field 10 {complex:  0, base_sector:  1, time:  6} with Nodal location, 1 components and 3657 entities.
+  - field 11 {complex:  1, base_sector:  1, time:  6} with Nodal location, 1 components and 3657 entities.
+  - field 12 {complex:  0, base_sector:  1, time:  7} with Nodal location, 1 components and 3657 entities.
+  - field 13 {complex:  1, base_sector:  1, time:  7} with Nodal location, 1 components and 3657 entities.
+  - field 14 {complex:  0, base_sector:  1, time:  8} with Nodal location, 1 components and 3657 entities.
+  - field 15 {complex:  1, base_sector:  1, time:  8} with Nodal location, 1 components and 3657 entities.
+  - field 16 {complex:  0, base_sector:  1, time:  9} with Nodal location, 1 components and 3657 entities.
+  - field 17 {complex:  1, base_sector:  1, time:  9} with Nodal location, 1 components and 3657 entities.
+  - field 18 {complex:  0, base_sector:  1, time:  10} with Nodal location, 1 components and 3657 entities.
+  - field 19 {complex:  1, base_sector:  1, time:  10} with Nodal location, 1 components and 3657 entities.
+  - field 20 {complex:  0, base_sector:  0, time:  5} with Nodal location, 1 components and 3657 entities.
+  - field 21 {complex:  1, base_sector:  0, time:  5} with Nodal location, 1 components and 3657 entities.
+  - field 22 {complex:  0, base_sector:  0, time:  6} with Nodal location, 1 components and 3657 entities.
+  - field 23 {complex:  1, base_sector:  0, time:  6} with Nodal location, 1 components and 3657 entities.
+  - field 24 {complex:  0, base_sector:  0, time:  7} with Nodal location, 1 components and 3657 entities.
+  - field 25 {complex:  1, base_sector:  0, time:  7} with Nodal location, 1 components and 3657 entities.
+  - field 26 {complex:  0, base_sector:  0, time:  8} with Nodal location, 1 components and 3657 entities.
+  - field 27 {complex:  1, base_sector:  0, time:  8} with Nodal location, 1 components and 3657 entities.
+  - field 28 {complex:  0, base_sector:  0, time:  9} with Nodal location, 1 components and 3657 entities.
+  - field 29 {complex:  1, base_sector:  0, time:  9} with Nodal location, 1 components and 3657 entities.
+  - field 30 {complex:  0, base_sector:  0, time:  10} with Nodal location, 1 components and 3657 entities.
+  - field 31 {complex:  1, base_sector:  0, time:  10} with Nodal location, 1 components and 3657 entities.
+</pre></div>
+</div>
+</section>
+<section id="read-cyclic-mode-2-expand-without-merging-stages">
+<h2>Read cyclic mode 2 - expand without merging stages<a class="headerlink" href="#read-cyclic-mode-2-expand-without-merging-stages" title="Link to this heading">#</a></h2>
+<p>With <code class="docutils literal notranslate"><span class="pre">read_cyclic=2</span></code>, DPF performs the full cyclic expansion. The result
+Fields now contain the data for all sectors assembled into the full 360-degree
+model. Stages are kept separate (relevant for multi-stage models). In this
+case we obtain 10*2 Fields after collapsing the base_sector label. The base
+sector has 3657 nodes, and the low/high boundaries have 217 nodes, therefore
+each field     has 3657 + 6*(3657 - 217) + (3657 - 2*217) = 27520 nodes.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set read_cyclic to 2</span>
+<span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">disp_rc2</span> <span class="o">=</span> <span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;read_cyclic=2:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">disp_rc2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>read_cyclic=2:
+DPF  Fields Container
+  with 20 field(s)
+  defined on labels: complex time
+
+  with:
+  - field 0 {complex:  0, time:  1} with Nodal location, 1 components and 27520 entities.
+  - field 1 {complex:  1, time:  1} with Nodal location, 1 components and 27520 entities.
+  - field 2 {complex:  0, time:  2} with Nodal location, 1 components and 27520 entities.
+  - field 3 {complex:  1, time:  2} with Nodal location, 1 components and 27520 entities.
+  - field 4 {complex:  0, time:  3} with Nodal location, 1 components and 27520 entities.
+  - field 5 {complex:  1, time:  3} with Nodal location, 1 components and 27520 entities.
+  - field 6 {complex:  0, time:  4} with Nodal location, 1 components and 27520 entities.
+  - field 7 {complex:  1, time:  4} with Nodal location, 1 components and 27520 entities.
+  - field 8 {complex:  0, time:  5} with Nodal location, 1 components and 27520 entities.
+  - field 9 {complex:  1, time:  5} with Nodal location, 1 components and 27520 entities.
+  - field 10 {complex:  0, time:  6} with Nodal location, 1 components and 27520 entities.
+  - field 11 {complex:  1, time:  6} with Nodal location, 1 components and 27520 entities.
+  - field 12 {complex:  0, time:  7} with Nodal location, 1 components and 27520 entities.
+  - field 13 {complex:  1, time:  7} with Nodal location, 1 components and 27520 entities.
+  - field 14 {complex:  0, time:  8} with Nodal location, 1 components and 27520 entities.
+  - field 15 {complex:  1, time:  8} with Nodal location, 1 components and 27520 entities.
+  - field 16 {complex:  0, time:  9} with Nodal location, 1 components and 27520 entities.
+  - field 17 {complex:  1, time:  9} with Nodal location, 1 components and 27520 entities.
+  - field 18 {complex:  0, time:  10} with Nodal location, 1 components and 27520 entities.
+  - field 19 {complex:  1, time:  10} with Nodal location, 1 components and 27520 entities.
+</pre></div>
+</div>
+</section>
+<section id="read-cyclic-mode-3-expand-and-merge-stages">
+<h2>Read cyclic mode 3 - expand and merge stages<a class="headerlink" href="#read-cyclic-mode-3-expand-and-merge-stages" title="Link to this heading">#</a></h2>
+<p>With <code class="docutils literal notranslate"><span class="pre">read_cyclic=3</span></code>, the cyclic expansion is done and all stages are merged
+into a single mesh/result. For single-stage models as this one, this produces
+the same output as <code class="docutils literal notranslate"><span class="pre">read_cyclic=2</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set read_cyclic to 3</span>
+<span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">disp_rc3</span> <span class="o">=</span> <span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;read_cyclic=3:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">disp_rc3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>read_cyclic=3:
+DPF  Fields Container
+  with 20 field(s)
+  defined on labels: complex time
+
+  with:
+  - field 0 {complex:  0, time:  1} with Nodal location, 1 components and 27520 entities.
+  - field 1 {complex:  1, time:  1} with Nodal location, 1 components and 27520 entities.
+  - field 2 {complex:  0, time:  2} with Nodal location, 1 components and 27520 entities.
+  - field 3 {complex:  1, time:  2} with Nodal location, 1 components and 27520 entities.
+  - field 4 {complex:  0, time:  3} with Nodal location, 1 components and 27520 entities.
+  - field 5 {complex:  1, time:  3} with Nodal location, 1 components and 27520 entities.
+  - field 6 {complex:  0, time:  4} with Nodal location, 1 components and 27520 entities.
+  - field 7 {complex:  1, time:  4} with Nodal location, 1 components and 27520 entities.
+  - field 8 {complex:  0, time:  5} with Nodal location, 1 components and 27520 entities.
+  - field 9 {complex:  1, time:  5} with Nodal location, 1 components and 27520 entities.
+  - field 10 {complex:  0, time:  6} with Nodal location, 1 components and 27520 entities.
+  - field 11 {complex:  1, time:  6} with Nodal location, 1 components and 27520 entities.
+  - field 12 {complex:  0, time:  7} with Nodal location, 1 components and 27520 entities.
+  - field 13 {complex:  1, time:  7} with Nodal location, 1 components and 27520 entities.
+  - field 14 {complex:  0, time:  8} with Nodal location, 1 components and 27520 entities.
+  - field 15 {complex:  1, time:  8} with Nodal location, 1 components and 27520 entities.
+  - field 16 {complex:  0, time:  9} with Nodal location, 1 components and 27520 entities.
+  - field 17 {complex:  1, time:  9} with Nodal location, 1 components and 27520 entities.
+  - field 18 {complex:  0, time:  10} with Nodal location, 1 components and 27520 entities.
+  - field 19 {complex:  1, time:  10} with Nodal location, 1 components and 27520 entities.
+</pre></div>
+</div>
+</section>
+<section id="compare-field-sizes-across-modes">
+<h2>Compare Field sizes across modes<a class="headerlink" href="#compare-field-sizes-across-modes" title="Link to this heading">#</a></h2>
+<p>The following comparison shows how the number of entities grows with each
+expansion mode.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;read_cyclic=0, first field entities: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">disp_rc0</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;read_cyclic=1, first field entities: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">disp_rc1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;read_cyclic=2, first field entities: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">disp_rc2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;read_cyclic=3, first field entities: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">disp_rc3</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>read_cyclic=0, first field entities: 7314
+read_cyclic=1, first field entities: 3657
+read_cyclic=2, first field entities: 27520
+read_cyclic=3, first field entities: 27520
+</pre></div>
+</div>
+</section>
+<section id="phase-sweeping-on-expanded-results">
+<h2>Phase sweeping on expanded results<a class="headerlink" href="#phase-sweeping-on-expanded-results" title="Link to this heading">#</a></h2>
+<p>For complex mode shapes (modal cyclic analysis), you can perform a phase sweep
+to obtain results at any phase angle. The expression used is:</p>
+<div class="math notranslate nohighlight">
+\[\text{field\_out} = \text{real\_field} \cdot \cos(\theta)
+- \text{imaginary\_field} \cdot \sin(\theta)\]</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">sweeping_phase_fc</span></code> operator applies this to a <a href="#id7"><span class="problematic" id="id8">|FieldsContainer|</span></a> that
+contains paired real and imaginary Fields (identified by the <code class="docutils literal notranslate"><span class="pre">complex</span></code> label).</p>
+<p>A sweep at <span class="math notranslate nohighlight">\(\theta = 0º\)</span> recovers the real part, while
+<span class="math notranslate nohighlight">\(\theta = -90º\)</span> recovers the imaginary part.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the sweeping_phase_fc operator</span>
+<span class="n">sweep_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sweeping_phase_fc</span><span class="p">()</span>
+<span class="n">sweep_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">disp_rc2</span><span class="p">)</span>
+<span class="n">sweep_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">angle</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">sweep_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">unit_name</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;deg&quot;</span><span class="p">)</span>
+
+<span class="c1"># Evaluate at 0 degrees (real part)</span>
+<span class="n">disp_sweep_0</span> <span class="o">=</span> <span class="n">sweep_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Phase sweep at 0 degrees:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">disp_sweep_0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Phase sweep at 0 degrees:
+DPF  Fields Container
+  with 10 field(s)
+  defined on labels: time
+
+  with:
+  - field 0 {time:  1} with Nodal location, 1 components and 27520 entities.
+  - field 1 {time:  2} with Nodal location, 1 components and 27520 entities.
+  - field 2 {time:  3} with Nodal location, 1 components and 27520 entities.
+  - field 3 {time:  4} with Nodal location, 1 components and 27520 entities.
+  - field 4 {time:  5} with Nodal location, 1 components and 27520 entities.
+  - field 5 {time:  6} with Nodal location, 1 components and 27520 entities.
+  - field 6 {time:  7} with Nodal location, 1 components and 27520 entities.
+  - field 7 {time:  8} with Nodal location, 1 components and 27520 entities.
+  - field 8 {time:  9} with Nodal location, 1 components and 27520 entities.
+  - field 9 {time:  10} with Nodal location, 1 components and 27520 entities.
+</pre></div>
+</div>
+<p>Sweep at -90 degrees to recover the imaginary part.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">sweep_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">angle</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">-</span><span class="mf">90.0</span><span class="p">)</span>
+<span class="n">disp_sweep_90</span> <span class="o">=</span> <span class="n">sweep_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Phase sweep at -90 degrees:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">disp_sweep_90</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Phase sweep at -90 degrees:
+DPF  Fields Container
+  with 10 field(s)
+  defined on labels: time
+
+  with:
+  - field 0 {time:  1} with Nodal location, 1 components and 27520 entities.
+  - field 1 {time:  2} with Nodal location, 1 components and 27520 entities.
+  - field 2 {time:  3} with Nodal location, 1 components and 27520 entities.
+  - field 3 {time:  4} with Nodal location, 1 components and 27520 entities.
+  - field 4 {time:  5} with Nodal location, 1 components and 27520 entities.
+  - field 5 {time:  6} with Nodal location, 1 components and 27520 entities.
+  - field 6 {time:  7} with Nodal location, 1 components and 27520 entities.
+  - field 7 {time:  8} with Nodal location, 1 components and 27520 entities.
+  - field 8 {time:  9} with Nodal location, 1 components and 27520 entities.
+  - field 9 {time:  10} with Nodal location, 1 components and 27520 entities.
+</pre></div>
+</div>
+</section>
+<section id="visualize-expanded-results">
+<h2>Visualize expanded results<a class="headerlink" href="#visualize-expanded-results" title="Link to this heading">#</a></h2>
+<p>To visualize the expanded displacement, obtain the expanded mesh by setting
+<code class="docutils literal notranslate"><span class="pre">read_cyclic=2</span></code> on the mesh provider. Then plot the first expanded mode
+shape on the full 360-degree mesh.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the expanded mesh</span>
+<span class="n">mesh_provider</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">mesh_provider</span>
+<span class="n">mesh_provider</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">expanded_mesh</span> <span class="o">=</span> <span class="n">mesh_provider</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">()</span>
+
+<span class="c1"># Plot the first mode (real part) on the expanded mesh</span>
+<span class="n">expanded_mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">disp_rc2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Static Scene</label><div class="sd-tab-content docutils">
+<img src="../../_images/sphx_glr_cyclic_expansion_001.png" srcset="../../_images/sphx_glr_cyclic_expansion_001.png" alt="cyclic expansion" class = "sphx-glr-single-img"/></div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Interactive Scene</label><div class="sd-tab-content docutils">
+<iframe src='../../_static/static_viewer.html?fileURL=../_images/tutorials/import_data/images/sphx_glr_cyclic_expansion_001.vtksz' width='100%%' height='400px' frameborder='0'></iframe></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(None, &lt;pyvista.plotting.plotter.Plotter object at 0x000002565E2184D0&gt;)
+</pre></div>
+</div>
+</section>
+<section id="plot-a-phase-swept-result">
+<h2>Plot a phase-swept result<a class="headerlink" href="#plot-a-phase-swept-result" title="Link to this heading">#</a></h2>
+<p>Plot the first mode shape after sweeping at 45 degrees.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">sweep_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">angle</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mf">45.0</span><span class="p">)</span>
+<span class="n">disp_sweep_45</span> <span class="o">=</span> <span class="n">sweep_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+
+<span class="n">expanded_mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">disp_sweep_45</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Static Scene</label><div class="sd-tab-content docutils">
+<img src="../../_images/sphx_glr_cyclic_expansion_002.png" srcset="../../_images/sphx_glr_cyclic_expansion_002.png" alt="cyclic expansion" class = "sphx-glr-single-img"/></div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+Interactive Scene</label><div class="sd-tab-content docutils">
+<iframe src='../../_static/static_viewer.html?fileURL=../_images/tutorials/import_data/images/sphx_glr_cyclic_expansion_002.vtksz' width='100%%' height='400px' frameborder='0'></iframe></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(None, &lt;pyvista.plotting.plotter.Plotter object at 0x0000025605750ED0&gt;)
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 4.357 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-import-data-cyclic-expansion-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/6d99c34e849c4f649e5fa3b7800c9faa/cyclic_expansion.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">cyclic_expansion.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/2a332ac5020d2a1261f2c74e65a308e5/cyclic_expansion.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">cyclic_expansion.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/512b7877a6a5357b9430ec944d469030/cyclic_expansion.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">cyclic_expansion.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-modules-and-load-the-model">Import modules and load the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explore-the-cyclic-metadata">Explore the cyclic metadata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-cyclic-mode-0-ignore-cyclic-symmetry">Read cyclic mode 0 - ignore cyclic symmetry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-cyclic-mode-1-read-as-cyclic-without-expansion-default">Read cyclic mode 1 - read as cyclic without expansion (default)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-cyclic-mode-2-expand-without-merging-stages">Read cyclic mode 2 - expand without merging stages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-cyclic-mode-3-expand-and-merge-stages">Read cyclic mode 3 - expand and merge stages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-field-sizes-across-modes">Compare Field sizes across modes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-sweeping-on-expanded-results">Phase sweeping on expanded results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-expanded-results">Visualize expanded results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-a-phase-swept-result">Plot a phase-swept result</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/tutorials/import_data/cyclic_expansion.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2026 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<!--
+  Theme Version Footer
+  Displays the Sphinx theme version and the last updated date.
+  Accessibility and semantic improvements included.
+-->
+<footer class="theme-version" aria-label="Theme version and last update">
+  <span>
+    
+      Built with the
+      <a href="https://sphinxdocs.ansys.com/version/stable/index.html" target="_blank" rel="noopener noreferrer">
+        Ansys Sphinx Theme
+      </a>
+      1.7.2.
+    
+  </span>
+  <br />
+  <span>Last updated on <time id="ast_build_date"></time></span>
+</footer>
+<script>
+  // Set the last updated date in a readable format
+  (function() {
+    var options = { day: "numeric", month: "long", year: "numeric" };
+    var ast_lastModifiedDate = new Date(document.lastModified);
+    var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+    var dateElem = document.getElementById("ast_build_date");
+    if (dateElem) {
+      dateElem.textContent = ast_build_date;
+    }
+  })();
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

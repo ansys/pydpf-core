@@ -1,0 +1,1073 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The generate_operators_doc.py module &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/styles/ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/styles\ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/custom.css?v=f3be7b20" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../../../../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../../../../../_static/documentation_options.js?v=52d5597a"></script>
+    <script src="../../../../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys/dpf/core/documentation/generate_operators_doc/index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.15';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../../../../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" />
+    <link rel="next" title="Jinja2ImportError" href="Jinja2ImportError.html" />
+    <link rel="prev" title="The documentation package" href="../index.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.15.0" />
+  <meta property="og:site_name" content="PyAnsys" />
+  <meta name="physics" content="Structures" />
+  <link rel="canonical" href="https://dpf.docs.pyansys.com/version/stable/api/ansys/dpf/core/documentation/generate_operators_doc/index.html" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Starting with PyDPF-Core 0.15.0, gRPC communication with the DPF server defaults to requiring mTLS authentication.
+Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dpf_server.html#run-dpf-server-in-secure-mode-with-mtls'>this page</a> for more information.</div>
+</aside>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../../../../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../../index.html">
+    API reference
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../../index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html"><span class="nf nf-md-package"></span> ansys.dpf.core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html"> <span class="nf nf-md-package"></span> documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="current reference internal" href="#"> <span class="nf nf-fa-file"></span> generate_operators_doc</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="Jinja2ImportError.html"> <span class="nf nf-md-lightning_bolt"></span> Jinja2ImportError</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/index.html"> <span class="nf nf-md-package"></span> examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../helpers/index.html"> <span class="nf nf-md-package"></span> helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../operators/index.html"> <span class="nf nf-md-package"></span> operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../workflow_topology/index.html"> <span class="nf nf-md-package"></span> workflow_topology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../animation/index.html"> <span class="nf nf-fa-file"></span> animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../animator/index.html"> <span class="nf nf-fa-file"></span> animator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../any/index.html"> <span class="nf nf-fa-file"></span> any</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../available_result/index.html"> <span class="nf nf-fa-file"></span> available_result</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog/index.html"> <span class="nf nf-fa-file"></span> changelog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../collection/index.html"> <span class="nf nf-fa-file"></span> collection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../collection_base/index.html"> <span class="nf nf-fa-file"></span> collection_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../common/index.html"> <span class="nf nf-fa-file"></span> common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../config/index.html"> <span class="nf nf-fa-file"></span> config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../core/index.html"> <span class="nf nf-fa-file"></span> core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../custom_container_base/index.html"> <span class="nf nf-fa-file"></span> custom_container_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../custom_fields_container/index.html"> <span class="nf nf-fa-file"></span> custom_fields_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../custom_operator/index.html"> <span class="nf nf-fa-file"></span> custom_operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../custom_type_field/index.html"> <span class="nf nf-fa-file"></span> custom_type_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cyberchannel/index.html"> <span class="nf nf-fa-file"></span> cyberchannel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cyclic_support/index.html"> <span class="nf nf-fa-file"></span> cyclic_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../data_sources/index.html"> <span class="nf nf-fa-file"></span> data_sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../data_tree/index.html"> <span class="nf nf-fa-file"></span> data_tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dimensionality/index.html"> <span class="nf nf-fa-file"></span> dimensionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dpf_array/index.html"> <span class="nf nf-fa-file"></span> dpf_array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dpf_operator/index.html"> <span class="nf nf-fa-file"></span> dpf_operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../element_descriptor/index.html"> <span class="nf nf-fa-file"></span> element_descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../elements/index.html"> <span class="nf nf-fa-file"></span> elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../errors/index.html"> <span class="nf nf-fa-file"></span> errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faces/index.html"> <span class="nf nf-fa-file"></span> faces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../field/index.html"> <span class="nf nf-fa-file"></span> field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../field_definition/index.html"> <span class="nf nf-fa-file"></span> field_definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fields_container/index.html"> <span class="nf nf-fa-file"></span> fields_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fields_container_factory/index.html"> <span class="nf nf-fa-file"></span> fields_container_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../fields_factory/index.html"> <span class="nf nf-fa-file"></span> fields_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generic_data_container/index.html"> <span class="nf nf-fa-file"></span> generic_data_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../generic_support/index.html"> <span class="nf nf-fa-file"></span> generic_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../geometry/index.html"> <span class="nf nf-fa-file"></span> geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../geometry_factory/index.html"> <span class="nf nf-fa-file"></span> geometry_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../incremental/index.html"> <span class="nf nf-fa-file"></span> incremental</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inputs/index.html"> <span class="nf nf-fa-file"></span> inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mesh_info/index.html"> <span class="nf nf-fa-file"></span> mesh_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mesh_scoping_factory/index.html"> <span class="nf nf-fa-file"></span> mesh_scoping_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../meshed_region/index.html"> <span class="nf nf-fa-file"></span> meshed_region</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../meshes_container/index.html"> <span class="nf nf-fa-file"></span> meshes_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model/index.html"> <span class="nf nf-fa-file"></span> model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nodes/index.html"> <span class="nf nf-fa-file"></span> nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../operator_specification/index.html"> <span class="nf nf-fa-file"></span> operator_specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../outputs/index.html"> <span class="nf nf-fa-file"></span> outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../path_utilities/index.html"> <span class="nf nf-fa-file"></span> path_utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../plotter/index.html"> <span class="nf nf-fa-file"></span> plotter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../plugins/index.html"> <span class="nf nf-fa-file"></span> plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../property_field/index.html"> <span class="nf nf-fa-file"></span> property_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../property_fields_container/index.html"> <span class="nf nf-fa-file"></span> property_fields_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../result_info/index.html"> <span class="nf nf-fa-file"></span> result_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../results/index.html"> <span class="nf nf-fa-file"></span> results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../runtime_config/index.html"> <span class="nf nf-fa-file"></span> runtime_config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../scoping/index.html"> <span class="nf nf-fa-file"></span> scoping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../scopings_container/index.html"> <span class="nf nf-fa-file"></span> scopings_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../server/index.html"> <span class="nf nf-fa-file"></span> server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../server_context/index.html"> <span class="nf nf-fa-file"></span> server_context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../server_factory/index.html"> <span class="nf nf-fa-file"></span> server_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../server_types/index.html"> <span class="nf nf-fa-file"></span> server_types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../session/index.html"> <span class="nf nf-fa-file"></span> session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../settings/index.html"> <span class="nf nf-fa-file"></span> settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../streams_container/index.html"> <span class="nf nf-fa-file"></span> streams_container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../string_field/index.html"> <span class="nf nf-fa-file"></span> string_field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/index.html"> <span class="nf nf-fa-file"></span> support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../time_freq_scoping_factory/index.html"> <span class="nf nf-fa-file"></span> time_freq_scoping_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../time_freq_support/index.html"> <span class="nf nf-fa-file"></span> time_freq_support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../unit_system/index.html"> <span class="nf nf-fa-file"></span> unit_system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../workflow/index.html"> <span class="nf nf-fa-file"></span> workflow</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../../../../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../../../../index.html" class="nav-link">API reference</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../index.html" class="nav-link">The <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> library</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../index.html" class="nav-link">The <code class="docutils literal notranslate"><span class="pre">documentation</span></code> package</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">The <code class="docutils literal notranslate"><span class="pre">generate_operators_doc.py</span></code> module</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-ansys.dpf.core.documentation.generate_operators_doc">
+<span id="the-generate-operators-doc-py-module"></span><h1>The <code class="docutils literal notranslate"><span class="pre">generate_operators_doc.py</span></code> module<a class="headerlink" href="#module-ansys.dpf.core.documentation.generate_operators_doc" title="Link to this heading">#</a></h1>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Exceptions</label><div class="sd-tab-content docutils">
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="Jinja2ImportError.html#ansys.dpf.core.documentation.generate_operators_doc.Jinja2ImportError" title="ansys.dpf.core.documentation.generate_operators_doc.Jinja2ImportError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Jinja2ImportError</span></code></a></p></td>
+<td><p>Error raised when Jinja2 could not be imported during operator documentation generation.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Functions</label><div class="sd-tab-content docutils">
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#generate_operators_doc.initialize_server" title="generate_operators_doc.initialize_server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_server</span></code></a></p></td>
+<td><p>Initialize a DPF server for a given installation folder by loading required plugins.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#generate_operators_doc.extract_operator_description_update" title="generate_operators_doc.extract_operator_description_update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_operator_description_update</span></code></a></p></td>
+<td><p>Extract the updated description to use for an operator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#generate_operators_doc.replace_operator_description" title="generate_operators_doc.replace_operator_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replace_operator_description</span></code></a></p></td>
+<td><p>Replace the original operator description with a new one in the operator documentation file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#generate_operators_doc.update_operator_descriptions" title="generate_operators_doc.update_operator_descriptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_operator_descriptions</span></code></a></p></td>
+<td><p>Update operator descriptions based on ‘<a href="#id1"><span class="problematic" id="id2">*</span></a>_upd.md’ files in DPF documentation sources.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#generate_operators_doc.fetch_doc_info" title="generate_operators_doc.fetch_doc_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_doc_info</span></code></a></p></td>
+<td><p>Fetch information about the specifications of a given operator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#generate_operators_doc.latex_to_dollars" title="generate_operators_doc.latex_to_dollars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latex_to_dollars</span></code></a></p></td>
+<td><p>Convert LaTeX math delimiters from \[.\] to $$.$$ and from \(.\) to $.$ in a given text.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#generate_operators_doc.get_plugin_operators" title="generate_operators_doc.get_plugin_operators"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_plugin_operators</span></code></a></p></td>
+<td><p>Get the list of operators for a given plugin.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#generate_operators_doc.generate_operator_doc" title="generate_operators_doc.generate_operator_doc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_operator_doc</span></code></a></p></td>
+<td><p>Write the Markdown documentation page for a given operator on a given DPF server.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#generate_operators_doc.update_toc_tree" title="generate_operators_doc.update_toc_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_toc_tree</span></code></a></p></td>
+<td><p>Update the global toc.yml file for the DPF documentation based on the operators found.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#generate_operators_doc.update_categories" title="generate_operators_doc.update_categories"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_categories</span></code></a></p></td>
+<td><p>Update the category index files for the operator specifications.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#generate_operators_doc.update_operator_index" title="generate_operators_doc.update_operator_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_operator_index</span></code></a></p></td>
+<td><p>Update the main index file for all operator specifications.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#generate_operators_doc.get_operator_routing_info" title="generate_operators_doc.get_operator_routing_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_operator_routing_info</span></code></a></p></td>
+<td><p>Get information about router operators.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#generate_operators_doc.generate_operators_doc" title="generate_operators_doc.generate_operators_doc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_operators_doc</span></code></a></p></td>
+<td><p>Generate the Markdown source files for the DPF operator documentation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#generate_operators_doc.run_with_args" title="generate_operators_doc.run_with_args"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_with_args</span></code></a></p></td>
+<td><p>Run generate_operators_doc from the command line with argument parsing.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Link to this heading">#</a></h2>
+<p>Generation of Markdown documentation source files for operators of a given DPF installation.</p>
+</section>
+<section id="module-detail">
+<h2>Module detail<a class="headerlink" href="#module-detail" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.initialize_server">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">initialize_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ansys_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">os.PathLike</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_composites</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_sound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ansys.dpf.core.AnyServerType</span></span></span><a class="headerlink" href="#generate_operators_doc.initialize_server" title="Link to this definition">#</a></dt>
+<dd><p>Initialize a DPF server for a given installation folder by loading required plugins.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ansys_path</strong> – Path to the DPF installation to use to start a server.</p></li>
+<li><p><strong>include_composites</strong> – Whether to generate documentation for operators of the Composites plugin.</p></li>
+<li><p><strong>include_sound</strong> – Whether to generate documentation for operators of the Sound DPF plugin.</p></li>
+<li><p><strong>verbose</strong> – Whether to print progress information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A running DPF server to generate operator documentation for.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>server</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.extract_operator_description_update">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">extract_operator_description_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#generate_operators_doc.extract_operator_description_update" title="Link to this definition">#</a></dt>
+<dd><p>Extract the updated description to use for an operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>content</strong> – The contents of the ‘<a href="#id3"><span class="problematic" id="id4">*</span></a>_upd.md’ file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The updated description to use for the operator.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>description_update</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.replace_operator_description">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">replace_operator_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original_documentation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generate_operators_doc.replace_operator_description" title="Link to this definition">#</a></dt>
+<dd><p>Replace the original operator description with a new one in the operator documentation file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>original_documentation</strong> – Original operator documentation.</p></li>
+<li><p><strong>new_description</strong> – New operator description</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The updated operator documentation content</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>updated_documentation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.update_operator_descriptions">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">update_operator_descriptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docs_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generate_operators_doc.update_operator_descriptions" title="Link to this definition">#</a></dt>
+<dd><p>Update operator descriptions based on ‘<a href="#id5"><span class="problematic" id="id6">*</span></a>_upd.md’ files in DPF documentation sources.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>docs_path</strong> – Root path of the DPF documentation to update operator descriptions for.</p></li>
+<li><p><strong>verbose</strong> – Whether to print progress information.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.fetch_doc_info">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">fetch_doc_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ansys.dpf.core.AnyServerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#generate_operators_doc.fetch_doc_info" title="Link to this definition">#</a></dt>
+<dd><p>Fetch information about the specifications of a given operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>server</strong> – A DPF server to query the specifications of the operator.</p></li>
+<li><p><strong>operator_name</strong> – The name of the operator of interest.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Information about the operator structured for use with the documentation template.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>doc_info</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.latex_to_dollars">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">latex_to_dollars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#generate_operators_doc.latex_to_dollars" title="Link to this definition">#</a></dt>
+<dd><p>Convert LaTeX math delimiters from \[.\] to $$.$$ and from \(.\) to $.$ in a given text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> – The input text containing LaTeX math delimiters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.get_plugin_operators">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">get_plugin_operators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ansys.dpf.core.AnyServerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#generate_operators_doc.get_plugin_operators" title="Link to this definition">#</a></dt>
+<dd><p>Get the list of operators for a given plugin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>server</strong> – DPF server to query for the list of operators.</p></li>
+<li><p><strong>plugin_name</strong> – Name of the plugin of interest.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of names of operators available on the server for the given plugin.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>operator_list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.generate_operator_doc">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">generate_operator_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ansys.dpf.core.AnyServerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_private</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">router_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generate_operators_doc.generate_operator_doc" title="Link to this definition">#</a></dt>
+<dd><p>Write the Markdown documentation page for a given operator on a given DPF server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>server</strong> – DPF server of interest.</p></li>
+<li><p><strong>operator_name</strong> – Name of the operator of interest.</p></li>
+<li><p><strong>include_private</strong> – Whether to generate the documentation if the operator is private.</p></li>
+<li><p><strong>output_path</strong> – Path to write the operator documentation at.</p></li>
+<li><p><strong>router_info</strong> – Information about router operators.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.update_toc_tree">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">update_toc_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docs_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generate_operators_doc.update_toc_tree" title="Link to this definition">#</a></dt>
+<dd><p>Update the global toc.yml file for the DPF documentation based on the operators found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>docs_path</strong> – Path to the root of the DPF documentation sources.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.update_categories">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">update_categories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docs_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generate_operators_doc.update_categories" title="Link to this definition">#</a></dt>
+<dd><p>Update the category index files for the operator specifications.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>docs_path</strong> – Path to the root of the DPF documentation sources.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.update_operator_index">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">update_operator_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docs_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generate_operators_doc.update_operator_index" title="Link to this definition">#</a></dt>
+<dd><p>Update the main index file for all operator specifications.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>docs_path</strong> – Path to the root of the DPF documentation sources.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.get_operator_routing_info">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">get_operator_routing_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ansys.dpf.core.AnyServerType</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#generate_operators_doc.get_operator_routing_info" title="Link to this definition">#</a></dt>
+<dd><p>Get information about router operators.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>server</strong> – DPF server to query for the operator routing map.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with three main keys: “aliases”, “namespace_ext_map”, and “router_map”.
+“aliases” is a dictionary of operator aliases.
+“namespace_ext_map” is a dictionary mapping keys to namespaces.
+“router_map” is a dictionary mapping operator names to lists of supported keys.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>routing_map</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.generate_operators_doc">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">generate_operators_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ansys_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_composites</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_sound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_private</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desired_plugin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#generate_operators_doc.generate_operators_doc" title="Link to this definition">#</a></dt>
+<dd><p>Generate the Markdown source files for the DPF operator documentation.</p>
+<p>This function generates a Markdown file for each operator found in a given DPF installation,
+categorized in folders per operator category, as well as a <cite>toc.yml</cite> file.
+These are used to generate the DPF html documentation website as seen on the Developer Portal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_path</strong> – Path to write the output files at.</p></li>
+<li><p><strong>ansys_path</strong> – Path to an Ansys/DPF installation.</p></li>
+<li><p><strong>include_composites</strong> – Whether to include operators of the Composites plugin.</p></li>
+<li><p><strong>include_sound</strong> – Whether to include operators of the Sound plugin.</p></li>
+<li><p><strong>include_private</strong> – Whether to include private operators.</p></li>
+<li><p><strong>desired_plugin</strong> – Restrict documentation generation to the operators of this specific plugin.</p></li>
+<li><p><strong>verbose</strong> – Whether to print progress information.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="generate_operators_doc.run_with_args">
+<span class="sig-prename descclassname"><span class="pre">generate_operators_doc.</span></span><span class="sig-name descname"><span class="pre">run_with_args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#generate_operators_doc.run_with_args" title="Link to this definition">#</a></dt>
+<dd><p>Run generate_operators_doc from the command line with argument parsing.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#description">Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-detail">Module detail</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.initialize_server"><code class="docutils literal notranslate"><span class="pre">initialize_server()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.extract_operator_description_update"><code class="docutils literal notranslate"><span class="pre">extract_operator_description_update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.replace_operator_description"><code class="docutils literal notranslate"><span class="pre">replace_operator_description()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.update_operator_descriptions"><code class="docutils literal notranslate"><span class="pre">update_operator_descriptions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.fetch_doc_info"><code class="docutils literal notranslate"><span class="pre">fetch_doc_info()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.latex_to_dollars"><code class="docutils literal notranslate"><span class="pre">latex_to_dollars()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.get_plugin_operators"><code class="docutils literal notranslate"><span class="pre">get_plugin_operators()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.generate_operator_doc"><code class="docutils literal notranslate"><span class="pre">generate_operator_doc()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.update_toc_tree"><code class="docutils literal notranslate"><span class="pre">update_toc_tree()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.update_categories"><code class="docutils literal notranslate"><span class="pre">update_categories()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.update_operator_index"><code class="docutils literal notranslate"><span class="pre">update_operator_index()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.get_operator_routing_info"><code class="docutils literal notranslate"><span class="pre">get_operator_routing_info()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.generate_operators_doc"><code class="docutils literal notranslate"><span class="pre">generate_operators_doc()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate_operators_doc.run_with_args"><code class="docutils literal notranslate"><span class="pre">run_with_args()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../../../../../_sources/api/ansys/dpf/core/documentation/generate_operators_doc/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../../../../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../../../../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../../../../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.6.3. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

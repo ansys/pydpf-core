@@ -1,0 +1,225 @@
+
+
+
+
+
+
+The ``time_freq_scoping_factory.py`` module
+===========================================
+
+.. py:module:: ansys.dpf.core.time_freq_scoping_factory
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: time_freq_scoping_factory
+.. tab-set::
+
+
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~scoping_by_load_step`
+            - Create a specific ``ansys.dpf.core.Scoping`` for a given load step.
+
+
+          * - :py:obj:`~scoping_by_load_steps`
+            - Create a specific :class:`ansys.dpf.core.Scoping` for a given list of load steps.
+
+
+          * - :py:obj:`~scoping_by_set`
+            - Create a specific :class:`ansys.dpf.core.Scoping` for a given cumulative set index.
+
+
+          * - :py:obj:`~scoping_by_sets`
+            - Create a specific :class:`ansys.dpf.core.Scoping` for a given list of cumulative set indices.
+
+
+          * - :py:obj:`~scoping_by_step_and_substep`
+            - Create a specific :class:`ansys.dpf.core.Scoping` for a given step and subset.
+
+
+          * - :py:obj:`~scoping_by_step_and_substep_from_model`
+            - Create a specific ``ansys.dpf.core.Scoping`` for a given step and substep.
+
+
+          * - :py:obj:`~scoping_on_all_time_freqs`
+            - Create a Scoping with all time or frequency sets.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+time_freq_scoping_factory.
+
+Contains functions to simplify creating time frequency scopings.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: scoping_by_load_step(load_step: int, server=None)
+
+   Create a specific ``ansys.dpf.core.Scoping`` for a given load step.
+
+   The returned scoping describes a specific time frequency support element
+   for a given load step.
+
+   :param load_step: Load step ID of the specific time frequency scoping.
+   :type load_step: int
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: DpfServer, optional
+
+   :returns: **scoping** -- Scoping targeting one load step.
+   :rtype: Scoping
+
+
+.. py:function:: scoping_by_load_steps(load_steps: list, server=None)
+
+   Create a specific :class:`ansys.dpf.core.Scoping` for a given list of load steps.
+
+   The returned scoping describes a specific time frequency support element
+   for a given list of load steps.
+
+   :param load_steps: List of load steps IDs of the specific time frequency scoping.
+   :type load_steps: list[int]
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: DpfServer, optional
+
+   :returns: **scoping** -- Scoping targeting several load_steps.
+   :rtype: Scoping
+
+
+.. py:function:: scoping_by_set(cumulative_set, server=None)
+
+   Create a specific :class:`ansys.dpf.core.Scoping` for a given cumulative set index.
+
+   The returned scoping describes a specific time frequency support element for a given
+   cumulative set index.
+
+   :param cumulative_set: Cumulative index of the set.
+   :type cumulative_set: int
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: DpfServer, optional
+
+   :returns: **scoping** -- Scoping targeting one set (referenced by cumulative index).
+   :rtype: Scoping
+
+
+.. py:function:: scoping_by_sets(cumulative_sets, server=None)
+
+   Create a specific :class:`ansys.dpf.core.Scoping` for a given list of cumulative set indices.
+
+   The returned scoping describes a specific time frequency support element for a given
+   list of cumulative sets of indices.
+
+   :param cumulative_sets: List of cumulative indices of the sets.
+   :type cumulative_sets: list[int]
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: DpfServer, optional
+
+   :returns: **scoping** -- Scoping targeting severals sets (referenced by cumulative indices).
+   :rtype: Scoping
+
+
+.. py:function:: scoping_by_step_and_substep(load_step_id, subset_id, time_freq_support)
+
+   Create a specific :class:`ansys.dpf.core.Scoping` for a given step and subset.
+
+   The returned scoping describes a specific time frequency support element for a given
+   step and substep.
+
+   :param load_step_id: ID of the load step.
+   :type load_step_id: int
+   :param subset_id: ID of the subset.
+   :type subset_id: int
+   :param time_freq_support:
+   :type time_freq_support: TimeFreqSupport
+
+   :returns: **scoping** -- Scoping based on a given step and substep of a time frequency support.
+   :rtype: Scoping
+
+
+.. py:function:: scoping_by_step_and_substep_from_model(load_step_id, subset_id, model, server=None)
+
+   Create a specific ``ansys.dpf.core.Scoping`` for a given step and substep.
+
+   The returned scoping describes a specific model's time freq support element for a given
+   step and substep.
+
+   :param load_step_id: ID of the step.
+   :type load_step_id: int
+   :param subset_id: ID of the subset.
+   :type subset_id: int
+   :param model:
+   :type model: Model
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: DpfServer, optional
+
+   :returns: **scoping** -- Scoping based on a given step/substep of a model's time_freq_support.
+   :rtype: Scoping
+
+
+.. py:function:: scoping_on_all_time_freqs(obj: Union[ansys.dpf.core.time_freq_support.TimeFreqSupport, ansys.dpf.core.model.Model, ansys.dpf.core.data_sources.DataSources])
+
+   Create a Scoping with all time or frequency sets.
+
+   Create a specific :class:`ansys.dpf.core.Scoping` with all time or
+   frequency sets of a :class:`ansys.dpf.core.TimeFreqSupport` or a class:`ansys.dpf.core.Model`
+
+   :param tf_support_or_model:
+   :type tf_support_or_model: TimeFreqSupport, Model
+
+   :returns: **scoping** -- Scoping with all time or frequency sets IDs.
+   :rtype: Scoping
+
+
+
+

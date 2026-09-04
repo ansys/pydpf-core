@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.global_energy_ratio_wo_eroded
+   :inherited-members:

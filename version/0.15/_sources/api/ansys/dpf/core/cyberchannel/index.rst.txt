@@ -1,0 +1,171 @@
+
+
+
+
+
+
+The ``cyberchannel.py`` module
+==============================
+
+.. py:module:: ansys.dpf.core.cyberchannel
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: cyberchannel
+.. tab-set::
+
+
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~create_channel`
+            - Create a gRPC channel based on the transport mode.
+
+
+          * - :py:obj:`~verify_transport_mode`
+            - Verify that the provided transport mode is valid.
+
+
+          * - :py:obj:`~verify_uds_socket`
+            - Verify that the UDS socket file has been created.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Module to create gRPC channels with different transport modes.
+
+This module provides functions to create gRPC channels based on the specified
+transport mode, including insecure, Unix Domain Sockets (UDS), Windows Named User
+Authentication (WNUA), and Mutual TLS (mTLS).
+
+.. rubric:: Example
+
+channel = create_channel(
+    host="localhost",
+    port=50051,
+    transport_mode="mtls",
+    certs_dir="path/to/certs",
+    grpc_options=[('grpc.max_receive_message_length', 50 * 1024 * 1024)],
+)
+stub = hello_pb2_grpc.GreeterStub(channel)
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: create_channel(transport_mode: str, host: str | None = None, port: int | str | None = None, uds_service: str | None = None, uds_dir: str | pathlib.Path | None = None, uds_id: str | None = None, certs_dir: str | pathlib.Path | None = None, cert_files: CertificateFiles | None = None, grpc_options: list[tuple[str, object]] | None = None) -> grpc.Channel
+
+   Create a gRPC channel based on the transport mode.
+
+   :param transport_mode: Transport mode selected by the user.
+                          Options are: "insecure", "uds", "wnua", "mtls"
+   :type transport_mode: str
+   :param host: Hostname or IP address of the server.
+                By default `None` - however, if not using UDS transport mode,
+                it will be requested.
+   :type host: str | None
+   :param port: Port in which the server is running.
+                By default `None` - however, if not using UDS transport mode,
+                it will be requested.
+   :type port: int | str | None
+   :param uds_service: Optional service name for the UDS socket.
+                       By default `None` - however, if UDS is selected, it will
+                       be requested.
+   :type uds_service: str | None
+   :param uds_dir: Directory to use for Unix Domain Sockets (UDS) transport mode.
+                   By default `None` and thus it will use the "~/.conn" folder.
+   :type uds_dir: str | Path | None
+   :param uds_id: Optional ID to use for the UDS socket filename.
+                  By default `None` and thus it will use "<uds_service>.sock".
+                  Otherwise, the socket filename will be "<uds_service>-<uds_id>.sock".
+   :type uds_id: str | None
+   :param certs_dir: Directory to use for TLS certificates.
+                     By default `None` and thus search for the "ANSYS_GRPC_CERTIFICATES" environment variable.
+                     If not found, it will use the "certs" folder assuming it is in the current working
+                     directory.
+   :type certs_dir: str | Path | None
+   :param cert_files: Path to the client certificate file, client key file, and issuing certificate authority.
+                      By default `None`.
+                      If all three file paths are not all provided, use the certs_dir parameter.
+   :type cert_files: CertificateFiles | None = None
+   :param grpc_options: gRPC channel options to pass when creating the channel.
+                        Each option is a tuple of the form ("option_name", value).
+                        By default `None` and thus no extra options are added.
+   :type grpc_options: list[tuple[str, object]] | None
+
+   :returns: The created gRPC channel
+   :rtype: grpc.Channel
+
+
+.. py:function:: verify_transport_mode(transport_mode: str, mode: str | None = None) -> None
+
+   Verify that the provided transport mode is valid.
+
+   :param transport_mode: The transport mode to verify.
+   :type transport_mode: str
+   :param mode: Can be one of "all", "local" or "remote" to restrict the valid transport modes.
+                By default `None` and thus all transport modes are accepted.
+   :type mode: str | None
+
+   :raises ValueError: If the transport mode is not one of the accepted values.
+
+
+.. py:function:: verify_uds_socket(uds_service: str, uds_dir: pathlib.Path | None = None, uds_id: str | None = None) -> bool
+
+   Verify that the UDS socket file has been created.
+
+   :param uds_service: Service name for the UDS socket.
+   :type uds_service: str
+   :param uds_dir: Directory where the UDS socket file is expected to be (optional).
+                   By default `None` and thus it will use the "~/.conn" folder.
+   :type uds_dir: Path | None
+   :param uds_id: Unique identifier for the UDS socket (optional).
+                  By default `None` and thus it will use "<uds_service>.sock".
+                  Otherwise, the socket filename will be "<uds_service>-<uds_id>.sock".
+   :type uds_id: str | None
+
+   :returns: True if the UDS socket file exists, False otherwise.
+   :rtype: bool
+
+
+
+

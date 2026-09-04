@@ -1,0 +1,189 @@
+
+
+
+
+
+
+The ``server_context.py`` module
+================================
+
+.. py:module:: ansys.dpf.core.server_context
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: server_context
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.server_context.LicenseContextManager`
+            - Can optionally be used to check out a license before using licensed DPF Operators.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_context.ServerContext`
+            - The context defines whether DPF capabilities requiring a license checkout are allowed.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_context.AvailableServerContexts`
+            - Defines available server contexts.
+
+
+
+    .. tab-item:: Enums
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.server_context.LicensingContextType`
+            - Enum representing different types of licensing contexts.
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~set_default_server_context`
+            - Set this context as default for any new server.
+
+
+
+    .. tab-item:: Attributes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~default_context`
+            - 
+
+
+
+    .. tab-item:: Constants
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~DPF_SERVER_CONTEXT_ENV`
+            - 
+
+
+          * - :py:obj:`~SERVER_CONTEXT`
+            - 
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> LicenseContextManager</api/ansys/dpf/core/server_context/LicenseContextManager>
+    <span class="nf nf-cod-symbol_class"></span> ServerContext</api/ansys/dpf/core/server_context/ServerContext>
+    <span class="nf nf-cod-symbol_class"></span> AvailableServerContexts</api/ansys/dpf/core/server_context/AvailableServerContexts>
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_enum"></span> LicensingContextType</api/ansys/dpf/core/server_context/LicensingContextType>
+
+
+
+
+
+
+
+
+Description
+-----------
+
+ServerContext.
+
+Gives the ability to choose the context with which the server should be started.
+The context allows you to choose the licensing logic for operators.
+For every context, DPF always checks if an Ansys license is available.
+By default, a **Premium** type of :class:`ServerContext` is used,
+meaning that any operator requiring a license check-out can do so.
+The **Entry** context instead does not allow operators to check a license out,
+which will result in failure of operators requiring it.
+The default context can be overwritten using the ANSYS_DPF_SERVER_CONTEXT environment
+variable.
+ANSYS_DPF_SERVER_CONTEXT=ENTRY and ANSYS_DPF_SERVER_CONTEXT=PREMIUM can be used.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: set_default_server_context(context=AvailableServerContexts.premium) -> None
+
+   Set this context as default for any new server.
+
+   Also applies it to the global server if it is running as Entry and requested context is Premium.
+
+   The context enables to choose whether DPF capabilities requiring a license checkout are allowed.
+
+   :param context: Context to apply to the given server or to the newly started servers (when no server
+                   is given).
+   :type context: ServerContext
+
+   .. rubric:: Notes
+
+   Available with server's version starting at 6.0 (Ansys 2023R2).
+
+
+.. py:data:: DPF_SERVER_CONTEXT_ENV
+   :value: 'ANSYS_DPF_SERVER_CONTEXT'
+
+
+.. py:data:: SERVER_CONTEXT
+
+.. py:data:: default_context
+
+
+

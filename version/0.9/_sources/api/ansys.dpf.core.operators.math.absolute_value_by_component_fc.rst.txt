@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.absolute_value_by_component_fc
+   :inherited-members:

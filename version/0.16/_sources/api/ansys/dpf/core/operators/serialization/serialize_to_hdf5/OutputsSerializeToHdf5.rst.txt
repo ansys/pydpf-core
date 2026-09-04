@@ -1,0 +1,74 @@
+
+
+
+
+
+
+:class:`OutputsSerializeToHdf5`
+===============================
+
+
+.. py:class:: ansys.dpf.core.operators.serialization.serialize_to_hdf5.OutputsSerializeToHdf5(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   serialize_to_hdf5 operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serialize_to_hdf5()
+   >>> # Connect inputs : op.inputs. ...
+
+
+
+
+
+.. py:currentmodule:: OutputsSerializeToHdf5
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.serialize_to_hdf5 import OutputsSerializeToHdf5
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+
