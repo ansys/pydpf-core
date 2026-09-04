@@ -112,7 +112,7 @@ test = [
 ]
 build = [
   "black==26.5.1",
-  "build==1.5.1",
+  "build==1.6.0",
   "chevron==0.14.0",
   "pypandoc_binary==1.17",
   "wheel==0.48.0"
