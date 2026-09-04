@@ -121,8 +121,11 @@ class Any:
             fields_container,
             generic_data_container,
             generic_support,
+            meshed_region,
+            meshes_container,
             property_field,
             scoping,
+            scopings_container,
             string_field,
             workflow,
         )
@@ -178,6 +181,11 @@ class Any:
                 self._api.any_new_from_scoping,
                 self._api.any_get_as_scoping,
             )
+        elif issubclass(obj, scopings_container.ScopingsContainer):
+            return (
+                self._api.any_new_from_scopings_container,
+                self._api.any_get_as_scopings_container,
+            )
         elif issubclass(obj, data_tree.DataTree):
             return (
                 self._api.any_new_from_data_tree,
@@ -222,6 +230,16 @@ class Any:
             return (
                 self._api.any_new_from_cyclic_support,
                 self._api.any_get_as_cyclic_support,
+            )
+        elif issubclass(obj, meshed_region.MeshedRegion):
+            return (
+                self._api.any_new_from_meshed_region,
+                self._api.any_get_as_meshed_region,
+            )
+        elif issubclass(obj, meshes_container.MeshesContainer):
+            return (
+                self._api.any_new_from_meshes_container,
+                self._api.any_get_as_meshes_container,
             )
         elif issubclass(obj, Any):
             return (
