@@ -70,6 +70,8 @@ RUNNING_DOCKER = server_factory.create_default_docker_config()
 
 MAX_PORT = 65535
 
+CUSTOM_XML_CONTEXT_TYPE = 2
+
 
 def _get_dll_path(name, ansys_path=None):
     """Helper-function to get the right dll path for Linux or Windows."""
@@ -149,7 +151,7 @@ def _run_launch_server_process(  # noqa: PLR0913
             AvailableServerContexts.entry,
             AvailableServerContexts.premium,
         ):
-            if context.licensing_context_type == 2 and len(context.xml_path) > 0:  # 2 == custom xml
+            if context.licensing_context_type == CUSTOM_XML_CONTEXT_TYPE and len(context.xml_path) > 0:  # 2 == custom xml
                 run_cmd.append(f"--context {context.xml_path}")
             else:
                 run_cmd.append(f"--context {int(context.licensing_context_type)}")
