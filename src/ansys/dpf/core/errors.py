@@ -29,6 +29,7 @@ from ansys.dpf.gate.errors import (  # noqa: F401
     DPFServerNullObject,
     DpfVersionNotSupported,
     OperatorFrame,
+    format_dpf_error,
 )  # noqa: F401
 
 _COMPLEX_PLOTTING_ERROR_MSG = """

@@ -1018,8 +1018,12 @@ class Workflow:
             if hasattr(self, "_internal_obj"):
                 if self._internal_obj is not None and self._internal_obj != "None":
                     self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
+        except Exception:
+            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
+            warn = getattr(warnings, "warn", None)
+            format_exc = getattr(traceback, "format_exc", None)
+            if warn is not None and format_exc is not None:
+                warn(format_exc())
 
     def __str__(self):
         """Describe the entity.

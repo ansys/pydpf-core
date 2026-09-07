@@ -777,7 +777,13 @@ class DataSources:
     def __del__(self):
         """Delete this instance."""
         try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
-            pass
+            if hasattr(self, "_deleter_func"):
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    self._deleter_func[0](obj)
+        except Exception:
+            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
+            warn = getattr(warnings, "warn", None)
+            format_exc = getattr(traceback, "format_exc", None)
+            if warn is not None and format_exc is not None:
+                warn(format_exc())

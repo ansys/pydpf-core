@@ -70,6 +70,8 @@ RUNNING_DOCKER = server_factory.create_default_docker_config()
 
 MAX_PORT = 65535
 
+CUSTOM_XML_CONTEXT_TYPE = 2
+
 
 def _get_dll_path(name, ansys_path=None):
     """Helper-function to get the right dll path for Linux or Windows."""
@@ -149,7 +151,13 @@ def _run_launch_server_process(  # noqa: PLR0913
             AvailableServerContexts.entry,
             AvailableServerContexts.premium,
         ):
-            run_cmd.append(f"--context {int(context.licensing_context_type)}")
+            if (
+                context.licensing_context_type == CUSTOM_XML_CONTEXT_TYPE
+                and len(context.xml_path) > 0
+            ):  # 2 == custom xml
+                run_cmd.append(f"--context {context.xml_path}")
+            else:
+                run_cmd.append(f"--context {int(context.licensing_context_type)}")
 
         if grpc_mode == server_factory.GrpcMode.Insecure:
             run_cmd.append("--mode 0")
@@ -223,7 +231,7 @@ def _wait_and_check_server_connection(  # noqa: PLR0913, C901
             or "port is already allocated" in errstr
         ):
             raise errors.InvalidPortError(f"Port {port} in use")
-        raise RuntimeError(errstr)
+        raise RuntimeError(errors.format_dpf_error(errstr))
 
 
 def launch_dpf(  # noqa: PLR0913
@@ -806,9 +814,16 @@ class GrpcClient:
             If an exception occurs while attempting to delete resources.
         """
         try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
+            if hasattr(self, "_deleter_func"):
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    self._deleter_func[0](obj)
+        except Exception:
+            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
+            warn = getattr(warnings, "warn", None)
+            format_exc = getattr(traceback, "format_exc", None)
+            if warn is not None and format_exc is not None:
+                warn(format_exc())
 
 
 class GrpcServer(CServer):

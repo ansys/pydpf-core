@@ -32,10 +32,14 @@ class concatenate_fields_containers(Operator):
 
     Inputs
     ------
+    ignore_empty: bool, optional
+        If true, the empty fields will be ignored.
+         If false, they are merged depending on pins -2 and -3.
+        Default is true.
     rescoping_value: float, optional
         Value used to fill the missing values when scopings are different. Default is 0.
     reference_scoping_index: int, optional
-        Pin of the field of which to take the scoping for the output field.
+        Pin number of the field of which to take the scoping for the output field.
         If -1 all scopings will be merged, if -2 all scopings will be intersected. Default is -1.
     field_support: AbstractFieldSupport, optional
         Support of the output fields container's fields. By default each field has the support of the corresponding field of the first fields container.
@@ -57,6 +61,8 @@ class concatenate_fields_containers(Operator):
     >>> op = dpf.operators.utility.concatenate_fields_containers()
 
     >>> # Make input connections
+    >>> my_ignore_empty = bool()
+    >>> op.inputs.ignore_empty.connect(my_ignore_empty)
     >>> my_rescoping_value = float()
     >>> op.inputs.rescoping_value.connect(my_rescoping_value)
     >>> my_reference_scoping_index = int()
@@ -70,6 +76,7 @@ class concatenate_fields_containers(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.concatenate_fields_containers(
+    ...     ignore_empty=my_ignore_empty,
     ...     rescoping_value=my_rescoping_value,
     ...     reference_scoping_index=my_reference_scoping_index,
     ...     field_support=my_field_support,
@@ -83,6 +90,7 @@ class concatenate_fields_containers(Operator):
 
     def __init__(
         self,
+        ignore_empty=None,
         rescoping_value=None,
         reference_scoping_index=None,
         field_support=None,
@@ -98,6 +106,8 @@ class concatenate_fields_containers(Operator):
             inputs_type=InputsConcatenateFieldsContainers,
             outputs_type=OutputsConcatenateFieldsContainers,
         )
+        if ignore_empty is not None:
+            self.inputs.ignore_empty.connect(ignore_empty)
         if rescoping_value is not None:
             self.inputs.rescoping_value.connect(rescoping_value)
         if reference_scoping_index is not None:
@@ -123,6 +133,14 @@ RY, RZ } - Field2 with components: { VX, VY, VZ, AX, AY, AZ }
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -4: PinSpecification(
+                    name="ignore_empty",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""If true, the empty fields will be ignored.
+ If false, they are merged depending on pins -2 and -3.
+Default is true.""",
+                ),
                 -3: PinSpecification(
                     name="rescoping_value",
                     type_names=["double"],
@@ -133,7 +151,7 @@ RY, RZ } - Field2 with components: { VX, VY, VZ, AX, AY, AZ }
                     name="reference_scoping_index",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Pin of the field of which to take the scoping for the output field.
+                    document=r"""Pin number of the field of which to take the scoping for the output field.
 If -1 all scopings will be merged, if -2 all scopings will be intersected. Default is -1.""",
                 ),
                 -1: PinSpecification(
@@ -220,6 +238,8 @@ class InputsConcatenateFieldsContainers(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.concatenate_fields_containers()
+    >>> my_ignore_empty = bool()
+    >>> op.inputs.ignore_empty.connect(my_ignore_empty)
     >>> my_rescoping_value = float()
     >>> op.inputs.rescoping_value.connect(my_rescoping_value)
     >>> my_reference_scoping_index = int()
@@ -234,6 +254,10 @@ class InputsConcatenateFieldsContainers(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(concatenate_fields_containers._spec().inputs, op)
+        self._ignore_empty: Input[bool] = Input(
+            concatenate_fields_containers._spec().input_pin(-4), -4, op, -1
+        )
+        self._inputs.append(self._ignore_empty)
         self._rescoping_value: Input[float] = Input(
             concatenate_fields_containers._spec().input_pin(-3), -3, op, -1
         )
@@ -254,6 +278,29 @@ class InputsConcatenateFieldsContainers(_Inputs):
             concatenate_fields_containers._spec().input_pin(1), 1, op, 1
         )
         self._inputs.append(self._fields_containers2)
+
+    @property
+    def ignore_empty(self) -> Input[bool]:
+        r"""Allows to connect ignore_empty input to the operator.
+
+        If true, the empty fields will be ignored.
+         If false, they are merged depending on pins -2 and -3.
+        Default is true.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.concatenate_fields_containers()
+        >>> op.inputs.ignore_empty.connect(my_ignore_empty)
+        >>> # or
+        >>> op.inputs.ignore_empty(my_ignore_empty)
+        """
+        return self._ignore_empty
 
     @property
     def rescoping_value(self) -> Input[float]:
@@ -280,7 +327,7 @@ class InputsConcatenateFieldsContainers(_Inputs):
     def reference_scoping_index(self) -> Input[int]:
         r"""Allows to connect reference_scoping_index input to the operator.
 
-        Pin of the field of which to take the scoping for the output field.
+        Pin number of the field of which to take the scoping for the output field.
         If -1 all scopings will be merged, if -2 all scopings will be intersected. Default is -1.
 
         Returns
