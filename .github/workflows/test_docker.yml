@@ -65,10 +65,12 @@ jobs:
       - name: "Setup Graphviz"
         uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2.0.2
 
+      - name: "Install uv"
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+
       - name: "Install requirements"
         run: |
-          pip install -U pip
-          pip install --group build
+          uv pip install --system --group build
 
       - name: "Build the wheel"
         shell: bash
@@ -96,7 +98,7 @@ jobs:
         env:
           WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
         run: |
-          pip install dist/${WHEEL_NAME}[graphics]
+          uv pip install --system dist/${WHEEL_NAME}[graphics]
 
       - name: "Install DPF"
         id: set-server-path
@@ -122,7 +124,7 @@ jobs:
 
       - name: "List installed packages"
         shell: bash
-        run: pip list
+        run: uv pip list --system
 
       - name: "Separate long Core tests"
         shell: pwsh

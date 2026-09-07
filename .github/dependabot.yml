@@ -1,10 +1,10 @@
 version: 2
 updates:
-  - package-ecosystem: "pip" # See documentation for possible values
+  - package-ecosystem: "uv" # Tracks pyproject.toml dependency groups and uv.lock
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
-    # Allow up to 10 open pull requests for pip dependencies
+    # Allow up to 10 open pull requests for uv-managed dependencies
     cooldown:
       default-days: 7 # Fallback cooldown if no specific rule applies
       semver-major-days: 30 # Cooldown for major version updates
@@ -20,7 +20,7 @@ updates:
       - "dependencies"
     ignore:
       - dependency-name: "vtk"
-      
+
   - package-ecosystem: "github-actions"
     directory: ".github/"
     schedule:

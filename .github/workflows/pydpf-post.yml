@@ -85,10 +85,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: "Install uv"
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+
       - name: "Install ansys-dpf-core build requirements"
         run: |
-          pip install -U pip
-          pip install --group build
+          uv pip install --system --group build
 
       - name: "Build ansys-dpf-core wheel"
         shell: bash
@@ -116,7 +118,7 @@ jobs:
         env:
           WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
         run: |
-          pip install dist/${WHEEL_NAME}[graphics]
+          uv pip install --system dist/${WHEEL_NAME}[graphics]
 
       - name: "Install DPF"
         id: set-server-path
@@ -153,7 +155,7 @@ jobs:
         shell: bash
         run: |
           cd pydpf-post
-          pip install .
+          uv pip install --system .
           ls
 
       - name: "Prepare Testing Environment"
@@ -164,7 +166,7 @@ jobs:
 
       - name: "List installed packages"
         shell: bash
-        run: pip list
+        run: uv pip list --system
 
       - name: "Test Docstrings"
         id: docstrings

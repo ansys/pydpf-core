@@ -13,6 +13,9 @@
 
 .. PyAnsys Developer Guide
 .. _dev_guide_pyansys: https://dev.docs.pyansys.com
+
+.. Python libraries
+.. _uv: https://docs.astral.sh/uv/
 .. _dev_guide_contributing: https://dev.docs.pyansys.com/how-to/contributing.html
 .. _dev_guide_coding_style: https://dev.docs.pyansys.com/coding-style/index.html
 .. _dev_guide_setup_your_environment: https://dev.docs.pyansys.com/how-to/setting-up.html

@@ -2,6 +2,7 @@
 APIs
 Abaqus
 CPython
+astroid
 DPF [Ss]erver
 DPFArray
 Entry
