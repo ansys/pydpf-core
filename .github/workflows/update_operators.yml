@@ -128,7 +128,7 @@ jobs:
       - name: "Generate Operators Documentation"
         shell: bash
         run: |
-          dpf_build_operators_html_doc --output_path doc/source/_static/dpf_operators.html
+          dpf_generate_operators_doc_legacy --output_path doc/source/_static/dpf_operators.html
         timeout-minutes: 5
 
       - name: "Show changes"
