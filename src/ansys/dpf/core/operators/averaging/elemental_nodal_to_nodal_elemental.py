@@ -31,10 +31,16 @@ class elemental_nodal_to_nodal_elemental(Operator):
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
+        Optional nodal scoping filter. A map uses node IDs as its keys; a scoping uses its node IDs directly.
 
     Outputs
     -------
     field: Field
+        Nodal elemental field containing one record for each connected element at each selected node.
+    node_scoping: Scoping
+        Nodal scoping aligned with output field records.
+    element_scoping: Scoping
+        Elemental scoping aligned with output field records.
 
     Examples
     --------
@@ -57,6 +63,8 @@ class elemental_nodal_to_nodal_elemental(Operator):
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
+    >>> result_node_scoping = op.outputs.node_scoping()
+    >>> result_element_scoping = op.outputs.element_scoping()
     """
 
     def __init__(self, field=None, mesh_scoping=None, config=None, server=None):
@@ -88,9 +96,9 @@ computed on a given node’s scoping.
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
-                    type_names=["scoping"],
+                    type_names=["scoping", "umap<int32,int32>"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Optional nodal scoping filter. A map uses node IDs as its keys; a scoping uses its node IDs directly.""",
                 ),
             },
             map_output_pin_spec={
@@ -98,7 +106,19 @@ computed on a given node’s scoping.
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Nodal elemental field containing one record for each connected element at each selected node.""",
+                ),
+                1: PinSpecification(
+                    name="node_scoping",
+                    type_names=["scoping"],
+                    optional=False,
+                    document=r"""Nodal scoping aligned with output field records.""",
+                ),
+                2: PinSpecification(
+                    name="element_scoping",
+                    type_names=["scoping"],
+                    optional=False,
+                    document=r"""Elemental scoping aligned with output field records.""",
                 ),
             },
         )
@@ -200,6 +220,8 @@ class InputsElementalNodalToNodalElemental(_Inputs):
     def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
+        Optional nodal scoping filter. A map uses node IDs as its keys; a scoping uses its node IDs directly.
+
         Returns
         -------
         input:
@@ -226,6 +248,8 @@ class OutputsElementalNodalToNodalElemental(_Outputs):
     >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental()
     >>> # Connect inputs : op.inputs. ...
     >>> result_field = op.outputs.field()
+    >>> result_node_scoping = op.outputs.node_scoping()
+    >>> result_element_scoping = op.outputs.element_scoping()
     """
 
     def __init__(self, op: Operator):
@@ -234,10 +258,20 @@ class OutputsElementalNodalToNodalElemental(_Outputs):
             elemental_nodal_to_nodal_elemental._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._field)
+        self._node_scoping: Output[Scoping] = Output(
+            elemental_nodal_to_nodal_elemental._spec().output_pin(1), 1, op
+        )
+        self._outputs.append(self._node_scoping)
+        self._element_scoping: Output[Scoping] = Output(
+            elemental_nodal_to_nodal_elemental._spec().output_pin(2), 2, op
+        )
+        self._outputs.append(self._element_scoping)
 
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        Nodal elemental field containing one record for each connected element at each selected node.
 
         Returns
         -------
@@ -252,3 +286,43 @@ class OutputsElementalNodalToNodalElemental(_Outputs):
         >>> result_field = op.outputs.field()
         """
         return self._field
+
+    @property
+    def node_scoping(self) -> Output[Scoping]:
+        r"""Allows to get node_scoping output of the operator
+
+        Nodal scoping aligned with output field records.
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental()
+        >>> # Get the output from op.outputs. ...
+        >>> result_node_scoping = op.outputs.node_scoping()
+        """
+        return self._node_scoping
+
+    @property
+    def element_scoping(self) -> Output[Scoping]:
+        r"""Allows to get element_scoping output of the operator
+
+        Elemental scoping aligned with output field records.
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental()
+        >>> # Get the output from op.outputs. ...
+        >>> result_element_scoping = op.outputs.element_scoping()
+        """
+        return self._element_scoping
