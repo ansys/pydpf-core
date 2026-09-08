@@ -60,6 +60,7 @@ class GrpcMode:
 
     Insecure = "insecure"
     mTLS = "mtls"
+    LocalSecure = "localsecure"
 
 
 DEFAULT_COMMUNICATION_PROTOCOL = CommunicationProtocols.InProcess
