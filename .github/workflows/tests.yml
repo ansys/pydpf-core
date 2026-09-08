@@ -262,6 +262,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-api_entry,kill-servers
 
       - name: "Test API test_server"
@@ -274,6 +275,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-server,kill-servers
 
       - name: "Test API test_remote_workflow"
@@ -286,6 +288,7 @@ jobs:
           max_attempts: 3
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-remote_workflow,kill-servers
 
       - name: "Test API test_remote_operator"
@@ -294,6 +297,7 @@ jobs:
           TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
         run: |
+          export DPF_DEFAULT_GRPC_MODE=insecure
           tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-remote_operator,kill-servers
 
       - name: "Test API test_workflow"
@@ -306,6 +310,7 @@ jobs:
           max_attempts: 4
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-workflow,kill-servers
 
       - name: "Test API test_service"
@@ -318,6 +323,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-service,kill-servers
 
       - name: "Run compatible tests in parallel"
@@ -330,6 +336,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
             tox run-parallel --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -m ciparalleltests
 
       - name: "Combine coverage results"
