@@ -28,7 +28,7 @@ class von_mises_eqv(Operator):
     ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
-    poisson_ratio: float or int
+    poisson_ratio: float or int, optional
         Poisson ratio to be used in equivalent strain calculation.
 
     Outputs
@@ -87,7 +87,7 @@ class von_mises_eqv(Operator):
                 13: PinSpecification(
                     name="poisson_ratio",
                     type_names=["double", "int32"],
-                    optional=False,
+                    optional=True,
                     document=r"""Poisson ratio to be used in equivalent strain calculation.""",
                 ),
             },

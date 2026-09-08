@@ -6,7 +6,9 @@ import importlib
 import inspect
 import logging
 import os
+from pathlib import Path
 import pkgutil
+import shutil
 from textwrap import wrap
 import time
 from typing import Optional
@@ -427,8 +429,49 @@ def build_operators():
         exit(1)
 
 
-if __name__ == "__main__":
+def clean_operators_dir():
+    """Remove previously generated operator modules, keeping build tooling files."""
+    files_to_keep = {
+        "operator.mustache": "",
+        "build.py": "",
+        "specification.py": "",
+        "translator.py": "",
+        # Deprecated operator scripting names
+        "result": [
+            "gasket_deformation.py",
+            "gasket_deformation_X.py",
+            "gasket_deformation_XY.py",
+            "gasket_deformation_XZ.py",
+        ],
+    }
+    this_path = Path(os.path.dirname(os.path.abspath(__file__)))
+    for file_path in this_path.glob("*"):
+        if file_path.is_file() and (file_path.name in files_to_keep):
+            continue
+        if file_path.is_dir():
+            shutil.rmtree(file_path / "__pycache__", ignore_errors=True)
+            if file_path.name in files_to_keep:
+                for sub_file in file_path.glob("*"):
+                    if sub_file.name not in files_to_keep[file_path.name]:
+                        sub_file.unlink()
+            else:
+                shutil.rmtree(file_path)
+        else:
+            file_path.unlink()
+
+
+def run_with_args():  # pragma: nocover
+    """Regenerate the operator modules from the command line.
+
+    Starts a local premium legacy-gRPC DPF server, cleans previously generated operator
+    modules, then regenerates them based on the operators available on that server.
+    """
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
     dpf.start_local_server(config=dpf.AvailableServerConfigs.LegacyGrpcServer)
+    clean_operators_dir()
     build_operators()
+
+
+if __name__ == "__main__":  # pragma: nocover
+    run_with_args()
     dpf.SERVER.shutdown()

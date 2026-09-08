@@ -95,7 +95,7 @@ doc = [
 ]
 test = [
   "ansys-platform-instancemanagement==1.2.0",
-  "ansys-tools-common==0.5.2",
+  "ansys-tools-common==0.5.3",
   "ansys-tools-visualization-interface>=0.13.0",
   "coverage==7.15.4",
   "graphviz==0.21",
@@ -114,11 +114,12 @@ build = [
   "black==26.5.1",
   "build==1.5.1",
   "chevron==0.14.0",
+  "jinja2==3.1.6",
   "pypandoc_binary==1.17",
   "wheel==0.48.0"
 ]
 install = [
-  "importlib-metadata==9.0.0",
+  "importlib-metadata==9.0.1",
   "numpy==2.4.1",
   "packaging==26.3",
   "psutil==7.2.2",
@@ -136,6 +137,8 @@ Tracker = "https://github.com/ansys/pydpf-core/issues"
 
 [project.scripts]
 dpf_generate_operators_doc = "ansys.dpf.core.documentation.generate_operators_doc:run_with_args"
+dpf_generate_operators_doc_legacy = "ansys.dpf.core.documentation.build_operators_html_doc:run_with_args"
+dpf_generate_operators = "ansys.dpf.core.operators.build:run_with_args"
 
 [tool.ruff]
 exclude = [
@@ -203,6 +206,7 @@ where = ["src"]
 [tool.setuptools.package-data]
 "ansys.dpf.gatebin" = ["*.so", "*.dll"]
 "ansys.dpf.core.documentation" = ["toc_template.j2", "operator_doc_template.j2"]
+"ansys.dpf.core.operators" = ["operator.mustache"]
 
 [tool.pytest]
 #filterwarnings = ['ignore:Use explicit output-to-input connections:DeprecationWarning']

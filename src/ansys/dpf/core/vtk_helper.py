@@ -792,30 +792,7 @@ def _map_field_to_mesh(
     field: dpf.Field | dpf.PropertyField, meshed_region: dpf.MeshedRegion
 ) -> np.ndarray:
     """Return an NumPy array of 'Field.data' mapped to the mesh on the field's location."""
-    location = field.location
-    if location == dpf.locations.nodal:
-        mesh_location = meshed_region.nodes
-    elif location == dpf.locations.elemental:
-        mesh_location = meshed_region.elements
-    elif location == dpf.locations.faces:
-        mesh_location = meshed_region.faces
-        if len(mesh_location) == 0:
-            raise ValueError("No faces found to plot on")
-    elif location == dpf.locations.overall:
-        mesh_location = meshed_region.elements
-    else:
-        raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
-    component_count = field.component_count
-    if component_count > 1:
-        overall_data = np.full((len(mesh_location), component_count), np.nan)
-    else:
-        overall_data = np.full(len(mesh_location), np.nan)
-    if location != dpf.locations.overall:
-        ind, mask = mesh_location.map_scoping(field.scoping)
-        overall_data[ind] = field.data[mask]
-    else:
-        overall_data[:] = field.data[0]
-    return overall_data
+    return meshed_region._scatter_field_to_location(field)
 
 
 def dpf_property_field_to_vtk(
