@@ -97,8 +97,9 @@ def test_retrieve_ip(server_in_process):
     import re
 
     # can match 999.999.999.999:99999, 0.0.0.0:0
+    # can match dns:///127.0.0.1:50000
     # but not 0.0.0:0, 9999.999.999.999:999, 0.0.0.0
-    ip_addr_regex = r"([0-9]{1,3}\.){3}[0-9]{1,3}:[0-9]{1,5}"
+    ip_addr_regex = r"(dns:\/\/\/)?([0-9]{1,3}\.){3}([0-9]{1,3}):[0-9]{1,5}"
     assert re.match(ip_addr_regex, addr) != None
 
 
