@@ -881,8 +881,11 @@ class GrpcServer(CServer):
 
         self._grpc_mode = deepcopy(grpc_mode)
         self._certs_dir = certificates_dir
-        if os.environ.get("DPF_DEFAULT_GRPC_MODE", None) == "insecure":
+        default_grpc_mode_override = os.environ.get("DPF_DEFAULT_GRPC_MODE", None)
+        if default_grpc_mode_override == "insecure":
             self._grpc_mode = server_factory.GrpcMode.Insecure
+        if default_grpc_mode_override == "localsecure":
+            self._grpc_mode = server_factory.GrpcMode.LocalSecure
 
         self.live = False
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
@@ -940,6 +943,8 @@ class GrpcServer(CServer):
             client_config.grpc_mode = "mtls"
             if self._certs_dir is not None and len(str(self._certs_dir)) > 0:
                 client_config.grpc_certs_dir = str(self._certs_dir)
+        elif self._grpc_mode == server_factory.GrpcMode.LocalSecure:
+            client_config.grpc_mode = "localsecure"
 
         # store port and ip for later reference
         self._client.set_address(address, self)
@@ -1372,8 +1377,12 @@ class LegacyGrpcServer(BaseServer):
 
         self._grpc_mode = deepcopy(grpc_mode)
         self._certs_dir = certificates_dir
-        if os.environ.get("DPF_DEFAULT_GRPC_MODE", None) == "insecure":
+        default_grpc_mode_override = os.environ.get("DPF_DEFAULT_GRPC_MODE", None)
+        if default_grpc_mode_override == "insecure":
             self._grpc_mode = server_factory.GrpcMode.Insecure
+        if default_grpc_mode_override == "localsecure":
+            self._grpc_mode = server_factory.GrpcMode.LocalSecure
+        
 
         self.live = False
         super().__init__()
@@ -1439,6 +1448,11 @@ class LegacyGrpcServer(BaseServer):
             self.channel = cyberchannel.create_channel(
                 transport_mode="mtls", host=ip, port=port, certs_dir=self._certs_dir
             )
+        elif self._grpc_mode == server_factory.GrpcMode.LocalSecure:
+            if os.name == "nt":
+                self.channel = cyberchannel.create_channel(
+                    transport_mode="wnua", host=ip, port=port
+                )
 
         # store the address for later reference
         self._address = address
