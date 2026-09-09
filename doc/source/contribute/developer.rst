@@ -104,6 +104,38 @@ Verify the installation by checking the version of the library:
 
        >>> PyDPF-Core version is {{ PYDPF_CORE_VERSION }}
 
+.. _uv-alternative-dev:
+
+Alternative: using uv
+----------------------
+
+`uv`_ is a fast Python package and project manager that PyDPF-Core also supports as an
+alternative to the virtual environment and ``pip`` workflow described above. If you have
+`uv`_ installed, you can create the virtual environment and install PyDPF-Core in editable
+mode in a single step by running:
+
+.. code-block:: bash
+
+    uv sync
+
+This creates a ``.venv`` virtual environment (if one does not already exist) and installs
+PyDPF-Core in editable mode using the pinned dependencies from ``uv.lock``.
+
+You can then run any command inside that environment without activating it first, by
+prefixing it with ``uv run``:
+
+.. code-block:: bash
+
+    uv run python -c "from ansys.dpf.core import __version__; print(__version__)"
+
+If you need to add a new dependency to the project, use ``uv add`` instead of manually
+editing ``pyproject.toml``. This keeps ``pyproject.toml`` and ``uv.lock`` in sync
+automatically:
+
+.. code-block:: bash
+
+    uv add <package-name>
+
 Install Tox
 -----------
 
@@ -117,6 +149,15 @@ To install Tox, run:
 .. code-block:: text
 
     python -m pip install tox tox-uv
+
+.. note::
+
+    If you set up your environment using `uv`_ as described above, you can instead add
+    Tox as a development dependency of the project with:
+
+    .. code-block:: bash
+
+        uv add --dev tox tox-uv
 
 Finally, verify the installation by listing all the different environments
 (automation rules) for PyDPF-Core:

@@ -49,6 +49,9 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: "Install uv"
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+
       - name: "Install DPF"
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-server@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
@@ -107,16 +110,15 @@ jobs:
       - name: "Install local package as editable"
         shell: bash
         run: |
-          pip install --find-links=.github/ -e .
+          uv pip install --system --find-links=.github/ -e .
 
       - name: "Install build requirements"
         run: |
-          pip install -U pip
-          pip install --group build
+          uv pip install --system --group build --group operator_doc
 
       - name: "List installed packages"
         shell: bash
-        run: pip list
+        run: uv pip list --system
 
       - name: "Generate Operators"
         shell: bash

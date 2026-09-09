@@ -18,6 +18,9 @@
 .. _dev_guide_setup_your_environment: https://dev.docs.pyansys.com/how-to/setting-up.html
 .. _dev_guide_branch_names: https://dev.docs.pyansys.com/how-to/contributing.html#branch-naming-conventions
 .. _dev_guide_commit_names: https://dev.docs.pyansys.com/how-to/contributing.html#commit-naming-conventions
+
+.. Python libraries
+.. _uv: https://docs.astral.sh/uv/
 .. _dev_guide_doc_style: https://dev.docs.pyansys.com/doc-style/index.html
 .. _dev_guide_documenting: https://dev.docs.pyansys.com/how-to/documenting.html#
 
