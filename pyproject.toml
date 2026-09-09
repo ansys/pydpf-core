@@ -200,11 +200,11 @@ patch = ["subprocess"]
 [tool.coverage.report]
 show_missing = true
 
-[tool.hatch.build]
+# [tool.hatch.build]
 # src/ansys/dpf/{gate,gatebin} and src/ansys/grpc are in .gitignore, which
 # Hatchling respects for what gets included in the wheel. Hence it must be disabled else
 # these files would be silently be dropped from the wheel.
-ignore-vcs = true
+# ignore-vcs = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/ansys"]
