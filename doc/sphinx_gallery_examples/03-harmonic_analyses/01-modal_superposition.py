@@ -33,6 +33,11 @@ a structure under given boundary conditions in a range of frequencies.
 Doing this expansion "on demand" in DPF instead of in the solver
 reduces the size of the result files.
 
+.. seealso::
+
+    :ref:`ref_tutorials_import_data_data_sources_upstream`
+        Learn how to connect downstream and upstream DataSources objects.
+
 """
 
 from ansys.dpf import core as dpf
