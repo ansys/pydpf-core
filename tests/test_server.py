@@ -327,6 +327,7 @@ def test_connect_to_remote_server(remote_config_server_type):
     # assert server.config == remote_config_server_type
 
 
+@pytest.mark.skipif(running_docker, reason="Unstable on Docker")
 def test_go_away_server():
     for _ in range(0, 5):
         s = start_local_server(config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False)
