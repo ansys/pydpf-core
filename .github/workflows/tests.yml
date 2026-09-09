@@ -97,6 +97,30 @@ jobs:
         run: |
           echo "python_versions=${PYTHON_VERSIONS}" >> $GITHUB_OUTPUT
 
+  build-wheelhouse:
+    name: "Build wheelhouse" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
+    needs: setup
+    if: inputs.wheelhouse == 'true'
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
+        os: ["windows-latest", "ubuntu-latest"]
+    env:
+      # "any" can never be inferred from the host OS on a non-macOS runner, it must be requested explicitly.
+      ANSYS_DPF_WHEEL_PLATFORM: ${{ inputs.test_any == 'true' && 'any' || '' }}
+    steps:
+      - name: "Build a wheelhouse of the Python library"
+        uses: ansys/actions/build-wheelhouse@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
+        with:
+          library-name: "ansys-dpf-core"
+          # Disambiguate from the platform-specific wheelhouse built for the same os/python-version.
+          operating-system: ${{ matrix.os }}${{ inputs.test_any == 'true' && '-any' || '' }}
+          python-version: ${{ matrix.python-version }}
+
   tests:
     name: "Tests" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     needs: setup
@@ -167,38 +191,6 @@ jobs:
         with:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
-
-      - name: "Define wheelhouse name"
-        if: inputs.wheelhouse == 'true'
-        shell: bash
-        id: wheelhouse
-        env:
-          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
-          RUNNER_OS: ${{ runner.os }}
-          PYTHON_VERSION: ${{ matrix.python-version }}
-        run: |
-          export wheel_name=${WHEEL_NAME}
-          export IFS='-'
-          read -a strarr <<< $wheel_name
-          export version="${strarr[1]}"
-          echo $version
-          export name=ansys-dpf-core-v${version}-wheelhouse-${RUNNER_OS}-${PYTHON_VERSION}.zip
-          echo "name=${name}" >> "$GITHUB_OUTPUT"
-
-      - name: "Zip wheelhouse"
-        if: inputs.wheelhouse == 'true'
-        uses: vimtor/action-zip@5407800dfb2b1b37d48df912330cb22f4ab6f422 # v1.3
-        with:
-          files: dist
-          dest: ${{ steps.wheelhouse.outputs.name }}
-
-      - name: "Upload wheelhouse to artifacts"
-        if: inputs.wheelhouse == 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: ${{ steps.wheelhouse.outputs.name }}
-          path: ${{ steps.wheelhouse.outputs.name }}
-          retention-days: 7
 
       - name: "Install DPF"
         id: set-server-path

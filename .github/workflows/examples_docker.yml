@@ -85,38 +85,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: "Install requirements"
+      - name: "Install package"
+        # The hatchling build backend infers the target platform from the host OS.
         run: |
           pip install -U pip
-          pip install --group build
-
-      - name: "Build the wheel"
-        shell: bash
-        env:
-          MATRIX_OS: ${{ matrix.os }}
-        run: |
-          if [ "${MATRIX_OS}" == "ubuntu-latest" ]; then
-              export platform="manylinux_2_17"
-          else
-              export platform="win"
-          fi
-          python .ci/build_wheel.py -p $platform -w
-
-      - name: "Expose the wheel"
-        shell: bash
-        id: wheel
-        working-directory: dist
-        run: |
-          export name=`ls ansys_dpf_core*.whl`
-          echo ${name}
-          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-
-      - name: "Install package wheel"
-        shell: bash
-        env:
-          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
-        run: |
-          pip install dist/${WHEEL_NAME}[graphics]
+          pip install .[graphics]
 
       - name: "Install DPF"
         id: set-server-path
