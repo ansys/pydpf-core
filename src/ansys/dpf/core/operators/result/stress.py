@@ -138,8 +138,13 @@ class stress(Operator):
     9       Shell with 2 results across thickness (top/bottom)
     10      Shell with 3 results across thickness (top/bottom/mid)
     11      Gasket
-    12      Multi-Point Constraint
+    12      Joint
     13      Pretension
+    14      Layered
+    15      ThickShell
+    16      Target
+    17      Plane
+    18      Pipe
     ======= ======================================================
 
 
@@ -421,8 +426,13 @@ elshape Related elements
 9       Shell with 2 results across thickness (top/bottom)
 10      Shell with 3 results across thickness (top/bottom/mid)
 11      Gasket
-12      Multi-Point Constraint
+12      Joint
 13      Pretension
+14      Layered
+15      ThickShell
+16      Target
+17      Plane
+18      Pipe
 ======= ======================================================
 """
         spec = Specification(

@@ -31,7 +31,7 @@ class elemental_nodal_to_nodal_elemental(Operator):
     field: Field or FieldsContainer
         field or fields container with only one field is expected
     mesh_scoping: Scoping, optional
-        Optional nodal scoping filter. A map uses node IDs as its keys; a scoping uses its node IDs directly.
+        Optional nodal scoping filter.
 
     Outputs
     -------
@@ -96,9 +96,9 @@ computed on a given node’s scoping.
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
-                    type_names=["scoping", "umap<int32,int32>"],
+                    type_names=["scoping"],
                     optional=True,
-                    document=r"""Optional nodal scoping filter. A map uses node IDs as its keys; a scoping uses its node IDs directly.""",
+                    document=r"""Optional nodal scoping filter.""",
                 ),
             },
             map_output_pin_spec={
@@ -220,7 +220,7 @@ class InputsElementalNodalToNodalElemental(_Inputs):
     def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
-        Optional nodal scoping filter. A map uses node IDs as its keys; a scoping uses its node IDs directly.
+        Optional nodal scoping filter.
 
         Returns
         -------
