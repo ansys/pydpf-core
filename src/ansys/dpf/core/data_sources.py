@@ -80,6 +80,11 @@ class DataSources:
     >>> my_data_sources.result_files
     ['file.rst']
 
+    .. seealso::
+
+        :ref:`ref_tutorials_import_data_data_sources_basics`
+            Learn how to build and use DataSources objects.
+
     """
 
     def __init__(

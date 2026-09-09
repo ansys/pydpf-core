@@ -29,6 +29,20 @@ from simulation result files.
        +++
        :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
 
+    .. grid-item-card:: Build and use a DataSources object
+       :link: ref_tutorials_import_data_data_sources_basics
+       :link-type: ref
+       :text-align: center
+
+       Learn how to register result files and pass DataSources to a Model or operator.
+
+    .. grid-item-card:: Connect DataSources for multi-analysis results
+       :link: ref_tutorials_import_data_data_sources_upstream
+       :link-type: ref
+       :text-align: center
+
+       Learn when to attach files directly and when to connect an upstream DataSources.
+
     .. grid-item-card:: Extract and explore results metadata
        :link: ref_tutorials_extract_and_explore_results_metadata
        :link-type: ref
