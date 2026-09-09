@@ -1,5 +1,5 @@
 # This script generates the different versions of the ansys-dpf-core wheels based on a given input.
-# Input can be one of ["any", "win", "manylinux1", "manylinux_2_17"]
+# Input can be one of ["any", "win", "manylinux_2_17"]
 #
 # It also defines a Hatchling build hook for platform-dependent selection/exclusion of relevant
 # binaries whenever wheels are built. To provide a mechanism for generating manylinux1
@@ -21,7 +21,6 @@ _ANY = "any"
 
 _PLATFORM_TAGS = {
     "win": "win_amd64",
-    "manylinux1": "manylinux1_x86_64",
     "manylinux_2_17": "manylinux_2_17_x86_64",
     _ANY: _ANY,
 }
@@ -30,7 +29,6 @@ _GATEBIN_DIR = "src/ansys/dpf/gatebin"
 
 _GATEBIN_BINARIES = {
     "win": ["Ans.Dpf.GrpcClient.dll", "DPFClientAPI.dll"],
-    "manylinux1": ["libAns.Dpf.GrpcClient.so", "libDPFClientAPI.so"],
     "manylinux_2_17": ["libAns.Dpf.GrpcClient.so", "libDPFClientAPI.so"],
 }
 
