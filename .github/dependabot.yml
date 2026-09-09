@@ -1,6 +1,6 @@
 version: 2
 updates:
-  - package-ecosystem: "pip" # See documentation for possible values
+  - package-ecosystem: "uv" # Tracks pyproject.toml dependency groups and uv.lock
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
