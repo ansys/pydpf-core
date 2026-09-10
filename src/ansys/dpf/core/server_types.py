@@ -49,6 +49,7 @@ import psutil
 
 from ansys.dpf import core
 from ansys.dpf.core import __version__, errors, server_context, server_factory
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core._version import (
     CALENDAR_VERSIONING_FIRST_MAJOR,
     min_server_version,
@@ -57,7 +58,6 @@ from ansys.dpf.core._version import (
 from ansys.dpf.core.check_version import get_server_version, meets_version, version_requires
 from ansys.dpf.core.server_context import AvailableServerContexts, ServerContext
 from ansys.dpf.gate import data_processing_grpcapi, load_api
-from ansys.dpf.gate.generated import capi as _gate_capi
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.server_factory import DockerConfig
@@ -816,17 +816,7 @@ class GrpcClient:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            if hasattr(self, "_deleter_func"):
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    _gate_capi._call_or_defer(self._deleter_func[0], obj)
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        release_dpf_object(self)
 
 
 class GrpcServer(CServer):

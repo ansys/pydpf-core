@@ -22,6 +22,7 @@
 
 import os
 import platform
+import gc
 import subprocess
 import sys
 import time
@@ -267,7 +268,7 @@ def test_shutting_down_when_deleted_legacy():
     assert num_dpf_exe >= new_num_dpf_exe
 
 
-def test_shutting_down_when_deleted():
+def test_shutting_down_when_explicitly_shutdown():
     num_dpf_exe = 0
     for proc in psutil.process_iter():
         if "Ans.Dpf.Grpc" in proc.name():
@@ -279,7 +280,8 @@ def test_shutting_down_when_deleted():
             "from ansys.dpf import core as dpf;"
             "from ansys.dpf.core import examples;"
             "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.GrpcServer;"
-            "model = dpf.Model(examples.find_static_rst());",
+            "model = dpf.Model(examples.find_static_rst());"
+            "dpf.SERVER.shutdown();",
         ]
     )
     time.sleep(2.0)
@@ -348,6 +350,8 @@ def test_start_after_shutting_down_server():
         config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False
     )
     remote_server.shutdown()
+    del remote_server
+    gc.collect()
 
     time.sleep(2.0)
 

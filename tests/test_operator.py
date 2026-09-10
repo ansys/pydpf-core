@@ -41,6 +41,7 @@ from ansys.dpf.core.misc import get_ansys_path
 from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.core.workflow_topology import WorkflowTopology
 from ansys.dpf.gate.generated import capi
+from ansys.dpf.core._cleanup import release_dpf_object
 import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
@@ -67,6 +68,10 @@ def test_operator_destructor_during_api_loading(monkeypatch):
     capi._drain_deferred_cleanup()
     assert calls == ["operator-token"]
     del operator._deleter_func
+
+
+def test_release_dpf_object_without_deleter_is_noop():
+    release_dpf_object(object())
 
 
 def test_load_api_is_idempotent(monkeypatch, tmp_path):

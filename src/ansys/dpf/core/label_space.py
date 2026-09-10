@@ -39,9 +39,7 @@ LabelSpace enables advanced data organization and querying in DPF workflows.
 
 from __future__ import annotations
 
-import traceback
 from typing import TYPE_CHECKING
-import warnings
 
 if TYPE_CHECKING:  # pragma: no cover
     from collections.abc import Generator
@@ -49,13 +47,13 @@ if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.server import AnyServerType
 
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
     label_space_capi,
     label_space_grpcapi,
 )
-from ansys.dpf.gate.generated import capi as _gate_capi
 
 
 class LabelSpace:
@@ -223,14 +221,4 @@ class LabelSpace:
         -------
         None
         """
-        try:
-            if hasattr(self, "_deleter_func"):
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    _gate_capi._call_or_defer(self._deleter_func[0], obj)
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        release_dpf_object(self)

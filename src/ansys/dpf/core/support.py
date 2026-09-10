@@ -22,11 +22,10 @@
 
 """Support."""
 
-import traceback
 from typing import TYPE_CHECKING
-import warnings
 
 from ansys.dpf.core import collection_base, server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.core import _deep_copy
 from ansys.dpf.gate import (
@@ -36,7 +35,6 @@ from ansys.dpf.gate import (
     support_capi,
     support_grpcapi,
 )
-from ansys.dpf.gate.generated import capi as _gate_capi
 
 if TYPE_CHECKING:
     from ansys.dpf.core import (
@@ -358,14 +356,4 @@ class Support:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            if hasattr(self, "_deleter_func"):
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    _gate_capi._call_or_defer(self._deleter_func[0], obj)
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        release_dpf_object(self)

@@ -25,9 +25,7 @@
 from __future__ import annotations
 
 import builtins
-import traceback
 from typing import TYPE_CHECKING, Union
-import warnings
 
 import numpy as np
 
@@ -38,10 +36,10 @@ if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Field, GenericDataContainer, Scoping, StringField
 
 from ansys.dpf.core import collection_base, errors, server as server_module, types
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.any import Any
 from ansys.dpf.core.dpf_operator import _write_output_type_to_type
 from ansys.dpf.core.mapping_types import map_types_to_python
-from ansys.dpf.gate.generated import capi as _gate_capi
 
 
 class GenericDataContainer:
@@ -207,14 +205,5 @@ class GenericDataContainer:
 
     def __del__(self):
         """Delete the current instance."""
-        if self._internal_obj is not None:
-            try:
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    _gate_capi._call_or_defer(self._deleter_func[0], obj)
-            except Exception:
-                # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-                warn = getattr(warnings, "warn", None)
-                format_exc = getattr(traceback, "format_exc", None)
-                if warn is not None and format_exc is not None:
-                    warn(format_exc())
+        if getattr(self, "_internal_obj", None) is not None:
+            release_dpf_object(self)

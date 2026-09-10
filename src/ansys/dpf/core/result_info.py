@@ -23,12 +23,11 @@
 """ResultInfo."""
 
 from enum import Enum, unique
-import traceback
 from types import SimpleNamespace
 from typing import List, Union
-import warnings
 
 from ansys.dpf.core import available_result, collection_base, server as server_module, support
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.available_result import Homogeneity
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import locations
@@ -45,7 +44,6 @@ from ansys.dpf.gate import (
     result_info_capi,
     result_info_grpcapi,
 )
-from ansys.dpf.gate.generated import capi as _gate_capi
 
 
 @unique
@@ -632,14 +630,4 @@ class ResultInfo:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            if hasattr(self, "_deleter_func"):
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    _gate_capi._call_or_defer(self._deleter_func[0], obj)
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        release_dpf_object(self)
