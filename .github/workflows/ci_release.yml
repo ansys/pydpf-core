@@ -56,13 +56,15 @@ jobs:
         with:
           use-python-cache: false
 
-  build-library:
-    name: "Build library"
+  build_linux1:
+    name: "Build linux1 wheel"
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    env:
+      ANSYS_DPF_WHEEL_PLATFORM: "any"
     steps:
-      - uses: ansys/actions/build-library@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
+      - uses: ansys/actions/build-library@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
         with:
           library-name: "ansys-dpf-core"
 
