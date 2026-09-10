@@ -1,15 +1,11 @@
 # This script generates the different versions of the ansys-dpf-core wheels based on a given input.
 # Input can be one of ["any", "win", "manylinux1", "manylinux_2_17"]
 #
-# It also defines the DPFWheelBuildHook Hatchling build hook (registered in pyproject.toml as the
-# wheel target's custom build hook, path=".ci/build_wheel.py"), which includes only the gatebin
-# binaries matching the target platform and sets the resulting wheel tag accordingly. Hatchling
-# imports this file as a plain module for every wheel build (e.g. `pip install -e .`), so the CLI
-# logic below lives behind `if __name__ == "__main__"` to avoid running on import.
-#
-# The target platform is read from the ANSYS_DPF_WHEEL_PLATFORM environment variable by the build
-# hook. When unset, it is inferred from the host OS. manylinux1 can never be inferred (same host OS
-# as manylinux_2_17) and must always be requested explicitly, as must "any" on a non-macOS runner.
+# It also defines a Hatchling build hook for platform-dependent selection/exclusion of relevant
+# binaries whenever wheels are built. To provide a mechanism for generating manylinux1
+# wheels (same OS as manylinux_2_17, hence, can not be inferred), the target platform is read
+# from the ANSYS_DPF_WHEEL_PLATFORM environment variable by the build hook. This mechanism also
+# allows generating "any" wheels on a non-macOS hosts.
 
 from __future__ import annotations
 
@@ -81,7 +77,7 @@ class DPFWheelBuildHook(BuildHookInterface):
             build_data["force_include"][source] = f"ansys/dpf/gatebin/{binary_name}"
 
 
-def _main() -> None:
+def main() -> None:
     supported_platforms = {**{p: p for p in _PLATFORM_TAGS}, **_CLI_PLATFORM_ALIASES}
 
     parser = argparse.ArgumentParser()
@@ -107,4 +103,4 @@ def _main() -> None:
 
 
 if __name__ == "__main__":
-    _main()
+    main()
