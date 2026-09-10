@@ -26,6 +26,7 @@ from __future__ import annotations
 
 from enum import Enum
 import os
+import sys
 import traceback
 from typing import TYPE_CHECKING
 import warnings
@@ -60,6 +61,7 @@ from ansys.dpf.gate import (
     operator_capi,
     operator_grpcapi,
 )
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.inputs import _Inputs
@@ -793,6 +795,8 @@ class Operator:
 
     def __del__(self):
         """Delete this instance."""
+        if sys is None or sys.is_finalizing() or getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)

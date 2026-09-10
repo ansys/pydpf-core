@@ -41,6 +41,7 @@ from ansys.dpf.core import collection_base, errors, server as server_module, typ
 from ansys.dpf.core.any import Any
 from ansys.dpf.core.dpf_operator import _write_output_type_to_type
 from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 
 class GenericDataContainer:
@@ -206,6 +207,8 @@ class GenericDataContainer:
 
     def __del__(self):
         """Delete the current instance."""
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         if self._internal_obj is not None:
             try:
                 self._deleter_func[0](self._deleter_func[1](self))

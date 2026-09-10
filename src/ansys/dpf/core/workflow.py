@@ -51,6 +51,7 @@ from ansys.dpf.gate import (
     workflow_capi,
     workflow_grpcapi,
 )
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 
 class Workflow:
@@ -1014,6 +1015,8 @@ class Workflow:
         Warning
             If an exception occurs while attempting to delete resources.
         """
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             if hasattr(self, "_internal_obj"):
                 if self._internal_obj is not None and self._internal_obj != "None":

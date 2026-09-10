@@ -28,6 +28,7 @@ import warnings
 from ansys.dpf.core import field, property_field, server as server_module
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.gate import cyclic_support_capi, cyclic_support_grpcapi
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 
 class CyclicSupport:
@@ -362,6 +363,8 @@ class CyclicSupport:
 
     def __del__(self):
         """Delete this instance."""
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)

@@ -57,6 +57,7 @@ from ansys.dpf.core._version import (
 from ansys.dpf.core.check_version import get_server_version, meets_version, version_requires
 from ansys.dpf.core.server_context import AvailableServerContexts, ServerContext
 from ansys.dpf.gate import data_processing_grpcapi, load_api
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.server_factory import DockerConfig
@@ -813,6 +814,8 @@ class GrpcClient:
         Warning
             If an exception occurs while attempting to delete resources.
         """
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)

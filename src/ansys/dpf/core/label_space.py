@@ -55,6 +55,7 @@ from ansys.dpf.gate import (
     label_space_capi,
     label_space_grpcapi,
 )
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 
 class LabelSpace:
@@ -222,6 +223,8 @@ class LabelSpace:
         -------
         None
         """
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)

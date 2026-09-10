@@ -36,6 +36,7 @@ from ansys.dpf.gate import (
     support_capi,
     support_grpcapi,
 )
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 if TYPE_CHECKING:
     from ansys.dpf.core import (
@@ -357,6 +358,8 @@ class Support:
         Warning
             If an exception occurs while attempting to delete resources.
         """
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)

@@ -35,7 +35,7 @@ from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
 )
-from ansys.dpf.gate.generated import field_abstract_api
+from ansys.dpf.gate.generated import capi as _gate_capi, field_abstract_api
 
 
 class _FieldBase:
@@ -243,6 +243,8 @@ class _FieldBase:
         return self.size
 
     def __del__(self):
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             if hasattr(self, "_deleter_func"):
                 self._deleter_func[0](self._deleter_func[1](self))

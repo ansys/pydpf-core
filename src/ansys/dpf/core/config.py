@@ -33,6 +33,7 @@ from ansys.dpf.gate import (
     operator_config_capi,
     operator_config_grpcapi,
 )
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 
 class Config:
@@ -310,6 +311,8 @@ class Config:
 
     def __del__(self):
         """Delete this instance of config."""
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)

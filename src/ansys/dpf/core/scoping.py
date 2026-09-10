@@ -44,6 +44,7 @@ from ansys.dpf.gate import (
     utils,
 )
 from ansys.dpf.gate.dpf_array import DPFArray
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 if TYPE_CHECKING:  # pragma: nocover
     from ctypes import c_void_p as ScopingPointer
@@ -395,6 +396,8 @@ class Scoping:
         Warning
             If an exception occurs while attempting to delete resources.
         """
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)

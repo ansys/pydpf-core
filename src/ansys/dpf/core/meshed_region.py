@@ -52,6 +52,7 @@ from ansys.dpf.core.faces import Faces
 from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.plotter import DpfPlotter
 from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 
 def update_grid(func):
@@ -348,6 +349,8 @@ class MeshedRegion:
 
     def __del__(self):
         """Delete this instance of the meshed region."""
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)

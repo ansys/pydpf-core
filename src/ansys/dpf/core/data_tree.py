@@ -37,6 +37,7 @@ from ansys.dpf.gate import (
     dpf_data_tree_grpcapi,
     integral_types,
 )
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 
 class DataTree:
@@ -634,6 +635,8 @@ class DataTree:
 
     def __del__(self):
         """Delete this instance."""
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             # needs a proper deleter only when real datatree and not dict
             if hasattr(self, "_deleter_func"):

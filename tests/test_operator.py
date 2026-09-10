@@ -33,13 +33,14 @@ import numpy as np
 import pytest
 
 from ansys import dpf
-from ansys.dpf.core import errors, operators as ops
+from ansys.dpf.core import dpf_operator, errors, operators as ops
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import derived_class_name_to_type, record_derived_class
 from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.misc import get_ansys_path
 from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.core.workflow_topology import WorkflowTopology
+from ansys.dpf.gate.generated import capi
 import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
@@ -47,6 +48,13 @@ from conftest import (
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
+
+
+def test_operator_destructor_during_api_loading(monkeypatch):
+    operator = object.__new__(dpf_operator.Operator)
+    monkeypatch.setattr(capi, "_api_loading", True)
+
+    dpf_operator.Operator.__del__(operator)
 
 
 def test_create_operator(server_type):

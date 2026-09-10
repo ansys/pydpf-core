@@ -44,6 +44,7 @@ from ansys.dpf.gate import (
     dpf_array,
     dpf_vector,
 )
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.support import Support
@@ -572,6 +573,8 @@ class CollectionBase(Generic[TYPE]):
 
     def __del__(self):
         """Delete the entry."""
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             # delete
             if not self.owned:

@@ -45,6 +45,7 @@ from ansys.dpf.gate import (
     result_info_capi,
     result_info_grpcapi,
 )
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 
 @unique
@@ -631,6 +632,8 @@ class ResultInfo:
         Warning
             If an exception occurs while attempting to delete resources.
         """
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)

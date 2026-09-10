@@ -40,6 +40,7 @@ from ansys.dpf.gate import (
     integral_types,
     streams_capi,
 )
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 
 class StreamsContainer:
@@ -204,6 +205,8 @@ class StreamsContainer:
 
     def __del__(self):
         """Delete the entry."""
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             # delete
             if not getattr(self, "owned", False):

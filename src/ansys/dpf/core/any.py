@@ -36,6 +36,7 @@ from ansys.dpf.core.check_version import server_meet_version, server_meet_versio
 from ansys.dpf.core.common import create_dpf_instance
 import ansys.dpf.core.server_types
 from ansys.dpf.gate import any_abstract_api, dpf_vector, integral_types
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 
 class Any:
@@ -342,6 +343,8 @@ class Any:
 
     def __del__(self):
         """Delete the entry."""
+        if getattr(_gate_capi, "_api_loading", False):
+            return
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)
