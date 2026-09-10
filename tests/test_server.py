@@ -245,7 +245,7 @@ def test_docker_busy_port(remote_config_server_type, clean_up):
     platform.system() == "Linux" and platform.python_version().startswith("3.7"),
     reason="Known failure in the GitHub pipeline for 3.7 on Ubuntu",
 )
-def test_shutting_down_when_deleted_legacy():
+def test_shutting_down_when_explicitly_shutdown_legacy():
     num_dpf_exe = 0
     for proc in psutil.process_iter():
         if "Ans.Dpf.Grpc" in proc.name():
@@ -257,7 +257,8 @@ def test_shutting_down_when_deleted_legacy():
             "from ansys.dpf import core as dpf;"
             "from ansys.dpf.core import examples;"
             "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.LegacyGrpcServer;"
-            "model = dpf.Model(examples.find_static_rst());",
+            "model = dpf.Model(examples.find_static_rst());"
+            "dpf.SERVER.shutdown();",
         ]
     )
     time.sleep(2.0)
