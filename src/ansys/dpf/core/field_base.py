@@ -243,11 +243,11 @@ class _FieldBase:
         return self.size
 
     def __del__(self):
-        if getattr(_gate_capi, "_api_loading", False):
-            return
         try:
             if hasattr(self, "_deleter_func"):
-                self._deleter_func[0](self._deleter_func[1](self))
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    _gate_capi._call_or_defer(self._deleter_func[0], obj)
         except Exception:
             # During interpreter shutdown, ``warnings``/``traceback`` may be None.
             warn = getattr(warnings, "warn", None)

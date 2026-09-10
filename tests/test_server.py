@@ -69,6 +69,14 @@ server_configs, server_configs_names = remove_none_available_config(
 )
 
 
+@pytest.mark.parametrize("server_type", [server_types.GrpcServer, server_types.LegacyGrpcServer])
+def test_server_destructor_when_sys_is_cleared(monkeypatch, server_type):
+    server_object = object.__new__(server_type)
+    monkeypatch.setattr(server_types, "sys", None)
+
+    server_type.__del__(server_object)
+
+
 @pytest.fixture(autouse=False, scope="function")
 def clean_up(request):
     """Count servers once we are finished."""

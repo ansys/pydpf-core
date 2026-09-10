@@ -37,6 +37,7 @@ from ansys.dpf.core.common import (
     _progress_bar_is_available,
 )
 from ansys.dpf.gate import capi, session_capi, session_grpcapi
+from ansys.dpf.gate.generated import capi as _gate_capi
 
 LOG = logging.getLogger(__name__)
 
@@ -341,7 +342,9 @@ class Session:
         """
         try:
             if not self._released:
-                self._deleter_func[0](self._deleter_func[1](self))
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    _gate_capi._call_or_defer(self._deleter_func[0], obj)
         except:
             warnings.warn(traceback.format_exc())
         self._released = True

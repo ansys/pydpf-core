@@ -795,13 +795,13 @@ class Operator:
 
     def __del__(self):
         """Delete this instance."""
-        if sys is None or sys.is_finalizing() or getattr(_gate_capi, "_api_loading", False):
+        if sys is None or sys.is_finalizing():
             return
         try:
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)
                 if obj is not None:
-                    self._deleter_func[0](obj)
+                    _gate_capi._call_or_defer(self._deleter_func[0], obj)
         except Exception:
             # During interpreter shutdown, ``warnings``/``traceback`` may be None.
             warn = getattr(warnings, "warn", None)

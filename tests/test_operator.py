@@ -51,10 +51,56 @@ HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
 
 
 def test_operator_destructor_during_api_loading(monkeypatch):
+    calls = []
     operator = object.__new__(dpf_operator.Operator)
+    operator._deleter_func = (
+        lambda value: calls.append(value),
+        lambda value: "operator-token",
+    )
+    capi._deferred_cleanup.clear()
     monkeypatch.setattr(capi, "_api_loading", True)
 
     dpf_operator.Operator.__del__(operator)
+    assert calls == []
+
+    monkeypatch.setattr(capi, "_api_loading", False)
+    capi._drain_deferred_cleanup()
+    assert calls == ["operator-token"]
+    del operator._deleter_func
+
+
+def test_load_api_is_idempotent(monkeypatch, tmp_path):
+    loaded_paths = []
+    api_path = tmp_path / "DPFClientAPI.dll"
+    monkeypatch.setattr(capi, "_api_path", None)
+    monkeypatch.setattr(capi, "_load_api", lambda path: loaded_paths.append(path))
+
+    capi.load_api(api_path)
+    capi.load_api(api_path)
+
+    assert loaded_paths == [os.path.normcase(os.path.abspath(api_path))]
+    assert capi._api_loading is False
+
+
+def test_load_api_resets_loading_after_failure(monkeypatch, tmp_path):
+    monkeypatch.setattr(capi, "_api_path", None)
+
+    def fail_load(path):
+        raise RuntimeError("load failed")
+
+    monkeypatch.setattr(capi, "_load_api", fail_load)
+    with pytest.raises(RuntimeError, match="load failed"):
+        capi.load_api(tmp_path / "DPFClientAPI.dll")
+
+    assert capi._api_loading is False
+
+
+def test_load_api_rejects_different_path(monkeypatch, tmp_path):
+    loaded_path = os.path.normcase(os.path.abspath(tmp_path / "loaded.dll"))
+    monkeypatch.setattr(capi, "_api_path", loaded_path)
+
+    with pytest.raises(RuntimeError, match="already loaded"):
+        capi.load_api(tmp_path / "other.dll")
 
 
 def test_create_operator(server_type):
