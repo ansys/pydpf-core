@@ -706,8 +706,8 @@ class MeshedRegion:
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.find_static_rst())
-        >>> meshed_region = model.metadata.meshed_region
         >>> other_server = dpf.start_local_server(as_global=False)
+        >>> meshed_region = model.metadata.meshed_region
         >>> deep_copy = meshed_region.deep_copy(server=other_server)
 
         """
