@@ -60,6 +60,18 @@ jobs:
     steps:
       - uses: ansys/actions/check-actions-security@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
 
+  check-licenses:
+    name: "Check library dependencies ship with valid licenses"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: "Validate third party licenses"
+        uses: ansys/actions/check-actions-security@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
+        with:
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}
+          target: 'all'
+
   pick_server_suffix:
     name: "Pick Server Suffix"
     runs-on: ubuntu-latest
@@ -105,37 +117,34 @@ jobs:
         with:
           use-python-cache: false
 
-  build_linux1:
-    name: "Build linux1 wheel"
-    runs-on: ubuntu-latest
+  build-wheels:
+    name: "Build ${{ matrix.name }} wheel"
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
+    env:
+      ANSYS_DPF_WHEEL_PLATFORM: ${{ matrix.platform-tag }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: 'any'
+            platform-tag: 'any'
+            os: ubuntu-latest
+          - name: 'linux1'
+            platform-tag: 'manylinux1'
+            os: ubuntu-latest
+          - name: 'linux'
+            platform-tag: 'manylinux_2_17'
+            os: ubuntu-latest
+          - name: 'windows'
+            platform-tag: 'win'
+            os: windows-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ansys/actions/build-library@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
         with:
-          persist-credentials: false
-
-      - name: "Install requirements"
-        run: |
-          pip install -U pip
-          pip install --group build
-
-      - name: "Build the manylinux1 wheel"
-        shell: bash
-        id: wheel
-        run: |
-          python .ci/build_wheel.py -p manylinux1
-          cd dist
-          export name=`ls ansys_dpf_core*.whl`
-          echo ${name}
-          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-          cd ..
-
-      - name: "Upload wheel any as artifact"
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: ${{ steps.wheel.outputs.wheel_name }}
-          path: dist/${{ steps.wheel.outputs.wheel_name }}
+          library-name: "ansys-dpf-core"
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}
 
   tests-latest:
     name: "Test ${{ matrix.test-any == 'true' && 'any' || 'platform-specific' }} wheel against latest DPF version"
@@ -150,7 +159,6 @@ jobs:
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
       python_versions: '["3.10"]'
-      wheel: true
       wheelhouse: false
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_any: ${{ matrix.test-any }}
