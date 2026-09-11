@@ -163,6 +163,15 @@ Build the documentation
 
     python -m pip install tox tox-uv
 
+.. note::
+
+    If you set up your environment using `uv`_ (see :ref:`uv-alternative-dev`), you can
+    instead add Tox as a development dependency of the project with:
+
+    .. code-block:: bash
+
+        uv add --dev tox tox-uv
+
 There are different tox environments for cleaning previous build, building the HTML documentation,
 and checking the integrity of external links. The following environments are available:
 
