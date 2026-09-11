@@ -66,7 +66,6 @@ jobs:
         uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2.0.2
 
       - name: "Install package"
-        # The hatchling build backend infers the target platform from the host OS.
         run: |
           pip install -U pip
           pip install .[graphics]
