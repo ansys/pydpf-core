@@ -56,20 +56,29 @@ jobs:
         with:
           use-python-cache: false
 
-  build-any-and-manylinux1-wheels:
+  build-wheels:
     name: "Build ${{matrix.name}} wheel"
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
     env:
       ANSYS_DPF_WHEEL_PLATFORM: ${{matrix.platform-tag}}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - name: 'any'
             platform-tag: 'any'
+            os: ubuntu-latest
           - name: 'linux1'
             platform-tag: 'manylinux1'
+            os: ubuntu-latest
+          - name: 'linux'
+            platform-tag: 'manylinux_2_17'
+            os: ubuntu-latest
+          - name: 'win'
+            platform-tag: 'win'
+            os: windows-latest
     steps:
       - uses: ansys/actions/build-library@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
         with:
@@ -85,24 +94,20 @@ jobs:
       matrix:
         include:
           - python_versions: '["3.10"]'
-            wheel: true
             wheelhouse: true
             DOCSTRING: true
             test_any: false
           - python_versions: '["3.11", "3.12", "3.13", "3.14"]'
-            wheel: false
             wheelhouse: true
             DOCSTRING: false
             test_any: false
           - python_versions: '["3.10","3.11", "3.12", "3.13", "3.14"]'
-            wheel: false
             wheelhouse: false
             DOCSTRING: false
             test_any: true
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).version }}
       python_versions: ${{ matrix.python_versions }}
-      wheel: ${{ matrix.wheel }}
       wheelhouse: ${{ matrix.wheelhouse }}
       DOCSTRING: ${{ matrix.DOCSTRING }}
       test_any: ${{ matrix.test_any }}
@@ -211,7 +216,7 @@ jobs:
   draft_release:
     name: "Draft Release"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [style, build-any-and-manylinux1-wheels, tests, docs, examples, tests-retro, docker_tests]
+    needs: [style, build-wheels, tests, docs, examples, tests-retro, docker_tests]
     runs-on: ubuntu-latest
     permissions:
       contents: write # Required for creating releases
