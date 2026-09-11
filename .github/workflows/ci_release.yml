@@ -68,7 +68,7 @@ jobs:
         include:
           - name: 'any'
             platform-tag: 'any'
-          - name: 'linux'
+          - name: 'linux1'
             platform-tag: 'manylinux1'
     steps:
       - uses: ansys/actions/build-library@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
