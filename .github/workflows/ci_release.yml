@@ -76,7 +76,7 @@ jobs:
           - name: 'linux'
             platform-tag: 'manylinux_2_17'
             os: ubuntu-latest
-          - name: 'win'
+          - name: 'windows'
             platform-tag: 'win'
             os: windows-latest
     steps:
