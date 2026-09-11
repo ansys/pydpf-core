@@ -23,12 +23,11 @@
 """Provide base APIs for DPF's field concept and means of caching field data."""
 
 from abc import abstractmethod
-import traceback
-import warnings
 
 import numpy as np
 
 from ansys.dpf.core import errors, scoping, server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.cache import _setter
 from ansys.dpf.core.common import locations, natures
 from ansys.dpf.gate import (
@@ -243,15 +242,7 @@ class _FieldBase:
         return self.size
 
     def __del__(self):
-        try:
-            if hasattr(self, "_deleter_func"):
-                self._deleter_func[0](self._deleter_func[1](self))
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        release_dpf_object(self)
 
     @abstractmethod
     def _set_scoping(self, scoping):

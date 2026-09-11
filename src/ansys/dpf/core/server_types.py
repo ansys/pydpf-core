@@ -49,6 +49,7 @@ import psutil
 
 from ansys.dpf import core
 from ansys.dpf.core import __version__, errors, server_context, server_factory
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core._version import (
     CALENDAR_VERSIONING_FIRST_MAJOR,
     min_server_version,
@@ -771,6 +772,8 @@ class CServer(BaseServer, ABC):
         Warning
             If an exception occurs while attempting to delete resources.
         """
+        if sys is None or sys.is_finalizing():
+            return
         try:
             self._del_session()
             if self._own_process:
@@ -813,17 +816,7 @@ class GrpcClient:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            if hasattr(self, "_deleter_func"):
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    self._deleter_func[0](obj)
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        release_dpf_object(self)
 
 
 class GrpcServer(CServer):
@@ -1678,6 +1671,8 @@ class LegacyGrpcServer(BaseServer):
         Warning
             If an exception occurs while attempting to delete resources.
         """
+        if sys is None or sys.is_finalizing():
+            return
         try:
             self._del_session()
             if self._own_process:

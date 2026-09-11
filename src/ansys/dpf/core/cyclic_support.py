@@ -22,10 +22,8 @@
 
 """Cyclic Support."""
 
-import traceback
-import warnings
-
 from ansys.dpf.core import field, property_field, server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.gate import cyclic_support_capi, cyclic_support_grpcapi
 
@@ -362,14 +360,4 @@ class CyclicSupport:
 
     def __del__(self):
         """Delete this instance."""
-        try:
-            if hasattr(self, "_deleter_func"):
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    self._deleter_func[0](obj)
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        release_dpf_object(self)

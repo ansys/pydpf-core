@@ -25,13 +25,12 @@
 from __future__ import annotations
 
 import abc
-import traceback
 from typing import TYPE_CHECKING, Generic, List, Optional, TypeVar
-import warnings
 
 import numpy as np
 
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core.scoping import Scoping
@@ -572,18 +571,8 @@ class CollectionBase(Generic[TYPE]):
 
     def __del__(self):
         """Delete the entry."""
-        try:
-            # delete
-            if not self.owned:
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    self._deleter_func[0](obj)
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        if not getattr(self, "owned", False):
+            release_dpf_object(self)
 
     def _get_ownership(self):
         self.owned = True

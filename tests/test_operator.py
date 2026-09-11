@@ -33,13 +33,15 @@ import numpy as np
 import pytest
 
 from ansys import dpf
-from ansys.dpf.core import errors, operators as ops
+from ansys.dpf.core import dpf_operator, errors, operators as ops
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import derived_class_name_to_type, record_derived_class
 from ansys.dpf.core.custom_container_base import CustomContainerBase
 from ansys.dpf.core.misc import get_ansys_path
 from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.core.workflow_topology import WorkflowTopology
+from ansys.dpf.gate.generated import capi
+from ansys.dpf.core._cleanup import release_dpf_object
 import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
@@ -47,6 +49,82 @@ from conftest import (
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
+
+
+def test_operator_destructor_during_api_loading(monkeypatch):
+    calls = []
+    operator = object.__new__(dpf_operator.Operator)
+
+    def local_capi_deleter(value):
+        calls.append(value)
+
+    local_capi_deleter.__module__ = "ansys.dpf.gate.generated.data_processing_capi"
+    operator._deleter_func = (
+        local_capi_deleter,
+        lambda value: "operator-token",
+    )
+    capi._deferred_cleanup.clear()
+    monkeypatch.setattr(capi, "_api_loading", True)
+
+    dpf_operator.Operator.__del__(operator)
+    assert calls == []
+
+    monkeypatch.setattr(capi, "_api_loading", False)
+    capi._drain_deferred_cleanup()
+    assert calls == ["operator-token"]
+    del operator._deleter_func
+
+
+def test_release_dpf_object_calls_grpc_deleter_during_api_loading(monkeypatch):
+    calls = []
+    operator = object.__new__(dpf_operator.Operator)
+    operator._deleter_func = (lambda value: calls.append(value), lambda value: "grpc-token")
+    capi._deferred_cleanup.clear()
+    monkeypatch.setattr(capi, "_api_loading", True)
+
+    dpf_operator.Operator.__del__(operator)
+
+    assert calls == ["grpc-token"]
+    assert not capi._deferred_cleanup
+    del operator._deleter_func
+
+
+def test_release_dpf_object_without_deleter_is_noop():
+    release_dpf_object(object())
+
+
+def test_load_api_is_idempotent(monkeypatch, tmp_path):
+    loaded_paths = []
+    api_path = tmp_path / "DPFClientAPI.dll"
+    monkeypatch.setattr(capi, "_api_path", None)
+    monkeypatch.setattr(capi, "_load_api", lambda path: loaded_paths.append(path))
+
+    capi.load_api(api_path)
+    capi.load_api(api_path)
+
+    assert loaded_paths == [os.path.normcase(os.path.abspath(api_path))]
+    assert capi._api_loading is False
+
+
+def test_load_api_resets_loading_after_failure(monkeypatch, tmp_path):
+    monkeypatch.setattr(capi, "_api_path", None)
+
+    def fail_load(path):
+        raise RuntimeError("load failed")
+
+    monkeypatch.setattr(capi, "_load_api", fail_load)
+    with pytest.raises(RuntimeError, match="load failed"):
+        capi.load_api(tmp_path / "DPFClientAPI.dll")
+
+    assert capi._api_loading is False
+
+
+def test_load_api_rejects_different_path(monkeypatch, tmp_path):
+    loaded_path = os.path.normcase(os.path.abspath(tmp_path / "loaded.dll"))
+    monkeypatch.setattr(capi, "_api_path", loaded_path)
+
+    with pytest.raises(RuntimeError, match="already loaded"):
+        capi.load_api(tmp_path / "other.dll")
 
 
 def test_create_operator(server_type):

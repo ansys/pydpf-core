@@ -93,11 +93,11 @@ class DPFVectorBase:
         return self._modified and self.size > 0 # Updating is not necessary for an empty vector. Updating it can cause issue, see #2274
 
     def __del__(self):
-        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
+        if sys is None or sys.is_finalizing():
             return
         if hasattr(self, "_internal_obj"):
             with suppress(Exception):
-                self.dpf_vector_api.dpf_vector_delete(self)
+                _gate_capi._call_or_defer(self.dpf_vector_api.dpf_vector_delete, self)
 
 
 class DPFVectorInt(DPFVectorBase):
@@ -123,12 +123,17 @@ class DPFVectorInt(DPFVectorBase):
         self.dpf_vector_api.dpf_vector_int_commit(self, self.internal_data, self.internal_size, self.has_changed())
 
     def __del__(self):
-        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
+        if sys is None or sys.is_finalizing():
             return
         with suppress(Exception):
             if hasattr(self, "_array"):
-                self.dpf_vector_api.dpf_vector_int_free(self, self.internal_data, self.internal_size,
-                                                        self.has_changed())
+                _gate_capi._call_or_defer(
+                    self.dpf_vector_api.dpf_vector_int_free,
+                    self,
+                    self.internal_data,
+                    self.internal_size,
+                    self.has_changed(),
+                )
         super().__del__()
 
 
@@ -155,12 +160,17 @@ class DPFVectorDouble(DPFVectorBase):
         self.dpf_vector_api.dpf_vector_double_commit(self, self.internal_data, self.internal_size, self.has_changed())
 
     def __del__(self):
-        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
+        if sys is None or sys.is_finalizing():
             return
         with suppress(Exception):
             if hasattr(self, "_array"):
-                self.dpf_vector_api.dpf_vector_double_free(self, self.internal_data, self.internal_size,
-                                                           self.has_changed())
+                _gate_capi._call_or_defer(
+                    self.dpf_vector_api.dpf_vector_double_free,
+                    self,
+                    self.internal_data,
+                    self.internal_size,
+                    self.has_changed(),
+                )
         super().__del__()
 
 
@@ -220,12 +230,17 @@ class DPFVectorCustomType(DPFVectorBase):
         )
 
     def __del__(self):
-        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
+        if sys is None or sys.is_finalizing():
             return
         with suppress(Exception):
             if hasattr(self, "_array"):
-                self.dpf_vector_api.dpf_vector_char_free(self, self.internal_data, self.size * self.type.itemsize,
-                                                         self.has_changed())
+                _gate_capi._call_or_defer(
+                    self.dpf_vector_api.dpf_vector_char_free,
+                    self,
+                    self.internal_data,
+                    self.size * self.type.itemsize,
+                    self.has_changed(),
+                )
         super().__del__()
 
 
@@ -245,12 +260,17 @@ class DPFVectorString(DPFVectorBase):
         return self._array
 
     def __del__(self):
-        if sys.is_finalizing() or getattr(_gate_capi, '_api_loading', False):
+        if sys is None or sys.is_finalizing():
             return
         with suppress(Exception):
             if self._array:
-                self.dpf_vector_api.dpf_vector_char_ptr_free(self, self.internal_data, self.internal_size,
-                                                             self.has_changed())
+                _gate_capi._call_or_defer(
+                    self.dpf_vector_api.dpf_vector_char_ptr_free,
+                    self,
+                    self.internal_data,
+                    self.internal_size,
+                    self.has_changed(),
+                )
         super().__del__()
 
     def __len__(self):

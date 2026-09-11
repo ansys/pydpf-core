@@ -22,6 +22,7 @@
 
 import os
 import platform
+import gc
 import subprocess
 import sys
 import time
@@ -67,6 +68,14 @@ server_configs, server_configs_names = remove_none_available_config(
         "None protocol",
     ],
 )
+
+
+@pytest.mark.parametrize("server_type", [server_types.GrpcServer, server_types.LegacyGrpcServer])
+def test_server_destructor_when_sys_is_cleared(monkeypatch, server_type):
+    server_object = object.__new__(server_type)
+    monkeypatch.setattr(server_types, "sys", None)
+
+    server_type.__del__(server_object)
 
 
 @pytest.fixture(autouse=False, scope="function")
@@ -236,7 +245,7 @@ def test_docker_busy_port(remote_config_server_type, clean_up):
     platform.system() == "Linux" and platform.python_version().startswith("3.7"),
     reason="Known failure in the GitHub pipeline for 3.7 on Ubuntu",
 )
-def test_shutting_down_when_deleted_legacy():
+def test_shutting_down_when_explicitly_shutdown_legacy():
     num_dpf_exe = 0
     for proc in psutil.process_iter():
         if "Ans.Dpf.Grpc" in proc.name():
@@ -248,7 +257,8 @@ def test_shutting_down_when_deleted_legacy():
             "from ansys.dpf import core as dpf;"
             "from ansys.dpf.core import examples;"
             "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.LegacyGrpcServer;"
-            "model = dpf.Model(examples.find_static_rst());",
+            "model = dpf.Model(examples.find_static_rst());"
+            "dpf.SERVER.shutdown();",
         ]
     )
     time.sleep(2.0)
@@ -259,7 +269,7 @@ def test_shutting_down_when_deleted_legacy():
     assert num_dpf_exe >= new_num_dpf_exe
 
 
-def test_shutting_down_when_deleted():
+def test_shutting_down_when_explicitly_shutdown():
     num_dpf_exe = 0
     for proc in psutil.process_iter():
         if "Ans.Dpf.Grpc" in proc.name():
@@ -271,7 +281,8 @@ def test_shutting_down_when_deleted():
             "from ansys.dpf import core as dpf;"
             "from ansys.dpf.core import examples;"
             "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.GrpcServer;"
-            "model = dpf.Model(examples.find_static_rst());",
+            "model = dpf.Model(examples.find_static_rst());"
+            "dpf.SERVER.shutdown();",
         ]
     )
     time.sleep(2.0)
@@ -341,6 +352,8 @@ def test_start_after_shutting_down_server():
         config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False
     )
     remote_server.shutdown()
+    del remote_server
+    gc.collect()
 
     time.sleep(2.0)
 
