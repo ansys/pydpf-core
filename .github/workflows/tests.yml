@@ -110,7 +110,6 @@ jobs:
         python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
         os: ["windows-latest", "ubuntu-latest"]
     env:
-      # "any" can never be inferred from the host OS on a non-macOS runner, it must be requested explicitly.
       ANSYS_DPF_WHEEL_PLATFORM: ${{ inputs.test_any == 'true' && 'any' || '' }}
     steps:
       - name: "Build a wheelhouse of the Python library"
