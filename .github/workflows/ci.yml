@@ -123,7 +123,7 @@ jobs:
     permissions:
       contents: read
     env:
-      ANSYS_DPF_WHEEL_PLATFORM: "any"
+      ANSYS_DPF_WHEEL_PLATFORM: "manylinux1"
     steps:
       - uses: ansys/actions/build-library@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
         with:
