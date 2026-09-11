@@ -65,8 +65,11 @@ jobs:
       ANSYS_DPF_WHEEL_PLATFORM: ${{matrix.platform-tag}}
     strategy:
       matrix:
-        name: ['any', 'linux1']
-        platform-tag: ['any', 'manylinux1']
+        include:
+          - name: 'any'
+            platform-tag: 'any'
+          - name: 'linux'
+            platform-tag: 'manylinux1'
     steps:
       - uses: ansys/actions/build-library@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
         with:
