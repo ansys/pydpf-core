@@ -68,6 +68,8 @@ jobs:
     runs-on: windows-latest
     permissions:
       contents: read
+    env:
+      ANSYS_DPF_WHEEL_PLATFORM: "any"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -93,20 +95,6 @@ jobs:
           python -m pip install -U pip
           python -m pip install tox tox-uv
 
-      - name: "Build the wheel"
-        shell: pwsh
-        run: |
-          tox -e build-wheel -- "any"
-
-      - name: "Expose the wheel"
-        shell: bash
-        id: wheel
-        working-directory: dist
-        run: |
-          export name=`ls ansys_dpf_core*.whl`
-          echo ${name}
-          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-
       - name: "Install DPF"
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-server@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
@@ -114,14 +102,6 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
-
-      - name: "Test import"
-        shell: bash
-        env:
-          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
-        run: |
-          python -m pip install dist/${WHEEL_NAME}
-          python -c "from ansys.dpf import core"
 
       - name: "Setup headless display"
         uses: pyvista/setup-headless-display-action@5bc8de3bc71fcda7a96439571287a554901541a0 # v4.3
@@ -181,10 +161,8 @@ jobs:
 
       - name: "Build HTML Documentation"
         shell: bash
-        env:
-          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
         run: |
-          tox -e doc-html --installpkg dist/${WHEEL_NAME} -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
+          tox -e doc-html -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
 
       - name: "Save doc-build cache"
         id: cache-doc-build-save
