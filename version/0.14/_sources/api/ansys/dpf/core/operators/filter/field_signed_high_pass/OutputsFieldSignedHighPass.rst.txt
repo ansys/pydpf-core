@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`OutputsFieldSignedHighPass`
+===================================
+
+
+.. py:class:: ansys.dpf.core.operators.filter.field_signed_high_pass.OutputsFieldSignedHighPass(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   field_signed_high_pass operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.field_signed_high_pass()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+
+
+
+
+
+.. py:currentmodule:: OutputsFieldSignedHighPass
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to get field output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.filter.field_signed_high_pass import OutputsFieldSignedHighPass
+
+Property detail
+---------------
+
+.. py:property:: field
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.field_signed_high_pass()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field = op.outputs.field()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

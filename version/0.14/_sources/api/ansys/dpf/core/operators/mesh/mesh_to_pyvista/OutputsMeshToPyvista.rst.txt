@@ -1,0 +1,169 @@
+
+
+
+
+
+
+:class:`OutputsMeshToPyvista`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.mesh.mesh_to_pyvista.OutputsMeshToPyvista(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   mesh_to_pyvista operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_pyvista()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_nodes = op.outputs.nodes()
+   >>> result_cells = op.outputs.cells()
+   >>> result_cell_types = op.outputs.cell_types()
+   >>> result_offsets = op.outputs.offsets()
+
+
+
+
+
+.. py:currentmodule:: OutputsMeshToPyvista
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~nodes`
+            - Allows to get nodes output of the operator
+          * - :py:attr:`~cells`
+            - Allows to get cells output of the operator
+          * - :py:attr:`~cell_types`
+            - Allows to get cell_types output of the operator
+          * - :py:attr:`~offsets`
+            - Allows to get offsets output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.mesh_to_pyvista import OutputsMeshToPyvista
+
+Property detail
+---------------
+
+.. py:property:: nodes
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get nodes output of the operator
+
+   Node coordinates double vector
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_pyvista()
+   >>> # Get the output from op.outputs. ...
+   >>> result_nodes = op.outputs.nodes()
+
+.. py:property:: cells
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get cells output of the operator
+
+   Cell connectivity int vector
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_pyvista()
+   >>> # Get the output from op.outputs. ...
+   >>> result_cells = op.outputs.cells()
+
+.. py:property:: cell_types
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get cell_types output of the operator
+
+   Cell types property int vector
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_pyvista()
+   >>> # Get the output from op.outputs. ...
+   >>> result_cell_types = op.outputs.cell_types()
+
+.. py:property:: offsets
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get offsets output of the operator
+
+   If vtk_updated=false, offsets int vector
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_pyvista()
+   >>> # Get the output from op.outputs. ...
+   >>> result_offsets = op.outputs.offsets()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

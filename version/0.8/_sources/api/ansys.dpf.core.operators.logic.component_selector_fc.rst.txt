@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.logic.component_selector_fc
+   :inherited-members:

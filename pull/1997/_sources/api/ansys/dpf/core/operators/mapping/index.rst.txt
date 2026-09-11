@@ -1,0 +1,109 @@
+
+
+
+
+
+
+The ``mapping`` package
+===========================
+
+.. py:module:: ansys.dpf.core.operators.mapping
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: mapping
+.. tab-set::
+
+
+    .. tab-item:: Submodules
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.mapping.fft`
+            - fft
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.mapping.find_reduced_coordinates`
+            - find_reduced_coordinates
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.mapping.on_coordinates`
+            - on_coordinates
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.mapping.on_reduced_coordinates`
+            - on_reduced_coordinates
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.mapping.prep_sampling_fft`
+            - prep_sampling_fft
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.mapping.prepare_mapping_workflow`
+            - prepare_mapping_workflow
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.mapping.scoping_on_coordinates`
+            - scoping_on_coordinates
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.mapping.solid_to_skin`
+            - solid_to_skin
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.mapping.solid_to_skin_fc`
+            - solid_to_skin_fc
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-fa-file"></span> fft</api/ansys/dpf/core/operators/mapping/fft/index>
+    <span class="nf nf-fa-file"></span> find_reduced_coordinates</api/ansys/dpf/core/operators/mapping/find_reduced_coordinates/index>
+    <span class="nf nf-fa-file"></span> on_coordinates</api/ansys/dpf/core/operators/mapping/on_coordinates/index>
+    <span class="nf nf-fa-file"></span> on_reduced_coordinates</api/ansys/dpf/core/operators/mapping/on_reduced_coordinates/index>
+    <span class="nf nf-fa-file"></span> prep_sampling_fft</api/ansys/dpf/core/operators/mapping/prep_sampling_fft/index>
+    <span class="nf nf-fa-file"></span> prepare_mapping_workflow</api/ansys/dpf/core/operators/mapping/prepare_mapping_workflow/index>
+    <span class="nf nf-fa-file"></span> scoping_on_coordinates</api/ansys/dpf/core/operators/mapping/scoping_on_coordinates/index>
+    <span class="nf nf-fa-file"></span> solid_to_skin</api/ansys/dpf/core/operators/mapping/solid_to_skin/index>
+    <span class="nf nf-fa-file"></span> solid_to_skin_fc</api/ansys/dpf/core/operators/mapping/solid_to_skin_fc/index>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

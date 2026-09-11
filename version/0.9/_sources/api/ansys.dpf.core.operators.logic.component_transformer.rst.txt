@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.logic.component_transformer
+   :inherited-members:

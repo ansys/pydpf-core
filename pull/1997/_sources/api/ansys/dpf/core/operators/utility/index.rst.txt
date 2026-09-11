@@ -1,0 +1,494 @@
+
+
+
+
+
+
+The ``utility`` package
+===========================
+
+.. py:module:: ansys.dpf.core.operators.utility
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: utility
+.. tab-set::
+
+
+    .. tab-item:: Submodules
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.assemble_scalars_to_matrices`
+            - assemble_scalars_to_matrices
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.assemble_scalars_to_matrices_fc`
+            - assemble_scalars_to_matrices_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.assemble_scalars_to_vectors`
+            - assemble_scalars_to_vectors
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.assemble_scalars_to_vectors_fc`
+            - assemble_scalars_to_vectors_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.bind_support`
+            - bind_support
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.bind_support_fc`
+            - bind_support_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.change_location`
+            - change_location
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.change_shell_layers`
+            - change_shell_layers
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.compute_time_scoping`
+            - compute_time_scoping
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.concatenate_fields`
+            - concatenate_fields
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.concatenate_fields_containers`
+            - concatenate_fields_containers
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.customtypefield_get_attribute`
+            - customtypefield_get_attribute
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.cyclic_support_get_attribute`
+            - cyclic_support_get_attribute
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.default_value`
+            - default_value
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.delegate_to_operator`
+            - delegate_to_operator
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.ds_get_attribute`
+            - ds_get_attribute
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.extract_field`
+            - extract_field
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.extract_scoping`
+            - extract_scoping
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.extract_sub_fc`
+            - extract_sub_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.extract_sub_mc`
+            - extract_sub_mc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.extract_sub_sc`
+            - extract_sub_sc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.extract_time_freq`
+            - extract_time_freq
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.fc_get_attribute`
+            - fc_get_attribute
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.field`
+            - field
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.field_clone_to_shell_layer`
+            - field_clone_to_shell_layer
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.field_get_attribute`
+            - field_get_attribute
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.field_to_fc`
+            - field_to_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.fields_container`
+            - fields_container
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.fields_container_matrices_label`
+            - fields_container_matrices_label
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.for_each`
+            - for_each
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.forward`
+            - forward
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.forward_field`
+            - forward_field
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.forward_fields_container`
+            - forward_fields_container
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.forward_meshes_container`
+            - forward_meshes_container
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.get_operators`
+            - get_operators
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.hdf5dpf_workglow_provider`
+            - hdf5dpf_workglow_provider
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.html_doc`
+            - html_doc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.incremental_concatenate_as_fc`
+            - incremental_concatenate_as_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.ints_to_scoping`
+            - ints_to_scoping
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.make_for_each_range`
+            - make_for_each_range
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.make_label_space`
+            - make_label_space
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.make_overall`
+            - make_overall
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.make_producer_consumer_for_each_iterator`
+            - make_producer_consumer_for_each_iterator
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_any`
+            - merge_any
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_collections`
+            - merge_collections
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_data_tree`
+            - merge_data_tree
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_fields`
+            - merge_fields
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_fields_by_label`
+            - merge_fields_by_label
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_fields_containers`
+            - merge_fields_containers
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_generic_data_container`
+            - merge_generic_data_container
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_materials`
+            - merge_materials
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_meshes`
+            - merge_meshes
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_meshes_containers`
+            - merge_meshes_containers
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_property_fields`
+            - merge_property_fields
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_result_infos`
+            - merge_result_infos
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_scopings`
+            - merge_scopings
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_scopings_containers`
+            - merge_scopings_containers
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_string_fields`
+            - merge_string_fields
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_supports`
+            - merge_supports
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_time_freq_supports`
+            - merge_time_freq_supports
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_to_field_matrix`
+            - merge_to_field_matrix
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_weighted_fields`
+            - merge_weighted_fields
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.merge_weighted_fields_containers`
+            - merge_weighted_fields_containers
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.mesh`
+            - mesh
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.mesh_to_mc`
+            - mesh_to_mc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.meshes_container`
+            - meshes_container
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.operator_changelog`
+            - operator_changelog
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.operator_id`
+            - operator_id
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.overlap_fields`
+            - overlap_fields
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.producer_consumer_for_each`
+            - producer_consumer_for_each
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.property_field`
+            - property_field
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.propertyfield_get_attribute`
+            - propertyfield_get_attribute
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.python_generator`
+            - python_generator
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.remote_operator_instantiate`
+            - remote_operator_instantiate
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.remote_workflow_instantiate`
+            - remote_workflow_instantiate
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.remove_unnecessary_labels`
+            - remove_unnecessary_labels
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.scalars_to_field`
+            - scalars_to_field
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.server_path`
+            - server_path
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.set_attribute`
+            - set_attribute
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.set_property`
+            - set_property
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.split_in_for_each_range`
+            - split_in_for_each_range
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.strain_from_voigt`
+            - strain_from_voigt
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.strain_from_voigt_fc`
+            - strain_from_voigt_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.txt_file_to_dpf`
+            - txt_file_to_dpf
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.unitary_field`
+            - unitary_field
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility.weighted_merge_fields_by_label`
+            - weighted_merge_fields_by_label
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-fa-file"></span> assemble_scalars_to_matrices</api/ansys/dpf/core/operators/utility/assemble_scalars_to_matrices/index>
+    <span class="nf nf-fa-file"></span> assemble_scalars_to_matrices_fc</api/ansys/dpf/core/operators/utility/assemble_scalars_to_matrices_fc/index>
+    <span class="nf nf-fa-file"></span> assemble_scalars_to_vectors</api/ansys/dpf/core/operators/utility/assemble_scalars_to_vectors/index>
+    <span class="nf nf-fa-file"></span> assemble_scalars_to_vectors_fc</api/ansys/dpf/core/operators/utility/assemble_scalars_to_vectors_fc/index>
+    <span class="nf nf-fa-file"></span> bind_support</api/ansys/dpf/core/operators/utility/bind_support/index>
+    <span class="nf nf-fa-file"></span> bind_support_fc</api/ansys/dpf/core/operators/utility/bind_support_fc/index>
+    <span class="nf nf-fa-file"></span> change_location</api/ansys/dpf/core/operators/utility/change_location/index>
+    <span class="nf nf-fa-file"></span> change_shell_layers</api/ansys/dpf/core/operators/utility/change_shell_layers/index>
+    <span class="nf nf-fa-file"></span> compute_time_scoping</api/ansys/dpf/core/operators/utility/compute_time_scoping/index>
+    <span class="nf nf-fa-file"></span> concatenate_fields</api/ansys/dpf/core/operators/utility/concatenate_fields/index>
+    <span class="nf nf-fa-file"></span> concatenate_fields_containers</api/ansys/dpf/core/operators/utility/concatenate_fields_containers/index>
+    <span class="nf nf-fa-file"></span> customtypefield_get_attribute</api/ansys/dpf/core/operators/utility/customtypefield_get_attribute/index>
+    <span class="nf nf-fa-file"></span> cyclic_support_get_attribute</api/ansys/dpf/core/operators/utility/cyclic_support_get_attribute/index>
+    <span class="nf nf-fa-file"></span> default_value</api/ansys/dpf/core/operators/utility/default_value/index>
+    <span class="nf nf-fa-file"></span> delegate_to_operator</api/ansys/dpf/core/operators/utility/delegate_to_operator/index>
+    <span class="nf nf-fa-file"></span> ds_get_attribute</api/ansys/dpf/core/operators/utility/ds_get_attribute/index>
+    <span class="nf nf-fa-file"></span> extract_field</api/ansys/dpf/core/operators/utility/extract_field/index>
+    <span class="nf nf-fa-file"></span> extract_scoping</api/ansys/dpf/core/operators/utility/extract_scoping/index>
+    <span class="nf nf-fa-file"></span> extract_sub_fc</api/ansys/dpf/core/operators/utility/extract_sub_fc/index>
+    <span class="nf nf-fa-file"></span> extract_sub_mc</api/ansys/dpf/core/operators/utility/extract_sub_mc/index>
+    <span class="nf nf-fa-file"></span> extract_sub_sc</api/ansys/dpf/core/operators/utility/extract_sub_sc/index>
+    <span class="nf nf-fa-file"></span> extract_time_freq</api/ansys/dpf/core/operators/utility/extract_time_freq/index>
+    <span class="nf nf-fa-file"></span> fc_get_attribute</api/ansys/dpf/core/operators/utility/fc_get_attribute/index>
+    <span class="nf nf-fa-file"></span> field</api/ansys/dpf/core/operators/utility/field/index>
+    <span class="nf nf-fa-file"></span> field_clone_to_shell_layer</api/ansys/dpf/core/operators/utility/field_clone_to_shell_layer/index>
+    <span class="nf nf-fa-file"></span> field_get_attribute</api/ansys/dpf/core/operators/utility/field_get_attribute/index>
+    <span class="nf nf-fa-file"></span> field_to_fc</api/ansys/dpf/core/operators/utility/field_to_fc/index>
+    <span class="nf nf-fa-file"></span> fields_container</api/ansys/dpf/core/operators/utility/fields_container/index>
+    <span class="nf nf-fa-file"></span> fields_container_matrices_label</api/ansys/dpf/core/operators/utility/fields_container_matrices_label/index>
+    <span class="nf nf-fa-file"></span> for_each</api/ansys/dpf/core/operators/utility/for_each/index>
+    <span class="nf nf-fa-file"></span> forward</api/ansys/dpf/core/operators/utility/forward/index>
+    <span class="nf nf-fa-file"></span> forward_field</api/ansys/dpf/core/operators/utility/forward_field/index>
+    <span class="nf nf-fa-file"></span> forward_fields_container</api/ansys/dpf/core/operators/utility/forward_fields_container/index>
+    <span class="nf nf-fa-file"></span> forward_meshes_container</api/ansys/dpf/core/operators/utility/forward_meshes_container/index>
+    <span class="nf nf-fa-file"></span> get_operators</api/ansys/dpf/core/operators/utility/get_operators/index>
+    <span class="nf nf-fa-file"></span> hdf5dpf_workglow_provider</api/ansys/dpf/core/operators/utility/hdf5dpf_workglow_provider/index>
+    <span class="nf nf-fa-file"></span> html_doc</api/ansys/dpf/core/operators/utility/html_doc/index>
+    <span class="nf nf-fa-file"></span> incremental_concatenate_as_fc</api/ansys/dpf/core/operators/utility/incremental_concatenate_as_fc/index>
+    <span class="nf nf-fa-file"></span> ints_to_scoping</api/ansys/dpf/core/operators/utility/ints_to_scoping/index>
+    <span class="nf nf-fa-file"></span> make_for_each_range</api/ansys/dpf/core/operators/utility/make_for_each_range/index>
+    <span class="nf nf-fa-file"></span> make_label_space</api/ansys/dpf/core/operators/utility/make_label_space/index>
+    <span class="nf nf-fa-file"></span> make_overall</api/ansys/dpf/core/operators/utility/make_overall/index>
+    <span class="nf nf-fa-file"></span> make_producer_consumer_for_each_iterator</api/ansys/dpf/core/operators/utility/make_producer_consumer_for_each_iterator/index>
+    <span class="nf nf-fa-file"></span> merge_any</api/ansys/dpf/core/operators/utility/merge_any/index>
+    <span class="nf nf-fa-file"></span> merge_collections</api/ansys/dpf/core/operators/utility/merge_collections/index>
+    <span class="nf nf-fa-file"></span> merge_data_tree</api/ansys/dpf/core/operators/utility/merge_data_tree/index>
+    <span class="nf nf-fa-file"></span> merge_fields</api/ansys/dpf/core/operators/utility/merge_fields/index>
+    <span class="nf nf-fa-file"></span> merge_fields_by_label</api/ansys/dpf/core/operators/utility/merge_fields_by_label/index>
+    <span class="nf nf-fa-file"></span> merge_fields_containers</api/ansys/dpf/core/operators/utility/merge_fields_containers/index>
+    <span class="nf nf-fa-file"></span> merge_generic_data_container</api/ansys/dpf/core/operators/utility/merge_generic_data_container/index>
+    <span class="nf nf-fa-file"></span> merge_materials</api/ansys/dpf/core/operators/utility/merge_materials/index>
+    <span class="nf nf-fa-file"></span> merge_meshes</api/ansys/dpf/core/operators/utility/merge_meshes/index>
+    <span class="nf nf-fa-file"></span> merge_meshes_containers</api/ansys/dpf/core/operators/utility/merge_meshes_containers/index>
+    <span class="nf nf-fa-file"></span> merge_property_fields</api/ansys/dpf/core/operators/utility/merge_property_fields/index>
+    <span class="nf nf-fa-file"></span> merge_result_infos</api/ansys/dpf/core/operators/utility/merge_result_infos/index>
+    <span class="nf nf-fa-file"></span> merge_scopings</api/ansys/dpf/core/operators/utility/merge_scopings/index>
+    <span class="nf nf-fa-file"></span> merge_scopings_containers</api/ansys/dpf/core/operators/utility/merge_scopings_containers/index>
+    <span class="nf nf-fa-file"></span> merge_string_fields</api/ansys/dpf/core/operators/utility/merge_string_fields/index>
+    <span class="nf nf-fa-file"></span> merge_supports</api/ansys/dpf/core/operators/utility/merge_supports/index>
+    <span class="nf nf-fa-file"></span> merge_time_freq_supports</api/ansys/dpf/core/operators/utility/merge_time_freq_supports/index>
+    <span class="nf nf-fa-file"></span> merge_to_field_matrix</api/ansys/dpf/core/operators/utility/merge_to_field_matrix/index>
+    <span class="nf nf-fa-file"></span> merge_weighted_fields</api/ansys/dpf/core/operators/utility/merge_weighted_fields/index>
+    <span class="nf nf-fa-file"></span> merge_weighted_fields_containers</api/ansys/dpf/core/operators/utility/merge_weighted_fields_containers/index>
+    <span class="nf nf-fa-file"></span> mesh</api/ansys/dpf/core/operators/utility/mesh/index>
+    <span class="nf nf-fa-file"></span> mesh_to_mc</api/ansys/dpf/core/operators/utility/mesh_to_mc/index>
+    <span class="nf nf-fa-file"></span> meshes_container</api/ansys/dpf/core/operators/utility/meshes_container/index>
+    <span class="nf nf-fa-file"></span> operator_changelog</api/ansys/dpf/core/operators/utility/operator_changelog/index>
+    <span class="nf nf-fa-file"></span> operator_id</api/ansys/dpf/core/operators/utility/operator_id/index>
+    <span class="nf nf-fa-file"></span> overlap_fields</api/ansys/dpf/core/operators/utility/overlap_fields/index>
+    <span class="nf nf-fa-file"></span> producer_consumer_for_each</api/ansys/dpf/core/operators/utility/producer_consumer_for_each/index>
+    <span class="nf nf-fa-file"></span> property_field</api/ansys/dpf/core/operators/utility/property_field/index>
+    <span class="nf nf-fa-file"></span> propertyfield_get_attribute</api/ansys/dpf/core/operators/utility/propertyfield_get_attribute/index>
+    <span class="nf nf-fa-file"></span> python_generator</api/ansys/dpf/core/operators/utility/python_generator/index>
+    <span class="nf nf-fa-file"></span> remote_operator_instantiate</api/ansys/dpf/core/operators/utility/remote_operator_instantiate/index>
+    <span class="nf nf-fa-file"></span> remote_workflow_instantiate</api/ansys/dpf/core/operators/utility/remote_workflow_instantiate/index>
+    <span class="nf nf-fa-file"></span> remove_unnecessary_labels</api/ansys/dpf/core/operators/utility/remove_unnecessary_labels/index>
+    <span class="nf nf-fa-file"></span> scalars_to_field</api/ansys/dpf/core/operators/utility/scalars_to_field/index>
+    <span class="nf nf-fa-file"></span> server_path</api/ansys/dpf/core/operators/utility/server_path/index>
+    <span class="nf nf-fa-file"></span> set_attribute</api/ansys/dpf/core/operators/utility/set_attribute/index>
+    <span class="nf nf-fa-file"></span> set_property</api/ansys/dpf/core/operators/utility/set_property/index>
+    <span class="nf nf-fa-file"></span> split_in_for_each_range</api/ansys/dpf/core/operators/utility/split_in_for_each_range/index>
+    <span class="nf nf-fa-file"></span> strain_from_voigt</api/ansys/dpf/core/operators/utility/strain_from_voigt/index>
+    <span class="nf nf-fa-file"></span> strain_from_voigt_fc</api/ansys/dpf/core/operators/utility/strain_from_voigt_fc/index>
+    <span class="nf nf-fa-file"></span> txt_file_to_dpf</api/ansys/dpf/core/operators/utility/txt_file_to_dpf/index>
+    <span class="nf nf-fa-file"></span> unitary_field</api/ansys/dpf/core/operators/utility/unitary_field/index>
+    <span class="nf nf-fa-file"></span> weighted_merge_fields_by_label</api/ansys/dpf/core/operators/utility/weighted_merge_fields_by_label/index>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

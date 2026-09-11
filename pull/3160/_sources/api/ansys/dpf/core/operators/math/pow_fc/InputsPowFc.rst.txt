@@ -1,0 +1,178 @@
+
+
+
+
+
+
+:class:`InputsPowFc`
+====================
+
+
+.. py:class:: ansys.dpf.core.operators.math.pow_fc.InputsPowFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   pow_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.pow_fc()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_factor = float()
+   >>> op.inputs.factor.connect(my_factor)
+   >>> my_division_by_zero_value = float()
+   >>> op.inputs.division_by_zero_value.connect(my_division_by_zero_value)
+
+
+
+
+
+
+.. py:currentmodule:: InputsPowFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~factor`
+            - Allows to connect factor input to the operator.
+          * - :py:attr:`~division_by_zero_value`
+            - Allows to connect division_by_zero_value input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.pow_fc import InputsPowFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect fields_container input to the operator.
+
+   Field for which to compute power operation
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.pow_fc()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: factor
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect factor input to the operator.
+
+   Power exponent value
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.pow_fc()
+   >>> op.inputs.factor.connect(my_factor)
+   >>> # or
+   >>> op.inputs.factor(my_factor)
+
+.. py:property:: division_by_zero_value
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect division_by_zero_value input to the operator.
+
+   If this pin is used, the result of the division by zero for negative exponents is set to this value.
+   Default = inf
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.pow_fc()
+   >>> op.inputs.division_by_zero_value.connect(my_division_by_zero_value)
+   >>> # or
+   >>> op.inputs.division_by_zero_value(my_division_by_zero_value)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

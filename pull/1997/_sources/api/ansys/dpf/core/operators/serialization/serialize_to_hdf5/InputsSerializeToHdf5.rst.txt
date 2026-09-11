@@ -1,0 +1,223 @@
+
+
+
+
+
+
+:class:`InputsSerializeToHdf5`
+==============================
+
+
+.. py:class:: ansys.dpf.core.operators.serialization.serialize_to_hdf5.InputsSerializeToHdf5(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   serialize_to_hdf5 operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serialize_to_hdf5()
+   >>> my_file_path = str()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> my_export_floats = bool()
+   >>> op.inputs.export_floats.connect(my_export_floats)
+   >>> my_export_flat_vectors = bool()
+   >>> op.inputs.export_flat_vectors.connect(my_export_flat_vectors)
+   >>> my_data1 = dpf.()
+   >>> op.inputs.data1.connect(my_data1)
+   >>> my_data2 = dpf.()
+   >>> op.inputs.data2.connect(my_data2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsSerializeToHdf5
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~file_path`
+            - Allows to connect file_path input to the operator.
+          * - :py:attr:`~export_floats`
+            - Allows to connect export_floats input to the operator.
+          * - :py:attr:`~export_flat_vectors`
+            - Allows to connect export_flat_vectors input to the operator.
+          * - :py:attr:`~data1`
+            - Allows to connect data1 input to the operator.
+          * - :py:attr:`~data2`
+            - Allows to connect data2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.serialize_to_hdf5 import InputsSerializeToHdf5
+
+Property detail
+---------------
+
+.. py:property:: file_path
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect file_path input to the operator.
+
+   output file path with .h5 extension
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serialize_to_hdf5()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> # or
+   >>> op.inputs.file_path(my_file_path)
+
+.. py:property:: export_floats
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect export_floats input to the operator.
+
+   converts double to float to reduce file size (default is true)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serialize_to_hdf5()
+   >>> op.inputs.export_floats.connect(my_export_floats)
+   >>> # or
+   >>> op.inputs.export_floats(my_export_floats)
+
+.. py:property:: export_flat_vectors
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect export_flat_vectors input to the operator.
+
+   if true, vectors and matrices data are exported flat (x1,y1,z1,x2,y2,z2..) (default is false)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serialize_to_hdf5()
+   >>> op.inputs.export_flat_vectors.connect(my_export_flat_vectors)
+   >>> # or
+   >>> op.inputs.export_flat_vectors(my_export_flat_vectors)
+
+.. py:property:: data1
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect data1 input to the operator.
+
+   only the data set explicitly to export is exported
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serialize_to_hdf5()
+   >>> op.inputs.data1.connect(my_data1)
+   >>> # or
+   >>> op.inputs.data1(my_data1)
+
+.. py:property:: data2
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect data2 input to the operator.
+
+   only the data set explicitly to export is exported
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serialize_to_hdf5()
+   >>> op.inputs.data2.connect(my_data2)
+   >>> # or
+   >>> op.inputs.data2(my_data2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

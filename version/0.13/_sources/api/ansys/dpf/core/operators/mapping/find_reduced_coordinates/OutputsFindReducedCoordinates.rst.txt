@@ -1,0 +1,126 @@
+
+
+
+
+
+
+:class:`OutputsFindReducedCoordinates`
+======================================
+
+.. py:class:: ansys.dpf.core.operators.mapping.find_reduced_coordinates.OutputsFindReducedCoordinates(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   find_reduced_coordinates operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.find_reduced_coordinates()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_reduced_coordinates = op.outputs.reduced_coordinates()
+   >>> result_element_ids = op.outputs.element_ids()
+
+
+
+
+
+.. py:currentmodule:: OutputsFindReducedCoordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~reduced_coordinates`
+            - Allows to get reduced_coordinates output of the operator
+          * - :py:attr:`~element_ids`
+            - Allows to get element_ids output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.find_reduced_coordinates import OutputsFindReducedCoordinates
+
+Property detail
+---------------
+
+.. py:property:: reduced_coordinates
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get reduced_coordinates output of the operator
+
+   coordinates in the reference elements
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.find_reduced_coordinates()
+   >>> # Get the output from op.outputs. ...
+   >>> result_reduced_coordinates = op.outputs.reduced_coordinates()
+
+.. py:property:: element_ids
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get element_ids output of the operator
+
+   Ids of the elements where each set of reduced coordinates is found
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.find_reduced_coordinates()
+   >>> # Get the output from op.outputs. ...
+   >>> result_element_ids = op.outputs.element_ids()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

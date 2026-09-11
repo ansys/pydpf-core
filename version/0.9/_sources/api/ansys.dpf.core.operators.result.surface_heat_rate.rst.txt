@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.surface_heat_rate
+   :inherited-members:

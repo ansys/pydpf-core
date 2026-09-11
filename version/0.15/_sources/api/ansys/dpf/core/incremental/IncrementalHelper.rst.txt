@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`IncrementalHelper`
+==========================
+
+
+.. py:class:: ansys.dpf.core.incremental.IncrementalHelper(start_op: ansys.dpf.core.Operator, end_op: ansys.dpf.core.Operator, scoping: ansys.dpf.core.Scoping, scoping_pin: int = None)
+
+   Provides an API to transform an existing workflow into an incrementally evaluating one.
+
+   It works by plugging operators into an incomplete workflow.
+
+   .. rubric:: Example
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> path = examples.find_msup_transient()
+   >>> ds = dpf.DataSources(path)
+   >>> scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)
+   >>>
+   >>> result_op = dpf.operators.result.displacement(data_sources=ds, time_scoping=scoping)
+   >>> minmax_op = dpf.operators.min_max.min_max_fc_inc(result_op)
+   >>>
+   >>> new_op = dpf.split_workflow_in_chunks(result_op, minmax_op, scoping, chunk_size=5)
+   >>> min_field = new_op.get_output(0, dpf.types.field)
+   >>> max_field = new_op.get_output(1, dpf.types.field)
+
+
+
+.. py:currentmodule:: IncrementalHelper
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~estimate_size`
+            - Estimates the chunk size from the estimated number of bytes outputted in one iteration.
+          * - :py:attr:`~split`
+            - Integrate given operators into a new workflow enabling incremental evaluation.
+
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.incremental import IncrementalHelper
+
+
+
+Method detail
+-------------
+
+.. py:method:: estimate_size(max_bytes: int, _dict_inputs: Dict[int, Any] = {}) -> int
+
+   Estimates the chunk size from the estimated number of bytes outputted in one iteration.
+
+   Estimation is based on the size of the output for one ID of the given time_scoping,
+   so it will run the operator for only one iteration.
+
+   It only supports Field and FieldContainer.
+   For other types, you should specify chunk_size argument in the split() method.
+
+   :param max_bytes: Max allowed size of an output from the first operator, for one iteration (in bytes).
+   :type max_bytes: int
+   :param _dict_inputs: Dictionary associating pin number to inputs, for evaluating output of one iteration.
+   :type _dict_inputs: dict[int,any]
+
+
+.. py:method:: split(chunk_size: int, end_input_pin: int = 0, rescope: bool = False) -> ansys.dpf.core.Operator
+
+   Integrate given operators into a new workflow enabling incremental evaluation.
+
+   Given a chunk size (multiple of given scoping), it will provide a new operator to retrieve
+   outputs from, and enable incremental evaluation, notably reducing peak memory usage.
+
+   :param chunk_size: Number of iterations per run
+   :type chunk_size: int
+   :param end_input_pin: Pin number of the output to use from the first operator (default = 0)
+   :type end_input_pin: int, optional
+   :param rescope: Rescope all the outputs based on the given scoping (default = False)
+   :type rescope: bool, optional
+
+
+
+
+

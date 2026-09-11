@@ -1,0 +1,95 @@
+
+
+
+
+
+
+:class:`CustomConfigOptionSpec`
+===============================
+
+.. py:class:: ansys.dpf.core.operator_specification.CustomConfigOptionSpec(option_name: str, default_value, document: str)
+
+   Bases: :py:obj:`ConfigOptionSpec`
+
+
+   Custom documentation of a configuration option available for a given operator.
+
+
+
+
+.. py:currentmodule:: CustomConfigOptionSpec
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~name`
+            - 
+          * - :py:attr:`~type_names`
+            - 
+          * - :py:attr:`~default_value_str`
+            - 
+          * - :py:attr:`~document`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__repr__`
+            - Provide more detail in the representation of the instance.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operator_specification import CustomConfigOptionSpec
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: name
+   :type:  str
+
+.. py:attribute:: type_names
+   :type:  list
+
+.. py:attribute:: default_value_str
+   :type:  str
+
+.. py:attribute:: document
+   :type:  str
+
+
+
+Method detail
+-------------
+
+.. py:method:: __repr__()
+
+   Provide more detail in the representation of the instance.
+
+
+
+
+

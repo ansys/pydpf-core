@@ -1,0 +1,309 @@
+
+
+
+
+
+
+:class:`InputsFftApprox`
+========================
+
+
+.. py:class:: ansys.dpf.core.operators.math.fft_approx.InputsFftApprox(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   fft_approx operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_approx()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_entity_to_fit = dpf.FieldsContainer()
+   >>> op.inputs.entity_to_fit.connect(my_entity_to_fit)
+   >>> my_component_number = int()
+   >>> op.inputs.component_number.connect(my_component_number)
+   >>> my_first_derivative = bool()
+   >>> op.inputs.first_derivative.connect(my_first_derivative)
+   >>> my_second_derivative = bool()
+   >>> op.inputs.second_derivative.connect(my_second_derivative)
+   >>> my_fit_data = bool()
+   >>> op.inputs.fit_data.connect(my_fit_data)
+   >>> my_cutoff_fr = float()
+   >>> op.inputs.cutoff_fr.connect(my_cutoff_fr)
+
+
+
+
+
+
+.. py:currentmodule:: InputsFftApprox
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~entity_to_fit`
+            - Allows to connect entity_to_fit input to the operator.
+          * - :py:attr:`~component_number`
+            - Allows to connect component_number input to the operator.
+          * - :py:attr:`~first_derivative`
+            - Allows to connect first_derivative input to the operator.
+          * - :py:attr:`~second_derivative`
+            - Allows to connect second_derivative input to the operator.
+          * - :py:attr:`~fit_data`
+            - Allows to connect fit_data input to the operator.
+          * - :py:attr:`~cutoff_fr`
+            - Allows to connect cutoff_fr input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.fft_approx import InputsFftApprox
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect time_scoping input to the operator.
+
+   A time scoping to rescope / split the fields container given as input.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_approx()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: mesh_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mesh_scoping input to the operator.
+
+   A space (mesh entities) scoping (or scopings container) to rescope / split the fields container given as input.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_approx()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: entity_to_fit
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect entity_to_fit input to the operator.
+
+   Data changing in time to be fitted.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_approx()
+   >>> op.inputs.entity_to_fit.connect(my_entity_to_fit)
+   >>> # or
+   >>> op.inputs.entity_to_fit(my_entity_to_fit)
+
+.. py:property:: component_number
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect component_number input to the operator.
+
+   Component number as an integer, for example '0' for X-displacement, '1' for Y-displacement, and so on.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_approx()
+   >>> op.inputs.component_number.connect(my_component_number)
+   >>> # or
+   >>> op.inputs.component_number(my_component_number)
+
+.. py:property:: first_derivative
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect first_derivative input to the operator.
+
+   Calculate the first derivative (bool). The default is false.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_approx()
+   >>> op.inputs.first_derivative.connect(my_first_derivative)
+   >>> # or
+   >>> op.inputs.first_derivative(my_first_derivative)
+
+.. py:property:: second_derivative
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect second_derivative input to the operator.
+
+   Calculate the second derivative (bool). The default is false.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_approx()
+   >>> op.inputs.second_derivative.connect(my_second_derivative)
+   >>> # or
+   >>> op.inputs.second_derivative(my_second_derivative)
+
+.. py:property:: fit_data
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fit_data input to the operator.
+
+   Calculate the fitted values (bool). The default is false
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_approx()
+   >>> op.inputs.fit_data.connect(my_fit_data)
+   >>> # or
+   >>> op.inputs.fit_data(my_fit_data)
+
+.. py:property:: cutoff_fr
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect cutoff_fr input to the operator.
+
+   Cutoff frequency.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_approx()
+   >>> op.inputs.cutoff_fr.connect(my_cutoff_fr)
+   >>> # or
+   >>> op.inputs.cutoff_fr(my_cutoff_fr)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

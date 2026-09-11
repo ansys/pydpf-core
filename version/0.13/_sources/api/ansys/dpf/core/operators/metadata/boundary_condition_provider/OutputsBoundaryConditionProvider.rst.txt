@@ -1,0 +1,93 @@
+
+
+
+
+
+
+:class:`OutputsBoundaryConditionProvider`
+=========================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.boundary_condition_provider.OutputsBoundaryConditionProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   boundary_condition_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.boundary_condition_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_results_info = op.outputs.results_info()
+
+
+
+
+
+.. py:currentmodule:: OutputsBoundaryConditionProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~results_info_as_field`
+            - 
+          * - :py:attr:`~results_info_as_fields_container`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.boundary_condition_provider import OutputsBoundaryConditionProvider
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: results_info_as_field
+
+.. py:attribute:: results_info_as_fields_container
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

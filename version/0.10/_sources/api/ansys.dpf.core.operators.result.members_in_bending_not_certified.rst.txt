@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.members_in_bending_not_certified
+   :inherited-members:

@@ -1,0 +1,177 @@
+
+
+
+
+
+
+:class:`InputsMergeSupports`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_supports.InputsMergeSupports(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_supports operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_supports()
+   >>> my_should_merge_named_selections = bool()
+   >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
+   >>> my_supports1 = dpf.AbstractFieldSupport()
+   >>> op.inputs.supports1.connect(my_supports1)
+   >>> my_supports2 = dpf.AbstractFieldSupport()
+   >>> op.inputs.supports2.connect(my_supports2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMergeSupports
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~should_merge_named_selections`
+            - Allows to connect should_merge_named_selections input to the operator.
+          * - :py:attr:`~supports1`
+            - Allows to connect supports1 input to the operator.
+          * - :py:attr:`~supports2`
+            - Allows to connect supports2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_supports import InputsMergeSupports
+
+Property detail
+---------------
+
+.. py:property:: should_merge_named_selections
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect should_merge_named_selections input to the operator.
+
+   For some result files (such as RST), the scoping on names selection is duplicated through all the distributed files.If this pin is false, the merging process is skipped. If it is true, this scoping is merged. Default is true.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_supports()
+   >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
+   >>> # or
+   >>> op.inputs.should_merge_named_selections(my_should_merge_named_selections)
+
+.. py:property:: supports1
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect supports1 input to the operator.
+
+   A vector of supports to merge or supports from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_supports()
+   >>> op.inputs.supports1.connect(my_supports1)
+   >>> # or
+   >>> op.inputs.supports1(my_supports1)
+
+.. py:property:: supports2
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect supports2 input to the operator.
+
+   A vector of supports to merge or supports from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_supports()
+   >>> op.inputs.supports2.connect(my_supports2)
+   >>> # or
+   >>> op.inputs.supports2(my_supports2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

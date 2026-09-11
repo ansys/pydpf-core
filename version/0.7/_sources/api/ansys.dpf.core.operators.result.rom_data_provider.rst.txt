@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.rom_data_provider
+   :inherited-members:

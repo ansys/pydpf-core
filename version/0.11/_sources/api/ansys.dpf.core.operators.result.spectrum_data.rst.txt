@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.spectrum_data
+   :inherited-members:

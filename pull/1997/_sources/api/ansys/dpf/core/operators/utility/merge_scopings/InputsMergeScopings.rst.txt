@@ -1,0 +1,154 @@
+
+
+
+
+
+
+:class:`InputsMergeScopings`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_scopings.InputsMergeScopings(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_scopings operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_scopings()
+   >>> my_scopings1 = dpf.Scoping()
+   >>> op.inputs.scopings1.connect(my_scopings1)
+   >>> my_scopings2 = dpf.Scoping()
+   >>> op.inputs.scopings2.connect(my_scopings2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMergeScopings
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scopings1`
+            - Allows to connect scopings1 input to the operator.
+          * - :py:attr:`~scopings2`
+            - Allows to connect scopings2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_scopings import InputsMergeScopings
+
+Property detail
+---------------
+
+.. py:property:: scopings1
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping | ansys.dpf.core.scopings_container.ScopingsContainer]
+
+
+   Allows to connect scopings1 input to the operator.
+
+   Either a scopings container, a vector of scopings to merge, or scopings from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_scopings()
+   >>> op.inputs.scopings1.connect(my_scopings1)
+   >>> # or
+   >>> op.inputs.scopings1(my_scopings1)
+
+.. py:property:: scopings2
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping | ansys.dpf.core.scopings_container.ScopingsContainer]
+
+
+   Allows to connect scopings2 input to the operator.
+
+   Either a scopings container, a vector of scopings to merge, or scopings from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_scopings()
+   >>> op.inputs.scopings2.connect(my_scopings2)
+   >>> # or
+   >>> op.inputs.scopings2(my_scopings2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

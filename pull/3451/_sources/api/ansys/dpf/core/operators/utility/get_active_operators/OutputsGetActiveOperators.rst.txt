@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`OutputsGetActiveOperators`
+==================================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.get_active_operators.OutputsGetActiveOperators(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   get_active_operators operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.get_active_operators()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_active_operators = op.outputs.active_operators()
+
+
+
+
+
+.. py:currentmodule:: OutputsGetActiveOperators
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~active_operators`
+            - Allows to get active_operators output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.get_active_operators import OutputsGetActiveOperators
+
+Property detail
+---------------
+
+.. py:property:: active_operators
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.generic_data_container.GenericDataContainer]
+
+
+   Allows to get active_operators output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.get_active_operators()
+   >>> # Get the output from op.outputs. ...
+   >>> result_active_operators = op.outputs.active_operators()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

@@ -1,0 +1,196 @@
+
+
+
+
+
+
+:class:`InputsIdenticalFc`
+==========================
+
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_fc.InputsIdenticalFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   identical_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_fc()
+   >>> my_fields_containerA = dpf.FieldsContainer()
+   >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+   >>> my_fields_containerB = dpf.FieldsContainer()
+   >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+   >>> my_small_value = float()
+   >>> op.inputs.small_value.connect(my_small_value)
+   >>> my_tolerance = float()
+   >>> op.inputs.tolerance.connect(my_tolerance)
+
+
+
+
+
+
+.. py:currentmodule:: InputsIdenticalFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_containerA`
+            - Allows to connect fields_containerA input to the operator.
+          * - :py:attr:`~fields_containerB`
+            - Allows to connect fields_containerB input to the operator.
+          * - :py:attr:`~small_value`
+            - Allows to connect small_value input to the operator.
+          * - :py:attr:`~tolerance`
+            - Allows to connect tolerance input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_fc import InputsIdenticalFc
+
+Property detail
+---------------
+
+.. py:property:: fields_containerA
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect fields_containerA input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_fc()
+   >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+   >>> # or
+   >>> op.inputs.fields_containerA(my_fields_containerA)
+
+.. py:property:: fields_containerB
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect fields_containerB input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_fc()
+   >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+   >>> # or
+   >>> op.inputs.fields_containerB(my_fields_containerB)
+
+.. py:property:: small_value
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect small_value input to the operator.
+
+   Double positive small value. Smallest value which will be considered during the comparison step. All the abs(values) in the field less than this value are considered as null, (default value:1.0e-14).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_fc()
+   >>> op.inputs.small_value.connect(my_small_value)
+   >>> # or
+   >>> op.inputs.small_value(my_small_value)
+
+.. py:property:: tolerance
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect tolerance input to the operator.
+
+   Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical (v1-v2)/v2 < relativeTol (default is 0.001).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_fc()
+   >>> op.inputs.tolerance.connect(my_tolerance)
+   >>> # or
+   >>> op.inputs.tolerance(my_tolerance)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

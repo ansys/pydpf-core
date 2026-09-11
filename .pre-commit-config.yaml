@@ -1,0 +1,38 @@
+exclude: |
+    (?x)^(
+        docs/source/|
+        src/ansys/dpf/core/operators/|
+        examples_notebooks/|
+        src/ansys/dpf/core/__init__.py|
+        docs/styles/
+    )
+repos:
+
+- repo: https://github.com/psf/black
+  rev: 22.10.0
+  hooks:
+  - id: black
+
+- repo: https://github.com/PyCQA/flake8
+  rev: 6.0.0
+  hooks:
+  - id: flake8
+
+- repo: https://github.com/codespell-project/codespell
+  rev: v2.2.2
+  hooks:
+  - id: codespell
+    args: ["--ignore-words=ignore_words.txt"]
+
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+  - id: check-merge-conflict
+  - id: debug-statements
+  - id: requirements-txt-fixer
+
+# this validates our github workflow files
+- repo: https://github.com/python-jsonschema/check-jsonschema
+  rev: 0.19.2
+  hooks:
+    - id: check-github-workflows

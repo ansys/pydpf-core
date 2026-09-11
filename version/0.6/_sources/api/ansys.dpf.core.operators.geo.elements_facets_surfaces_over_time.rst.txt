@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time
+   :inherited-members:

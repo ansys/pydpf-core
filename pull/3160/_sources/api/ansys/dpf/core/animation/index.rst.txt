@@ -1,0 +1,107 @@
+
+
+
+
+
+
+The ``animation.py`` module
+===========================
+
+.. py:module:: ansys.dpf.core.animation
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: animation
+.. tab-set::
+
+
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~animate_mode`
+            - Create a modal animation based on Fields contained in the FieldsContainer.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Module contains the function for modal animation creation.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: animate_mode(fields_container, mode_number=1, type_mode=0, frame_number=None, save_as='', deform_scale_factor=1.0, **kwargs)
+
+   Create a modal animation based on Fields contained in the FieldsContainer.
+
+   This method creates a movie or a gif based on the time ids of a ``FieldsContainer``.
+   For kwargs see pyvista.Plotter.open_movie/add_text/show.
+
+   :param field_container: Field container containing the modal results.
+   :param mode_number: Mode number of the results to animation. The default is ``1``.
+   :type mode_number: int, optional
+   :param type_mode: Whether it is 0 or 1. Default to 0.
+                     If 0, the norm of the displacements will be scaled from 1 to -1 to 1.
+                     If 1, the norm of the displacements will be scaled between -1 and 1.
+   :type type_mode: int, optional
+   :param save_as: supported by pyvista.Plotter.write_frame (.gif, .mp4, ...).
+   :type save_as: Path of file to save the animation to. Defaults to None. Can be of any format
+   :param deform_scale_factor: Scale factor to apply when warping the mesh. Defaults to 1.0.
+   :type deform_scale_factor: float, optional
+
+   .. rubric:: Examples
+
+   Import a modal result from a model.
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.download_modal_frame())
+   >>> disp = model.results.displacement.on_all_time_freqs.eval()
+
+   Creates an animation from a modal result.
+
+   >>> from ansys.dpf.core import animation
+   >>> animation.animate_mode(disp, mode_number=1, save_as="tmp.gif")
+
+
+
+

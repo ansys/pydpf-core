@@ -1,0 +1,31 @@
+
+
+
+
+
+
+:class:`DpfValueError`
+======================
+
+
+.. py:exception:: ansys.dpf.core.errors.DpfValueError(msg='A value that has been set leads to incorrect DPF behavior.')
+
+   Bases: :py:obj:`ValueError`
+
+
+   Error raised when a specific DPF error value must be defined.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.errors import DpfValueError
+
+
+
+
+

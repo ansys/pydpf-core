@@ -1,0 +1,73 @@
+
+
+
+
+
+
+:class:`OutputsVtkExport`
+=========================
+
+.. py:class:: ansys.dpf.core.operators.serialization.vtk_export.OutputsVtkExport(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   vtk_export operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.vtk_export()
+   >>> # Connect inputs : op.inputs. ...
+
+
+
+
+
+.. py:currentmodule:: OutputsVtkExport
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.vtk_export import OutputsVtkExport
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

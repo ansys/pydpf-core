@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.mesh.skin
+   :inherited-members:

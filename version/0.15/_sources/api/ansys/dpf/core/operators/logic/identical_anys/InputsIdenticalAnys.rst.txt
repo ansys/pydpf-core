@@ -1,0 +1,219 @@
+
+
+
+
+
+
+:class:`InputsIdenticalAnys`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.logic.identical_anys.InputsIdenticalAnys(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   identical_anys operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_anys()
+   >>> my_anyA = dpf.Any()
+   >>> op.inputs.anyA.connect(my_anyA)
+   >>> my_anyB = dpf.Any()
+   >>> op.inputs.anyB.connect(my_anyB)
+   >>> my_double_value = float()
+   >>> op.inputs.double_value.connect(my_double_value)
+   >>> my_double_tolerance = float()
+   >>> op.inputs.double_tolerance.connect(my_double_tolerance)
+   >>> my_compare_auxiliary = bool()
+   >>> op.inputs.compare_auxiliary.connect(my_compare_auxiliary)
+
+
+
+
+
+
+.. py:currentmodule:: InputsIdenticalAnys
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~anyA`
+            - Allows to connect anyA input to the operator.
+          * - :py:attr:`~anyB`
+            - Allows to connect anyB input to the operator.
+          * - :py:attr:`~double_value`
+            - Allows to connect double_value input to the operator.
+          * - :py:attr:`~double_tolerance`
+            - Allows to connect double_tolerance input to the operator.
+          * - :py:attr:`~compare_auxiliary`
+            - Allows to connect compare_auxiliary input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.identical_anys import InputsIdenticalAnys
+
+Property detail
+---------------
+
+.. py:property:: anyA
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.any.Any]
+
+
+   Allows to connect anyA input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_anys()
+   >>> op.inputs.anyA.connect(my_anyA)
+   >>> # or
+   >>> op.inputs.anyA(my_anyA)
+
+.. py:property:: anyB
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.any.Any]
+
+
+   Allows to connect anyB input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_anys()
+   >>> op.inputs.anyB.connect(my_anyB)
+   >>> # or
+   >>> op.inputs.anyB(my_anyB)
+
+.. py:property:: double_value
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect double_value input to the operator.
+
+   Double positive small value. Smallest value considered during the comparison step. All the absolute values in the field less than this value are considered null, (default value: 1.0e-14).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_anys()
+   >>> op.inputs.double_value.connect(my_double_value)
+   >>> # or
+   >>> op.inputs.double_value(my_double_value)
+
+.. py:property:: double_tolerance
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect double_tolerance input to the operator.
+
+   Double relative tolerance. Maximum tolerance gap between two compared values. Values within relative tolerance are considered identical. Formula is (v1-v2)/v2 < relativeTol. Default is 0.001.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_anys()
+   >>> op.inputs.double_tolerance.connect(my_double_tolerance)
+   >>> # or
+   >>> op.inputs.double_tolerance(my_double_tolerance)
+
+.. py:property:: compare_auxiliary
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect compare_auxiliary input to the operator.
+
+   For meshes and meshescontainer: compare auxiliary data (i.e property fields, scopings...). Default value is 'false'.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.identical_anys()
+   >>> op.inputs.compare_auxiliary.connect(my_compare_auxiliary)
+   >>> # or
+   >>> op.inputs.compare_auxiliary(my_compare_auxiliary)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

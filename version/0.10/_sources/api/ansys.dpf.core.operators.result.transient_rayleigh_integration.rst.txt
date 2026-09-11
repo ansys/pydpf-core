@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.transient_rayleigh_integration
+   :inherited-members:

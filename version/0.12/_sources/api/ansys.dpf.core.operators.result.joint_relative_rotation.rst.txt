@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.joint_relative_rotation
+   :inherited-members:

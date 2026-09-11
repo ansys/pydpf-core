@@ -1,0 +1,103 @@
+
+
+
+
+
+
+:class:`OutputsHdf5DpfWorkglowProvider`
+=======================================
+
+.. py:class:: ansys.dpf.core.operators.utility.hdf5dpf_workglow_provider.OutputsHdf5DpfWorkglowProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   hdf5dpf_workglow_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.hdf5dpf_workglow_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field_or_fields_container = op.outputs.field_or_fields_container()
+
+
+
+
+
+.. py:currentmodule:: OutputsHdf5DpfWorkglowProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field_or_fields_container`
+            - Allows to get field_or_fields_container output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.hdf5dpf_workglow_provider import OutputsHdf5DpfWorkglowProvider
+
+Property detail
+---------------
+
+.. py:property:: field_or_fields_container
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_or_fields_container output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.hdf5dpf_workglow_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_or_fields_container = op.outputs.field_or_fields_container()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

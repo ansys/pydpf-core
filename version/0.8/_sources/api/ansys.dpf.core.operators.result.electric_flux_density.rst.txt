@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.electric_flux_density
+   :inherited-members:

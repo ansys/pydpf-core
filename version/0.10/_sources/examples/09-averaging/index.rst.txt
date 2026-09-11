@@ -1,0 +1,61 @@
+
+
+.. _sphx_glr_examples_09-averaging:
+
+.. _averaging_examples:
+
+Averaging examples
+==================
+These examples show how to use some of DPF's averaging operators.
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example compares two different workflows that accomplish the same task to show how the ord...">
+
+.. only:: html
+
+  .. image:: /examples/09-averaging/images/thumb/sphx_glr_00-compute_and_average_thumb.png
+    :alt: Averaging order
+
+  :ref:`sphx_glr_examples_09-averaging_00-compute_and_average.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Averaging order</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In multibody simulations, some nodes may be shared by the bodies at their interfaces, but the v...">
+
+.. only:: html
+
+  .. image:: /examples/09-averaging/images/thumb/sphx_glr_01-average_across_bodies_thumb.png
+    :alt: Average across bodies
+
+  :ref:`sphx_glr_examples_09-averaging_01-average_across_bodies.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Average across bodies</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/09-averaging/00-compute_and_average
+   /examples/09-averaging/01-average_across_bodies
+

@@ -1,0 +1,74 @@
+
+
+
+
+
+
+:class:`ServerFactory`
+======================
+
+
+.. py:class:: ansys.dpf.core.server_factory.ServerFactory
+
+   Factory for server type choice depending on current configuration.
+
+
+
+
+
+.. py:currentmodule:: ServerFactory
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~get_server_type_from_config`
+            - Return server type determined from the server configuration.
+          * - :py:attr:`~get_remote_server_type_from_config`
+            - Return remote server type determined from the server configuration.
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.server_factory import ServerFactory
+
+
+
+Method detail
+-------------
+
+.. py:method:: get_server_type_from_config(config: ServerConfig = None, ansys_path: str = None, docker_config: DockerConfig = None)
+   :staticmethod:
+
+
+   Return server type determined from the server configuration.
+
+
+.. py:method:: get_remote_server_type_from_config(config: ServerConfig = None)
+   :staticmethod:
+
+
+   Return remote server type determined from the server configuration.
+
+
+
+
+

@@ -1,0 +1,13 @@
+ansys.dpf.core.operators.server namespace
+=========================================
+
+.. py:module:: ansys.dpf.core.operators.server
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.server.grpc_shutdown_server
+   ansys.dpf.core.operators.server.grpc_start_server

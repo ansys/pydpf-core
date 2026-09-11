@@ -1,0 +1,1086 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:site_name" content="PyAnsys" />
+    <title>Animate data over time &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/ansys-sphinx-theme.css?v=ce7f2556" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles\ansys-sphinx-theme.css?v=ce7f2556" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=f3be7b20" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../../_static/documentation_options.js?v=bfeb67b3"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/tutorials/animate/animate_time';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.14';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Mathematics" href="../mathematics/index.html" />
+    <link rel="prev" title="Animate" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.14.2" />
+  <link rel="canonical" href="https://dpf.docs.pyansys.com/version/stable/user_guide/tutorials/animate/animate_time.html" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../data_structures/index.html">DPF data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../post_processing_basics/index.html">Processing data basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../import_data/index.html">Import Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Animate</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Animate data over time</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/index.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_operators_and_plugins/index.html">Custom Operators and Plugins</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/concepts.html">Terms and concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/waysofusing.html">DPF capabilities and scripting languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/stepbystep.html">DPF usage</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Troubleshooting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../../index.html" class="nav-link">User guide</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">Animate</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Animate data over time</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="animate-data-over-time">
+<span id="ref-tutorials-animate-time"></span><h1>Animate data over time<a class="headerlink" href="#animate-data-over-time" title="Link to this heading">#</a></h1>
+<p><span class="sd-sphinx-override sd-badge sd-bg-mapdl sd-bg-text-mapdl">MAPDL</span> <span class="sd-sphinx-override sd-badge sd-bg-lsdyna sd-bg-text-lsdyna">LS-DYNA</span> <span class="sd-sphinx-override sd-badge sd-bg-fluent sd-bg-text-fluent">FLUENT</span> <span class="sd-sphinx-override sd-badge sd-bg-cfx sd-bg-text-cfx">CFX</span></p>
+<span class="target" id="ref-links-and-refs"></span><p>This tutorial demonstrates how to create 3D animations of data in time.</p>
+<p><a class="reference download internal" download="" href="../../../_downloads/f49b8d8764b743c9471845cddc27f4ae/animate_time.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Python</span> <span class="pre">script</span></code></a>  <a class="reference download internal" download="" href="../../../_downloads/86c06a8e6ca564a739c5ba99212ad62a/animate_time.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">Jupyter</span> <span class="pre">notebook</span></code></a></p>
+<p>To animate data across time, you must store the data in a <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> with a <code class="docutils literal notranslate"><span class="pre">time</span></code> label.</p>
+<section id="get-the-result-files">
+<h2>Get the result files<a class="headerlink" href="#get-the-result-files" title="Link to this heading">#</a></h2>
+<p>First, import a results file. For this tutorial, you can use the one available in the <a class="reference internal" href="../../../api/ansys/dpf/core/examples/index.html#module-ansys.dpf.core.examples" title="ansys.dpf.core.examples"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Examples</span></code></a> module.
+For more information about how to import your own result file in DPF, see
+the <a class="reference internal" href="../import_data/index.html#ref-tutorials-import-data"><span class="std std-ref">Import Data</span></a> tutorial section.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the ``ansys.dpf.core`` module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="c1"># Import the examples module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span>
+<span class="c1"># Import the operators module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+
+<span class="c1"># Define the result file path</span>
+<span class="n">result_file_path</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">find_msup_transient</span><span class="p">()</span>
+<span class="c1"># Create the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">result_file_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="define-a-time-scoping">
+<h2>Define a time scoping<a class="headerlink" href="#define-a-time-scoping" title="Link to this heading">#</a></h2>
+<p>To animate across time, you must define the time steps you are interested in.
+This tutorial retrieves all the time steps available in <a class="reference internal" href="../../../api/ansys/dpf/core/time_freq_support/TimeFreqSupport.html#ansys.dpf.core.time_freq_support.TimeFreqSupport" title="ansys.dpf.core.time_freq_support.TimeFreqSupport"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeFreqSupport</span></code></a>, but you can also filter them.
+For more information on how to define a scoping, see the <code class="docutils literal notranslate"><span class="pre">Narrow</span> <span class="pre">down</span> <span class="pre">data</span></code> tutorial in the
+<a class="reference internal" href="../import_data/index.html#ref-tutorials-import-data"><span class="std std-ref">Import Data</span></a> tutorials section.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get a scoping of all time steps available</span>
+<span class="n">time_steps</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="extract-the-results">
+<h2>Extract the results<a class="headerlink" href="#extract-the-results" title="Link to this heading">#</a></h2>
+<p>Extract the results to animate. In this tutorial, you extract the displacement and stress results.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only the <a class="reference internal" href="../../../api/ansys/dpf/core/common/locations.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">elemental</span></code></a>, <a class="reference internal" href="../../../api/ansys/dpf/core/common/locations.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">nodal</span></code></a>, or <a class="reference internal" href="../../../api/ansys/dpf/core/faces/Faces.html#ansys.dpf.core.faces.Faces" title="ansys.dpf.core.faces.Faces"><code class="xref py py-class docutils literal notranslate"><span class="pre">Faces</span></code></a> locations are supported for animations.
+<a class="reference internal" href="../../../api/ansys/dpf/core/common/locations.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">overall</span></code></a> and <a class="reference internal" href="../../../api/ansys/dpf/core/common/locations.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">elemental_nodal</span></code></a> locations are not currently supported.</p>
+</div>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the displacement fields (already on nodes) at all time steps</span>
+<span class="n">disp_fc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">time_scoping</span><span class="o">=</span><span class="n">time_steps</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">disp_fc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Fields Container
+  with 20 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 3 components and 393 entities.
+  - field 1 {time:  2} with Nodal location, 3 components and 393 entities.
+  - field 2 {time:  3} with Nodal location, 3 components and 393 entities.
+  - field 3 {time:  4} with Nodal location, 3 components and 393 entities.
+  - field 4 {time:  5} with Nodal location, 3 components and 393 entities.
+  - field 5 {time:  6} with Nodal location, 3 components and 393 entities.
+  - field 6 {time:  7} with Nodal location, 3 components and 393 entities.
+  - field 7 {time:  8} with Nodal location, 3 components and 393 entities.
+  - field 8 {time:  9} with Nodal location, 3 components and 393 entities.
+  - field 9 {time:  10} with Nodal location, 3 components and 393 entities.
+  - field 10 {time:  11} with Nodal location, 3 components and 393 entities.
+  - field 11 {time:  12} with Nodal location, 3 components and 393 entities.
+  - field 12 {time:  13} with Nodal location, 3 components and 393 entities.
+  - field 13 {time:  14} with Nodal location, 3 components and 393 entities.
+  - field 14 {time:  15} with Nodal location, 3 components and 393 entities.
+  - field 15 {time:  16} with Nodal location, 3 components and 393 entities.
+  - field 16 {time:  17} with Nodal location, 3 components and 393 entities.
+  - field 17 {time:  18} with Nodal location, 3 components and 393 entities.
+  - field 18 {time:  19} with Nodal location, 3 components and 393 entities.
+  - field 19 {time:  20} with Nodal location, 3 components and 393 entities.
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the stress fields on nodes at all time steps</span>
+<span class="c1"># Request the stress on |Nodal| location as the default |ElementalNodal| location is not supported.</span>
+<span class="n">stress_fc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">on_location</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span><span class="o">.</span><span class="n">on_time_scoping</span><span class="p">(</span><span class="n">time_scoping</span><span class="o">=</span><span class="n">time_steps</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stress_fc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Fields Container
+  with 20 field(s)
+  defined on labels: time 
+
+  with:
+  - field 0 {time:  1} with Nodal location, 6 components and 393 entities.
+  - field 1 {time:  2} with Nodal location, 6 components and 393 entities.
+  - field 2 {time:  3} with Nodal location, 6 components and 393 entities.
+  - field 3 {time:  4} with Nodal location, 6 components and 393 entities.
+  - field 4 {time:  5} with Nodal location, 6 components and 393 entities.
+  - field 5 {time:  6} with Nodal location, 6 components and 393 entities.
+  - field 6 {time:  7} with Nodal location, 6 components and 393 entities.
+  - field 7 {time:  8} with Nodal location, 6 components and 393 entities.
+  - field 8 {time:  9} with Nodal location, 6 components and 393 entities.
+  - field 9 {time:  10} with Nodal location, 6 components and 393 entities.
+  - field 10 {time:  11} with Nodal location, 6 components and 393 entities.
+  - field 11 {time:  12} with Nodal location, 6 components and 393 entities.
+  - field 12 {time:  13} with Nodal location, 6 components and 393 entities.
+  - field 13 {time:  14} with Nodal location, 6 components and 393 entities.
+  - field 14 {time:  15} with Nodal location, 6 components and 393 entities.
+  - field 15 {time:  16} with Nodal location, 6 components and 393 entities.
+  - field 16 {time:  17} with Nodal location, 6 components and 393 entities.
+  - field 17 {time:  18} with Nodal location, 6 components and 393 entities.
+  - field 18 {time:  19} with Nodal location, 6 components and 393 entities.
+  - field 19 {time:  20} with Nodal location, 6 components and 393 entities.
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="animate-the-results">
+<h2>Animate the results<a class="headerlink" href="#animate-the-results" title="Link to this heading">#</a></h2>
+<p>Animate the results with the <code class="xref py py-func docutils literal notranslate"><span class="pre">FieldsContainer.animate()</span></code> method.
+You can animate them on a deformed mesh (animate the color map and the mesh)
+or on a static mesh (animate the color map only).</p>
+<p>The default behavior of the <code class="xref py py-func docutils literal notranslate"><span class="pre">FieldsContainer.animate()</span></code> method is to:</p>
+<ul class="simple">
+<li><p>Display the norm of the data components;</p></li>
+<li><p>Display data at the top layer for shells;</p></li>
+<li><p>Display the deformed mesh when animating displacements;</p></li>
+<li><p>Display the static mesh for other types of results;</p></li>
+<li><p>Use a constant and uniform scale factor of 1.0 when deforming the mesh.</p></li>
+</ul>
+<p>You can animate any result on a deformed geometry by providing displacement results in the <cite>deform_by</cite> parameter.</p>
+<p>The geometry can be deformed by a <a class="reference internal" href="../../../api/ansys/dpf/core/results/Result.html#ansys.dpf.core.results.Result" title="ansys.dpf.core.results.Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> object, an <a class="reference internal" href="../../../api/ansys/dpf/core/dpf_operator/Operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operator</span></code></a> (It must evaluate to a <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a>
+of same length as the one being animated), or a <a class="reference internal" href="../../../api/ansys/dpf/core/fields_container/FieldsContainer.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldsContainer</span></code></a> (also of same length as the one being animated).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The behavior of the <code class="xref py py-func docutils literal notranslate"><span class="pre">FieldsContainer.animate()</span></code> method is defined by a <a class="reference internal" href="../../../api/ansys/dpf/core/workflow/Workflow.html#ansys.dpf.core.workflow.Workflow" title="ansys.dpf.core.workflow.Workflow"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workflow</span></code></a> it creates and feeds to an <a class="reference internal" href="../../../api/ansys/dpf/core/animator/Animator.html#ansys.dpf.core.animator.Animator" title="ansys.dpf.core.animator.Animator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Animator</span></code></a>.
+This <a class="reference internal" href="../../../api/ansys/dpf/core/workflow/Workflow.html#ansys.dpf.core.workflow.Workflow" title="ansys.dpf.core.workflow.Workflow"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workflow</span></code></a> loops over a <a class="reference internal" href="../../../api/ansys/dpf/core/field/Field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a> of frame indices and for each frame generates a field of norm contours
+to render, as well as a displacement field to deform the mesh if <cite>deform_by</cite> is provided.
+For more information on plots on deformed meshes see: <span class="xref std std-ref">ref_plotting_data_on_deformed_mesh</span>.</p>
+</div>
+<section id="animate-the-displacement-results">
+<h3>Animate the displacement results<a class="headerlink" href="#animate-the-displacement-results" title="Link to this heading">#</a></h3>
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">FieldsContainer.animate()</span></code> with the displacement results.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Deformed mesh</label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Animate the displacement results in a deformed geometry</span>
+<span class="n">disp_fc</span><span class="o">.</span><span class="n">animate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+</div>
+</div>
+<a class="reference internal image-reference" href="../../../_images/animate_disp_1.gif"><img alt="../../../_images/animate_disp_1.gif" class="align-center" src="../../../_images/animate_disp_1.gif" style="width: 512.0px; height: 384.0px;" />
+</a>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Static mesh</label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Animate the displacement results on a static mesh using ``deform_by=False``</span>
+<span class="n">disp_fc</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">deform_by</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+</div>
+</div>
+<a class="reference internal image-reference" href="../../../_images/animate_disp_2.gif"><img alt="../../../_images/animate_disp_2.gif" class="align-center" src="../../../_images/animate_disp_2.gif" style="width: 512.0px; height: 384.0px;" />
+</a>
+</div>
+</div>
+</section>
+<section id="animate-the-stress">
+<h3>Animate the stress<a class="headerlink" href="#animate-the-stress" title="Link to this heading">#</a></h3>
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">FieldsContainer.animate()</span></code> with the stress results.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Deformed mesh</label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1"># Animate the stress results on a deformed mesh</span>
+ <span class="c1"># Use the ``deform_by`` argument and give the displacement results.</span>
+ <span class="n">stress_fc</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">deform_by</span><span class="o">=</span><span class="n">disp_fc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+</div>
+</div>
+<a class="reference internal image-reference" href="../../../_images/animate_stress_1.gif"><img alt="../../../_images/animate_stress_1.gif" class="align-center" src="../../../_images/animate_stress_1.gif" style="width: 512.0px; height: 384.0px;" />
+</a>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+Static mesh</label><div class="sd-tab-content docutils">
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1"># Animate the stress results in a static geometry</span>
+ <span class="n">stress_fc</span><span class="o">.</span><span class="n">animate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+</div>
+</div>
+<a class="reference internal image-reference" href="../../../_images/animate_stress_2.gif"><img alt="../../../_images/animate_stress_2.gif" class="align-center" src="../../../_images/animate_stress_2.gif" style="width: 512.0px; height: 384.0px;" />
+</a>
+</div>
+</div>
+</section>
+</section>
+<section id="change-the-scale-factor">
+<h2>Change the scale factor<a class="headerlink" href="#change-the-scale-factor" title="Link to this heading">#</a></h2>
+<p>You can change the scale factor using:</p>
+<ul class="simple">
+<li><p>A single number for a uniform constant scaling;</p></li>
+<li><p>A list of numbers for a varying scaling (same length as the number of frames).</p></li>
+</ul>
+<section id="uniform-constant-scaling">
+<h3>Uniform constant scaling<a class="headerlink" href="#uniform-constant-scaling" title="Link to this heading">#</a></h3>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a uniform scale factor</span>
+<span class="n">uniform_scale_factor</span><span class="o">=</span><span class="mf">10.</span>
+<span class="c1"># Animate the displacements</span>
+<span class="n">disp_fc</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">scale_factor</span><span class="o">=</span><span class="n">uniform_scale_factor</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+</div>
+</div>
+<a class="reference internal image-reference" href="../../../_images/animate_disp_3.gif"><img alt="../../../_images/animate_disp_3.gif" class="align-center" src="../../../_images/animate_disp_3.gif" style="width: 460.8px; height: 345.6px;" />
+</a>
+</section>
+<section id="varying-scaling">
+<h3>Varying scaling<a class="headerlink" href="#varying-scaling" title="Link to this heading">#</a></h3>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a varying scale factor</span>
+<span class="n">varying_scale_factor</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">disp_fc</span><span class="p">))]</span>
+<span class="c1"># Animate the displacements</span>
+<span class="n">disp_fc</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">scale_factor</span><span class="o">=</span><span class="n">varying_scale_factor</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+</div>
+</div>
+<a class="reference internal image-reference" href="../../../_images/animate_disp_4.gif"><img alt="../../../_images/animate_disp_4.gif" class="align-center" src="../../../_images/animate_disp_4.gif" style="width: 460.8px; height: 345.6px;" />
+</a>
+</section>
+</section>
+<section id="save-the-animation">
+<h2>Save the animation<a class="headerlink" href="#save-the-animation" title="Link to this heading">#</a></h2>
+<p>You can save the animation using the <code class="docutils literal notranslate"><span class="pre">save_as</span></code> argument with a target file path with the desired format as the extension key.
+Accepted extensions are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.gif</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.avi</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.mp4</span></code></p></li>
+</ul>
+<p>For more information see <code class="xref py py-class docutils literal notranslate"><span class="pre">pyvista.Plotter.open_movie</span></code>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1"># Animate the stress results and save it</span>
+ <span class="n">stress_fc</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">deform_by</span><span class="o">=</span><span class="n">disp_fc</span><span class="p">,</span> <span class="n">save_as</span><span class="o">=</span><span class="s2">&quot;animate_stress.gif&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="control-the-camera">
+<h2>Control the camera<a class="headerlink" href="#control-the-camera" title="Link to this heading">#</a></h2>
+<p>Control the camera with the <code class="docutils literal notranslate"><span class="pre">cpos</span></code> argument.</p>
+<p>A camera position is a combination of:</p>
+<ul class="simple">
+<li><p>A position;</p></li>
+<li><p>A focal point (the target);</p></li>
+<li><p>A upwards vector.</p></li>
+</ul>
+<p>It results in a list of format:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">camera_position</span><span class="o">=</span> <span class="p">[[</span><span class="n">pos_x</span><span class="p">,</span> <span class="n">pos_y</span><span class="p">,</span> <span class="n">pos_z</span><span class="p">],</span>  <span class="c1"># position</span>
+                  <span class="p">[</span><span class="n">fp_x</span><span class="p">,</span> <span class="n">fp_y</span><span class="p">,</span> <span class="n">fp_z</span><span class="p">],</span>  <span class="c1"># focal point</span>
+                  <span class="p">[</span><span class="n">up_x</span><span class="p">,</span> <span class="n">up_y</span><span class="p">,</span> <span class="n">up_z</span><span class="p">]]</span>  <span class="c1"># upwards vector</span>
+</pre></div>
+</div>
+<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">FieldsContainer.animate()</span></code> method accepts a single camera position or a list of camera positions for each frame.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A tip for defining a camera position is to do a first interactive plot of the data
+with argument <code class="docutils literal notranslate"><span class="pre">return_cpos=True</span></code>, position the camera as desired in the view, and retrieve
+the output of the plotting command.</p>
+</div>
+<section id="fixed-camera">
+<h3>Fixed camera<a class="headerlink" href="#fixed-camera" title="Link to this heading">#</a></h3>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the camera position</span>
+<span class="n">cam_pos</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]]</span>
+<span class="c1"># Animate the stress with a custom fixed camera position</span>
+<span class="n">stress_fc</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="n">cam_pos</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+</div>
+</div>
+<a class="reference internal image-reference" href="../../../_images/animate_disp_5.gif"><img alt="../../../_images/animate_disp_5.gif" class="align-center" src="../../../_images/animate_disp_5.gif" style="width: 512.0px; height: 384.0px;" />
+</a>
+</section>
+<section id="moving-camera">
+<h3>Moving camera<a class="headerlink" href="#moving-camera" title="Link to this heading">#</a></h3>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="c1"># Define the list of camera positions</span>
+<span class="n">cpos_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">cam_pos</span><span class="p">]</span>
+<span class="c1"># Incrementally increase the x coordinate of the camera by 0.1 for each frame</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">disp_fc</span><span class="p">)):</span>
+    <span class="n">new_pos</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">cpos_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">new_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.1</span>
+    <span class="n">cpos_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_pos</span><span class="p">)</span>
+
+<span class="c1"># Animate the stress with a moving camera</span>
+<span class="n">stress_fc</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="n">cpos_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+</div>
+</div>
+<a class="reference internal image-reference" href="../../../_images/animate_disp_6.gif"><img alt="../../../_images/animate_disp_6.gif" class="align-center" src="../../../_images/animate_disp_6.gif" style="width: 512.0px; height: 384.0px;" />
+</a>
+</section>
+</section>
+<section id="additional-options">
+<h2>Additional options<a class="headerlink" href="#additional-options" title="Link to this heading">#</a></h2>
+<p>You can use additional PyVista arguments of <code class="xref py py-class docutils literal notranslate"><span class="pre">pyvista.Plotter.open_movie</span></code>), such as:</p>
+<ul class="simple">
+<li><p>Show or hide the coordinate system axis with <code class="docutils literal notranslate"><span class="pre">show_axes=True</span></code> or <code class="docutils literal notranslate"><span class="pre">show_axes=False</span></code>;</p></li>
+<li><p>Render off-screen for batch animation creation with <code class="docutils literal notranslate"><span class="pre">off_screen=True</span></code>;</p></li>
+<li><p>Change the frame-rate with <code class="docutils literal notranslate"><span class="pre">framerate</span></code>;</p></li>
+<li><p>Change the image quality with <code class="docutils literal notranslate"><span class="pre">quality</span></code>.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-result-files">Get the result files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-a-time-scoping">Define a time scoping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-the-results">Extract the results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animate-the-results">Animate the results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#animate-the-displacement-results">Animate the displacement results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#animate-the-stress">Animate the stress</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#change-the-scale-factor">Change the scale factor</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uniform-constant-scaling">Uniform constant scaling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#varying-scaling">Varying scaling</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-the-animation">Save the animation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#control-the-camera">Control the camera</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixed-camera">Fixed camera</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#moving-camera">Moving camera</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-options">Additional options</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/user_guide/tutorials/animate/animate_time.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.5.3. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

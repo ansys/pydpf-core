@@ -1,0 +1,114 @@
+
+
+
+
+
+
+:class:`OutputsOnCoordinates`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.mapping.on_coordinates.OutputsOnCoordinates(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   on_coordinates operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+
+.. py:currentmodule:: OutputsOnCoordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to get fields_container output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.on_coordinates import OutputsOnCoordinates
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get fields_container output of the operator
+
+   Interpolated field values at the requested coordinates.
+
+   Each output field contains the interpolated field values with:
+   - **Location**: Nodal (regardless of input field location)
+   - **Scoping**: IDs correspond to successfully interpolated coordinates. Coordinates where no containing element was found are omitted.
+   - **Components**: Same as input fields (scalar, vector, tensor, etc.)
+   - **Shell layers**: Preserved from input fields when present
+
+   The output container structure reflects the combined labels from input fields and coordinates. For example, if fields have time labels and coordinates have spatial labels, outputs are generated for all time-space combinations.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> # Get the output from op.outputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

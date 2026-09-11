@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.ints_to_scoping
+   :inherited-members:

@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`OutputsMapdlMaterialProperties`
+=======================================
+
+
+.. py:class:: ansys.dpf.core.operators.result.mapdl_material_properties.OutputsMapdlMaterialProperties(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   mapdl_material_properties operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_material_properties()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_properties_value = op.outputs.properties_value()
+
+
+
+
+
+.. py:currentmodule:: OutputsMapdlMaterialProperties
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~properties_value`
+            - Allows to get properties_value output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.mapdl_material_properties import OutputsMapdlMaterialProperties
+
+Property detail
+---------------
+
+.. py:property:: properties_value
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get properties_value output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.mapdl_material_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_properties_value = op.outputs.properties_value()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.bind_support
+   :inherited-members:

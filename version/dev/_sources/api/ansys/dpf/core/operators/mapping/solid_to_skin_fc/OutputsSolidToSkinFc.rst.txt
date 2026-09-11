@@ -1,0 +1,115 @@
+
+
+
+
+
+
+:class:`OutputsSolidToSkinFc`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.mapping.solid_to_skin_fc.OutputsSolidToSkinFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   solid_to_skin_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.solid_to_skin_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+
+.. py:currentmodule:: OutputsSolidToSkinFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to get fields_container output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.solid_to_skin_fc import OutputsSolidToSkinFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get fields_container output of the operator
+
+   Fields container of the mapped surface results on the skin mesh.
+
+   Each output field has:
+   - **Support**: The skin mesh (pin 1)
+   - **Location**: Same as the corresponding input field location
+   - **Scoping**: Skin mesh elements (Elemental/ElementalNodal) or skin mesh nodes (Nodal)
+   - **Components**: Same structure as the corresponding input field (scalar, vector, tensor, etc.)
+   - **Shell layers**: Preserved if present in the corresponding input field
+
+   For Elemental and Elemental Nodal locations, skin elements whose parent solid element is not present in the input field's scoping are silently omitted. The output scoping may therefore contain fewer entries than the full skin mesh when the input field does not cover all solid elements.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.solid_to_skin_fc()
+   >>> # Get the output from op.outputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

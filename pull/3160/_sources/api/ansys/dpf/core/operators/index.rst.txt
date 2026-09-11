@@ -1,0 +1,167 @@
+
+
+
+
+
+
+The ``operators`` package
+=============================
+
+.. py:module:: ansys.dpf.core.operators
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: operators
+.. tab-set::
+
+    .. tab-item:: Subpackages
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.averaging`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.compression`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.filter`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.geo`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.info`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.logic`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.mapping`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.math`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.mesh`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.metadata`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.min_max`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.result`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.scoping`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.serialization`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.server`
+            - 
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.utility`
+            - 
+
+
+
+    .. tab-item:: Submodules
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.translator`
+            - 
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-md-package"></span> averaging</api/ansys/dpf/core/operators/averaging/index>
+    <span class="nf nf-md-package"></span> compression</api/ansys/dpf/core/operators/compression/index>
+    <span class="nf nf-md-package"></span> filter</api/ansys/dpf/core/operators/filter/index>
+    <span class="nf nf-md-package"></span> geo</api/ansys/dpf/core/operators/geo/index>
+    <span class="nf nf-md-package"></span> info</api/ansys/dpf/core/operators/info/index>
+    <span class="nf nf-md-package"></span> invariant</api/ansys/dpf/core/operators/invariant/index>
+    <span class="nf nf-md-package"></span> logic</api/ansys/dpf/core/operators/logic/index>
+    <span class="nf nf-md-package"></span> mapping</api/ansys/dpf/core/operators/mapping/index>
+    <span class="nf nf-md-package"></span> math</api/ansys/dpf/core/operators/math/index>
+    <span class="nf nf-md-package"></span> mesh</api/ansys/dpf/core/operators/mesh/index>
+    <span class="nf nf-md-package"></span> metadata</api/ansys/dpf/core/operators/metadata/index>
+    <span class="nf nf-md-package"></span> min_max</api/ansys/dpf/core/operators/min_max/index>
+    <span class="nf nf-md-package"></span> result</api/ansys/dpf/core/operators/result/index>
+    <span class="nf nf-md-package"></span> scoping</api/ansys/dpf/core/operators/scoping/index>
+    <span class="nf nf-md-package"></span> serialization</api/ansys/dpf/core/operators/serialization/index>
+    <span class="nf nf-md-package"></span> server</api/ansys/dpf/core/operators/server/index>
+    <span class="nf nf-md-package"></span> utility</api/ansys/dpf/core/operators/utility/index>
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-fa-file"></span> translator</api/ansys/dpf/core/operators/translator/index>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

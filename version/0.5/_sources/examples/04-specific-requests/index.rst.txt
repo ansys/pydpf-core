@@ -1,0 +1,62 @@
+
+
+.. _sphx_glr_examples_04-specific-requests:
+
+.. _specific_requests:
+
+Examples that targets specific requests
+=======================================
+These demos show how to solve specific requests. 
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Hdf5 export and compare precision">
+
+.. only:: html
+
+  .. image:: /examples/04-specific-requests/images/thumb/sphx_glr_00-hdf5_double_float_comparison_thumb.png
+    :alt: Hdf5 export and compare precision
+
+  :ref:`sphx_glr_examples_04-specific-requests_00-hdf5_double_float_comparison.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Hdf5 export and compare precision</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Get reduced matrices and make export">
+
+.. only:: html
+
+  .. image:: /examples/04-specific-requests/images/thumb/sphx_glr_01-reduced_matrices_export_thumb.png
+    :alt: Get reduced matrices and make export
+
+  :ref:`sphx_glr_examples_04-specific-requests_01-reduced_matrices_export.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Get reduced matrices and make export</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/04-specific-requests/00-hdf5_double_float_comparison
+   /examples/04-specific-requests/01-reduced_matrices_export
+

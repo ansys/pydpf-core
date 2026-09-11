@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.server.grpc_start_server
+   :inherited-members:
