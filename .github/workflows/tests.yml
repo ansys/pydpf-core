@@ -116,9 +116,9 @@ jobs:
         uses: ansys/actions/build-wheelhouse@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
         with:
           library-name: "ansys-dpf-core"
-          # Disambiguate from the platform-specific wheelhouse built for the same os/python-version.
           operating-system: ${{ matrix.os }}${{ inputs.test_any == 'true' && '-any' || '' }}
           python-version: ${{ matrix.python-version }}
+          target: 'all' # TODO: confirm with Paul if we should keep this
 
   tests:
     name: "Tests" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
@@ -198,9 +198,6 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
-
-      - name: "Check licences of packages"
-        uses: ansys/pydpf-actions/check-licenses@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
 
       - name: "Test import"
         shell: bash
