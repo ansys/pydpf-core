@@ -54,8 +54,13 @@ HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
 def test_operator_destructor_during_api_loading(monkeypatch):
     calls = []
     operator = object.__new__(dpf_operator.Operator)
+
+    def local_capi_deleter(value):
+        calls.append(value)
+
+    local_capi_deleter.__module__ = "ansys.dpf.gate.generated.data_processing_capi"
     operator._deleter_func = (
-        lambda value: calls.append(value),
+        local_capi_deleter,
         lambda value: "operator-token",
     )
     capi._deferred_cleanup.clear()
@@ -67,6 +72,20 @@ def test_operator_destructor_during_api_loading(monkeypatch):
     monkeypatch.setattr(capi, "_api_loading", False)
     capi._drain_deferred_cleanup()
     assert calls == ["operator-token"]
+    del operator._deleter_func
+
+
+def test_release_dpf_object_calls_grpc_deleter_during_api_loading(monkeypatch):
+    calls = []
+    operator = object.__new__(dpf_operator.Operator)
+    operator._deleter_func = (lambda value: calls.append(value), lambda value: "grpc-token")
+    capi._deferred_cleanup.clear()
+    monkeypatch.setattr(capi, "_api_loading", True)
+
+    dpf_operator.Operator.__del__(operator)
+
+    assert calls == ["grpc-token"]
+    assert not capi._deferred_cleanup
     del operator._deleter_func
 
 

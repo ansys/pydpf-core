@@ -27,6 +27,11 @@ import warnings
 from ansys.dpf.gate.generated import capi as _gate_capi
 
 
+def _is_local_capi_deleter(deleter):
+    """Return whether a deleter calls the generated in-process C API."""
+    return getattr(deleter, "__module__", "").startswith("ansys.dpf.gate.generated.")
+
+
 def release_dpf_object(obj):
     """Release a DPF object through its configured native deleter."""
     if sys is None or sys.is_finalizing():
@@ -37,7 +42,12 @@ def release_dpf_object(obj):
             return
         native_obj = deleter[1](obj)
         if native_obj is not None:
-            _gate_capi._call_or_defer(deleter[0], native_obj)
+            if getattr(_gate_capi, "_api_loading", False) and not _is_local_capi_deleter(
+                deleter[0]
+            ):
+                deleter[0](native_obj)
+            else:
+                _gate_capi._call_or_defer(deleter[0], native_obj)
     except Exception:
         warn = getattr(warnings, "warn", None)
         format_exc = getattr(traceback, "format_exc", None)
