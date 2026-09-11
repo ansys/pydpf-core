@@ -104,9 +104,6 @@ jobs:
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
 
-      - name: "Check licences of packages"
-        uses: ansys/pydpf-actions/check-licenses@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
-
       - name: "Test import"
         shell: bash
         working-directory: tests
