@@ -118,7 +118,7 @@ jobs:
           library-name: "ansys-dpf-core"
           operating-system: ${{ matrix.os }}${{ inputs.test_any == 'true' && '-any' || '' }}
           python-version: ${{ matrix.python-version }}
-          target: 'all' # TODO: confirm with Paul if we should keep this
+          # target: 'all' # TODO: confirm with Paul if we should keep this
 
   tests:
     name: "Tests" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
