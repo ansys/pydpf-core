@@ -109,8 +109,6 @@ jobs:
       matrix:
         python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
         os: ["windows-latest", "ubuntu-latest"]
-    env:
-      ANSYS_DPF_WHEEL_PLATFORM: ${{ inputs.test_any == 'true' && 'any' || '' }}
     steps:
       - name: "Build a wheelhouse of the Python library"
         uses: ansys/actions/build-wheelhouse@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
@@ -132,6 +130,8 @@ jobs:
       matrix:
         python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
         os: ["windows-latest", "ubuntu-latest"]
+    env:
+      ANSYS_DPF_WHEEL_PLATFORM: ${{ inputs.test_any == 'true' && 'any' || '' }}
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -213,14 +213,6 @@ jobs:
           DEBUG: true
           install-from-dependency-groups: "true"
 
-      - name: "Test Docstrings"
-        if: (inputs.DOCSTRING == 'true')
-        uses: ansys/pydpf-actions/test_docstrings@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
-        with:
-          MODULE: ${{env.MODULE}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.standalone_suffix }}
-          working-directory: src
-
       - name: "Set tox extra CLI arguments"
         id: tox-cli-arguments
         shell: bash
@@ -234,6 +226,24 @@ jobs:
           else
             echo "TOX_INSTALLPKG=dist/${WHEEL_NAME}" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: "Test Docstrings"
+        if: (inputs.DOCSTRING == 'true')
+        shell: bash
+        env:
+          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
+          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+        run: |
+          export DPF_DEFAULT_GRPC_MODE=insecure
+          tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-docstrings,kill-servers
+
+      - name: "Upload Docstring Test Results"
+        if: (inputs.DOCSTRING == 'true')
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ${{ env.PACKAGE_NAME }}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.standalone_suffix }}_doctest_${{ runner.os }}
+          path: src/junit/test-doctests-results.xml
+          overwrite: true
 
       - name: "Organize test files"
         shell: bash
