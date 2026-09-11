@@ -56,13 +56,17 @@ jobs:
         with:
           use-python-cache: false
 
-  build_linux1:
-    name: "Build linux1 wheel"
+  build-any-and-manylinux1-wheels:
+    name: "Build ${{matrix.name}} wheel"
     runs-on: ubuntu-latest
     permissions:
       contents: read
     env:
-      ANSYS_DPF_WHEEL_PLATFORM: "manylinux1"
+      ANSYS_DPF_WHEEL_PLATFORM: ${{matrix.platform-tag}}
+    strategy:
+      matrix:
+        name: ['any', 'linux1']
+        platform-tag: ['any', 'manylinux1']
     steps:
       - uses: ansys/actions/build-library@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
         with:
@@ -87,12 +91,7 @@ jobs:
             wheelhouse: true
             DOCSTRING: false
             test_any: false
-          - python_versions: '["3.10"]'
-            wheel: true
-            wheelhouse: false
-            DOCSTRING: false
-            test_any: true
-          - python_versions: '["3.11", "3.12", "3.13", "3.14"]'
+          - python_versions: '["3.10","3.11", "3.12", "3.13", "3.14"]'
             wheel: false
             wheelhouse: false
             DOCSTRING: false
