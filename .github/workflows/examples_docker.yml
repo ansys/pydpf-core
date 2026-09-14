@@ -85,38 +85,10 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: "Install requirements"
+      - name: "Install package"
         run: |
           pip install -U pip
-          pip install --group build
-
-      - name: "Build the wheel"
-        shell: bash
-        env:
-          MATRIX_OS: ${{ matrix.os }}
-        run: |
-          if [ "${MATRIX_OS}" == "ubuntu-latest" ]; then
-              export platform="manylinux_2_17"
-          else
-              export platform="win"
-          fi
-          python .ci/build_wheel.py -p $platform -w
-
-      - name: "Expose the wheel"
-        shell: bash
-        id: wheel
-        working-directory: dist
-        run: |
-          export name=`ls ansys_dpf_core*.whl`
-          echo ${name}
-          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-
-      - name: "Install package wheel"
-        shell: bash
-        env:
-          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
-        run: |
-          pip install dist/${WHEEL_NAME}[graphics]
+          pip install .[graphics]
 
       - name: "Install DPF"
         id: set-server-path
@@ -125,9 +97,6 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
-
-      - name: "Check licences of packages"
-        uses: ansys/pydpf-actions/check-licenses@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
 
       - name: "Test import"
         shell: bash

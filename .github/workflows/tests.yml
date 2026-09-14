@@ -11,10 +11,6 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-      wheel:
-        required: false
-        type: string
-        default: 'false'
       wheelhouse:
         required: false
         type: string
@@ -52,11 +48,6 @@ on:
         description: "ANSYS version"
         required: false
         type: string
-      wheel:
-        description: "Generate a wheel"
-        required: false
-        type: string
-        default: 'false'
       wheelhouse:
         description: "Generate a wheelhouse"
         required: false
@@ -97,6 +88,27 @@ jobs:
         run: |
           echo "python_versions=${PYTHON_VERSIONS}" >> $GITHUB_OUTPUT
 
+  build-wheelhouse:
+    name: "Build wheelhouse" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
+    needs: setup
+    if: inputs.wheelhouse == 'true'
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
+        os: ["windows-latest", "ubuntu-latest"]
+    steps:
+      - name: "Build a wheelhouse of the Python library"
+        uses: ansys/actions/build-wheelhouse@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
+        with:
+          library-name: "ansys-dpf-core"
+          operating-system: ${{ matrix.os }}${{ inputs.test_any == 'true' && '-any' || '' }}
+          python-version: ${{ matrix.python-version }}
+          # target: 'all' # TODO: confirm with Paul if we should keep this
+
   tests:
     name: "Tests" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     needs: setup
@@ -109,6 +121,8 @@ jobs:
       matrix:
         python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
         os: ["windows-latest", "ubuntu-latest"]
+    env:
+      ANSYS_DPF_WHEEL_PLATFORM: ${{ inputs.test_any == 'true' && 'any' || '' }}
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -137,69 +151,6 @@ jobs:
           python -m pip install -U pip
           python -m pip install -U tox tox-uv
 
-      - name: "Build the wheel"
-        shell: bash
-        env:
-          TEST_ANY: ${{ inputs.test_any }}
-          MATRIX_OS: ${{ matrix.os }}
-        run: |
-          if [ "${TEST_ANY}" == 'true' ]; then
-              export platform="any"
-          elif [ "${MATRIX_OS}" == "ubuntu-latest" ]; then
-              export platform="manylinux_2_17"
-          else
-              export platform="win"
-          fi
-          tox -e build-wheel -- $platform
-
-      - name: "Expose the wheel"
-        shell: bash
-        id: wheel
-        working-directory: dist
-        run: |
-          export name=`ls ansys_dpf_core*.whl`
-          echo ${name}
-          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-
-      - name: "Upload wheel to artifacts"
-        if: (inputs.wheel == 'true') && !( (inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest') )
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: ${{ steps.wheel.outputs.wheel_name }}
-          path: dist/${{ steps.wheel.outputs.wheel_name }}
-
-      - name: "Define wheelhouse name"
-        if: inputs.wheelhouse == 'true'
-        shell: bash
-        id: wheelhouse
-        env:
-          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
-          RUNNER_OS: ${{ runner.os }}
-          PYTHON_VERSION: ${{ matrix.python-version }}
-        run: |
-          export wheel_name=${WHEEL_NAME}
-          export IFS='-'
-          read -a strarr <<< $wheel_name
-          export version="${strarr[1]}"
-          echo $version
-          export name=ansys-dpf-core-v${version}-wheelhouse-${RUNNER_OS}-${PYTHON_VERSION}.zip
-          echo "name=${name}" >> "$GITHUB_OUTPUT"
-
-      - name: "Zip wheelhouse"
-        if: inputs.wheelhouse == 'true'
-        uses: vimtor/action-zip@5407800dfb2b1b37d48df912330cb22f4ab6f422 # v1.3
-        with:
-          files: dist
-          dest: ${{ steps.wheelhouse.outputs.name }}
-
-      - name: "Upload wheelhouse to artifacts"
-        if: inputs.wheelhouse == 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: ${{ steps.wheelhouse.outputs.name }}
-          path: ${{ steps.wheelhouse.outputs.name }}
-          retention-days: 7
-
       - name: "Install DPF"
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-server@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
@@ -208,44 +159,38 @@ jobs:
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
 
-      - name: "Check licences of packages"
-        uses: ansys/pydpf-actions/check-licenses@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
-
-      - name: "Test import"
-        shell: bash
-        env:
-          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
-        run: |
-          python -m pip install dist/${WHEEL_NAME}
-          python -c "from ansys.dpf import core"
-
       - name: "Prepare Testing Environment"
         uses: ansys/pydpf-actions/prepare_tests@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         with:
           DEBUG: true
           install-from-dependency-groups: "true"
 
-      - name: "Test Docstrings"
-        if: (inputs.DOCSTRING == 'true')
-        uses: ansys/pydpf-actions/test_docstrings@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
-        with:
-          MODULE: ${{env.MODULE}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.standalone_suffix }}
-          working-directory: src
-
       - name: "Set tox extra CLI arguments"
         id: tox-cli-arguments
         shell: bash
         env:
-          WHEEL_NAME: ${{ steps.wheel.outputs.wheel_name }}
           ANSYS_VERSION_INPUT: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
         run: |
           if [ "$MODE" = "PIP" ]; then
-            echo "TOX_INSTALLPKG=dist/${WHEEL_NAME}" >> "$GITHUB_OUTPUT"
             echo "TOX_XARG=testenv.deps+=-e dpf-standalone/v${ANSYS_VERSION_INPUT}" >> "$GITHUB_OUTPUT"
-          else
-            echo "TOX_INSTALLPKG=dist/${WHEEL_NAME}" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: "Test Docstrings"
+        if: (inputs.DOCSTRING == 'true')
+        shell: bash
+        env:
+          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+        run: |
+          export DPF_DEFAULT_GRPC_MODE=insecure
+          tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-docstrings,kill-servers
+
+      - name: "Upload Docstring Test Results"
+        if: (inputs.DOCSTRING == 'true')
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ${{ env.PACKAGE_NAME }}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.standalone_suffix }}_doctest_${{ runner.os }}
+          path: src/junit/test-doctests-results.xml
+          overwrite: true
 
       - name: "Organize test files"
         shell: bash
@@ -255,7 +200,6 @@ jobs:
       - name: "Test API test_entry"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
-          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
         with:
           timeout_minutes: 10
@@ -263,12 +207,11 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-api_entry,kill-servers
+            tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-api_entry,kill-servers
 
       - name: "Test API test_server"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
-          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
         with:
           timeout_minutes: 10
@@ -276,12 +219,11 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-server,kill-servers
+            tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-server,kill-servers
 
       - name: "Test API test_remote_workflow"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
-          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
         with:
           timeout_minutes: 10
@@ -289,21 +231,19 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-remote_workflow,kill-servers
+            tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-remote_workflow,kill-servers
 
       - name: "Test API test_remote_operator"
         shell: bash
         env:
-          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
         run: |
           export DPF_DEFAULT_GRPC_MODE=insecure
-          tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-remote_operator,kill-servers
+          tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-remote_operator,kill-servers
 
       - name: "Test API test_workflow"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
-          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
         with:
           timeout_minutes: 10
@@ -311,12 +251,11 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-workflow,kill-servers
+            tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-workflow,kill-servers
 
       - name: "Test API test_service"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
-          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
         with:
           timeout_minutes: 10
@@ -324,12 +263,11 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -e test-service,kill-servers
+            tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-service,kill-servers
 
       - name: "Run compatible tests in parallel"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
-          TOX_INSTALLPKG: ${{ steps.tox-cli-arguments.outputs.TOX_INSTALLPKG }}
           TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
         with:
           timeout_minutes: 20
@@ -337,7 +275,7 @@ jobs:
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox run-parallel --installpkg "$TOX_INSTALLPKG" ${TOX_XARG:+-x "$TOX_XARG"} -m ciparalleltests
+            tox run-parallel ${TOX_XARG:+-x "$TOX_XARG"} -m ciparalleltests
 
       - name: "Combine coverage results"
         shell: bash
