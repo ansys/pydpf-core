@@ -128,5 +128,7 @@ jobs:
           python run_examples.py
 
       - name: "Kill all servers"
-        uses: ansys/pydpf-actions/kill-dpf-servers@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         if: always()
+        shell: bash
+        run: |
+          uv run --no-project --with psutil python -c "import psutil; proc_name = 'Ans.Dpf.Grpc'; nb_procs = len([proc.kill() for proc in psutil.process_iter() if proc_name in proc.name()]); print(f'Killed {nb_procs} {proc_name} processes.')"

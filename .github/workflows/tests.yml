@@ -123,6 +123,9 @@ jobs:
         os: ["windows-latest", "ubuntu-latest"]
     env:
       ANSYS_DPF_WHEEL_PLATFORM: ${{ inputs.test_any == 'true' && 'any' || '' }}
+      UV_PYTHON: ${{ matrix.python-version }}
+      # `uv sync` is run explicitly below, `uv run` must not re-sync and drop the tox-only environment.
+      UV_NO_SYNC: "1"
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -151,40 +154,40 @@ jobs:
       - name: "Install tox"
         shell: pwsh
         run: |
-          uv pip install --system -U tox tox-uv
+          uv sync --only-group tox
 
       - name: "Install DPF"
         id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-server@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
+        uses: ansys/pydpf-actions/install-dpf-server@feat/update-actions-for-uv # zizmor: ignore[unpinned-uses] TODO: pin to a released pydpf-actions tag
         with:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
+          skip-python-install: "true"
 
-      - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
-        with:
-          DEBUG: true
-          install-from-dependency-groups: "true"
-
-      - name: "Set tox extra CLI arguments"
-        id: tox-cli-arguments
+      - name: "Expose the standalone DPF server to tox"
+        id: dpf-standalone
+        if: env.MODE == 'PIP'
         shell: bash
         env:
-          ANSYS_VERSION_INPUT: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
+          STANDALONE_PATH: ${{ steps.set-server-path.outputs.standalone-path }}
         run: |
-          if [ "$MODE" = "PIP" ]; then
-            echo "TOX_XARG=testenv.deps+=-e dpf-standalone/v${ANSYS_VERSION_INPUT}" >> "$GITHUB_OUTPUT"
-          fi
+          echo "requirement=-e ${STANDALONE_PATH}" >> "$GITHUB_OUTPUT"
+
+      - name: "Prepare Testing Environment"
+        uses: ansys/pydpf-actions/prepare_tests@feat/update-actions-for-uv # zizmor: ignore[unpinned-uses] TODO: pin to a released pydpf-actions tag
+        with:
+          DEBUG: true
+          skip-python-dependencies-install: "true"
 
       - name: "Test Docstrings"
         if: (inputs.DOCSTRING == 'true')
         shell: bash
         env:
-          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         run: |
           export DPF_DEFAULT_GRPC_MODE=insecure
-          tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-docstrings,kill-servers
+          uv run tox -e test-docstrings,kill-servers
 
       - name: "Upload Docstring Test Results"
         if: (inputs.DOCSTRING == 'true')
@@ -197,92 +200,92 @@ jobs:
       - name: "Organize test files"
         shell: bash
         run: |
-          tox -e pretest
+          uv run tox -e pretest
 
       - name: "Test API test_entry"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
-          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
           timeout_minutes: 10
           max_attempts: 2
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-api_entry,kill-servers
+            uv run tox -e test-api_entry,kill-servers
 
       - name: "Test API test_server"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
-          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
           timeout_minutes: 10
           max_attempts: 2
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-server,kill-servers
+            uv run tox -e test-server,kill-servers
 
       - name: "Test API test_remote_workflow"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
-          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
           timeout_minutes: 10
           max_attempts: 3
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-remote_workflow,kill-servers
+            uv run tox -e test-remote_workflow,kill-servers
 
       - name: "Test API test_remote_operator"
         shell: bash
         env:
-          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         run: |
           export DPF_DEFAULT_GRPC_MODE=insecure
-          tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-remote_operator,kill-servers
+          uv run tox -e test-remote_operator,kill-servers
 
       - name: "Test API test_workflow"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
-          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
           timeout_minutes: 10
           max_attempts: 4
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-workflow,kill-servers
+            uv run tox -e test-workflow,kill-servers
 
       - name: "Test API test_service"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
-          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
           timeout_minutes: 10
           max_attempts: 2
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox ${TOX_XARG:+-x "$TOX_XARG"} -e test-service,kill-servers
+            uv run tox -e test-service,kill-servers
 
       - name: "Run compatible tests in parallel"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
-          TOX_XARG: ${{ steps.tox-cli-arguments.outputs.TOX_XARG }}
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
           timeout_minutes: 20
           max_attempts: 2
           shell: bash
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
-            tox run-parallel ${TOX_XARG:+-x "$TOX_XARG"} -m ciparalleltests
+            uv run tox run-parallel -m ciparalleltests
 
       - name: "Combine coverage results"
         shell: bash
         run: |
-          tox -e covreport
+          uv run tox -e covreport
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
