@@ -1,6 +1,6 @@
 [build-system]
-build-backend = "setuptools.build_meta"
-requires = ["setuptools>=83.0.0", "wheel"]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
 
 [project]
 # Check https://setuptools.pypa.io/en/stable/userguide/quickstart.html for all available sections
@@ -116,7 +116,8 @@ build = [
   "chevron==0.14.0",
   "jinja2==3.1.6",
   "pypandoc_binary==1.17",
-  "wheel==0.48.0"
+  "wheel==0.48.0",
+  "hatchling==1.32.0",
 ]
 install = [
   "importlib-metadata==9.0.1",
@@ -199,14 +200,16 @@ patch = ["subprocess"]
 [tool.coverage.report]
 show_missing = true
 
-[tool.setuptools.packages.find]
-namespaces = true
-where = ["src"]
+[tool.hatch.build.targets.wheel]
+packages = ["src/ansys"]
+# Excluded by default; re-added via the custom hook configured.
+exclude = [
+    "src/ansys/dpf/gatebin/*.so",
+    "src/ansys/dpf/gatebin/*.dll",
+]
 
-[tool.setuptools.package-data]
-"ansys.dpf.gatebin" = ["*.so", "*.dll"]
-"ansys.dpf.core.documentation" = ["toc_template.j2", "operator_doc_template.j2"]
-"ansys.dpf.core.operators" = ["operator.mustache"]
+[tool.hatch.build.targets.wheel.hooks.custom]
+path = ".ci/build_wheel.py"
 
 [tool.pytest]
 #filterwarnings = ['ignore:Use explicit output-to-input connections:DeprecationWarning']
