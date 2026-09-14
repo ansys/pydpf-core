@@ -104,6 +104,38 @@ Verify the installation by checking the version of the library:
 
        >>> PyDPF-Core version is {{ PYDPF_CORE_VERSION }}
 
+.. _uv-alternative-dev:
+
+Alternative: using uv
+----------------------
+
+`uv`_ is a fast Python package and project manager that PyDPF-Core also supports as an
+alternative to the virtual environment and ``pip`` workflow described above. If you have
+`uv`_ installed, you can create the virtual environment and install PyDPF-Core in editable
+mode in a single step by running:
+
+.. code-block:: bash
+
+    uv sync
+
+This creates a ``.venv`` virtual environment (if one does not already exist) and installs
+PyDPF-Core in editable mode using the pinned dependencies from ``uv.lock``.
+
+You can then run any command inside that environment without activating it first, by
+prefixing it with ``uv run``:
+
+.. code-block:: bash
+
+    uv run python -c "from ansys.dpf.core import __version__; print(__version__)"
+
+If you need to add a new dependency to the project, use ``uv add`` instead of manually
+editing ``pyproject.toml``. This keeps ``pyproject.toml`` and ``uv.lock`` in sync
+automatically:
+
+.. code-block:: bash
+
+    uv add <package-name>
+
 Install Tox
 -----------
 
@@ -116,7 +148,18 @@ To install Tox, run:
 
 .. code-block:: text
 
-    python -m pip install tox tox-uv
+    python -m pip install --group tox
+
+.. note::
+
+    If you set up your environment using `uv`_ as described above, you can instead
+    install Tox into a dedicated environment with:
+
+    .. code-block:: bash
+
+        uv sync --only-group tox
+
+    and prefix every subsequent Tox command with ``uv run``, for example ``uv run tox list``.
 
 Finally, verify the installation by listing all the different environments
 (automation rules) for PyDPF-Core:
@@ -397,14 +440,15 @@ Standalone DPF Server installation
 ----------------------------------
 Standalone DPF Server is usually `installed in editable mode <https://dpf.docs.pyansys.com/version/dev/getting_started/dpf_server.html#install-dpf-server>`_.
 Accordingly, tox commands need to be adjusted for installation of standalone DPF Server in the isolated python environments
-tox creates to run these tests in. This is achieved by adding ``-x testenv.deps+="-e <path/to/dpf/standalone>"``
-to any of the previous tox commands.
+tox creates to run these tests in. This is achieved by setting the ``DPF_STANDALONE_REQUIREMENT`` environment variable to
+``-e <path/to/dpf/standalone>`` before invoking any of the previous tox commands.
 
 For example, to run compatible parallel tests while using a Standalone DPF Server whose path is ``ansys_dpf_server_lin_v2025.1.pre0``, simply run:
 
 .. code-block:: bash
 
-    python -m tox -m localparalleltests --parallel -x testenv.deps+="-e ansys_dpf_server_lin_v2025.1.pre0"
+    export DPF_STANDALONE_REQUIREMENT="-e ansys_dpf_server_lin_v2025.1.pre0"
+    python -m tox -m localparalleltests --parallel
 
 .. warning::
     When the ANSYS_DPF_PATH environment variable is set, the server pointed to
@@ -431,4 +475,5 @@ For example, to run all tests sequentially on linux, while using a Standalone DP
 
 .. code-block:: text
 
-    python -m tox --parallel -x testenv.deps+="-e ansys_dpf_server_lin_v2025.1.pre0" -x testenv.commands_pre="uv pip install --index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
+    export DPF_STANDALONE_REQUIREMENT="-e ansys_dpf_server_lin_v2025.1.pre0"
+    python -m tox --parallel -x testenv.commands_pre="uv pip install --index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
