@@ -147,6 +147,11 @@ install = [
 operator_doc = [
   "jinja2==3.1.6"
 ]
+tox = [
+  "tox==4.61.4",
+  # "bare" variant of tox-uv: uv is expected to already be available on the PATH.
+  "tox-uv-bare==1.36.0"
+]
 
 [project.urls]
 Homepage = "https://dpf.docs.pyansys.com/"

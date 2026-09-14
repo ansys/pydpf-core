@@ -70,6 +70,9 @@ jobs:
       contents: read
     env:
       ANSYS_DPF_WHEEL_PLATFORM: "any"
+      UV_PYTHON: ${{ inputs.python_version }}
+      # `uv sync` is run explicitly below, `uv run` must not re-sync and drop the tox-only environment.
+      UV_NO_SYNC: "1"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -95,15 +98,25 @@ jobs:
       - name: "Install tox"
         shell: pwsh
         run: |
-          uv pip install --system tox tox-uv
+          uv sync --only-group tox
 
       - name: "Install DPF"
         id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-server@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
+        uses: ansys/pydpf-actions/install-dpf-server@feat/update-actions-for-uv # zizmor: ignore[unpinned-uses] TODO: pin to a released pydpf-actions tag
         with:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+          skip-python-install: "true"
+
+      - name: "Expose the standalone DPF server to tox"
+        id: dpf-standalone
+        if: env.MODE == 'PIP'
+        shell: bash
+        env:
+          STANDALONE_PATH: ${{ steps.set-server-path.outputs.standalone-path }}
+        run: |
+          echo "requirement=-e ${STANDALONE_PATH}" >> "$GITHUB_OUTPUT"
 
       - name: "Setup headless display"
         uses: pyvista/setup-headless-display-action@c103a2ff45650d38cb71684b5dc6cdfeb9442c79 # v5.1.0
@@ -163,8 +176,10 @@ jobs:
 
       - name: "Build HTML Documentation"
         shell: bash
+        env:
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         run: |
-          tox -e doc-html -x testenv:doc-html.setenv+='VIRTUALENV_SYSTEM_SITE_PACKAGES=true'
+          uv run tox -e doc-html
 
       - name: "Save doc-build cache"
         id: cache-doc-build-save
