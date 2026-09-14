@@ -71,7 +71,7 @@ jobs:
     env:
       ANSYS_DPF_WHEEL_PLATFORM: "any"
       UV_PYTHON: ${{ inputs.python_version }}
-      # `uv sync` is run explicitly below, `uv run` must not re-sync and drop the tox-only environment.
+      # `uv sync` is run explicitly below, this variable is needed to prevent re-syncing on `uv run`.
       UV_NO_SYNC: "1"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

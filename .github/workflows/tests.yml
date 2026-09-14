@@ -124,7 +124,7 @@ jobs:
     env:
       ANSYS_DPF_WHEEL_PLATFORM: ${{ inputs.test_any == 'true' && 'any' || '' }}
       UV_PYTHON: ${{ matrix.python-version }}
-      # `uv sync` is run explicitly below, `uv run` must not re-sync and drop the tox-only environment.
+      # `uv sync` is run explicitly below, this variable is needed to prevent re-syncing on `uv run`.
       UV_NO_SYNC: "1"
 
     steps:
