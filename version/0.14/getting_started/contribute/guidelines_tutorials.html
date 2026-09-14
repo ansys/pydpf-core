@@ -1,0 +1,1434 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:site_name" content="PyAnsys" />
+    <title>Writing tutorials &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/ansys-sphinx-theme.css?v=ce7f2556" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles\ansys-sphinx-theme.css?v=ce7f2556" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=f3be7b20" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../_static/documentation_options.js?v=bfeb67b3"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/thebelab-helper.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'getting_started/contribute/guidelines_tutorials';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.14';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Writing examples" href="guidelines_examples.html" />
+    <link rel="prev" title="Contributing to the documentation" href="documentarian.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.14.2" />
+  <link rel="canonical" href="https://dpf.docs.pyansys.com/version/stable/getting_started/contribute/guidelines_tutorials.html" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dpf_server.html">DPF Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compatibility.html">Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../licensing.html">Licensing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dependencies.html">Dependencies</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../contributing.html">Contributing</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="user.html">User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer.html">Developer</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="documentarian.html">Documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Writing tutorials</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="guidelines_examples.html">Writing examples</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../index.html" class="nav-link">Getting started</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../contributing.html" class="nav-link">Contributing</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="documentarian.html" class="nav-link">Contributing to the documentation</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Writing tutorials</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="writing-tutorials">
+<span id="ref-guidelines-tutorials"></span><h1>Writing tutorials<a class="headerlink" href="#writing-tutorials" title="Link to this heading">#</a></h1>
+<span class="target" id="ref-links-and-refs"></span><p>You can improve the PyDPF-Core documentation by adding a:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#ref-guidelines-add-new-tutorial-section"><span class="std std-ref">New tutorials section</span></a>;</p></li>
+<li><p><a class="reference internal" href="#ref-guidelines-add-new-tutorial"><span class="std std-ref">New tutorial</span></a>.</p></li>
+</ul>
+<p>To do so, you must follow the guidelines presented here.</p>
+<p>You also need to understand the structure of the <code class="docutils literal notranslate"><span class="pre">doc</span></code> directory on the PyDPF-Core library:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.
+├── doc
+│   ├── source
+│   │    ├── api
+│   │    ├── examples
+│   │    ├── getting_started
+│   │    ├── images
+│   │    ├── user_guide
+│   │    ├── conf.py
+│   │    ├── index.rst
+│   ├── styles
+│   ├── make.bat
+</pre></div>
+</div>
+<p>Tutorials are located in the <code class="docutils literal notranslate"><span class="pre">doc/source/user_guide</span></code> directory.</p>
+<hr class="docutils" />
+</section>
+<section id="adding-a-new-tutorial-section">
+<span id="ref-guidelines-add-new-tutorial-section"></span><h1>Adding a new tutorial section<a class="headerlink" href="#adding-a-new-tutorial-section" title="Link to this heading">#</a></h1>
+<p><a class="reference download internal" download="" href="../../_downloads/0fcf3e3c4c3c64c7ae0aa0af99cff34b/tutorial_section_template.rst"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">the</span> <span class="pre">new</span> <span class="pre">tutorial</span> <span class="pre">section</span> <span class="pre">template</span></code></a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Avoid creating new folders unless absolutely necessary.
+When in doubt, mention the location of the new section in the pull request for approval.
+If you must create a new folder, make sure to add an <code class="docutils literal notranslate"><span class="pre">index.rst</span></code> file with a reference, a title, and a description of the section.
+The documentation ignores folders lacking this file.</p>
+</div>
+<section id="location-and-naming">
+<h2>Location and naming<a class="headerlink" href="#location-and-naming" title="Link to this heading">#</a></h2>
+<p>The new tutorial section must reside in a new folder such as <code class="docutils literal notranslate"><span class="pre">doc/source/user_guide/tutorials/new_section_name</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.
+├── doc
+│   ├── source
+│   │    ├── user_guide
+│   │    │   ├── tutorials
+│   │    │        ├── new_section
+</pre></div>
+</div>
+</section>
+<section id="structure">
+<h2>Structure<a class="headerlink" href="#structure" title="Link to this heading">#</a></h2>
+<p>The section folder must contain an <code class="docutils literal notranslate"><span class="pre">index.rst</span></code> file with:</p>
+<ul class="simple">
+<li><p>a reference tag for referencing this section in other parts of the documentation,</p></li>
+<li><p>a title for the tutorial section,</p></li>
+<li><p>a general description of the topics covered in the tutorials in this section,</p></li>
+<li><p>cards with links to the tutorials, titles, descriptions and applicable solvers,</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">Toctree</span></code> for the tutorials in the section to appear in the navigation pane.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.. _ref_tutorial_new_section_template:
+
+=============
+Section title
+=============
+
+These tutorials demonstrate how to ...
+
+.. grid:: 1 1 3 3
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card:: Tutorial title
+       :link: ref
+       :link-type: ref
+       :text-align: center
+
+       This tutorial ...
+
+       +++
+       :bdg-mapdl:`MAPDL` :bdg-lsdyna:`LS-DYNA` :bdg-fluent:`FLUENT` :bdg-cfx:`CFX`
+
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+
+    tutorial_file.rst
+</pre></div>
+</div>
+<p>You must reference the new section <code class="docutils literal notranslate"><span class="pre">index.rst</span></code> file in the main user guide page toctree
+for it to appear in the sidebar of the user guide main page. You can find this toctree
+at the end of the <code class="docutils literal notranslate"><span class="pre">doc/source/user_guide/index.rst</span></code> file.
+For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">toctree</span><span class="p">::</span>
+    <span class="p">:</span><span class="n">maxdepth</span><span class="p">:</span> <span class="mi">2</span>
+    <span class="p">:</span><span class="n">hidden</span><span class="p">:</span>
+    <span class="p">:</span><span class="n">caption</span><span class="p">:</span> <span class="n">Tutorials</span>
+
+    <span class="n">tutorials</span><span class="o">/</span><span class="n">section_x</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+    <span class="n">tutorials</span><span class="o">/</span><span class="n">section_y</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+    <span class="n">tutorials</span><span class="o">/</span><span class="n">section_z</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+    <span class="n">tutorials</span><span class="o">/</span><span class="n">new_section</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+<section id="adding-a-new-tutorial">
+<span id="ref-guidelines-add-new-tutorial"></span><h1>Adding a new tutorial<a class="headerlink" href="#adding-a-new-tutorial" title="Link to this heading">#</a></h1>
+<p><a class="reference download internal" download="" href="../../_downloads/6b2d3b71e45e4fdccf8d63a57ae07177/tutorial_card_template.rst"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">the</span> <span class="pre">tutorial</span> <span class="pre">card</span> <span class="pre">template</span></code></a>
+<a class="reference download internal" download="" href="../../_downloads/6dcd02db5f4a39baac3bb29ac8a54948/tutorial_structure_template.rst"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">the</span> <span class="pre">tutorial</span> <span class="pre">structure</span> <span class="pre">template</span></code></a>
+<a class="reference download internal" download="" href="../../_downloads/44d10e7d1bd7cc13040108bfb0bfcd86/tutorial_content_template.rst"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">the</span> <span class="pre">tutorial</span> <span class="pre">content</span> <span class="pre">formating</span> <span class="pre">template</span></code></a></p>
+<section id="id1">
+<h2>Location and naming<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>New tutorials correspond to new <code class="docutils literal notranslate"><span class="pre">.rst</span></code> files in tutorial section folders,
+for example: <code class="docutils literal notranslate"><span class="pre">doc/source/user_guide/tutorials/section/new_tutorial.rst</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.
+├── doc
+│   ├── source
+│   │    ├── user_guide
+│   │    │   ├── tutorials
+│   │    │        ├── section
+│   │    │             ├── new_tutorial.rst
+</pre></div>
+</div>
+<p>You must also add a new card in the <code class="docutils literal notranslate"><span class="pre">index.rst</span></code> file for the tutorial section as well as modify
+its toctree. The card must include:</p>
+<ul class="simple">
+<li><p>a tutorial title,</p></li>
+<li><p>a short description,</p></li>
+<li><p>badges for the applicable solvers,</p></li>
+<li><p>a link (in this case, the reference tag) to the tutorial file.</p></li>
+</ul>
+<aside class="topic">
+<p class="topic-title">Card example</p>
+<div class="sd-card sd-sphinx-override sd-w-25 sd-mb-3 sd-shadow-sm sd-text-center docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Tutorial title</div>
+<p class="sd-card-text">Short description of the tutorial</p>
+</div>
+<div class="sd-card-footer docutils">
+<p class="sd-card-text"><span class="sd-sphinx-override sd-badge sd-bg-mapdl sd-bg-text-mapdl">MAPDL</span> <span class="sd-sphinx-override sd-badge sd-bg-lsdyna sd-bg-text-lsdyna">LS-DYNA</span> <span class="sd-sphinx-override sd-badge sd-bg-fluent sd-bg-text-fluent">FLUENT</span> <span class="sd-sphinx-override sd-badge sd-bg-cfx sd-bg-text-cfx">CFX</span></p>
+</div>
+</div>
+</aside>
+</section>
+<section id="id2">
+<h2>Structure<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>The tutorial is divided in two main parts:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#ref-guidelines-tutorial-header"><span class="std std-ref">Header</span></a></p></li>
+<li><p><a class="reference internal" href="#ref-guidelines-tutorial-content"><span class="std std-ref">Content</span></a></p></li>
+</ul>
+<section id="header">
+<span id="ref-guidelines-tutorial-header"></span><h3>Header<a class="headerlink" href="#header" title="Link to this heading">#</a></h3>
+<p>This first part is essential for clarity, organization and usability of the tutorial. It establishes the purpose
+of the tutorial, making it easier to understand what is going to be explained and reference it within the other parts of
+the documentation.</p>
+<p>The header must have :</p>
+<ul class="simple">
+<li><p>a reference tag,</p></li>
+<li><p>a tutorial title,</p></li>
+<li><p>any substitution text for references to the PyDPF-Core library used in the tutorial,</p></li>
+<li><p>a short description (same as for the tutorial card in the tutorial section),</p></li>
+<li><p>an introduction,</p></li>
+<li><p>download buttons for Python script and Jupyter notebook versions of the tutorial.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.. _ref_tutorial_template:
+
+==============
+Tutorial title
+==============
+
+.. |displacement_op| replace:: :class:`ansys.dpf.core.operators.result.displacement.displacement`
+
+A single sentence describing the goal of the tutorial, which must match the one on the tutorial card in the section page.
+
+Introduction to the tutorial. Here, you provide the necessary context or foundational information for understanding the tutorial.
+
+:jupyter-download-script:`Download tutorial as Python script&lt;file_name&gt;`
+:jupyter-download-notebook:`Download tutorial as Jupyter notebook&lt;file_name&gt;`
+
+</pre></div>
+</div>
+<p>The main PyDPF-Core library references are available in the <code class="docutils literal notranslate"><span class="pre">doc/source/links_and_refs.rst</span></code> file.
+To add a reference, use the substitution text as usual:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">_ref_tutorial_template</span><span class="p">:</span>
+
+
+<span class="o">==============</span>
+<span class="n">Tutorial</span> <span class="n">title</span>
+<span class="o">==============</span>
+
+<span class="n">Here</span> <span class="n">some</span> <span class="n">text</span><span class="o">.</span> <span class="n">Here</span> <span class="n">we</span> <span class="n">use</span> <span class="n">the</span> <span class="o">|</span><span class="n">MeshedRegion</span><span class="o">|</span> <span class="n">substitution</span> <span class="n">text</span>
+</pre></div>
+</div>
+<p>For more information about the predefined references, see the
+<a class="reference download internal" download="" href="../../_downloads/8695da1753e89c5d04d0451f2a92acba/links_and_refs.rst"><code class="xref download docutils literal notranslate"><span class="pre">links</span> <span class="pre">and</span> <span class="pre">references</span> <span class="pre">file</span></code></a>.</p>
+</section>
+<section id="content">
+<span id="ref-guidelines-tutorial-content"></span><h3>Content<a class="headerlink" href="#content" title="Link to this heading">#</a></h3>
+<p>The goal of a tutorial is to present a feature or explain how to perform a common task step by step while explaining a behavior or underlying concepts.
+Thus, its structure must prioritize clarity, simplicity, and logical flow.</p>
+<section id="sections">
+<h4>Sections<a class="headerlink" href="#sections" title="Link to this heading">#</a></h4>
+<p>A well-organized tutorial breaks down complex tasks into manageable steps, presenting information incrementally
+to avoid overwhelming the user. It combines concise explanations with actionable instructions, ensuring users
+can follow along easily while building their understanding.</p>
+<p>Thus, the sections of the content are the steps themselves. These steps are generally similar to</p>
+<ol class="arabic simple">
+<li><p>A first step where you get some data and create DPF objects based on the data;</p></li>
+<li><p>One or more steps where you manipulate the data or the DPF objects;</p></li>
+<li><p>A final step where you reach the objective of the tutorial and obtain the expected result.</p></li>
+</ol>
+<p>For example:</p>
+<p>A tutorial explains how to plot a mesh using PyDPF-Core.
+The steps to achieve this task are:</p>
+<ol class="arabic simple">
+<li><p>Import a result file;</p></li>
+<li><p>Extract the mesh;</p></li>
+<li><p>Plot the mesh.</p></li>
+</ol>
+<p>To create those section, underline it with the appropriate headline characters (here: <code class="docutils literal notranslate"><span class="pre">-</span></code>).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Import</span> <span class="n">result</span> <span class="n">file</span>
+<span class="o">------------------</span>
+
+<span class="n">First</span><span class="p">,</span> <span class="n">you</span> <span class="o">...</span>
+
+
+<span class="n">Extract</span> <span class="n">the</span> <span class="n">mesh</span>
+<span class="o">----------------</span>
+
+<span class="n">Then</span><span class="p">,</span> <span class="n">you</span> <span class="n">extract</span> <span class="o">...</span>
+
+
+<span class="n">Plot</span> <span class="n">the</span> <span class="n">mesh</span>
+<span class="o">-------------</span>
+
+<span class="n">Finally</span><span class="p">,</span> <span class="n">you</span> <span class="n">plot</span> <span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="tabs">
+<h4>Tabs<a class="headerlink" href="#tabs" title="Link to this heading">#</a></h4>
+<p>You must use tabs when a step requires a solver-specific implementation.</p>
+<p>These tabs looks like:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+MAPDL</label><div class="sd-tab-content docutils">
+<p>Explanation 1 …</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code block 1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+LSDYNA</label><div class="sd-tab-content docutils">
+<p>Explanation 2 …</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code block 2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Fluent</label><div class="sd-tab-content docutils">
+<p>Explanation 3 …</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code block 3</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+CFX</label><div class="sd-tab-content docutils">
+<p>Explanation 4 …</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code block 4</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</div>
+</div>
+<p>You can also use tabs if you want to show different approaches to one step and it having the code blocks
+in different tabs is clearer. You can see an example of this in the
+<a class="reference internal" href="../../user_guide/tutorials/animate/animate_time.html#ref-tutorials-animate-time"><span class="std std-ref">Animate data over time</span></a> tutorial.</p>
+</section>
+<section id="code-blocks">
+<h4>Code blocks<a class="headerlink" href="#code-blocks" title="Link to this heading">#</a></h4>
+<p>The tutorials must have code blocks where you show how you actually implement the code.
+In addition to the guidelines presented here, you must also follow the <a class="reference external" href="https://dev.docs.pyansys.com/coding-style/index.html">Coding style</a>
+guide to ensure that all code looks the same across the project.</p>
+<ul class="simple">
+<li><p>Use the <a class="reference external" href="https://jupyter-sphinx.readthedocs.io/en/latest/">jupyter sphinx</a> extension to show code blocks. It executes embedded code in
+a Jupyter kernel and embeds outputs of that code in the document:</p></li>
+</ul>
+<div class="sd-container-fluid sd-sphinx-override sd-m-2 sd-p-2 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-check-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z"></path></svg> <strong>Correct</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">jupyter</span><span class="o">-</span><span class="n">execute</span><span class="p">::</span>
+
+    <span class="c1"># This is a executable code block</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-x-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z"></path></svg> <strong>Incorrect</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span><span class="p">::</span>
+
+    <span class="c1"># This is a simple code block</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Use comments within a code block to clarify the purpose of a line:</p></li>
+</ul>
+<div class="sd-container-fluid sd-sphinx-override sd-m-2 sd-p-2 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-check-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z"></path></svg> <strong>Correct</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
+
+<span class="c1"># Get the stress results</span>
+<span class="n">stress_fc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-x-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z"></path></svg> <strong>Incorrect</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
+<span class="n">stress_fc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Split your code in several parts to include longer explanations in text format or force showing an intermediate code output:</p></li>
+</ul>
+<div class="sd-container-fluid sd-sphinx-override sd-m-2 sd-p-2 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-check-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z"></path></svg> <strong>Correct</strong></p>
+<p class="sd-card-text">Explanation for a first code block and its output</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code comment 1</span>
+<span class="n">code1</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Explanation for a second code block and its output</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code comment 2</span>
+<span class="n">code2</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-x-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z"></path></svg> <strong>Incorrect</strong></p>
+<p class="sd-card-text">A single broad explanation for two steps with outputs mixed together</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># First explanation</span>
+<span class="c1"># Code comment 1</span>
+<span class="n">code1</span>
+
+<span class="c1"># Second explanation</span>
+<span class="c1"># Code comment 2</span>
+<span class="n">code2</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>When using a PyDPF-Core object or method you must name arguments:</p></li>
+</ul>
+<div class="sd-container-fluid sd-sphinx-override sd-m-2 sd-p-2 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-check-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z"></path></svg> <strong>Correct</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the stress results</span>
+<span class="n">stress_fc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">(</span><span class="n">time_scoping</span><span class="o">=</span><span class="n">time_steps</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-x-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z"></path></svg> <strong>Incorrect</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the stress results</span>
+<span class="n">stress_fc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">(</span><span class="n">time_steps</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>When quoting APIs in the code comments you must always use their scripting name. Mind the use of
+a capital letter to name the DPF objects</p></li>
+</ul>
+<div class="sd-container-fluid sd-sphinx-override sd-m-2 sd-p-2 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-check-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z"></path></svg> <strong>Correct</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the DataSources object</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-x-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z"></path></svg> <strong>Incorrect</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the data sources object</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the Data Sources object</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Use blank lines between code lines for better clarity.</p></li>
+</ul>
+<div class="sd-container-fluid sd-sphinx-override sd-m-2 sd-p-2 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-check-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z"></path></svg> <strong>Correct</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the result file path</span>
+<span class="n">result_file_path_1</span> <span class="o">=</span> <span class="s1">&#39;/tmp/file.rst&#39;</span>
+
+<span class="c1"># Define the DataSources object</span>
+<span class="n">ds_1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">result_path</span><span class="o">=</span><span class="n">result_file_path_1</span><span class="p">)</span>
+
+<span class="c1"># Create a Model</span>
+<span class="n">model_1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds_1</span><span class="p">)</span>
+
+<span class="c1"># Get the stress results</span>
+<span class="n">stress_fc</span> <span class="o">=</span> <span class="n">model_1</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-x-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z"></path></svg> <strong>Incorrect</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the result file path</span>
+<span class="n">result_file_path_1</span> <span class="o">=</span> <span class="s1">&#39;/tmp/file.rst&#39;</span>
+<span class="c1"># Define the DataSources object</span>
+<span class="n">ds_1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">result_path</span><span class="o">=</span><span class="n">result_file_path_1</span><span class="p">)</span>
+<span class="c1"># Create a Model</span>
+<span class="n">model_1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds_1</span><span class="p">)</span>
+<span class="c1"># Get the stress results</span>
+<span class="n">stress_fc</span> <span class="o">=</span> <span class="n">model_1</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Avoid naming the variables with the same name as an argument or an API. You can get inspirations from the
+tutorials available at <a class="reference internal" href="../../user_guide/tutorials/index.html#ref-tutorials"><span class="std std-ref">Tutorials</span></a>.</p></li>
+</ul>
+<div class="sd-container-fluid sd-sphinx-override sd-m-2 sd-p-2 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-check-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z"></path></svg> <strong>Correct</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the result file path</span>
+<span class="n">result_file_path</span> <span class="o">=</span> <span class="s1">&#39;/tmp/file.rst&#39;</span>
+
+<span class="c1"># Define the DataSources object</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">result_path</span><span class="o">=</span><span class="n">result_file_path</span><span class="p">)</span>
+
+<span class="c1"># Create a Model</span>
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-x-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z"></path></svg> <strong>Incorrect</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the result file path</span>
+<span class="n">result_path</span> <span class="o">=</span> <span class="s1">&#39;/tmp/file.rst&#39;</span>
+
+<span class="c1"># Define the DataSources object</span>
+<span class="n">data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">result_path</span><span class="o">=</span><span class="n">result_path</span><span class="p">)</span>
+
+<span class="c1"># Create a Model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">data_sources</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="text-formating">
+<h4>Text formating<a class="headerlink" href="#text-formating" title="Link to this heading">#</a></h4>
+<p>In addition to the guidelines presented here, you must also follow the <a class="reference external" href="https://dev.docs.pyansys.com/doc-style/index.html">Documentation style</a>
+guide to ensure that the tutorials follow a coherent writing style across the project.</p>
+<ul class="simple">
+<li><p>When quoting APIs in the text you must always use a reference to redirect it to the API reference</p></li>
+</ul>
+<div class="sd-container-fluid sd-sphinx-override sd-m-2 sd-p-2 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-check-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z"></path></svg> <strong>Correct</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Here</span> <span class="n">we</span> <span class="n">use</span> <span class="n">the</span> <span class="o">|</span><span class="n">MeshedRegion</span><span class="o">|</span> <span class="n">substitution</span> <span class="n">text</span>
+</pre></div>
+</div>
+<p class="sd-card-text"><strong>Rendered text:</strong></p>
+<p class="sd-card-text">Here is some text. Here we use the <a class="reference internal" href="../../api/ansys/dpf/core/meshed_region/MeshedRegion.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></a> substitution text</p>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-x-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z"></path></svg> <strong>Incorrect</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Here</span> <span class="n">we</span> <span class="n">do</span> <span class="ow">not</span> <span class="n">use</span> <span class="n">the</span> <span class="n">MeshedRegion</span> <span class="n">substitution</span> <span class="n">text</span>
+</pre></div>
+</div>
+<p class="sd-card-text"><strong>Rendered text:</strong></p>
+<p class="sd-card-text">Here is some text. Here we do not use the MeshedRegion substitution text</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Use bullet lists when enumerating items:</p></li>
+</ul>
+<div class="sd-container-fluid sd-sphinx-override sd-m-2 sd-p-2 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-check-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z"></path></svg> <strong>Correct</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">operator</span> <span class="n">accepts</span> <span class="k">as</span> <span class="n">arguments</span><span class="p">:</span>
+
+<span class="o">-</span> <span class="n">A</span> <span class="n">Result</span>
+<span class="o">-</span> <span class="n">An</span> <span class="n">Operator</span>
+<span class="o">-</span> <span class="n">A</span> <span class="n">FieldsContainer</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-x-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z"></path></svg> <strong>Incorrect</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">operator</span> <span class="n">accepts</span> <span class="n">a</span> <span class="n">Result</span><span class="p">,</span> <span class="n">an</span> <span class="n">Operator</span> <span class="ow">or</span> <span class="n">a</span>
+<span class="n">FieldsContainer</span> <span class="k">as</span> <span class="n">arguments</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Use a numbered list for ordered items:</p></li>
+</ul>
+<div class="sd-container-fluid sd-sphinx-override sd-m-2 sd-p-2 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-check-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z"></path></svg> <strong>Correct</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">To</span> <span class="n">extract</span> <span class="n">the</span> <span class="n">mesh</span> <span class="n">you</span> <span class="n">need</span> <span class="n">to</span> <span class="n">follow</span> <span class="n">those</span> <span class="n">steps</span><span class="p">:</span>
+
+<span class="c1">#. Get the result file;</span>
+<span class="c1">#. Create a Model;</span>
+<span class="c1">#. Get the MeshedRegion.</span>
+</pre></div>
+</div>
+<p class="sd-card-text">The <code class="docutils literal notranslate"><span class="pre">#.</span></code> renders as a numbered list.</p>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-x-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z"></path></svg> <strong>Incorrect</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">To</span> <span class="n">extract</span> <span class="n">the</span> <span class="n">mesh</span> <span class="n">you</span> <span class="n">need</span> <span class="n">to</span> <span class="n">follow</span> <span class="n">those</span> <span class="n">steps</span><span class="p">:</span>
+
+<span class="o">-</span> <span class="n">Get</span> <span class="n">the</span> <span class="n">result</span> <span class="n">file</span><span class="p">;</span>
+<span class="o">-</span> <span class="n">Create</span> <span class="n">a</span> <span class="n">Model</span><span class="p">;</span>
+<span class="o">-</span> <span class="n">Get</span> <span class="n">the</span> <span class="n">MeshedRegion</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>If you need to develop explanations for each item of the list, first, enumerate and reference them. Then,
+explore each of them separately in sub headings.</p></li>
+</ul>
+<div class="sd-container-fluid sd-sphinx-override sd-m-2 sd-p-2 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-check-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z"></path></svg> <strong>Correct</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Section title
+-------------
+
+This section presents two items:
+
+- :ref:`Item 1 &lt;ref_tutorial_name_item_1&gt;`
+- :ref:`Content&lt;ref_tutorial_name_item_2&gt;`
+
+
+.. _ref_tutorial_name_item_1:
+
+Item 1
+^^^^^^
+
+Presentation of the first item...
+
+
+.. _ref_tutorial_name_item_2:
+
+Item 2
+^^^^^^
+
+Presentation of the second item...
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-x-circle-fill" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z"></path></svg> <strong>Incorrect</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Section</span> <span class="n">title</span>
+<span class="o">-------------</span>
+
+<span class="n">This</span> <span class="n">section</span> <span class="n">presents</span> <span class="n">two</span> <span class="n">items</span><span class="p">:</span>
+
+<span class="o">-</span> <span class="n">Item</span> <span class="mi">1</span>
+<span class="o">-</span> <span class="n">Item</span> <span class="mi">2</span>
+
+<span class="n">Item</span> <span class="mi">1</span>
+<span class="o">^^^^^^</span>
+<span class="n">Presentation</span> <span class="n">of</span> <span class="n">the</span> <span class="n">first</span> <span class="n">item</span><span class="o">...</span>
+
+<span class="n">Item</span> <span class="mi">2</span>
+<span class="o">^^^^^^</span>
+<span class="n">Presentation</span> <span class="n">of</span> <span class="n">the</span> <span class="n">second</span> <span class="n">item</span><span class="o">...</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Section</span> <span class="n">title</span>
+<span class="o">-------------</span>
+
+<span class="n">This</span> <span class="n">section</span> <span class="n">presents</span> <span class="n">two</span> <span class="n">items</span><span class="p">:</span>
+
+<span class="o">-</span> <span class="n">Item</span> <span class="mi">1</span>
+<span class="n">Presentation</span> <span class="n">of</span> <span class="n">the</span> <span class="n">first</span> <span class="n">item</span><span class="o">...</span>
+
+
+<span class="o">-</span> <span class="n">Item</span> <span class="mi">2</span>
+<span class="n">Presentation</span> <span class="n">of</span> <span class="n">the</span> <span class="n">second</span> <span class="n">item</span><span class="o">...</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Writing tutorials</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-new-tutorial-section">Adding a new tutorial section</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#location-and-naming">Location and naming</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure">Structure</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-new-tutorial">Adding a new tutorial</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Location and naming</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Structure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#header">Header</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#content">Content</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sections">Sections</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tabs">Tabs</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#code-blocks">Code blocks</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#text-formating">Text formating</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<!-- If there is no fix edit button function, use the PyData edit-this-button-->
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/getting_started/contribute/guidelines_tutorials.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2025 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.5.3. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

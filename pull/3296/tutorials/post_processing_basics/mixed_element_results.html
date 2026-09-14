@@ -1,0 +1,1137 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Process elemental nodal results on mixed-element meshes &#8212; PyDPF-Core</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/ansys-sphinx-theme.css?v=a23b20f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles\ansys-sphinx-theme.css?v=a23b20f3" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=f3be7b20" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../../_static/documentation_options.js?v=87d5092e"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/post_processing_basics/mixed_element_results';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Import Data" href="../import_data/index.html" />
+    <link rel="prev" title="Postprocessing main steps" href="main_steps.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.16.2.dev0" />
+  <meta property="og:site_name" content="PyAnsys" />
+  <meta name="physics" content="Structures" />
+  <meta name="physics" content="Fluids" />
+  <meta name="physics" content="Multiphysics" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Starting with PyDPF-Core 0.15.0, gRPC communication with the DPF server defaults to requiring mTLS authentication.
+Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dpf_server.html#run-dpf-server-in-secure-mode-with-mtls'>this page</a> for more information.</div>
+</aside>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <img src="../../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="PyDPF-Core - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+  
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    
+<!--
+  Announcement Version Loader
+  Dynamically loads the announcement.html content into the announcement_msg div.
+-->
+<div id="announcement_msg" aria-live="polite"></div>
+<script>
+  // Fetch and inject the announcement HTML content
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status} Announcement.html file not found, Please ignore this, if you are in dev/stable documentation`);
+      }
+      return response.text();
+    })
+    .then((text) => {
+      var msgDiv = document.getElementById("announcement_msg");
+      if (msgDiv) {
+        msgDiv.innerHTML = text;
+      }
+    })
+    .catch((error) => {
+      // Log only unexpected fetch errors
+      if (!(error.message && error.message.startsWith("HTTP error: 404"))) {
+        console.error(`Fetch problem: ${error.message} Announcement.html could not be loaded.`);
+      }
+    });
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../index.html" title="PyDPF-Core home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../introduction.html">
+    Introduction
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../operator_reference.html">
+    Operators
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contributing
+  </a>
+</li>
+
+  </ul>
+</nav>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+  
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../data_structures/index.html">DPF data structures</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Processing data basics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="main_steps.html">Postprocessing main steps</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Process elemental nodal results on mixed-element meshes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../import_data/index.html">Import Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operators_and_workflows/index.html">Process data with operators and workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../export_data/index.html">Export data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot/index.html">Plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../animate/index.html">Animate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/index.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_operators_and_plugins/index.html">Custom Operators and Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributed_files/index.html">Post-process distributed files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dpf_server/index.html">DPF server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../licensing/index.html">Licensing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mapping/index.html">Mapping</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="../index.html" class="nav-link">Tutorials</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">Processing data basics</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Process elemental nodal results on mixed-element meshes</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-tutorials-post-processing-basics-mixed-element-results-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="process-elemental-nodal-results-on-mixed-element-meshes">
+<span id="ref-tutorials-mixed-element-results"></span><span id="sphx-glr-tutorials-post-processing-basics-mixed-element-results-py"></span><h1>Process elemental nodal results on mixed-element meshes<a class="headerlink" href="#process-elemental-nodal-results-on-mixed-element-meshes" title="Link to this heading">#</a></h1>
+<p>Iterate an elemental nodal result on a mixed-element mesh and process each
+element shape separately with numpy.</p>
+<p>When a mesh combines several element types (for example <code class="docutils literal notranslate"><span class="pre">Tet10</span></code>, <code class="docutils literal notranslate"><span class="pre">Hex20</span></code>
+and <code class="docutils literal notranslate"><span class="pre">Quad4</span></code>), an <code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code> <a href="#id1"><span class="problematic" id="id2">|Field|</span></a> stores a different number of
+rows per element because each shape uses a different storage convention
+(typically the corner nodes of solids, or the nodes-times-layers of shells).
+This tutorial shows how to discover the element types in bulk via the
+<a href="#id3"><span class="problematic" id="id4">|PropertyField|</span></a> returned by <a href="#id5"><span class="problematic" id="id6">|Elements|</span></a>, how
+<code class="xref py py-func docutils literal notranslate"><span class="pre">get_entity_data_by_id()</span></code>
+exposes the variable shape per element, how to obtain a uniform per-shape
+<a href="#id7"><span class="problematic" id="id8">|Field|</span></a> by restricting the result operator to a per-shape <a href="#id9"><span class="problematic" id="id10">|Scoping|</span></a> so the
+data is ready for vectorised numpy operations, and how to extend a
+corner-only field to the mid-side nodes of quadratic elements.</p>
+<section id="load-a-mixed-element-result-file">
+<h2>Load a mixed-element result file<a class="headerlink" href="#load-a-mixed-element-result-file" title="Link to this heading">#</a></h2>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">allKindOfComplexity</span></code> static result file from the <a href="#id11"><span class="problematic" id="id12">|Examples|</span></a> module.
+This dataset contains a mesh that combines solid, shell and beam elements of
+different orders, which is what makes it useful for this tutorial.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the ansys.dpf.core module as ``dpf``</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+
+<span class="c1"># Import the examples and operators modules</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">examples</span><span class="p">,</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+
+<span class="c1"># Create a DataSources object pointing at the result file</span>
+<span class="n">my_data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">result_path</span><span class="o">=</span><span class="n">examples</span><span class="o">.</span><span class="n">download_all_kinds_of_complexity</span><span class="p">())</span>
+
+<span class="c1"># Create a Model</span>
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">my_data_sources</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_model</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+Static analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mechanical
+Available results:
+     -  node_orientations: Nodal Node Euler Angles
+     -  displacement: Nodal Displacement
+     -  nodal_rotation: Nodal Rotation
+     -  reaction_force: Nodal Reaction Force
+     -  reaction_moment: Nodal Reaction Moment
+     -  smisc: Elemental Elemental Summable Miscellaneous Data
+     -  element_nodal_forces: ElementalNodal Element Nodal Forces
+     -  element_nodal_moments: ElementalNodal Element Nodal Moments
+     -  stress: ElementalNodal Stress
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  elastic_strain: ElementalNodal Strain
+     -  elastic_strain_eqv: ElementalNodal Strain eqv
+     -  thermal_strain: ElementalNodal Thermal Strains
+     -  thermal_strains_eqv: ElementalNodal Thermal Strains eqv
+     -  swelling_strains: ElementalNodal Swelling Strains
+     -  element_orientations: ElementalNodal Element Euler Angles
+     -  nmisc: Elemental Elemental Non Summable Miscellaneous Data
+     -  structural_temperature: ElementalNodal Structural temperature
+     -  contact_status: ElementalNodal Contact Status
+     -  contact_penetration: ElementalNodal Contact Penetration
+     -  contact_pressure: ElementalNodal Contact Pressure
+     -  contact_friction_stress: ElementalNodal Contact Friction Stress
+     -  contact_total_stress: ElementalNodal Contact Total Stress
+     -  contact_sliding_distance: ElementalNodal Contact Sliding Distance
+     -  contact_gap_distance: ElementalNodal Contact Gap Distance
+     -  contact_surface_heat_flux: ElementalNodal Total heat flux at contact surface
+     -  num_surface_status_changes: ElementalNodal Contact status changes
+     -  contact_fluid_penetration_pressure: ElementalNodal Fluid Penetration Pressure
+------------------------------
+DPF  Meshed Region:
+  15129 nodes
+  10294 elements
+  Unit: m
+  With solid (3D) elements, shell (2D) elements, shell (3D) elements, beam (1D) elements
+------------------------------
+DPF  Time/Freq Support:
+  Number of sets: 1
+Cumulative     Time (s)       LoadStep       Substep
+1              1.000000       1              1
+</pre></div>
+</div>
+</section>
+<section id="discover-the-element-types-in-bulk">
+<h2>Discover the element types in bulk<a class="headerlink" href="#discover-the-element-types-in-bulk" title="Link to this heading">#</a></h2>
+<p>The <a href="#id13"><span class="problematic" id="id14">|Elements|</span></a> helper exposes
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">element_types_field</span></code>,
+a <a href="#id15"><span class="problematic" id="id16">|PropertyField|</span></a> that stores the element type ID of every element in the
+mesh as an integer array. This is the recommended way to inspect the element
+composition of the mesh: it is a single server call instead of one call per
+element.</p>
+<p>Each integer value matches an entry of the
+<a class="reference internal" href="../../api/ansys/dpf/core/elements/element_types.html#ansys.dpf.core.elements.element_types" title="ansys.dpf.core.elements.element_types"><code class="xref py py-class docutils literal notranslate"><span class="pre">element_types</span></code></a> enum, and the
+associated <a class="reference internal" href="../../api/ansys/dpf/core/element_descriptor/ElementDescriptor.html#ansys.dpf.core.element_descriptor.ElementDescriptor" title="ansys.dpf.core.element_descriptor.ElementDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ElementDescriptor</span></code></a>
+exposes useful properties such as <code class="docutils literal notranslate"><span class="pre">n_nodes</span></code>, <code class="docutils literal notranslate"><span class="pre">is_solid</span></code>, <code class="docutils literal notranslate"><span class="pre">is_shell</span></code>,
+<code class="docutils literal notranslate"><span class="pre">is_beam</span></code> and <code class="docutils literal notranslate"><span class="pre">is_quadratic</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the Elements helper from the meshed region</span>
+<span class="n">my_elements</span> <span class="o">=</span> <span class="n">my_model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">elements</span>
+
+<span class="c1"># Bulk retrieval of element type IDs as a PropertyField</span>
+<span class="n">el_types_pf</span> <span class="o">=</span> <span class="n">my_elements</span><span class="o">.</span><span class="n">element_types_field</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">el_types_pf</span><span class="p">)</span>
+
+<span class="c1"># Expose the PropertyField data and the matching element IDs as numpy arrays</span>
+<span class="n">type_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">el_types_pf</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">mesh_eids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">el_types_pf</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+
+<span class="c1"># Identify which element types are present in the mesh using numpy on the</span>
+<span class="c1"># PropertyField data array, then describe each type via its descriptor</span>
+<span class="n">unique_type_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">type_data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;name&#39;</span><span class="si">:</span><span class="s2">&gt;12s</span><span class="si">}</span><span class="s2">  n_nodes  solid  shell  beam  quadratic&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">type_id</span> <span class="ow">in</span> <span class="n">unique_type_ids</span><span class="p">:</span>
+    <span class="n">type_enum</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">type_id</span><span class="p">))</span>
+    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="o">.</span><span class="n">descriptor</span><span class="p">(</span><span class="n">type_enum</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">descriptor</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">&gt;12s</span><span class="si">}</span><span class="s2">  &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">descriptor</span><span class="o">.</span><span class="n">n_nodes</span><span class="si">:</span><span class="s2">7d</span><span class="si">}</span><span class="s2">  &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">descriptor</span><span class="o">.</span><span class="n">is_solid</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;5s</span><span class="si">}</span><span class="s2">  &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">descriptor</span><span class="o">.</span><span class="n">is_shell</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;5s</span><span class="si">}</span><span class="s2">  &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">descriptor</span><span class="o">.</span><span class="n">is_beam</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;4s</span><span class="si">}</span><span class="s2">  &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">descriptor</span><span class="o">.</span><span class="n">is_quadratic</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;9s</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Property Field
+  10294 entities
+  Data: 1 components and 10294 elementary data
+
+  Elemental
+  IDs                   data
+  ------------          ----------
+  10994                 16
+
+  10791                 16
+
+  10993                 16
+
+  ...
+
+
+        name  n_nodes  solid  shell  beam  quadratic
+       tet10       10   True  False  False       True
+       hex20       20   True  False  False       True
+        tri6        6  False   True  False       True
+       quad8        8  False   True  False       True
+      point1        1  False  False  False      False
+       quad4        4  False   True  False      False
+       line2        2  False  False  True      False
+       edge2        2  False  False  True      False
+       beam3        3  False  False  True      False
+</pre></div>
+</div>
+</section>
+<section id="read-an-elemental-nodal-result-on-the-mixed-mesh">
+<h2>Read an elemental nodal result on the mixed mesh<a class="headerlink" href="#read-an-elemental-nodal-result-on-the-mixed-mesh" title="Link to this heading">#</a></h2>
+<p>Extract the stress result at the <code class="docutils literal notranslate"><span class="pre">elemental_nodal</span></code> location. On a mixed
+mesh, every element of the underlying <a href="#id17"><span class="problematic" id="id18">|Field|</span></a> holds a different number of
+rows because each element shape has a different node count.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Request the stress result at the elemental nodal location</span>
+<span class="n">stress_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress</span><span class="p">(</span>
+    <span class="n">data_sources</span><span class="o">=</span><span class="n">my_model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">data_sources</span><span class="p">,</span>
+    <span class="n">requested_location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental_nodal</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">stress_fc</span> <span class="o">=</span> <span class="n">stress_op</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">stress_field</span> <span class="o">=</span> <span class="n">stress_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stress_field</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF stress_1.s Field
+  Location: ElementalNodal
+  Unit: Pa
+  9255 entities
+  Data: 6 components and 40016 elementary data
+
+  Elemental
+  IDs                   data(Pa)
+  ------------          ----------
+  10791                 5.971775e+06   4.196316e-25   -2.716758e+06  1.607941e-09   1.767604e-11   1.127190e+05
+                        5.681470e+06   4.103644e-25   -2.700021e+06  1.554842e-09   1.021682e-10   4.930005e+05
+                        6.041669e+06   4.280931e-25   3.234381e+05   1.634825e-09   6.853113e-11   4.970784e+05
+                        ...
+
+  10790                 5.559750e+06   -1.863271e-25  -3.690972e+06  1.297777e-10   8.251441e-10   6.000973e+05
+                        5.598927e+06   -1.102636e-25  -2.319277e+06  1.082415e-10   5.015780e-10   6.953758e+05
+                        6.569169e+06   -1.150930e-25  -2.415390e+06  1.199670e-10   5.231015e-10   6.415781e+05
+                        ...
+
+  10785                 5.158660e+06   -9.352233e-26  -2.086242e+06  3.084537e-10   4.415267e-10   -2.576725e+05
+                        5.450613e+06   3.134693e-26   7.306578e+05   3.125156e-10   -1.523927e-10  -2.759877e+05
+                        5.454998e+06   3.226618e-26   7.511128e+05   3.865814e-10   -1.567486e-10  -5.845823e+05
+                        ...
+
+  ...
+</pre></div>
+</div>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">get_entity_data_by_id()</span></code>
+returns a 2D array with shape <code class="docutils literal notranslate"><span class="pre">(n_rows,</span> <span class="pre">n_components)</span></code> for the requested
+element. The row count depends on the solver’s storage convention for that
+element type: solid elements typically store stress at the corner nodes only
+(<code class="docutils literal notranslate"><span class="pre">n_corner_nodes</span></code>), while shells store stress at the nodes times the
+through-thickness layer count, so the row count does not always equal
+<code class="docutils literal notranslate"><span class="pre">n_nodes</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># For each element type, take one representative element from the result</span>
+<span class="c1"># scoping (via numpy on the PropertyField data) and show its data shape</span>
+<span class="n">result_eids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">stress_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+<span class="n">in_result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">mesh_eids</span><span class="p">,</span> <span class="n">result_eids</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;element&#39;</span><span class="si">:</span><span class="s2">&gt;9s</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="s1">&#39;type&#39;</span><span class="si">:</span><span class="s2">&gt;12s</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="s1">&#39;shape&#39;</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2">  n_nodes  n_corner_nodes&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">type_id</span> <span class="ow">in</span> <span class="n">unique_type_ids</span><span class="p">:</span>
+    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="o">.</span><span class="n">descriptor</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">type_id</span><span class="p">)))</span>
+    <span class="n">eid_candidates</span> <span class="o">=</span> <span class="n">mesh_eids</span><span class="p">[(</span><span class="n">type_data</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">type_id</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">in_result</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">eid_candidates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">eid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">eid_candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">entity_data</span> <span class="o">=</span> <span class="n">stress_field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="n">eid</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">eid</span><span class="si">:</span><span class="s2">9d</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">descriptor</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">&gt;12s</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">entity_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2">  &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">descriptor</span><span class="o">.</span><span class="n">n_nodes</span><span class="si">:</span><span class="s2">7d</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">descriptor</span><span class="o">.</span><span class="n">n_corner_nodes</span><span class="si">:</span><span class="s2">14d</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>element          type       shape  n_nodes  n_corner_nodes
+    386         tet10      (4, 6)       10               4
+      1         hex20      (8, 6)       20               8
+  10791         quad4     (12, 6)        4               4
+</pre></div>
+</div>
+</section>
+<section id="get-a-uniform-per-shape-field-via-a-per-shape-scoping">
+<h2>Get a uniform per-shape field via a per-shape scoping<a class="headerlink" href="#get-a-uniform-per-shape-field-via-a-per-shape-scoping" title="Link to this heading">#</a></h2>
+<p>Iterating element by element to handle the variable row count is rarely what
+you want. To obtain a uniform per-shape result instead, build a <a href="#id19"><span class="problematic" id="id20">|Scoping|</span></a>
+that contains only the element IDs of one geometric element type (using a
+numpy mask on the <a href="#id21"><span class="problematic" id="id22">|PropertyField|</span></a> data array), then re-evaluate the result
+operator with that <a href="#id23"><span class="problematic" id="id24">|Scoping|</span></a> connected to its <code class="docutils literal notranslate"><span class="pre">mesh_scoping</span></code> input. All
+elements of the resulting <a href="#id25"><span class="problematic" id="id26">|Field|</span></a> then share the same row count, so the flat
+<code class="docutils literal notranslate"><span class="pre">data</span></code> array reshapes naturally to <code class="docutils literal notranslate"><span class="pre">(n_elements,</span> <span class="pre">rows_per_element,</span>
+<span class="pre">n_components)</span></code> and is ready for vectorised numpy operations.</p>
+<p>Pick the <code class="docutils literal notranslate"><span class="pre">Tet10</span></code> element shape (a quadratic solid) so the next step can
+demonstrate <code class="docutils literal notranslate"><span class="pre">extend_to_mid_nodes</span></code> on its output.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Build a per-shape Elemental Scoping from the PropertyField data</span>
+<span class="n">target_descriptor</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="o">.</span><span class="n">descriptor</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="o">.</span><span class="n">Tet10</span><span class="p">)</span>
+<span class="n">target_type_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="o">.</span><span class="n">Tet10</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="n">target_eids</span> <span class="o">=</span> <span class="n">mesh_eids</span><span class="p">[</span><span class="n">type_data</span> <span class="o">==</span> <span class="n">target_type_id</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">target_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="n">target_eids</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Per-shape scoping: </span><span class="si">{</span><span class="n">target_descriptor</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">target_scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span><span class="si">}</span><span class="s2"> elements&quot;</span><span class="p">)</span>
+
+<span class="c1"># Request the stress restricted to those elements</span>
+<span class="n">shape_fc</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress</span><span class="p">(</span>
+    <span class="n">data_sources</span><span class="o">=</span><span class="n">my_model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">data_sources</span><span class="p">,</span>
+    <span class="n">requested_location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental_nodal</span><span class="p">,</span>
+    <span class="n">mesh_scoping</span><span class="o">=</span><span class="n">target_scoping</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">shape_field</span> <span class="o">=</span> <span class="n">shape_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">shape_field</span><span class="p">)</span>
+
+<span class="c1"># Verify the row count is uniform across all elements of this shape</span>
+<span class="n">n_elements</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+<span class="n">n_components</span> <span class="o">=</span> <span class="n">shape_field</span><span class="o">.</span><span class="n">component_count</span>
+<span class="n">total_rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">shape_field</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="n">n_components</span>
+<span class="n">rows_per_element</span> <span class="o">=</span> <span class="n">total_rows</span> <span class="o">//</span> <span class="n">n_elements</span>
+<span class="k">assert</span> <span class="p">(</span>
+    <span class="n">n_elements</span> <span class="o">*</span> <span class="n">rows_per_element</span> <span class="o">*</span> <span class="n">n_components</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">shape_field</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">size</span>
+<span class="p">),</span> <span class="s2">&quot;Per-shape field data is not uniform across elements&quot;</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target_descriptor</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: rows_per_element=</span><span class="si">{</span><span class="n">rows_per_element</span><span class="si">}</span><span class="s2"> &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;(n_corner_nodes=</span><span class="si">{</span><span class="n">target_descriptor</span><span class="o">.</span><span class="n">n_corner_nodes</span><span class="si">}</span><span class="s2">, n_nodes=</span><span class="si">{</span><span class="n">target_descriptor</span><span class="o">.</span><span class="n">n_nodes</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Reshape the flat data array to (n_elements, rows_per_element, n_components)</span>
+<span class="n">shape_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">shape_field</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n_elements</span><span class="p">,</span> <span class="n">rows_per_element</span><span class="p">,</span> <span class="n">n_components</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reshaped data: </span><span class="si">{</span><span class="n">shape_data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Compute the mean stress tensor over the storage rows of each element</span>
+<span class="n">mean_stress_per_element</span> <span class="o">=</span> <span class="n">shape_data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Per-element mean stress shape: </span><span class="si">{</span><span class="n">mean_stress_per_element</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Per-shape scoping: tet10, 8709 elements
+DPF stress_1.s Field
+  Location: ElementalNodal
+  Unit: Pa
+  8709 entities
+  Data: 6 components and 34836 elementary data
+
+  Elemental
+  IDs                   data(Pa)
+  ------------          ----------
+  386                   5.487990e+09   2.255996e+09   2.255996e+09   3.900135e+08   1.280020e-02   -1.724164e+09
+                        5.242747e+09   2.150891e+09   2.150891e+09   3.504681e+08   -1.160741e-02  -1.495620e+09
+                        4.951086e+09   2.025894e+09   2.025894e+09   1.002506e+08   1.523737e-02   -1.591536e+09
+                        ...
+
+  396                   5.747392e+09   2.367168e+09   2.367168e+09   6.098429e+08   -3.689835e-02  -1.446612e+09
+                        5.237534e+09   2.148657e+09   2.148657e+09   2.991596e+08   2.090650e-02   -1.275377e+09
+                        5.704150e+09   1.963311e+09   2.017323e+09   5.300079e+08   7.299317e+06   -1.293922e+09
+                        ...
+
+  392                   5.747392e+09   2.367168e+09   2.367168e+09   6.098429e+08   2.162694e-02   -1.446612e+09
+                        5.237534e+09   2.148657e+09   2.148657e+09   2.991596e+08   1.469972e-02   -1.275377e+09
+                        5.229708e+09   2.145304e+09   2.145304e+09   3.519168e+08   -2.873758e-03  -1.530632e+09
+                        ...
+
+  ...
+
+
+tet10: rows_per_element=4 (n_corner_nodes=4, n_nodes=10)
+Reshaped data: (8709, 4, 6)
+Per-element mean stress shape: (8709, 6)
+</pre></div>
+</div>
+</section>
+<section id="extend-a-corner-only-field-to-the-mid-side-nodes">
+<h2>Extend a corner-only field to the mid-side nodes<a class="headerlink" href="#extend-a-corner-only-field-to-the-mid-side-nodes" title="Link to this heading">#</a></h2>
+<p>For quadratic solids such as <code class="docutils literal notranslate"><span class="pre">Tet10</span></code> and <code class="docutils literal notranslate"><span class="pre">Hex20</span></code>, the <code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code>
+stress field above holds one row per <strong>corner</strong> node, not per geometric
+node. To obtain values at all geometric nodes (including the mid-side ones),
+apply the
+<a class="reference internal" href="../../api/ansys/dpf/core/operators/averaging/extend_to_mid_nodes/extend_to_mid_nodes.html#ansys.dpf.core.operators.averaging.extend_to_mid_nodes.extend_to_mid_nodes" title="ansys.dpf.core.operators.averaging.extend_to_mid_nodes.extend_to_mid_nodes"><code class="xref py py-class docutils literal notranslate"><span class="pre">extend_to_mid_nodes</span></code></a>
+operator (or its
+<a class="reference internal" href="../../api/ansys/dpf/core/operators/averaging/extend_to_mid_nodes_fc/extend_to_mid_nodes_fc.html#ansys.dpf.core.operators.averaging.extend_to_mid_nodes_fc.extend_to_mid_nodes_fc" title="ansys.dpf.core.operators.averaging.extend_to_mid_nodes_fc.extend_to_mid_nodes_fc"><code class="xref py py-class docutils literal notranslate"><span class="pre">extend_to_mid_nodes_fc</span></code></a>
+variant for a <a href="#id27"><span class="problematic" id="id28">|FieldsContainer|</span></a>). It fills the missing mid-side values by
+interpolation, so the per-element row count grows from <code class="docutils literal notranslate"><span class="pre">n_corner_nodes</span></code> to
+<code class="docutils literal notranslate"><span class="pre">n_nodes</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use the per-shape Tet10 field obtained above as the corner-only input</span>
+<span class="n">first_eid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">shape_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">before_shape</span> <span class="o">=</span> <span class="n">shape_field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="n">first_eid</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Before extend_to_mid_nodes: element </span><span class="si">{</span><span class="n">first_eid</span><span class="si">}</span><span class="s2"> &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">target_descriptor</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) data shape = </span><span class="si">{</span><span class="n">before_shape</span><span class="si">}</span><span class="s2"> &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;(n_corner_nodes = </span><span class="si">{</span><span class="n">target_descriptor</span><span class="o">.</span><span class="n">n_corner_nodes</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Apply extend_to_mid_nodes_fc to fill the mid-side node values</span>
+<span class="n">extended_fc</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">averaging</span><span class="o">.</span><span class="n">extend_to_mid_nodes_fc</span><span class="p">(</span>
+    <span class="n">fields_container</span><span class="o">=</span><span class="n">shape_fc</span><span class="p">,</span>
+    <span class="n">mesh</span><span class="o">=</span><span class="n">my_model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">extended_field</span> <span class="o">=</span> <span class="n">extended_fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">after_shape</span> <span class="o">=</span> <span class="n">extended_field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="n">first_eid</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;After  extend_to_mid_nodes: element </span><span class="si">{</span><span class="n">first_eid</span><span class="si">}</span><span class="s2"> &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">target_descriptor</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) data shape = </span><span class="si">{</span><span class="n">after_shape</span><span class="si">}</span><span class="s2"> &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;(n_nodes = </span><span class="si">{</span><span class="n">target_descriptor</span><span class="o">.</span><span class="n">n_nodes</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Before extend_to_mid_nodes: element 386 (tet10) data shape = (4, 6) (n_corner_nodes = 4)
+After  extend_to_mid_nodes: element 386 (tet10) data shape = (10, 6) (n_nodes = 10)
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 6.936 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-post-processing-basics-mixed-element-results-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/55dddfa0150a91ed054f091b227c5fd3/mixed_element_results.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">mixed_element_results.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/75647a6788e2f13d4b837088ab3e7740/mixed_element_results.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">mixed_element_results.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/8d7978c388233a622e6a30ec878a1e5c/mixed_element_results.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">mixed_element_results.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-a-mixed-element-result-file">Load a mixed-element result file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discover-the-element-types-in-bulk">Discover the element types in bulk</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-an-elemental-nodal-result-on-the-mixed-mesh">Read an elemental nodal result on the mixed mesh</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-a-uniform-per-shape-field-via-a-per-shape-scoping">Get a uniform per-shape field via a per-shape scoping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extend-a-corner-only-field-to-the-mid-side-nodes">Extend a corner-only field to the mid-side nodes</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/tutorials/post_processing_basics/mixed_element_results.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"ignoreLocation": true, "keys": ["title", "text", "objectID"], "limit": 10, "minMatchCharLength": 2, "threshold": 0.5}');
+const SEARCH_FILE = "../../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2026 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<!--
+  Theme Version Footer
+  Displays the Sphinx theme version and the last updated date.
+  Accessibility and semantic improvements included.
+-->
+<footer class="theme-version" aria-label="Theme version and last update">
+  <span>
+    
+      Built with the
+      <a href="https://sphinxdocs.ansys.com/version/stable/index.html" target="_blank" rel="noopener noreferrer">
+        Ansys Sphinx Theme
+      </a>
+      1.7.2.
+    
+  </span>
+  <br />
+  <span>Last updated on <time id="ast_build_date"></time></span>
+</footer>
+<script>
+  // Set the last updated date in a readable format
+  (function() {
+    var options = { day: "numeric", month: "long", year: "numeric" };
+    var ast_lastModifiedDate = new Date(document.lastModified);
+    var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+    var dateElem = document.getElementById("ast_build_date");
+    if (dateElem) {
+      dateElem.textContent = ast_build_date;
+    }
+  })();
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

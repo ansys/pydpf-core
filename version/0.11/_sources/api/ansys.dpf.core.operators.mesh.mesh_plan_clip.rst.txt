@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.mesh.mesh_plan_clip
+   :inherited-members:

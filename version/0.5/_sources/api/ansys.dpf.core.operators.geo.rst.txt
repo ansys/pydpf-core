@@ -1,0 +1,32 @@
+ansys.dpf.core.operators.geo package
+====================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.geo.center_of_gravity
+   ansys.dpf.core.operators.geo.element_nodal_contribution
+   ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time
+   ansys.dpf.core.operators.geo.elements_volume
+   ansys.dpf.core.operators.geo.elements_volumes_over_time
+   ansys.dpf.core.operators.geo.gauss_to_node
+   ansys.dpf.core.operators.geo.integrate_over_elements
+   ansys.dpf.core.operators.geo.mass
+   ansys.dpf.core.operators.geo.moment_of_inertia
+   ansys.dpf.core.operators.geo.normals
+   ansys.dpf.core.operators.geo.normals_provider_nl
+   ansys.dpf.core.operators.geo.prepare_mapping_workflow
+   ansys.dpf.core.operators.geo.rotate
+   ansys.dpf.core.operators.geo.rotate_fc
+   ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs
+   ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc
+   ansys.dpf.core.operators.geo.to_polar_coordinates
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core.operators.geo
+   :inherited-members:

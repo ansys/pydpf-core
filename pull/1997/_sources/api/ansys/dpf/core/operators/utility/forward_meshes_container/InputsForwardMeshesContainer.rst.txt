@@ -1,0 +1,152 @@
+
+
+
+
+
+
+:class:`InputsForwardMeshesContainer`
+=====================================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.forward_meshes_container.InputsForwardMeshesContainer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   forward_meshes_container operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.forward_meshes_container()
+   >>> my_meshes = dpf.MeshesContainer()
+   >>> op.inputs.meshes.connect(my_meshes)
+   >>> my_default_label = str()
+   >>> op.inputs.default_label.connect(my_default_label)
+
+
+
+
+
+
+.. py:currentmodule:: InputsForwardMeshesContainer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~meshes`
+            - Allows to connect meshes input to the operator.
+          * - :py:attr:`~default_label`
+            - Allows to connect default_label input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.forward_meshes_container import InputsForwardMeshesContainer
+
+Property detail
+---------------
+
+.. py:property:: meshes
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.meshes_container.MeshesContainer | ansys.dpf.core.meshed_region.MeshedRegion]
+
+
+   Allows to connect meshes input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.forward_meshes_container()
+   >>> op.inputs.meshes.connect(my_meshes)
+   >>> # or
+   >>> op.inputs.meshes(my_meshes)
+
+.. py:property:: default_label
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect default_label input to the operator.
+
+   this default label is used if a new meshes container needs to be created (default is unknown)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.forward_meshes_container()
+   >>> op.inputs.default_label.connect(my_default_label)
+   >>> # or
+   >>> op.inputs.default_label(my_default_label)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

@@ -1,0 +1,240 @@
+
+
+
+
+
+
+:class:`InputsIsoSurfaces`
+==========================
+
+
+.. py:class:: ansys.dpf.core.operators.mesh.iso_surfaces.InputsIsoSurfaces(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   iso_surfaces operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.iso_surfaces()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_num_surfaces = int()
+   >>> op.inputs.num_surfaces.connect(my_num_surfaces)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_slice_surfaces = bool()
+   >>> op.inputs.slice_surfaces.connect(my_slice_surfaces)
+   >>> my_vector_iso_values = dpf.()
+   >>> op.inputs.vector_iso_values.connect(my_vector_iso_values)
+
+
+
+
+
+
+.. py:currentmodule:: InputsIsoSurfaces
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~num_surfaces`
+            - Allows to connect num_surfaces input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~slice_surfaces`
+            - Allows to connect slice_surfaces input to the operator.
+          * - :py:attr:`~vector_iso_values`
+            - Allows to connect vector_iso_values input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.iso_surfaces import InputsIsoSurfaces
+
+Property detail
+---------------
+
+.. py:property:: field
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect field input to the operator.
+
+   Field containing the values for the iso-surface computation. The mesh can be retrieved from this field's support or through pin 2.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.iso_surfaces()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: num_surfaces
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect num_surfaces input to the operator.
+
+   If provided, iso_values are linearly computed between the min and the max of the field of results. If not, iso_values must be provided by the user through pin 4
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.iso_surfaces()
+   >>> op.inputs.num_surfaces.connect(my_num_surfaces)
+   >>> # or
+   >>> op.inputs.num_surfaces(my_num_surfaces)
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mesh input to the operator.
+
+   Mesh to compute the iso-surface from. Used when not given through the support of the field in pin 0.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.iso_surfaces()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: slice_surfaces
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect slice_surfaces input to the operator.
+
+   True: slicing will also take into account shell and skin elements. False: slicing will ignore shell and skin elements. The default is true.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.iso_surfaces()
+   >>> op.inputs.slice_surfaces.connect(my_slice_surfaces)
+   >>> # or
+   >>> op.inputs.slice_surfaces(my_slice_surfaces)
+
+.. py:property:: vector_iso_values
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect vector_iso_values input to the operator.
+
+   If provided, user defined iso_values to compute. If not provided, iso_values are linearly compute between the min and the max of the field of results.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.iso_surfaces()
+   >>> op.inputs.vector_iso_values.connect(my_vector_iso_values)
+   >>> # or
+   >>> op.inputs.vector_iso_values(my_vector_iso_values)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

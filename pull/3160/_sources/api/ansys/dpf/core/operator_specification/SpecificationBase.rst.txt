@@ -1,0 +1,84 @@
+
+
+
+
+
+
+:class:`SpecificationBase`
+==========================
+
+
+.. py:class:: ansys.dpf.core.operator_specification.SpecificationBase
+
+   Interface description for the specification base class.
+
+
+
+.. py:currentmodule:: SpecificationBase
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~description`
+            - To be implemented in the subclasses.
+          * - :py:attr:`~inputs`
+            - To be implemented in the subclasses.
+          * - :py:attr:`~outputs`
+            - To be implemented in the subclasses.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operator_specification import SpecificationBase
+
+Property detail
+---------------
+
+.. py:property:: description
+   :type: Union[str, None]
+
+   :abstractmethod:
+
+
+   To be implemented in the subclasses.
+
+.. py:property:: inputs
+   :type: dict
+
+   :abstractmethod:
+
+
+   To be implemented in the subclasses.
+
+.. py:property:: outputs
+   :type: dict
+
+   :abstractmethod:
+
+
+   To be implemented in the subclasses.
+
+
+
+
+
+

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.filter.timescoping_signed_high_pass
+   :inherited-members:

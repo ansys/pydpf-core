@@ -1,0 +1,221 @@
+
+
+
+
+
+
+:class:`InputsDsGetAttribute`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.ds_get_attribute.InputsDsGetAttribute(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   ds_get_attribute operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ds_get_attribute()
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_property_name = str()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> my_property_index = int()
+   >>> op.inputs.property_index.connect(my_property_index)
+   >>> my_property_key = str()
+   >>> op.inputs.property_key.connect(my_property_key)
+   >>> my_property_result_key = str()
+   >>> op.inputs.property_result_key.connect(my_property_result_key)
+
+
+
+
+
+
+.. py:currentmodule:: InputsDsGetAttribute
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~property_name`
+            - Allows to connect property_name input to the operator.
+          * - :py:attr:`~property_index`
+            - Allows to connect property_index input to the operator.
+          * - :py:attr:`~property_key`
+            - Allows to connect property_key input to the operator.
+          * - :py:attr:`~property_result_key`
+            - Allows to connect property_result_key input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.ds_get_attribute import InputsDsGetAttribute
+
+Property detail
+---------------
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.data_sources.DataSources]
+
+
+   Allows to connect data_sources input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ds_get_attribute()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: property_name
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect property_name input to the operator.
+
+   Accepted inputs are: 'file_path' (returns string), 'result_file_name' (returns string), 'domain_file_path' (returns string), 'domain_result_file_name' (returns string), 'num_keys' (returns int), num_result_key (returns int), num_file_path (returns int), 'num_result_file_path' (returns int), 'key_by_index' (returns string), 'result_key_by_index' (returns string), 'path_by_index' (returns string), 'path_key_by_index' (returns string).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ds_get_attribute()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> # or
+   >>> op.inputs.property_name(my_property_name)
+
+.. py:property:: property_index
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect property_index input to the operator.
+
+   Index for the property. Must be set for 'domain_file_path', 'domain_result_file_name' 'key_by_index', 'result_key_by_index', 'path_by_index' and 'path_key_by_index' properties.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ds_get_attribute()
+   >>> op.inputs.property_index.connect(my_property_index)
+   >>> # or
+   >>> op.inputs.property_index(my_property_index)
+
+.. py:property:: property_key
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect property_key input to the operator.
+
+   Key to look for. Must be set for 'file_path' and 'domain_file_path' properties.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ds_get_attribute()
+   >>> op.inputs.property_key.connect(my_property_key)
+   >>> # or
+   >>> op.inputs.property_key(my_property_key)
+
+.. py:property:: property_result_key
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect property_result_key input to the operator.
+
+   Result key to look for. Can be used for 'file_path', 'result_file_name', 'domain_file_path' and 'domain_result_file_name'.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ds_get_attribute()
+   >>> op.inputs.property_result_key.connect(my_property_result_key)
+   >>> # or
+   >>> op.inputs.property_result_key(my_property_result_key)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

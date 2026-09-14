@@ -1,0 +1,152 @@
+
+
+
+
+
+
+:class:`InputsCyclicSupportGetAttribute`
+========================================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.cyclic_support_get_attribute.InputsCyclicSupportGetAttribute(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   cyclic_support_get_attribute operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.cyclic_support_get_attribute()
+   >>> my_cyclic_support = dpf.CyclicSupport()
+   >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+   >>> my_property_name = str()
+   >>> op.inputs.property_name.connect(my_property_name)
+
+
+
+
+
+
+.. py:currentmodule:: InputsCyclicSupportGetAttribute
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~cyclic_support`
+            - Allows to connect cyclic_support input to the operator.
+          * - :py:attr:`~property_name`
+            - Allows to connect property_name input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.cyclic_support_get_attribute import InputsCyclicSupportGetAttribute
+
+Property detail
+---------------
+
+.. py:property:: cyclic_support
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.cyclic_support.CyclicSupport]
+
+
+   Allows to connect cyclic_support input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.cyclic_support_get_attribute()
+   >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+   >>> # or
+   >>> op.inputs.cyclic_support(my_cyclic_support)
+
+.. py:property:: property_name
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect property_name input to the operator.
+
+   Accepted inputs are: 'element_duplicate_offset' and 'node_duplicate_offset' (returns int).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.cyclic_support_get_attribute()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> # or
+   >>> op.inputs.property_name(my_property_name)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

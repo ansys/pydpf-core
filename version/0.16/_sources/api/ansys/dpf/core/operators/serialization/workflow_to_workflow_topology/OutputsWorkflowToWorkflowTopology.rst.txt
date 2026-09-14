@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`OutputsWorkflowToWorkflowTopology`
+==========================================
+
+
+.. py:class:: ansys.dpf.core.operators.serialization.workflow_to_workflow_topology.OutputsWorkflowToWorkflowTopology(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   workflow_to_workflow_topology operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_workflow_topology()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_workflow_topology = op.outputs.workflow_topology()
+
+
+
+
+
+.. py:currentmodule:: OutputsWorkflowToWorkflowTopology
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~workflow_topology`
+            - Allows to get workflow_topology output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.workflow_to_workflow_topology import OutputsWorkflowToWorkflowTopology
+
+Property detail
+---------------
+
+.. py:property:: workflow_topology
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.generic_data_container.GenericDataContainer]
+
+
+   Allows to get workflow_topology output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.workflow_to_workflow_topology()
+   >>> # Get the output from op.outputs. ...
+   >>> result_workflow_topology = op.outputs.workflow_topology()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

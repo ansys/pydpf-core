@@ -1,0 +1,217 @@
+
+
+
+
+
+
+:class:`InputsEulerNodes`
+=========================
+
+
+.. py:class:: ansys.dpf.core.operators.result.euler_nodes.InputsEulerNodes(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   euler_nodes operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_nodes()
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_filter_zeros = bool()
+   >>> op.inputs.filter_zeros.connect(my_filter_zeros)
+   >>> my_coord_and_euler = bool()
+   >>> op.inputs.coord_and_euler.connect(my_coord_and_euler)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+
+
+
+.. py:currentmodule:: InputsEulerNodes
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~filter_zeros`
+            - Allows to connect filter_zeros input to the operator.
+          * - :py:attr:`~coord_and_euler`
+            - Allows to connect coord_and_euler input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.euler_nodes import InputsEulerNodes
+
+Property detail
+---------------
+
+.. py:property:: streams_container
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.streams_container.StreamsContainer]
+
+
+   Allows to connect streams_container input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_nodes()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.data_sources.DataSources]
+
+
+   Allows to connect data_sources input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_nodes()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: filter_zeros
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect filter_zeros input to the operator.
+
+   if true, then the field will only contain the scoping if any rotation is not zero. (default is false).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_nodes()
+   >>> op.inputs.filter_zeros.connect(my_filter_zeros)
+   >>> # or
+   >>> op.inputs.filter_zeros(my_filter_zeros)
+
+.. py:property:: coord_and_euler
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect coord_and_euler input to the operator.
+
+   if true, then the field has ncomp=6 with 3 coordinates and 3 Euler angles, else there is only the Euler angles (default is true).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_nodes()
+   >>> op.inputs.coord_and_euler.connect(my_coord_and_euler)
+   >>> # or
+   >>> op.inputs.coord_and_euler(my_coord_and_euler)
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.meshed_region.MeshedRegion]
+
+
+   Allows to connect mesh input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_nodes()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.merge_supports
+   :inherited-members:

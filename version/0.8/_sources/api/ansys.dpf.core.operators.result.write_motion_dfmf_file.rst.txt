@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.write_motion_dfmf_file
+   :inherited-members:

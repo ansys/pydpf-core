@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.part_rigid_body_velocity
+   :inherited-members:
