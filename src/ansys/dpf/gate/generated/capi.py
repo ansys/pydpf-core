@@ -1,4 +1,9 @@
 import ctypes
+from collections import deque
+import os
+import sys
+from threading import RLock
+
 #-------------------------------------------------------------------------------
 # Callbacks
 #-------------------------------------------------------------------------------
@@ -13,14 +18,70 @@ StringIntCallback = ctypes.CFUNCTYPE(None, ctypes.c_char_p, ctypes.c_int)
 IntIntCallback = ctypes.CFUNCTYPE(None, ctypes.c_int, ctypes.c_int)
 GenericCallBackType = ctypes.CFUNCTYPE(None, ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p)
 
-# Flag indicating that load_api() is currently executing. Used by DPFVector.__del__
-# to avoid re-entrant C API calls during GC cycles that fire mid-initialization,
-# which can cause segfaults under Python 3.11 on Linux.
+# Flag indicating that load_api() is currently executing. Destructors defer native
+# cleanup while this flag is set because ctypes bindings are incomplete.
 _api_loading = False
+_api_path = None
+_api_load_lock = RLock()
+_deferred_cleanup = deque()
+
+
+def _call_or_defer(deleter, *args):
+	"""Call a native deleter now or queue it until API binding is complete."""
+	if sys is None or sys.is_finalizing():
+		return
+	with _api_load_lock:
+		if _api_loading:
+			_deferred_cleanup.append((deleter, args))
+			return
+		deleter(*args)
+
+
+def _drain_deferred_cleanup():
+	"""Run native cleanup queued during API binding."""
+	while True:
+		with _api_load_lock:
+			if not _deferred_cleanup:
+				return
+			deleter, args = _deferred_cleanup.popleft()
+		try:
+			deleter(*args)
+		except Exception:
+			# Destructors must not turn cleanup failures into load failures.
+			pass
+
 
 def load_api(path):
-	global dll, _api_loading
-	_api_loading = True
+	"""Load and bind the client API once per library path."""
+	global _api_loading, _api_path, dll
+	path = os.path.normcase(os.path.abspath(path))
+	with _api_load_lock:
+		if _api_path == path:
+			return
+		if _api_path is not None:
+			raise RuntimeError(
+				f"DPF client API already loaded from '{_api_path}', cannot load '{path}' in the same process"
+			)
+		previous_dll = globals().get("dll")
+		_api_loading = True
+		try:
+			_load_api(path)
+			_api_path = path
+		except Exception:
+			if previous_dll is None:
+				globals().pop("dll", None)
+			else:
+				dll = previous_dll
+			_deferred_cleanup.clear()
+			raise
+		finally:
+			_api_loading = False
+			if _api_path == path:
+				_drain_deferred_cleanup()
+
+
+def _load_api(path):
+	global dll
 	dll = ctypes.cdll.LoadLibrary(path)
 
 	#-------------------------------------------------------------------------------
@@ -5302,7 +5363,3 @@ def load_api(path):
 	if hasattr(dll, "FbsClient_StartOrGetThreadServer_on_client"):
 		dll.FbsClient_StartOrGetThreadServer_on_client.argtypes = (ctypes.c_void_p, ctypes.c_bool, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.FbsClient_StartOrGetThreadServer_on_client.restype = ctypes.c_void_p
-
-
-	_api_loading = False
-
