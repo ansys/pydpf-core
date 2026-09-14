@@ -1,4 +1,5 @@
 import ctypes
+import contextlib
 from collections import deque
 import os
 import sys
@@ -44,11 +45,8 @@ def _drain_deferred_cleanup():
 			if not _deferred_cleanup:
 				return
 			deleter, args = _deferred_cleanup.popleft()
-		try:
+		with contextlib.suppress(Exception): # Destructors must not turn cleanup failures into load failures.
 			deleter(*args)
-		except Exception:
-			# Destructors must not turn cleanup failures into load failures.
-			pass
 
 
 def load_api(path):
