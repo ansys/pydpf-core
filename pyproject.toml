@@ -123,7 +123,7 @@ install = [
   "numpy==2.4.1",
   "packaging==26.3",
   "psutil==7.2.2",
-  "tqdm==4.70.0"
+  "tqdm==4.70.1"
 ]
 operator_doc = [
   "jinja2==3.1.6"
