@@ -51,9 +51,13 @@ class Model:
 
     Parameters
     ----------
-    data_sources : str, dpf.core.DataSources, os.PathLike
-        Accepts either a :class:`dpf.core.DataSources` instance or the path of the
-        result file to open as an os.PathLike object or a str. The default is ``None``.
+    data_sources : str, dpf.core.DataSources, dpf.core.StreamsContainer, os.PathLike
+        Accepts a :class:`dpf.core.DataSources` instance, a
+        :class:`dpf.core.StreamsContainer` instance, or the path of the result file to
+        open as an os.PathLike object or a str. Providing a
+        :class:`dpf.core.StreamsContainer` avoids reopening already-open file streams
+        and can improve performance when shared across multiple models or operators.
+        The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
@@ -65,6 +69,11 @@ class Model:
     >>> from ansys.dpf.core import examples
     >>> transient = examples.download_transient_result()
     >>> model = dpf.Model(transient)
+
+    Create a model from an existing :class:`dpf.core.StreamsContainer`:
+
+    >>> streams = dpf.Model(transient).metadata.streams_provider.outputs.streams_container()
+    >>> model2 = dpf.Model(streams)
 
     """
 
@@ -78,6 +87,19 @@ class Model:
         self._metadata = None
         self._results = None
         self._mesh_by_default = True
+
+    def __del__(self):
+        """Release internally created streams on garbage collection.
+
+        Streams that were provided externally via a
+        :class:`~ansys.dpf.core.streams_container.StreamsContainer` argument are
+        **not** touched — the caller retains ownership of that object's lifecycle.
+        """
+        try:
+            if self._metadata is not None and self._metadata._streams_container_direct is None:
+                self._metadata.release_streams()
+        except Exception:  # pylint: disable=broad-except
+            pass
 
     @property
     def metadata(self):
@@ -278,12 +300,14 @@ class Model:
 
 
 class Metadata:
-    """Contains the metadata of a data source.
+    """Contains the metadata of a data source or streams container.
 
     Parameters
     ----------
-    data_sources : DataSources
-
+    data_sources : DataSources, StreamsContainer, str, os.PathLike
+        Accepts a :class:`~ansys.dpf.core.data_sources.DataSources` instance, a
+        :class:`~ansys.dpf.core.streams_container.StreamsContainer` instance, a file
+        path, or ``None``.
     server : server.DPFServer
         Server with the channel connected to the remote or local instance.
 
@@ -291,7 +315,7 @@ class Metadata:
 
     def __init__(self, data_sources, server):
         self._server = server
-        self._set_data_sources(data_sources)
+        self._streams_container_direct = None
         self._meshed_region = None
         self._meshes_container = None
         self._result_info = None
@@ -300,7 +324,7 @@ class Metadata:
         self._time_freq_support = None
         self._mesh_selection_manager = None
         self._mesh_provider_cached_instance = None
-        self._cache_streams_provider()
+        self._set_data_sources(data_sources)
 
     def _cache_result_info(self):
         """Store result information."""
@@ -314,6 +338,9 @@ class Metadata:
 
     def _cache_streams_provider(self):
         """Create a stream provider and cache it."""
+        if self._streams_container_direct is not None:
+            # Streams are provided directly; no need to create a provider operator.
+            return
         from ansys.dpf.core import operators
 
         if hasattr(operators, "metadata") and hasattr(operators.metadata, "stream_provider"):
@@ -328,11 +355,27 @@ class Metadata:
         except:
             self._stream_provider = None
 
+    @property
+    def _streams_container_connectable(self):
+        """Return a connectable streams container for operator inputs.
+
+        Returns either the output pin of the cached streams provider operator, or the
+        :class:`~ansys.dpf.core.streams_container.StreamsContainer` passed directly at
+        construction time.  ``None`` is returned when no streams are available.
+        """
+        if self._streams_container_direct is not None:
+            return self._streams_container_direct
+        if self._stream_provider is not None:
+            return self._stream_provider.outputs.streams_container
+        return None
+
     def release_streams(self):
         """Release the streams if any."""
         if self.streams_provider is not None:
             sc = self.streams_provider.outputs.streams_container()
             sc.release_handles()
+        elif self._streams_container_direct is not None:
+            self._streams_container_direct.release_handles()
 
     @property
     @protect_source_op_not_found
@@ -373,10 +416,9 @@ class Metadata:
             time_provider: dpf.core.operators.metadata.time_freq_provider = Operator(
                 name="TimeFreqSupportProvider", server=self._server
             )
-            if self._stream_provider:
-                time_provider.inputs.streams_container.connect(
-                    self._stream_provider.outputs.streams_container
-                )
+            sc = self._streams_container_connectable
+            if sc is not None:
+                time_provider.inputs.streams_container.connect(sc)
             else:
                 time_provider.inputs.data_sources.connect(self.data_sources)
             self._time_freq_support = time_provider.get_output(0, types.time_freq_support)
@@ -437,7 +479,12 @@ class Metadata:
     def _set_data_sources(self, var_inp):
         from pathlib import PurePath
 
-        if isinstance(var_inp, dpf.core.DataSources):
+        from ansys.dpf.core.streams_container import StreamsContainer
+
+        if isinstance(var_inp, StreamsContainer):
+            self._streams_container_direct = var_inp
+            self._data_sources = var_inp.datasources
+        elif isinstance(var_inp, dpf.core.DataSources):
             self._data_sources = var_inp
         elif isinstance(var_inp, (str, PurePath)):
             self._data_sources = DataSources(var_inp, server=self._server)
@@ -448,7 +495,7 @@ class Metadata:
     def _load_result_info(self):
         """Return a result info object."""
         op = Operator("ResultInfoProvider", server=self._server)
-        op.inputs.streams_container.connect(self._stream_provider.outputs.streams_container)
+        op.inputs.streams_container.connect(self._streams_container_connectable)
         try:
             result_info = op.get_output(0, types.result_info)
         except Exception as e:
@@ -464,7 +511,11 @@ class Metadata:
     def _load_mesh_info(self):
         """Return a mesh info object."""
         op = Operator("mesh_info_provider", server=self._server)
-        op.inputs.connect(self._stream_provider.outputs)
+        sc = self._streams_container_connectable
+        if sc is not None:
+            op.inputs.streams_container.connect(sc)
+        else:
+            op.inputs.connect(self._stream_provider.outputs)
         try:
             mesh_info = op.outputs.mesh_info()
         except Exception as e:
@@ -512,10 +563,9 @@ class Metadata:
         mesh_provider: dpf.core.operators.mesh.mesh_provider = Operator(
             name="MeshProvider", server=self._server
         )
-        if self._stream_provider:
-            mesh_provider.inputs.streams_container.connect(
-                self._stream_provider.outputs.streams_container
-            )
+        sc = self._streams_container_connectable
+        if sc is not None:
+            mesh_provider.inputs.streams_container.connect(sc)
         else:
             mesh_provider.inputs.data_sources.connect(self.data_sources)
         return mesh_provider
@@ -589,10 +639,9 @@ class Metadata:
         meshes_provider: dpf.core.operators.mesh.meshes_provider = Operator(
             name="meshes_provider", server=self._server
         )
-        if self._stream_provider:
-            meshes_provider.inputs.streams_container.connect(
-                self._stream_provider.outputs.streams_container
-            )
+        sc = self._streams_container_connectable
+        if sc is not None:
+            meshes_provider.inputs.streams_container.connect(sc)
         else:
             meshes_provider.inputs.data_sources.connect(self.data_sources)
         return meshes_provider
