@@ -26,6 +26,14 @@ post-processing tool.
        Follow the four main steps of a typical post-processing procedure: import data,
        extract results, transform data, and visualize.
 
+    .. grid-item-card:: Process elemental nodal results on mixed-element meshes
+       :link: ref_tutorials_mixed_element_results
+       :link-type: ref
+       :text-align: center
+
+       Iterate an elemental nodal result on a mixed-element mesh and process each
+       element shape separately with numpy.
+
 .. raw:: html
 
    <style>.sphx-glr-thumbnails { display: none; }</style>
