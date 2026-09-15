@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 from ansys.dpf import core as dpf
+from ansys.dpf.core.support import Support
 
 
 def test_set_get_generic_support(server_type):
@@ -51,3 +52,17 @@ def test_set_get_generic_support(server_type):
     assert field is None
     field = support.prop_field_support_by_property("miscibility")
     assert isinstance(field, dpf.PropertyField)
+
+
+def test_support_destructor_without_native_object():
+    support = object.__new__(Support)
+    deleter_called = False
+
+    def deleter(value):
+        nonlocal deleter_called
+        deleter_called = True
+
+    support._deleter_func = (deleter, lambda value: value)
+
+    Support.__del__(support)
+    assert not deleter_called
