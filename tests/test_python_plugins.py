@@ -371,7 +371,10 @@ def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
     expected = np.ones((3, 3), dtype=np.float64) + 4.0
     assert np.allclose(outf.data, expected)
 
-def test_custom_op_changelog(server_type_remote_process, testfiles_dir):
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0 or SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Available for servers >=11.0"
+)
+def test_custom_op_changelog(server_type_remote_process: object, testfiles_dir: object) -> None:
     from packaging.version import Version
 
     dpf.load_library(
@@ -389,6 +392,7 @@ def test_custom_op_changelog(server_type_remote_process, testfiles_dir):
     assert changelog[Version("1.0.0")] == "Major bump"
     assert op.version == Version("1.0.0")
 
+@pytest.mark.skip(reason="Available for servers >=2027.1.pre0")
 def test_custom_op_input_not_connected(server_type_remote_process, testfiles_dir):
     from packaging.version import Version
 
