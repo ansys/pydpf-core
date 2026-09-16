@@ -1,9 +1,9 @@
 import ctypes
+import contextlib
 from collections import deque
 import os
 import sys
 from threading import RLock
-
 #-------------------------------------------------------------------------------
 # Callbacks
 #-------------------------------------------------------------------------------
@@ -25,7 +25,6 @@ _api_path = None
 _api_load_lock = RLock()
 _deferred_cleanup = deque()
 
-
 def _call_or_defer(deleter, *args):
 	"""Call a native deleter now or queue it until API binding is complete."""
 	if sys is None or sys.is_finalizing():
@@ -36,7 +35,6 @@ def _call_or_defer(deleter, *args):
 			return
 		deleter(*args)
 
-
 def _drain_deferred_cleanup():
 	"""Run native cleanup queued during API binding."""
 	while True:
@@ -44,17 +42,19 @@ def _drain_deferred_cleanup():
 			if not _deferred_cleanup:
 				return
 			deleter, args = _deferred_cleanup.popleft()
-		try:
+		with contextlib.suppress(Exception): # Destructors must not turn cleanup failures into load failures.
 			deleter(*args)
-		except Exception:
-			# Destructors must not turn cleanup failures into load failures.
-			pass
 
+def _normalize_api_path(path):
+	path = os.path.normcase(os.path.abspath(os.fspath(path)))
+	if os.name == "nt" and not os.path.splitext(path)[1]:
+		path += ".dll"
+	return path
 
 def load_api(path):
 	"""Load and bind the client API once per library path."""
 	global _api_loading, _api_path, dll
-	path = os.path.normcase(os.path.abspath(path))
+	path = _normalize_api_path(path)
 	with _api_load_lock:
 		if _api_path == path:
 			return
@@ -78,7 +78,6 @@ def load_api(path):
 			_api_loading = False
 			if _api_path == path:
 				_drain_deferred_cleanup()
-
 
 def _load_api(path):
 	global dll
@@ -5363,3 +5362,5 @@ def _load_api(path):
 	if hasattr(dll, "FbsClient_StartOrGetThreadServer_on_client"):
 		dll.FbsClient_StartOrGetThreadServer_on_client.argtypes = (ctypes.c_void_p, ctypes.c_bool, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.FbsClient_StartOrGetThreadServer_on_client.restype = ctypes.c_void_p
+
+
