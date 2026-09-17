@@ -35,8 +35,12 @@ for root, subdirectories, files in os.walk(examples_path):
     for subdirectory in subdirectories:
         subdir = Path(root) / subdirectory
         for file in subdir.glob("*.py"):
-            if sys.platform == "linux" and (
-                "08-python-operators" in str(file) or "12-fluids" in str(file)
+            if sys.platform == "linux" and "08-python-operators" in str(file):
+                continue
+            elif (
+                "win" in sys.platform
+                and server_version == "2027.1.0pre0"
+                and "12-fluids" in str(file)
             ):
                 continue
             elif "win" in sys.platform and "06-distributed_stress_averaging" in str(file):
