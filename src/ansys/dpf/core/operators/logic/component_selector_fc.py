@@ -29,7 +29,7 @@ class component_selector_fc(Operator):
     ------
     fields_container: FieldsContainer or Field
     component_number: int
-        one or several component index that will be extracted from the initial field.
+        one or several component indices that will be extracted from the initial field.
 
     Outputs
     -------
@@ -91,7 +91,7 @@ each field.
                     name="component_number",
                     type_names=["int32", "vector<int32>"],
                     optional=False,
-                    document=r"""one or several component index that will be extracted from the initial field.""",
+                    document=r"""one or several component indices that will be extracted from the initial field.""",
                 ),
             },
             map_output_pin_spec={
@@ -197,7 +197,7 @@ class InputsComponentSelectorFc(_Inputs):
     def component_number(self) -> Input[int]:
         r"""Allows to connect component_number input to the operator.
 
-        one or several component index that will be extracted from the initial field.
+        one or several component indices that will be extracted from the initial field.
 
         Returns
         -------

@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 
 class component_wise_product(Operator):
-    r"""Computes component-wise product between two fields of same
+    r"""Computes component-wise product between two fields of the same
     dimensionality. If one field’s scoping has an ‘overall’ location, then
     this field’s values are applied on the other field entirely. When using
     a constant or ‘work_by_index’, you can use ‘inplace’ to reuse one of the
@@ -77,7 +77,7 @@ class component_wise_product(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes component-wise product between two fields of same
+        description = r"""Computes component-wise product between two fields of the same
 dimensionality. If one field’s scoping has an ‘overall’ location, then
 this field’s values are applied on the other field entirely. When using
 a constant or ‘work_by_index’, you can use ‘inplace’ to reuse one of the
