@@ -120,6 +120,40 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
     return dpf_run_dir
 
 
+def _build_launch_server_command(  # noqa: PLR0913
+    executable,
+    ip,
+    port,
+    context: ServerContext = None,
+    grpc_mode: server_factory.GrpcMode = server_factory.DEFAULT_GRPC_MODE,
+    certificates_dir: Path = None,
+    platform_name: str = os.name,
+):
+    """Build a local server command without loading native libraries or starting a process."""
+    run_cmd = [executable, "--address", str(ip), "--port", str(port)]
+    if context not in (
+        None,
+        AvailableServerContexts.entry,
+        AvailableServerContexts.premium,
+    ):
+        if (
+            context.licensing_context_type == CUSTOM_XML_CONTEXT_TYPE
+            and len(context.xml_path) > 0
+        ):
+            run_cmd.extend(["--context", context.xml_path])
+        else:
+            run_cmd.extend(["--context", str(int(context.licensing_context_type))])
+
+    if grpc_mode == server_factory.GrpcMode.Insecure:
+        run_cmd.extend(["--mode", "0"])
+    elif grpc_mode == server_factory.GrpcMode.mTLS:
+        run_cmd.extend(["--mode", "3"])
+        if certificates_dir is not None and isinstance(certificates_dir, Path):
+            run_cmd.extend(["--certs-dir", str(certificates_dir)])
+
+    return subprocess.list2cmdline(run_cmd) if platform_name == "nt" else run_cmd
+
+
 def _run_launch_server_process(  # noqa: PLR0913
     ip,
     port,
@@ -136,41 +170,18 @@ def _run_launch_server_process(  # noqa: PLR0913
         if os.name == "posix":
             bShell = True
         run_cmd = docker_config.docker_run_cmd_command(docker_server_port, port)
+        if os.name == "nt":
+            run_cmd = " ".join(run_cmd)
     else:
-        run_cmd = []
         if os.name == "nt":
             executable = "Ans.Dpf.Grpc.bat"
-            run_cmd.append(executable)
         else:
             executable = "./Ans.Dpf.Grpc.sh"  # pragma: no cover
-            run_cmd.append(executable)
-
-        run_cmd.append(f"--address {ip}")
-        run_cmd.append(f"--port {port}")
-        if context not in (
-            None,
-            AvailableServerContexts.entry,
-            AvailableServerContexts.premium,
-        ):
-            if (
-                context.licensing_context_type == CUSTOM_XML_CONTEXT_TYPE
-                and len(context.xml_path) > 0
-            ):  # 2 == custom xml
-                run_cmd.append(f"--context {context.xml_path}")
-            else:
-                run_cmd.append(f"--context {int(context.licensing_context_type)}")
-
-        if grpc_mode == server_factory.GrpcMode.Insecure:
-            run_cmd.append("--mode 0")
-        elif grpc_mode == server_factory.GrpcMode.mTLS:
-            run_cmd.append("--mode 3")
-            if certificates_dir is not None and isinstance(certificates_dir, Path):
-                run_cmd.append(f"--certs-dir {str(certificates_dir)}")
-
+        run_cmd = _build_launch_server_command(
+            executable, ip, port, context, grpc_mode, certificates_dir, platform_name=os.name
+        )
         path_in_install = load_api._get_path_in_install(internal_folder="bin")
         dpf_run_dir = _verify_ansys_path_is_valid(ansys_path, executable, path_in_install)
-    if os.name == "nt":
-        run_cmd = " ".join(run_cmd)
     old_dir = Path.cwd()
     os.chdir(dpf_run_dir)
     process = subprocess.Popen(
