@@ -38,9 +38,9 @@ class spectrum_data(Operator):
     participation_factors: FieldsContainer
         Fields container holding participation factors.
     mode_coefficients: FieldsContainer
-        Fields container holding mode coefficients (PRS File).
+        Fields container holding mode coefficients.
     damping_ratios: FieldsContainer
-        Fields container holding damping ratios (PRS File).
+        Fields container holding damping ratios.
     global_damping: FieldsContainer
         Fields container holding for each spectrum: Global Damping Ratio, Damping Stiffness Coefficient & Damping Mass Coefficient (PRS File).
     missing_mass: FieldsContainer
@@ -121,13 +121,13 @@ data sources.
                     name="mode_coefficients",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container holding mode coefficients (PRS File).""",
+                    document=r"""Fields container holding mode coefficients.""",
                 ),
                 2: PinSpecification(
                     name="damping_ratios",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""Fields container holding damping ratios (PRS File).""",
+                    document=r"""Fields container holding damping ratios.""",
                 ),
                 3: PinSpecification(
                     name="global_damping",
@@ -331,7 +331,7 @@ class OutputsSpectrumData(_Outputs):
     def mode_coefficients(self) -> Output[FieldsContainer]:
         r"""Allows to get mode_coefficients output of the operator
 
-        Fields container holding mode coefficients (PRS File).
+        Fields container holding mode coefficients.
 
         Returns
         -------
@@ -351,7 +351,7 @@ class OutputsSpectrumData(_Outputs):
     def damping_ratios(self) -> Output[FieldsContainer]:
         r"""Allows to get damping_ratios output of the operator
 
-        Fields container holding damping ratios (PRS File).
+        Fields container holding damping ratios.
 
         Returns
         -------

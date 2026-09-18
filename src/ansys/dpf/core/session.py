@@ -26,11 +26,10 @@ import abc
 import ctypes
 import logging
 import threading
-import traceback
-import warnings
 import weakref
 
 from ansys.dpf.core import data_tree, errors, server as server_module, server_types
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import (
     _common_percentage_progress_bar,
@@ -339,12 +338,9 @@ class Session:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            if not self._released:
-                self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
-        self._released = True
+        if not getattr(self, "_released", False):
+            release_dpf_object(self)
+            self._released = True
 
     def __del__(self):
         """Clean up resources associated with the instance."""

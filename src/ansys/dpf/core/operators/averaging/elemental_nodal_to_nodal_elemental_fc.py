@@ -17,7 +17,9 @@ from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.meshed_region import MeshedRegion
     from ansys.dpf.core.scoping import Scoping
+    from ansys.dpf.core.scopings_container import ScopingsContainer
 
 
 class elemental_nodal_to_nodal_elemental_fc(Operator):
@@ -28,11 +30,16 @@ class elemental_nodal_to_nodal_elemental_fc(Operator):
     Inputs
     ------
     fields_container: FieldsContainer
-    mesh_scoping: Scoping, optional
+        Elemental nodal fields to transform into nodal elemental fields.
+    mesh_scoping: Scoping or ScopingsContainer, optional
+        Optional nodal scoping filter. A scoping container selects the scoping matching each field label space; if no matching scoping exists, that field is processed without a node filter.
+    mesh: MeshedRegion, optional
+        Optional mesh region used for every field when connected. If omitted, each field's mesh support is used.
 
     Outputs
     -------
     fields_container: FieldsContainer
+        Nodal elemental fields with input fields container label spaces preserved.
 
     Examples
     --------
@@ -46,11 +53,14 @@ class elemental_nodal_to_nodal_elemental_fc(Operator):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_mesh = dpf.MeshedRegion()
+    >>> op.inputs.mesh.connect(my_mesh)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental_fc(
     ...     fields_container=my_fields_container,
     ...     mesh_scoping=my_mesh_scoping,
+    ...     mesh=my_mesh,
     ... )
 
     >>> # Get output data
@@ -58,7 +68,12 @@ class elemental_nodal_to_nodal_elemental_fc(Operator):
     """
 
     def __init__(
-        self, fields_container=None, mesh_scoping=None, config=None, server=None
+        self,
+        fields_container=None,
+        mesh_scoping=None,
+        mesh=None,
+        config=None,
+        server=None,
     ):
         super().__init__(
             name="ElementalNodal_To_NodalElemental_fc",
@@ -71,6 +86,8 @@ class elemental_nodal_to_nodal_elemental_fc(Operator):
             self.inputs.fields_container.connect(fields_container)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
+        if mesh is not None:
+            self.inputs.mesh.connect(mesh)
 
     @staticmethod
     def _spec() -> Specification:
@@ -84,13 +101,19 @@ is computed on a given node’s scoping.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Elemental nodal fields to transform into nodal elemental fields.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
-                    type_names=["scoping"],
+                    type_names=["scoping", "scopings_container"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Optional nodal scoping filter. A scoping container selects the scoping matching each field label space; if no matching scoping exists, that field is processed without a node filter.""",
+                ),
+                7: PinSpecification(
+                    name="mesh",
+                    type_names=["abstract_meshed_region"],
+                    optional=True,
+                    document=r"""Optional mesh region used for every field when connected. If omitted, each field's mesh support is used.""",
                 ),
             },
             map_output_pin_spec={
@@ -98,7 +121,7 @@ is computed on a given node’s scoping.
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Nodal elemental fields with input fields container label spaces preserved.""",
                 ),
             },
         )
@@ -162,6 +185,8 @@ class InputsElementalNodalToNodalElementalFc(_Inputs):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_mesh = dpf.MeshedRegion()
+    >>> op.inputs.mesh.connect(my_mesh)
     """
 
     def __init__(self, op: Operator):
@@ -170,14 +195,20 @@ class InputsElementalNodalToNodalElementalFc(_Inputs):
             elemental_nodal_to_nodal_elemental_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._mesh_scoping: Input[Scoping] = Input(
+        self._mesh_scoping: Input[Scoping | ScopingsContainer] = Input(
             elemental_nodal_to_nodal_elemental_fc._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_scoping)
+        self._mesh: Input[MeshedRegion] = Input(
+            elemental_nodal_to_nodal_elemental_fc._spec().input_pin(7), 7, op, -1
+        )
+        self._inputs.append(self._mesh)
 
     @property
     def fields_container(self) -> Input[FieldsContainer]:
         r"""Allows to connect fields_container input to the operator.
+
+        Elemental nodal fields to transform into nodal elemental fields.
 
         Returns
         -------
@@ -195,8 +226,10 @@ class InputsElementalNodalToNodalElementalFc(_Inputs):
         return self._fields_container
 
     @property
-    def mesh_scoping(self) -> Input[Scoping]:
+    def mesh_scoping(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect mesh_scoping input to the operator.
+
+        Optional nodal scoping filter. A scoping container selects the scoping matching each field label space; if no matching scoping exists, that field is processed without a node filter.
 
         Returns
         -------
@@ -212,6 +245,27 @@ class InputsElementalNodalToNodalElementalFc(_Inputs):
         >>> op.inputs.mesh_scoping(my_mesh_scoping)
         """
         return self._mesh_scoping
+
+    @property
+    def mesh(self) -> Input[MeshedRegion]:
+        r"""Allows to connect mesh input to the operator.
+
+        Optional mesh region used for every field when connected. If omitted, each field's mesh support is used.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental_fc()
+        >>> op.inputs.mesh.connect(my_mesh)
+        >>> # or
+        >>> op.inputs.mesh(my_mesh)
+        """
+        return self._mesh
 
 
 class OutputsElementalNodalToNodalElementalFc(_Outputs):
@@ -236,6 +290,8 @@ class OutputsElementalNodalToNodalElementalFc(_Outputs):
     @property
     def fields_container(self) -> Output[FieldsContainer]:
         r"""Allows to get fields_container output of the operator
+
+        Nodal elemental fields with input fields container label spaces preserved.
 
         Returns
         -------
