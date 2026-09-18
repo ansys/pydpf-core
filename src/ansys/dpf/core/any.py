@@ -119,6 +119,7 @@ class Any:
             fields_container,
             generic_data_container,
             generic_support,
+            meshed_region,
             property_field,
             scoping,
             string_field,
@@ -151,6 +152,11 @@ class Any:
             )
         elif issubclass(obj, field.Field):
             return self._api.any_new_from_field, self._api.any_get_as_field
+        elif issubclass(obj, meshed_region.MeshedRegion):
+            return (
+                self._api.any_new_from_meshed_region,
+                self._api.any_get_as_meshed_region,
+            )
         elif issubclass(obj, property_field.PropertyField):
             return (
                 self._api.any_new_from_property_field,
