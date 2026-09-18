@@ -74,6 +74,8 @@ class Support:
     """
 
     def __init__(self, support, server=None):
+        self._internal_obj = None
+
         # step 1: get server
         self._server = server_module.get_or_create_server(
             support._server if isinstance(support, Support) else server
