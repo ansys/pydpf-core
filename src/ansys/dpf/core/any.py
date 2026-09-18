@@ -111,6 +111,7 @@ class Any:
     @staticmethod
     def _check_native_backend_any_support(obj, server):
         from ansys.dpf.core import (
+            meshed_region,
             meshes_container,
             result_info,
             scopings_container,
@@ -118,7 +119,13 @@ class Any:
         )
         from ansys.dpf.gate import dpf_vector
 
-        if any(
+        if issubclass(obj, meshed_region.MeshedRegion):
+            server_meet_version_and_raise(
+                "8.0",
+                server,
+                "MeshedRegion Any conversion requires server versions starting at 2024 R2 (24.2).",
+            )
+        elif any(
             issubclass(obj, supported_type)
             for supported_type in (
                 meshes_container.MeshesContainer,
@@ -146,6 +153,7 @@ class Any:
             fields_container,
             generic_data_container,
             generic_support,
+            meshed_region,
             meshes_container,
             property_field,
             result_info,
@@ -183,6 +191,11 @@ class Any:
             )
         elif issubclass(obj, field.Field):
             return self._api.any_new_from_field, self._api.any_get_as_field
+        elif issubclass(obj, meshed_region.MeshedRegion):
+            return (
+                self._api.any_new_from_meshed_region,
+                self._api.any_get_as_meshed_region,
+            )
         elif issubclass(obj, meshes_container.MeshesContainer):
             return (
                 self._api.any_new_from_meshes_container,
