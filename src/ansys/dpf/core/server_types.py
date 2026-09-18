@@ -136,10 +136,7 @@ def _build_launch_server_command(  # noqa: PLR0913
         AvailableServerContexts.entry,
         AvailableServerContexts.premium,
     ):
-        if (
-            context.licensing_context_type == CUSTOM_XML_CONTEXT_TYPE
-            and len(context.xml_path) > 0
-        ):
+        if context.licensing_context_type == CUSTOM_XML_CONTEXT_TYPE and len(context.xml_path) > 0:
             run_cmd.extend(["--context", context.xml_path])
         else:
             run_cmd.extend(["--context", str(int(context.licensing_context_type))])
