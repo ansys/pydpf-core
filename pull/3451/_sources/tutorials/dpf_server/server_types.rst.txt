@@ -112,7 +112,7 @@ Start a local DPF server with the default InProcess configuration:
 
  .. code-block:: none
 
-    DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 6844, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
+    DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 9868, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
 
 
 
@@ -272,7 +272,7 @@ Get the GrpcServer configuration
 
  .. code-block:: none
 
-    DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 9000, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
+    DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 6520, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
 
 
 
@@ -335,7 +335,7 @@ Connect to the remote gRPC server
 
  .. code-block:: none
 
-    DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 9000, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': None}
+    DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 6520, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': None}
 
 
 
@@ -569,7 +569,7 @@ Get InProcessServer configuration and start an InProcess server
 
  .. code-block:: none
 
-    InProcess server: DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 6844, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
+    InProcess server: DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 9868, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
 
 
 
@@ -594,7 +594,7 @@ Get GrpcServer configuration and start a gRPC server
 
  .. code-block:: none
 
-    gRPC server: DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50056, 'server_process_id': 5584, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
+    gRPC server: DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50056, 'server_process_id': 6820, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
 
 
 
@@ -619,7 +619,7 @@ Get LegacyGrpcServer configuration (for compatibility with older versions)
 
  .. code-block:: none
 
-    Legacy gRPC server: DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50057, 'server_process_id': 2532, 'server_version': '2027.1.0pre0', 'os': 'nt'}
+    Legacy gRPC server: DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50057, 'server_process_id': 9520, 'server_version': '2027.1.0pre0', 'os': 'nt'}
 
 
 
@@ -658,7 +658,7 @@ to switch between server types as your needs change.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 4.092 seconds)
+   **Total running time of the script:** (0 minutes 3.872 seconds)
 
 
 .. _sphx_glr_download_tutorials_dpf_server_server_types.py:

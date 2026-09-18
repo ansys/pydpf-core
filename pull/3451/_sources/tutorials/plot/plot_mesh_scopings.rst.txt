@@ -124,7 +124,7 @@ Node scoping:
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1D50C20>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91C7D4140>)
 
 
 
@@ -178,7 +178,7 @@ Element scoping:
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C00BCDD0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91C7D4C50>)
 
 
 
@@ -241,7 +241,7 @@ with several mesh scopings and plot targeted entities of a
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B6F97BC0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91DFEACF0>)
 
 
 
@@ -309,7 +309,7 @@ similarly labeled meshes.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C00BE780>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91C7D6D50>)
 
 
 
@@ -377,14 +377,14 @@ to add scopings applied to a
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B6FDD820>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91C7D7F20>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 12.639 seconds)
+   **Total running time of the script:** (0 minutes 12.597 seconds)
 
 
 .. _sphx_glr_download_tutorials_plot_plot_mesh_scopings.py:

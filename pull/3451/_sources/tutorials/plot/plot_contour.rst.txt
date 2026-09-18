@@ -223,7 +223,7 @@ provide a mesh with the ``meshed_region`` argument.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1D53110>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91DEBB2C0>)
 
 
 
@@ -277,7 +277,7 @@ Use the ``field_or_fields_container`` argument to pass the field.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B6F97B90>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91DEBA3F0>)
 
 
 
@@ -344,7 +344,7 @@ mesh and then call ``add_field()`` without the ``meshed_region`` argument.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C00BC4D0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91DEB8620>)
 
 
 
@@ -458,7 +458,7 @@ Use
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B6F97BC0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91E6C21E0>)
 
 
 
@@ -509,7 +509,7 @@ The ``label_space`` argument provides further field filtering capabilities.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1D48110>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91E6C3140>)
 
 
 
@@ -563,7 +563,7 @@ Use the ``field_or_fields_container`` argument.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1D50860>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91E6C0290>)
 
 
 
@@ -620,14 +620,14 @@ Add each field individually using
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF9ABA0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91E6C1D90>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 15.567 seconds)
+   **Total running time of the script:** (0 minutes 15.926 seconds)
 
 
 .. _sphx_glr_download_tutorials_plot_plot_contour.py:

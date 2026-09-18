@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:01.626** total execution time for 1 file **from tutorials\post_processing_basics**:
+**00:01.592** total execution time for 1 file **from tutorials\post_processing_basics**:
 
 .. container::
 
@@ -33,5 +33,5 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_tutorials_post_processing_basics_main_steps.py` (``main_steps.py``)
-     - 00:01.626
+     - 00:01.592
      - 0.0

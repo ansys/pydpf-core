@@ -711,6 +711,13 @@ conventional result extension.</p>
 
 <span class="c1"># Create the DataSources object with its main result file</span>
 <span class="n">my_data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">result_path</span><span class="o">=</span><span class="n">main_result_file</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">"d3plot"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  DataSources:
+  Result files:
+     result key: d3plot and path: D:\a\pydpf-core\pydpf-core\.tox\doc-html\Lib\site-packages\ansys\dpf\core\examples\result_files\d3plot_beam\d3plot
+  Secondary files:
 </pre></div>
 </div>
 </section>
@@ -721,13 +728,20 @@ result file. Attach them with <code class="docutils literal notranslate"><span c
 the extension must be specified explicitly.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add the units file belonging to the same analysis</span>
 <span class="n">my_data_sources</span><span class="o">.</span><span class="n">add_file_path</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">units_file</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">"actunits"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
 
 <span class="c1"># Inspect the main result key and its registered path</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Main result key:"</span><span class="p">,</span> <span class="n">my_data_sources</span><span class="o">.</span><span class="n">result_key</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Main result files:"</span><span class="p">,</span> <span class="n">my_data_sources</span><span class="o">.</span><span class="n">result_files</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Main result key: d3plot
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  DataSources:
+  Result files:
+     result key: d3plot and path: D:\a\pydpf-core\pydpf-core\.tox\doc-html\Lib\site-packages\ansys\dpf\core\examples\result_files\d3plot_beam\d3plot
+  Secondary files:
+     path: D:\a\pydpf-core\pydpf-core\.tox\doc-html\Lib\site-packages\ansys\dpf\core\examples\result_files\d3plot_beam\file.actunits
+
+Main result key: d3plot
 Main result files: ['D:\\a\\pydpf-core\\pydpf-core\\.tox\\doc-html\\Lib\\site-packages\\ansys\\dpf\\core\\examples\\result_files\\d3plot_beam\\d3plot']
 </pre></div>
 </div>
@@ -852,7 +866,7 @@ is split across domain-specific files.</p>
      path: D:\a\pydpf-core\pydpf-core\.tox\doc-html\Lib\site-packages\ansys\dpf\core\examples\result_files\distributed\file1.rst
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.501 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.480 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-import-data-data-sources-basics-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/9923709ed8627f2ec0437a211b13d5a4/data_sources_basics.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">data_sources_basics.ipynb</span></code></a></p>

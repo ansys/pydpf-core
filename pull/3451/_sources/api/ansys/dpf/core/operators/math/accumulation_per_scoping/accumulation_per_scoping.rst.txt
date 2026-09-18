@@ -8,7 +8,7 @@
 =================================
 
 
-.. py:class:: ansys.dpf.core.operators.math.accumulation_per_scoping.accumulation_per_scoping(fields_container=None, mesh_scoping=None, streams_container=None, data_sources=None, scopings_container=None, config=None, server=None)
+.. py:class:: ansys.dpf.core.operators.math.accumulation_per_scoping.accumulation_per_scoping(fields_container=None, mesh_scoping=None, scopings_container=None, config=None, server=None)
 
    Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
 
@@ -23,11 +23,6 @@
    The master sum is computed by summing all entity values of the input
    fields container restricted to the master scoping when provided, or of
    the full input fields container otherwise.
-
-   For cyclic and multistage models, the master scoping and the input
-   scopings container are first expanded to the full mesh. When a master
-   scoping is provided, each scoping in the input scopings container is
-   intersected with it before accumulation.
 
    Each output field contains one entity per scoping plus one master
    entity: - entity id :math:`0` holds the master sum (or :math:`100\%` for
@@ -45,10 +40,6 @@
        Fields container containing the values to accumulate per scoping.
    mesh_scoping: Scoping, optional
        Master scoping. When provided, each scoping in the input scopings container is intersected with it, and the master sum is computed over this scoping. When omitted, the master sum is computed over the full input fields container and no intersection is performed.
-   streams_container: StreamsContainer, optional
-       Streams describing the source result file. Required when no data sources is provided. Used to detect cyclic and multistage models and expand the scopings accordingly. Takes precedence over the data sources when both are provided.
-   data_sources: DataSources, optional
-       Data sources describing the source result file. Required when no streams is provided. Used to detect cyclic and multistage models and expand the scopings accordingly.
    scopings_container: ScopingsContainer
        Scopings container. The sum of the input fields container is computed over each scoping it contains. Must contain at least one scoping.
 
@@ -71,10 +62,6 @@
    >>> op.inputs.fields_container.connect(my_fields_container)
    >>> my_mesh_scoping = dpf.Scoping()
    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
-   >>> my_streams_container = dpf.StreamsContainer()
-   >>> op.inputs.streams_container.connect(my_streams_container)
-   >>> my_data_sources = dpf.DataSources()
-   >>> op.inputs.data_sources.connect(my_data_sources)
    >>> my_scopings_container = dpf.ScopingsContainer()
    >>> op.inputs.scopings_container.connect(my_scopings_container)
 
@@ -82,8 +69,6 @@
    >>> op = dpf.operators.math.accumulation_per_scoping(
    ...     fields_container=my_fields_container,
    ...     mesh_scoping=my_mesh_scoping,
-   ...     streams_container=my_streams_container,
-   ...     data_sources=my_data_sources,
    ...     scopings_container=my_scopings_container,
    ... )
 

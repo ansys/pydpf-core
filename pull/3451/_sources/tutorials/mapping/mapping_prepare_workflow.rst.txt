@@ -273,7 +273,7 @@ mapping is designed for.
     Skin mesh:            32922 nodes, 16954 elements (surface)
     Decimated target mesh:2545 nodes, 5086 elements (triangles)
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C933A450>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91E6C2390>)
 
 
 
@@ -513,7 +513,7 @@ the RBF setup.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B6F97CB0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91DEBBE90>)
 
 
 
@@ -584,7 +584,7 @@ for sparse or asymmetric meshes.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C9487920>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91DEB8EF0>)
 
 
 
@@ -687,7 +687,7 @@ values are then plotted against this untuned baseline.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 29.001 seconds)
+   **Total running time of the script:** (0 minutes 27.130 seconds)
 
 
 .. _sphx_glr_download_tutorials_mapping_mapping_prepare_workflow.py:

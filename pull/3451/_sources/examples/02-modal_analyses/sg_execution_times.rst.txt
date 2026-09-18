@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**01:58.107** total execution time for 2 files **from examples\02-modal_analyses**:
+**02:05.289** total execution time for 2 files **from examples\02-modal_analyses**:
 
 .. container::
 
@@ -33,8 +33,8 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_examples_02-modal_analyses_01-plot_and_animate_modes.py` (``01-plot_and_animate_modes.py``)
-     - 01:45.657
+     - 01:52.890
      - 0.0
    * - :ref:`sphx_glr_examples_02-modal_analyses_00-compare_modes.py` (``00-compare_modes.py``)
-     - 00:12.450
+     - 00:12.399
      - 0.0

@@ -97,7 +97,7 @@ InProcess servers.
 
  .. code-block:: none
 
-    Total operators available: 2880
+    Total operators available: 2883
 
 
 
@@ -186,7 +186,7 @@ context; those without it do not.
  .. code-block:: none
 
     Operators requiring a license checkout:  129
-    Operators requiring no license checkout: 2751
+    Operators requiring no license checkout: 2754
 
 
 
@@ -230,7 +230,7 @@ Below are a few representative examples filtered to those with
 
  .. code-block:: none
 
-    Public operators with no license requirement: 736
+    Public operators with no license requirement: 737
 
     A few examples:
       matrix_product                            matrix product
@@ -301,7 +301,7 @@ with a message that explicitly states the licensing context issue.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 9.044 seconds)
+   **Total running time of the script:** (0 minutes 8.490 seconds)
 
 
 .. _sphx_glr_download_tutorials_licensing_operator_license.py:

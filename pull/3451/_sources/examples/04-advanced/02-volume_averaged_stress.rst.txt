@@ -280,7 +280,7 @@ Plot equivalent elemental stress and volume averaged elemental equivalent stress
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272AF57E630>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C907440C20>)
 
 
 
@@ -345,14 +345,14 @@ An operator with the same algorithm has been implemented
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF92240>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9078BB5F0>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 11.160 seconds)
+   **Total running time of the script:** (0 minutes 10.522 seconds)
 
 
 .. _sphx_glr_download_examples_04-advanced_02-volume_averaged_stress.py:

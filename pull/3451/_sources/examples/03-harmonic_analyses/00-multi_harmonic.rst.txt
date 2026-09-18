@@ -1215,7 +1215,7 @@ Plot the maximum displacements over time for Node ID 2 and 18
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 15.620 seconds)
+   **Total running time of the script:** (0 minutes 13.682 seconds)
 
 
 .. _sphx_glr_download_examples_03-harmonic_analyses_00-multi_harmonic.py:

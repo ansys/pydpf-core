@@ -13,7 +13,7 @@
    Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
 
 
-   Read the presol of nodal field generated file from mapdl.
+   Read the prnsol of nodal field generated file from mapdl.
 
 
    Inputs

@@ -787,7 +787,7 @@ every call, only to repeat the entire sequence for the next operator.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DataSources approach: 17 results in 2.89 s (0 skipped)
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DataSources approach: 17 results in 2.99 s (0 skipped)
 </pre></div>
 </div>
 </section>
@@ -826,7 +826,7 @@ from the cache; no further disk access is required for it.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>StreamsContainer approach: 17 results in 0.71 s (0 skipped)
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>StreamsContainer approach: 17 results in 0.63 s (0 skipped)
 </pre></div>
 </div>
 </section>
@@ -841,9 +841,9 @@ opening the file and loading the mesh.</p>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Speed-up factor : </span><span class="si">{</span><span class="n">t_data_sources</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">t_streams</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">x"</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DataSources  : 2.89 s
-StreamsContainer: 0.71 s
-Speed-up factor : 4.0x
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DataSources  : 2.99 s
+StreamsContainer: 0.63 s
+Speed-up factor : 4.7x
 </pre></div>
 </div>
 <div class="admonition note">
@@ -917,7 +917,7 @@ Throws a runtime error if data sources are missing or if all result files are in
   Outputs:
          streams_container [streams_container]: Streams created from the input data sources, including aggregated streams across namespaces and any upstream streams.
 
-Model StreamsContainer: &lt;ansys.dpf.core.streams_container.StreamsContainer object at 0x00000272AFF6A090&gt;
+Model StreamsContainer: &lt;ansys.dpf.core.streams_container.StreamsContainer object at 0x000001C9040A2150&gt;
 </pre></div>
 </div>
 </section>
@@ -959,7 +959,7 @@ itself:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>File handles released from the StreamsContainer.
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 4.068 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 4.078 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-import-data-streams-for-multiple-operators-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/ce1fef52a82f14e30bc47a17730eae1b/streams_for_multiple_operators.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">streams_for_multiple_operators.ipynb</span></code></a></p>

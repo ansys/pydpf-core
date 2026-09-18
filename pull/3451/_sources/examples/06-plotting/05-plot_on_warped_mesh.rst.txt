@@ -243,7 +243,7 @@ enabling to plot on the deformed geometry.
     1              1.000000       1              1               
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B6FDF080>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9168606B0>)
 
 
 
@@ -328,7 +328,7 @@ enabling to plot on the deformed geometry.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 15.855 seconds)
+   **Total running time of the script:** (0 minutes 17.372 seconds)
 
 
 .. _sphx_glr_download_examples_06-plotting_05-plot_on_warped_mesh.py:

@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:30.857** total execution time for 2 files **from examples\09-averaging**:
+**00:28.685** total execution time for 2 files **from examples\09-averaging**:
 
 .. container::
 
@@ -33,8 +33,8 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_examples_09-averaging_01-average_across_bodies.py` (``01-average_across_bodies.py``)
-     - 00:25.633
+     - 00:24.238
      - 0.0
    * - :ref:`sphx_glr_examples_09-averaging_00-compute_and_average.py` (``00-compute_and_average.py``)
-     - 00:05.224
+     - 00:04.447
      - 0.0

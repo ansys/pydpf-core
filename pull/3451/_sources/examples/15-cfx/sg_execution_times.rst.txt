@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:01.482** total execution time for 1 file **from examples\15-cfx**:
+**00:01.462** total execution time for 1 file **from examples\15-cfx**:
 
 .. container::
 
@@ -33,5 +33,5 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_examples_15-cfx_00-cfx_res_files.py` (``00-cfx_res_files.py``)
-     - 00:01.482
+     - 00:01.462
      - 0.0

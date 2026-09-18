@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:31.655** total execution time for 3 files **from tutorials\export_data**:
+**00:30.350** total execution time for 3 files **from tutorials\export_data**:
 
 .. container::
 
@@ -33,11 +33,11 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_tutorials_export_data_migrate_to_vtu.py` (``migrate_to_vtu.py``)
-     - 00:29.443
+     - 00:28.240
      - 0.0
    * - :ref:`sphx_glr_tutorials_export_data_vtk_helper.py` (``vtk_helper.py``)
-     - 00:01.641
+     - 00:01.586
      - 0.0
    * - :ref:`sphx_glr_tutorials_export_data_vtu_export.py` (``vtu_export.py``)
-     - 00:00.571
+     - 00:00.523
      - 0.0

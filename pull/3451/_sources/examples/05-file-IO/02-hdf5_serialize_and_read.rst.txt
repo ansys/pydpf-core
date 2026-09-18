@@ -376,7 +376,7 @@ compare first result at second time set:
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C00BE660>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91685F530>)
 
 
 
@@ -466,14 +466,14 @@ compare ENF at 6 time set:
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C16F11F0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9167557F0>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 15.051 seconds)
+   **Total running time of the script:** (0 minutes 16.082 seconds)
 
 
 .. _sphx_glr_download_examples_05-file-IO_02-hdf5_serialize_and_read.py:

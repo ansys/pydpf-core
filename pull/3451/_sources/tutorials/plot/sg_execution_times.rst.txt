@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:55.047** total execution time for 5 files **from tutorials\plot**:
+**00:54.448** total execution time for 5 files **from tutorials\plot**:
 
 .. container::
 
@@ -33,17 +33,17 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_tutorials_plot_plot_contour.py` (``plot_contour.py``)
-     - 00:15.567
-     - 0.0
-   * - :ref:`sphx_glr_tutorials_plot_plot_mesh.py` (``plot_mesh.py``)
-     - 00:13.052
+     - 00:15.926
      - 0.0
    * - :ref:`sphx_glr_tutorials_plot_plot_mesh_scopings.py` (``plot_mesh_scopings.py``)
-     - 00:12.639
+     - 00:12.597
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_plot_plot_mesh.py` (``plot_mesh.py``)
+     - 00:12.546
      - 0.0
    * - :ref:`sphx_glr_tutorials_plot_plot_deformed_mesh.py` (``plot_deformed_mesh.py``)
-     - 00:11.903
+     - 00:11.597
      - 0.0
    * - :ref:`sphx_glr_tutorials_plot_plot_a_graph.py` (``plot_a_graph.py``)
-     - 00:01.886
+     - 00:01.782
      - 0.0

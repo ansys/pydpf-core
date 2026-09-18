@@ -199,7 +199,7 @@ Get the meshed region.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1DCE930>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D643110>)
 
 
 
@@ -376,14 +376,14 @@ Plot the results on the mesh and show the minimum and maximum.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF95DF0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D64DB20>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.285 seconds)
+   **Total running time of the script:** (0 minutes 3.714 seconds)
 
 
 .. _sphx_glr_download_examples_06-plotting_03-labels.py:

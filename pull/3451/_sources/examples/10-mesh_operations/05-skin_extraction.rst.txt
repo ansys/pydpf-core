@@ -167,7 +167,7 @@ Plot the mesh skin:
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1D53DA0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90C8A7C80>)
 
 
 
@@ -288,7 +288,7 @@ Plot the result field on the skin mesh:
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1D53590>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C906DC2D80>)
 
 
 
@@ -399,14 +399,14 @@ Plot the initial invariants on the skin mesh:
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF97FB0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D642780>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 6.115 seconds)
+   **Total running time of the script:** (0 minutes 5.880 seconds)
 
 
 .. _sphx_glr_download_examples_10-mesh_operations_05-skin_extraction.py:

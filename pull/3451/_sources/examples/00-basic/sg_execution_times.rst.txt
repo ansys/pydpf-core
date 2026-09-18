@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:51.842** total execution time for 10 files **from examples\00-basic**:
+**00:52.915** total execution time for 10 files **from examples\00-basic**:
 
 .. container::
 
@@ -33,32 +33,32 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_examples_00-basic_09-results_over_space_subset.py` (``09-results_over_space_subset.py``)
-     - 00:13.226
-     - 0.0
-   * - :ref:`sphx_glr_examples_00-basic_00-basic_example.py` (``00-basic_example.py``)
-     - 00:10.824
-     - 0.0
-   * - :ref:`sphx_glr_examples_00-basic_03-create_entities.py` (``03-create_entities.py``)
-     - 00:09.065
+     - 00:13.557
      - 0.0
    * - :ref:`sphx_glr_examples_00-basic_07-use_result_helpers.py` (``07-use_result_helpers.py``)
-     - 00:07.683
+     - 00:09.939
+     - 0.0
+   * - :ref:`sphx_glr_examples_00-basic_00-basic_example.py` (``00-basic_example.py``)
+     - 00:09.374
+     - 0.0
+   * - :ref:`sphx_glr_examples_00-basic_03-create_entities.py` (``03-create_entities.py``)
+     - 00:08.699
      - 0.0
    * - :ref:`sphx_glr_examples_00-basic_05-use_local_data.py` (``05-use_local_data.py``)
-     - 00:06.136
+     - 00:06.472
      - 0.0
    * - :ref:`sphx_glr_examples_00-basic_01-basic_operators.py` (``01-basic_operators.py``)
-     - 00:02.378
+     - 00:02.154
      - 0.0
    * - :ref:`sphx_glr_examples_00-basic_08-results_over_time_subset.py` (``08-results_over_time_subset.py``)
-     - 00:01.055
-     - 0.0
-   * - :ref:`sphx_glr_examples_00-basic_02-basic_field_containers.py` (``02-basic_field_containers.py``)
-     - 00:00.541
+     - 00:01.260
      - 0.0
    * - :ref:`sphx_glr_examples_00-basic_10-math_operations.py` (``10-math_operations.py``)
-     - 00:00.475
+     - 00:00.510
+     - 0.0
+   * - :ref:`sphx_glr_examples_00-basic_02-basic_field_containers.py` (``02-basic_field_containers.py``)
+     - 00:00.490
      - 0.0
    * - :ref:`sphx_glr_examples_00-basic_12-get_material_properties.py` (``12-get_material_properties.py``)
-     - 00:00.459
+     - 00:00.460
      - 0.0

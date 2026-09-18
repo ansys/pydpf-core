@@ -132,7 +132,7 @@ with the whole mesh.
       Unit: m 
       With solid (3D) elements
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1DCDC70>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90C8A6AB0>)
 
 
 
@@ -215,7 +215,7 @@ select one using qualifier ellipsis pins and connecting a LabelSpace "species"/"
 
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B1851280>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C916732570>)
 
 
 
@@ -304,7 +304,7 @@ the min and max of the static_pressure variable.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF90A40>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C916731610>)
 
 
 
@@ -320,7 +320,7 @@ output with the `mesh_cut` operator input.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 6.237 seconds)
+   **Total running time of the script:** (0 minutes 6.285 seconds)
 
 
 .. _sphx_glr_download_examples_12-fluids_03-fluids_isosurface.py:

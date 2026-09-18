@@ -378,7 +378,7 @@ shown with the arguments available.
     1              1.000000       1              1               
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B6F97E00>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D641E50>)
 
 
 
@@ -484,7 +484,7 @@ shown with the arguments available.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 21.646 seconds)
+   **Total running time of the script:** (0 minutes 23.135 seconds)
 
 
 .. _sphx_glr_download_examples_06-plotting_00-basic_plotting.py:

@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:21.034** total execution time for 3 files **from examples\10-mesh_operations**:
+**00:21.309** total execution time for 3 files **from examples\10-mesh_operations**:
 
 .. container::
 
@@ -33,11 +33,11 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_examples_10-mesh_operations_13-nodes_in_local_coordinate_system.py` (``13-nodes_in_local_coordinate_system.py``)
-     - 00:13.413
+     - 00:13.945
      - 0.0
    * - :ref:`sphx_glr_examples_10-mesh_operations_05-skin_extraction.py` (``05-skin_extraction.py``)
-     - 00:06.115
+     - 00:05.880
      - 0.0
    * - :ref:`sphx_glr_examples_10-mesh_operations_00-create_polygons_and_polyhedrons.py` (``00-create_polygons_and_polyhedrons.py``)
-     - 00:01.507
+     - 00:01.483
      - 0.0

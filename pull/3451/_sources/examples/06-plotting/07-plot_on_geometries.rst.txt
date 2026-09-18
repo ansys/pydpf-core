@@ -478,7 +478,7 @@ Plotting displacement field on the geometry objects
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B50BDDF0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C916812D80>)
 
 
 
@@ -533,7 +533,7 @@ Note that the line is only displayed if some points are found inside the mesh:
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B610C230>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C916810A70>)
 
 
 
@@ -588,7 +588,7 @@ Note that the plane is only displayed if some points are found inside the mesh:
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B610E360>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9074438C0>)
 
 
 
@@ -621,7 +621,7 @@ Note that the plane is only displayed if some points are found inside the mesh:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 7.971 seconds)
+   **Total running time of the script:** (0 minutes 8.275 seconds)
 
 
 .. _sphx_glr_download_examples_06-plotting_07-plot_on_geometries.py:

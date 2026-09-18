@@ -866,7 +866,7 @@ Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dp
 <h1><code class="xref py py-class docutils literal notranslate"><span class="pre">accumulation_per_scoping</span></code><a class="headerlink" href="#accumulation-per-scoping" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="ansys.dpf.core.operators.math.accumulation_per_scoping.accumulation_per_scoping">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.math.accumulation_per_scoping.</span></span><span class="sig-name descname"><span class="pre">accumulation_per_scoping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields_container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_scoping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">streams_container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_sources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scopings_container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.accumulation_per_scoping.accumulation_per_scoping" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.math.accumulation_per_scoping.</span></span><span class="sig-name descname"><span class="pre">accumulation_per_scoping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields_container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_scoping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scopings_container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.accumulation_per_scoping.accumulation_per_scoping" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../../dpf_operator/Operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></code></a></p>
 <p>For each scoping in the input scopings container, computes the
 entity-wise sum of the input fields container values over that scoping,
@@ -877,10 +877,6 @@ label (time, complex, or other).</p>
 <p>The master sum is computed by summing all entity values of the input
 fields container restricted to the master scoping when provided, or of
 the full input fields container otherwise.</p>
-<p>For cyclic and multistage models, the master scoping and the input
-scopings container are first expanded to the full mesh. When a master
-scoping is provided, each scoping in the input scopings container is
-intersected with it before accumulation.</p>
 <p>Each output field contains one entity per scoping plus one master
 entity: - entity id <span class="math notranslate nohighlight">\(0\)</span> holds the master sum (or <span class="math notranslate nohighlight">\(100\%\)</span> for
 the percentage output). - entity ids <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(N\)</span> hold the sum
@@ -894,10 +890,6 @@ epsilon.</p>
 <dt>fields_container: FieldsContainer</dt><dd><p>Fields container containing the values to accumulate per scoping.</p>
 </dd>
 <dt>mesh_scoping: Scoping, optional</dt><dd><p>Master scoping. When provided, each scoping in the input scopings container is intersected with it, and the master sum is computed over this scoping. When omitted, the master sum is computed over the full input fields container and no intersection is performed.</p>
-</dd>
-<dt>streams_container: StreamsContainer, optional</dt><dd><p>Streams describing the source result file. Required when no data sources is provided. Used to detect cyclic and multistage models and expand the scopings accordingly. Takes precedence over the data sources when both are provided.</p>
-</dd>
-<dt>data_sources: DataSources, optional</dt><dd><p>Data sources describing the source result file. Required when no streams is provided. Used to detect cyclic and multistage models and expand the scopings accordingly.</p>
 </dd>
 <dt>scopings_container: ScopingsContainer</dt><dd><p>Scopings container. The sum of the input fields container is computed over each scoping it contains. Must contain at least one scoping.</p>
 </dd>
@@ -924,10 +916,6 @@ epsilon.</p>
 <span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_fields_container</span><span class="p">)</span>
 <span class="gp">>>> </span><span class="n">my_mesh_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">()</span>
 <span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_mesh_scoping</span><span class="p">)</span>
-<span class="gp">>>> </span><span class="n">my_streams_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">StreamsContainer</span><span class="p">()</span>
-<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_streams_container</span><span class="p">)</span>
-<span class="gp">>>> </span><span class="n">my_data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
-<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
 <span class="gp">>>> </span><span class="n">my_scopings_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">ScopingsContainer</span><span class="p">()</span>
 <span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">scopings_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_scopings_container</span><span class="p">)</span>
 </pre></div>
@@ -936,8 +924,6 @@ epsilon.</p>
 <span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">accumulation_per_scoping</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">fields_container</span><span class="o">=</span><span class="n">my_fields_container</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">mesh_scoping</span><span class="o">=</span><span class="n">my_mesh_scoping</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">streams_container</span><span class="o">=</span><span class="n">my_streams_container</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">data_sources</span><span class="o">=</span><span class="n">my_data_sources</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">scopings_container</span><span class="o">=</span><span class="n">my_scopings_container</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">)</span>
 </pre></div>

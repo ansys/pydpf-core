@@ -24,10 +24,6 @@
    >>> op.inputs.fields_container.connect(my_fields_container)
    >>> my_mesh_scoping = dpf.Scoping()
    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
-   >>> my_streams_container = dpf.StreamsContainer()
-   >>> op.inputs.streams_container.connect(my_streams_container)
-   >>> my_data_sources = dpf.DataSources()
-   >>> op.inputs.data_sources.connect(my_data_sources)
    >>> my_scopings_container = dpf.ScopingsContainer()
    >>> op.inputs.scopings_container.connect(my_scopings_container)
 
@@ -65,10 +61,6 @@ Overview
             - Allows to connect fields_container input to the operator.
           * - :py:attr:`~mesh_scoping`
             - Allows to connect mesh_scoping input to the operator.
-          * - :py:attr:`~streams_container`
-            - Allows to connect streams_container input to the operator.
-          * - :py:attr:`~data_sources`
-            - Allows to connect data_sources input to the operator.
           * - :py:attr:`~scopings_container`
             - Allows to connect scopings_container input to the operator.
 
@@ -138,44 +130,6 @@ Property detail
    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
    >>> # or
    >>> op.inputs.mesh_scoping(my_mesh_scoping)
-
-.. py:property:: streams_container
-   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.streams_container.StreamsContainer]
-
-
-   Allows to connect streams_container input to the operator.
-
-   Streams describing the source result file. Required when no data sources is provided. Used to detect cyclic and multistage models and expand the scopings accordingly. Takes precedence over the data sources when both are provided.
-
-   :returns: An Input instance for this pin.
-   :rtype: input
-
-   .. rubric:: Examples
-
-   >>> from ansys.dpf import core as dpf
-   >>> op = dpf.operators.math.accumulation_per_scoping()
-   >>> op.inputs.streams_container.connect(my_streams_container)
-   >>> # or
-   >>> op.inputs.streams_container(my_streams_container)
-
-.. py:property:: data_sources
-   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.data_sources.DataSources]
-
-
-   Allows to connect data_sources input to the operator.
-
-   Data sources describing the source result file. Required when no streams is provided. Used to detect cyclic and multistage models and expand the scopings accordingly.
-
-   :returns: An Input instance for this pin.
-   :rtype: input
-
-   .. rubric:: Examples
-
-   >>> from ansys.dpf import core as dpf
-   >>> op = dpf.operators.math.accumulation_per_scoping()
-   >>> op.inputs.data_sources.connect(my_data_sources)
-   >>> # or
-   >>> op.inputs.data_sources(my_data_sources)
 
 .. py:property:: scopings_container
    :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scopings_container.ScopingsContainer]

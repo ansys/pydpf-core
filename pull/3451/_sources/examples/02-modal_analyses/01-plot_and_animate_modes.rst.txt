@@ -328,7 +328,7 @@ To suppress window pop-up, set the `off_screen` argument to True.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (1 minutes 45.657 seconds)
+   **Total running time of the script:** (1 minutes 52.890 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal_analyses_01-plot_and_animate_modes.py:

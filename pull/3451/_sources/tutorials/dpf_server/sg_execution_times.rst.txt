@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:04.092** total execution time for 1 file **from tutorials\dpf_server**:
+**00:03.872** total execution time for 1 file **from tutorials\dpf_server**:
 
 .. container::
 
@@ -33,5 +33,5 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_tutorials_dpf_server_server_types.py` (``server_types.py``)
-     - 00:04.092
+     - 00:03.872
      - 0.0

@@ -295,14 +295,14 @@ Check the mesh we just created with a plot.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C9485010>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91DEBB200>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.771 seconds)
+   **Total running time of the script:** (0 minutes 1.722 seconds)
 
 
 .. _sphx_glr_download_tutorials_mesh_create_a_mesh_from_scratch.py:

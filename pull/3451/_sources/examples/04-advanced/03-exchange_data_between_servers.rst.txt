@@ -259,14 +259,14 @@ Plot the output
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B0A19EE0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9056DCE60>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 20.806 seconds)
+   **Total running time of the script:** (0 minutes 21.135 seconds)
 
 
 .. _sphx_glr_download_examples_04-advanced_03-exchange_data_between_servers.py:

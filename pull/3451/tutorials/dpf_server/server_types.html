@@ -717,7 +717,7 @@ because process isolation ensures dependency isolation between the client and se
 <span class="nb">print</span><span class="p">(</span><span class="n">local_server</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 6844, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 9868, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
 </pre></div>
 </div>
 <p>The server is now ready to be used for creating DPF objects.</p>
@@ -816,7 +816,7 @@ class to specify the server configuration:</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">grpc_server</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 9000, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 6520, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
 </pre></div>
 </div>
 <p>Retrieve the server connection information:</p>
@@ -843,7 +843,7 @@ This enables distributed computation where data processing occurs on a remote se
 <span class="nb">print</span><span class="p">(</span><span class="n">remote_server</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 9000, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': None}
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 6520, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': None}
 </pre></div>
 </div>
 <p>Create DPF objects on the remote server:</p>
@@ -961,7 +961,7 @@ This is useful when you need to test performance or compatibility with different
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"InProcess server: </span><span class="si">{</span><span class="n">in_process_server</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>InProcess server: DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 6844, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>InProcess server: DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 9868, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
 </pre></div>
 </div>
 <p>Get GrpcServer configuration and start a gRPC server</p>
@@ -970,7 +970,7 @@ This is useful when you need to test performance or compatibility with different
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"gRPC server: </span><span class="si">{</span><span class="n">grpc_server_2</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>gRPC server: DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50056, 'server_process_id': 5584, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>gRPC server: DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50056, 'server_process_id': 6820, 'server_version': '2027.1.0pre0', 'os': 'nt', 'path': 'D:\\a\\pydpf-core\\pydpf-core\\dpf-standalone\\v271\\ansys\\dpf\\server_2027_1_pre0'}
 </pre></div>
 </div>
 <p>Get LegacyGrpcServer configuration (for compatibility with older versions)</p>
@@ -979,7 +979,7 @@ This is useful when you need to test performance or compatibility with different
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Legacy gRPC server: </span><span class="si">{</span><span class="n">legacy_grpc_server</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Legacy gRPC server: DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50057, 'server_process_id': 2532, 'server_version': '2027.1.0pre0', 'os': 'nt'}
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Legacy gRPC server: DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50057, 'server_process_id': 9520, 'server_version': '2027.1.0pre0', 'os': 'nt'}
 </pre></div>
 </div>
 </section>
@@ -1012,7 +1012,7 @@ with Ansys 2022 R1 and earlier versions.</p></li>
 <code class="xref py py-func docutils literal notranslate"><span class="pre">start_local_server</span></code> function with different
 <a class="reference internal" href="../../api/ansys/dpf/core/server_factory/ServerConfig.html#ansys.dpf.core.server_factory.ServerConfig" title="ansys.dpf.core.server_factory.ServerConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ServerConfig</span></code></a> parameters, making it easy
 to switch between server types as your needs change.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 4.092 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 3.872 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-dpf-server-server-types-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/73f34a821e7c38f031eaccf18eb4cc6d/server_types.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">server_types.ipynb</span></code></a></p>

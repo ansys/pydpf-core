@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:15.334** total execution time for 3 files **from examples\11-cyclic-symmetry**:
+**00:14.950** total execution time for 3 files **from examples\11-cyclic-symmetry**:
 
 .. container::
 
@@ -33,11 +33,11 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_examples_11-cyclic-symmetry_02-modal_cyclic_no_expansion.py` (``02-modal_cyclic_no_expansion.py``)
-     - 00:09.239
+     - 00:08.997
      - 0.0
    * - :ref:`sphx_glr_examples_11-cyclic-symmetry_01-modal_cyclic.py` (``01-modal_cyclic.py``)
-     - 00:03.082
+     - 00:03.081
      - 0.0
    * - :ref:`sphx_glr_examples_11-cyclic-symmetry_03-cyclic_multi_stage.py` (``03-cyclic_multi_stage.py``)
-     - 00:03.012
+     - 00:02.873
      - 0.0

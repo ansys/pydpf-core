@@ -72,7 +72,7 @@ constructor can register the main result file immediately. The explicit
 ``d3plot`` key selects the LS-DYNA result reader because this file has no
 conventional result extension.
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-73
+.. GENERATED FROM PYTHON SOURCE LINES 64-74
 
 .. code-block:: Python
 
@@ -84,15 +84,26 @@ conventional result extension.
 
     # Create the DataSources object with its main result file
     my_data_sources = dpf.DataSources(result_path=main_result_file, key="d3plot")
+    print(my_data_sources)
 
 
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    DPF  DataSources: 
+      Result files:
+         result key: d3plot and path: D:\a\pydpf-core\pydpf-core\.tox\doc-html\Lib\site-packages\ansys\dpf\core\examples\result_files\d3plot_beam\d3plot 
+      Secondary files:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-80
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 75-81
 
 Add a secondary file from the same analysis
 --------------------------------------------
@@ -101,13 +112,14 @@ Secondary files contain supporting information that is not stored in the main
 result file. Attach them with ``add_file_path()`` and use their file key when
 the extension must be specified explicitly.
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-88
+.. GENERATED FROM PYTHON SOURCE LINES 81-90
 
 .. code-block:: Python
 
 
     # Add the units file belonging to the same analysis
     my_data_sources.add_file_path(filepath=units_file, key="actunits")
+    print(my_data_sources)
 
     # Inspect the main result key and its registered path
     print("Main result key:", my_data_sources.result_key)
@@ -121,13 +133,19 @@ the extension must be specified explicitly.
 
  .. code-block:: none
 
+    DPF  DataSources: 
+      Result files:
+         result key: d3plot and path: D:\a\pydpf-core\pydpf-core\.tox\doc-html\Lib\site-packages\ansys\dpf\core\examples\result_files\d3plot_beam\d3plot 
+      Secondary files:
+         path: D:\a\pydpf-core\pydpf-core\.tox\doc-html\Lib\site-packages\ansys\dpf\core\examples\result_files\d3plot_beam\file.actunits 
+
     Main result key: d3plot
     Main result files: ['D:\\a\\pydpf-core\\pydpf-core\\.tox\\doc-html\\Lib\\site-packages\\ansys\\dpf\\core\\examples\\result_files\\d3plot_beam\\d3plot']
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-94
+.. GENERATED FROM PYTHON SOURCE LINES 91-96
 
 Give DataSources to a Model
 ---------------------------
@@ -135,7 +153,7 @@ Give DataSources to a Model
 Pass the DataSources object to a Model when you want DPF to expose common
 metadata, mesh, and result helpers for the analysis.
 
-.. GENERATED FROM PYTHON SOURCE LINES 94-99
+.. GENERATED FROM PYTHON SOURCE LINES 96-101
 
 .. code-block:: Python
 
@@ -210,7 +228,7 @@ metadata, mesh, and result helpers for the analysis.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-105
+.. GENERATED FROM PYTHON SOURCE LINES 102-107
 
 Give DataSources to an operator
 -------------------------------
@@ -218,7 +236,7 @@ Give DataSources to an operator
 You can also connect the same DataSources object directly to an operator. This
 is useful when you need one focused result without creating a full Model.
 
-.. GENERATED FROM PYTHON SOURCE LINES 105-112
+.. GENERATED FROM PYTHON SOURCE LINES 107-114
 
 .. code-block:: Python
 
@@ -259,7 +277,7 @@ is useful when you need one focused result without creating a full Model.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-119
+.. GENERATED FROM PYTHON SOURCE LINES 115-121
 
 Use an explicit key and domain IDs
 ----------------------------------
@@ -268,7 +286,7 @@ A key identifies which reader should interpret a file. A domain ID identifies
 which part of a distributed solve produced a file. Set both when a result set
 is split across domain-specific files.
 
-.. GENERATED FROM PYTHON SOURCE LINES 119-128
+.. GENERATED FROM PYTHON SOURCE LINES 121-130
 
 .. code-block:: Python
 
@@ -304,7 +322,7 @@ is split across domain-specific files.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.501 seconds)
+   **Total running time of the script:** (0 minutes 0.480 seconds)
 
 
 .. _sphx_glr_download_tutorials_import_data_data_sources_basics.py:

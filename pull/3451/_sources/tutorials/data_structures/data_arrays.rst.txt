@@ -1523,7 +1523,7 @@ data can be recovered locally before sending a large number of requests:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 6.574 seconds)
+   **Total running time of the script:** (0 minutes 6.442 seconds)
 
 
 .. _sphx_glr_download_tutorials_data_structures_data_arrays.py:

@@ -410,14 +410,14 @@ size of the label.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF97BF0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C907E580E0>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.530 seconds)
+   **Total running time of the script:** (0 minutes 1.477 seconds)
 
 
 .. _sphx_glr_download_examples_06-plotting_02-solution_combination.py:

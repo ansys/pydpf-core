@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**01:54.185** total execution time for 13 files **from examples\04-advanced**:
+**01:54.980** total execution time for 13 files **from examples\04-advanced**:
 
 .. container::
 
@@ -33,41 +33,41 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_examples_04-advanced_03-exchange_data_between_servers.py` (``03-exchange_data_between_servers.py``)
-     - 00:20.806
+     - 00:21.135
      - 0.0
    * - :ref:`sphx_glr_examples_04-advanced_13-manage_licensing.py` (``13-manage_licensing.py``)
-     - 00:20.796
+     - 00:19.374
      - 0.0
    * - :ref:`sphx_glr_examples_04-advanced_12-read_distributed_files.py` (``12-read_distributed_files.py``)
-     - 00:15.464
+     - 00:16.529
      - 0.0
    * - :ref:`sphx_glr_examples_04-advanced_04-extrapolation_stress_3d.py` (``04-extrapolation_stress_3d.py``)
-     - 00:13.691
+     - 00:13.857
      - 0.0
    * - :ref:`sphx_glr_examples_04-advanced_05-extrapolation_strain_2d.py` (``05-extrapolation_strain_2d.py``)
-     - 00:13.458
+     - 00:13.769
      - 0.0
    * - :ref:`sphx_glr_examples_04-advanced_02-volume_averaged_stress.py` (``02-volume_averaged_stress.py``)
-     - 00:11.160
+     - 00:10.522
      - 0.0
    * - :ref:`sphx_glr_examples_04-advanced_14-incremental_evaluation.py` (``14-incremental_evaluation.py``)
-     - 00:07.064
-     - 0.0
-   * - :ref:`sphx_glr_examples_04-advanced_11-cycles_to_failure.py` (``11-cycles_to_failure.py``)
-     - 00:03.362
-     - 0.0
-   * - :ref:`sphx_glr_examples_04-advanced_00-multistage_advanced_options.py` (``00-multistage_advanced_options.py``)
-     - 00:02.847
+     - 00:07.519
      - 0.0
    * - :ref:`sphx_glr_examples_04-advanced_06-stress_gradient_path.py` (``06-stress_gradient_path.py``)
-     - 00:02.450
+     - 00:03.123
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_11-cycles_to_failure.py` (``11-cycles_to_failure.py``)
+     - 00:02.977
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_00-multistage_advanced_options.py` (``00-multistage_advanced_options.py``)
+     - 00:02.909
      - 0.0
    * - :ref:`sphx_glr_examples_04-advanced_10-asme_secviii_divtwo.py` (``10-asme_secviii_divtwo.py``)
-     - 00:02.039
+     - 00:02.234
      - 0.0
    * - :ref:`sphx_glr_examples_04-advanced_01-solve_harmonic_problem.py` (``01-solve_harmonic_problem.py``)
-     - 00:00.610
+     - 00:00.588
      - 0.0
    * - :ref:`sphx_glr_examples_04-advanced_07-load_plugin.py` (``07-load_plugin.py``)
-     - 00:00.440
+     - 00:00.443
      - 0.0

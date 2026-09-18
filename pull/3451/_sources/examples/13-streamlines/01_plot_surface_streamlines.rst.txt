@@ -228,7 +228,7 @@ Plot single streamline
 
  .. code-block:: none
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF9A9F0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9167502C0>)
 
 
 
@@ -314,14 +314,14 @@ Plot multiple streamlines
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B6043050>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C916751D60>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 4.201 seconds)
+   **Total running time of the script:** (0 minutes 4.578 seconds)
 
 
 .. _sphx_glr_download_examples_13-streamlines_01_plot_surface_streamlines.py:

@@ -265,7 +265,7 @@ the probe path and overlay it on a transparent crankshaft mesh.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C879C110>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91DF8BB60>)
 
 
 
@@ -559,7 +559,7 @@ in both operators for higher-order interpolation accuracy.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 4.476 seconds)
+   **Total running time of the script:** (0 minutes 4.186 seconds)
 
 
 .. _sphx_glr_download_tutorials_mapping_mapping_on_reduced_coordinates.py:

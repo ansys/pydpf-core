@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:00.505** total execution time for 1 file **from tutorials\mathematics**:
+**00:00.485** total execution time for 1 file **from tutorials\mathematics**:
 
 .. container::
 
@@ -33,5 +33,5 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_tutorials_mathematics_basic_maths.py` (``basic_maths.py``)
-     - 00:00.505
+     - 00:00.485
      - 0.0

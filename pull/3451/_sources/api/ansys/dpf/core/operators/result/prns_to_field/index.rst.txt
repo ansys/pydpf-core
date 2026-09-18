@@ -40,7 +40,7 @@ Summary
 
 
           * - :py:obj:`~ansys.dpf.core.operators.result.prns_to_field.prns_to_field`
-            - Read the presol of nodal field generated file from mapdl.
+            - Read the prnsol of nodal field generated file from mapdl.
 
 
           * - :py:obj:`~ansys.dpf.core.operators.result.prns_to_field.InputsPrnsToField`

@@ -1042,7 +1042,7 @@ respectively), and several face and cell zones.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 7.618 seconds)
+   **Total running time of the script:** (0 minutes 9.394 seconds)
 
 
 .. _sphx_glr_download_examples_12-fluids_00-fluids_model.py:

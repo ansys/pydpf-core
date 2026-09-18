@@ -101,7 +101,7 @@ Get the fields container for the result and plot it so you can compare it later:
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B7024D70>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D65D4C0>)
 
 
 
@@ -354,14 +354,14 @@ Both plots show errors that can be understood as zero due to machine precision
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF96150>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90742C6B0>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 18.476 seconds)
+   **Total running time of the script:** (0 minutes 19.756 seconds)
 
 
 .. _sphx_glr_download_examples_05-file-IO_04-basic-load-file.py:

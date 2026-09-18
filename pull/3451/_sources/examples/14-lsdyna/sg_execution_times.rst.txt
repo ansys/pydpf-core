@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:59.361** total execution time for 3 files **from examples\14-lsdyna**:
+**00:59.227** total execution time for 3 files **from examples\14-lsdyna**:
 
 .. container::
 
@@ -33,11 +33,11 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_examples_14-lsdyna_00-lsdyna_operators.py` (``00-lsdyna_operators.py``)
-     - 00:31.044
+     - 00:31.328
      - 0.0
    * - :ref:`sphx_glr_examples_14-lsdyna_02-lsdyna_erosion.py` (``02-lsdyna_erosion.py``)
-     - 00:17.779
+     - 00:17.494
      - 0.0
    * - :ref:`sphx_glr_examples_14-lsdyna_01-lsdyna_beam.py` (``01-lsdyna_beam.py``)
-     - 00:10.537
+     - 00:10.405
      - 0.0

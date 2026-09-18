@@ -176,7 +176,7 @@ Nodal elastic strain result of integration points:
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B6F96060>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9056DC7A0>)
 
 
 
@@ -310,7 +310,7 @@ Show plots of extrapolation's elastic strain result and reference's elastic stra
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B06227B0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C907ED1520>)
 
 
 
@@ -456,14 +456,14 @@ can be used to set the tolerances for the
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF94350>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C904237BF0>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 13.458 seconds)
+   **Total running time of the script:** (0 minutes 13.769 seconds)
 
 
 .. _sphx_glr_download_examples_04-advanced_05-extrapolation_strain_2d.py:

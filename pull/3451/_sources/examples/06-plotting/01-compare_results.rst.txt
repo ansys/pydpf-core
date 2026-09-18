@@ -132,14 +132,14 @@ first mesh and the first result.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B6F96840>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9076351F0>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.586 seconds)
+   **Total running time of the script:** (0 minutes 1.527 seconds)
 
 
 .. _sphx_glr_download_examples_06-plotting_01-compare_results.py:

@@ -241,7 +241,7 @@ Plate mesh
       Unit: mm 
       With beam (1D) elements
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1D50C20>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90C87A240>)
 
 
 
@@ -300,7 +300,7 @@ Ball mesh
       With solid (3D) elements 
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1D53770>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9068E9070>)
 
 
 
@@ -518,7 +518,7 @@ Comparing results in different time steps
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF9EF00>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D6DA480>)
 
 
 
@@ -715,7 +715,7 @@ Unfortunately there are no operators for LS-DYNA files that directly allows you 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 10.537 seconds)
+   **Total running time of the script:** (0 minutes 10.405 seconds)
 
 
 .. _sphx_glr_download_examples_14-lsdyna_01-lsdyna_beam.py:

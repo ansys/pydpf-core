@@ -190,7 +190,7 @@ Export with simple precision.
 
  .. code-block:: none
 
-    [WindowsPath('C:/Users/RUNNER~1/AppData/Local/Temp/dataProcessingTemp7368/dpf_float.h5'), WindowsPath('C:/Users/RUNNER~1/AppData/Local/Temp/dataProcessingTemp7368/dpf_double.h5')]
+    [WindowsPath('C:/Users/RUNNER~1/AppData/Local/Temp/dataProcessingTemp5912/dpf_float.h5'), WindowsPath('C:/Users/RUNNER~1/AppData/Local/Temp/dataProcessingTemp5912/dpf_double.h5')]
 
 
 
@@ -272,7 +272,7 @@ Compare simple precision versus double precision.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.723 seconds)
+   **Total running time of the script:** (0 minutes 0.727 seconds)
 
 
 .. _sphx_glr_download_examples_05-file-IO_00-hdf5_double_float_comparison.py:

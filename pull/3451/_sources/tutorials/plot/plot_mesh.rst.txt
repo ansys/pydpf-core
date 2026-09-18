@@ -124,7 +124,7 @@ You can directly plot the overall mesh loaded by the model with
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B6F954F0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D654680>)
 
 
 
@@ -205,7 +205,7 @@ method.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B6F95220>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D654890>)
 
 
 
@@ -268,7 +268,7 @@ To plot the mesh using
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF9A1E0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D6557F0>)
 
 
 
@@ -378,7 +378,7 @@ them based on the property used to split the mesh.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF984A0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91E6C2D50>)
 
 
 
@@ -390,7 +390,7 @@ You can also plot data on a collection of meshes. For more information, see
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 13.052 seconds)
+   **Total running time of the script:** (0 minutes 12.546 seconds)
 
 
 .. _sphx_glr_download_tutorials_plot_plot_mesh.py:

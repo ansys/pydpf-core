@@ -187,7 +187,7 @@ every call, only to repeat the entire sequence for the next operator.
 
  .. code-block:: none
 
-    DataSources approach: 17 results in 2.89 s (0 skipped)
+    DataSources approach: 17 results in 2.99 s (0 skipped)
 
 
 
@@ -244,7 +244,7 @@ from the cache; no further disk access is required for it.
 
  .. code-block:: none
 
-    StreamsContainer approach: 17 results in 0.71 s (0 skipped)
+    StreamsContainer approach: 17 results in 0.63 s (0 skipped)
 
 
 
@@ -278,9 +278,9 @@ opening the file and loading the mesh.
  .. code-block:: none
 
 
-    DataSources  : 2.89 s
-    StreamsContainer: 0.71 s
-    Speed-up factor : 4.0x
+    DataSources  : 2.99 s
+    StreamsContainer: 0.63 s
+    Speed-up factor : 4.7x
 
 
 
@@ -378,7 +378,7 @@ in this tutorial is shown below.
       Outputs:
              streams_container [streams_container]: Streams created from the input data sources, including aggregated streams across namespaces and any upstream streams. 
 
-    Model StreamsContainer: <ansys.dpf.core.streams_container.StreamsContainer object at 0x00000272AFF6A090>
+    Model StreamsContainer: <ansys.dpf.core.streams_container.StreamsContainer object at 0x000001C9040A2150>
 
 
 
@@ -444,7 +444,7 @@ itself:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 4.068 seconds)
+   **Total running time of the script:** (0 minutes 4.078 seconds)
 
 
 .. _sphx_glr_download_tutorials_import_data_streams_for_multiple_operators.py:

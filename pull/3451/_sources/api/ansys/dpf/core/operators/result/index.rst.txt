@@ -1203,6 +1203,10 @@ Summary
             - prns_to_field
 
 
+          * - :py:obj:`~ansys.dpf.core.operators.result.prrs_to_field`
+            - prrs_to_field
+
+
           * - :py:obj:`~ansys.dpf.core.operators.result.radiation_area`
             - radiation_area
 
@@ -1975,6 +1979,7 @@ Summary
     <span class="nf nf-fa-file"></span> pressure</api/ansys/dpf/core/operators/result/pressure/index>
     <span class="nf nf-fa-file"></span> pretension</api/ansys/dpf/core/operators/result/pretension/index>
     <span class="nf nf-fa-file"></span> prns_to_field</api/ansys/dpf/core/operators/result/prns_to_field/index>
+    <span class="nf nf-fa-file"></span> prrs_to_field</api/ansys/dpf/core/operators/result/prrs_to_field/index>
     <span class="nf nf-fa-file"></span> radiation_area</api/ansys/dpf/core/operators/result/radiation_area/index>
     <span class="nf nf-fa-file"></span> radiation_heat_flow_rate</api/ansys/dpf/core/operators/result/radiation_heat_flow_rate/index>
     <span class="nf nf-fa-file"></span> raw_acceleration</api/ansys/dpf/core/operators/result/raw_acceleration/index>

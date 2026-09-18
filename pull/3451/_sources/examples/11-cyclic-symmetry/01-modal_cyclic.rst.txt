@@ -188,7 +188,7 @@ property with 2 as an argument (1 does not perform expansion of the cyclic symme
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1D53CE0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D6562D0>)
 
 
 
@@ -331,14 +331,14 @@ Expand stresses and average to elemental location
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1D53980>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D64F200>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.082 seconds)
+   **Total running time of the script:** (0 minutes 3.081 seconds)
 
 
 .. _sphx_glr_download_examples_11-cyclic-symmetry_01-modal_cyclic.py:

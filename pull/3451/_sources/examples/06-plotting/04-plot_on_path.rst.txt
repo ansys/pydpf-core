@@ -184,7 +184,7 @@ Create the plotter and add fields and meshes.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF84A70>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C916813290>)
 
 
 
@@ -217,7 +217,7 @@ moving along the y-axis, the stresses are plotted with respect to the y coordina
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.733 seconds)
+   **Total running time of the script:** (0 minutes 2.587 seconds)
 
 
 .. _sphx_glr_download_examples_06-plotting_04-plot_on_path.py:

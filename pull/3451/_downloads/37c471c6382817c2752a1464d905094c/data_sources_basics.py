@@ -69,6 +69,7 @@ units_file = result_file_paths[3]
 
 # Create the DataSources object with its main result file
 my_data_sources = dpf.DataSources(result_path=main_result_file, key="d3plot")
+print(my_data_sources)
 
 ###############################################################################
 # Add a secondary file from the same analysis
@@ -80,6 +81,7 @@ my_data_sources = dpf.DataSources(result_path=main_result_file, key="d3plot")
 
 # Add the units file belonging to the same analysis
 my_data_sources.add_file_path(filepath=units_file, key="actunits")
+print(my_data_sources)
 
 # Inspect the main result key and its registered path
 print("Main result key:", my_data_sources.result_key)

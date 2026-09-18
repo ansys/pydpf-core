@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:00.510** total execution time for 1 file **from examples\16-maths-ops**:
+**00:00.486** total execution time for 1 file **from examples\16-maths-ops**:
 
 .. container::
 
@@ -33,5 +33,5 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_examples_16-maths-ops_01-matrix-operations.py` (``01-matrix-operations.py``)
-     - 00:00.510
+     - 00:00.486
      - 0.0

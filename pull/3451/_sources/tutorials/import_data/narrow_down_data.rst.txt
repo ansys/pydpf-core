@@ -673,7 +673,7 @@ It takes a ``Field`` or ``FieldsContainer`` and rescopes it to the given
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.574 seconds)
+   **Total running time of the script:** (0 minutes 0.528 seconds)
 
 
 .. _sphx_glr_download_tutorials_import_data_narrow_down_data.py:

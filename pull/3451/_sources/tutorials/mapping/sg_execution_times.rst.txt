@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**01:08.738** total execution time for 4 files **from tutorials\mapping**:
+**01:05.627** total execution time for 4 files **from tutorials\mapping**:
 
 .. container::
 
@@ -33,14 +33,14 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_tutorials_mapping_mapping_solid_to_skin.py` (``mapping_solid_to_skin.py``)
-     - 00:31.013
+     - 00:30.404
      - 0.0
    * - :ref:`sphx_glr_tutorials_mapping_mapping_prepare_workflow.py` (``mapping_prepare_workflow.py``)
-     - 00:29.001
+     - 00:27.130
      - 0.0
    * - :ref:`sphx_glr_tutorials_mapping_mapping_on_reduced_coordinates.py` (``mapping_on_reduced_coordinates.py``)
-     - 00:04.476
+     - 00:04.186
      - 0.0
    * - :ref:`sphx_glr_tutorials_mapping_mapping_on_coordinates.py` (``mapping_on_coordinates.py``)
-     - 00:04.248
+     - 00:03.907
      - 0.0

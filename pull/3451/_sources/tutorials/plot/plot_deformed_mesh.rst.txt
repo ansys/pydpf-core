@@ -167,7 +167,7 @@ To add deformation, pass the displacement operator to the ``deform_by`` argument
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C9487980>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91DEBB320>)
 
 
 
@@ -247,7 +247,7 @@ method and pass the displacement operator to the ``deform_by`` argument.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B7024AD0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91DEB9880>)
 
 
 
@@ -309,7 +309,7 @@ Plot the deformed mesh using ``DpfPlotter``
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C9487CE0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C916754050>)
 
 
 
@@ -420,7 +420,7 @@ on the split criterion.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C9338590>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C916756960>)
 
 
 
@@ -432,7 +432,7 @@ see :ref:`ref_tutorials_plot_contour`.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 11.903 seconds)
+   **Total running time of the script:** (0 minutes 11.597 seconds)
 
 
 .. _sphx_glr_download_tutorials_plot_plot_deformed_mesh.py:

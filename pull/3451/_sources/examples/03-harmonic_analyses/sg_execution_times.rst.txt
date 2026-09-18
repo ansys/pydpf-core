@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:35.507** total execution time for 2 files **from examples\03-harmonic_analyses**:
+**00:34.584** total execution time for 2 files **from examples\03-harmonic_analyses**:
 
 .. container::
 
@@ -33,8 +33,8 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_examples_03-harmonic_analyses_01-modal_superposition.py` (``01-modal_superposition.py``)
-     - 00:19.887
+     - 00:20.903
      - 0.0
    * - :ref:`sphx_glr_examples_03-harmonic_analyses_00-multi_harmonic.py` (``00-multi_harmonic.py``)
-     - 00:15.620
+     - 00:13.682
      - 0.0

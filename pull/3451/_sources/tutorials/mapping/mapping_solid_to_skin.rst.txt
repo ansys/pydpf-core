@@ -184,7 +184,7 @@ Retrieve the full volume mesh of the crankshaft and visualize its geometry.
     Total elements: 39809
     Total nodes:    69762
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C9486960>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91E6C27B0>)
 
 
 
@@ -250,7 +250,7 @@ element back to its parent solid element—these are required by ``solid_to_skin
     Skin nodes:     32922
     Solid nodes:    69762
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C933AFC0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C905634BF0>)
 
 
 
@@ -319,7 +319,7 @@ The result is evaluated at the last available time step (time set 3).
 
     Solid elements: 39315, skin elements: 16460
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C86CAC90>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91E6C3B30>)
 
 
 
@@ -389,7 +389,7 @@ rescoped to the nodes that belong to the skin mesh.
 
     Solid nodes: 69762, skin nodes: 32922
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C86CB9B0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91DEBBEF0>)
 
 
 
@@ -454,7 +454,7 @@ together with its associated nodes.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF94CB0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91E001130>)
 
 
 
@@ -518,7 +518,7 @@ be omitted—the operator reads it directly from the field support.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1D48500>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91DEB9A90>)
 
 
 
@@ -590,14 +590,14 @@ This is useful when your workflow already produces a ``FieldsContainer``
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF0D640>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9077E0650>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 31.013 seconds)
+   **Total running time of the script:** (0 minutes 30.404 seconds)
 
 
 .. _sphx_glr_download_tutorials_mapping_mapping_solid_to_skin.py:

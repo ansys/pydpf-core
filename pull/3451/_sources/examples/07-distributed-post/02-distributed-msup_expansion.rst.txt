@@ -165,7 +165,7 @@ Print the IP addresses and ports.
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50056, 50055]
+    ports: [50055, 50056]
 
 
 
@@ -375,7 +375,7 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 15.617 seconds)
+   **Total running time of the script:** (0 minutes 15.142 seconds)
 
 
 .. _sphx_glr_download_examples_07-distributed-post_02-distributed-msup_expansion.py:

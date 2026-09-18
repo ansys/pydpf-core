@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**02:08.698** total execution time for 4 files **from examples\07-distributed-post**:
+**00:54.593** total execution time for 4 files **from examples\07-distributed-post**:
 
 .. container::
 
@@ -32,15 +32,15 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_examples_07-distributed-post_00-distributed_total_disp.py` (``00-distributed_total_disp.py``)
-     - 01:25.067
+   * - :ref:`sphx_glr_examples_07-distributed-post_03-distributed-msup_expansion_steps.py` (``03-distributed-msup_expansion_steps.py``)
+     - 00:15.564
      - 0.0
    * - :ref:`sphx_glr_examples_07-distributed-post_02-distributed-msup_expansion.py` (``02-distributed-msup_expansion.py``)
-     - 00:15.617
-     - 0.0
-   * - :ref:`sphx_glr_examples_07-distributed-post_03-distributed-msup_expansion_steps.py` (``03-distributed-msup_expansion_steps.py``)
-     - 00:15.192
+     - 00:15.142
      - 0.0
    * - :ref:`sphx_glr_examples_07-distributed-post_01-distributed_workflows_on_remote.py` (``01-distributed_workflows_on_remote.py``)
-     - 00:12.822
+     - 00:12.506
+     - 0.0
+   * - :ref:`sphx_glr_examples_07-distributed-post_00-distributed_total_disp.py` (``00-distributed_total_disp.py``)
+     - 00:11.381
      - 0.0

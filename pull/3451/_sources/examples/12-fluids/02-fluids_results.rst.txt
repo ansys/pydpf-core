@@ -217,7 +217,7 @@ and display the result.
 
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1DCEED0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9073F83B0>)
 
 
 
@@ -327,7 +327,7 @@ results can be compared.
 
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFFABEC0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C907E59E80>)
 
 
 
@@ -536,7 +536,7 @@ Faces ``Field``. Face results defined on all face zones bring their
       7515 faces 
       Unit: m
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF917C0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D6DABD0>)
 
 
 
@@ -643,7 +643,7 @@ output from the meshes_provider operator, as seen in :ref:`ref_fluids_mesh` .
       - field 11 {phase:  3, time:  1, zone:  7} with Faces location, 1 components and 101 entities.
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B6FDD310>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C907635FA0>)
 
 
 
@@ -797,7 +797,7 @@ and display the result.
 
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFFA9190>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D657170>)
 
 
 
@@ -957,7 +957,7 @@ Fields will be extracted and compared.
 
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1D520C0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C916733260>)
 
 
 
@@ -969,7 +969,7 @@ centroidal and face centroidal values were used to average them.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 18.584 seconds)
+   **Total running time of the script:** (0 minutes 18.144 seconds)
 
 
 .. _sphx_glr_download_examples_12-fluids_02-fluids_results.py:

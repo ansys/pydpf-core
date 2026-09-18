@@ -323,7 +323,7 @@ duplicate sectors.
     30             1355579.879820 5              6              4.000000        
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1DCE4B0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90C8A7200>)
 
 
 
@@ -479,7 +479,7 @@ The cyclic phase (in degree) can be changed with the phi argument.
       - field 0 {time:  7} with Nodal location, 3 components and 51 entities.
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B70241D0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9074438C0>)
 
 
 
@@ -548,7 +548,7 @@ Get nodal stress results on the first sector with a cyclic phase
       - field 0 {time:  7} with Nodal location, 6 components and 51 entities.
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF93DA0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D64DD30>)
 
 
 
@@ -629,7 +629,7 @@ Elemental nodal is the default result location for stress and strain.
       - field 0 {time:  7} with Elemental location, 6 components and 4 entities.
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF92900>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D657530>)
 
 
 
@@ -692,14 +692,14 @@ Get nodal stress results expanded
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272AEED6F00>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D657500>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 9.239 seconds)
+   **Total running time of the script:** (0 minutes 8.997 seconds)
 
 
 .. _sphx_glr_download_examples_11-cyclic-symmetry_02-modal_cyclic_no_expansion.py:

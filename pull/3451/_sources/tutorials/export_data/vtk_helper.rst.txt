@@ -125,7 +125,7 @@ field data is attached yet.
 
  .. code-block:: none
 
-    UnstructuredGrid (0x272bffb2e00)
+    UnstructuredGrid (0x1c91c49ece0)
       N Cells:    12
       N Points:   81
       X Bounds:   0.000e+00, 3.000e-02
@@ -365,7 +365,7 @@ all time steps are accessible from the same object.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.641 seconds)
+   **Total running time of the script:** (0 minutes 1.586 seconds)
 
 
 .. _sphx_glr_download_tutorials_export_data_vtk_helper.py:

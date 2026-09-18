@@ -333,14 +333,14 @@ Plot the transformed displacement results.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C00BF560>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C91DFE8AD0>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.626 seconds)
+   **Total running time of the script:** (0 minutes 1.592 seconds)
 
 
 .. _sphx_glr_download_tutorials_post_processing_basics_main_steps.py:

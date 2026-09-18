@@ -191,7 +191,7 @@ the mesh according to the displacement field at the same time step.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1D48530>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C905D1F890>)
 
 
 
@@ -9169,7 +9169,7 @@ the three components are available.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 31.044 seconds)
+   **Total running time of the script:** (0 minutes 31.328 seconds)
 
 
 .. _sphx_glr_download_examples_14-lsdyna_00-lsdyna_operators.py:

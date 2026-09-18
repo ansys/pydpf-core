@@ -494,7 +494,7 @@ corresponding element names.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 15.340 seconds)
+   **Total running time of the script:** (0 minutes 12.650 seconds)
 
 
 .. _sphx_glr_download_tutorials_mesh_explore_mesh.py:

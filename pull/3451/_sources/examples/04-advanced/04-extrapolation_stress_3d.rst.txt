@@ -180,7 +180,7 @@ Nodal stress result of integration points
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272AED78350>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9036A8AD0>)
 
 
 
@@ -318,7 +318,7 @@ Show plots of the extrapolation's stress result and the reference's stress resul
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B0C81580>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9056DCD40>)
 
 
 
@@ -466,14 +466,14 @@ can be used to set the tolerances for the
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFF96210>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9068EAC30>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 13.691 seconds)
+   **Total running time of the script:** (0 minutes 13.857 seconds)
 
 
 .. _sphx_glr_download_examples_04-advanced_04-extrapolation_stress_3d.py:

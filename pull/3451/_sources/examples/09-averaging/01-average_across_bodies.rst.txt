@@ -170,7 +170,7 @@ property.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272C1DCE600>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C9078735C0>)
 
 
 
@@ -570,7 +570,7 @@ when it is.
  .. code-block:: none
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272B18509B0>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C906A75310>)
 
 
 
@@ -666,7 +666,7 @@ pin:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 25.633 seconds)
+   **Total running time of the script:** (0 minutes 24.238 seconds)
 
 
 .. _sphx_glr_download_examples_09-averaging_01-average_across_bodies.py:

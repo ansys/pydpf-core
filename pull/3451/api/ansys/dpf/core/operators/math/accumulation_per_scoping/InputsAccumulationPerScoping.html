@@ -876,10 +876,6 @@ accumulation_per_scoping operator.</p>
 <span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_fields_container</span><span class="p">)</span>
 <span class="gp">>>> </span><span class="n">my_mesh_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">()</span>
 <span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_mesh_scoping</span><span class="p">)</span>
-<span class="gp">>>> </span><span class="n">my_streams_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">StreamsContainer</span><span class="p">()</span>
-<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_streams_container</span><span class="p">)</span>
-<span class="gp">>>> </span><span class="n">my_data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
-<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
 <span class="gp">>>> </span><span class="n">my_scopings_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">ScopingsContainer</span><span class="p">()</span>
 <span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">scopings_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_scopings_container</span><span class="p">)</span>
 </pre></div>
@@ -911,12 +907,6 @@ Properties</label><div class="sd-tab-content docutils">
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#InputsAccumulationPerScoping.mesh_scoping" title="InputsAccumulationPerScoping.mesh_scoping"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mesh_scoping</span></code></a></p></td>
 <td><p>Allows to connect mesh_scoping input to the operator.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#InputsAccumulationPerScoping.streams_container" title="InputsAccumulationPerScoping.streams_container"><code class="xref py py-attr docutils literal notranslate"><span class="pre">streams_container</span></code></a></p></td>
-<td><p>Allows to connect streams_container input to the operator.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#InputsAccumulationPerScoping.data_sources" title="InputsAccumulationPerScoping.data_sources"><code class="xref py py-attr docutils literal notranslate"><span class="pre">data_sources</span></code></a></p></td>
-<td><p>Allows to connect data_sources input to the operator.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#InputsAccumulationPerScoping.scopings_container" title="InputsAccumulationPerScoping.scopings_container"><code class="xref py py-attr docutils literal notranslate"><span class="pre">scopings_container</span></code></a></p></td>
 <td><p>Allows to connect scopings_container input to the operator.</p></td>
@@ -995,52 +985,6 @@ Special methods</label><div class="sd-tab-content docutils">
 <span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_mesh_scoping</span><span class="p">)</span>
 <span class="gp">>>> </span><span class="c1"># or</span>
 <span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="p">(</span><span class="n">my_mesh_scoping</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="InputsAccumulationPerScoping.streams_container">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InputsAccumulationPerScoping.</span></span><span class="sig-name descname"><span class="pre">streams_container</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../../inputs/Input.html#ansys.dpf.core.inputs.Input" title="ansys.dpf.core.inputs.Input"><span class="pre">ansys.dpf.core.inputs.Input</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../../streams_container/StreamsContainer.html#ansys.dpf.core.streams_container.StreamsContainer" title="ansys.dpf.core.streams_container.StreamsContainer"><span class="pre">ansys.dpf.core.streams_container.StreamsContainer</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#InputsAccumulationPerScoping.streams_container" title="Link to this definition">#</a></dt>
-<dd><p>Allows to connect streams_container input to the operator.</p>
-<p>Streams describing the source result file. Required when no data sources is provided. Used to detect cyclic and multistage models and expand the scopings accordingly. Takes precedence over the data sources when both are provided.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>An Input instance for this pin.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>input</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-<span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">accumulation_per_scoping</span><span class="p">()</span>
-<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_streams_container</span><span class="p">)</span>
-<span class="gp">>>> </span><span class="c1"># or</span>
-<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="p">(</span><span class="n">my_streams_container</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="InputsAccumulationPerScoping.data_sources">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InputsAccumulationPerScoping.</span></span><span class="sig-name descname"><span class="pre">data_sources</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../../inputs/Input.html#ansys.dpf.core.inputs.Input" title="ansys.dpf.core.inputs.Input"><span class="pre">ansys.dpf.core.inputs.Input</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../../data_sources/DataSources.html#ansys.dpf.core.data_sources.DataSources" title="ansys.dpf.core.data_sources.DataSources"><span class="pre">ansys.dpf.core.data_sources.DataSources</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#InputsAccumulationPerScoping.data_sources" title="Link to this definition">#</a></dt>
-<dd><p>Allows to connect data_sources input to the operator.</p>
-<p>Data sources describing the source result file. Required when no streams is provided. Used to detect cyclic and multistage models and expand the scopings accordingly.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>An Input instance for this pin.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>input</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">>>> </span><span class="kn">from</span><span class="w"> </span><span class="nn">ansys.dpf</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-<span class="gp">>>> </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">accumulation_per_scoping</span><span class="p">()</span>
-<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
-<span class="gp">>>> </span><span class="c1"># or</span>
-<span class="gp">>>> </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1128,8 +1072,6 @@ Special methods</label><div class="sd-tab-content docutils">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#property-detail">Property detail</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsAccumulationPerScoping.fields_container"><code class="docutils literal notranslate"><span class="pre">fields_container</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsAccumulationPerScoping.mesh_scoping"><code class="docutils literal notranslate"><span class="pre">mesh_scoping</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsAccumulationPerScoping.streams_container"><code class="docutils literal notranslate"><span class="pre">streams_container</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsAccumulationPerScoping.data_sources"><code class="docutils literal notranslate"><span class="pre">data_sources</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#InputsAccumulationPerScoping.scopings_container"><code class="docutils literal notranslate"><span class="pre">scopings_container</span></code></a></li>
 </ul>
 </li>

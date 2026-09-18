@@ -116,7 +116,7 @@ API is employed.
       Unit: m 
       With solid (3D) elements
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFFAA270>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90742E510>)
 
 
 
@@ -214,7 +214,7 @@ is a body, and thus its mesh has elements (cells), faces and nodes.
       Unit: m 
       With solid (3D) elements
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFFA9070>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C907853770>)
 
 
 
@@ -364,14 +364,14 @@ to body 18 and body 13).
       - mesh 1 {time:  3, zone:  13, } with 7293 nodes and 6080 elements.
 
 
-    ([], <pyvista.plotting.plotter.Plotter object at 0x00000272BFFAAC60>)
+    ([], <pyvista.plotting.plotter.Plotter object at 0x000001C90D64EE70>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 17.887 seconds)
+   **Total running time of the script:** (0 minutes 12.403 seconds)
 
 
 .. _sphx_glr_download_examples_12-fluids_01-fluids_mesh.py:
