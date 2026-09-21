@@ -834,6 +834,14 @@ def test_operator_config_2(server_type):
     assert conf.get_binary_operation_option() == "2"
 
 
+def test_operator_set_config_option_updates_server_config(server_type):
+    op = ops.math.component_wise_divide_fc(server=server_type)
+
+    assert op.config.config_option_value("permissive") == "false"
+    op.config.set_config_option(config_name="permissive", config_value=True)
+    assert op.config.config_option_value("permissive") == "true"
+
+
 def test_operator_set_config(server_type):
     inpt = dpf.core.Field(nentities=3, server=server_type)
     inpt.data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
