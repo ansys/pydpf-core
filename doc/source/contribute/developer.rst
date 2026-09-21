@@ -476,4 +476,4 @@ For example, to run all tests sequentially on linux, while using a Standalone DP
 .. code-block:: text
 
     export DPF_STANDALONE_REQUIREMENT="-e ansys_dpf_server_lin_v2025.1.pre0"
-    python -m tox --parallel -x testenv.commands_pre="uv pip install --index-url https://wheels.vtk.org vtk-osmesa==9.2.20230527.dev0"
+    python -m tox --parallel"
