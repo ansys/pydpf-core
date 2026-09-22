@@ -6,6 +6,17 @@ Troubleshooting
 This page explains how to resolve the most common issues encountered when
 using PyDPF-Core. It also includes suggestions for improving scripts.
 
+GCC 12 dependencies
+--------------------
+On Linux, starting a Python process that imports ``pydpf-core`` or starting a DPF server can
+require GCC 12. On systems whose default GCC version is older than GCC 12, set ``LD_PRELOAD``
+before starting Python or the DPF server. For a standalone DPF server installation, use
+``/path/to/standalone/ansys/dpf/server_2027_1_pre0/aisol/lib/linx64/libgcc_s.so.1``. For an
+Ansys unified installation, use ``/path/to/unified/aisol/lib/linx64/libgcc_s.so.1``. This is
+especially known to be required for the ``Ans.Dpf.CFF`` plugin. Alternatively, upgrade to a
+more recent operating system with GCC 12 support by default, such as Ubuntu 24.04 or Red Hat
+Enterprise Linux 10.
+
 .. _user_guide_troubleshooting_server_issues:
 
 Server issues
@@ -20,13 +31,6 @@ file, a Python error might occur: ``TimeoutError: Server did not start in 10 sec
 This kind of error might mean that the server or its dependencies were not found. Ensure that
 the ``AWP_ROOT{VER}`` environment variable is set when using DPF from an Ansys unified install,
 where ``VER`` is the three-digit numeric format for the version, such as ``221`` or ``222``.
-
-On Linux, the DPF server and some plugins can have binary dependencies on GCC 12. On systems
-whose default GCC version is older than GCC 12, you might need to set ``LD_PRELOAD`` to
-``/path/to/standalone/ansys/dpf/server_2027_1_pre0/aisol/lib/linx64/libgcc_s.so.1`` before
-starting the server. This is especially known to be required for the ``Ans.Dpf.CFF`` plugin.
-Alternatively, upgrade to a more recent operating system with GCC 12 support by default, such as
-Ubuntu 24.04 or Red Hat Enterprise Linux 10.
 
 Connect to the DPF server
 ~~~~~~~~~~~~~~~~~~~~~~~~~
