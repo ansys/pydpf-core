@@ -54,9 +54,7 @@ for root, subdirectories, files in os.walk(examples_path):
                 # Do not capture output when running Pyvista/VTK related examples
                 # Otherwise it might hang
                 p = subprocess.run(
-                    [sys.executable, str(file)],
-                    stdout=subprocess.DEVNULL,
-                    check=True
+                    [sys.executable, str(file)], stdout=subprocess.DEVNULL, check=True
                 )
             except subprocess.CalledProcessError as e:
                 sys.stderr.write(str(e.args))
