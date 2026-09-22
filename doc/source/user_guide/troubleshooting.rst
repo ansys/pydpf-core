@@ -21,6 +21,13 @@ This kind of error might mean that the server or its dependencies were not found
 the ``AWP_ROOT{VER}`` environment variable is set when using DPF from an Ansys unified install,
 where ``VER`` is the three-digit numeric format for the version, such as ``221`` or ``222``.
 
+On Linux, the DPF server and some plugins can have binary dependencies on GCC 12. On systems
+whose default GCC version is older than GCC 12, you might need to set ``LD_PRELOAD`` to
+``/path/to/standalone/ansys/dpf/server_2027_1_pre0/aisol/lib/linx64/libgcc_s.so.1`` before
+starting the server. This is especially known to be required for the ``Ans.Dpf.CFF`` plugin.
+Alternatively, upgrade to a more recent operating system with GCC 12 support by default, such as
+Ubuntu 24.04 or Red Hat Enterprise Linux 10.
+
 Connect to the DPF server
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 If an issue appears while using PyDPF code to connect to an initialized server with the
@@ -41,6 +48,9 @@ For ``PyDPF-Core``0.10.0, the `ansys.grpc.dpf <https://pypi.org/project/ansys-gr
 should always be synchronized with its server version.
 
 .. _user_guide_troubleshooting_model_issues:
+
+
+
 
 Model issues
 ------------
