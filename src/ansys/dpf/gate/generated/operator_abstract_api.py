@@ -260,6 +260,10 @@ class OperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_getoutput_string_data(op, iOutput, data, size):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_getoutput_bytearray(op, iOutput, size):
 		raise NotImplementedError
 
