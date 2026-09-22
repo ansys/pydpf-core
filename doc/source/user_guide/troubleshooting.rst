@@ -6,6 +6,17 @@ Troubleshooting
 This page explains how to resolve the most common issues encountered when
 using PyDPF-Core. It also includes suggestions for improving scripts.
 
+GCC 12 dependencies
+--------------------
+On Linux, starting a Python process that imports ``pydpf-core`` or starting a DPF server can
+require GCC 12. On systems whose default GCC version is older than GCC 12, set ``LD_PRELOAD``
+before starting Python or the DPF server. For a standalone DPF server installation, use
+``/path/to/standalone/ansys/dpf/server_2027_1_pre0/aisol/lib/linx64/libgcc_s.so.1``. For an
+Ansys unified installation, use ``/path/to/unified/aisol/lib/linx64/libgcc_s.so.1``. This is
+especially known to be required for the ``Ans.Dpf.CFF`` plugin. Alternatively, upgrade to a
+more recent operating system with GCC 12 support by default, such as Ubuntu 24.04 or Red Hat
+Enterprise Linux 10.
+
 .. _user_guide_troubleshooting_server_issues:
 
 Server issues
@@ -41,6 +52,9 @@ For ``PyDPF-Core``0.10.0, the `ansys.grpc.dpf <https://pypi.org/project/ansys-gr
 should always be synchronized with its server version.
 
 .. _user_guide_troubleshooting_model_issues:
+
+
+
 
 Model issues
 ------------
