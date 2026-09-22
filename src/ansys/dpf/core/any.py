@@ -119,9 +119,14 @@ class Any:
             fields_container,
             generic_data_container,
             generic_support,
+            meshes_container,
             property_field,
+            result_info,
             scoping,
+            scopings_container,
+            streams_container,
             string_field,
+            time_freq_support,
             workflow,
         )
 
@@ -151,6 +156,11 @@ class Any:
             )
         elif issubclass(obj, field.Field):
             return self._api.any_new_from_field, self._api.any_get_as_field
+        elif issubclass(obj, meshes_container.MeshesContainer):
+            return (
+                self._api.any_new_from_meshes_container,
+                self._api.any_get_as_meshes_container,
+            )
         elif issubclass(obj, property_field.PropertyField):
             return (
                 self._api.any_new_from_property_field,
@@ -175,6 +185,11 @@ class Any:
             return (
                 self._api.any_new_from_scoping,
                 self._api.any_get_as_scoping,
+            )
+        elif issubclass(obj, scopings_container.ScopingsContainer):
+            return (
+                self._api.any_new_from_scopings_container,
+                self._api.any_get_as_scopings_container,
             )
         elif issubclass(obj, data_tree.DataTree):
             return (
@@ -201,6 +216,11 @@ class Any:
                 self._api.any_new_from_int_collection,
                 self._api.any_get_as_int_collection,
             )
+        elif issubclass(obj, dpf_vector.DPFVectorDouble):
+            return (
+                self._api.any_new_from_double_collection,
+                self._api.any_get_as_double_collection,
+            )
         elif issubclass(obj, dpf_operator.Operator):
             return (
                 self._api.any_new_from_operator,
@@ -215,6 +235,21 @@ class Any:
             return (
                 self._api.any_new_from_generic_support,
                 self._api.any_get_as_generic_support,
+            )
+        elif issubclass(obj, time_freq_support.TimeFreqSupport):
+            return (
+                self._api.any_new_from_time_freq_support,
+                self._api.any_get_as_time_freq_support,
+            )
+        elif issubclass(obj, result_info.ResultInfo):
+            return (
+                self._api.any_new_from_result_info,
+                self._api.any_get_as_result_info,
+            )
+        elif issubclass(obj, streams_container.StreamsContainer):
+            return (
+                self._api.any_new_from_streams,
+                self._api.any_get_as_streams,
             )
         elif issubclass(obj, cyclic_support.CyclicSupport):
             return (
@@ -262,8 +297,7 @@ class Any:
 
             return any_dpf
         elif isinstance(obj, (list, np.ndarray)):
-            type_tuple = any_dpf._type_to_new_from_get_as_method(dpf_vector.DPFVectorInt)
-            from ansys.dpf.core import collection
+            from ansys.dpf.core import collection, collection_base
 
             if server_meet_version_and_raise(
                 "9.0",
@@ -273,8 +307,14 @@ class Any:
                 "server versions starting at 9.0",
             ):
                 inpt = collection.CollectionBase.integral_collection(obj, inner_server)
+                vector_type = (
+                    dpf_vector.DPFVectorDouble
+                    if isinstance(inpt, collection_base.FloatCollection)
+                    else dpf_vector.DPFVectorInt
+                )
+                type_tuple = any_dpf._type_to_new_from_get_as_method(vector_type)
                 any_dpf._internal_obj = type_tuple[0](inpt)
-                any_dpf._internal_type = dpf_vector.DPFVectorInt
+                any_dpf._internal_type = vector_type
                 any_dpf._get_as_method = type_tuple[1]
                 return any_dpf
 

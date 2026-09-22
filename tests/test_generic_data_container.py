@@ -173,6 +173,15 @@ def test_set_int_vec_generic_data_container(server_type):
     assert np.allclose(gdc.get_property("nparray"), [1, 2, 3])
 
 
+@raises_for_servers_version_under("9.0")
+def test_set_double_vec_generic_data_container(server_type):
+    gdc = dpf.GenericDataContainer(server=server_type)
+    gdc.set_property("vec", [1.0, 2.0, 3.0])
+
+    assert np.allclose(gdc.get_property("vec"), [1.0, 2.0, 3.0])
+    assert np.allclose(gdc.get_property("vec", dpf.types.vec_double), [1.0, 2.0, 3.0])
+
+
 @conftest.raises_for_servers_version_under("7.0")
 def test_set_get_any_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)

@@ -196,6 +196,8 @@ class GenericDataContainer:
             for _, property_type in enumerate(property_types):
                 if property_type == "vector<int32>":
                     python_type = dpf_vector.DPFVectorInt.__name__
+                elif property_type == "vector<double>":
+                    python_type = dpf_vector.DPFVectorDouble.__name__
                 else:
                     python_type = map_types_to_python[property_type]
                 python_property_types.append(python_type)
