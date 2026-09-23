@@ -64,6 +64,7 @@ class Any:
         self._api_instance = None
 
         # step 2: if object exists, take the instance, else create it
+        self._internal_obj = None
         if any_dpf is not None:
             self._internal_obj = any_dpf
 
@@ -106,6 +107,32 @@ class Any:
             return self._api.any_new_from_string_with_size_on_client(client, str, size)
         else:
             return self._api.any_new_from_string_on_client(client, str)
+
+    @staticmethod
+    def _check_native_backend_any_support(obj, server):
+        from ansys.dpf.core import (
+            meshes_container,
+            result_info,
+            scopings_container,
+            time_freq_support,
+        )
+        from ansys.dpf.gate import dpf_vector
+
+        if any(
+            issubclass(obj, supported_type)
+            for supported_type in (
+                meshes_container.MeshesContainer,
+                scopings_container.ScopingsContainer,
+                time_freq_support.TimeFreqSupport,
+                result_info.ResultInfo,
+                dpf_vector.DPFVectorDouble,
+            )
+        ):
+            server_meet_version_and_raise(
+                "2027.1.0pre0",
+                server,
+                "This Any conversion requires server versions starting at 2027 R1 (27.1).",
+            )
 
     def _type_to_new_from_get_as_method(self, obj):  # noqa: PLR0911, PLR0912, C901
         from ansys.dpf.core import (
@@ -280,6 +307,7 @@ class Any:
         if not inner_server.meet_version("7.0"):
             raise errors.DpfVersionNotSupported("7.0")
 
+        Any._check_native_backend_any_support(type(obj), inner_server)
         any_dpf = Any(server=inner_server)
 
         type_tuple = any_dpf._type_to_new_from_get_as_method(type(obj))
@@ -312,6 +340,7 @@ class Any:
                     if isinstance(inpt, collection_base.FloatCollection)
                     else dpf_vector.DPFVectorInt
                 )
+                any_dpf._check_native_backend_any_support(vector_type, inner_server)
                 type_tuple = any_dpf._type_to_new_from_get_as_method(vector_type)
                 any_dpf._internal_obj = type_tuple[0](inpt)
                 any_dpf._internal_type = vector_type
@@ -362,6 +391,7 @@ class Any:
 
         type_tuple = self._type_to_new_from_get_as_method(self._internal_type)
         if type_tuple is not None:
+            self._check_native_backend_any_support(self._internal_type, self._server)
             internal_obj = type_tuple[1](self)
             if (
                 self._internal_type is int

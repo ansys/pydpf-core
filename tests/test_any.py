@@ -172,10 +172,7 @@ def test_cast_fields_container_any(server_type):
     assert entity.name == new_entity.name
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
-    reason="Any collection conversions require server version 10.0 or newer",
-)
+@conftest.raises_for_servers_version_under("2027.1.0pre0")
 def test_cast_meshes_container_any(server_type):
     entity = dpf.MeshesContainer(server=server_type)
     entity.add_label("idx")
@@ -187,10 +184,7 @@ def test_cast_meshes_container_any(server_type):
     assert entity.get_label_space(0) == new_entity.get_label_space(0)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
-    reason="Any collection conversions require server version 10.0 or newer",
-)
+@conftest.raises_for_servers_version_under("2027.1.0pre0")
 def test_cast_scopings_container_any(server_type):
     entity = dpf.ScopingsContainer(server=server_type)
     entity.add_label("idx")
@@ -202,7 +196,7 @@ def test_cast_scopings_container_any(server_type):
     assert entity.get_label_space(0) == new_entity.get_label_space(0)
 
 
-@conftest.raises_for_servers_version_under("7.0")
+@conftest.raises_for_servers_version_under("2027.1.0pre0")
 def test_cast_time_freq_support_any(server_type):
     entity = dpf.TimeFreqSupport(server=server_type)
 
@@ -212,7 +206,7 @@ def test_cast_time_freq_support_any(server_type):
     assert isinstance(new_entity, dpf.TimeFreqSupport)
 
 
-@conftest.raises_for_servers_version_under("7.0")
+@conftest.raises_for_servers_version_under("2027.1.0pre0")
 def test_cast_result_info_any(velocity_acceleration, server_type):
     data_sources = dpf.DataSources(server=server_type)
     data_sources.set_result_file_path(velocity_acceleration)
@@ -226,7 +220,7 @@ def test_cast_result_info_any(velocity_acceleration, server_type):
     assert entity.analysis_type == new_entity.analysis_type
 
 
-@conftest.raises_for_servers_version_under("9.0")
+@conftest.raises_for_servers_version_under("2027.1.0pre0")
 def test_cast_double_vector_any(server_type):
     entity = [1.2, 3.4, 5.6]
 
