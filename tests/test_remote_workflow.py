@@ -31,6 +31,13 @@ from conftest import local_servers, running_docker
 
 @pytest.mark.xfail(raises=ServerTypeError)
 def test_simple_remote_workflow(simple_bar, local_server):
+    print(
+        f"address={local_server.address}, "
+        f"ip={local_server.ip}, port={local_server.port}, "
+        f"external_ip={local_server.external_ip}, "
+        f"external_port={local_server.external_port}",
+        flush=True,
+    )
     data_sources1 = core.DataSources(simple_bar)
     wf = core.Workflow()
     wf.progress_bar = False
