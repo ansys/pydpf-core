@@ -30,7 +30,7 @@ class electric_flux_density_X(Operator):
     r"""Read/compute Electric flux density X component of the vector (1st
     component) by calling the readers defined by the datasources. Regarding
     the requested location and the input mesh scoping, the result location
-    can be Nodal/ElementalNodal/Elemental.
+    can be Nodal/ElementalNodal/Elemental. Default: averaged on nodes.
 
 
     Inputs
@@ -155,7 +155,7 @@ class electric_flux_density_X(Operator):
         description = r"""Read/compute Electric flux density X component of the vector (1st
 component) by calling the readers defined by the datasources. Regarding
 the requested location and the input mesh scoping, the result location
-can be Nodal/ElementalNodal/Elemental.
+can be Nodal/ElementalNodal/Elemental. Default: averaged on nodes.
 """
         spec = Specification(
             description=description,
