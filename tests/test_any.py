@@ -172,6 +172,17 @@ def test_cast_fields_container_any(server_type):
     assert entity.name == new_entity.name
 
 
+@conftest.raises_for_servers_version_under("8.0")
+def test_cast_meshed_region_any(server_type):
+    entity = dpf.MeshedRegion(server=server_type)
+    entity.unit = "mm"
+
+    any_dpf = dpf.Any.new_from(entity)
+    new_entity = any_dpf.cast()
+
+    assert entity.unit == new_entity.unit
+
+
 @conftest.raises_for_servers_version_under("2027.1.0pre0")
 def test_cast_meshes_container_any(server_type):
     entity = dpf.MeshesContainer(server=server_type)
