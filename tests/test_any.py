@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import numpy as np
 import pytest
 
 from ansys.dpf import core as dpf
@@ -169,3 +170,70 @@ def test_cast_fields_container_any(server_type):
     new_entity = any_dpf.cast()
 
     assert entity.name == new_entity.name
+
+
+@conftest.raises_for_servers_version_under("2027.1.0pre0")
+def test_cast_meshes_container_any(server_type):
+    entity = dpf.MeshesContainer(server=server_type)
+    entity.add_label("idx")
+    entity.add_mesh({"idx": 0}, dpf.MeshedRegion(server=server_type))
+
+    any_dpf = dpf.Any.new_from(entity)
+    new_entity = any_dpf.cast()
+
+    assert entity.get_label_space(0) == new_entity.get_label_space(0)
+
+
+@conftest.raises_for_servers_version_under("2027.1.0pre0")
+def test_cast_scopings_container_any(server_type):
+    entity = dpf.ScopingsContainer(server=server_type)
+    entity.add_label("idx")
+    entity.add_scoping({"idx": 0}, dpf.Scoping(server=server_type))
+
+    any_dpf = dpf.Any.new_from(entity)
+    new_entity = any_dpf.cast()
+
+    assert entity.get_label_space(0) == new_entity.get_label_space(0)
+
+
+@conftest.raises_for_servers_version_under("2027.1.0pre0")
+def test_cast_time_freq_support_any(server_type):
+    entity = dpf.TimeFreqSupport(server=server_type)
+
+    any_dpf = dpf.Any.new_from(entity)
+    new_entity = any_dpf.cast()
+
+    assert isinstance(new_entity, dpf.TimeFreqSupport)
+
+
+@conftest.raises_for_servers_version_under("2027.1.0pre0")
+def test_cast_result_info_any(velocity_acceleration, server_type):
+    data_sources = dpf.DataSources(server=server_type)
+    data_sources.set_result_file_path(velocity_acceleration)
+    operator = dpf.Operator("mapdl::rst::ResultInfoProvider", server=server_type)
+    operator.connect(4, data_sources)
+    entity = operator.get_output(0, dpf.types.result_info)
+
+    any_dpf = dpf.Any.new_from(entity)
+    new_entity = any_dpf.cast()
+
+    assert entity.analysis_type == new_entity.analysis_type
+
+
+@conftest.raises_for_servers_version_under("2027.1.0pre0")
+def test_cast_double_vector_any(server_type):
+    entity = [1.2, 3.4, 5.6]
+
+    any_dpf = dpf.Any.new_from(entity, server_type)
+    new_entity = any_dpf.cast()
+
+    assert np.allclose(entity, new_entity)
+
+
+def test_cast_streams_container_any(server_in_process):
+    entity = dpf.StreamsContainer(server=server_in_process)
+
+    any_dpf = dpf.Any.new_from(entity)
+    new_entity = any_dpf.cast()
+
+    assert isinstance(new_entity, dpf.StreamsContainer)

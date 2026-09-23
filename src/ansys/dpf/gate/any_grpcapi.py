@@ -1,7 +1,7 @@
-from ansys.dpf.gate import errors, data_processing_grpcapi, grpc_stream_helpers
-from ansys.dpf.gate.generated import any_abstract_api, any_capi
 import numpy as np
 
+from ansys.dpf.gate import data_processing_grpcapi, errors, grpc_stream_helpers
+from ansys.dpf.gate.generated import any_abstract_api
 
 # -------------------------------------------------------------------------------
 # Any
@@ -30,24 +30,28 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
 
     @staticmethod
     def _type_to_message_type():
-        from ansys.grpc.dpf import base_pb2
-        from ansys.dpf.gate import dpf_vector
         from ansys.dpf.core import (
-            field,
-            fields_container,
-            property_field,
+            collection_base,
+            custom_type_field,
             cyclic_support,
             data_sources,
+            data_tree,
+            dpf_operator,
+            field,
+            fields_container,
             generic_data_container,
             generic_support,
-            string_field,
+            meshes_container,
+            property_field,
+            result_info,
             scoping,
-            data_tree,
-            custom_type_field,
-            collection_base,
+            scopings_container,
+            string_field,
+            time_freq_support,
             workflow,
-            dpf_operator,
         )
+        from ansys.dpf.gate import dpf_vector
+        from ansys.grpc.dpf import base_pb2
 
         return [(int, base_pb2.Type.INT),
                 (str, base_pb2.Type.STRING),
@@ -55,6 +59,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (bytes, base_pb2.Type.STRING),
                 (field.Field, base_pb2.Type.FIELD),
                 (fields_container.FieldsContainer, base_pb2.Type.COLLECTION, base_pb2.Type.FIELD),
+                (meshes_container.MeshesContainer, base_pb2.Type.COLLECTION, base_pb2.Type.MESHED_REGION),
                 (property_field.PropertyField, base_pb2.Type.PROPERTY_FIELD),
                 (string_field.StringField, base_pb2.Type.STRING_FIELD),
                 (custom_type_field.CustomTypeField, base_pb2.Type.CUSTOM_TYPE_FIELD),
@@ -62,10 +67,14 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
                 (generic_support.GenericSupport, base_pb2.Type.GENERIC_SUPPORT),
                 (cyclic_support.CyclicSupport, base_pb2.Type.CYCLIC_SUPPORT),
                 (scoping.Scoping, base_pb2.Type.SCOPING),
+                (scopings_container.ScopingsContainer, base_pb2.Type.COLLECTION, base_pb2.Type.SCOPING),
+                (time_freq_support.TimeFreqSupport, base_pb2.Type.TIME_FREQ_SUPPORT),
+                (result_info.ResultInfo, base_pb2.Type.RESULT_INFO),
                 (data_tree.DataTree, base_pb2.Type.DATA_TREE),
                 (workflow.Workflow, base_pb2.Type.WORKFLOW),
                 (collection_base.CollectionBase, base_pb2.Type.COLLECTION, base_pb2.Type.ANY),
                 (dpf_vector.DPFVectorInt, base_pb2.Type.COLLECTION, base_pb2.Type.INT),
+                (dpf_vector.DPFVectorDouble, base_pb2.Type.COLLECTION, base_pb2.Type.DOUBLE),
                 (dpf_operator.Operator, base_pb2.Type.OPERATOR),
                 (data_sources.DataSources, base_pb2.Type.DATA_SOURCES),
                 ]
@@ -97,7 +106,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def any_get_as_string_with_size(any, size):
         if any._server.meet_version("8.0"):
-            from ansys.grpc.dpf import dpf_any_pb2, base_pb2
+            from ansys.grpc.dpf import base_pb2, dpf_any_pb2
             request = dpf_any_pb2.GetAsRequest()
             request.any.CopyFrom(any._internal_obj)
             request.type = base_pb2.Type.STRING
@@ -128,6 +137,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         return AnyGRPCAPI._get_as(any).collection
 
     @staticmethod
+    def any_get_as_meshes_container(any):
+        return AnyGRPCAPI._get_as(any).collection
+
+    @staticmethod
     def any_get_as_string_field(any):
         return AnyGRPCAPI._get_as(any).field
 
@@ -142,6 +155,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def any_get_as_scoping(any):
         return AnyGRPCAPI._get_as(any).scoping
+
+    @staticmethod
+    def any_get_as_scopings_container(any):
+        return AnyGRPCAPI._get_as(any).collection
 
     @staticmethod
     def any_get_as_data_sources(any):
@@ -160,6 +177,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         return AnyGRPCAPI._get_as(any).collection
 
     @staticmethod
+    def any_get_as_double_collection(any):
+        return AnyGRPCAPI._get_as(any).collection
+
+    @staticmethod
     def any_get_as_workflow(any):
         return AnyGRPCAPI._get_as(any).workflow
 
@@ -170,6 +191,14 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def any_get_as_generic_support(any):
         return AnyGRPCAPI._get_as(any).generic_support
+
+    @staticmethod
+    def any_get_as_time_freq_support(any):
+        return AnyGRPCAPI._get_as(any).time_freq_support
+
+    @staticmethod
+    def any_get_as_result_info(any):
+        return AnyGRPCAPI._get_as(any).result_info
 
     @staticmethod
     def any_get_as_cyclic_support(any):
@@ -194,6 +223,8 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         for type_tuple in AnyGRPCAPI._type_to_message_type():
             if isinstance(any, type_tuple[0]):
                 request.type = type_tuple[1]
+                if len(type_tuple) > 2:
+                    request.subtype = type_tuple[2]
                 return _get_stub(client).Create(request)
 
     @staticmethod
@@ -207,7 +238,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def any_new_from_string_with_size_on_client(client, any, size):
         if client.meet_version("8.0"):
-            from ansys.grpc.dpf import dpf_any_pb2, base_pb2
+            from ansys.grpc.dpf import base_pb2, dpf_any_pb2
             request = dpf_any_pb2.CreateStreamedRequest()
             request.type = base_pb2.Type.STRING
             metadata = [("size_bytes", f"{size.val.value}")]
@@ -227,6 +258,10 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
 
     @staticmethod
     def any_new_from_int_collection(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
+    def any_new_from_double_collection(any):
         return AnyGRPCAPI._new_from(any, any._server)
 
     @staticmethod
@@ -258,7 +293,15 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         return AnyGRPCAPI._new_from(any, any._server)
 
     @staticmethod
+    def any_new_from_scopings_container(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
     def any_new_from_data_sources(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
+    def any_new_from_meshes_container(any):
         return AnyGRPCAPI._new_from(any, any._server)
 
     @staticmethod
@@ -275,6 +318,14 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     
     @staticmethod
     def any_new_from_generic_support(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
+    def any_new_from_time_freq_support(any):
+        return AnyGRPCAPI._new_from(any, any._server)
+
+    @staticmethod
+    def any_new_from_result_info(any):
         return AnyGRPCAPI._new_from(any, any._server)
 
     @staticmethod
