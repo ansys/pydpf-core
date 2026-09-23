@@ -30,7 +30,8 @@ class creep_strain_Y(Operator):
     r"""Read/compute element nodal component creep strains YY normal component
     (11 component) by calling the readers defined by the datasources.
     Regarding the requested location and the input mesh scoping, the result
-    location can be Nodal/ElementalNodal/Elemental.
+    location can be Nodal/ElementalNodal/Elemental. Default: averaged on
+    nodes.
 
 
     Inputs
@@ -155,7 +156,8 @@ class creep_strain_Y(Operator):
         description = r"""Read/compute element nodal component creep strains YY normal component
 (11 component) by calling the readers defined by the datasources.
 Regarding the requested location and the input mesh scoping, the result
-location can be Nodal/ElementalNodal/Elemental.
+location can be Nodal/ElementalNodal/Elemental. Default: averaged on
+nodes.
 """
         spec = Specification(
             description=description,
