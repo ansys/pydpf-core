@@ -30,7 +30,8 @@ class thermal_strain_X(Operator):
     r"""Read/compute element nodal component thermal strains XX normal component
     (00 component) by calling the readers defined by the datasources.
     Regarding the requested location and the input mesh scoping, the result
-    location can be Nodal/ElementalNodal/Elemental.
+    location can be Nodal/ElementalNodal/Elemental. Default: averaged on
+    nodes.
 
 
     Inputs
@@ -155,7 +156,8 @@ class thermal_strain_X(Operator):
         description = r"""Read/compute element nodal component thermal strains XX normal component
 (00 component) by calling the readers defined by the datasources.
 Regarding the requested location and the input mesh scoping, the result
-location can be Nodal/ElementalNodal/Elemental.
+location can be Nodal/ElementalNodal/Elemental. Default: averaged on
+nodes.
 """
         spec = Specification(
             description=description,

@@ -72,9 +72,6 @@ def load_all_types_plugin_with_serv(my_server, testfiles_dir):
         server=my_server,
     )
 
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_integral_types(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     op = dpf.Operator("custom_forward_int", server=server_type_remote_process)
@@ -93,9 +90,6 @@ def test_integral_types(server_type_remote_process, testfiles_dir):
     op.connect(0, "hello")
     assert op.get_output(0, dpf.types.string) == "hello"
 
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_lists(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     op = dpf.Operator("custom_forward_vec_int", server=server_type_remote_process)
@@ -108,9 +102,6 @@ def test_lists(server_type_remote_process, testfiles_dir):
     op = dpf.Operator("custom_set_out_np_double", server=server_type_remote_process)
     assert np.allclose(op.get_output(0, dpf.types.vec_double), np.ones((200)))
 
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_field(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.fields_factory.create_3d_vector_field(3, "Elemental", server=server_type_remote_process)
@@ -120,9 +111,6 @@ def test_field(server_type_remote_process, testfiles_dir):
     assert np.allclose(op.get_output(0, dpf.types.field).data, np.ones((3, 3), dtype=np.float64))
     assert op.get_output(0, dpf.types.field).location == "Elemental"
 
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_property_field(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.PropertyField(server=server_type_remote_process)
@@ -134,9 +122,6 @@ def test_property_field(server_type_remote_process, testfiles_dir):
         np.ones((9), dtype=np.int32),
     )
 
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_string_field(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.StringField(server=server_type_remote_process)
@@ -145,9 +130,6 @@ def test_string_field(server_type_remote_process, testfiles_dir):
     op.connect(0, f)
     assert op.get_output(0, dpf.types.string_field).data == ["hello", "good"]
 
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_custom_type_field(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.CustomTypeField(np.uint64, server=server_type_remote_process)
@@ -159,9 +141,6 @@ def test_custom_type_field(server_type_remote_process, testfiles_dir):
         [1000000000000, 200000000000000],
     )
 
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_scoping(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.Scoping(location="Elemental", server=server_type_remote_process)
@@ -169,9 +148,6 @@ def test_scoping(server_type_remote_process, testfiles_dir):
     op.connect(0, f)
     assert op.get_output(0, dpf.types.scoping).location == "Elemental"
 
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_fields_container(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.fields_factory.create_3d_vector_field(3, "Elemental", server=server_type_remote_process)
@@ -187,9 +163,6 @@ def test_fields_container(server_type_remote_process, testfiles_dir):
     )
     assert op.get_output(0, dpf.types.fields_container)[0].location == "Elemental"
 
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_scopings_container(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.Scoping(location="Elemental", server=server_type_remote_process)
@@ -199,9 +172,6 @@ def test_scopings_container(server_type_remote_process, testfiles_dir):
     op.connect(0, sc)
     assert op.get_output(0, dpf.types.scopings_container)[0].location == "Elemental"
 
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_meshes_container(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.MeshedRegion(server=server_type_remote_process)
@@ -211,9 +181,6 @@ def test_meshes_container(server_type_remote_process, testfiles_dir):
     op.connect(0, sc)
     assert len(op.get_output(0, dpf.types.meshes_container)) == 1
 
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_data_sources(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.DataSources("file.rst", server=server_type_remote_process)
@@ -221,12 +188,6 @@ def test_data_sources(server_type_remote_process, testfiles_dir):
     op.connect(0, f)
     assert op.get_output(0, dpf.types.data_sources).result_files == ["file.rst"]
 
-
-@pytest.mark.skipif(
-    (platform.system() == "Windows" and platform.python_version().startswith("3.8")) or
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0,
-    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Windows",
-)
 def test_workflow(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.Workflow(server=server_type_remote_process)
@@ -235,10 +196,6 @@ def test_workflow(server_type_remote_process, testfiles_dir):
     op.connect(0, f)
     assert op.get_output(0, dpf.types.workflow) is not None
 
-
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_data_tree(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.DataTree(server=server_type_remote_process)
@@ -249,10 +206,6 @@ def test_data_tree(server_type_remote_process, testfiles_dir):
     assert dt is not None
     assert dt.get_as("name") == "Paul"
 
-
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_generic_data_container(server_clayer_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_clayer_remote_process, testfiles_dir)
     gdc = dpf.GenericDataContainer(server=server_clayer_remote_process)
@@ -263,10 +216,6 @@ def test_generic_data_container(server_clayer_remote_process, testfiles_dir):
     assert gdc2 is not None
     assert gdc2.get_property("n") == 1
 
-
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_syntax_error(server_type_remote_process, testfiles_dir):
     dpf.load_library(
         dpf.path_utilities.to_server_os(
@@ -283,10 +232,6 @@ def test_syntax_error(server_type_remote_process, testfiles_dir):
         assert "SyntaxError" in str(ex.args)
         assert "set_ouuuuuutput" in str(ex.args)
 
-
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_create_op_specification(server_in_process):
     spec = CustomSpecification(server=server_in_process)
     spec.description = "Add a custom value to all the data of an input Field"
@@ -314,10 +259,6 @@ def test_create_op_specification(server_in_process):
     assert spec.config_specification["work_by_index"].document == "iterate over indices"
     assert spec.config_specification["work_by_index"].default_value_str == "false"
 
-
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_create_op_specification_with_derived_class(server_in_process):
     spec = CustomSpecification(server=server_in_process)
     spec.description = "Add derived class in op specification"
@@ -372,10 +313,6 @@ def test_create_op_specification_with_derived_class(server_in_process):
     assert spec.config_specification["mesh_info_provider"].document == "gives mesh info"
     assert spec.config_specification["mesh_info_provider"].default_value_str == "false"
 
-
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_create_config_op_specification(server_in_process):
     spec = CustomSpecification(server=server_in_process)
     spec.config_specification = [
@@ -393,10 +330,6 @@ def test_create_config_op_specification(server_in_process):
     assert spec.config_specification["other2"].default_value_str == "1.5"
     assert spec.config_specification["other2"].type_names == ["double"]
 
-
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_create_properties_specification(server_in_process):
     spec = CustomSpecification(server=server_in_process)
     spec.properties = SpecificationProperties("custom add to field", "math")
@@ -410,10 +343,6 @@ def test_create_properties_specification(server_in_process):
     assert spec.properties.exposure == "public"
     assert spec.properties.category == "math"
 
-
-@pytest.mark.skipif(
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Temporarily broken for 27.1"
-)
 def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
     dpf.load_library(
         dpf.path_utilities.to_server_os(
@@ -442,11 +371,10 @@ def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
     expected = np.ones((3, 3), dtype=np.float64) + 4.0
     assert np.allclose(outf.data, expected)
 
-
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0 or SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Available for servers >=11.0"
 )
-def test_custom_op_changelog(server_type_remote_process, testfiles_dir):
+def test_custom_op_changelog(server_type_remote_process: object, testfiles_dir: object) -> None:
     from packaging.version import Version
 
     dpf.load_library(
@@ -464,10 +392,6 @@ def test_custom_op_changelog(server_type_remote_process, testfiles_dir):
     assert changelog[Version("1.0.0")] == "Major bump"
     assert op.version == Version("1.0.0")
 
-
-#@pytest.mark.skipif(
-#    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Available for servers >=2027.1.pre0"
-#)
 @pytest.mark.skip(reason="Available for servers >=2027.1.pre0")
 def test_custom_op_input_not_connected(server_type_remote_process, testfiles_dir):
     from packaging.version import Version

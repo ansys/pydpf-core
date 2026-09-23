@@ -35,9 +35,7 @@ for root, subdirectories, files in os.walk(examples_path):
     for subdirectory in subdirectories:
         subdir = Path(root) / subdirectory
         for file in subdir.glob("*.py"):
-            if ("08-python-operators" in str(file) or "12-fluids" in str(file)) and (
-                sys.platform == "linux" or server_version == "2027.1.0pre0"
-            ):
+            if sys.platform == "linux" and "08-python-operators" in str(file):
                 continue
             elif "win" in sys.platform and "06-distributed_stress_averaging" in str(file):
                 # Currently very unstable in the GH CI
@@ -53,10 +51,13 @@ for root, subdirectories, files in os.walk(examples_path):
                 print(f"Example skipped as it requires DPF {minimum_version_str}.", flush=True)
                 continue
             try:
-                out = subprocess.check_output([sys.executable, str(file)])
+                # Do not capture output when running Pyvista/VTK related examples
+                # Otherwise it might hang
+                p = subprocess.run(
+                    [sys.executable, str(file)], stdout=subprocess.DEVNULL, check=True
+                )
             except subprocess.CalledProcessError as e:
                 sys.stderr.write(str(e.args))
                 if e.returncode != _WINDOWS_ACCESS_VIOLATION_RETURNCODE:
-                    print(out, flush=True)
                     raise e
             print("PASS", flush=True)

@@ -3090,6 +3090,10 @@ def _load_api(path):
 		dll.Operator_getoutput_string_with_size.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Operator_getoutput_string_with_size.restype = ctypes.POINTER(ctypes.c_char)
 
+	if hasattr(dll, "Operator_getoutput_string_data"):
+		dll.Operator_getoutput_string_data.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.POINTER(ctypes.c_char)), ctypes.POINTER(ctypes.c_size_t), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Operator_getoutput_string_data.restype = None
+
 	if hasattr(dll, "Operator_getoutput_bytearray"):
 		dll.Operator_getoutput_bytearray.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Operator_getoutput_bytearray.restype = ctypes.POINTER(ctypes.c_char)
@@ -5231,6 +5235,10 @@ def _load_api(path):
 	if hasattr(dll, "WorkFlow_getoutput_string_with_size"):
 		dll.WorkFlow_getoutput_string_with_size.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.WorkFlow_getoutput_string_with_size.restype = ctypes.POINTER(ctypes.c_char)
+
+	if hasattr(dll, "WorkFlow_getoutput_string_data"):
+		dll.WorkFlow_getoutput_string_data.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.POINTER(ctypes.c_char)), ctypes.POINTER(ctypes.c_size_t), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.WorkFlow_getoutput_string_data.restype = None
 
 	if hasattr(dll, "WorkFlow_getoutput_int"):
 		dll.WorkFlow_getoutput_int.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )

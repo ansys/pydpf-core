@@ -81,7 +81,7 @@ doc = [
   "nbsphinx==0.9.8",
   "pypandoc==1.17",
   "pytest-sphinx==0.7.1",
-  "pyvista[jupyter]==0.48.4",
+  "pyvista[jupyter]==0.49.0",
   "quarto-cli==1.10.18",
   "sphinx==8.2.3",
   "sphinx-copybutton==0.5.2",
@@ -97,7 +97,7 @@ test = [
   "ansys-platform-instancemanagement==1.2.0",
   "ansys-tools-common==0.5.3",
   "ansys-tools-visualization-interface>=0.13.0",
-  "coverage==7.15.4",
+  "coverage==7.16.0",
   "graphviz==0.21",
   "imageio==2.37.4",
   "imageio-ffmpeg==0.6.0",
@@ -106,13 +106,13 @@ test = [
   "pytest==9.1.1",
   "pytest-cov==7.1.0",
   "pytest-order==1.5.0",
-  "pytest-rerunfailures==16.6",
-  "pyvista==0.48.4",
+  "pytest-rerunfailures==16.6.1",
+  "pyvista==0.49.0",
   "vtk==9.6.0"
 ]
 build = [
   "black==26.5.1",
-  "build==1.5.1",
+  "build==1.6.1",
   "chevron==0.14.0",
   "jinja2==3.1.6",
   "pypandoc_binary==1.17",
@@ -123,7 +123,7 @@ install = [
   "numpy==2.4.1",
   "packaging==26.3",
   "psutil==7.2.2",
-  "tqdm==4.70.0"
+  "tqdm==4.70.1"
 ]
 operator_doc = [
   "jinja2==3.1.6"

@@ -30,7 +30,7 @@ class stress_YZ(Operator):
     r"""Read/compute element nodal component stresses YZ shear component (12
     component) by calling the readers defined by the datasources. Regarding
     the requested location and the input mesh scoping, the result location
-    can be Nodal/ElementalNodal/Elemental.
+    can be Nodal/ElementalNodal/Elemental. Default: averaged on nodes.
 
 
     Inputs
@@ -155,7 +155,7 @@ class stress_YZ(Operator):
         description = r"""Read/compute element nodal component stresses YZ shear component (12
 component) by calling the readers defined by the datasources. Regarding
 the requested location and the input mesh scoping, the result location
-can be Nodal/ElementalNodal/Elemental.
+can be Nodal/ElementalNodal/Elemental. Default: averaged on nodes.
 """
         spec = Specification(
             description=description,
