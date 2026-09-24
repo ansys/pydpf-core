@@ -223,6 +223,14 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
         return ResultInfoGRPCAPI.list(result_info).main_title
 
     @staticmethod
+    def result_info_set_main_title(result_info, main_title):
+        from ansys.grpc.dpf import result_info_pb2
+        request = result_info_pb2.SetMainTitleRequest()
+        request.result_info.CopyFrom(result_info._internal_obj)
+        request.main_title = main_title
+        return _get_stub(result_info._server).SetMainTitle(request)
+
+    @staticmethod
     @functools.lru_cache(maxsize=50, typed=False)
     def result_info_get_string_property(result_info, property_name):
         from ansys.grpc.dpf import result_info_pb2

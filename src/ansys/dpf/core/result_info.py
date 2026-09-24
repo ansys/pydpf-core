@@ -423,9 +423,7 @@ class ResultInfo:
     @main_title.setter
     def main_title(self, value):
         """Set main title."""
-        if self._server.has_client():
-            raise NotImplementedError("Cannot set the main title of a ResultInfo via gRPC.")
-        self._api.result_info_add_string_property(self, "main_title", value)
+        self._api.result_info_set_main_title(self, value)
 
     @property
     def available_results(self):
