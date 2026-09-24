@@ -56,6 +56,7 @@ def test_set_get_generic_support(server_type):
 
 def test_support_destructor_without_native_object():
     support = object.__new__(Support)
+    support._internal_obj = None
     deleter_called = False
 
     def deleter(value):
