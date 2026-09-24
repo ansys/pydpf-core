@@ -27,12 +27,15 @@
 Connect DataSources for multi-analysis results
 ================================================
 
-Learn when to attach files directly and when to connect an upstream |DataSources|.
+Learn when to attach files directly and when to connect an upstream
+:class:`DataSources<ansys.dpf.core.data_sources.DataSources>`.
 
-A |DataSources| object is a set of files from one analysis. An upstream
-|DataSources| represents a prior analysis whose results are needed by a
-downstream analysis. This distinction is important for modal superposition
-(MSUP), where a harmonic response uses a modal result from an earlier analysis.
+A :class:`DataSources<ansys.dpf.core.data_sources.DataSources>` object is a set
+of files from one analysis. An upstream
+:class:`DataSources<ansys.dpf.core.data_sources.DataSources>` represents a
+prior analysis whose results are needed by a downstream analysis. This
+distinction is important for modal superposition (MSUP), where a harmonic
+response uses a modal result from an earlier analysis.
 
 This tutorial shows the flat pattern that users often try first, the correct
 upstream chain, and the special case where the downstream harmonic working

@@ -27,16 +27,19 @@
 Build and use a DataSources object
 ===================================
 
-Learn how to describe result files to DPF with a |DataSources| object.
+Learn how to describe result files to DPF with a
+:class:`DataSources<ansys.dpf.core.data_sources.DataSources>` object.
 
-|DataSources| is the container that tells DPF which files contain the data to
-read. This tutorial shows how to register a main result file, attach a
-secondary file from the same analysis, and pass the object to a |Model| or an
+:class:`DataSources<ansys.dpf.core.data_sources.DataSources>` is the container
+that tells DPF which files contain the data to read. This tutorial shows how to
+register a main result file, attach a secondary file from the same analysis,
+and pass the object to a :class:`Model<ansys.dpf.core.model.Model>` or an
 individual result operator.
 
 When a file extension is ambiguous or has no extension, provide an explicit
 file key. For distributed result files, provide a domain ID as well. When files
-belong to different analyses, use an upstream |DataSources| object instead of
+belong to different analyses, use an upstream
+:class:`DataSources<ansys.dpf.core.data_sources.DataSources>` object instead of
 adding every file to one flat collection.
 
 .. seealso::
