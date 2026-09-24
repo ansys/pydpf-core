@@ -20,8 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import subprocess
-
 import numpy as np
 import pytest
 
@@ -58,21 +56,8 @@ def test_simple_remote_workflow(simple_bar, local_server):
 
     grpc_stream_provider = ops.metadata.streams_provider()
     grpc_data_sources = core.DataSources()
-    if local_server.docker_config.use_docker:
-        remote_server_ip = subprocess.check_output(
-            [
-                "docker",
-                "inspect",
-                "--format={{range .NetworkSettings.Networks}}{{.Gateway}}{{end}}",
-                str(local_server.docker_config.server_id),
-            ],
-            text=True,
-        ).strip()
-    else:
-        remote_server_ip = local_server.external_ip
-    print(remote_server_ip, flush=True)
     grpc_data_sources.set_result_file_path(
-        remote_server_ip + ":" + str(local_server.external_port), "grpc"
+        local_server.external_ip + ":" + str(local_server.external_port), "grpc"
     )
     grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
