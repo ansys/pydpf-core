@@ -40,7 +40,7 @@ def release_dpf_object(obj):
         deleter = getattr(obj, "_deleter_func", None)
         if deleter is None:
             return
-        if hasattr(obj, "_internal_obj") and obj._internal_obj is None:
+        if getattr(obj, "_internal_obj", None) is None:
             return
         native_obj = deleter[1](obj)
         if native_obj is not None:
