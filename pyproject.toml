@@ -140,6 +140,9 @@ dpf_generate_operators_doc = "ansys.dpf.core.documentation.generate_operators_do
 dpf_generate_operators_doc_legacy = "ansys.dpf.core.documentation.build_operators_html_doc:run_with_args"
 dpf_generate_operators = "ansys.dpf.core.operators.build:run_with_args"
 
+[project.entry-points.pyinstaller40]
+hook-dirs = "ansys.dpf._pyinstaller:_get_hook_dirs"
+
 [tool.ruff]
 exclude = [
     "doc/source/",
