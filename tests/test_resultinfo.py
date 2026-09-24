@@ -127,6 +127,16 @@ def test_get_resultinfo_2(simple_bar, server_type):
     assert res.cyclic_support is None
 
 
+def test_set_resultinfo_main_title(model):
+    result_info = model.metadata.result_info
+    if model._server.has_client():
+        with pytest.raises(NotImplementedError, match="Cannot set the main title"):
+            result_info.main_title = "updated main title"
+    else:
+        result_info.main_title = "updated main title"
+        assert result_info.main_title == "updated main title"
+
+
 def test_byitem_resultinfo(model):
     res = model.metadata.result_info
     assert res["stress"] is not None

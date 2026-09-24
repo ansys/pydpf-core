@@ -420,6 +420,13 @@ class ResultInfo:
         """Main title."""
         return self._api.result_info_get_main_title(self)
 
+    @main_title.setter
+    def main_title(self, value):
+        """Set main title."""
+        if self._server.has_client():
+            raise NotImplementedError("Cannot set the main title of a ResultInfo via gRPC.")
+        self._api.result_info_add_string_property(self, "main_title", value)
+
     @property
     def available_results(self):
         """Available results, containing all information about results present in the result files.
