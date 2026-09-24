@@ -56,12 +56,22 @@ class DataSourcesOrStreamsConnector:
             return self._metadata().named_selection(name)
         return None
 
+    @property
+    def _streams_container_direct(self):
+        if self._metadata():
+            return self._metadata()._streams_container_direct
+        return None
+
     def __connect_op__(self, op, mesh_by_default=True):
         """Connect the data sources or the streams to the operator."""
         if self.streams_provider is not None and hasattr(op.inputs, "streams"):
             op.inputs.streams.connect(self.streams_provider.outputs)
         elif self.streams_provider is not None and hasattr(op.inputs, "streams_container"):
             op.inputs.streams_container.connect(self.streams_provider.outputs)
+        elif self._streams_container_direct is not None and hasattr(op.inputs, "streams"):
+            op.inputs.streams.connect(self._streams_container_direct)
+        elif self._streams_container_direct is not None and hasattr(op.inputs, "streams_container"):
+            op.inputs.streams_container.connect(self._streams_container_direct)
         elif self.data_sources is not None and hasattr(op.inputs, "data_sources"):
             op.inputs.data_sources.connect(self.data_sources)
 
