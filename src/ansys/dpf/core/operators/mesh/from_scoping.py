@@ -37,6 +37,8 @@ class from_scoping(Operator):
         if inclusive == 1 then all the elements/faces adjacent to the nodes/faces ids in input are added, if inclusive == 0, only the elements/faces which have all their nodes/faces in the scoping are included
     nodes_only: bool, optional
         returns mesh with nodes only (without any elements or property fields). Default is false.
+    filter_named_selections: bool, optional
+        if true, named selections in the input mesh are filtered to the nodes, faces, elements... present in the output mesh. If false, named selections are not transferred to the output mesh. Default is false.
     mesh: MeshedRegion
 
     Outputs
@@ -57,6 +59,8 @@ class from_scoping(Operator):
     >>> op.inputs.inclusive.connect(my_inclusive)
     >>> my_nodes_only = bool()
     >>> op.inputs.nodes_only.connect(my_nodes_only)
+    >>> my_filter_named_selections = bool()
+    >>> op.inputs.filter_named_selections.connect(my_filter_named_selections)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
 
@@ -65,6 +69,7 @@ class from_scoping(Operator):
     ...     scoping=my_scoping,
     ...     inclusive=my_inclusive,
     ...     nodes_only=my_nodes_only,
+    ...     filter_named_selections=my_filter_named_selections,
     ...     mesh=my_mesh,
     ... )
 
@@ -77,6 +82,7 @@ class from_scoping(Operator):
         scoping=None,
         inclusive=None,
         nodes_only=None,
+        filter_named_selections=None,
         mesh=None,
         config=None,
         server=None,
@@ -94,6 +100,8 @@ class from_scoping(Operator):
             self.inputs.inclusive.connect(inclusive)
         if nodes_only is not None:
             self.inputs.nodes_only.connect(nodes_only)
+        if filter_named_selections is not None:
+            self.inputs.filter_named_selections.connect(filter_named_selections)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
 
@@ -126,6 +134,12 @@ the rest of the property fields are not present in the output mesh.
                     type_names=["bool"],
                     optional=True,
                     document=r"""returns mesh with nodes only (without any elements or property fields). Default is false.""",
+                ),
+                4: PinSpecification(
+                    name="filter_named_selections",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""if true, named selections in the input mesh are filtered to the nodes, faces, elements... present in the output mesh. If false, named selections are not transferred to the output mesh. Default is false.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -203,6 +217,8 @@ class InputsFromScoping(_Inputs):
     >>> op.inputs.inclusive.connect(my_inclusive)
     >>> my_nodes_only = bool()
     >>> op.inputs.nodes_only.connect(my_nodes_only)
+    >>> my_filter_named_selections = bool()
+    >>> op.inputs.filter_named_selections.connect(my_filter_named_selections)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     """
@@ -221,6 +237,10 @@ class InputsFromScoping(_Inputs):
             from_scoping._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._nodes_only)
+        self._filter_named_selections: Input[bool] = Input(
+            from_scoping._spec().input_pin(4), 4, op, -1
+        )
+        self._inputs.append(self._filter_named_selections)
         self._mesh: Input[MeshedRegion] = Input(
             from_scoping._spec().input_pin(7), 7, op, -1
         )
@@ -288,6 +308,27 @@ class InputsFromScoping(_Inputs):
         >>> op.inputs.nodes_only(my_nodes_only)
         """
         return self._nodes_only
+
+    @property
+    def filter_named_selections(self) -> Input[bool]:
+        r"""Allows to connect filter_named_selections input to the operator.
+
+        if true, named selections in the input mesh are filtered to the nodes, faces, elements... present in the output mesh. If false, named selections are not transferred to the output mesh. Default is false.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.from_scoping()
+        >>> op.inputs.filter_named_selections.connect(my_filter_named_selections)
+        >>> # or
+        >>> op.inputs.filter_named_selections(my_filter_named_selections)
+        """
+        return self._filter_named_selections
 
     @property
     def mesh(self) -> Input[MeshedRegion]:
