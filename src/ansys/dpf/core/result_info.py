@@ -420,6 +420,12 @@ class ResultInfo:
         """Main title."""
         return self._api.result_info_get_main_title(self)
 
+    @main_title.setter
+    @version_requires("2027.1.0pre0")
+    def main_title(self, value):
+        """Set main title."""
+        self._api.result_info_set_main_title(self, value)
+
     @property
     def available_results(self):
         """Available results, containing all information about results present in the result files.
