@@ -67,6 +67,20 @@ operator_doc = [
     "jinja2"
 ]
 
+all = [
+    # 2D chart plotting
+    "matplotlib>=3.10.8",
+    # 3D plotting
+    "pyvista>=0.47.3",
+    "ansys-tools-visualization-interface>=0.13.0",
+    "vtk!=9.4.0",
+    # Animations
+    "imageio",
+    "imageio-ffmpeg",
+    # Operator documentation generation
+    "jinja2"
+]
+
 [dependency-groups]
 
 doc = [
