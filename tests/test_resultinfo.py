@@ -23,7 +23,8 @@
 import pytest
 
 from ansys import dpf
-from ansys.dpf.core import Model, examples
+from ansys.dpf.core import Model, errors as dpf_errors, examples
+from ansys.dpf.core.check_version import meets_version
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
@@ -129,8 +130,12 @@ def test_get_resultinfo_2(simple_bar, server_type):
 
 def test_set_resultinfo_main_title(model):
     result_info = model.metadata.result_info
-    result_info.main_title = "updated main title"
-    assert result_info.main_title == "updated main title"
+    if meets_version(model._server.version, "2027.1.0pre0"):
+        result_info.main_title = "updated main title"
+        assert result_info.main_title == "updated main title"
+    else:
+        with pytest.raises(dpf_errors.DpfVersionNotSupported, match="2027.1.0pre0"):
+            result_info.main_title = "updated main title"
 
 
 def test_byitem_resultinfo(model):

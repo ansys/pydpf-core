@@ -421,6 +421,7 @@ class ResultInfo:
         return self._api.result_info_get_main_title(self)
 
     @main_title.setter
+    @version_requires("2027.1.0pre0")
     def main_title(self, value):
         """Set main title."""
         self._api.result_info_set_main_title(self, value)
