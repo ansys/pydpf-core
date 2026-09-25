@@ -474,7 +474,7 @@ def setup(app):
     app.connect("build-finished", _copy_labels_images)
 
 # Common content for every RST file such us links
-rst_epilog = ""
+rst_epilog += "\n"
 links_filepath = Path(__file__).parent.absolute() / "links.rst"
 rst_epilog += links_filepath.read_text(encoding="utf-8")
 
