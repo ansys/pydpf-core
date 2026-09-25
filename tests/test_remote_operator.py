@@ -28,7 +28,6 @@ from ansys.dpf.core import operators as ops
 from conftest import local_servers, running_docker
 
 
-@pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_connect_remote_operators(simple_bar):
     data_sources1 = core.DataSources(simple_bar)
     op1 = ops.result.displacement(data_sources=data_sources1)
@@ -39,7 +38,6 @@ def test_connect_remote_operators(simple_bar):
     assert np.allclose(fc[0].data, 2 * op1.outputs.fields_container()[0].data)
 
 
-@pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_connect_3remote_operators(simple_bar):
     data_sources1 = core.DataSources(simple_bar)
     op1 = ops.result.displacement(data_sources=data_sources1)
@@ -50,7 +48,6 @@ def test_connect_3remote_operators(simple_bar):
     assert np.allclose(fc[0].data, 2 * op1.outputs.fields_container()[0].data)
 
 
-@pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_connect_remote_data_to_operator(simple_bar):
     data_sources1 = core.DataSources(simple_bar)
     op2 = ops.result.displacement(data_sources=data_sources1, server=local_servers[0])

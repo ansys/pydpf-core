@@ -1113,7 +1113,8 @@ class GrpcServer(CServer):
         -------
         external_ip : str
         """
-        return self._input_ip
+        gateway_ip = self.docker_config.gateway_ip
+        return gateway_ip or self._input_ip
 
     @property
     def external_port(self):
@@ -1554,7 +1555,8 @@ class LegacyGrpcServer(BaseServer):
         -------
         external_ip : str
         """
-        return self._input_ip
+        gateway_ip = self.docker_config.gateway_ip
+        return gateway_ip or self._input_ip
 
     @property
     def external_port(self):

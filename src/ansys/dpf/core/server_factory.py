@@ -573,6 +573,30 @@ class RunningDockerConfig:
         self._server_id = val
 
     @property
+    def gateway_ip(self) -> str | None:
+        """Return the Docker gateway IP used to reach the host from the container.
+
+        Returns
+        -------
+        str or None
+            Docker bridge gateway IP, or ``None`` if the container has not been
+            started yet.
+        """
+        if not self.use_docker or not self.server_id:
+            return None
+
+        gateway_ip = subprocess.check_output(
+            [
+                "docker",
+                "inspect",
+                "--format={{range .NetworkSettings.Networks}}{{.Gateway}}{{end}}",
+                str(self.server_id),
+            ],
+            text=True,
+        ).strip()
+        return gateway_ip or None
+
+    @property
     def docker_name(self) -> str:
         """Name of Docker running Image.
 
