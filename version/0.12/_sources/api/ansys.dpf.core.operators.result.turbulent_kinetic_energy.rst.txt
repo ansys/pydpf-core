@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.turbulent_kinetic_energy
+   :inherited-members:

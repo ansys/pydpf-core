@@ -1,0 +1,128 @@
+
+
+
+
+
+
+:class:`Any`
+============
+
+.. py:class:: ansys.dpf.core.any.Any(any_dpf=None, server=None)
+
+   Common wrapper representing any supported DPF Data Types.
+
+   :param any_dpf:
+   :type any_dpf: ctypes.c_void_p, ansys.grpc.dpf.any_pb2.Any message, optional
+   :param server: Server with channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: DPFServer, optional
+
+   .. rubric:: Notes
+
+   Class available with server's version starting at 7.0 (Ansys 2024 R1 pre0).
+
+
+
+
+
+
+.. py:currentmodule:: Any
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~cast`
+            - Cast the Any back to its original type.
+
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~new_from`
+            - Return an Any instance from the given object.
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+          * - :py:attr:`~__del__`
+            - Delete the entry.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.any import Any
+
+
+
+Method detail
+-------------
+
+.. py:method:: new_from(obj, server=None)
+   :staticmethod:
+
+
+   Return an Any instance from the given object.
+
+   :param obj:
+   :type obj: Object wrap as an Any
+
+   :returns: **any** -- Wrapped any type.
+   :rtype: Any
+
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: **description** -- Description of the entity.
+   :rtype: str
+
+
+.. py:method:: cast(output_type=None)
+
+   Cast the Any back to its original type.
+
+   :param output_type: Used when the Any instance was retrieved from the server.
+                       Not necessary when the instance was created using the
+                       :func:`ansys.dpf.core.Any.new_from`
+   :type output_type: output_type, optional
+
+   :returns: Original object instance
+   :rtype: type
+
+
+.. py:method:: __del__()
+
+   Delete the entry.
+
+
+
+
+

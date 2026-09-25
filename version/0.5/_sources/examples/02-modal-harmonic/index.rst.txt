@@ -1,0 +1,135 @@
+
+
+.. _sphx_glr_examples_02-modal-harmonic:
+
+.. _modal_harmonic_examples:
+
+Harmonic Analysis Examples
+===========================
+These examples show how to use DPF to extract and manipulate,
+results from harmonic or modal analyses.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Multi-Harmonic Response Example">
+
+.. only:: html
+
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_00-multi_harmonic_thumb.png
+    :alt: Multi-Harmonic Response Example
+
+  :ref:`sphx_glr_examples_02-modal-harmonic_00-multi_harmonic.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Multi-Harmonic Response Example</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Modal Cyclic symmetry Example">
+
+.. only:: html
+
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_01-modal_cyclic_thumb.png
+    :alt: Modal Cyclic symmetry Example
+
+  :ref:`sphx_glr_examples_02-modal-harmonic_01-modal_cyclic.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Modal Cyclic symmetry Example</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Multi-stage Cyclic Symmetry Example">
+
+.. only:: html
+
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_02-cyclic_multi_stage_thumb.png
+    :alt: Multi-stage Cyclic Symmetry Example
+
+  :ref:`sphx_glr_examples_02-modal-harmonic_02-cyclic_multi_stage.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Multi-stage Cyclic Symmetry Example</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Use Result Helpers to compare mode shapes for solids and then shells">
+
+.. only:: html
+
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_03-compare_modes_thumb.png
+    :alt: Use Result Helpers to compare mode shapes for solids and then shells
+
+  :ref:`sphx_glr_examples_02-modal-harmonic_03-compare_modes.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Use Result Helpers to compare mode shapes for solids and then shells</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Expand Harmonic Modal Superposition with DPF">
+
+.. only:: html
+
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_04-modal_superposition_thumb.png
+    :alt: Expand Harmonic Modal Superposition with DPF
+
+  :ref:`sphx_glr_examples_02-modal-harmonic_04-modal_superposition.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Expand Harmonic Modal Superposition with DPF</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Read results from distributed files">
+
+.. only:: html
+
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_05-read_distributed_files_thumb.png
+    :alt: Read results from distributed files
+
+  :ref:`sphx_glr_examples_02-modal-harmonic_05-read_distributed_files.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Read results from distributed files</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/02-modal-harmonic/00-multi_harmonic
+   /examples/02-modal-harmonic/01-modal_cyclic
+   /examples/02-modal-harmonic/02-cyclic_multi_stage
+   /examples/02-modal-harmonic/03-compare_modes
+   /examples/02-modal-harmonic/04-modal_superposition
+   /examples/02-modal-harmonic/05-read_distributed_files
+

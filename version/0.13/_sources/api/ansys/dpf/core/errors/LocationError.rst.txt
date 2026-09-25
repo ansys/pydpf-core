@@ -1,0 +1,30 @@
+
+
+
+
+
+
+:class:`LocationError`
+======================
+
+.. py:exception:: ansys.dpf.core.errors.LocationError(msg='Invalid location')
+
+   Bases: :py:obj:`ValueError`
+
+
+   Error raised when using an invalid location.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.errors import LocationError
+
+
+
+
+

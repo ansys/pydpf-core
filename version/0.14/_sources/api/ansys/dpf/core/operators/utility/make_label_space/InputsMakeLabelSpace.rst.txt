@@ -1,0 +1,211 @@
+
+
+
+
+
+
+:class:`InputsMakeLabelSpace`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.make_label_space.InputsMakeLabelSpace(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   make_label_space operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.make_label_space()
+   >>> my_base_label = dict()
+   >>> op.inputs.base_label.connect(my_base_label)
+   >>> my_label_name = str()
+   >>> op.inputs.label_name.connect(my_label_name)
+   >>> my_label_value1 = int()
+   >>> op.inputs.label_value1.connect(my_label_value1)
+   >>> my_label_value2 = int()
+   >>> op.inputs.label_value2.connect(my_label_value2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMakeLabelSpace
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~base_label`
+            - Allows to connect base_label input to the operator.
+          * - :py:attr:`~label_name`
+            - Allows to connect label_name input to the operator.
+          * - :py:attr:`~label_value1`
+            - Allows to connect label_value1 input to the operator.
+          * - :py:attr:`~label_value2`
+            - Allows to connect label_value2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.make_label_space import InputsMakeLabelSpace
+
+Property detail
+---------------
+
+.. py:property:: base_label
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect base_label input to the operator.
+
+   Used as a base label (extracted from Fields/Scoping Container, or directly from Label Space) that is concatenated with provided values.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.make_label_space()
+   >>> op.inputs.base_label.connect(my_base_label)
+   >>> # or
+   >>> op.inputs.base_label(my_base_label)
+
+.. py:property:: label_name
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect label_name input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.make_label_space()
+   >>> op.inputs.label_name.connect(my_label_name)
+   >>> # or
+   >>> op.inputs.label_name(my_label_name)
+
+.. py:property:: label_value1
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect label_value1 input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.make_label_space()
+   >>> op.inputs.label_value1.connect(my_label_value1)
+   >>> # or
+   >>> op.inputs.label_value1(my_label_value1)
+
+.. py:property:: label_value2
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect label_value2 input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.make_label_space()
+   >>> op.inputs.label_value2.connect(my_label_value2)
+   >>> # or
+   >>> op.inputs.label_value2(my_label_value2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

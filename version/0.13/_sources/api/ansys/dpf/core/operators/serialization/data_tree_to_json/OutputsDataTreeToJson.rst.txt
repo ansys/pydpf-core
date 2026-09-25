@@ -1,0 +1,93 @@
+
+
+
+
+
+
+:class:`OutputsDataTreeToJson`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.serialization.data_tree_to_json.OutputsDataTreeToJson(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   data_tree_to_json operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.data_tree_to_json()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_data_sources = op.outputs.data_sources()
+
+
+
+
+
+.. py:currentmodule:: OutputsDataTreeToJson
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~data_sources_as_data_sources`
+            - 
+          * - :py:attr:`~data_sources_as_string`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.data_tree_to_json import OutputsDataTreeToJson
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: data_sources_as_data_sources
+
+.. py:attribute:: data_sources_as_string
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

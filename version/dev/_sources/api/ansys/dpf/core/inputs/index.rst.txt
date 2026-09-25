@@ -1,0 +1,102 @@
+
+
+
+
+
+
+The ``inputs.py`` module
+========================
+
+.. py:module:: ansys.dpf.core.inputs
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: inputs
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.inputs.Input`
+            - Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+
+
+          * - :py:obj:`~ansys.dpf.core.inputs.Inputs`
+            - Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+
+
+
+
+
+
+
+    .. tab-item:: Constants
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~T`
+            - 
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> Input</api/ansys/dpf/core/inputs/Input>
+    <span class="nf nf-cod-symbol_class"></span> Inputs</api/ansys/dpf/core/inputs/Inputs>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Inputs.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:data:: T
+
+
+

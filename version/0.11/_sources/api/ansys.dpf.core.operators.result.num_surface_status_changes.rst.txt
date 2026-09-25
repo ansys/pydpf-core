@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.num_surface_status_changes
+   :inherited-members:

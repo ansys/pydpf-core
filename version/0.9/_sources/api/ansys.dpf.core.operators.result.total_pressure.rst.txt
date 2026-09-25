@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.total_pressure
+   :inherited-members:

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.filter.timescoping_band_pass
+   :inherited-members:

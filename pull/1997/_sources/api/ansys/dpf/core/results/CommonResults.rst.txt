@@ -1,0 +1,274 @@
+
+
+
+
+
+
+:class:`CommonResults`
+======================
+
+
+.. py:class:: ansys.dpf.core.results.CommonResults(connector, result_info, mesh_by_default, server)
+
+   Bases: :py:obj:`Results`
+
+
+   Default implementation of the class:'Results'.
+
+   Is created by default by the 'Model' with the method:'results'.
+   Create default result instances for common result types.
+
+   .. rubric:: Notes
+
+   Used to allow type hints and auto completion for the method:'results'
+   of the class:'Results'.
+
+
+
+
+
+
+
+
+.. py:currentmodule:: CommonResults
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~displacement`
+            - Result provider helper wrapping the regular displacement operator.
+          * - :py:attr:`~elastic_strain`
+            - Result provider helper wrapping the regular elastic strain operator.
+          * - :py:attr:`~stress`
+            - Result provider helper wrapping the regular stress operator.
+          * - :py:attr:`~structural_temperature`
+            - Result provider helper wrapping the regular structural_temperature operator.
+          * - :py:attr:`~temperature`
+            - Result provider helper wrapping the regular temperature operator.
+          * - :py:attr:`~electric_potential`
+            - Result provider helper wrapping the regular electric_potential operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__result__`
+            - Create and return a result of the specified type.
+          * - :py:attr:`~__str__`
+            - Return a string representation of the `Results` object.
+          * - :py:attr:`~__iter__`
+            - Iterate over the available results.
+          * - :py:attr:`~__getitem__`
+            - Access a result by index.
+          * - :py:attr:`~__len__`
+            - Return the number of results available.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.results import CommonResults
+
+Property detail
+---------------
+
+.. py:property:: displacement
+
+   Result provider helper wrapping the regular displacement operator.
+
+   With this wrapper, time and mesh scopings can easily
+   be customized.
+
+   :rtype: Result
+
+   .. rubric:: Examples
+
+   Create a displacement result from the model and choose its time
+   and mesh scopings.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_msup_transient())
+   >>> disp = model.results.displacement
+   >>> disp = disp.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
+   >>> last_time_disp = disp.eval()
+
+.. py:property:: elastic_strain
+
+   Result provider helper wrapping the regular elastic strain operator.
+
+   With this wrapper, time and mesh scopings can easily
+   be customized.
+
+   :rtype: Result
+
+   .. rubric:: Examples
+
+   Create an elastic strain result from the model and choose its time
+   and mesh scopings.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_msup_transient())
+   >>> strain = model.results.elastic_strain
+   >>> strain = strain.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
+   >>> last_time_disp = strain.eval()
+
+.. py:property:: stress
+
+   Result provider helper wrapping the regular stress operator.
+
+   With this wrapper, time and mesh scopings can easily
+   be customized.
+
+   :rtype: Result
+
+   .. rubric:: Examples
+
+   Create a stress result from the model and choose its time
+   and mesh scopings.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_msup_transient())
+   >>> stress = model.results.stress
+   >>> stress = stress.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
+   >>> last_time_disp = stress.eval()
+
+.. py:property:: structural_temperature
+
+   Result provider helper wrapping the regular structural_temperature operator.
+
+   With this wrapper, time and mesh scopings can easily
+   be customized.
+
+   :rtype: Result
+
+   .. rubric:: Examples
+
+   Create a structural_temperature result from the model and choose its time
+   and mesh scopings.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_complex_rst())
+   >>> structural_temperature = model.results.structural_temperature
+   >>> structural_temperature = structural_temperature.on_last_time_freq()
+   >>> last_time_disp = structural_temperature.eval()
+
+.. py:property:: temperature
+
+   Result provider helper wrapping the regular temperature operator.
+
+   With this wrapper, time and mesh scopings can easily
+   be customized.
+
+   :rtype: Result
+
+   .. rubric:: Examples
+
+   Create a temperature result from the model and choose its time
+   and mesh scopings.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_steady_therm())
+   >>> temperature = model.results.temperature.on_last_time_freq()
+   >>> last_time_disp = temperature.eval()
+
+.. py:property:: electric_potential
+
+   Result provider helper wrapping the regular electric_potential operator.
+
+   With this wrapper, time and mesh scopings can easily
+   be customized.
+
+   :rtype: Result
+
+   .. rubric:: Examples
+
+   Create a electric_potential result from the model and
+   choose its time and mesh scopings.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_electric_therm())
+   >>> electric_potential = model.results.electric_potential.on_first_time_freq()
+   >>> last_time_disp = electric_potential.eval()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __result__(result_type, *args)
+
+   Create and return a result of the specified type.
+
+   :param result_type: The type of the result to generate.
+   :type result_type: any
+   :param \*args: Additional arguments required for creating the result.
+   :type \*args: tuple
+
+   :returns: An instance of the `Result` class, providing access to the specified result.
+   :rtype: Result
+
+
+.. py:method:: __str__()
+
+   Return a string representation of the `Results` object.
+
+   :returns: String description of the `Results` object.
+   :rtype: str
+
+
+.. py:method:: __iter__()
+
+   Iterate over the available results.
+
+   :Yields: *Result* -- Each result dynamically added to the `Results` object.
+
+
+.. py:method:: __getitem__(val)
+
+   Access a result by index.
+
+   :param val: The index of the result to retrieve.
+   :type val: int
+
+   :returns: The result at the specified index.
+   :rtype: Result
+
+
+.. py:method:: __len__()
+
+   Return the number of results available.
+
+   :returns: The number of results.
+   :rtype: int
+
+
+
+
+

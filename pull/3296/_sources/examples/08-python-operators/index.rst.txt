@@ -1,0 +1,30 @@
+
+
+.. _sphx_glr_examples_08-python-operators:
+
+.. _python_operators:
+
+Examples of creating custom operator plugins
+============================================
+These examples show how to create a basic operator plugin or plug-in
+packages with multiple operators. Plugins wrap your custom operators
+so that you can use them like native DPF operators.
+
+
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+

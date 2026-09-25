@@ -1,0 +1,16 @@
+
+:orphan:
+
+.. _sphx_glr_examples_10-mesh_operations_sg_execution_times:
+
+Computation times
+=================
+**00:14.023** total execution time for **examples_10-mesh_operations** files:
+
++---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_10-mesh_operations_13-nodes_in_local_coordinate_system.py` (``13-nodes_in_local_coordinate_system.py``) | 00:06.579 | 0.0 MB |
++---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_10-mesh_operations_05-skin_extraction.py` (``05-skin_extraction.py``)                                   | 00:06.067 | 0.0 MB |
++---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_10-mesh_operations_00-create_polygons_and_polyhedrons.py` (``00-create_polygons_and_polyhedrons.py``)   | 00:01.376 | 0.0 MB |
++---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+

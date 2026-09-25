@@ -1,0 +1,94 @@
+ansys.dpf.core.operators.math package
+=====================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.math.accumulate
+   ansys.dpf.core.operators.math.accumulate_fc
+   ansys.dpf.core.operators.math.accumulate_level_over_label_fc
+   ansys.dpf.core.operators.math.accumulate_min_over_label_fc
+   ansys.dpf.core.operators.math.accumulate_over_label_fc
+   ansys.dpf.core.operators.math.accumulation_per_scoping
+   ansys.dpf.core.operators.math.add
+   ansys.dpf.core.operators.math.add_constant
+   ansys.dpf.core.operators.math.add_constant_fc
+   ansys.dpf.core.operators.math.add_fc
+   ansys.dpf.core.operators.math.amplitude
+   ansys.dpf.core.operators.math.amplitude_fc
+   ansys.dpf.core.operators.math.average_over_label_fc
+   ansys.dpf.core.operators.math.centroid
+   ansys.dpf.core.operators.math.centroid_fc
+   ansys.dpf.core.operators.math.component_wise_divide
+   ansys.dpf.core.operators.math.component_wise_divide_fc
+   ansys.dpf.core.operators.math.conjugate
+   ansys.dpf.core.operators.math.correlation
+   ansys.dpf.core.operators.math.cos
+   ansys.dpf.core.operators.math.cos_fc
+   ansys.dpf.core.operators.math.cplx_derive
+   ansys.dpf.core.operators.math.cplx_divide
+   ansys.dpf.core.operators.math.cplx_dot
+   ansys.dpf.core.operators.math.cplx_multiply
+   ansys.dpf.core.operators.math.cross_product
+   ansys.dpf.core.operators.math.cross_product_fc
+   ansys.dpf.core.operators.math.dot
+   ansys.dpf.core.operators.math.dot_tensor
+   ansys.dpf.core.operators.math.entity_extractor
+   ansys.dpf.core.operators.math.exponential
+   ansys.dpf.core.operators.math.exponential_fc
+   ansys.dpf.core.operators.math.fft_approx
+   ansys.dpf.core.operators.math.fft_eval
+   ansys.dpf.core.operators.math.fft_gradient_eval
+   ansys.dpf.core.operators.math.fft_multi_harmonic_minmax
+   ansys.dpf.core.operators.math.generalized_inner_product
+   ansys.dpf.core.operators.math.generalized_inner_product_fc
+   ansys.dpf.core.operators.math.img_part
+   ansys.dpf.core.operators.math.invert
+   ansys.dpf.core.operators.math.invert_fc
+   ansys.dpf.core.operators.math.kronecker_prod
+   ansys.dpf.core.operators.math.linear_combination
+   ansys.dpf.core.operators.math.ln
+   ansys.dpf.core.operators.math.ln_fc
+   ansys.dpf.core.operators.math.make_one_on_comp
+   ansys.dpf.core.operators.math.matrix_inverse
+   ansys.dpf.core.operators.math.min_max_over_time
+   ansys.dpf.core.operators.math.minus
+   ansys.dpf.core.operators.math.minus_fc
+   ansys.dpf.core.operators.math.modal_superposition
+   ansys.dpf.core.operators.math.modulus
+   ansys.dpf.core.operators.math.norm
+   ansys.dpf.core.operators.math.norm_fc
+   ansys.dpf.core.operators.math.outer_product
+   ansys.dpf.core.operators.math.overall_dot
+   ansys.dpf.core.operators.math.phase
+   ansys.dpf.core.operators.math.phase_fc
+   ansys.dpf.core.operators.math.polar_to_cplx
+   ansys.dpf.core.operators.math.pow
+   ansys.dpf.core.operators.math.pow_fc
+   ansys.dpf.core.operators.math.qr_solve
+   ansys.dpf.core.operators.math.real_part
+   ansys.dpf.core.operators.math.scale
+   ansys.dpf.core.operators.math.scale_by_field
+   ansys.dpf.core.operators.math.scale_by_field_fc
+   ansys.dpf.core.operators.math.scale_fc
+   ansys.dpf.core.operators.math.sin
+   ansys.dpf.core.operators.math.sin_fc
+   ansys.dpf.core.operators.math.sqr
+   ansys.dpf.core.operators.math.sqr_fc
+   ansys.dpf.core.operators.math.sqrt
+   ansys.dpf.core.operators.math.sqrt_fc
+   ansys.dpf.core.operators.math.svd
+   ansys.dpf.core.operators.math.sweeping_phase
+   ansys.dpf.core.operators.math.sweeping_phase_fc
+   ansys.dpf.core.operators.math.time_freq_interpolation
+   ansys.dpf.core.operators.math.unit_convert
+   ansys.dpf.core.operators.math.unit_convert_fc
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core.operators.math
+   :inherited-members:

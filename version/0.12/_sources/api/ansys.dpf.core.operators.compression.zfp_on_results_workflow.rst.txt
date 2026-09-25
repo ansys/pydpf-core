@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.compression.zfp_on_results_workflow
+   :inherited-members:

@@ -1,0 +1,238 @@
+
+
+
+
+
+
+:class:`InputsOnReducedCoordinates`
+===================================
+
+
+.. py:class:: ansys.dpf.core.operators.mapping.on_reduced_coordinates.InputsOnReducedCoordinates(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   on_reduced_coordinates operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_reduced_coordinates = dpf.Field()
+   >>> op.inputs.reduced_coordinates.connect(my_reduced_coordinates)
+   >>> my_element_ids = dpf.ScopingsContainer()
+   >>> op.inputs.element_ids.connect(my_element_ids)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_use_quadratic_elements = bool()
+   >>> op.inputs.use_quadratic_elements.connect(my_use_quadratic_elements)
+
+
+
+
+
+
+.. py:currentmodule:: InputsOnReducedCoordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~reduced_coordinates`
+            - Allows to connect reduced_coordinates input to the operator.
+          * - :py:attr:`~element_ids`
+            - Allows to connect element_ids input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~use_quadratic_elements`
+            - Allows to connect use_quadratic_elements input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.on_reduced_coordinates import InputsOnReducedCoordinates
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fields_container input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: reduced_coordinates
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect reduced_coordinates input to the operator.
+
+   coordinates in the reference elements to find (found with the operator "find_reduced_coordinates")
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+   >>> op.inputs.reduced_coordinates.connect(my_reduced_coordinates)
+   >>> # or
+   >>> op.inputs.reduced_coordinates(my_reduced_coordinates)
+
+.. py:property:: element_ids
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect element_ids input to the operator.
+
+   Ids of the elements where each set of reduced coordinates is found (found with the operator "find_reduced_coordinates")
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+   >>> op.inputs.element_ids.connect(my_element_ids)
+   >>> # or
+   >>> op.inputs.element_ids(my_element_ids)
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mesh input to the operator.
+
+   if the first field in input has no mesh in support, then the mesh in this pin is expected (default is false), if a meshes container with several meshes is set, it should be on the same label spaces as the coordinates fields container
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: use_quadratic_elements
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect use_quadratic_elements input to the operator.
+
+   If this pin is set to true, the interpolation is computed on the quadratic element if the element is quadratic (more precise but less performant). Default is false. To use only when results have mid side nodes values.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+   >>> op.inputs.use_quadratic_elements.connect(my_use_quadratic_elements)
+   >>> # or
+   >>> op.inputs.use_quadratic_elements(my_use_quadratic_elements)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

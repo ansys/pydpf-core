@@ -1,0 +1,246 @@
+
+
+
+
+
+
+:class:`InputsMaterialPropertyOfElement`
+========================================
+
+
+.. py:class:: ansys.dpf.core.operators.result.material_property_of_element.InputsMaterialPropertyOfElement(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   material_property_of_element operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.material_property_of_element()
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_property_name = str()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> my_default_value = float()
+   >>> op.inputs.default_value.connect(my_default_value)
+   >>> my_filter_zero_values = bool()
+   >>> op.inputs.filter_zero_values.connect(my_filter_zero_values)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMaterialPropertyOfElement
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~property_name`
+            - Allows to connect property_name input to the operator.
+          * - :py:attr:`~default_value`
+            - Allows to connect default_value input to the operator.
+          * - :py:attr:`~filter_zero_values`
+            - Allows to connect filter_zero_values input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.material_property_of_element import InputsMaterialPropertyOfElement
+
+Property detail
+---------------
+
+.. py:property:: mesh_scoping
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to connect mesh_scoping input to the operator.
+
+   Element scoping that restricts which elements are processed. If not provided, all elements in the result file are used.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.material_property_of_element()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: streams_container
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.streams_container.StreamsContainer]
+
+
+   Allows to connect streams_container input to the operator.
+
+   Streams containing the result file. If provided, data_sources is ignored.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.material_property_of_element()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.data_sources.DataSources]
+
+
+   Allows to connect data_sources input to the operator.
+
+   Data sources used to open the result file when streams_container is not provided.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.material_property_of_element()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: property_name
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect property_name input to the operator.
+
+   Name of the linear scalar material property to extract, for example "EX" for Young's modulus or "DENS" for density.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.material_property_of_element()
+   >>> op.inputs.property_name.connect(my_property_name)
+   >>> # or
+   >>> op.inputs.property_name(my_property_name)
+
+.. py:property:: default_value
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect default_value input to the operator.
+
+   Scalar value assigned to elements whose material does not define the requested property. If not set, those elements are excluded from the output.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.material_property_of_element()
+   >>> op.inputs.default_value.connect(my_default_value)
+   >>> # or
+   >>> op.inputs.default_value(my_default_value)
+
+.. py:property:: filter_zero_values
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect filter_zero_values input to the operator.
+
+   When true and no default_value is set, elements whose property value is exactly zero are excluded from the output. Defaults to false.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.material_property_of_element()
+   >>> op.inputs.filter_zero_values.connect(my_filter_zero_values)
+   >>> # or
+   >>> op.inputs.filter_zero_values(my_filter_zero_values)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

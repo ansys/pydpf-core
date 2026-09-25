@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.mass_flow_rate
+   :inherited-members:

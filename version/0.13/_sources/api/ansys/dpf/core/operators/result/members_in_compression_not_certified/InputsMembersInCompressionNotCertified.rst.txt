@@ -1,0 +1,362 @@
+
+
+
+
+
+
+:class:`InputsMembersInCompressionNotCertified`
+===============================================
+
+.. py:class:: ansys.dpf.core.operators.result.members_in_compression_not_certified.InputsMembersInCompressionNotCertified(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   members_in_compression_not_certified operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_field_yield_strength = dpf.DataSources()
+   >>> op.inputs.field_yield_strength.connect(my_field_yield_strength)
+   >>> my_field_end_condition = dpf.DataSources()
+   >>> op.inputs.field_end_condition.connect(my_field_end_condition)
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_manufacture = bool()
+   >>> op.inputs.manufacture.connect(my_manufacture)
+   >>> my_partial_factor = float()
+   >>> op.inputs.partial_factor.connect(my_partial_factor)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_axial_force = dpf.FieldsContainer()
+   >>> op.inputs.axial_force.connect(my_axial_force)
+   >>> my_fabrication_type = bool()
+   >>> op.inputs.fabrication_type.connect(my_fabrication_type)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMembersInCompressionNotCertified
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~field_yield_strength`
+            - Allows to connect field_yield_strength input to the operator.
+          * - :py:attr:`~field_end_condition`
+            - Allows to connect field_end_condition input to the operator.
+          * - :py:attr:`~streams`
+            - Allows to connect streams input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~manufacture`
+            - Allows to connect manufacture input to the operator.
+          * - :py:attr:`~partial_factor`
+            - Allows to connect partial_factor input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~axial_force`
+            - Allows to connect axial_force input to the operator.
+          * - :py:attr:`~fabrication_type`
+            - Allows to connect fabrication_type input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.members_in_compression_not_certified import InputsMembersInCompressionNotCertified
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect time_scoping input to the operator.
+
+   time/freq set ids (use ints or scoping)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: field_yield_strength
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect field_yield_strength input to the operator.
+
+   This pin contains file csv or field of beam's Yield Strength.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.field_yield_strength.connect(my_field_yield_strength)
+   >>> # or
+   >>> op.inputs.field_yield_strength(my_field_yield_strength)
+
+.. py:property:: field_end_condition
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect field_end_condition input to the operator.
+
+   This pin contains file csv or field of beam's end condition defined by the user. If no input at this pin found, it would take end condition's value of all beams as 1.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.field_end_condition.connect(my_field_end_condition)
+   >>> # or
+   >>> op.inputs.field_end_condition(my_field_end_condition)
+
+.. py:property:: streams
+   :type: ansys.dpf.core.inputs.Input
+
+
+   
+
+
+
+   Allows to connect streams input to the operator.
+
+    result file container allowed to be kept open to cache data.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> # or
+   >>> op.inputs.streams(my_streams)
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect data_sources input to the operator.
+
+   result file path container, used if no streams are set.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: manufacture
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect manufacture input to the operator.
+
+   Manufacturing processus:hot finished if TRUE or cold formed if FALSE. Default value : hot finished.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.manufacture.connect(my_manufacture)
+   >>> # or
+   >>> op.inputs.manufacture(my_manufacture)
+
+.. py:property:: partial_factor
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect partial_factor input to the operator.
+
+   partial safety factor for resistance of members to instability assessed by member checks. Default value: 1.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.partial_factor.connect(my_partial_factor)
+   >>> # or
+   >>> op.inputs.partial_factor(my_partial_factor)
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input
+
+
+   
+
+
+
+   Allows to connect mesh input to the operator.
+
+    Mesh containing beam's properties defined by user
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: axial_force
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect axial_force input to the operator.
+
+   Fields Container of axial force defined by user
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.axial_force.connect(my_axial_force)
+   >>> # or
+   >>> op.inputs.axial_force(my_axial_force)
+
+.. py:property:: fabrication_type
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fabrication_type input to the operator.
+
+   If there is beam I in the structure, please define its fabrication type. True: Rolled section, False: Welded section
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_compression_not_certified()
+   >>> op.inputs.fabrication_type.connect(my_fabrication_type)
+   >>> # or
+   >>> op.inputs.fabrication_type(my_fabrication_type)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

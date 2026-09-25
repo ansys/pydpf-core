@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.contact_gap_distance
+   :inherited-members:

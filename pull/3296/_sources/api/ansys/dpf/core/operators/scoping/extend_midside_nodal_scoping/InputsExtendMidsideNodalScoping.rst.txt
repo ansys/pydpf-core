@@ -1,0 +1,177 @@
+
+
+
+
+
+
+:class:`InputsExtendMidsideNodalScoping`
+========================================
+
+
+.. py:class:: ansys.dpf.core.operators.scoping.extend_midside_nodal_scoping.InputsExtendMidsideNodalScoping(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   extend_midside_nodal_scoping operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.extend_midside_nodal_scoping()
+   >>> my_nodal_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.nodal_mesh_scoping.connect(my_nodal_mesh_scoping)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_add_new_properties_to_mesh = bool()
+   >>> op.inputs.add_new_properties_to_mesh.connect(my_add_new_properties_to_mesh)
+
+
+
+
+
+
+.. py:currentmodule:: InputsExtendMidsideNodalScoping
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~nodal_mesh_scoping`
+            - Allows to connect nodal_mesh_scoping input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~add_new_properties_to_mesh`
+            - Allows to connect add_new_properties_to_mesh input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.extend_midside_nodal_scoping import InputsExtendMidsideNodalScoping
+
+Property detail
+---------------
+
+.. py:property:: nodal_mesh_scoping
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to connect nodal_mesh_scoping input to the operator.
+
+   Nodal mesh scoping. Must have nodal location, otherwise an error is thrown.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.extend_midside_nodal_scoping()
+   >>> op.inputs.nodal_mesh_scoping.connect(my_nodal_mesh_scoping)
+   >>> # or
+   >>> op.inputs.nodal_mesh_scoping(my_nodal_mesh_scoping)
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.meshed_region.MeshedRegion]
+
+
+   Allows to connect mesh input to the operator.
+
+   Mesh region used to determine element connectivity and identify midside nodes.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.extend_midside_nodal_scoping()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: add_new_properties_to_mesh
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect add_new_properties_to_mesh input to the operator.
+
+   If true, the new mesh properties that are computed (like reversed connectivities) are kept in the mesh. Default is false.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.extend_midside_nodal_scoping()
+   >>> op.inputs.add_new_properties_to_mesh.connect(my_add_new_properties_to_mesh)
+   >>> # or
+   >>> op.inputs.add_new_properties_to_mesh(my_add_new_properties_to_mesh)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

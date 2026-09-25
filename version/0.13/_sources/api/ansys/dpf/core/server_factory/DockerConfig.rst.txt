@@ -1,0 +1,197 @@
+
+
+
+
+
+
+:class:`DockerConfig`
+=====================
+
+.. py:class:: ansys.dpf.core.server_factory.DockerConfig(use_docker: bool = False, docker_name: str = '', mounted_volumes: dict = None, extra_args: str = '')
+
+   Manage DPF Docker configuration and communication.
+
+   Intermediate class encapsulating all the configuration options needed to run a docker
+   image of DPF and holding tools to communicate with Docker.
+
+   :param use_docker: Whether the DPF server should be started in a Docker Container by default.
+   :type use_docker: bool, optional
+   :param docker_name: Name of Docker Image to run.
+   :type docker_name: str, optional
+   :param mounted_volumes: Dictionary of key = local path and value = path of mounted volumes in the Docker Image.
+                           To prevent from uploading result files on the Docker Image
+                           :func:`ansys.dpc.core.server_factory.RunningDockerConfig.replace_with_mounted_volumes`
+                           iterates through this dictionary to replace local path instances by their mapped value.
+   :type mounted_volumes: dict, optional
+   :param extra_args: Extra arguments to add to the docker run command.
+   :type extra_args: str, optional
+
+
+
+
+
+.. py:currentmodule:: DockerConfig
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~docker_run_cmd_command`
+            - Build the Docker run command using DockerConfig attributes and specified ports.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~use_docker`
+            - Whether the DPF server should be started in a Docker Container by default.
+          * - :py:attr:`~docker_name`
+            - Name of Docker Image to run.
+          * - :py:attr:`~mounted_volumes`
+            - Dictionary of key = local path and value = path of mounted volumes in the Docker Image.
+          * - :py:attr:`~licensing_args`
+            - Generate licensing-related environment variables for the Docker container.
+          * - :py:attr:`~extra_args`
+            - Extra arguments to add to the docker run command.
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~find_port_available_for_docker_bind`
+            - Check available internal docker_server_port from the stdout of running Docker containers.
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Return a string representation of the DockerConfig object.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.server_factory import DockerConfig
+
+Property detail
+---------------
+
+.. py:property:: use_docker
+   :type: bool
+
+
+   Whether the DPF server should be started in a Docker Container by default.
+
+   :rtype: bool
+
+.. py:property:: docker_name
+   :type: str
+
+
+   Name of Docker Image to run.
+
+   :rtype: str
+
+.. py:property:: mounted_volumes
+   :type: dict
+
+
+   Dictionary of key = local path and value = path of mounted volumes in the Docker Image.
+
+   To prevent from uploading result files on the Docker Image
+   :func:`ansys.dpc.core.server_factory.RunningDockerConfig.replace_with_mounted_volumes`
+   iterates through this dictionary to replace local path instances by their mapped value.
+
+   :rtype: dict
+
+.. py:property:: licensing_args
+   :type: str
+
+
+   Generate licensing-related environment variables for the Docker container.
+
+   :returns: String containing Docker environment variable settings for licensing,
+             including acceptance of license agreements and licensing file path.
+   :rtype: str
+
+.. py:property:: extra_args
+   :type: str
+
+
+   Extra arguments to add to the docker run command.
+
+   :rtype: str
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: docker_run_cmd_command(docker_server_port: int, local_port: int) -> str
+
+   Build the Docker run command using DockerConfig attributes and specified ports.
+
+   Creates the docker run command with the ``DockerConfig`` attributes as well
+   as the ``docker_server_port`` and ``local_port`` passed in as parameters.
+
+   :param docker_server_port: Port used inside the Docker Container to run the gRPC server.
+   :type docker_server_port: int
+   :param local_port: Port exposed outside the Docker container bounded to the internal
+                      ``docker_server_port``.
+   :type local_port: int
+
+   :rtype: str
+
+
+.. py:method:: __str__()
+
+   Return a string representation of the DockerConfig object.
+
+   Includes information about whether Docker is used, the Docker image name,
+   mounted volumes, and any extra arguments.
+
+   :returns: Formatted string representation of the DockerConfig instance.
+   :rtype: str
+
+
+.. py:method:: find_port_available_for_docker_bind(port: int) -> int
+   :staticmethod:
+
+
+   Check available internal docker_server_port from the stdout of running Docker containers.
+
+   :param port:
+   :type port: int
+
+   :returns: **port**
+   :rtype: int
+
+
+
+
+
