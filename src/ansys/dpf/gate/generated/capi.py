@@ -1651,6 +1651,10 @@ def _load_api(path):
 		dll.ExternalOperator_getInCustomTypeFieldsContainer.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_getInCustomTypeFieldsContainer.restype = ctypes.c_void_p
 
+	if hasattr(dll, "ExternalOperator_getInPropertyFieldsContainer"):
+		dll.ExternalOperator_getInPropertyFieldsContainer.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_getInPropertyFieldsContainer.restype = ctypes.c_void_p
+
 	if hasattr(dll, "ExternalOperator_getInStreams"):
 		dll.ExternalOperator_getInStreams.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_getInStreams.restype = ctypes.c_void_p
