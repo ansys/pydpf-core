@@ -20,9 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import platform
-import sys
-
 import numpy as np
 import pytest
 
@@ -306,14 +303,12 @@ def test_named_selection_scoping(model_with_ns):
     assert len(scop.ids) != 0
 
 
-@pytest.mark.skipif(
-    sys.version_info >= (3, 13) and platform.system() == "Linux",
-    reason="Currently fails for Python 3.13 on Ubuntu.",
-)
 def test_named_selection_scoping_with_deepcopy(model_with_ns):
     model = Model(model_with_ns)
+    expected_scop = mesh_scoping_factory.named_selection_scoping("SELECTION", model)
     server_2 = server.start_local_server(config=server_factory.AvailableServerConfigs.GrpcServer)
     scop = mesh_scoping_factory.named_selection_scoping("SELECTION", model, server_2)
     assert scop is not None
     assert len(scop.ids) != 0
+    assert scop.get_ids(np_array=False) == expected_scop.get_ids(np_array=False)
     assert scop._server == server_2
