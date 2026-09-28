@@ -20,18 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-
-import pytest
-
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
 
 
-@pytest.mark.skipif(
-    os.name == "posix",
-    reason="Failure under investigation on Ubuntu (Issue #2424)",
-)
 def test_operator_change_shell_layers_connect_enum(server_type):
     model = dpf.Model(
         examples.download_all_kinds_of_complexity_modal(server=server_type), server=server_type
