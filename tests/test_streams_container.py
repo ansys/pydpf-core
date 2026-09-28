@@ -20,10 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import gc
 from pathlib import Path
 import shutil
+import tempfile
+
+import pytest
 
 from ansys import dpf
+from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
+from ansys.dpf.core.server_types import RUNNING_DOCKER
 
 
 def test_create_streams_container(server_in_process, simple_bar):
@@ -60,6 +66,41 @@ def test_release_streams_model(server_in_process, simple_bar):
 def test_release_streams_model_empty(server_in_process):
     model = dpf.core.Model(server=server_in_process)
     model.metadata.release_streams()
+
+
+@pytest.mark.parametrize(
+    "server_config",
+    [
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+        ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
+    ],
+    ids=["ansys-grpc-dpf", "gRPC CLayer", "in Process CLayer"],
+)
+def test_server_shutdown_releases_model_streams(server_config):
+    if server_config.protocol == CommunicationProtocols.InProcess and RUNNING_DOCKER.use_docker:
+        pytest.skip("InProcess unavailable for Docker")
+
+    server = dpf.core.start_local_server(config=server_config, as_global=False)
+    try:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            file_path = Path(tmp_dir) / "file.rst"
+            shutil.copyfile(dpf.core.examples.find_simple_bar(return_local_path=True), file_path)
+            model = dpf.core.Model(file_path, server=server)
+            results = model.results
+
+            if server_config.protocol == CommunicationProtocols.InProcess:
+                server.shutdown()
+                assert model.results is results
+            else:
+                del results
+                del model
+                gc.collect()
+                server.shutdown()
+    finally:
+        server.shutdown()
+
+    assert not file_path.exists()
 
 
 def test_create_from_streams_container(server_in_process, simple_bar):
