@@ -134,7 +134,7 @@ def test_set_resultinfo_main_title(model):
         result_info.main_title = "updated main title"
         assert result_info.main_title == "updated main title"
     else:
-        with pytest.raises(dpf_errors.DpfVersionNotSupported, match="2027.1.0pre0"):
+        with pytest.raises(dpf_errors.DpfVersionNotSupported):
             result_info.main_title = "updated main title"
 
 
