@@ -780,9 +780,13 @@ class CServer(BaseServer, ABC):
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        if sys is None or sys.is_finalizing():
-            return
         try:
+            if sys is None or sys.is_finalizing():
+                if getattr(self, "_shutdown_on_exit", False) and self._own_process:
+                    self.shutdown()
+                    if self._process is not None:
+                        self._process.wait(timeout=5.0)
+                return
             self._del_session()
             if self._own_process:
                 self.shutdown()
@@ -900,6 +904,7 @@ class GrpcServer(CServer):
 
         self._client = GrpcClient()
         self._own_process = launch_server
+        self._process = None
         self._local_server = False
         self._os = None
         self._version = None
@@ -930,7 +935,7 @@ class GrpcServer(CServer):
                     timeout=timeout,
                 )
             else:
-                launch_dpf(
+                self._process = launch_dpf(
                     ansys_path,
                     ip,
                     port,
