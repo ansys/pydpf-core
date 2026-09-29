@@ -23,6 +23,9 @@ The goals of this section are to:
 .. include::
    concepts/index.rst
 
+.. include::
+   main_entities.rst
+
 Troubleshooting
 ---------------
 
@@ -66,3 +69,12 @@ Troubleshooting
     :caption: Troubleshooting
 
     troubleshooting
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Entities
+
+   model.rst
+   fields_container.rst
+   operators.rst
