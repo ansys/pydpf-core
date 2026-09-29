@@ -215,6 +215,28 @@ def test_count_field(server_type):
     assert field.size == 20
 
 
+def test_len_field_counts_values_and_data_rows(server_type):
+    field = dpf.core.Field(
+        nentities=4,
+        nature=dpf.core.natures.symmatrix,
+        location=dpf.core.locations.nodal,
+        server=server_type,
+    )
+    field.scoping.ids = range(1, 5)
+    field.data = np.arange(4 * 6, dtype=float)
+
+    assert field.data.shape == (4, 6)
+    assert len(field) == 24
+    assert len(field.data) == 4
+
+    field.shell_layers = shell_layers.topbottommid
+    field.data = np.arange(4 * 3 * 6, dtype=float)
+
+    assert field.data.shape == (12, 6)
+    assert len(field) == 72
+    assert len(field.data) == 12
+
+
 def test_resize_field(server_type):
     field = dpf.core.Field(nentities=1, nature=dpf.core.natures.scalar, server=server_type)
     scoping = dpf.core.Scoping(server=server_type)
