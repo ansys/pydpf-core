@@ -32,7 +32,7 @@ from ansys.dpf.core import misc
 import ansys.dpf.core.operators as op
 from ansys.dpf.core.workflow_topology import WorkflowTopology
 import conftest
-from conftest import running_docker
+from conftest import get_server_address, running_docker
 
 if misc.module_exists("graphviz"):
     HAS_GRAPHVIZ = True
@@ -857,7 +857,6 @@ def test_create_on_other_server2_workflow(local_server):
     platform.system() == "Linux" and platform.python_version().startswith("3.8"),
     reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu",
 )
-@pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_create_on_other_server_with_ip_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
@@ -866,7 +865,8 @@ def test_create_on_other_server_with_ip_workflow(local_server):
     workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
-    new_workflow = workflow.create_on_other_server(ip=local_server.ip, port=local_server.port)
+    ip, port = get_server_address(local_server).split(":")
+    new_workflow = workflow.create_on_other_server(ip=ip, port=port)
     assert new_workflow.input_names == ["data_sources"]
     assert new_workflow.output_names == ["max", "min"]
 
@@ -876,7 +876,6 @@ def test_create_on_other_server_with_ip_workflow(local_server):
     platform.system() == "Linux" and platform.python_version().startswith("3.8"),
     reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu",
 )
-@pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_create_on_other_server_with_address_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
@@ -885,15 +884,12 @@ def test_create_on_other_server_with_address_workflow(local_server):
     workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
-    new_workflow = workflow.create_on_other_server(
-        address=local_server.ip + ":" + str(local_server.port)
-    )
+    new_workflow = workflow.create_on_other_server(address=get_server_address(local_server))
     assert new_workflow.input_names == ["data_sources"]
     assert new_workflow.output_names == ["max", "min"]
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_create_on_other_server_with_address2_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
@@ -902,7 +898,7 @@ def test_create_on_other_server_with_address2_workflow(local_server):
     workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
-    new_workflow = workflow.create_on_other_server(local_server.ip + ":" + str(local_server.port))
+    new_workflow = workflow.create_on_other_server(get_server_address(local_server))
     assert new_workflow.input_names == ["data_sources"]
     assert new_workflow.output_names == ["max", "min"]
 
