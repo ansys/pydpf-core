@@ -119,16 +119,19 @@ These 2 parts will run asynchronously on 2 threads.
             map_output_pin_spec={
                 0: PinSpecification(
                     name="empty",
+                    type_names=["any"],
                     optional=False,
                     document=r"""""",
                 ),
                 3: PinSpecification(
                     name="output1",
+                    type_names=["any"],
                     optional=False,
                     document=r"""""",
                 ),
                 4: PinSpecification(
                     name="output2",
+                    type_names=["any"],
                     optional=False,
                     document=r"""""",
                 ),
