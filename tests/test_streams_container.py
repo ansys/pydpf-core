@@ -77,16 +77,21 @@ def test_release_streams_model_empty(server_in_process):
     ],
     ids=["ansys-grpc-dpf", "gRPC CLayer", "in Process CLayer"],
 )
-def test_server_shutdown_releases_model_streams(server_config):
+def test_server_shutdown_releases_model_streams(server_config, testfiles_dir):
     if server_config.protocol == CommunicationProtocols.InProcess and RUNNING_DOCKER.use_docker:
         pytest.skip("InProcess unavailable for Docker")
 
     server = dpf.core.start_local_server(config=server_config, as_global=False)
     try:
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            file_path = Path(tmp_dir) / "file.rst"
-            shutil.copyfile(dpf.core.examples.find_simple_bar(return_local_path=True), file_path)
-            model = dpf.core.Model(file_path, server=server)
+        with tempfile.TemporaryDirectory(dir=testfiles_dir) as tmp_dir:
+            local_file_path = Path(tmp_dir) / "file.rst"
+            server_file_path = server.docker_config.replace_with_mounted_volumes(
+                str(local_file_path)
+            )
+            shutil.copyfile(
+                dpf.core.examples.find_simple_bar(return_local_path=True), local_file_path
+            )
+            model = dpf.core.Model(server_file_path, server=server)
             results = model.results
 
             if server_config.protocol == CommunicationProtocols.InProcess:
@@ -100,7 +105,7 @@ def test_server_shutdown_releases_model_streams(server_config):
     finally:
         server.shutdown()
 
-    assert not file_path.exists()
+    assert not local_file_path.exists()
 
 
 def test_create_from_streams_container(server_in_process, simple_bar):
