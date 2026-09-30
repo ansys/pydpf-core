@@ -23,6 +23,7 @@
 import pytest
 
 from ansys.dpf import core as dpf
+from ansys.dpf.core import examples
 import conftest
 
 
@@ -33,6 +34,20 @@ def test_cff_model(server_type, fluent_multi_species):
     assert model is not None
     mesh = model.metadata.meshed_region
     assert "faces" in str(mesh)
+
+
+@pytest.mark.parametrize("key", ["", "dat"], ids=["automatic-key", "explicit-key"])
+def test_fluent_model_with_compound_data_file_key(server_in_process, key):
+    files = examples.download_fluent_mixing_elbow_steady_state(
+        should_upload=False, return_local_path=True
+    )
+    ds = dpf.DataSources(files["cas"][0], server=server_in_process)
+    ds.add_file_path(files["dat"][0], key)
+
+    model = dpf.Model(ds, server=server_in_process)
+
+    assert model.metadata.meshed_region.nodes.n_nodes == 9203
+    assert model.metadata.result_info.n_results == 25
 
 
 @pytest.mark.skipif(
