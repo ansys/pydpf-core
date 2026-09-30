@@ -160,3 +160,11 @@ fc_single_process = ops.averaging.to_nodal_fc(stress).eval()
 fc_single_process[0].plot()
 print(fc_single_process[0].min().data)
 print(fc_single_process[0].max().data)
+
+###############################################################################
+# Release native workflow resources before interpreter teardown.
+
+import gc
+
+del fc_single_process, fc, model, stress, average, extend_to_mid_nodes, merge, config, ds
+gc.collect()
