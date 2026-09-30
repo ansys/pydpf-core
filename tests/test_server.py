@@ -81,10 +81,10 @@ def test_server_destructor_when_sys_is_cleared(monkeypatch, server_type):
 
 def test_in_process_server_shutdown_releases_metadata_streams():
     server_object = object.__new__(server_types.InProcessServer)
-    server_types.BaseServer.__init__(server_object)
+    server_object._session_instance = None
     server_object._own_process = False
     metadata = Mock()
-    server_object._register_metadata(metadata)
+    server_object._metadata_instances = [metadata]
 
     server_object.shutdown()
 
