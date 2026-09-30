@@ -54,6 +54,7 @@ HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
 def test_operator_destructor_during_api_loading(monkeypatch):
     calls = []
     operator = object.__new__(dpf_operator.Operator)
+    operator._internal_obj = object()
 
     def local_capi_deleter(value):
         calls.append(value)
@@ -78,6 +79,7 @@ def test_operator_destructor_during_api_loading(monkeypatch):
 def test_release_dpf_object_calls_grpc_deleter_during_api_loading(monkeypatch):
     calls = []
     operator = object.__new__(dpf_operator.Operator)
+    operator._internal_obj = object()
     operator._deleter_func = (lambda value: calls.append(value), lambda value: "grpc-token")
     capi._deferred_cleanup.clear()
     monkeypatch.setattr(capi, "_api_loading", True)
