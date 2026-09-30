@@ -31,7 +31,7 @@ Look for available operators and their descriptions with the `DPF Operators Sear
 
 
 For Ansys 2023 R2 and later, the DPF Server licensing logic for operators in DPF depends on the active
-`server context <https://dpf.docs.pyansys.com/version/stable/api/ansys.dpf.core.server_context.html#ansys.dpf.core.server_context.ServerContext>`_.
+:class:`server context <ansys.dpf.core.server_context.ServerContext>`.
 
 The available contexts are **Premium** and **Entry**.
 Licensed operators are marked as such in the documentation using the ``license`` property.
