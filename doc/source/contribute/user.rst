@@ -177,6 +177,26 @@ Verify the installation by checking the version of the library:
 
        >>> PyDPF-Core version is {{ PYDPF_CORE_VERSION }}
 
+Alternative: using uv
+~~~~~~~~~~~~~~~~~~~~~~
+
+`uv`_ is a fast Python package and project manager that PyDPF-Core also supports as an
+alternative to the virtual environment and ``pip`` workflow described above. If you have
+`uv`_ installed, you can create the virtual environment and install PyDPF-Core in a single
+step by running:
+
+.. code-block:: bash
+
+    uv sync
+
+This creates a ``.venv`` virtual environment (if one does not already exist) and installs
+PyDPF-Core using the pinned dependencies from ``uv.lock``. You can then run any command
+inside that environment without activating it first, by prefixing it with ``uv run``:
+
+.. code-block:: bash
+
+    uv run python -c "from ansys.dpf.core import __version__; print(__version__)"
+
 .. _start-a-discussion:
 
 Start a discussion
