@@ -15,8 +15,6 @@ import subprocess
 import sys
 from typing import Any
 
-from hatchling.builders.hooks.plugin.interface import BuildHookInterface
-
 _ANY = "any"
 
 _PLATFORM_TAGS = {
@@ -51,30 +49,35 @@ def _detect_default_platform() -> str:
     return "manylinux_2_17"
 
 
-class DPFWheelBuildHook(BuildHookInterface):
-    """Include only the gatebin binaries matching the requested target platform."""
+try:  # Hatchling is only needed when this module is loaded as a custom build hook.
+    from hatchling.builders.hooks.plugin.interface import BuildHookInterface
+except ImportError:
+    pass
+else:
+    class DPFWheelBuildHook(BuildHookInterface):
+        """Include only the gatebin binaries matching the requested target platform."""
 
-    PLUGIN_NAME = "custom"
+        PLUGIN_NAME = "custom"
 
-    def initialize(self, version: str, build_data: dict[str, Any]) -> None:
-        requested = os.environ.get("ANSYS_DPF_WHEEL_PLATFORM") or _detect_default_platform()
-        if requested not in _PLATFORM_TAGS:
-            raise ValueError(
-                f"Unsupported ANSYS_DPF_WHEEL_PLATFORM={requested!r}. "
-                f"Supported values are: {sorted(_PLATFORM_TAGS)}"
-            )
+        def initialize(self, version: str, build_data: dict[str, Any]) -> None:
+            requested = os.environ.get("ANSYS_DPF_WHEEL_PLATFORM") or _detect_default_platform()
+            if requested not in _PLATFORM_TAGS:
+                raise ValueError(
+                    f"Unsupported ANSYS_DPF_WHEEL_PLATFORM={requested!r}. "
+                    f"Supported values are: {sorted(_PLATFORM_TAGS)}"
+                )
 
-        if requested == _ANY:
-            # Pure wheel, no platform-specific binaries: the defaults (pure_python=True) already
-            # produce the "py3-none-any" tag.
-            return
+            if requested == _ANY:
+                # Pure wheel, no platform-specific binaries: the defaults (pure_python=True) already
+                # produce the "py3-none-any" tag.
+                return
 
-        build_data["pure_python"] = False
-        build_data["tag"] = f"py3-none-{_PLATFORM_TAGS[requested]}"
+            build_data["pure_python"] = False
+            build_data["tag"] = f"py3-none-{_PLATFORM_TAGS[requested]}"
 
-        for binary_name in _GATEBIN_BINARIES[requested]:
-            source = f"{_GATEBIN_DIR}/{binary_name}"
-            build_data["force_include"][source] = f"ansys/dpf/gatebin/{binary_name}"
+            for binary_name in _GATEBIN_BINARIES[requested]:
+                source = f"{_GATEBIN_DIR}/{binary_name}"
+                build_data["force_include"][source] = f"ansys/dpf/gatebin/{binary_name}"
 
 
 def main() -> None:
