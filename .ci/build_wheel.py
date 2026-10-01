@@ -54,6 +54,7 @@ try:  # Hatchling is only needed when this module is loaded as a custom build ho
 except ImportError:
     pass
 else:
+
     class DPFWheelBuildHook(BuildHookInterface):
         """Include only the gatebin binaries matching the requested target platform."""
 
