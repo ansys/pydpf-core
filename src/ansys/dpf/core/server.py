@@ -328,6 +328,10 @@ def start_local_server(  # noqa: PLR0912, PLR0913, PLR0915, C901
             "or attempt to use a different port"
         )
 
+    if isinstance(server, dpf.core.server_types.GrpcServer):
+        # trick to cache metadata, for future shutdown.
+        _ = server.info
+        server._shutdown_on_exit = True
     dpf.core._server_instances.append(weakref.ref(server))
     return server
 
