@@ -168,14 +168,8 @@ class DataSources:
         if key == "" and extension == ".res":
             key = "cas"
             self.add_file_path(filepath, key="dat")
-        # Handle no key given and no file extension
-        if key == "" and extension == "":
-            key = self.guess_result_key(str(filepath))
-        # Look for another extension for .h5 and .cff files
-        if key == "" and extension in [".h5", ".cff"]:
-            key = self.guess_second_key(str(filepath))
-        if key == "" and extension == ".h5":
-            key = "h5dpf"
+        if key == "":
+            key = self._guess_key(str(filepath))
         if key == "":
             self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
         else:
@@ -265,6 +259,20 @@ class DataSources:
             new_key = new_split[0].strip(".")
         return new_key
 
+    @staticmethod
+    def _guess_key(filepath: Union[str, os.PathLike]) -> str:
+        """Guess the key associated with a data source file path."""
+        extension = Path(filepath).suffix
+        if extension == "":
+            return DataSources.guess_result_key(filepath)
+        if extension in [".h5", ".cff"]:
+            key = DataSources.guess_second_key(filepath)
+            if key:
+                return key
+        if extension == ".h5":
+            return "h5dpf"
+        return ""
+
     def set_domain_result_file_path(
         self, path: Union[str, os.PathLike], domain_id: int, key: str = None
     ) -> None:
@@ -281,6 +289,7 @@ class DataSources:
             Domain ID for the distributed files.
         key:
             Key to associate to the file.
+            If omitted, the key is inferred from the file path when possible.
 
         Examples
         --------
@@ -296,6 +305,8 @@ class DataSources:
 
         """
         path = PurePosixPath(path) if self._server.os == "posix" else PureWindowsPath(path)
+        if not key:
+            key = self._guess_key(str(path))
         if key:
             self._api.data_sources_set_domain_result_file_path_with_key_utf8(
                 self, str(path), key, domain_id
@@ -352,27 +363,21 @@ class DataSources:
         if not filepath.parent.name:
             # append local path
             filepath = Path.cwd() / filepath.name
+        if not key:
+            key = self._guess_key(str(filepath))
         if is_domain:
-            if key == "":
+            if not key:
                 raise NotImplementedError("A key must be given when using is_domain=True.")
-            else:
-                self._api.data_sources_add_domain_file_path_with_key_utf8(
-                    self, str(filepath), key, domain_id
-                )
+            self._api.data_sources_add_domain_file_path_with_key_utf8(
+                self, str(filepath), key, domain_id
+            )
         elif key == "":
-            if filepath.suffix in [".h5", ".cff"]:
-                key = self.guess_second_key(str(filepath))
-            if key == "" and filepath.suffix == ".h5":
-                key = "h5dpf"
-            if key == "":
-                self._api.data_sources_add_file_path_utf8(self, str(filepath))
-            else:
-                self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
+            self._api.data_sources_add_file_path_utf8(self, str(filepath))
         else:
             self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
 
     def add_domain_file_path(
-        self, filepath: Union[str, os.PathLike], key: str, domain_id: int
+        self, filepath: Union[str, os.PathLike], key: str = "", domain_id: int = 0
     ) -> None:
         """Add an accessory file path to the data sources in the given domain.
 
@@ -386,6 +391,7 @@ class DataSources:
         key:
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator.
+            If omitted, the key is inferred from the file path when possible.
         domain_id:
             Domain ID for the distributed files.
 
@@ -410,6 +416,10 @@ class DataSources:
         if not filepath.parent.name:
             # append local path
             filepath = Path.cwd() / filepath.name
+        if not key:
+            key = self._guess_key(str(filepath))
+        if not key:
+            raise NotImplementedError("A key must be given when using add_domain_file_path().")
         self._api.data_sources_add_domain_file_path_with_key_utf8(
             self, str(filepath), key, domain_id
         )
@@ -445,6 +455,8 @@ class DataSources:
         if not filepath.parent.name:
             # append local path
             filepath = Path.cwd() / filepath.name
+        if not key:
+            key = self._guess_key(str(filepath))
 
         self._api.data_sources_add_file_path_for_specified_result_utf8(
             self, str(filepath), key, result_key

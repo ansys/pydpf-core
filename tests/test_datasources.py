@@ -31,6 +31,16 @@ import conftest
 skip_always = pytest.mark.skipif(True, reason="Investigate why this is failing")
 
 
+def _get_path_key(data_sources, index, server):
+    op = dpf.core.operators.utility.ds_get_attribute(
+        data_sources=data_sources,
+        property_name="path_key_by_index",
+        property_index=index,
+        server=server,
+    )
+    return op.eval()
+
+
 def test_create_data_sources(server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     assert data_sources._internal_obj
@@ -111,16 +121,34 @@ def test_auto_key_data_sources_h5dpf(server_type):
     assert data_sources.result_key == "h5dpf"
 
 
+def test_set_domain_resultpath_data_sources_h5dpf(server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_domain_result_file_path("test.h5", 0)
+    assert _get_path_key(data_sources, 0, server_type) == "h5dpf"
+
+
 def test_add_file_path_data_sources_h5dpf(server_type):
     data_sources = dpf.core.DataSources(result_path="test.rst", server=server_type)
     data_sources.add_file_path("additional.h5")
-    op = dpf.core.operators.utility.ds_get_attribute(
-        data_sources=data_sources,
-        property_name="path_key_by_index",
-        property_index=1,
-        server=server_type,
-    )
-    assert op.eval() == "h5dpf"
+    assert _get_path_key(data_sources, 1, server_type) == "h5dpf"
+
+
+def test_add_domain_file_path_data_sources_h5dpf(server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.add_domain_file_path("additional.h5", domain_id=0)
+    assert _get_path_key(data_sources, 0, server_type) == "h5dpf"
+
+
+def test_add_file_path_for_specified_result_data_sources_h5dpf(server_type):
+    data_sources = dpf.core.DataSources(result_path="test.rst", server=server_type)
+    data_sources.add_file_path_for_specified_result("additional.h5")
+    assert _get_path_key(data_sources, 1, server_type) == "h5dpf"
+
+
+def test_add_file_path_domain_data_sources_h5dpf(server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.add_file_path("additional.h5", is_domain=True, domain_id=0)
+    assert _get_path_key(data_sources, 0, server_type) == "h5dpf"
 
 
 def test_set_resultpath_data_sources_cfx_res(server_type):
