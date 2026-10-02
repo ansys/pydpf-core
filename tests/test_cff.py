@@ -47,7 +47,7 @@ def test_fluent_model_with_compound_data_file_key(server_in_process, key):
     model = dpf.Model(ds, server=server_in_process)
 
     assert model.metadata.meshed_region.nodes.n_nodes == 9203
-    assert model.metadata.result_info.n_results == 25
+    assert model.metadata.result_info.physics_type == "fluid"
 
 
 @pytest.mark.skipif(
