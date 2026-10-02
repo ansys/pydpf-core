@@ -1,0 +1,94 @@
+
+
+
+
+
+
+:class:`OutputsExtractTimeFreq`
+===============================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.extract_time_freq.OutputsExtractTimeFreq(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   extract_time_freq operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_time_freq()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field = op.outputs.field()
+
+
+
+
+
+.. py:currentmodule:: OutputsExtractTimeFreq
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field_as_field`
+            - 
+          * - :py:attr:`~field_as_fields_container`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.extract_time_freq import OutputsExtractTimeFreq
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: field_as_field
+
+.. py:attribute:: field_as_fields_container
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

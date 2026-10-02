@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.for_each
+   :inherited-members:

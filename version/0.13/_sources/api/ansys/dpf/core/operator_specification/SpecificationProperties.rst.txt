@@ -1,0 +1,127 @@
+
+
+
+
+
+
+:class:`SpecificationProperties`
+================================
+
+.. py:class:: ansys.dpf.core.operator_specification.SpecificationProperties(user_name: Union[str, None] = None, category: Union[str, None] = None, scripting_name: Union[str, None] = None, exposure: Exposures = Exposures.public, plugin: Union[str, None] = None, license: str = None, spec=None, **kwargs)
+
+   Properties of an Operator.
+
+   :param user_name: Readable lower case name of the Operator. example: "custom operator".
+   :type user_name: str
+   :param category: Choose from Categories options. Arrange the different Operators in the documentation
+                    and in the code generation.
+   :type category: str, Categories
+   :param scripting_name: Snake case name of the Operator. example: "custom_operator".
+   :type scripting_name: str
+   :param exposure: Public by default, a hidden or private Operator doesn't appear in the documentation.
+   :type exposure: Exposures
+   :param plugin: Snake case name of the plugin it belongs to.
+   :type plugin: str
+   :param license: Optional license name to check out that is used to run the operator.
+                   The value "any_dpf_supported_increments" tells DPF than any DPF-accepted license
+                   is accepted by this operator (see `here
+                   <https://dpf.docs.pyansys.com/version/stable/getting_started/licensing.html#license-checks-and-usage>`_).  # noqa
+   :type license: str
+
+
+
+
+
+
+
+.. py:currentmodule:: SpecificationProperties
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__repr__`
+            - Return a string representation of the SpecificationProperties instance.
+          * - :py:attr:`~__setitem__`
+            - Set the value of a specified attribute.
+          * - :py:attr:`~__getitem__`
+            - Get the value of a specified attribute.
+          * - :py:attr:`~__eq__`
+            - Check if two SpecificationProperties instances are equal.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operator_specification import SpecificationProperties
+
+
+
+Method detail
+-------------
+
+.. py:method:: __repr__()
+
+   Return a string representation of the SpecificationProperties instance.
+
+   :returns: A string representation of the instance, including all attributes
+             and their values.
+   :rtype: str
+
+
+.. py:method:: __setitem__(key, value)
+
+   Set the value of a specified attribute.
+
+   If a specification is defined, the value is also updated in the
+   operator specification.
+
+   :param key: The name of the attribute to set.
+   :type key: str
+   :param value: The value to assign to the attribute.
+   :type value: any
+
+
+.. py:method:: __getitem__(item: str)
+
+   Get the value of a specified attribute.
+
+   :param item: The name of the attribute to retrieve.
+   :type item: str
+
+   :returns: The value of the specified attribute.
+   :rtype: any
+
+
+.. py:method:: __eq__(other)
+
+   Check if two SpecificationProperties instances are equal.
+
+   :param other: The other instance to compare against.
+   :type other: SpecificationProperties
+
+   :returns: True if the two instances have the same attributes and values,
+             False otherwise.
+   :rtype: bool
+
+
+
+
+

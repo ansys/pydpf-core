@@ -1,0 +1,193 @@
+
+
+
+
+
+
+:class:`InputsAbcWeightings`
+============================
+
+.. py:class:: ansys.dpf.core.operators.filter.abc_weightings.InputsAbcWeightings(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   abc_weightings operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.abc_weightings()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_weighting_type = int()
+   >>> op.inputs.weighting_type.connect(my_weighting_type)
+   >>> my_shape_by_tf_scoping = bool()
+   >>> op.inputs.shape_by_tf_scoping.connect(my_shape_by_tf_scoping)
+
+
+
+
+
+
+.. py:currentmodule:: InputsAbcWeightings
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~weighting_type`
+            - Allows to connect weighting_type input to the operator.
+          * - :py:attr:`~shape_by_tf_scoping`
+            - Allows to connect shape_by_tf_scoping input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.filter.abc_weightings import InputsAbcWeightings
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fields_container input to the operator.
+
+   data to be weighted in dB units.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.abc_weightings()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: weighting_type
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect weighting_type input to the operator.
+
+   if this pin is set to 0, the A-weighting is computed, 1 the B-weigting is computed and 2 the C-weightings is computed.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.abc_weightings()
+   >>> op.inputs.weighting_type.connect(my_weighting_type)
+   >>> # or
+   >>> op.inputs.weighting_type(my_weighting_type)
+
+.. py:property:: shape_by_tf_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect shape_by_tf_scoping input to the operator.
+
+   if this pin is set to true, each field of the input fields container is defined by time freq scoping and not by ids. Default is false
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.filter.abc_weightings()
+   >>> op.inputs.shape_by_tf_scoping.connect(my_shape_by_tf_scoping)
+   >>> # or
+   >>> op.inputs.shape_by_tf_scoping(my_shape_by_tf_scoping)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

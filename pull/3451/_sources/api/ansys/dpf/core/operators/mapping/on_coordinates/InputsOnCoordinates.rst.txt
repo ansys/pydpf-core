@@ -1,0 +1,301 @@
+
+
+
+
+
+
+:class:`InputsOnCoordinates`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.mapping.on_coordinates.InputsOnCoordinates(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   on_coordinates operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_coordinates = dpf.Field()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> my_create_support = bool()
+   >>> op.inputs.create_support.connect(my_create_support)
+   >>> my_mapping_on_scoping = bool()
+   >>> op.inputs.mapping_on_scoping.connect(my_mapping_on_scoping)
+   >>> my_tolerance = float()
+   >>> op.inputs.tolerance.connect(my_tolerance)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_use_quadratic_elements = bool()
+   >>> op.inputs.use_quadratic_elements.connect(my_use_quadratic_elements)
+
+
+
+
+
+
+.. py:currentmodule:: InputsOnCoordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~coordinates`
+            - Allows to connect coordinates input to the operator.
+          * - :py:attr:`~create_support`
+            - Allows to connect create_support input to the operator.
+          * - :py:attr:`~mapping_on_scoping`
+            - Allows to connect mapping_on_scoping input to the operator.
+          * - :py:attr:`~tolerance`
+            - Allows to connect tolerance input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~use_quadratic_elements`
+            - Allows to connect use_quadratic_elements input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.on_coordinates import InputsOnCoordinates
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect fields_container input to the operator.
+
+   Fields container with field values to interpolate. Fields can have nodal or elemental location.
+
+   **Nodal fields**: Field values defined at mesh nodes. Interpolation uses shape functions with nodal values.
+   **Elemental fields**: Field values defined at element centers. Interpolation evaluates shape functions at query coordinates using element-averaged data.
+
+   The fields container can have labels (e.g., time steps, frequencies) that will be matched with coordinate and mesh labels to determine which combinations to process.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: coordinates
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.fields_container.FieldsContainer | ansys.dpf.core.meshed_region.MeshedRegion | ansys.dpf.core.meshes_container.MeshesContainer]
+
+
+   Allows to connect coordinates input to the operator.
+
+   Physical (global) coordinates where field values should be evaluated. Each coordinate is a 3D vector ($x$, $y$, $z$).
+
+   **Supported input types**:
+   - **Field**: Single field containing coordinate vectors. The field's support mesh defines the search domain if the `mesh` pin is not provided.
+   - **FieldsContainer**: Multiple coordinate fields, typically organized by time step or spatial region. Fields are processed independently, and outputs are generated for matching labels.
+   - **MeshedRegion**: Node coordinates of the mesh are used as evaluation points.
+   - **MeshesContainer**: Multiple meshes whose node coordinates are used as evaluation points.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.coordinates.connect(my_coordinates)
+   >>> # or
+   >>> op.inputs.coordinates(my_coordinates)
+
+.. py:property:: create_support
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect create_support input to the operator.
+
+   Controls whether output fields have a mesh support consisting of point elements at the evaluation coordinates.
+
+   **Default**: `false` (no support mesh created)
+   **When `true`**: Creates a point mesh support with one point element per evaluation coordinate, enabling visualization of interpolated results as a point cloud.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.create_support.connect(my_create_support)
+   >>> # or
+   >>> op.inputs.create_support(my_create_support)
+
+.. py:property:: mapping_on_scoping
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect mapping_on_scoping input to the operator.
+
+   Optimizes element search by restricting the spatial domain to the scoping of the first input field.
+
+   **Default**: `false` (searches entire mesh)
+   **When `true`**: Restricts the search to elements or nodes in the first field's scoping, improving performance when interpolating fields with limited spatial extent (e.g., results only on a subset of the mesh). This optimization only takes effect when a single coordinate set and a single mesh are provided; it has no effect in multi-mesh or multi-coordinate scenarios.
+
+   This optimization is most effective when coordinates and fields cover the same spatial region of interest.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.mapping_on_scoping.connect(my_mapping_on_scoping)
+   >>> # or
+   >>> op.inputs.mapping_on_scoping(my_mapping_on_scoping)
+
+.. py:property:: tolerance
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect tolerance input to the operator.
+
+   Tolerance used when locating query coordinates within elements.
+
+   **Default**: $5 \times 10^{-5}$
+
+   Lower values provide more accurate coordinate location but may fail for points near element boundaries. If no element is found at the specified tolerance, the tolerance is progressively relaxed up to a maximum of $0.1$.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.tolerance.connect(my_tolerance)
+   >>> # or
+   >>> op.inputs.tolerance(my_tolerance)
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.meshed_region.MeshedRegion | ansys.dpf.core.meshes_container.MeshesContainer]
+
+
+   Allows to connect mesh input to the operator.
+
+   Mesh(es) defining the finite element domain for interpolation.
+
+   If not provided, the mesh is automatically extracted from the input fields' supports. When using a `MeshesContainer` with multiple meshes, label matching is applied: meshes and fields with corresponding labels are paired for interpolation.
+
+   **Label matching**: When fields container, coordinates, and meshes all have labels, the operator processes all matching label combinations (e.g., interpolating field at time $t_1$ using mesh at time $t_1$ and coordinates at spatial location $s_1$).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: use_quadratic_elements
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect use_quadratic_elements input to the operator.
+
+   Controls whether quadratic (second-order) nodes are included in element search and interpolation.
+
+   **Default**: `false` (uses only corner nodes)
+   **When `true`**: Includes midside nodes in element geometry and field interpolation when available, improving accuracy for curved elements and quadratic shape functions.
+
+   The operator automatically detects whether field data exists on quadratic nodes. If the mesh has quadratic elements but the field only has corner node data, interpolation uses corner nodes only.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mapping.on_coordinates()
+   >>> op.inputs.use_quadratic_elements.connect(my_use_quadratic_elements)
+   >>> # or
+   >>> op.inputs.use_quadratic_elements(my_use_quadratic_elements)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

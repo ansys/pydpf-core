@@ -1,0 +1,13 @@
+ansys.dpf.core.helpers namespace
+================================
+
+.. py:module:: ansys.dpf.core.helpers
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.helpers.streamlines
+   ansys.dpf.core.helpers.utils

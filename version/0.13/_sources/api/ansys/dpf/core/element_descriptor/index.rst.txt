@@ -1,0 +1,78 @@
+
+
+
+
+
+
+The ``element_descriptor.py`` module
+====================================
+
+.. py:module:: ansys.dpf.core.element_descriptor
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: element_descriptor
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.element_descriptor.ElementDescriptor`
+            - Describes an element.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> ElementDescriptor</api/ansys/dpf/core/element_descriptor/ElementDescriptor>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Element Descriptor.
+
+
+
+
+
+
+
+

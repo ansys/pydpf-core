@@ -1,0 +1,154 @@
+
+
+
+
+
+
+:class:`InputsMergeStringFields`
+================================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_string_fields.InputsMergeStringFields(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_string_fields operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_string_fields()
+   >>> my_string_fields1 = dpf.StringField()
+   >>> op.inputs.string_fields1.connect(my_string_fields1)
+   >>> my_string_fields2 = dpf.StringField()
+   >>> op.inputs.string_fields2.connect(my_string_fields2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMergeStringFields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~string_fields1`
+            - Allows to connect string_fields1 input to the operator.
+          * - :py:attr:`~string_fields2`
+            - Allows to connect string_fields2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_string_fields import InputsMergeStringFields
+
+Property detail
+---------------
+
+.. py:property:: string_fields1
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.string_field.StringField]
+
+
+   Allows to connect string_fields1 input to the operator.
+
+   Either a a vector of string fields to merge or string fields from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_string_fields()
+   >>> op.inputs.string_fields1.connect(my_string_fields1)
+   >>> # or
+   >>> op.inputs.string_fields1(my_string_fields1)
+
+.. py:property:: string_fields2
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.string_field.StringField]
+
+
+   Allows to connect string_fields2 input to the operator.
+
+   Either a a vector of string fields to merge or string fields from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_string_fields()
+   >>> op.inputs.string_fields2.connect(my_string_fields2)
+   >>> # or
+   >>> op.inputs.string_fields2(my_string_fields2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

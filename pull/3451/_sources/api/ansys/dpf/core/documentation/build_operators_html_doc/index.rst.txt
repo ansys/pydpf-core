@@ -1,0 +1,91 @@
+
+
+
+
+
+
+The ``build_operators_html_doc.py`` module
+==========================================
+
+.. py:module:: ansys.dpf.core.documentation.build_operators_html_doc
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: build_operators_html_doc
+.. tab-set::
+
+
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~generate_operators_html_doc`
+            - Generate the legacy static HTML documentation page listing operators of a DPF installation.
+
+
+          * - :py:obj:`~run_with_args`
+            - Run generate_operators_html_doc from the command line with argument parsing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Generation of the legacy static HTML documentation page for operators of a given DPF installation.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: generate_operators_html_doc(output_path: str = 'doc/source/_static/dpf_operators.html', ansys_path: str = None, verbose: bool = True) -> None
+
+   Generate the legacy static HTML documentation page listing operators of a DPF installation.
+
+   :param output_path: Path to write the generated HTML documentation file at.
+   :param ansys_path: Path to the DPF installation to use to start a server.
+   :param verbose: Whether to print progress information.
+
+
+.. py:function:: run_with_args()
+
+   Run generate_operators_html_doc from the command line with argument parsing.
+
+
+
+

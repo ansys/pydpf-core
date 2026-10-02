@@ -1,0 +1,114 @@
+
+
+
+
+
+
+:class:`Output`
+===============
+
+.. py:class:: ansys.dpf.core.outputs.Output(spec, pin, operator)
+
+   Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+
+   Used to evaluate and get outputs of the Operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> data_src = dpf.DataSources(examples.find_msup_transient())
+   >>> disp_op = dpf.operators.result.displacement()
+   >>> disp_op.inputs.data_sources(data_src)
+   >>> isinstance(disp_op.outputs.fields_container, dpf.inputs.Output)
+   True
+   >>> fc = disp_op.outputs.fields_container()
+
+
+
+
+
+.. py:currentmodule:: Output
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~get_data`
+            - Retrieve the output of the operator.
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~aliases`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__call__`
+            - Allow instances of the class to be callable for data retrieval purposes.
+          * - :py:attr:`~__str__`
+            - Return a string representation of the Output instance.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.outputs import Output
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: aliases
+
+
+
+Method detail
+-------------
+
+.. py:method:: get_data()
+
+   Retrieve the output of the operator.
+
+
+.. py:method:: __call__()
+
+   Allow instances of the class to be callable for data retrieval purposes.
+
+
+.. py:method:: __str__()
+
+   Return a string representation of the Output instance.
+
+   :returns: A string representation of the instance.
+   :rtype: str
+
+
+
+
+

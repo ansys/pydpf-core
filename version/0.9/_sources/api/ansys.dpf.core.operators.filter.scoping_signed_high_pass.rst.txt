@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.filter.scoping_signed_high_pass
+   :inherited-members:

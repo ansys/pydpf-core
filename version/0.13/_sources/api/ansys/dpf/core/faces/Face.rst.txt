@@ -1,0 +1,205 @@
+
+
+
+
+
+
+:class:`Face`
+=============
+
+.. py:class:: ansys.dpf.core.faces.Face(mesh, faceid, index, nodes)
+
+   Contains all properties of a face of a mesh.
+
+   The face is created from the
+   :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>` class.
+   Properties include the face ID, index, type, shape, and connectivity.
+
+   :param mesh: Mesh containing the face.
+   :type mesh: :class:`ansys.dpf.core.meshed_region.MeshedRegion`
+   :param faceid: Number (ID) of the face.
+   :type faceid: int
+   :param index: Fortran-based (1-based) index of the face in the result.
+   :type index: int
+   :param nodes: List of DPF nodes belonging to the face.
+   :type nodes: list
+
+   .. rubric:: Examples
+
+   Extract a single face from a meshed region.
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.fluid_axial_model())
+   >>> faces = model.metadata.meshed_region.faces
+   >>> face = faces[0]
+
+   List the coordinates belonging to the first node of the face.
+
+   >>> face.nodes[0].coordinates
+   [-0.030426240620025163, -0.05908951107677226, -0.034248966723680496]
+
+   .. rubric:: Notes
+
+   Class available with server's version starting at 7.0 (2024 R1 pre0).
+
+
+
+
+.. py:currentmodule:: Face
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~node_ids`
+            - IDs of all nodes in the face.
+          * - :py:attr:`~id`
+            - ID of the face.
+          * - :py:attr:`~index`
+            - Index of the face in the result.
+          * - :py:attr:`~nodes`
+            - All nodes in the face.
+          * - :py:attr:`~n_nodes`
+            - Number of nodes in the face.
+          * - :py:attr:`~type`
+            - Type of the face.
+          * - :py:attr:`~connectivity`
+            - Ordered list of node indices of the face.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Provide more information in string representation.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.faces import Face
+
+Property detail
+---------------
+
+.. py:property:: node_ids
+
+   IDs of all nodes in the face.
+
+   :returns: List of IDs for all nodes in the face.
+   :rtype: list
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.fluid_axial_model())
+   >>> faces = model.metadata.meshed_region.faces
+   >>> face = faces[0]
+   >>> face.node_ids
+   [11291, 11416, 11455, 11325]
+
+.. py:property:: id
+   :type: int
+
+
+   ID of the face.
+
+   :returns: ID of the face.
+   :rtype: int
+
+.. py:property:: index
+   :type: int
+
+
+   Index of the face in the result.
+
+   :returns: Index of the face in the result. This uses zero-based indexing starting at ``0``.
+   :rtype: int
+
+.. py:property:: nodes
+
+   All nodes in the face.
+
+   :returns: List of all nodes in the face.
+   :rtype: list
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.fluid_axial_model())
+   >>> faces = model.metadata.meshed_region.faces
+   >>> face = faces[0]
+   >>> first_node = face.nodes[0]
+
+.. py:property:: n_nodes
+   :type: int
+
+
+   Number of nodes in the face.
+
+   :returns: Number of nodes.
+   :rtype: int
+
+.. py:property:: type
+   :type: int
+
+
+   Type of the face.
+
+   :returns: Type of the face. For more information, see
+             :class:`ansys.dpf.core.elements.element_types`.
+   :rtype: int
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.fluid_axial_model())
+   >>> faces = model.metadata.meshed_region.faces
+   >>> face = faces[0]
+   >>> face.type
+   <element_types.Quad4: 16>
+
+.. py:property:: connectivity
+
+   Ordered list of node indices of the face.
+
+   :returns: Ordered list of node indices.
+   :rtype: list
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+   Provide more information in string representation.
+
+
+
+
+

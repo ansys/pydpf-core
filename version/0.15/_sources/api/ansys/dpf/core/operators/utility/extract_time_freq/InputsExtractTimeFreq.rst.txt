@@ -1,0 +1,173 @@
+
+
+
+
+
+
+:class:`InputsExtractTimeFreq`
+==============================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.extract_time_freq.InputsExtractTimeFreq(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   extract_time_freq operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_time_freq()
+   >>> my_time_freq_support = dpf.TimeFreqSupport()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_real_or_complex = bool()
+   >>> op.inputs.real_or_complex.connect(my_real_or_complex)
+
+
+
+
+
+
+.. py:currentmodule:: InputsExtractTimeFreq
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_freq_support`
+            - Allows to connect time_freq_support input to the operator.
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~real_or_complex`
+            - Allows to connect real_or_complex input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.extract_time_freq import InputsExtractTimeFreq
+
+Property detail
+---------------
+
+.. py:property:: time_freq_support
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.time_freq_support.TimeFreqSupport]
+
+
+   Allows to connect time_freq_support input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_time_freq()
+   >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+   >>> # or
+   >>> op.inputs.time_freq_support(my_time_freq_support)
+
+.. py:property:: time_scoping
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to connect time_scoping input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_time_freq()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: real_or_complex
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect real_or_complex input to the operator.
+
+   False for real only (default). True for complex output.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_time_freq()
+   >>> op.inputs.real_or_complex.connect(my_real_or_complex)
+   >>> # or
+   >>> op.inputs.real_or_complex(my_real_or_complex)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

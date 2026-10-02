@@ -1,0 +1,286 @@
+
+
+
+
+
+
+:class:`InputsMergeMeshes`
+==========================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_meshes.InputsMergeMeshes(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_meshes operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_meshes()
+   >>> my_naive_merge_elements = bool()
+   >>> op.inputs.naive_merge_elements.connect(my_naive_merge_elements)
+   >>> my_should_merge_named_selections = bool()
+   >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
+   >>> my_meshes1 = dpf.MeshedRegion()
+   >>> op.inputs.meshes1.connect(my_meshes1)
+   >>> my_meshes2 = dpf.MeshedRegion()
+   >>> op.inputs.meshes2.connect(my_meshes2)
+   >>> my_merge_method = int()
+   >>> op.inputs.merge_method.connect(my_merge_method)
+   >>> my_box_size = float()
+   >>> op.inputs.box_size.connect(my_box_size)
+   >>> my_remove_duplicate_elements = int()
+   >>> op.inputs.remove_duplicate_elements.connect(my_remove_duplicate_elements)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMergeMeshes
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~naive_merge_elements`
+            - Allows to connect naive_merge_elements input to the operator.
+          * - :py:attr:`~should_merge_named_selections`
+            - Allows to connect should_merge_named_selections input to the operator.
+          * - :py:attr:`~meshes1`
+            - Allows to connect meshes1 input to the operator.
+          * - :py:attr:`~meshes2`
+            - Allows to connect meshes2 input to the operator.
+          * - :py:attr:`~merge_method`
+            - Allows to connect merge_method input to the operator.
+          * - :py:attr:`~box_size`
+            - Allows to connect box_size input to the operator.
+          * - :py:attr:`~remove_duplicate_elements`
+            - Allows to connect remove_duplicate_elements input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_meshes import InputsMergeMeshes
+
+Property detail
+---------------
+
+.. py:property:: naive_merge_elements
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect naive_merge_elements input to the operator.
+
+   If true, merge the elemental Property Fields of the input meshes assuming that there is no repetition in their scoping ids. Default is false.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_meshes()
+   >>> op.inputs.naive_merge_elements.connect(my_naive_merge_elements)
+   >>> # or
+   >>> op.inputs.naive_merge_elements(my_naive_merge_elements)
+
+.. py:property:: should_merge_named_selections
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect should_merge_named_selections input to the operator.
+
+   For certain types of files (such as RST), scoping from names selection does not need to be merged.If this pin is true, the merge occurs. If this pin is false, the merge does not occur. Default is true.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_meshes()
+   >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
+   >>> # or
+   >>> op.inputs.should_merge_named_selections(my_should_merge_named_selections)
+
+.. py:property:: meshes1
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect meshes1 input to the operator.
+
+   A vector of meshed region to merge or meshed region from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_meshes()
+   >>> op.inputs.meshes1.connect(my_meshes1)
+   >>> # or
+   >>> op.inputs.meshes1(my_meshes1)
+
+.. py:property:: meshes2
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect meshes2 input to the operator.
+
+   A vector of meshed region to merge or meshed region from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_meshes()
+   >>> op.inputs.meshes2.connect(my_meshes2)
+   >>> # or
+   >>> op.inputs.meshes2(my_meshes2)
+
+.. py:property:: merge_method
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect merge_method input to the operator.
+
+   0: merge by distance, 1: merge by node id (default)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_meshes()
+   >>> op.inputs.merge_method.connect(my_merge_method)
+   >>> # or
+   >>> op.inputs.merge_method(my_merge_method)
+
+.. py:property:: box_size
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect box_size input to the operator.
+
+   Box size used when merging by distance. Default value is 1e-12.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_meshes()
+   >>> op.inputs.box_size.connect(my_box_size)
+   >>> # or
+   >>> op.inputs.box_size(my_box_size)
+
+.. py:property:: remove_duplicate_elements
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect remove_duplicate_elements input to the operator.
+
+   0: keep duplicate elements (default), 1: remove duplicate elements
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_meshes()
+   >>> op.inputs.remove_duplicate_elements.connect(my_remove_duplicate_elements)
+   >>> # or
+   >>> op.inputs.remove_duplicate_elements(my_remove_duplicate_elements)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

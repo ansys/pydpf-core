@@ -1,0 +1,262 @@
+
+
+
+
+
+
+:class:`InputsMergeWeightedFields`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_weighted_fields.InputsMergeWeightedFields(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_weighted_fields operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields()
+   >>> my_sum_merge = bool()
+   >>> op.inputs.sum_merge.connect(my_sum_merge)
+   >>> my_merged_support = dpf.AbstractFieldSupport()
+   >>> op.inputs.merged_support.connect(my_merged_support)
+   >>> my_fields1 = dpf.Field()
+   >>> op.inputs.fields1.connect(my_fields1)
+   >>> my_fields2 = dpf.Field()
+   >>> op.inputs.fields2.connect(my_fields2)
+   >>> my_weights1 = dpf.PropertyField()
+   >>> op.inputs.weights1.connect(my_weights1)
+   >>> my_weights2 = dpf.PropertyField()
+   >>> op.inputs.weights2.connect(my_weights2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMergeWeightedFields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~sum_merge`
+            - Allows to connect sum_merge input to the operator.
+          * - :py:attr:`~merged_support`
+            - Allows to connect merged_support input to the operator.
+          * - :py:attr:`~fields1`
+            - Allows to connect fields1 input to the operator.
+          * - :py:attr:`~fields2`
+            - Allows to connect fields2 input to the operator.
+          * - :py:attr:`~weights1`
+            - Allows to connect weights1 input to the operator.
+          * - :py:attr:`~weights2`
+            - Allows to connect weights2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_weighted_fields import InputsMergeWeightedFields
+
+Property detail
+---------------
+
+.. py:property:: sum_merge
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect sum_merge input to the operator.
+
+   Default is false. If true, redundant quantities are summed instead of being ignored.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields()
+   >>> op.inputs.sum_merge.connect(my_sum_merge)
+   >>> # or
+   >>> op.inputs.sum_merge(my_sum_merge)
+
+.. py:property:: merged_support
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect merged_support input to the operator.
+
+   Already merged field support.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields()
+   >>> op.inputs.merged_support.connect(my_merged_support)
+   >>> # or
+   >>> op.inputs.merged_support(my_merged_support)
+
+.. py:property:: fields1
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fields1 input to the operator.
+
+   Either a fields container, a vector of fields to merge, or fields from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields()
+   >>> op.inputs.fields1.connect(my_fields1)
+   >>> # or
+   >>> op.inputs.fields1(my_fields1)
+
+.. py:property:: fields2
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fields2 input to the operator.
+
+   Either a fields container, a vector of fields to merge, or fields from pin 0 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields()
+   >>> op.inputs.fields2.connect(my_fields2)
+   >>> # or
+   >>> op.inputs.fields2(my_fields2)
+
+.. py:property:: weights1
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect weights1 input to the operator.
+
+   Weights to apply to each field from pin 1000 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields()
+   >>> op.inputs.weights1.connect(my_weights1)
+   >>> # or
+   >>> op.inputs.weights1(my_weights1)
+
+.. py:property:: weights2
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect weights2 input to the operator.
+
+   Weights to apply to each field from pin 1000 to ...
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_weighted_fields()
+   >>> op.inputs.weights2.connect(my_weights2)
+   >>> # or
+   >>> op.inputs.weights2(my_weights2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

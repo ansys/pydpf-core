@@ -1,0 +1,80 @@
+
+
+
+
+
+
+The ``stream.py`` module
+========================
+
+.. py:module:: ansys.dpf.core.stream
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: stream
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.stream.Stream`
+            - Abstract base class for a DPF external stream.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> Stream</api/ansys/dpf/core/stream/Stream>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Stream.
+
+Contains classes used to populate a StreamsContainer.
+
+
+
+
+
+
+
+

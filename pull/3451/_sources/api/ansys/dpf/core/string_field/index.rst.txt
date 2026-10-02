@@ -1,0 +1,78 @@
+
+
+
+
+
+
+The ``string_field.py`` module
+==============================
+
+.. py:module:: ansys.dpf.core.string_field
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: string_field
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.string_field.StringField`
+            - Describes string data scoped on entities such as names.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> StringField</api/ansys/dpf/core/string_field/StringField>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+StringField.
+
+
+
+
+
+
+
+

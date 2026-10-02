@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.strain_from_voigt_fc
+   :inherited-members:

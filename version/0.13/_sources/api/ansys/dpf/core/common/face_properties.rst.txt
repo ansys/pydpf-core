@@ -1,0 +1,73 @@
+
+
+
+
+
+
+:class:`face_properties`
+========================
+
+.. py:class:: ansys.dpf.core.common.face_properties
+
+   Contains strings to define face property fields.
+
+   .. attribute:: faces_type = "faces_type"
+
+      face type property data is provided
+
+   .. attribute:: faces_nodes_connectivity = "faces_nodes_connectivity"
+
+      faces connectivity property data is provided
+
+
+
+.. py:currentmodule:: face_properties
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~faces_type`
+            - 
+          * - :py:attr:`~faces_nodes_connectivity`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.common import face_properties
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: faces_type
+   :value: 'faces_type'
+
+
+.. py:attribute:: faces_nodes_connectivity
+   :value: 'faces_nodes_connectivity'
+
+
+
+
+
+

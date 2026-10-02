@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.contact_sliding_distance
+   :inherited-members:

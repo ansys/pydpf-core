@@ -1,0 +1,178 @@
+
+
+
+
+
+
+:class:`InputsZstdCompress`
+===========================
+
+
+.. py:class:: ansys.dpf.core.operators.compression.zstd_compress.InputsZstdCompress(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   zstd_compress operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.zstd_compress()
+   >>> my_input_field = dpf.Field()
+   >>> op.inputs.input_field.connect(my_input_field)
+   >>> my_zstd_level = int()
+   >>> op.inputs.zstd_level.connect(my_zstd_level)
+   >>> my_num_threads = int()
+   >>> op.inputs.num_threads.connect(my_num_threads)
+
+
+
+
+
+
+.. py:currentmodule:: InputsZstdCompress
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~input_field`
+            - Allows to connect input_field input to the operator.
+          * - :py:attr:`~zstd_level`
+            - Allows to connect zstd_level input to the operator.
+          * - :py:attr:`~num_threads`
+            - Allows to connect num_threads input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.zstd_compress import InputsZstdCompress
+
+Property detail
+---------------
+
+.. py:property:: input_field
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.custom_type_field.CustomTypeField]
+
+
+   Allows to connect input_field input to the operator.
+
+   Field or custom type field of type "double" to compress.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.zstd_compress()
+   >>> op.inputs.input_field.connect(my_input_field)
+   >>> # or
+   >>> op.inputs.input_field(my_input_field)
+
+.. py:property:: zstd_level
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect zstd_level input to the operator.
+
+   Compression level : from 0 to 20. Default = 3.
+    High compression level increase computation time.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.zstd_compress()
+   >>> op.inputs.zstd_level.connect(my_zstd_level)
+   >>> # or
+   >>> op.inputs.zstd_level(my_zstd_level)
+
+.. py:property:: num_threads
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect num_threads input to the operator.
+
+   Number of threads for parallelization : from 0 to 20. Default = 4.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.zstd_compress()
+   >>> op.inputs.num_threads.connect(my_num_threads)
+   >>> # or
+   >>> op.inputs.num_threads(my_num_threads)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+
