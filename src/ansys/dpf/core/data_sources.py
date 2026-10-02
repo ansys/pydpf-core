@@ -360,7 +360,12 @@ class DataSources:
                     self, str(filepath), key, domain_id
                 )
         elif key == "":
-            self._api.data_sources_add_file_path_utf8(self, str(filepath))
+            if filepath.suffix in [".h5", ".cff"]:
+                key = self.guess_second_key(str(filepath))
+            if key == "":
+                self._api.data_sources_add_file_path_utf8(self, str(filepath))
+            else:
+                self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
         else:
             self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
 
