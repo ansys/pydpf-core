@@ -111,6 +111,18 @@ def test_auto_key_data_sources_h5dpf(server_type):
     assert data_sources.result_key == "h5dpf"
 
 
+def test_add_file_path_data_sources_h5dpf(server_type):
+    data_sources = dpf.core.DataSources(result_path="test.rst", server=server_type)
+    data_sources.add_file_path("additional.h5")
+    op = dpf.core.operators.utility.ds_get_attribute(
+        data_sources=data_sources,
+        property_name="path_key_by_index",
+        property_index=1,
+        server=server_type,
+    )
+    assert op.eval() == "h5dpf"
+
+
 def test_set_resultpath_data_sources_cfx_res(server_type):
     from ansys.dpf.core import examples
 

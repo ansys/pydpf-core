@@ -362,6 +362,8 @@ class DataSources:
         elif key == "":
             if filepath.suffix in [".h5", ".cff"]:
                 key = self.guess_second_key(str(filepath))
+            if key == "" and filepath.suffix == ".h5":
+                key = "h5dpf"
             if key == "":
                 self._api.data_sources_add_file_path_utf8(self, str(filepath))
             else:
