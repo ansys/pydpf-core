@@ -13,7 +13,7 @@ computation, customization, and remote data processing accessible in Python.
 
 .. note::
 
-   **Looking for an introduction?** If you are new to DPF, the `DPF Onboarding <https://developer.ansys.com/docs/dpf-onboarding-{version_slug}/index.md>`_ guide provides step-by-step instructions for setup and basic concepts.
+   **Looking for an introduction?** If you are new to DPF, the :doc:`Getting Started guide <getting_started/index>` provides step-by-step instructions for setup and basic concepts.
 
 The goals of this section are to:
 
