@@ -477,7 +477,10 @@ def setup(app):
 links_filepath = Path(__file__).parent.absolute() / "links.rst"
 rst_epilog += links_filepath.read_text(encoding="utf-8")
 
-linkcheck_ignore = [r"^https://innovationspace\.ansys\.com/"]
+linkcheck_ignore = [
+    r"^https://innovationspace\.ansys\.com/",
+    r"^https://download\.ansys\.com/",
+]
 linkcheck_retries = 2
 linkcheck_timeout = 60
 
