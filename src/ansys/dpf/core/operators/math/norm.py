@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 
 class norm(Operator):
     r"""Computes the `:math:`L_p`
-    norm <https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm>`__ of the
+    norm <https://en.wikipedia.org/wiki/Norm_%28mathematics%29#p-norm>`__ of the
     component vector for each entity in the field:
     :math:`\mathrm{out}[k] = \left(\sum_{j=0}^{n_c-1} |v_{k,j}|^p\right)^{1/p}`,
     where :math:`n_c` is the number of components. Default is :math:`p = 2`
@@ -81,7 +81,7 @@ class norm(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Computes the `:math:`L_p`
-norm <https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm>`__ of the
+norm <https://en.wikipedia.org/wiki/Norm_%28mathematics%29#p-norm>`__ of the
 component vector for each entity in the field:
 :math:`\mathrm{out}[k] = \left(\sum_{j=0}^{n_c-1} |v_{k,j}|^p\right)^{1/p}`,
 where :math:`n_c` is the number of components. Default is :math:`p = 2`
