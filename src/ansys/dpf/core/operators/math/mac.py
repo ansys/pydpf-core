@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 
 class mac(Operator):
     r"""Computes the `Modal Assurance Criterion
-    (MAC) <https://ansyshelp.ansys.com/public/account/secured?returnurl=/Views/Secured/corp/v261/en/ans_thry/thy_post16.html>`__
+    (MAC) <https://ansyshelp.ansys.com/public/Views/Secured/corp/v261/en/ans_thry/thy_post16.html>`__
     matrix between two sets of mode shapes. For each pair of modes
     :math:`\phi_i` (from container A) and :math:`\phi_j` (from container B):
 
@@ -110,7 +110,7 @@ class mac(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Computes the `Modal Assurance Criterion
-(MAC) <https://ansyshelp.ansys.com/public/account/secured?returnurl=/Views/Secured/corp/v261/en/ans_thry/thy_post16.html>`__
+(MAC) <https://ansyshelp.ansys.com/public/Views/Secured/corp/v261/en/ans_thry/thy_post16.html>`__
 matrix between two sets of mode shapes. For each pair of modes
 :math:`\phi_i` (from container A) and :math:`\phi_j` (from container B):
 
