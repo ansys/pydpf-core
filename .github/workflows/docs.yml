@@ -94,6 +94,8 @@ jobs:
 
       - name: "Install uv"
         uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          enable-cache: false
 
       - name: "Install tox"
         shell: pwsh
@@ -164,15 +166,30 @@ jobs:
         # zizmor: ignore[cache-poisoning] - cache is for doc build only, not release artifacts
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
+          # This list MUST stay strictly identical to the one of the "Save doc-build cache" step:
+          # actions/cache derives the cache version from the paths, so any difference is a guaranteed miss.
           path: |
+            doc/build/.doctrees
             doc/source/examples
-          # Cache key is composed of branch name, ansys version, hash of requirements_doc,
-          # and run_id to work around immutability
-          # We should also track version of pandoc, of graphviz, of packages installed by headless-display, and even of pydpf-core?
-          key: doc-build-${{ github.ref_name }}-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('requirements/requirements_docs.txt')}}-${{ github.run_id }}
+            doc/source/tutorials
+            doc/source/images/auto-generated
+          # The primary key ends with run_id so it never hits and a fresh cache is saved on every run
+          # (caches are immutable). The restore-keys below are what actually retrieve a previous build.
+          key: doc-build-${{ github.ref_name }}-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('uv.lock', 'pyproject.toml')}}-${{ github.run_id }}
+          # Pull requests can only read caches from their own ref and from the default branch,
+          # hence the fallback on "main".
           restore-keys: |
-            doc-build-${{ github.ref_name }}-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('requirements/requirements_docs.txt')}}-
-            doc-build-master-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('requirements/requirements_docs.txt')}}-
+            doc-build-${{ github.ref_name }}-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('uv.lock', 'pyproject.toml')}}-
+            doc-build-${{ github.ref_name }}-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-
+            doc-build-main-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('uv.lock', 'pyproject.toml')}}-
+            doc-build-main-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-
+
+      - name: "Restore tracked doc sources overwritten by the cache"
+        # The cached gallery output directories also hold files tracked by git, which the cache
+        # would otherwise silently revert to their state at the time the cache was saved.
+        shell: bash
+        run: |
+          git checkout -- doc/source/examples doc/source/tutorials
 
       - name: "Build HTML Documentation"
         shell: bash
@@ -185,9 +202,12 @@ jobs:
         id: cache-doc-build-save
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
+          # Keep strictly identical to the path list of the "Restore doc build cache" step.
           path: |
-            doc/build
+            doc/build/.doctrees
             doc/source/examples
+            doc/source/tutorials
+            doc/source/images/auto-generated
           key: ${{ steps.cache-doc-build-restore.outputs.cache-primary-key }}
 
       - name: "Zip HTML Documentation"
