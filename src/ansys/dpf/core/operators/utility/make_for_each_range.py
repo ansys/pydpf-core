@@ -178,6 +178,7 @@ class make_for_each_range(Operator):
             map_output_pin_spec={
                 0: PinSpecification(
                     name="output",
+                    type_names=["any"],
                     optional=False,
                     document=r"""""",
                 ),

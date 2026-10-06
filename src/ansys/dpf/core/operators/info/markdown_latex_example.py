@@ -559,6 +559,7 @@ An equation on its own using square bracket delimiters:
             map_output_pin_spec={
                 0: PinSpecification(
                     name="bogus_output",
+                    type_names=["any"],
                     optional=False,
                     document=r"""This pin showcases the use of Markdown and LaTeX in pin descriptions:
 # Headings
