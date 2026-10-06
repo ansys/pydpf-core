@@ -29,7 +29,7 @@ Module containing the wrapper class representing all supported DPF datatypes.
 import numpy as np
 
 from ansys.dpf.core import errors, server as server_module
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.check_version import server_meet_version, server_meet_version_and_raise
 from ansys.dpf.core.common import create_dpf_instance
 import ansys.dpf.core.server_types
@@ -423,4 +423,6 @@ class Any:
 
     def __del__(self):
         """Delete the entry."""
-        release_dpf_object(self)
+        cleanup = globals().get("release_dpf_object")
+        if callable(cleanup):
+            cleanup(self)

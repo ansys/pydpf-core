@@ -32,7 +32,6 @@ from __future__ import annotations
 
 from enum import Enum, unique
 import importlib.util
-import traceback
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
 import warnings
 
@@ -41,6 +40,7 @@ import numpy as np
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core._cleanup import _warn_cleanup_exception  # noqa: F401
 from ansys.dpf.core.common import DefinitionLabels, locations, shell_layers as eshell_layers
 from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core.nodes import Node, Nodes
@@ -621,7 +621,9 @@ class _PyVistaPlotter:
             try:
                 self._plotter.close()
             except Exception:
-                warnings.warn(traceback.format_exc())
+                cleanup_warning = globals().get("_warn_cleanup_exception")
+                if callable(cleanup_warning):
+                    cleanup_warning()
 
     def __del__(self):
         """Ensure the pyvista Plotter is closed on garbage collection.
@@ -1346,7 +1348,9 @@ class _VisualizationInterfacePlotter:
         try:
             self._backend.base_plotter.close()
         except Exception:
-            warnings.warn(traceback.format_exc())
+            cleanup_warning = globals().get("_warn_cleanup_exception")
+            if callable(cleanup_warning):
+                cleanup_warning()
         return result, self._backend.base_plotter
 
     def close(self):
@@ -1355,7 +1359,9 @@ class _VisualizationInterfacePlotter:
             try:
                 self._backend.base_plotter.close()
             except Exception:
-                warnings.warn(traceback.format_exc())
+                cleanup_warning = globals().get("_warn_cleanup_exception")
+                if callable(cleanup_warning):
+                    cleanup_warning()
 
     def __del__(self):
         """Ensure the pyvista Plotter is closed on garbage collection.

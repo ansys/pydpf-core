@@ -27,7 +27,7 @@ from types import SimpleNamespace
 from typing import List, Union
 
 from ansys.dpf.core import available_result, collection_base, server as server_module, support
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.available_result import Homogeneity
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import locations
@@ -636,4 +636,6 @@ class ResultInfo:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        release_dpf_object(self)
+        cleanup = globals().get("release_dpf_object")
+        if callable(cleanup):
+            cleanup(self)

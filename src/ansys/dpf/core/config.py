@@ -25,7 +25,7 @@
 import functools
 
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.gate import (
     operator_config_abstract_api,
@@ -309,4 +309,6 @@ class Config:
 
     def __del__(self):
         """Delete this instance of config."""
-        release_dpf_object(self)
+        cleanup = globals().get("release_dpf_object")
+        if callable(cleanup):
+            cleanup(self)
