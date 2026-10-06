@@ -51,6 +51,11 @@ class ResultInfoServiceStub(object):
                 request_serializer=result__info__pb2.GetStringPropertiesRequest.SerializeToString,
                 response_deserializer=result__info__pb2.GetStringPropertiesResponse.FromString,
                 _registered_method=True)
+        self.SetMainTitle = channel.unary_unary(
+                '/ansys.api.dpf.result_info.v0.ResultInfoService/SetMainTitle',
+                request_serializer=result__info__pb2.SetMainTitleRequest.SerializeToString,
+                response_deserializer=base__pb2.Empty.FromString,
+                _registered_method=True)
         self.ListResult = channel.unary_unary(
                 '/ansys.api.dpf.result_info.v0.ResultInfoService/ListResult',
                 request_serializer=result__info__pb2.AvailableResultRequest.SerializeToString,
@@ -79,6 +84,12 @@ class ResultInfoServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetStringProperties(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def SetMainTitle(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -113,6 +124,11 @@ def add_ResultInfoServiceServicer_to_server(servicer, server):
                     servicer.GetStringProperties,
                     request_deserializer=result__info__pb2.GetStringPropertiesRequest.FromString,
                     response_serializer=result__info__pb2.GetStringPropertiesResponse.SerializeToString,
+            ),
+            'SetMainTitle': grpc.unary_unary_rpc_method_handler(
+                    servicer.SetMainTitle,
+                    request_deserializer=result__info__pb2.SetMainTitleRequest.FromString,
+                    response_serializer=base__pb2.Empty.SerializeToString,
             ),
             'ListResult': grpc.unary_unary_rpc_method_handler(
                     servicer.ListResult,
@@ -206,6 +222,33 @@ class ResultInfoService(object):
             '/ansys.api.dpf.result_info.v0.ResultInfoService/GetStringProperties',
             result__info__pb2.GetStringPropertiesRequest.SerializeToString,
             result__info__pb2.GetStringPropertiesResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def SetMainTitle(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ansys.api.dpf.result_info.v0.ResultInfoService/SetMainTitle',
+            result__info__pb2.SetMainTitleRequest.SerializeToString,
+            base__pb2.Empty.FromString,
             options,
             channel_credentials,
             insecure,

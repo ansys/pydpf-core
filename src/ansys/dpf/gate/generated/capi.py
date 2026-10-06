@@ -1651,6 +1651,10 @@ def _load_api(path):
 		dll.ExternalOperator_getInCustomTypeFieldsContainer.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_getInCustomTypeFieldsContainer.restype = ctypes.c_void_p
 
+	if hasattr(dll, "ExternalOperator_getInPropertyFieldsContainer"):
+		dll.ExternalOperator_getInPropertyFieldsContainer.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_getInPropertyFieldsContainer.restype = ctypes.c_void_p
+
 	if hasattr(dll, "ExternalOperator_getInStreams"):
 		dll.ExternalOperator_getInStreams.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_getInStreams.restype = ctypes.c_void_p
@@ -3902,6 +3906,10 @@ def _load_api(path):
 	if hasattr(dll, "ResultInfo_GetMainTitle"):
 		dll.ResultInfo_GetMainTitle.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ResultInfo_GetMainTitle.restype = ctypes.POINTER(ctypes.c_char)
+
+	if hasattr(dll, "ResultInfo_SetMainTitle"):
+		dll.ResultInfo_SetMainTitle.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ResultInfo_SetMainTitle.restype = None
 
 	if hasattr(dll, "ResultInfo_SetUnitSystem"):
 		dll.ResultInfo_SetUnitSystem.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )

@@ -448,7 +448,7 @@ class Scoping:
         scoping_copy : Scoping
         """
         scop = Scoping(server=server)
-        scop.ids = self.ids
+        scop.ids = self.get_ids(np_array=False)
         scop.location = self.location
         return scop
 

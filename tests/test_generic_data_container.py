@@ -46,6 +46,17 @@ def test_set_get_property_generic_data_container(server_type):
     assert entity.location == new_entity.location
 
 
+@conftest.raises_for_servers_version_under("8.0")
+def test_set_get_meshed_region_generic_data_container(server_type):
+    gdc = dpf.GenericDataContainer(server=server_type)
+    entity = dpf.MeshedRegion(server=server_type)
+    gdc.set_property("mesh", entity)
+
+    new_entity = gdc.get_property("mesh")
+
+    assert isinstance(new_entity, dpf.MeshedRegion)
+
+
 @conftest.raises_for_servers_version_under("7.0")
 def test_set_get_data_tree_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)
@@ -171,6 +182,15 @@ def test_set_int_vec_generic_data_container(server_type):
     gdc.set_property("nparray", np.array([1, 2, 3], dtype=np.int32))
     assert np.allclose(gdc.get_property("vec"), [1, 2, 3])
     assert np.allclose(gdc.get_property("nparray"), [1, 2, 3])
+
+
+@raises_for_servers_version_under("2027.1.0pre0")
+def test_set_double_vec_generic_data_container(server_type):
+    gdc = dpf.GenericDataContainer(server=server_type)
+    gdc.set_property("vec", [1.0, 2.0, 3.0])
+
+    assert np.allclose(gdc.get_property("vec"), [1.0, 2.0, 3.0])
+    assert np.allclose(gdc.get_property("vec", dpf.types.vec_double), [1.0, 2.0, 3.0])
 
 
 @conftest.raises_for_servers_version_under("7.0")

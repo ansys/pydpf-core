@@ -165,7 +165,7 @@ class Line:
         self._coordinates = coordinates
         self._server = server
         self._n_points = n_points
-        self._length = np.linalg.norm(coordinates.data)
+        self._length = np.linalg.norm(coordinates.data[1] - coordinates.data[0])
         self._mesh, self._path = self._discretize()
 
     def __getitem__(self, value):
@@ -189,7 +189,7 @@ class Line:
         origin = self._coordinates.data[0]
         diff = self._coordinates.data[1] - self._coordinates.data[0]
         path_1D = np.linspace(0, self.length, self._n_points)
-        path_3D = [origin + i_point * diff / self._n_points for i_point in range(self._n_points)]
+        path_3D = np.linspace(origin, origin + diff, self._n_points)
 
         # Create mesh for a line
         mesh = dpf.MeshedRegion(

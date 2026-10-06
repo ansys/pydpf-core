@@ -122,7 +122,7 @@ class PropertyField(_FieldBase):
         ncomp_m=0,
         with_type=None,
     ):
-        dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
+        dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature, server=server)
         client = server.client
         if meets_version(server.version, "11.0"):
             if client is not None:

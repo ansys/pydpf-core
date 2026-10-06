@@ -14,6 +14,7 @@
 * [Antoine Karcher](https://github.com/ansys-akarcher)
 * [Arthur Woimbée](https://github.com/awoimbee)
 * [Ayush Kumar](https://github.com/ayush-kumar-423)
+* [Benoît Vandeburie](https://github.com/bvdbr)
 * [BrunoClappe-Ansys](https://github.com/BClappe)
 * [Camille Bellot](https://github.com/cbellot000)
 * [Camille Latapie](https://github.com/clatapie)

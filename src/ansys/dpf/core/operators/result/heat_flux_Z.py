@@ -30,7 +30,7 @@ class heat_flux_Z(Operator):
     r"""Read/compute heat flux Z component of the vector (3rd component) by
     calling the readers defined by the datasources. Regarding the requested
     location and the input mesh scoping, the result location can be
-    Nodal/ElementalNodal/Elemental.
+    Nodal/ElementalNodal/Elemental. Default: averaged on nodes.
 
 
     Inputs
@@ -155,7 +155,7 @@ class heat_flux_Z(Operator):
         description = r"""Read/compute heat flux Z component of the vector (3rd component) by
 calling the readers defined by the datasources. Regarding the requested
 location and the input mesh scoping, the result location can be
-Nodal/ElementalNodal/Elemental.
+Nodal/ElementalNodal/Elemental. Default: averaged on nodes.
 """
         spec = Specification(
             description=description,

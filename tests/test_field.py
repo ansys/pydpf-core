@@ -52,6 +52,21 @@ def test_create_field(server_type):
     assert field._internal_obj is not None
 
 
+@pytest.mark.parametrize("nature", [core.natures.scalar, core.natures.vector, core.natures.symmatrix])
+def test_create_field_with_explicit_server_does_not_use_global(server_type, monkeypatch, nature):
+    def unexpected_global_server():
+        pytest.fail("Field creation with an explicit server must not use the global server")
+
+    monkeypatch.setattr(core, "SERVER", None)
+    monkeypatch.setattr(core.server, "_global_server", unexpected_global_server)
+
+    field = core.Field(nature=nature, server=server_type)
+
+    assert field._internal_obj is not None
+    assert field._server is server_type
+    assert core.SERVER is None
+
+
 def test_empty_field(server_type):
     field = dpf.core.Field(server=server_type)
     assert np.allclose(field.data, np.empty((0,), dtype=np.float64))
@@ -213,6 +228,28 @@ def test_count_field(server_type):
     assert field.component_count == 1
     assert field.elementary_data_count == 20
     assert field.size == 20
+
+
+def test_len_field_counts_values_and_data_rows(server_type):
+    field = dpf.core.Field(
+        nentities=4,
+        nature=dpf.core.natures.symmatrix,
+        location=dpf.core.locations.nodal,
+        server=server_type,
+    )
+    field.scoping.ids = range(1, 5)
+    field.data = np.arange(4 * 6, dtype=float)
+
+    assert field.data.shape == (4, 6)
+    assert len(field) == 24
+    assert len(field.data) == 4
+
+    field.shell_layers = shell_layers.topbottommid
+    field.data = np.arange(4 * 3 * 6, dtype=float)
+
+    assert field.data.shape == (12, 6)
+    assert len(field) == 72
+    assert len(field.data) == 12
 
 
 def test_resize_field(server_type):

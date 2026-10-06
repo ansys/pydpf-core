@@ -30,7 +30,7 @@ class gasket_total_closure_XY(Operator):
     r"""Read/compute elemental gasket total closure XY shear component (01
     component) by calling the readers defined by the datasources. Regarding
     the requested location and the input mesh scoping, the result location
-    can be Nodal/ElementalNodal/Elemental.
+    can be Nodal/ElementalNodal/Elemental. Default: averaged on nodes.
 
 
     Inputs
@@ -147,7 +147,7 @@ class gasket_total_closure_XY(Operator):
         description = r"""Read/compute elemental gasket total closure XY shear component (01
 component) by calling the readers defined by the datasources. Regarding
 the requested location and the input mesh scoping, the result location
-can be Nodal/ElementalNodal/Elemental.
+can be Nodal/ElementalNodal/Elemental. Default: averaged on nodes.
 """
         spec = Specification(
             description=description,
