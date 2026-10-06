@@ -7,6 +7,7 @@
 
 .. Python libraries
 .. _Tox: https://tox.wiki/en/stable/
+.. _uv: https://docs.astral.sh/uv/
 .. _reStructuredText: https://docutils.sourceforge.io/rst.html
 .. _Sphinx-Gallery: https://sphinx-gallery.github.io/stable/index.html
 .. _Sphinx: https://www.sphinx-doc.org/en/master/

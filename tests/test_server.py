@@ -26,6 +26,7 @@ import gc
 import subprocess
 import sys
 import time
+from unittest.mock import Mock
 
 import packaging.version
 import psutil
@@ -76,6 +77,18 @@ def test_server_destructor_when_sys_is_cleared(monkeypatch, server_type):
     monkeypatch.setattr(server_types, "sys", None)
 
     server_type.__del__(server_object)
+
+
+def test_in_process_server_shutdown_releases_metadata_streams():
+    server_object = object.__new__(server_types.InProcessServer)
+    server_object._session_instance = None
+    server_object._own_process = False
+    metadata = Mock()
+    server_object._metadata_instances = [metadata]
+
+    server_object.shutdown()
+
+    metadata.release_streams.assert_called_once_with()
 
 
 @pytest.fixture(autouse=False, scope="function")
@@ -338,7 +351,6 @@ def test_connect_to_remote_server(remote_config_server_type):
     # assert server.config == remote_config_server_type
 
 
-@pytest.mark.skipif(running_docker, reason="Unstable on Docker")
 def test_go_away_server():
     for _ in range(0, 5):
         s = start_local_server(config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False)

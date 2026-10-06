@@ -52,6 +52,21 @@ def test_create_field(server_type):
     assert field._internal_obj is not None
 
 
+@pytest.mark.parametrize("nature", [core.natures.scalar, core.natures.vector, core.natures.symmatrix])
+def test_create_field_with_explicit_server_does_not_use_global(server_type, monkeypatch, nature):
+    def unexpected_global_server():
+        pytest.fail("Field creation with an explicit server must not use the global server")
+
+    monkeypatch.setattr(core, "SERVER", None)
+    monkeypatch.setattr(core.server, "_global_server", unexpected_global_server)
+
+    field = core.Field(nature=nature, server=server_type)
+
+    assert field._internal_obj is not None
+    assert field._server is server_type
+    assert core.SERVER is None
+
+
 def test_empty_field(server_type):
     field = dpf.core.Field(server=server_type)
     assert np.allclose(field.data, np.empty((0,), dtype=np.float64))

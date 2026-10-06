@@ -80,11 +80,13 @@ class txt_file_to_dpf(Operator):
             map_output_pin_spec={
                 0: PinSpecification(
                     name="any_output1",
+                    type_names=["any"],
                     optional=False,
                     document=r"""any output""",
                 ),
                 1: PinSpecification(
                     name="any_output2",
+                    type_names=["any"],
                     optional=False,
                     document=r"""any output""",
                 ),

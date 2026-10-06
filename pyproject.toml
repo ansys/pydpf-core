@@ -1,6 +1,6 @@
 [build-system]
-build-backend = "setuptools.build_meta"
-requires = ["setuptools>=83.0.0", "wheel"]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
 
 [project]
 # Check https://setuptools.pypa.io/en/stable/userguide/quickstart.html for all available sections
@@ -47,7 +47,7 @@ graphics = [
     "vtk!=9.4.0",
     # Animations
     "imageio",
-    "imageio-ffmpeg"
+    "imageio==2.38.0"
 ]
 
 plotting = [
@@ -67,14 +67,29 @@ operator_doc = [
     "jinja2"
 ]
 
+all = [
+    # 2D chart plotting
+    "matplotlib>=3.10.8",
+    # 3D plotting
+    "pyvista>=0.47.3",
+    "ansys-tools-visualization-interface>=0.13.0",
+    "vtk!=9.4.0",
+    # Animations
+    "imageio",
+    "imageio-ffmpeg",
+    # Operator documentation generation
+    "jinja2"
+]
+
 [dependency-groups]
 
 doc = [
-  "ansys-sphinx-theme[autoapi]==1.10.0",
+  "ansys-sphinx-theme[autoapi]==1.10.0 ; python_version >= '3.12'",
+  "ansys-sphinx-theme[autoapi]==1.9.0 ; python_version < '3.12'",
   "ansys-tools-visualization-interface>=0.13.0",
   "enum-tools[sphinx]==0.13.0",
   "graphviz==0.21",
-  "imageio==2.37.4",
+  "imageio==2.38.0",
   "imageio-ffmpeg==0.6.0",
   "jupyter_sphinx==0.5.3",
   "pdf2image==1.17.0",
@@ -83,13 +98,15 @@ doc = [
   "pytest-sphinx==0.7.1",
   "pyvista[jupyter]==0.49.0",
   "quarto-cli==1.10.18",
-  "sphinx==8.2.3",
+  "sphinx==8.2.3 ; python_version >= '3.11'",
+  "sphinx==8.1.3 ; python_version < '3.11'",
   "sphinx-copybutton==0.5.2",
   "sphinx-gallery==0.22.1",
   "sphinx-jinja==2.0.2",
   "sphinx-notfound-page==1.1.0",
   "sphinx-reredirects==0.1.6",
-  "sphinx_design==0.7.0",
+  "sphinx_design==0.7.0 ; python_version >= '3.11'",
+  "sphinx_design==0.6.1 ; python_version < '3.11'",
   "sphinxcontrib-napoleon==0.7",
   "vtk==9.6.0"
 ]
@@ -97,9 +114,9 @@ test = [
   "ansys-platform-instancemanagement==1.2.0",
   "ansys-tools-common==0.5.3",
   "ansys-tools-visualization-interface>=0.13.0",
-  "coverage==7.16.1",
+  "coverage==7.16.2",
   "graphviz==0.21",
-  "imageio==2.37.4",
+  "imageio==2.38.0",
   "imageio-ffmpeg==0.6.0",
   "jinja2==3.1.6",
   "pypandoc_binary==1.17",
@@ -116,17 +133,24 @@ build = [
   "chevron==0.14.0",
   "jinja2==3.1.6",
   "pypandoc_binary==1.17",
-  "wheel==0.48.0"
+  "wheel==0.48.0",
+  "hatchling==1.32.0",
 ]
 install = [
   "importlib-metadata==9.0.1",
-  "numpy==2.4.1",
+  "numpy==2.4.1 ; python_version >= '3.11'",
+  "numpy==2.2.6 ; python_version < '3.11'",
   "packaging==26.3",
   "psutil==7.2.2",
   "tqdm==4.70.1"
 ]
 operator_doc = [
   "jinja2==3.1.6"
+]
+tox = [
+  "tox==4.64.1",
+  # "bare" variant of tox-uv: uv is expected to already be available on the PATH.
+  "tox-uv-bare==1.36.0"
 ]
 
 [project.urls]
@@ -142,6 +166,9 @@ dpf_generate_operators = "ansys.dpf.core.operators.build:run_with_args"
 
 [project.entry-points.pyinstaller40]
 hook-dirs = "ansys.dpf._pyinstaller:_get_hook_dirs"
+
+[tool.uv]
+default-groups = []
 
 [tool.ruff]
 exclude = [
@@ -202,14 +229,16 @@ patch = ["subprocess"]
 [tool.coverage.report]
 show_missing = true
 
-[tool.setuptools.packages.find]
-namespaces = true
-where = ["src"]
+[tool.hatch.build.targets.wheel]
+packages = ["src/ansys"]
+# Excluded by default; re-added via the custom hook configured.
+exclude = [
+    "src/ansys/dpf/gatebin/*.so",
+    "src/ansys/dpf/gatebin/*.dll",
+]
 
-[tool.setuptools.package-data]
-"ansys.dpf.gatebin" = ["*.so", "*.dll"]
-"ansys.dpf.core.documentation" = ["toc_template.j2", "operator_doc_template.j2"]
-"ansys.dpf.core.operators" = ["operator.mustache"]
+[tool.hatch.build.targets.wheel.hooks.custom]
+path = ".ci/build_wheel.py"
 
 [tool.pytest]
 #filterwarnings = ['ignore:Use explicit output-to-input connections:DeprecationWarning']
