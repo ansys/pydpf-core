@@ -23,7 +23,7 @@
 """Cyclic Support."""
 
 from ansys.dpf.core import field, property_field, server as server_module
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.gate import cyclic_support_capi, cyclic_support_grpcapi
 
@@ -360,4 +360,6 @@ class CyclicSupport:
 
     def __del__(self):
         """Delete this instance."""
-        release_dpf_object(self)
+        cleanup = globals().get("release_dpf_object")
+        if callable(cleanup):
+            cleanup(self)

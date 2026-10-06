@@ -30,7 +30,7 @@ from typing import TYPE_CHECKING, Generic, List, Optional, TypeVar
 import numpy as np
 
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core.scoping import Scoping
@@ -572,7 +572,9 @@ class CollectionBase(Generic[TYPE]):
     def __del__(self):
         """Delete the entry."""
         if not getattr(self, "owned", False):
-            release_dpf_object(self)
+            cleanup = globals().get("release_dpf_object")
+            if callable(cleanup):
+                cleanup(self)
 
     def _get_ownership(self):
         self.owned = True
