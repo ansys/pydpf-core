@@ -166,15 +166,13 @@ jobs:
         # zizmor: ignore[cache-poisoning] - cache is for doc build only, not release artifacts
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-          # This list MUST stay strictly identical to the one of the "Save doc-build cache" step:
-          # actions/cache derives the cache version from the paths, so any difference is a guaranteed miss.
+          # This list MUST stay strictly identical to the one of the "Save doc-build cache" step.
           path: |
             doc/build/.doctrees
+            doc/source/api
             doc/source/examples
             doc/source/tutorials
             doc/source/images/auto-generated
-          # The primary key ends with run_id so it never hits and a fresh cache is saved on every run
-          # (caches are immutable). The restore-keys below are what actually retrieve a previous build.
           key: doc-build-${{ github.ref_name }}-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('uv.lock', 'pyproject.toml')}}-${{ github.run_id }}
           # Pull requests can only read caches from their own ref and from the default branch,
           # hence the fallback on "main".
@@ -184,12 +182,31 @@ jobs:
             doc-build-main-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('uv.lock', 'pyproject.toml')}}-
             doc-build-main-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-
 
+      - name: "Reuse cached API documentation when the sources are unchanged"
+        # sphinx-autoapi only skips its read/render stage when no scanned source file is newer
+        # than the max mtime (modified timestamp) recorded in the cached Sphinx environment.
+        # However, actions/checkout gives every file a fresh mtime. Backdating is therefore
+        # required and is basedon an exact content hash so that any source change still triggers
+        # a full regeneration.
+        shell: bash
+        env:
+          SRC_HASH: ${{ hashfiles('src/ansys/**/*.py') }}
+        run: |
+          stamp="doc/build/.doctrees/.autoapi-src-hash"
+          if [[ -d doc/source/api && -f "${stamp}" && "$(cat "${stamp}")" == "${SRC_HASH}" ]]; then
+            find src/ansys -name '*.py' -exec touch -d '2000-01-01T00:00:00Z' {} +
+            echo "API sources unchanged: autoapi reuses the cached doc/source/api."
+          else
+            rm -rf doc/source/api
+            echo "API sources changed or not cached: autoapi regenerates doc/source/api."
+          fi
+
       - name: "Restore tracked doc sources overwritten by the cache"
-        # The cached gallery output directories also hold files tracked by git, which the cache
+        # The cached output directories also hold files tracked by git, which the cache
         # would otherwise silently revert to their state at the time the cache was saved.
         shell: bash
         run: |
-          git checkout -- doc/source/examples doc/source/tutorials
+          git checkout -- doc/source/api doc/source/examples doc/source/tutorials
 
       - name: "Build HTML Documentation"
         shell: bash
@@ -198,6 +215,14 @@ jobs:
         run: |
           uv run tox -e doc-html
 
+      - name: "Stamp the cached API documentation"
+        shell: bash
+        env:
+          SRC_HASH: ${{ hashfiles('src/ansys/**/*.py') }}
+        run: |
+          mkdir -p doc/build/.doctrees
+          echo "${SRC_HASH}" > doc/build/.doctrees/.autoapi-src-hash
+
       - name: "Save doc-build cache"
         id: cache-doc-build-save
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -205,6 +230,7 @@ jobs:
           # Keep strictly identical to the path list of the "Restore doc build cache" step.
           path: |
             doc/build/.doctrees
+            doc/source/api
             doc/source/examples
             doc/source/tutorials
             doc/source/images/auto-generated
