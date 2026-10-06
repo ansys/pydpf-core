@@ -112,12 +112,18 @@ class on_coordinates(Operator):
         **When `true`**: Restricts the search to elements or nodes in the first field's scoping, improving performance when interpolating fields with limited spatial extent (e.g., results only on a subset of the mesh). This optimization only takes effect when a single coordinate set and a single mesh are provided; it has no effect in multi-mesh or multi-coordinate scenarios.
 
         This optimization is most effective when coordinates and fields cover the same spatial region of interest.
-    tolerance: float, optional
+    locate_tolerance: float, optional
         Tolerance used when locating query coordinates within elements.
 
         **Default**: $5 \times 10^{-5}$
 
         Lower values provide more accurate coordinate location but may fail for points near element boundaries. If no element is found at the specified tolerance, the tolerance is progressively relaxed up to a maximum of $0.1$.
+    search_tolerance: float, optional
+        Tolerance used when searching elements by the coordinates of the query points (first filter step).
+
+        **Default**: $1 \times 10^{-6}$
+
+        If the default value is used, and no element is found at the specified tolerance, the tolerance is progressively relaxed up.
     mesh: MeshedRegion or MeshesContainer, optional
         Mesh(es) defining the finite element domain for interpolation.
 
@@ -161,8 +167,10 @@ class on_coordinates(Operator):
     >>> op.inputs.create_support.connect(my_create_support)
     >>> my_mapping_on_scoping = bool()
     >>> op.inputs.mapping_on_scoping.connect(my_mapping_on_scoping)
-    >>> my_tolerance = float()
-    >>> op.inputs.tolerance.connect(my_tolerance)
+    >>> my_locate_tolerance = float()
+    >>> op.inputs.locate_tolerance.connect(my_locate_tolerance)
+    >>> my_search_tolerance = float()
+    >>> op.inputs.search_tolerance.connect(my_search_tolerance)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_use_quadratic_elements = bool()
@@ -174,7 +182,8 @@ class on_coordinates(Operator):
     ...     coordinates=my_coordinates,
     ...     create_support=my_create_support,
     ...     mapping_on_scoping=my_mapping_on_scoping,
-    ...     tolerance=my_tolerance,
+    ...     locate_tolerance=my_locate_tolerance,
+    ...     search_tolerance=my_search_tolerance,
     ...     mesh=my_mesh,
     ...     use_quadratic_elements=my_use_quadratic_elements,
     ... )
@@ -189,11 +198,13 @@ class on_coordinates(Operator):
         coordinates=None,
         create_support=None,
         mapping_on_scoping=None,
-        tolerance=None,
+        locate_tolerance=None,
+        search_tolerance=None,
         mesh=None,
         use_quadratic_elements=None,
         config=None,
         server=None,
+        tolerance=None,
     ):
         super().__init__(
             name="mapping",
@@ -210,8 +221,17 @@ class on_coordinates(Operator):
             self.inputs.create_support.connect(create_support)
         if mapping_on_scoping is not None:
             self.inputs.mapping_on_scoping.connect(mapping_on_scoping)
-        if tolerance is not None:
-            self.inputs.tolerance.connect(tolerance)
+        if locate_tolerance is not None:
+            self.inputs.locate_tolerance.connect(locate_tolerance)
+        elif tolerance is not None:
+            warn(
+                DeprecationWarning(
+                    f'Operator on_coordinates: Input name "tolerance" is deprecated in favor of "locate_tolerance".'
+                )
+            )
+            self.inputs.locate_tolerance.connect(tolerance)
+        if search_tolerance is not None:
+            self.inputs.search_tolerance.connect(search_tolerance)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if use_quadratic_elements is not None:
@@ -330,7 +350,7 @@ The fields container can have labels (e.g., time steps, frequencies) that will b
 This optimization is most effective when coordinates and fields cover the same spatial region of interest.""",
                 ),
                 5: PinSpecification(
-                    name="tolerance",
+                    name="locate_tolerance",
                     type_names=["double"],
                     optional=True,
                     document=r"""Tolerance used when locating query coordinates within elements.
@@ -338,6 +358,17 @@ This optimization is most effective when coordinates and fields cover the same s
 **Default**: $5 \times 10^{-5}$
 
 Lower values provide more accurate coordinate location but may fail for points near element boundaries. If no element is found at the specified tolerance, the tolerance is progressively relaxed up to a maximum of $0.1$.""",
+                    aliases=["tolerance"],
+                ),
+                6: PinSpecification(
+                    name="search_tolerance",
+                    type_names=["double"],
+                    optional=True,
+                    document=r"""Tolerance used when searching elements by the coordinates of the query points (first filter step).
+
+**Default**: $1 \times 10^{-6}$
+
+If the default value is used, and no element is found at the specified tolerance, the tolerance is progressively relaxed up.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -440,8 +471,10 @@ class InputsOnCoordinates(_Inputs):
     >>> op.inputs.create_support.connect(my_create_support)
     >>> my_mapping_on_scoping = bool()
     >>> op.inputs.mapping_on_scoping.connect(my_mapping_on_scoping)
-    >>> my_tolerance = float()
-    >>> op.inputs.tolerance.connect(my_tolerance)
+    >>> my_locate_tolerance = float()
+    >>> op.inputs.locate_tolerance.connect(my_locate_tolerance)
+    >>> my_search_tolerance = float()
+    >>> op.inputs.search_tolerance.connect(my_search_tolerance)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_use_quadratic_elements = bool()
@@ -466,10 +499,14 @@ class InputsOnCoordinates(_Inputs):
             on_coordinates._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._mapping_on_scoping)
-        self._tolerance: Input[float] = Input(
+        self._locate_tolerance: Input[float] = Input(
             on_coordinates._spec().input_pin(5), 5, op, -1
         )
-        self._inputs.append(self._tolerance)
+        self._inputs.append(self._locate_tolerance)
+        self._search_tolerance: Input[float] = Input(
+            on_coordinates._spec().input_pin(6), 6, op, -1
+        )
+        self._inputs.append(self._search_tolerance)
         self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
             on_coordinates._spec().input_pin(7), 7, op, -1
         )
@@ -585,8 +622,8 @@ class InputsOnCoordinates(_Inputs):
         return self._mapping_on_scoping
 
     @property
-    def tolerance(self) -> Input[float]:
-        r"""Allows to connect tolerance input to the operator.
+    def locate_tolerance(self) -> Input[float]:
+        r"""Allows to connect locate_tolerance input to the operator.
 
         Tolerance used when locating query coordinates within elements.
 
@@ -603,11 +640,36 @@ class InputsOnCoordinates(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.mapping.on_coordinates()
-        >>> op.inputs.tolerance.connect(my_tolerance)
+        >>> op.inputs.locate_tolerance.connect(my_locate_tolerance)
         >>> # or
-        >>> op.inputs.tolerance(my_tolerance)
+        >>> op.inputs.locate_tolerance(my_locate_tolerance)
         """
-        return self._tolerance
+        return self._locate_tolerance
+
+    @property
+    def search_tolerance(self) -> Input[float]:
+        r"""Allows to connect search_tolerance input to the operator.
+
+        Tolerance used when searching elements by the coordinates of the query points (first filter step).
+
+        **Default**: $1 \times 10^{-6}$
+
+        If the default value is used, and no element is found at the specified tolerance, the tolerance is progressively relaxed up.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mapping.on_coordinates()
+        >>> op.inputs.search_tolerance.connect(my_search_tolerance)
+        >>> # or
+        >>> op.inputs.search_tolerance(my_search_tolerance)
+        """
+        return self._search_tolerance
 
     @property
     def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
@@ -659,6 +721,18 @@ class InputsOnCoordinates(_Inputs):
         >>> op.inputs.use_quadratic_elements(my_use_quadratic_elements)
         """
         return self._use_quadratic_elements
+
+    def __getattr__(self, name):
+        if name in ["tolerance"]:
+            warn(
+                DeprecationWarning(
+                    f'Operator on_coordinates: Input name "{name}" is deprecated in favor of "locate_tolerance".'
+                )
+            )
+            return self.locate_tolerance
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'."
+        )
 
 
 class OutputsOnCoordinates(_Outputs):
