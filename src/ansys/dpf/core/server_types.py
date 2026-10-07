@@ -894,7 +894,6 @@ class GrpcServer(CServer):
         certificates_dir: Path = None,
     ):
         # Load DPFClientAPI
-        from ansys.dpf.core import settings
         from ansys.dpf.core.misc import is_pypim_configured
 
         self._grpc_mode = deepcopy(grpc_mode)
@@ -951,14 +950,7 @@ class GrpcServer(CServer):
                 )
                 self._local_server = True
 
-        client_config = settings.get_runtime_client_config(server=self)
-
-        if self._grpc_mode == server_factory.GrpcMode.Insecure:
-            client_config.grpc_mode = "insecure"
-        elif self._grpc_mode == server_factory.GrpcMode.mTLS:
-            client_config.grpc_mode = "mtls"
-            if self._certs_dir is not None and len(str(self._certs_dir)) > 0:
-                client_config.grpc_certs_dir = str(self._certs_dir)
+        self._configure_grpc_client()
 
         # store port and ip for later reference
         self._client.set_address(address, self)
@@ -975,6 +967,18 @@ class GrpcServer(CServer):
             except errors.DpfVersionNotSupported:
                 pass
         self.set_as_global(as_global=as_global)
+
+    def _configure_grpc_client(self):
+        """Apply the gRPC mode and certificates to the runtime client configuration."""
+        from ansys.dpf.core import settings
+
+        client_config = settings.get_runtime_client_config(server=self)
+        if self._grpc_mode == server_factory.GrpcMode.Insecure:
+            client_config.grpc_mode = "insecure"
+        elif self._grpc_mode == server_factory.GrpcMode.mTLS:
+            client_config.grpc_mode = "mtls"
+            if self._certs_dir is not None and len(str(self._certs_dir)) > 0:
+                client_config.grpc_certs_dir = str(self._certs_dir)
 
     def _check_first_call(self, timeout: float):
         start_time = time.time()
