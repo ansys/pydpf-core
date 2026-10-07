@@ -1,7 +1,6 @@
 from datetime import datetime
 from glob import glob
 import os
-import re
 import shutil
 import sys
 from pathlib import Path
@@ -508,22 +507,6 @@ elif not BUILD_TUTORIALS:
     # Remove tutorials from the combined gallery when tutorials are disabled
     sphinx_gallery_conf["examples_dirs"] = ["../sphinx_gallery_examples"]
     sphinx_gallery_conf["gallery_dirs"] = ["examples"]
-
-# Minimal build: generate a single example and skip every other example/tutorial.
-# Set MINIMAL_BUILD=true, and optionally MINIMAL_BUILD_EXAMPLE to pick the file name.
-MINIMAL_BUILD = True if os.environ.get("MINIMAL_BUILD", "false") == "true" else False
-if MINIMAL_BUILD and (BUILD_EXAMPLES or BUILD_TUTORIALS):
-    minimal_example = os.environ.get("MINIMAL_BUILD_EXAMPLE", "00-basic_example.py")
-    sphinx_gallery_conf["examples_dirs"] = ["../sphinx_gallery_examples"]
-    sphinx_gallery_conf["gallery_dirs"] = ["examples"]
-    # ``ignore_pattern`` is matched against bare file names, so ignore anything else
-    sphinx_gallery_conf["ignore_pattern"] = rf"^(?!{re.escape(minimal_example)}$).*"
-    sphinx_gallery_conf["filename_pattern"] = re.escape(minimal_example)
-    sphinx_gallery_conf["abort_on_example_error"] = True
-    BUILD_EXAMPLES = True
-    BUILD_TUTORIALS = False
-    print(f"MINIMAL_BUILD: only {minimal_example} is generated, all other "
-          f"examples and tutorials are skipped.")
 
 BUILD_CHEATSHEET = True if os.environ.get("BUILD_CHEATSHEET", "true") == "true" else False
 if not BUILD_CHEATSHEET:
