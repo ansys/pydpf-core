@@ -30,9 +30,10 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import misc
 import ansys.dpf.core.operators as op
+from ansys.dpf.core.server import get_server_address
 from ansys.dpf.core.workflow_topology import WorkflowTopology
 import conftest
-from conftest import get_server_address, running_docker
+from conftest import running_docker
 
 if misc.module_exists("graphviz"):
     HAS_GRAPHVIZ = True

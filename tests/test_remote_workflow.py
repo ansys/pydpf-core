@@ -26,7 +26,8 @@ import pytest
 from ansys.dpf import core
 from ansys.dpf.core import examples, operators as ops
 from ansys.dpf.core.errors import ServerTypeError
-from conftest import get_server_address, local_servers, running_docker
+from ansys.dpf.core.server import get_server_address
+from conftest import local_servers, running_docker
 
 
 @pytest.mark.xfail(raises=ServerTypeError)

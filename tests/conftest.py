@@ -29,7 +29,6 @@ pytest as a session fixture
 import functools
 import os
 from pathlib import Path
-import subprocess
 import warnings
 
 import psutil
@@ -618,34 +617,6 @@ local_servers = LocalServers()
 @pytest.fixture()
 def local_server():
     return local_servers[0]
-
-
-def _get_docker_container_ip(container_id: str) -> str:
-    """Return the IP address of a running Docker container using ``docker inspect``."""
-    result = subprocess.run(  # nosec B603 B607
-        [
-            "docker",
-            "inspect",
-            "-f",
-            "{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}",
-            container_id,
-        ],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    return result.stdout.split()[0]
-
-
-def get_server_address(server) -> str:
-    """Return the ``ip:port`` address at which another DPF server can reach ``server``.
-
-    When running on Docker, the IP reported by the server is only valid inside its own
-    container, so the container IP on the Docker network is retrieved instead.
-    """
-    if running_docker:
-        return f"{_get_docker_container_ip(server.docker_config.server_id)}:{server.port}"
-    return f"{server.ip}:{server.port}"
 
 
 @pytest.fixture(autouse=False)

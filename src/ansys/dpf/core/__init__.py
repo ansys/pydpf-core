@@ -50,6 +50,7 @@ from ansys.dpf.core.server import (
     start_local_server,
     _global_server,
     connect_to_server,
+    get_server_address,
     has_local_server,
 )
 from ansys.dpf.core.server import _global_server as global_server
