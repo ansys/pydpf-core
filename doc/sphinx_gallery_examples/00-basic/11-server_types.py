@@ -128,5 +128,5 @@ import gc
 
 del grpc_field, legacy_grpc_field
 if "DPF_DOCKER" not in os.environ.keys():
-  del in_process_field
+    del in_process_field
 gc.collect()
