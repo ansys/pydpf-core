@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 class polar_to_cplx(Operator):
     r"""Converts a complex-valued fields container from `polar
-    form <https://en.wikipedia.org/wiki/Complex_number#Polar_complex_plane>`__
+    form <https://en.wikipedia.org/wiki/Complex_number#Polar_form>`__
     (amplitude, phase) to rectangular form (real, imaginary):
     :math:`\mathrm{Re}[i] = A[i] \cdot \cos(\phi[i])`,
     :math:`\mathrm{Im}[i] = A[i] \cdot \sin(\phi[i])`. The input must
@@ -73,7 +73,7 @@ class polar_to_cplx(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Converts a complex-valued fields container from `polar
-form <https://en.wikipedia.org/wiki/Complex_number#Polar_complex_plane>`__
+form <https://en.wikipedia.org/wiki/Complex_number#Polar_form>`__
 (amplitude, phase) to rectangular form (real, imaginary):
 :math:`\mathrm{Re}[i] = A[i] \cdot \cos(\phi[i])`,
 :math:`\mathrm{Im}[i] = A[i] \cdot \sin(\phi[i])`. The input must
