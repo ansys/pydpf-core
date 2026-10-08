@@ -1,3 +1,4 @@
+from contextlib import suppress
 import copy
 import re
 import weakref
@@ -54,16 +55,12 @@ class DataProcessingYielderHelper:
                 yield request
                 i += len(piece) * 1e-3
                 if need_progress_bar:
-                    try:
+                    with suppress(Exception):
                         bar.update(min(i, tot_size))
-                    except:
-                        pass
 
         if need_progress_bar:
-            try:
+            with suppress(Exception):
                 bar.finish()
-            except:
-                pass
 
 
 @errors.protect_grpc_class
@@ -208,6 +205,14 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
         minor.set(response.minorVersion)
 
     @staticmethod
+    def data_processing_get_server_version_full_on_client(client, major, minor, micro, modifier):
+        response = _get_server_info_response(client)
+        major.set(response.majorVersion)
+        minor.set(response.minorVersion)
+        micro.set(response.microVersion)
+        modifier.set(response.modifierVersion)
+
+    @staticmethod
     def data_processing_description_string(data):
         data_obj = data._internal_obj
         from ansys.grpc.dpf import base_pb2, collection_message_pb2
@@ -317,11 +322,9 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
             for chunk in chunks:
                 f.write(chunk.data.data)
                 i += len(chunk.data.data) * 1e-3
-                try:
+                with suppress(Exception):
                     if bar is not None:
                         bar.update(min(i, tot_size))
-                except:
-                    pass
         if bar is not None:
             bar.finish()
 
@@ -385,18 +388,14 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
                     )
                     client_paths.append(cient_path)
                     f = open(cient_path, "wb")
-                    try:
+                    with suppress(Exception):
                         if bar is not None:
                             bar.update(len(client_paths))
-                    except:
-                        pass
                 else:
                     f = None
             if f is not None:
                 f.write(chunk.data.data)
-        try:
+        with suppress(Exception):
             if bar is not None:
                 bar.finish()
-        except:
-            pass
         return client_paths

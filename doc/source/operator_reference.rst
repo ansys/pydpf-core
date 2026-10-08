@@ -6,6 +6,11 @@ Operators
 
 DPF operators allow you to manipulate and transform simulation data.
 
+Look for available operators and their descriptions with the `DPF Operators Search
+<https://developer.ansys.com/docs/dpf/operators-search>`_.
+
+
+
 .. grid:: 1
 
    .. grid-item::
@@ -13,7 +18,9 @@ DPF operators allow you to manipulate and transform simulation data.
             :link-type: doc
             :link: operator_reference_load
 
-            Click here to get started with operators available in DPF.
+            Click here to access the DPF operators legacy documentation.
+            
+            Prefer using the DPF Operators Search when possible.
 
             +++
             .. button-link:: OPEN

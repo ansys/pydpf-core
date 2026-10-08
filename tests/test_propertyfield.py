@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -41,6 +41,23 @@ def property_field(simple_bar):
     op.inputs.mesh.connect(mesh)
     property_field = op.outputs.property_field_new_elements_to_old()
     return property_field
+
+
+@pytest.mark.parametrize("nature", [natures.scalar, natures.vector, natures.symmatrix])
+def test_create_property_field_with_explicit_server_does_not_use_global(
+    server_type, monkeypatch, nature
+):
+    def unexpected_global_server():
+        pytest.fail("PropertyField creation with an explicit server must not use the global server")
+
+    monkeypatch.setattr(core, "SERVER", None)
+    monkeypatch.setattr(core.server, "_global_server", unexpected_global_server)
+
+    field = core.PropertyField(nature=nature, server=server_type)
+
+    assert field._internal_obj is not None
+    assert field._server is server_type
+    assert core.SERVER is None
 
 
 def test_scopingdata_property_field(server_type):
@@ -222,14 +239,13 @@ def test_local_property_field():
 
     assert np.allclose(field_to_local.data, data)
     assert np.allclose(field_to_local.scoping.ids, scoping_ids)
-    assert np.allclose(field_to_local._data_pointer, data_pointer[0 : len(data_pointer)])
+    assert np.allclose(field_to_local.entity_data_offsets, data_pointer[0 : len(data_pointer)])
 
     with field_to_local.as_local_field() as f:
         assert np.allclose(f.data, data)
-        assert np.allclose(f._data_pointer, data_pointer[0 : len(data_pointer)])
+        assert np.allclose(f.entity_data_offsets, data_pointer[0 : len(data_pointer)])
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_mutable_data_property_field(server_clayer, simple_bar):
     model = dpf.core.Model(simple_bar, server=server_clayer)
     mesh = model.metadata.meshed_region
@@ -256,10 +272,6 @@ def test_mutable_data_property_field(server_clayer, simple_bar):
     assert np.allclose(changed_data[0], data_copy[0] + 2)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="change in memory ownership in server 5.0",
-)
 def test_mutable_data_delete_property_field(server_clayer, simple_bar):
     model = dpf.core.Model(simple_bar, server=server_clayer)
     mesh = model.metadata.meshed_region
@@ -276,10 +288,6 @@ def test_mutable_data_delete_property_field(server_clayer, simple_bar):
     assert np.allclose(changed_data[0], 1)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="Copying data is " "supported starting server version 5.0",
-)
 def test_print_property_field(server_type):
     pfield = dpf.core.PropertyField(server=server_type)
     assert "Property Field" in str(pfield)

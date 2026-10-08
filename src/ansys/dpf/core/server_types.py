@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -31,24 +31,31 @@ from __future__ import annotations
 
 import abc
 from abc import ABC
+from copy import deepcopy
 import ctypes
 import io
 import os
 from pathlib import Path
 import socket
-import subprocess
+import subprocess  # nosec B404
 import sys
 from threading import Lock, Thread
 import time
 import traceback
 from typing import TYPE_CHECKING, Union
 import warnings
+import weakref
 
 import psutil
 
-import ansys.dpf.core as core
+from ansys.dpf import core
 from ansys.dpf.core import __version__, errors, server_context, server_factory
-from ansys.dpf.core._version import min_server_version, server_to_ansys_version
+from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._version import (
+    CALENDAR_VERSIONING_FIRST_MAJOR,
+    min_server_version,
+    server_to_ansys_version,
+)
 from ansys.dpf.core.check_version import get_server_version, meets_version, version_requires
 from ansys.dpf.core.server_context import AvailableServerContexts, ServerContext
 from ansys.dpf.gate import data_processing_grpcapi, load_api
@@ -59,12 +66,13 @@ if TYPE_CHECKING:  # pragma: no cover
 import logging
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel("DEBUG")
-DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 50054))
+DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", "50054"))
 LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
 RUNNING_DOCKER = server_factory.create_default_docker_config()
 
 MAX_PORT = 65535
+
+CUSTOM_XML_CONTEXT_TYPE = 2
 
 
 def _get_dll_path(name, ansys_path=None):
@@ -73,7 +81,7 @@ def _get_dll_path(name, ansys_path=None):
     ANSYS_INSTALL = Path(core.misc.get_ansys_path(ansys_path))
     api_path = load_api._get_path_in_install()
     if api_path is None:
-        raise ImportError(f"Could not find API path in install.")
+        raise ImportError("Could not find API path in install.")
     SUB_FOLDERS = ANSYS_INSTALL / api_path
     if ISPOSIX:
         name = "lib" + name
@@ -105,21 +113,53 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
             "Unable to locate the directory containing DPF at "
             f'"{dpf_run_dir}"'
         )
-    else:
-        if not dpf_run_dir.joinpath(executable).exists():
-            raise FileNotFoundError(
-                f'DPF executable not found at "{dpf_run_dir}".  '
-                f'Unable to locate the executable "{executable}"'
-            )
+    elif not dpf_run_dir.joinpath(executable).exists():
+        raise FileNotFoundError(
+            f'DPF executable not found at "{dpf_run_dir}".  '
+            f'Unable to locate the executable "{executable}"'
+        )
     return dpf_run_dir
 
 
-def _run_launch_server_process(
+def _build_launch_server_command(  # noqa: PLR0913
+    executable,
+    ip,
+    port,
+    context: ServerContext = None,
+    grpc_mode: server_factory.GrpcMode = server_factory.DEFAULT_GRPC_MODE,
+    certificates_dir: Path = None,
+    platform_name: str = os.name,
+):
+    """Build a local server command without loading native libraries or starting a process."""
+    run_cmd = [executable, "--address", str(ip), "--port", str(port)]
+    if context not in (
+        None,
+        AvailableServerContexts.entry,
+        AvailableServerContexts.premium,
+    ):
+        if context.licensing_context_type == CUSTOM_XML_CONTEXT_TYPE and len(context.xml_path) > 0:
+            run_cmd.extend(["--context", context.xml_path])
+        else:
+            run_cmd.extend(["--context", str(int(context.licensing_context_type))])
+
+    if grpc_mode == server_factory.GrpcMode.Insecure:
+        run_cmd.extend(["--mode", "0"])
+    elif grpc_mode == server_factory.GrpcMode.mTLS:
+        run_cmd.extend(["--mode", "3"])
+        if certificates_dir is not None and isinstance(certificates_dir, Path):
+            run_cmd.extend(["--certs-dir", str(certificates_dir)])
+
+    return subprocess.list2cmdline(run_cmd) if platform_name == "nt" else run_cmd
+
+
+def _run_launch_server_process(  # noqa: PLR0913
     ip,
     port,
     ansys_path=None,
     docker_config=server_factory.RunningDockerConfig(),
     context: ServerContext = None,
+    grpc_mode: server_factory.GrpcMode = server_factory.DEFAULT_GRPC_MODE,
+    certificates_dir: Path = None,
 ):
     bShell = False
     if docker_config.use_docker:
@@ -128,45 +168,28 @@ def _run_launch_server_process(
         if os.name == "posix":
             bShell = True
         run_cmd = docker_config.docker_run_cmd_command(docker_server_port, port)
+        if os.name == "nt":
+            run_cmd = " ".join(run_cmd)
     else:
         if os.name == "nt":
             executable = "Ans.Dpf.Grpc.bat"
-            run_cmd = f"{executable} --address {ip} --port {port}"
-            if context not in (
-                None,
-                AvailableServerContexts.entry,
-                AvailableServerContexts.premium,
-            ):
-                run_cmd += f" --context {int(context.licensing_context_type)}"
         else:
             executable = "./Ans.Dpf.Grpc.sh"  # pragma: no cover
-            run_cmd = [
-                executable,
-                f"--address {ip}",
-                f"--port {port}",
-            ]  # pragma: no cover
-            if context not in (
-                None,
-                AvailableServerContexts.entry,
-                AvailableServerContexts.premium,
-            ):
-                run_cmd.append(f"--context {int(context.licensing_context_type)}")
+        run_cmd = _build_launch_server_command(
+            executable, ip, port, context, grpc_mode, certificates_dir, platform_name=os.name
+        )
         path_in_install = load_api._get_path_in_install(internal_folder="bin")
         dpf_run_dir = _verify_ansys_path_is_valid(ansys_path, executable, path_in_install)
-
     old_dir = Path.cwd()
     os.chdir(dpf_run_dir)
-    if not bShell:
-        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    else:
-        process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
-        )
+    process = subprocess.Popen(
+        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=bShell
+    )  # nosec B602
     os.chdir(old_dir)
     return process
 
 
-def _wait_and_check_server_connection(
+def _wait_and_check_server_connection(  # noqa: PLR0913, C901
     process, port, timeout, lines, current_errors, stderr=None, stdout=None
 ):
     if not stderr:
@@ -218,11 +241,17 @@ def _wait_and_check_server_connection(
             or "port is already allocated" in errstr
         ):
             raise errors.InvalidPortError(f"Port {port} in use")
-        raise RuntimeError(errstr)
+        raise RuntimeError(errors.format_dpf_error(errstr))
 
 
-def launch_dpf(
-    ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, context: ServerContext = None
+def launch_dpf(  # noqa: PLR0913
+    ansys_path,
+    ip=LOCALHOST,
+    port=DPF_DEFAULT_PORT,
+    timeout=10,
+    context: ServerContext = None,
+    grpc_mode=server_factory.DEFAULT_GRPC_MODE,
+    certificates_dir: Path = None,
 ):
     """Launch Ansys DPF.
 
@@ -243,8 +272,21 @@ def launch_dpf(
         passes, the connection fails.
     context : , optional
         Context to apply to DPF server when launching it.
+    grpc_mode:
+        Grpc mode to use when launching DPF server.
+        Can be one of the members of :class:`ansys.dpf.core.server_factory.GrpcMode`.
+        Defaults to mTLS authenticated mode.
+    certificates_dir:
+        Path to a directory containing the certificates to use for mTLS authentication.
     """
-    process = _run_launch_server_process(ip, port, ansys_path, context=context)
+    process = _run_launch_server_process(
+        ip,
+        port,
+        ansys_path,
+        context=context,
+        grpc_mode=grpc_mode,
+        certificates_dir=certificates_dir,
+    )
     lines = []
     current_errors = []
     _wait_and_check_server_connection(
@@ -421,7 +463,7 @@ class GhostServer:
     @property
     def port(self) -> int:
         """Returns the port of shutdown server if the shutdown happened less than 10s ago."""
-        if time.time() - self.closed_time > 10:
+        if time.time() - self.closed_time > 10:  # noqa: PLR2004
             return -1
         return self._port
 
@@ -445,6 +487,10 @@ class BaseServer(abc.ABC):
         self._info_instance = None
         self._docker_config = server_factory.RunningDockerConfig()
         self._server_meet_version = {}
+        self._metadata_instances = weakref.WeakSet()
+
+    def _register_metadata(self, metadata):
+        self._metadata_instances.add(metadata)
 
     def set_as_global(self, as_global=True):
         """Set the current server as global if necessary.
@@ -670,6 +716,8 @@ class BaseServer(abc.ABC):
         """Return string representation of the instance."""
         return f"DPF Server: {self.info}"
 
+    __hash__ = None
+
     @abc.abstractmethod
     def __eq__(self, other_server):
         """Must be implemented by subclasses."""
@@ -737,6 +785,8 @@ class CServer(BaseServer, ABC):
         Warning
             If an exception occurs while attempting to delete resources.
         """
+        if sys is None or sys.is_finalizing():
+            return
         try:
             self._del_session()
             if self._own_process:
@@ -748,6 +798,8 @@ class CServer(BaseServer, ABC):
 
 class GrpcClient:
     """Client using the gRPC communication protocol."""
+
+    _internal_obj = None
 
     def __init__(self):
         from ansys.dpf.gate import client_capi
@@ -777,16 +829,52 @@ class GrpcClient:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
+        release_dpf_object(self)
 
 
 class GrpcServer(CServer):
-    """Server using the gRPC communication protocol."""
+    """Server using the gRPC communication protocol.
 
-    def __init__(
+    Parameters
+    ----------
+    ansys_path:
+        Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
+        The default is the latest Ansys installation.
+    ip:
+        IP address of the remote or local instance to connect to. The
+        default is ``"LOCALHOST"``.
+    port:
+        Port to connect to the remote instance on. The default is
+        ``"DPF_DEFAULT_PORT"``, which is 50054.
+    timeout:
+        Maximum number of seconds for the initialization attempt.
+        The default is ``10``. Once the specified number of seconds
+        passes, the connection fails.
+    as_global:
+        Set this server as the global server used by default by PyDPF.
+        The default is ``True``.
+    load_operators:
+        Whether to load the operators upon server initialization.
+        The default is ``True``.
+    launch_server:
+        Whether to launch a new server process. If ``False``, connects to an existing server.
+        The default is ``True``.
+    docker_config:
+        To start DPF server as a docker, specify the docker configurations here.
+    use_pypim:
+        Whether to use PyPIM to launch a remote DPF server if PyPIM is configured.
+        The default is ``True``.
+    context:
+        Context to apply to DPF server when launching it.
+    grpc_mode:
+        Grpc mode to use when launching DPF server.
+        Can be one of the members of :class:`ansys.dpf.core.server_factory.GrpcMode`.
+        Defaults to mTLS authenticated mode.
+    certificates_dir:
+        Path to a directory containing the certificates to use for mTLS authentication.
+    """
+
+    def __init__(  # noqa: PLR0913
         self,
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,
@@ -798,9 +886,17 @@ class GrpcServer(CServer):
         docker_config: DockerConfig = RUNNING_DOCKER,
         use_pypim: bool = True,
         context: server_context.ServerContext = server_context.SERVER_CONTEXT,
+        grpc_mode: server_factory.GrpcMode = server_factory.DEFAULT_GRPC_MODE,
+        certificates_dir: Path = None,
     ):
         # Load DPFClientAPI
+        from ansys.dpf.core import settings
         from ansys.dpf.core.misc import is_pypim_configured
+
+        self._grpc_mode = deepcopy(grpc_mode)
+        self._certs_dir = certificates_dir
+        if os.environ.get("DPF_DEFAULT_GRPC_MODE", None) == "insecure":
+            self._grpc_mode = server_factory.GrpcMode.Insecure
 
         self.live = False
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
@@ -839,8 +935,25 @@ class GrpcServer(CServer):
                     timeout=timeout,
                 )
             else:
-                launch_dpf(ansys_path, ip, port, timeout=timeout, context=context)
+                launch_dpf(
+                    ansys_path,
+                    ip,
+                    port,
+                    timeout=timeout,
+                    context=context,
+                    grpc_mode=self._grpc_mode,
+                    certificates_dir=self._certs_dir,
+                )
                 self._local_server = True
+
+        client_config = settings.get_runtime_client_config(server=self)
+
+        if self._grpc_mode == server_factory.GrpcMode.Insecure:
+            client_config.grpc_mode = "insecure"
+        elif self._grpc_mode == server_factory.GrpcMode.mTLS:
+            client_config.grpc_mode = "mtls"
+            if self._certs_dir is not None and len(str(self._certs_dir)) > 0:
+                client_config.grpc_certs_dir = str(self._certs_dir)
 
         # store port and ip for later reference
         self._client.set_address(address, self)
@@ -877,7 +990,8 @@ class GrpcServer(CServer):
         Returns
         -------
         version : str
-            The version of the server in 'major.minor' format.
+            The version of the server in 'major.minor.micro[modifier]' format for servers
+            using calendar versioning (major >= 2027), or 'major.minor' for older servers.
         """
         if not self._version:
             from ansys.dpf.gate import data_processing_capi, integral_types
@@ -886,7 +1000,17 @@ class GrpcServer(CServer):
             major = integral_types.MutableInt32()
             minor = integral_types.MutableInt32()
             api.data_processing_get_server_version_on_client(self.client, major, minor)
-            self._version = str(int(major)) + "." + str(int(minor))
+            if int(major) >= CALENDAR_VERSIONING_FIRST_MAJOR:
+                micro = integral_types.MutableInt32()
+                modifier = integral_types.MutableString(size=0)
+                api.data_processing_get_server_version_full_on_client(
+                    self.client, major, minor, micro, modifier
+                )
+                self._version = (
+                    str(int(major)) + "." + str(int(minor)) + "." + str(int(micro)) + str(modifier)
+                )
+            else:
+                self._version = str(int(major)) + "." + str(int(minor))
         return self._version
 
     @property
@@ -928,6 +1052,8 @@ class GrpcServer(CServer):
 
             self._docker_config.remove_docker_image()
             self.live = False
+
+    __hash__ = None
 
     def __eq__(self, other_server):
         """Return true, if ***** are equals."""
@@ -1035,7 +1161,10 @@ class GrpcServer(CServer):
         config : AvailableServerConfigs
             The server configuration for the gRPC server from the AvailableServerConfigs.
         """
-        return server_factory.AvailableServerConfigs.GrpcServer
+        config = deepcopy(server_factory.AvailableServerConfigs.GrpcServer)
+        config.grpc_mode = self._grpc_mode
+        config.certificates_dir = self._certs_dir
+        return config
 
 
 class InProcessServer(CServer):
@@ -1091,7 +1220,8 @@ class InProcessServer(CServer):
         Returns
         -------
         version : str
-            The version of the InProcess server in the format "major.minor".
+            The version of the InProcess server in the format "major.minor.micro[modifier]" for
+            servers using calendar versioning (major >= 2027), or "major.minor" for older servers.
         """
         if self._version is None:
             from ansys.dpf.gate import data_processing_capi, integral_types
@@ -1100,7 +1230,15 @@ class InProcessServer(CServer):
             major = integral_types.MutableInt32()
             minor = integral_types.MutableInt32()
             api.data_processing_get_server_version(major, minor)
-            out = str(int(major)) + "." + str(int(minor))
+            if int(major) >= CALENDAR_VERSIONING_FIRST_MAJOR:
+                micro = integral_types.MutableInt32()
+                modifier = integral_types.MutableString(size=0)
+                api.data_processing_get_server_version_full(major, minor, micro, modifier)
+                out = (
+                    str(int(major)) + "." + str(int(minor)) + "." + str(int(micro)) + str(modifier)
+                )
+            else:
+                out = str(int(major)) + "." + str(int(minor))
             self._version = out
         return self._version
 
@@ -1118,7 +1256,10 @@ class InProcessServer(CServer):
         return os.name
 
     def shutdown(self):  # noqa: D102
-        pass
+        for metadata in self._metadata_instances:
+            metadata.release_streams()
+
+    __hash__ = None
 
     def __eq__(self, other_server):
         """Return true, if the ip and the port are equals."""
@@ -1189,35 +1330,43 @@ class LegacyGrpcServer(BaseServer):
 
     Parameters
     ----------
-    ansys_path : str
+    ansys_path:
         Path for the DPF executable.
-    ip : str
+    ip:
         IP address of the remote or local instance to connect to. The
         default is ``"LOCALHOST"``.
-    port : int
+    port:
         Port to connect to the remote instance on. The default is
         ``"DPF_DEFAULT_PORT"``, which is 50054.
-    timeout : float, optional
+    timeout:
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
-    as_global : bool, optional
+    as_global:
         Global variable that stores the IP address and port for the DPF
         module. All DPF objects created in this Python session will
         use this IP and port. The default is ``True``.
-    load_operators : bool, optional
-        Whether to automatically load the math operators. The default
+    load_operators:
+        Whether to automatically load the operators. The default
         is ``True``.
-    launch_server : bool, optional
+    launch_server:
         Whether to launch the server on Windows.
-    docker_config : server_factory.DockerConfig, optional
+    docker_config:
         To start DPF server as a docker, specify the docker name here.
-    use_pypim: bool, optional
+    use_pypim:
         Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
         Defaults to True.
+    context:
+        Context to apply to DPF server when launching it.
+    grpc_mode:
+        Grpc mode to use when launching DPF server.
+        Can be one of the members of :class:`ansys.dpf.core.server_factory.GrpcMode`.
+        Defaults to mTLS authenticated mode.
+    certificates_dir:
+        Path to a directory containing the certificates to use for mTLS authentication.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913, PLR0915, C901
         self,
         ansys_path: Union[str, None] = None,
         ip: str = LOCALHOST,
@@ -1229,10 +1378,17 @@ class LegacyGrpcServer(BaseServer):
         docker_config: DockerConfig = RUNNING_DOCKER,
         use_pypim: bool = True,
         context: server_context.ServerContext = server_context.SERVER_CONTEXT,
+        grpc_mode: server_factory.GrpcMode = server_factory.DEFAULT_GRPC_MODE,
+        certificates_dir: Path = None,
     ):
         """Start the DPF server."""
         # Use ansys.grpc.dpf
         from ansys.dpf.core.misc import is_pypim_configured
+
+        self._grpc_mode = deepcopy(grpc_mode)
+        self._certs_dir = certificates_dir
+        if os.environ.get("DPF_DEFAULT_GRPC_MODE", None) == "insecure":
+            self._grpc_mode = server_factory.GrpcMode.Insecure
 
         self.live = False
         super().__init__()
@@ -1242,7 +1398,6 @@ class LegacyGrpcServer(BaseServer):
         self.channel = None
 
         # Load Ans.Dpf.Grpc?
-        import grpc
 
         # check valid ip and port
         check_valid_ip(ip)
@@ -1263,25 +1418,42 @@ class LegacyGrpcServer(BaseServer):
                 address = self._remote_instance.services["grpc"].uri
                 ip = address.split(":")[-2]
                 port = int(address.split(":")[-1])
+            elif docker_config.use_docker:
+                self.docker_config = server_factory.RunningDockerConfig(docker_config)
+                launch_dpf_on_docker(
+                    running_docker_config=self.docker_config,
+                    ansys_path=ansys_path,
+                    ip=ip,
+                    port=port,
+                    timeout=timeout,
+                )
             else:
-                if docker_config.use_docker:
-                    self.docker_config = server_factory.RunningDockerConfig(docker_config)
-                    launch_dpf_on_docker(
-                        running_docker_config=self.docker_config,
-                        ansys_path=ansys_path,
-                        ip=ip,
-                        port=port,
-                        timeout=timeout,
-                    )
-                else:
-                    launch_dpf(ansys_path, ip, port, timeout=timeout, context=context)
-                    self._local_server = True
+                launch_dpf(
+                    ansys_path,
+                    ip,
+                    port,
+                    timeout=timeout,
+                    context=context,
+                    grpc_mode=self._grpc_mode,
+                    certificates_dir=self._certs_dir,
+                )
+                self._local_server = True
         from ansys.dpf.core import misc, settings
 
         if misc.RUNTIME_CLIENT_CONFIG is not None:
             self_config = settings.get_runtime_client_config(server=self)
             misc.RUNTIME_CLIENT_CONFIG.copy_config(self_config)
-        self.channel = grpc.insecure_channel(address)
+
+        from ansys.tools.common import cyberchannel
+
+        if self._grpc_mode == server_factory.GrpcMode.Insecure:
+            self.channel = cyberchannel.create_channel(
+                transport_mode="insecure", host=ip, port=port
+            )
+        elif self._grpc_mode == server_factory.GrpcMode.mTLS:
+            self.channel = cyberchannel.create_channel(
+                transport_mode="mtls", host=ip, port=port, certs_dir=self._certs_dir
+            )
 
         # store the address for later reference
         self._address = address
@@ -1491,7 +1663,12 @@ class LegacyGrpcServer(BaseServer):
         config : AvailableServerConfigs
             The server configuration for the LegacyGrpcServer server from the AvailableServerConfigs.
         """
-        return server_factory.AvailableServerConfigs.LegacyGrpcServer
+        config = deepcopy(server_factory.AvailableServerConfigs.LegacyGrpcServer)
+        config.grpc_mode = self._grpc_mode
+        config.certificates_dir = self._certs_dir
+        return config
+
+    __hash__ = None
 
     def __eq__(self, other_server):
         """Return true, if the ip and the port are equals."""
@@ -1508,6 +1685,8 @@ class LegacyGrpcServer(BaseServer):
         Warning
             If an exception occurs while attempting to delete resources.
         """
+        if sys is None or sys.is_finalizing():
+            return
         try:
             self._del_session()
             if self._own_process:

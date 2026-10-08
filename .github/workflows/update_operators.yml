@@ -1,4 +1,4 @@
-name: Update generated code
+name: Update generated code # zizmor: ignore[concurrency-limits]
 
 on:
 # Can be called manually or remotely
@@ -24,26 +24,37 @@ env:
   MODULE: core
   ANSYSLMD_LICENSE_FILE: 1055@${{ secrets.LICENSE_SERVER }}
   ANSYS_DPF_ACCEPT_LA: Y
+  DPF_DEFAULT_GRPC_MODE: insecure
+
+permissions: {}
 
 jobs:
   update_generated:
-    name: "Update Generated Code"
+    name: "Update Generated Code" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     runs-on: windows-latest
+    permissions:
+      contents: write # Required for pushing code updates
+      pull-requests: write # Required for creating pull requests
 
     steps:
       - name: echo distinct ID ${{ github.event.inputs.distinct_id }}
-        run: echo ${{ github.event.inputs.distinct_id }}
+        run: echo ${{ github.event.inputs.distinct_id }} # zizmor: ignore[template-injection]
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.10"
 
+      - name: "Install uv"
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
       - name: "Install DPF"
         id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-server@v2.3
+        uses: ansys/pydpf-actions/install-dpf-server@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         with:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
@@ -51,8 +62,10 @@ jobs:
 
       - name: "Update ansys-grpc-dpf"
         shell: bash
+        env:
+          ANSYS_VERSION_INPUT: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
         run: |
-          wheel_file=$(find ./dpf-standalone/v${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}/dist -name "ansys_grpc_dpf-*"  -type f)
+          wheel_file=$(find ./dpf-standalone/v${ANSYS_VERSION_INPUT}/dist -name "ansys_grpc_dpf-*"  -type f)
           echo $wheel_file
           rm -r src/ansys/grpc
           unzip -o $wheel_file "ansys/**/*" -d src/
@@ -61,8 +74,10 @@ jobs:
 
       - name: "Update ansys-dpf-gate"
         shell: bash
+        env:
+          ANSYS_VERSION_INPUT: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
         run: |
-          wheel_file=$(find ./dpf-standalone/v${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}/dist -name "ansys_dpf_gate-*"  -type f)
+          wheel_file=$(find ./dpf-standalone/v${ANSYS_VERSION_INPUT}/dist -name "ansys_dpf_gate-*"  -type f)
           echo $wheel_file
           rm -r src/ansys/dpf/gate/generated
           unzip -o $wheel_file "ansys/dpf/gate/generated/*" -d src/
@@ -72,8 +87,10 @@ jobs:
 
       - name: "Update ansys-dpf-gatebin lin"
         shell: bash
+        env:
+          ANSYS_VERSION_INPUT: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
         run: |
-          wheel_file=$(find ./dpf-standalone/v${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}/dist -name "ansys_dpf_gatebin-*linux1*"  -type f)
+          wheel_file=$(find ./dpf-standalone/v${ANSYS_VERSION_INPUT}/dist -name "ansys_dpf_gatebin-*linux1*"  -type f)
           echo $wheel_file
           rm -r src/ansys/dpf/gatebin
           unzip -o $wheel_file "ansys/**/*" -d src/
@@ -81,8 +98,10 @@ jobs:
 
       - name: "Update ansys-dpf-gatebin win"
         shell: bash
+        env:
+          ANSYS_VERSION_INPUT: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
         run: |
-          wheel_file=$(find ./dpf-standalone/v${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}/dist -name "ansys_dpf_gatebin-*win*"  -type f)
+          wheel_file=$(find ./dpf-standalone/v${ANSYS_VERSION_INPUT}/dist -name "ansys_dpf_gatebin-*win*"  -type f)
           echo $wheel_file
           unzip -o $wheel_file "ansys/**/*" -d src/
           chmod -R 777 src/ansys/dpf/gatebin
@@ -91,28 +110,26 @@ jobs:
       - name: "Install local package as editable"
         shell: bash
         run: |
-          pip install --find-links=.github/ -e .
+          uv pip install --system --find-links=.github/ -e .
 
-      - name: "Install requirements_build"
+      - name: "Install build requirements"
         run: |
-          pip install -r requirements/requirements_build.txt
+          uv pip install --system --group build --group operator_doc
 
       - name: "List installed packages"
         shell: bash
-        run: pip list
+        run: uv pip list --system
 
       - name: "Generate Operators"
         shell: bash
-        working-directory: .ci
         run: |
-          python code_generation.py
+          dpf_generate_operators
         timeout-minutes: 5
 
       - name: "Generate Operators Documentation"
         shell: bash
-        working-directory: .ci
         run: |
-          python build_operators_doc.py
+          dpf_generate_operators_doc_legacy --output_path doc/source/_static/dpf_operators.html
         timeout-minutes: 5
 
       - name: "Show changes"
@@ -120,8 +137,8 @@ jobs:
         run: |
           git status
 
-      - name: "Create Pull Request"
-        uses: peter-evans/create-pull-request@v7
+      - name: "Create Pull Request" # zizmor: ignore[superfluous-actions]
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           delete-branch: true
           add-paths: |
@@ -139,5 +156,7 @@ jobs:
           reviewers: ${{ github.ref_name == 'main' && 'ansys/dpf_integration_proxies' || '' }}
 
       - name: "Kill all servers"
-        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
+        shell: bash
+        run: |
+          uv run --no-project --with psutil python -c "import psutil; proc_name = 'Ans.Dpf.Grpc'; nb_procs = len([proc.kill() for proc in psutil.process_iter() if proc_name in proc.name()]); print(f'Killed {nb_procs} {proc_name} processes.')"

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -25,9 +25,7 @@
 from __future__ import annotations
 
 import builtins
-import traceback
 from typing import TYPE_CHECKING, Union
-import warnings
 
 import numpy as np
 
@@ -38,6 +36,7 @@ if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Field, GenericDataContainer, Scoping, StringField
 
 from ansys.dpf.core import collection_base, errors, server as server_module, types
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.any import Any
 from ansys.dpf.core.dpf_operator import _write_output_type_to_type
 from ansys.dpf.core.mapping_types import map_types_to_python
@@ -78,13 +77,10 @@ class GenericDataContainer:
 
         if generic_data_container is not None:
             self._internal_obj = generic_data_container
+        elif self._server.has_client():
+            self._internal_obj = self._api.generic_data_container_new_on_client(self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.generic_data_container_new_on_client(
-                    self._server.client
-                )
-            else:
-                self._internal_obj = self._api.generic_data_container_new()
+            self._internal_obj = self._api.generic_data_container_new()
         self._prop_description_instance = None
 
     @property
@@ -200,6 +196,8 @@ class GenericDataContainer:
             for _, property_type in enumerate(property_types):
                 if property_type == "vector<int32>":
                     python_type = dpf_vector.DPFVectorInt.__name__
+                elif property_type == "vector<double>":
+                    python_type = dpf_vector.DPFVectorDouble.__name__
                 else:
                     python_type = map_types_to_python[property_type]
                 python_property_types.append(python_type)
@@ -209,9 +207,5 @@ class GenericDataContainer:
 
     def __del__(self):
         """Delete the current instance."""
-        if self._internal_obj is not None:
-            try:
-                self._deleter_func[0](self._deleter_func[1](self))
-            except Exception as e:
-                print(str(e.args), str(self._deleter_func[0]))
-                warnings.warn(traceback.format_exc())
+        if getattr(self, "_internal_obj", None) is not None:
+            release_dpf_object(self)

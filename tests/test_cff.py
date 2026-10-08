@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -23,13 +23,10 @@
 import pytest
 
 from ansys.dpf import core as dpf
+from ansys.dpf.core import examples
 import conftest
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="CFF source operators where not supported before 7.0,",
-)
 def test_cff_model(server_type, fluent_multi_species):
     ds = fluent_multi_species(server_type)
     model = dpf.Model(ds, server=server_type)
@@ -39,10 +36,33 @@ def test_cff_model(server_type, fluent_multi_species):
     assert "faces" in str(mesh)
 
 
+@pytest.mark.parametrize("key", ["", "dat"], ids=["automatic-key", "explicit-key"])
+def test_fluent_model_with_compound_data_file_key(server_in_process, key):
+    files = examples.download_fluent_mixing_elbow_steady_state(
+        should_upload=False, return_local_path=True
+    )
+    ds = dpf.DataSources(files["cas"][0], server=server_in_process)
+    ds.add_file_path(files["dat"][0], key)
+
+    model = dpf.Model(ds, server=server_in_process)
+
+    assert model.metadata.meshed_region.nodes.n_nodes == 9203
+    assert model.metadata.result_info.physics_type == "fluid"
+
+
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="CFF source operators where not supported before 7.0,",
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    reason="Bug due to gatebin incompatibilities for servers <26.1",
 )
+def test_cff_model_flprj(server_type, fluent_axial_comp_flprj):
+    ds = fluent_axial_comp_flprj(server_type)
+    model = dpf.Model(ds, server=server_type)
+    assert model is not None
+    assert "fluid" in str(model)
+    mesh_info = model.metadata.mesh_info
+    assert "faces" in str(mesh_info)
+
+
 def test_results_cfx(cfx_heating_coil, server_type):
     model = dpf.Model(cfx_heating_coil(server=server_type), server=server_type)
     # print(model)
@@ -71,10 +91,6 @@ def test_results_cfx(cfx_heating_coil, server_type):
         assert isinstance(result, dpf.FieldsContainer)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="CFF source operators where not supported before 7.0,",
-)
 def test_results_fluent(fluent_mixing_elbow_steady_state, server_type):
     model = dpf.Model(fluent_mixing_elbow_steady_state(server=server_type), server=server_type)
     # print(model)

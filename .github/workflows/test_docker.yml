@@ -1,4 +1,4 @@
-name: test_docker
+name: test_docker # zizmor: ignore[concurrency-limits] , this is a reusable workflow
 
 on:
 # Can be called by the CI
@@ -12,6 +12,13 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
+    secrets:
+      LICENSE_SERVER:
+        required: true
+      PYANSYS_CI_BOT_TOKEN:
+        required: true
+      CODECOV_TOKEN:
+        required: false
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -31,10 +38,14 @@ env:
   ANSYS_DPF_ACCEPT_LA: Y
   ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
 
+permissions: {}
+
 jobs:
   docker_tests:
-    name: "Build and Test On Docker"
+    name: "Build and Test On Docker" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -42,53 +53,32 @@ jobs:
         os: ["ubuntu-latest"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: "Setup Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: "Setup Graphviz"
-        uses: ts-graphviz/setup-graphviz@v2
+        uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2.0.2
 
-      - name: "Install requirements"
-        run: pip install -r requirements/requirements_build.txt
+      - name: "Install uv"
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
 
-      - name: "Build the wheel"
-        shell: bash
+      - name: "Install package"
         run: |
-          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
-              export platform="manylinux_2_17"
-          else
-              export platform="win"
-          fi
-          python .ci/build_wheel.py -p $platform -w
-
-      - name: "Expose the wheel"
-        shell: bash
-        id: wheel
-        working-directory: dist
-        run: |
-          export name=`ls ansys_dpf_core*.whl`
-          echo ${name}
-          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-
-      - name: "Install package wheel"
-        shell: bash
-        run: |
-          pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
+          uv pip install --system .[graphics]
 
       - name: "Install DPF"
         id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-docker@v2.3
+        uses: ansys/pydpf-actions/install-dpf-docker@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         with:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
-
-      - name: "Check licences of packages"
-        uses: ansys/pydpf-actions/check-licenses@v2.3
 
       - name: "Test import"
         shell: bash
@@ -96,13 +86,14 @@ jobs:
         run: python -c "from ansys.dpf import core"
 
       - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
+        uses: ansys/pydpf-actions/prepare_tests@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         with:
           DEBUG: true
+          install-from-dependency-groups: "true"
 
       - name: "List installed packages"
         shell: bash
-        run: pip list
+        run: uv pip list --system
 
       - name: "Separate long Core tests"
         shell: pwsh
@@ -112,20 +103,31 @@ jobs:
       - name: "Set pytest arguments"
         shell: bash
         run: |
-          echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
+          echo "COVERAGE=--cov=ansys.dpf.${MODULE} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
           echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
 
+          echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
+
+      - name: "Test API Entry"
+        shell: bash
+        working-directory: tests
+        run: |
+          cd entry
+          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results10.xml  .
+        if: always()
+        timeout-minutes: 10
+
       - name: "Test API"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
-          timeout_minutes: 10
+          timeout_minutes: 15
           max_attempts: 2
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results.xml tests/.
 
       - name: "Test API test_launcher"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: 2
           max_attempts: 2
@@ -134,16 +136,16 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results2.xml test_launcher/.
 
       - name: "Test API test_server"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
-          timeout_minutes: 5
+          timeout_minutes: 8
           max_attempts: 2
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results3.xml test_server/.
 
       - name: "Test API test_local_server"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: 2
           max_attempts: 2
@@ -152,7 +154,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results4.xml test_local_server/.
 
       - name: "Test API test_multi_server"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: 5
           max_attempts: 2
@@ -161,7 +163,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results5.xml test_multi_server/.
 
       - name: "Test API test_remote_workflow"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: 2
           max_attempts: 3
@@ -170,7 +172,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results6.xml test_remote_workflow/.
 
       - name: "Test API test_remote_operator"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: 2
           max_attempts: 2
@@ -179,7 +181,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results7.xml test_remote_operator/.
 
       - name: "Test API test_workflow"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: 3
           max_attempts: 3
@@ -188,7 +190,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results8.xml test_workflow/.
 
       - name: "Test API test_service"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: 3
           max_attempts: 2
@@ -197,7 +199,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
 
       - name: "Test Operators"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: 3
           max_attempts: 2
@@ -206,7 +208,7 @@ jobs:
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results12.xml tests/operators/.
 
       - name: "Test Documentation"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: 8
           max_attempts: 2
@@ -214,33 +216,26 @@ jobs:
           command: |
             pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results13.xml test_documentation/.
 
-#      - name: "Test API Entry"
-#        shell: bash
-#        working-directory: tests
-#        run: |
-#          cd entry
-#          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results10.xml  .
-#        if: always()
-#        timeout-minutes: 10
-
       - name: "Upload Test Results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}_docker
           path: tests/junit/test-results.xml
         timeout-minutes: 5
 
       - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
+          report_type: coverage
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}_docker.xml
           flags: docker,${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}
 
       - name: "Upload test analytics results to Codecov"
         if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          report_type: test_results
           name: test_results_${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
           flags: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}

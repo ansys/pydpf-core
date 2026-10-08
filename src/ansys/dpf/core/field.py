@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -24,6 +24,7 @@
 
 from __future__ import annotations
 
+from contextlib import suppress
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -232,7 +233,7 @@ class Field(_FieldBase):
         self._api.init_field_environment(self)
 
     @staticmethod
-    def _field_create_internal_obj(
+    def _field_create_internal_obj(  # noqa: PLR0913
         api: field_abstract_api.FieldAbstractAPI,
         server,
         nature,
@@ -242,7 +243,7 @@ class Field(_FieldBase):
         ncomp_m=0,
         with_type=None,
     ):
-        dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
+        dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature, server=server)
         client = server.client
 
         if dim.is_1d_dim():
@@ -465,6 +466,10 @@ class Field(_FieldBase):
     def _set_data_pointer(self, data):
         return self._api.csfield_set_data_pointer(self, _get_size_of_list(data), data)
 
+    # Keep the private alias for backward compatibility (used in deep_copy and
+    # by external code that may already reference _data_pointer directly).
+    _data_pointer = property(_get_data_pointer, _set_data_pointer)
+
     def _get_data(self, np_array=True):
         try:
             vec = dpf_vector.DPFVectorDouble(owner=self)
@@ -545,7 +550,7 @@ class Field(_FieldBase):
         >>> fields_container = disp.outputs.fields_container()
         >>> field = fields_container[0]
         >>> mesh.plot(field)
-        (None, <pyvista.plotting.plotter.Plotter ...>)
+        ([], <pyvista.plotting.plotter.Plotter ...>)
 
         Parameters
         ----------
@@ -562,19 +567,26 @@ class Field(_FieldBase):
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
-        from ansys.dpf.core.plotter import Plotter
+        from ansys.dpf.core import errors as dpf_errors
+        from ansys.dpf.core.common import shell_layers as eshell_layers
+        from ansys.dpf.core.plotter import DpfPlotter
 
         if meshed_region is None:
             meshed_region = self.meshed_region
-        pl = Plotter(meshed_region, **kwargs)
-        return pl.plot_contour(
+        if meshed_region.is_empty():
+            raise dpf_errors.EmptyMeshPlottingError
+        pl = DpfPlotter(**kwargs)
+        pl.add_field(
             self,
-            shell_layers,
+            meshed_region=meshed_region,
             deform_by=deform_by,
             scale_factor=scale_factor,
+            shell_layer=shell_layers if shell_layers is not None else eshell_layers.top,
             show_axes=kwargs.pop("show_axes", True),
             **kwargs,
         )
+        kwargs.pop("notebook", None)
+        return pl.show_figure(**kwargs)
 
     def resize(self, nentities, datasize):
         """Allocate memory.
@@ -825,7 +837,7 @@ class Field(_FieldBase):
 
     def __pow__(self, value):
         """Compute element-wise field[i]^2."""
-        if value != 2:
+        if value != 2:  # noqa: PLR2004
             raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
 
@@ -936,21 +948,29 @@ class Field(_FieldBase):
         )
         f.scoping = self.scoping.deep_copy(server)
         f.data = self.data
-        f.unit = self.unit
         f.location = self.location
         f.field_definition = self.field_definition.deep_copy(server)
-        try:
-            f._data_pointer = self._data_pointer
-        except:
-            pass
-        try:
-            f.meshed_region = self.meshed_region.deep_copy(server=server)
-        except:
-            pass
-        try:
-            f.time_freq_support = self.time_freq_support.deep_copy(server=server)
-        except:
-            pass
+        with suppress(Exception):
+            f.entity_data_offsets = self.entity_data_offsets
+
+        # A field can only have ONE support (mesh OR time_freq_support).
+        # Setting one overwrites the other, so they must be mutually exclusive.
+        support_set = False
+        with suppress(DPFServerException, RuntimeError):
+            support = self._api.csfield_get_support_as_meshed_region(self)
+            if support is not None:
+                mesh = meshed_region.MeshedRegion(mesh=support, server=self._server)
+                f.meshed_region = mesh.deep_copy(server=server)
+                support_set = True
+
+        if not support_set:
+            with suppress(DPFServerException, RuntimeError):
+                support = self._api.csfield_get_support_as_time_freq_support(self)
+                if support is not None:
+                    tfs = time_freq_support.TimeFreqSupport(
+                        time_freq_support=support, server=self._server
+                    )
+                    f.time_freq_support = tfs.deep_copy(server=server)
 
         return f
 

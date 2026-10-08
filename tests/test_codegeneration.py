@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,9 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# -*- coding: utf-8 -*-
 import copy
-import os
 from pathlib import Path
 import tempfile
 
@@ -254,6 +252,14 @@ def test_connect_output_to_inputs(plate_msup):
 
     fields = high_pass.outputs.fields_container()
     assert len(fields) == 1
+
+
+def test_generated_operator_inputs_outputs_type():
+    uc = op.min_max.min_max()
+    from ansys.dpf.core.operators.min_max.min_max import InputsMinMax, OutputsMinMax
+
+    assert isinstance(uc.inputs, InputsMinMax)
+    assert isinstance(uc.outputs, OutputsMinMax)
 
 
 def test_generated_operator_several_output_types(plate_msup):

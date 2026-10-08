@@ -485,6 +485,33 @@ class MeshedRegionCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 		return res
 
 	@staticmethod
+	def meshed_region_set_ply_layer_support(meshedRegion, gdc):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.MeshedRegion_SetPlyLayerSupport(meshedRegion._internal_obj if meshedRegion is not None else None, gdc._internal_obj if gdc is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def meshed_region_get_ply_layer_support(meshedRegion):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.MeshedRegion_GetPlyLayerSupport(meshedRegion._internal_obj if meshedRegion is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def meshed_region_has_ply_layer_support(meshedRegion):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.MeshedRegion_HasPlyLayerSupport(meshedRegion._internal_obj if meshedRegion is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def meshed_region_new_on_client(client):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

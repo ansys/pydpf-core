@@ -3,6 +3,7 @@ from .beam_properties import beam_properties
 from .change_cs import change_cs
 from .combine_levelset import combine_levelset
 from .decimate_mesh import decimate_mesh
+from .edge_decimation import edge_decimation
 from .exclude_levelset import exclude_levelset
 from .external_layer import external_layer
 from .from_field import from_field
@@ -17,6 +18,7 @@ from .mesh_extraction import mesh_extraction
 from .mesh_get_attribute import mesh_get_attribute
 from .mesh_plan_clip import mesh_plan_clip
 from .mesh_provider import mesh_provider
+from .mesh_set_attribute import mesh_set_attribute
 from .mesh_to_graphics import mesh_to_graphics
 from .mesh_to_graphics_edges import mesh_to_graphics_edges
 from .mesh_to_pyvista import mesh_to_pyvista

@@ -1,68 +1,156 @@
 [build-system]
-build-backend = "setuptools.build_meta"
-requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
 
 [project]
 # Check https://setuptools.pypa.io/en/stable/userguide/quickstart.html for all available sections
 name = "ansys-dpf-core"
-version = "0.14.2.dev0"
+version = "0.16.2.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
-requires-python = ">=3.9, <4"
-license = {file = "LICENSE"}
+requires-python = ">=3.10, <4"
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
-    {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"},
+    {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"}
 ]
 maintainers = [
-    {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"},
+    {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"}
 ]
 
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering :: Information Analysis",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX",
-    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3"
 ]
 dependencies = [
-    "grpcio >=1.63.0",
+    "ansys-tools-common",
+    "grpcio >=1.80.0",
     "importlib-metadata >=4.0",
     "numpy",
     "packaging",
     "protobuf",
     "psutil",
-    "setuptools",
-    "tqdm",
+    "tqdm"
 ]
 
 [project.optional-dependencies]
 graphics = [
     # 2D chart plotting
-    "matplotlib>=3.2",
+    "matplotlib>=3.10.8",
     # 3D plotting
-    "pyvista>=0.32.0",
+    "pyvista>=0.47.3",
+    "ansys-tools-visualization-interface>=0.13.0",
     "vtk!=9.4.0",
     # Animations
     "imageio",
-    "imageio-ffmpeg",
+    "imageio==2.38.0"
 ]
 
 plotting = [
     # 2D chart plotting
-    "matplotlib>=3.2",
+    "matplotlib>=3.10.8",
     # 3D plotting
-    "pyvista>=0.32.0",
+    "pyvista>=0.47.3",
+    "ansys-tools-visualization-interface>=0.13.0",
     "vtk",
     # Animations
     "imageio",
-    "imageio-ffmpeg",
+    "imageio-ffmpeg"
 ]
 
 operator_doc = [
     # Operator documentation generation
-    "jinja2",
+    "jinja2"
+]
+
+all = [
+    # 2D chart plotting
+    "matplotlib>=3.10.8",
+    # 3D plotting
+    "pyvista>=0.47.3",
+    "ansys-tools-visualization-interface>=0.13.0",
+    "vtk!=9.4.0",
+    # Animations
+    "imageio",
+    "imageio-ffmpeg",
+    # Operator documentation generation
+    "jinja2"
+]
+
+[dependency-groups]
+
+doc = [
+  "ansys-sphinx-theme[autoapi]==1.10.0 ; python_version >= '3.12'",
+  "ansys-sphinx-theme[autoapi]==1.9.0 ; python_version < '3.12'",
+  "ansys-tools-visualization-interface>=0.13.0",
+  "enum-tools[sphinx]==0.13.0",
+  "graphviz==0.21",
+  "imageio==2.38.0",
+  "imageio-ffmpeg==0.6.0",
+  "jupyter_sphinx==0.5.3",
+  "pdf2image==1.17.0",
+  "nbsphinx==0.9.8",
+  "pypandoc==1.17",
+  "pytest-sphinx==0.7.1",
+  "pyvista[jupyter]==0.49.0",
+  "quarto-cli==1.10.18",
+  "sphinx==8.2.3 ; python_version >= '3.11'",
+  "sphinx==8.1.3 ; python_version < '3.11'",
+  "sphinx-copybutton==0.5.2",
+  "sphinx-gallery==0.22.1",
+  "sphinx-jinja==2.0.2",
+  "sphinx-notfound-page==1.1.0",
+  "sphinx-reredirects==0.1.6",
+  "sphinx_design==0.7.0 ; python_version >= '3.11'",
+  "sphinx_design==0.6.1 ; python_version < '3.11'",
+  "sphinxcontrib-napoleon==0.7",
+  "vtk==9.6.0"
+]
+test = [
+  "ansys-platform-instancemanagement==1.2.0",
+  "ansys-tools-common==0.5.3",
+  "ansys-tools-visualization-interface>=0.13.0",
+  "coverage==7.16.2",
+  "graphviz==0.21",
+  "imageio==2.38.0",
+  "imageio-ffmpeg==0.6.0",
+  "jinja2==3.1.6",
+  "pypandoc_binary==1.17",
+  "pytest==9.1.1",
+  "pytest-cov==7.1.0",
+  "pytest-order==1.5.0",
+  "pytest-rerunfailures==16.7",
+  "pyvista==0.49.0",
+  "vtk==9.6.0"
+]
+build = [
+  "black==26.5.1",
+  "build==1.6.1",
+  "chevron==0.14.0",
+  "jinja2==3.1.6",
+  "pypandoc_binary==1.17",
+  "wheel==0.48.0",
+  "hatchling==1.32.0",
+]
+install = [
+  "importlib-metadata==9.0.1",
+  "numpy==2.4.1 ; python_version >= '3.11'",
+  "numpy==2.2.6 ; python_version < '3.11'",
+  "packaging==26.3",
+  "psutil==7.2.2",
+  "tqdm==4.70.1"
+]
+operator_doc = [
+  "jinja2==3.1.6"
+]
+tox = [
+  "tox==4.64.1",
+  # "bare" variant of tox-uv: uv is expected to already be available on the PATH.
+  "tox-uv-bare==1.36.0"
 ]
 
 [project.urls]
@@ -73,8 +161,27 @@ Tracker = "https://github.com/ansys/pydpf-core/issues"
 
 [project.scripts]
 dpf_generate_operators_doc = "ansys.dpf.core.documentation.generate_operators_doc:run_with_args"
+dpf_generate_operators_doc_legacy = "ansys.dpf.core.documentation.build_operators_html_doc:run_with_args"
+dpf_generate_operators = "ansys.dpf.core.operators.build:run_with_args"
+
+[project.entry-points.pyinstaller40]
+hook-dirs = "ansys.dpf._pyinstaller:_get_hook_dirs"
+
+[tool.uv]
+default-groups = []
 
 [tool.ruff]
+exclude = [
+    "doc/source/",
+    "src/ansys/dpf/core/operators/",
+    "examples_notebooks/",
+    "src/ansys/dpf/core/__init__.py",
+    "doc/styles/",
+    "src/ansys/dpf/gate/",
+    "src/ansys/dpf/gatebin/",
+    "src/ansys/grpc/dpf/",
+    "tests/"
+]
 line-length = 100
 
 [tool.ruff.format]
@@ -85,17 +192,21 @@ indent-style = "space"
 select = [
 #   "E",    # pycodestyle, see https://beta.ruff.rs/docs/rules/#pycodestyle-e-w
     "D",    # pydocstyle, see https://beta.ruff.rs/docs/rules/#pydocstyle-d
-#   "F",    # pyflakes, see https://beta.ruff.rs/docs/rules/#pyflakes-f
+    "F",    # pyflakes, see https://beta.ruff.rs/docs/rules/#pyflakes-f
     "I",    # isort, see https://beta.ruff.rs/docs/rules/#isort-i
 #   "N",    # pep8-naming, see https://beta.ruff.rs/docs/rules/#pep8-naming-n
-   "PTH",  # flake9-use-pathlib, https://beta.ruff.rs/docs/rules/#flake8-use-pathlib-pth
+   "PTH",  # flake8-use-pathlib, https://beta.ruff.rs/docs/rules/#flake8-use-pathlib-pth
    "TD",   # flake8-todos, https://docs.astral.sh/ruff/rules/#flake8-todos-td
+   "C90",  # mccabe cyclomatic code complexity, https://docs.astral.sh/ruff/rules/#mccabe-c90
+   "PL",   # pylint, https://docs.astral.sh/ruff/rules/#pygrep-hooks-pgh
 ]
 ignore = [
     # pycodestyle
     "E501",  # Line too long. Ignoring this so "ruff.formatter" manages line length.
     # flake8-todos
     "TD002", # Missing author in TODOs comment
+    # pylint
+    "PLC0415", # Used extensively to defer costly module load
 ]
 
 [tool.ruff.lint.per-file-ignores]
@@ -113,15 +224,24 @@ known-first-party = ["ansys"]
 
 [tool.coverage.run]
 source = ["ansys.dpf.core"]
+patch = ["subprocess"]
 
 [tool.coverage.report]
 show_missing = true
 
-[tool.setuptools.packages.find]
-namespaces = true
-where = ["src"]
+[tool.hatch.build.targets.wheel]
+packages = ["src/ansys"]
+# Excluded by default; re-added via the custom hook configured.
+exclude = [
+    "src/ansys/dpf/gatebin/*.so",
+    "src/ansys/dpf/gatebin/*.dll",
+]
 
-[tool.setuptools.package-data]
-"ansys.dpf.gatebin" = ["*.so", "*.dll"]
-"ansys.dpf.core.documentation" = ["toc_template.j2", "operator_doc_template.md"]
+[tool.hatch.build.targets.wheel.hooks.custom]
+path = ".ci/build_wheel.py"
 
+[tool.pytest]
+#filterwarnings = ['ignore:Use explicit output-to-input connections:DeprecationWarning']
+norecursedirs = ["*"]
+doctest_optionflags = ["NORMALIZE_WHITESPACE", "ELLIPSIS"]
+markers = ["slow: mark a test as slow."]

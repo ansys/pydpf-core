@@ -8,7 +8,6 @@
 [![MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![pypidl](https://img.shields.io/pypi/dm/ansys-dpf-core.svg?label=PyPI%20downloads)](https://pypi.org/project/ansys-dpf-core/)
 [![cov](https://codecov.io/gh/ansys/pydpf-core/branch/main/graph/badge.svg)](https://codecov.io/gh/ansys/pydpf-core)
-[![codacy](https://app.codacy.com/project/badge/Grade/61b6a519aea64715ad1726b3955fcf98)](https://www.codacy.com/gh/ansys/pydpf-core/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ansys/pydpf-core&amp;utm_campaign=Badge_Grade)
 
 Ansys Data Processing Framework (DPF) provides numerical simulation 
 users and engineers with a toolbox for accessing and transforming simulation 
@@ -20,14 +19,7 @@ apps for both data input and data output, including visualization and
 result plots. It can access data from solver result files and other neutral
 formats, such as CSV, HDF5, and VTK files.
 
-The latest version of DPF supports Ansys solver results files for:
-
-- Mechanical APDL (`.rst`, `.mode`, `.rfrq`, `.rdsp`, `.rth`)
-- LS-DYNA (`.d3plot`, `.binout`)
-- Fluent (`.cas/dat.h5`, `.flprj`)
-- CFX (`.cas/dat.cff`, `.flprj`, `.res`)
-
-For more information on file support, see the [main page](https://dpf.docs.pyansys.com/version/stable/index.html)
+For information on file support, see the [main page](https://dpf.docs.pyansys.com/version/stable/index.html)
 in the PyDPF-Core documentation.
 
 Using the many DPF operators that are available, you can manipulate and
@@ -77,8 +69,7 @@ For the compatibility between PyDPF-Core and Ansys, see
 [Compatibility](https://dpf.docs.pyansys.com/version/stable/getting_started/compatibility.html) in
 the PyDPF-Core documentation.
 
-To use PyDPF-Core with the ``ansys-dpf-server`` server package or with Ansys 2022 R2 or later, 
-install the latest version with this command:
+To use PyDPF-Core with the standalone ``ansys-dpf-server`` server package 8.0 or later; or with Ansys 2024 R1 or later, install the latest version with this command:
 
 ```con
    pip install ansys-dpf-core
@@ -92,6 +83,13 @@ To install PyDPF-Core with its optional plotting functionalities, use this comma
 ```
 
 For more information on PyDPF-Core plotting capabilities, see [Plot](https://dpf.docs.pyansys.com/version/stable/user_guide/plotting.html) in the PyDPF-Core documentation.
+
+To use PyDPF-Core with Ansys 2022 R2 up to Ansys 2023 R2, install the latest compatible version
+with this command:
+
+```con
+   pip install ansys-dpf-core<0.16.0
+```
 
 To use PyDPF-Core with Ansys 2022 R1, install the latest compatible version
 with this command:

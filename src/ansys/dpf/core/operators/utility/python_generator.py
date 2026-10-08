@@ -19,14 +19,14 @@ class python_generator(Operator):
     r"""Generates .py file with specifications for loaded plugin(s).
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     dll_source_path: str
     output_path: str
     load_symbol: str, optional
     library_key: str, optional
 
-    Returns
+    Outputs
     -------
 
     Examples
@@ -65,9 +65,13 @@ class python_generator(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(name="python_generator", config=config, server=server)
-        self._inputs = InputsPythonGenerator(self)
-        self._outputs = OutputsPythonGenerator(self)
+        super().__init__(
+            name="python_generator",
+            config=config,
+            server=server,
+            inputs_type=InputsPythonGenerator,
+            outputs_type=OutputsPythonGenerator,
+        )
         if dll_source_path is not None:
             self.inputs.dll_source_path.connect(dll_source_path)
         if output_path is not None:
@@ -143,7 +147,7 @@ class python_generator(Operator):
         inputs:
             An instance of InputsPythonGenerator.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsPythonGenerator:
@@ -154,7 +158,7 @@ class python_generator(Operator):
         outputs:
             An instance of OutputsPythonGenerator.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsPythonGenerator(_Inputs):
@@ -177,17 +181,25 @@ class InputsPythonGenerator(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(python_generator._spec().inputs, op)
-        self._dll_source_path = Input(python_generator._spec().input_pin(0), 0, op, -1)
+        self._dll_source_path: Input[str] = Input(
+            python_generator._spec().input_pin(0), 0, op, -1
+        )
         self._inputs.append(self._dll_source_path)
-        self._output_path = Input(python_generator._spec().input_pin(1), 1, op, -1)
+        self._output_path: Input[str] = Input(
+            python_generator._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._output_path)
-        self._load_symbol = Input(python_generator._spec().input_pin(2), 2, op, -1)
+        self._load_symbol: Input[str] = Input(
+            python_generator._spec().input_pin(2), 2, op, -1
+        )
         self._inputs.append(self._load_symbol)
-        self._library_key = Input(python_generator._spec().input_pin(3), 3, op, -1)
+        self._library_key: Input[str] = Input(
+            python_generator._spec().input_pin(3), 3, op, -1
+        )
         self._inputs.append(self._library_key)
 
     @property
-    def dll_source_path(self) -> Input:
+    def dll_source_path(self) -> Input[str]:
         r"""Allows to connect dll_source_path input to the operator.
 
         Returns
@@ -206,7 +218,7 @@ class InputsPythonGenerator(_Inputs):
         return self._dll_source_path
 
     @property
-    def output_path(self) -> Input:
+    def output_path(self) -> Input[str]:
         r"""Allows to connect output_path input to the operator.
 
         Returns
@@ -225,7 +237,7 @@ class InputsPythonGenerator(_Inputs):
         return self._output_path
 
     @property
-    def load_symbol(self) -> Input:
+    def load_symbol(self) -> Input[str]:
         r"""Allows to connect load_symbol input to the operator.
 
         Returns
@@ -244,7 +256,7 @@ class InputsPythonGenerator(_Inputs):
         return self._load_symbol
 
     @property
-    def library_key(self) -> Input:
+    def library_key(self) -> Input[str]:
         r"""Allows to connect library_key input to the operator.
 
         Returns

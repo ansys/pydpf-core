@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -151,5 +151,5 @@ class unit_systems:
         solver_bft = UnitSystem("solver_bft", ID=7)
         solver_bin = UnitSystem("solver_bin", ID=8)
         undefined = UnitSystem("undefined", ID=-1)
-    except dpf_errors.DpfVersionNotSupported as e:  # pragma: no cover
+    except dpf_errors.DpfVersionNotSupported:  # pragma: no cover
         pass

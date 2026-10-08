@@ -19,14 +19,14 @@ class html_doc(Operator):
     r"""Create dpf’s html documentation. Only on Windows.
 
 
-    Parameters
-    ----------
+    Inputs
+    ------
     output_path: str, optional
         default is {working directory}/dataProcessingDoc.html
     exposure_level: int, optional
         Generate the documentation depending on exposure level : 0 (default) for public operators, 1 includes hidden operator, 2 includes private operator, 3 includes operator without specifications.
 
-    Returns
+    Outputs
     -------
 
     Examples
@@ -51,9 +51,13 @@ class html_doc(Operator):
     """
 
     def __init__(self, output_path=None, exposure_level=None, config=None, server=None):
-        super().__init__(name="html_doc", config=config, server=server)
-        self._inputs = InputsHtmlDoc(self)
-        self._outputs = OutputsHtmlDoc(self)
+        super().__init__(
+            name="html_doc",
+            config=config,
+            server=server,
+            inputs_type=InputsHtmlDoc,
+            outputs_type=OutputsHtmlDoc,
+        )
         if output_path is not None:
             self.inputs.output_path.connect(output_path)
         if exposure_level is not None:
@@ -113,7 +117,7 @@ class html_doc(Operator):
         inputs:
             An instance of InputsHtmlDoc.
         """
-        return super().inputs
+        return self._inputs
 
     @property
     def outputs(self) -> OutputsHtmlDoc:
@@ -124,7 +128,7 @@ class html_doc(Operator):
         outputs:
             An instance of OutputsHtmlDoc.
         """
-        return super().outputs
+        return self._outputs
 
 
 class InputsHtmlDoc(_Inputs):
@@ -143,13 +147,15 @@ class InputsHtmlDoc(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(html_doc._spec().inputs, op)
-        self._output_path = Input(html_doc._spec().input_pin(0), 0, op, -1)
+        self._output_path: Input[str] = Input(html_doc._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._output_path)
-        self._exposure_level = Input(html_doc._spec().input_pin(1), 1, op, -1)
+        self._exposure_level: Input[int] = Input(
+            html_doc._spec().input_pin(1), 1, op, -1
+        )
         self._inputs.append(self._exposure_level)
 
     @property
-    def output_path(self) -> Input:
+    def output_path(self) -> Input[str]:
         r"""Allows to connect output_path input to the operator.
 
         default is {working directory}/dataProcessingDoc.html
@@ -170,7 +176,7 @@ class InputsHtmlDoc(_Inputs):
         return self._output_path
 
     @property
-    def exposure_level(self) -> Input:
+    def exposure_level(self) -> Input[int]:
         r"""Allows to connect exposure_level input to the operator.
 
         Generate the documentation depending on exposure level : 0 (default) for public operators, 1 includes hidden operator, 2 includes private operator, 3 includes operator without specifications.

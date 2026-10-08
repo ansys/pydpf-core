@@ -11,17 +11,20 @@ transforming data.
 capabilities. The ``ansys.dpf.core`` package makes highly efficient
 computation, customization, and remote data processing accessible in Python.
 
+.. note::
+
+   **Looking for an introduction?** If you are new to DPF, the `DPF Onboarding <https://developer.ansys.com/docs/dpf-onboarding-{version_slug}/index.md>`_ guide provides step-by-step instructions for setup and basic concepts.
+
 The goals of this section are to:
 
  - Describe some DPF entities and how they can help you to access and modify solver data.
- - Provide detailed tutorials to demonstrate PyDPF-Core functionalities.
  - Explain how to resolve the most common issues encountered when using PyDPF-Core
 
 .. include::
-   tutorials/index.rst
+   concepts/index.rst
 
 .. include::
-   concepts/index.rst
+   main_entities.rst
 
 Troubleshooting
 ---------------
@@ -51,23 +54,6 @@ Troubleshooting
        :link-type: ref
        :text-align: center
 
-
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-    :caption: Tutorials
-
-    tutorials/data_structures/index.rst
-    tutorials/post_processing_basics/index.rst
-    tutorials/import_data/index.rst
-    tutorials/mesh/index.rst
-    tutorials/plot/index.rst
-    tutorials/animate/index.rst
-    tutorials/mathematics/index.rst
-    tutorials/custom_operators_and_plugins/index.rst
-
-
-
 .. toctree::
    :maxdepth: 2
    :hidden:
@@ -83,3 +69,12 @@ Troubleshooting
     :caption: Troubleshooting
 
     troubleshooting
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Entities
+
+   model.rst
+   fields_container.rst
+   operators.rst

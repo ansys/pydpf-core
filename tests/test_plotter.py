@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -26,11 +26,9 @@ import pytest
 
 from ansys import dpf
 from ansys.dpf import core
-from ansys.dpf.core import Model, Operator, element_types, errors as dpf_errors, misc
+from ansys.dpf.core import MeshedRegion, Model, Operator, element_types, errors as dpf_errors, misc
 from ansys.dpf.core.plotter import plot_chart
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     running_docker,
 )
@@ -68,8 +66,9 @@ def test_chart_plotter(plate_msup):
     disp = model.results.displacement()
     disp.inputs.time_scoping.connect(timeids)
     new_fields_container = disp.get_output(0, dpf.core.types.fields_container)
-    pl = Plotter(model.metadata.meshed_region)
-    ret = pl.plot_chart(new_fields_container)
+    with pytest.warns(DeprecationWarning):
+        pl = Plotter(model.metadata.meshed_region)
+        ret = pl.plot_chart(new_fields_container)
     assert ret
 
 
@@ -114,7 +113,8 @@ def test_plotter_on_field(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     field = fc[1]
-    pl = Plotter(model.metadata.meshed_region)
+    with pytest.warns(DeprecationWarning):
+        pl = Plotter(model.metadata.meshed_region)
     fields_container = dpf.core.FieldsContainer()
     fields_container.add_label("time")
     fields_container.add_field({"time": 1}, field)
@@ -129,7 +129,8 @@ def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     avg_op = Operator("to_elemental_fc")
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
-    pl = Plotter(model.metadata.meshed_region)
+    with pytest.warns(DeprecationWarning):
+        pl = Plotter(model.metadata.meshed_region)
     _ = pl.plot_contour(fc)
 
 
@@ -141,7 +142,8 @@ def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     avg_op = Operator("to_nodal_fc")
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
-    pl = Plotter(model.metadata.meshed_region)
+    with pytest.warns(DeprecationWarning):
+        pl = Plotter(model.metadata.meshed_region)
     _ = pl.plot_contour(fc)
 
 
@@ -283,7 +285,8 @@ def test_field_elemental_nodal_plot_multi_shells(multishells):
     from ansys.dpf.core.plotter import Plotter
 
     field = fc[0]
-    plt = Plotter(field.meshed_region)
+    with pytest.warns(DeprecationWarning):
+        plt = Plotter(field.meshed_region)
     plt.plot_contour(fc)
     field.plot()
 
@@ -360,6 +363,7 @@ def test_field_plot_raise_empty_mesh(simple_bar):
     stream_prov = core.operators.metadata.streams_provider(data_sources=ds)
     result_op = core.operators.result.displacement(streams_container=stream_prov)
     field = result_op.outputs.fields_container()[0]
+    field.meshed_region = MeshedRegion()
     with pytest.raises(dpf_errors.EmptyMeshPlottingError):
         field.plot()
 
@@ -522,16 +526,6 @@ def test_throw_complex_file(complex_model):
     mesh = model.metadata.meshed_region
     with pytest.raises(dpf_errors.ComplexPlottingError):
         mesh.plot(fc)
-
-
-@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-@pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
-def test_plot_contour_using_vtk_file(complex_model):
-    model = core.Model(complex_model)
-    stress = model.results.displacement()
-    fc = stress.outputs.fields_container()
-    pl = Plotter(model.metadata.meshed_region)
-    pl._plot_contour_using_vtk_file(fc)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -865,10 +859,6 @@ def test_plot_warped_mesh(multishells):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="Polygons are supported starting server version 5.0",
-)
 def test_plot_polygon():
     # Define polygon points
     polygon_points = [
@@ -889,10 +879,6 @@ def test_plot_polygon():
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="Polyhedrons are supported starting server version 5.0",
-)
 def test_plot_polyhedron():
     # Define the coordinates
     polyhedron_points = [
@@ -934,38 +920,40 @@ def test_plot_polyhedron():
     mesh.elements.add_solid_element(0, element_connectivity)
 
     # Set the "cell_types" PropertyField
-    cell_types_f = core.PropertyField()
+    cell_types_f = core.PropertyField(location=core.locations.elemental)
     for cell_index, cell_type in enumerate(cell_types):
         cell_types_f.append(cell_type, cell_index)
     mesh.set_property_field("eltype", cell_types_f)
 
     # Set the "faces_nodes_connectivity" PropertyField
-    connectivity_f = core.PropertyField()
+    connectivity_f = core.PropertyField(location=core.locations.faces)
     for face_index, face_connectivity in enumerate(faces_connectivity):
         connectivity_f.append(face_connectivity, face_index)
     mesh.set_property_field("faces_nodes_connectivity", connectivity_f)
 
     # Set the "elements_faces_connectivity" PropertyField
-    elements_faces_f = core.PropertyField()
+    elements_faces_f = core.PropertyField(location=core.locations.elemental)
     for element_index, element_faces in enumerate(elements_faces):
         elements_faces_f.append(element_faces, element_index)
     mesh.set_property_field("elements_faces_connectivity", elements_faces_f)
 
     # Set the "faces_types" PropertyField
-    faces_types_f = core.PropertyField()
+    faces_types_f = core.PropertyField(location=core.locations.faces)
     for face_index, face_type in enumerate(faces_types):
         faces_types_f.append(face_type, face_index)
     mesh.set_property_field("faces_type", faces_types_f)
+
+    # Set the "elements_faces_reversed" PropertyField
+    elements_faces_reversed_f = core.PropertyField(location=core.locations.elemental)
+    for element_index, element_faces in enumerate(elements_faces):
+        elements_faces_reversed_f.append([0] * len(element_faces), element_index)
+    mesh.set_property_field("elements_faces_reversed", elements_faces_reversed_f)
 
     # Plot the MeshedRegion
     mesh.plot()
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="cff::cas::meshes_provider requires DPF 24R1",
-)
 def test_plotter_add_scoping(fluent_mixing_elbow_steady_state):
     mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
         data_sources=fluent_mixing_elbow_steady_state()
@@ -985,10 +973,6 @@ def test_plotter_add_scoping(fluent_mixing_elbow_steady_state):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="cff::cas::meshes_provider requires DPF 24R1",
-)
 def test_scoping_plot(fluent_mixing_elbow_steady_state):
     mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
         data_sources=fluent_mixing_elbow_steady_state()
@@ -1002,10 +986,6 @@ def test_scoping_plot(fluent_mixing_elbow_steady_state):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="cff::cas::meshes_provider requires DPF 24R1",
-)
 def test_scopings_container_plot(fluent_mixing_elbow_steady_state):
     mesh: core.MeshedRegion = core.operators.mesh.mesh_provider(
         data_sources=fluent_mixing_elbow_steady_state()

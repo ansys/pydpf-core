@@ -1,0 +1,36 @@
+name: 🤖 CI issue
+description: Fill a CI issue report here
+title: "CI failure"
+labels: ["CI/CD"]
+assignees: [""]
+
+body:
+
+  - type: markdown
+    attributes:
+      value: '# 🤖 **CI issue**'
+
+  - type: checkboxes
+    id: new-issue
+    attributes:
+      label: Before submitting the issue
+      description: Please, make sure the following conditions are met
+      options:
+      - label: I have searched among the existing issues
+        required: true
+
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: Description of the issue
+      placeholder: Describe the CI issue or failure and what should be changed or should have happened
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Link to a failing CI
+      placeholder: Share a link to a failed pipeline run if relevant
+    validations:
+      required: false

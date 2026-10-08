@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -23,10 +23,9 @@
 """Operator Configuration."""
 
 import functools
-import traceback
-import warnings
 
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.gate import (
     operator_config_abstract_api,
@@ -89,21 +88,19 @@ class Config:
         # step4: if object exists: take instance, else create it
         if config:
             self._internal_obj = config
-        else:
-            if self._server.has_client():
-                if operator_name:
-                    self._internal_obj = self._api.operator_config_default_new_on_client(
-                        self._server.client, operator_name
-                    )
-                else:
-                    self._internal_obj = self._api.operator_config_empty_new_on_client(
-                        self._server.client
-                    )
+        elif self._server.has_client():
+            if operator_name:
+                self._internal_obj = self._api.operator_config_default_new_on_client(
+                    self._server.client, operator_name
+                )
             else:
-                if operator_name:
-                    self._internal_obj = self._api.operator_config_default_new(operator_name)
-                else:
-                    self._internal_obj = self._api.operator_config_empty_new()
+                self._internal_obj = self._api.operator_config_empty_new_on_client(
+                    self._server.client
+                )
+        elif operator_name:
+            self._internal_obj = self._api.operator_config_default_new(operator_name)
+        else:
+            self._internal_obj = self._api.operator_config_empty_new()
 
         self._operator_name = operator_name
         self._spec_instance = spec
@@ -312,7 +309,4 @@ class Config:
 
     def __del__(self):
         """Delete this instance of config."""
-        try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
+        release_dpf_object(self)

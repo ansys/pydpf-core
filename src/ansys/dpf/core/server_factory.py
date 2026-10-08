@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -30,12 +30,12 @@ protocols and server configurations available.
 import io
 import logging
 import os
-import subprocess
+from pathlib import Path
+import subprocess  # nosec B404
 import time
 
 from ansys.dpf.gate.load_api import (
     _find_outdated_ansys_version,
-    _get_path_in_install,
 )
 
 
@@ -55,8 +55,17 @@ class CommunicationProtocols:
     InProcess = "InProcess"
 
 
+class GrpcMode:
+    """Defines available authentication modes for gRPC servers."""
+
+    Insecure = "insecure"
+    mTLS = "mtls"
+
+
 DEFAULT_COMMUNICATION_PROTOCOL = CommunicationProtocols.InProcess
 DEFAULT_LEGACY = False
+DEFAULT_GRPC_MODE = GrpcMode.mTLS
+DEFAULT_CERTIFICATES_DIR = None
 
 
 class DockerConfig:
@@ -91,7 +100,7 @@ class DockerConfig:
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
 
         if mounted_volumes is None:
-            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
+            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}  # nosec B108
 
         self._use_docker = use_docker
         self._docker_name = docker_name
@@ -238,7 +247,10 @@ class DockerConfig:
         if os.name == "posix":
             b_shell = True
         with subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
+            run_cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=b_shell,  # nosec B602
         ) as process:
             used_ports = []
             with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
@@ -256,18 +268,33 @@ class DockerConfig:
 class ServerConfig:
     """Provides an instance of ServerConfig object to manage the server type used.
 
+    .. warning::
+        Starting with DPF 2026 R1 and PyDPF 0.15.0, the default gRPC server uses mTLS authentication.
+        Please refer to :ref:`ref_dpf_server_secure_mode` for more information on how to set up the
+        certificates and configure the server and client accordingly.
+        See the ``config`` parameter for more details.
+
     The default parameters can be overwritten using the DPF_SERVER_TYPE environment
     variable. DPF_SERVER_TYPE=INPROCESS, DPF_SERVER_TYPE=GRPC,
     DPF_SERVER_TYPE=LEGACYGRPC can be used.
 
     Parameters
     ----------
-    protocol : CommunicationProtocols, optional
+    protocol:
         Communication protocol for DPF server (e.g. InProcess, gRPC)
-    legacy : bool, optional
+    legacy:
         If legacy is set to True, the server will be using ansys-grpc-dpf
         Python module. If not, it will communicate with DPF binaries using ctypes
         and DPF CLayer calls.
+    grpc_mode:
+        Grpc mode to use when launching DPF server.
+        Can be one of the members of :class:`ansys.dpf.core.server_factory.GrpcMode`.
+        Defaults to mTLS authenticated mode.
+        More information available at :ref:`ref_dpf_server_secure_mode`.
+    certificates_dir:
+        Path to a directory containing the certificates to use for mTLS authentication.
+        More information available at :ref:`ref_dpf_server_secure_mode`.
+
 
     Examples
     --------
@@ -297,12 +324,24 @@ class ServerConfig:
         self,
         protocol: str = DEFAULT_COMMUNICATION_PROTOCOL,
         legacy: bool = DEFAULT_LEGACY,
+        grpc_mode: str = DEFAULT_GRPC_MODE,
+        certificates_dir: Path = DEFAULT_CERTIFICATES_DIR,
     ):
         self.legacy = legacy
         if not protocol:
             self.protocol = CommunicationProtocols.InProcess
         else:
             self.protocol = protocol
+
+        if not grpc_mode:
+            self.grpc_mode = DEFAULT_GRPC_MODE
+        else:
+            self.grpc_mode = grpc_mode
+        self.certificates_dir = (
+            certificates_dir
+            if certificates_dir
+            else os.environ.get("ANSYS_GRPC_CERTIFICATES", None)
+        )
 
     def __str__(self):
         """Return a string representation of the ServerConfig instance.
@@ -317,8 +356,10 @@ class ServerConfig:
         """
         text = f"Server configuration: protocol={self.protocol}"
         if self.legacy:
-            text += f" (legacy gRPC)"
+            text += " (legacy gRPC)"
         return text
+
+    __hash__ = None
 
     def __eq__(self, other: "ServerConfig"):
         """Check if two ServerConfig instances are equal.
@@ -337,7 +378,12 @@ class ServerConfig:
             True if the instances have the same protocol and legacy status, False otherwise.
         """
         if isinstance(other, ServerConfig):
-            return self.legacy == other.legacy and self.protocol == other.protocol
+            return (
+                self.legacy == other.legacy
+                and self.protocol == other.protocol
+                and self.grpc_mode == other.grpc_mode
+                and self.certificates_dir == other.certificates_dir
+            )
         return False
 
     def __ne__(self, other):
@@ -398,9 +444,9 @@ def get_default_server_config(
             config = AvailableServerConfigs.LegacyGrpcServer
         else:
             raise NotImplementedError(
-                f"DPF_SERVER_TYPE environment variable must "
-                f"be set to one of the following: INPROCESS, "
-                f"GRPC, LEGACYGRPC."
+                "DPF_SERVER_TYPE environment variable must "
+                "be set to one of the following: INPROCESS, "
+                "GRPC, LEGACYGRPC."
             )
     elif config is None and docker_config.use_docker:
         config = get_default_remote_server_config()
@@ -453,6 +499,12 @@ class AvailableServerConfigs:
     LegacyGrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=True)
     InProcessServer = ServerConfig(CommunicationProtocols.InProcess, legacy=False)
     GrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=False)
+    InsecureGrpcServer = ServerConfig(
+        CommunicationProtocols.gRPC, legacy=False, grpc_mode=GrpcMode.Insecure
+    )
+    InsecureLegacyGrpcServer = ServerConfig(
+        CommunicationProtocols.gRPC, legacy=True, grpc_mode=GrpcMode.Insecure
+    )
 
 
 class RunningDockerConfig:
@@ -581,7 +633,10 @@ class RunningDockerConfig:
         if os.name == "posix":
             b_shell = True
         with subprocess.Popen(
-            stop_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
+            stop_cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=b_shell,  # nosec B602
         ) as process:
             rm_cmd = f"docker rm {self.server_id}"
             with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
@@ -592,7 +647,7 @@ class RunningDockerConfig:
                     rm_cmd,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
-                    shell=b_shell,
+                    shell=b_shell,  # nosec B602
                     check=True,
                 )
             except subprocess.CalledProcessError as e:
@@ -632,7 +687,7 @@ class RunningDockerConfig:
                 f"docker logs {self.server_id}",
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                shell=(os.name == "posix"),
+                shell=(os.name == "posix"),  # nosec B602
             ) as docker_process:
                 self._use_docker = True
                 if stdout:
@@ -695,7 +750,7 @@ class ServerFactory:
     @staticmethod
     def get_server_type_from_config(
         config: ServerConfig = None,
-        ansys_path: str = None,
+        ansys_path: Path | str = None,
         docker_config: DockerConfig = None,
     ):
         """Return server type determined from the server configuration."""
@@ -710,8 +765,8 @@ class ServerFactory:
             # If no SERVER_CONFIGURATION is yet defined, set one with default values
             is_server_old = False
             if ansys_path is not None:
-                if "ansys_dpf_server" not in ansys_path:
-                    is_server_old = _find_outdated_ansys_version(ansys_path)
+                if "ansys_dpf_server" not in str(ansys_path):
+                    is_server_old = _find_outdated_ansys_version(str(ansys_path))
             config = get_default_server_config(is_server_old, docker_config)
         if config.protocol == CommunicationProtocols.gRPC and config.legacy:
             return LegacyGrpcServer

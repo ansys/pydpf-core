@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,12 +22,27 @@
 
 """Support."""
 
-import traceback
-import warnings
+from typing import TYPE_CHECKING
 
 from ansys.dpf.core import collection_base, server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.gate import support_capi, support_grpcapi
+from ansys.dpf.core.core import _deep_copy
+from ansys.dpf.gate import (
+    data_processing_capi,
+    data_processing_grpcapi,
+    integral_types,
+    support_capi,
+    support_grpcapi,
+)
+
+if TYPE_CHECKING:
+    from ansys.dpf.core import (
+        cyclic_support,
+        generic_support,
+        meshed_region,
+        time_freq_support,
+    )
 
 
 class Support:
@@ -59,6 +74,8 @@ class Support:
     """
 
     def __init__(self, support, server=None):
+        self._internal_obj = None
+
         # step 1: get server
         self._server = server_module.get_or_create_server(
             support._server if isinstance(support, Support) else server
@@ -77,7 +94,27 @@ class Support:
 
         # step4: take instance:
         # object_name -> protobuf.message, DPFObject*
-        self._internal_obj = support
+        if support is not None:
+            from ansys.dpf.core import CyclicSupport, GenericSupport, MeshedRegion, TimeFreqSupport
+
+            if isinstance(
+                support, (Support, TimeFreqSupport, MeshedRegion, GenericSupport, CyclicSupport)
+            ):
+                self._server = support._server
+                self._api = self._server.get_api_for_type(
+                    capi=support_capi.SupportCAPI,
+                    grpcapi=support_grpcapi.SupportGRPCAPI,
+                )
+                self._api.init_support_environment(self)  # creates stub when gRPC
+                core_api = self._server.get_api_for_type(
+                    capi=data_processing_capi.DataProcessingCAPI,
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+                )
+                core_api.init_data_processing_environment(self)
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(support)
+            else:
+                # support is of type protobuf.message or DPFObject*
+                self._internal_obj = support
 
     @version_requires("5.0")
     def field_support_by_property(self, property_name: str):
@@ -191,6 +228,124 @@ class Support:
         )
         return coll_obj.get_integral_entries()
 
+    @version_requires("2027.1.0pre0")
+    def get_type(self) -> str:
+        """Type of the support as a string.
+
+        Returns
+        -------
+        type : str
+            Type of the support as a string
+        """
+        type = integral_types.MutableString(256)
+        self._support_api.support_get_type(self, type)
+        return str(type)
+
+    @version_requires("2027.1.0pre0")
+    def get_as_time_freq_support(self) -> "time_freq_support.TimeFreqSupport":
+        """Get the support as a TimeFreqSupport object.
+
+        Returns
+        -------
+        TimeFreqSupport : TimeFreqSupport
+            TimeFreqSupport object
+        """
+        from ansys.dpf.core import time_freq_support
+
+        tfsp = time_freq_support.TimeFreqSupport(
+            time_freq_support=self._support_api.support_get_as_time_freq_support(self),
+            server=self._server,
+        )
+        return tfsp
+
+    @version_requires("2027.1.0pre0")
+    def get_as_meshed_region(self) -> "meshed_region.MeshedRegion":
+        """Get the support as a MeshedRegion object.
+
+        Returns
+        -------
+        MeshedRegion : MeshedRegion
+            MeshedRegion object
+        """
+        from ansys.dpf.core import meshed_region
+
+        mesh = meshed_region.MeshedRegion(
+            mesh=self._support_api.support_get_as_meshed_support(self), server=self._server
+        )
+        return mesh
+
+    @version_requires("2027.1.0pre0")
+    def get_as_cyclic_support(self) -> "cyclic_support.CyclicSupport":
+        """Get the support as a CyclicSupport object.
+
+        Returns
+        -------
+        CyclicSupport : CyclicSupport
+            CyclicSupport object
+        """
+        from ansys.dpf.core import cyclic_support
+
+        cyclic = cyclic_support.CyclicSupport(
+            cyclic_support=self._support_api.support_get_as_cyclic_support(self),
+            server=self._server,
+        )
+        return cyclic
+
+    @version_requires("2027.1.0pre0")
+    def get_as_generic_support(self) -> "generic_support.GenericSupport":
+        """Get the support as a GenericSupport object.
+
+        Returns
+        -------
+        GenericSupport : GenericSupport
+            GenericSupport object
+        """
+        from ansys.dpf.core import generic_support
+
+        generic = generic_support.GenericSupport(
+            generic_support=self._support_api.support_get_as_generic_support(self),
+            server=self._server,
+        )
+        return generic
+
+    @version_requires("2027.1.0pre0")
+    def deep_copy(self, server=None):
+        """
+        Create a deep copy of the Support on a given server.
+
+        Parameters
+        ----------
+        server : ansys.dpf.core.server, optional
+            Server with the channel connected to the remote or local instance.
+            The default is ``None``, in which case an attempt is made to use the
+            global server.
+
+        Returns
+        -------
+        support : Support
+        """
+        from ansys.dpf.core import Any, CyclicSupport, GenericSupport
+
+        support_type = self.get_type()
+        if support_type == "TimeFreqSupport":
+            return Support(support=self.get_as_time_freq_support().deep_copy(server), server=server)
+        elif support_type == "CMeshDomainSupport":
+            return Support(support=self.get_as_meshed_region().deep_copy(server), server=server)
+        elif support_type == "cyclic_support":
+            return Support(
+                support=_deep_copy(
+                    Any.new_from(self.get_as_cyclic_support(), self._server), server
+                ).cast(output_type=CyclicSupport),
+                server=server,
+            )
+        else:
+            return Support(
+                _deep_copy(Any.new_from(self.get_as_generic_support(), self._server), server).cast(
+                    output_type=GenericSupport
+                ),
+                server=server,
+            )
+
     def __del__(self):
         """
         Clean up resources associated with the instance.
@@ -203,7 +358,4 @@ class Support:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
+        release_dpf_object(self)

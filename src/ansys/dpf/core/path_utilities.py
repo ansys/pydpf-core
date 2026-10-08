@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -27,14 +27,13 @@ Offer tools similar to os.path but taking the os of the
 server into account to create path.
 """
 
-import os
 from pathlib import Path
 
 from ansys.dpf.core import server as server_module
 import ansys.dpf.core.server_types
 
 
-def join(*args, **kwargs):
+def join(*args, **kwargs):  # noqa: C901
     """Join two strings to form a path, following the server architecture.
 
     Using a server version below 3.0, please ensure that the

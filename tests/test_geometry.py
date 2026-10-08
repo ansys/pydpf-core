@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -36,7 +36,6 @@ from ansys.dpf.core.geometry_factory import (
     create_line_from_points,
     create_line_from_vector,
     create_plane_from_center_and_normal,
-    create_plane_from_lines,
     create_plane_from_point_and_line,
     create_plane_from_points,
     create_points,
@@ -80,7 +79,7 @@ def test_create_line_from_points(points_param):
     info += f"Ending point: {np.array(points[1])}\n"
     info += f"Line discretized with {line.n_points} points\n"
     assert str(line) == str(info)
-    assert line.length == np.linalg.norm(points)
+    assert np.isclose(line.length, np.linalg.norm(np.array(points[1]) - np.array(points[0])))
     diff = np.array(points[1]) - np.array(points[0])
     assert all(line.direction) == all(diff / np.linalg.norm(diff))
     assert (line.path == np.linspace(0, line.length, line.n_points)).all()
@@ -294,6 +293,24 @@ def test_line_discretization():
     line = Line([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]], n_points=1200)
     assert line.mesh.nodes.n_nodes == 1200
     assert line.mesh.elements.n_elements == 1199
+
+
+def test_line_length_path_and_mesh_coordinates():
+    n_points = 51
+    start = np.array([7.5, 10.0, 0.0])
+    end = np.array([(20.0 + 5 * np.sqrt(2)) / 2, (20.0 + 5 * np.sqrt(2)) / 2, 0.0])
+    line = Line([start, end], n_points=n_points)
+
+    expected_length = np.linalg.norm(end - start)
+    assert np.isclose(line.length, expected_length)
+    assert np.allclose(line.path, np.linspace(0, expected_length, n_points))
+
+    mesh_coords = line.mesh.nodes.coordinates_field.data
+    assert np.allclose(mesh_coords[0], start)
+    assert np.allclose(mesh_coords[-1], end)
+    assert np.allclose(mesh_coords, np.linspace(start, end, n_points))
+    # The 1D path must match the distance of each mesh node to the start point
+    assert np.allclose(np.linalg.norm(mesh_coords - start, axis=1), line.path)
 
 
 plane_discretization_data = [0, 1, 2]

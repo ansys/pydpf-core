@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -232,7 +232,7 @@ class Element:
         """Retrieve the element shape."""
         shape = integral_types.MutableInt32()
         self._mesh._api.meshed_region_get_element_shape(self._mesh, self.id, shape, self.index)
-        for name in _element_shapes:
+        for name in _element_shapes_legacy:
             if name.value == int(shape):
                 return name.name.lower()
 
@@ -268,8 +268,6 @@ class Elements:
     >>> from ansys.dpf.core import examples
     >>> model = dpf.Model(examples.find_static_rst())
     >>> elements = model.metadata.meshed_region.elements
-    >>> elements.n_elements
-    8
 
     """
 
@@ -371,7 +369,7 @@ class Elements:
         for i in range(0, num):
             add = ElementAdder()
             yield add
-            shape_id = _element_shapes[add.shape.upper()].value
+            shape_id = _element_shapes_legacy[add.shape.upper()].value
             self._mesh._api.meshed_region_add_element_by_shape(
                 self._mesh, add.id, len(add.connectivity), add.connectivity, shape_id
             )
@@ -447,7 +445,7 @@ class Elements:
             List of the node indices to connect to the new element.
 
         """
-        shape_id = _element_shapes[shape.upper()].value
+        shape_id = _element_shapes_legacy[shape.upper()].value
         self._mesh._api.meshed_region_add_element_by_shape(
             self._mesh, id, len(connectivity), connectivity, shape_id
         )
@@ -532,8 +530,6 @@ class Elements:
         >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> field = elements.element_types_field
-        >>> print(field.data)
-        [1 1 1 1 1 1 1 1]
 
         """
         return self._mesh.field_of_properties(elemental_properties.element_type)
@@ -570,7 +566,7 @@ class Elements:
         >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> print(elements.materials_field.data)
-        [1 1 1 1 1 1 1 1]
+        [1 1 1 1 ...
 
         """
         return self._mesh.field_of_properties(elemental_properties.material)
@@ -943,6 +939,19 @@ class element_types(Enum):
     GeneralPlaceholder = 32
     Polygon = 33
     Polyhedron = 34
+    Edge2With1ExtraNode = 35
+    Edge2With2ExtraNode = 36
+    Edge3With1ExtraNode = 37
+    Edge3With2ExtraNode = 38
+    Surface3With1ExtraNode = 39
+    Surface4With1ExtraNode = 40
+    Surface6With1ExtraNode = 41
+    Surface8With1ExtraNode = 42
+    Surface3With2ExtraNode = 43
+    Surface4With2ExtraNode = 44
+    Surface6With2ExtraNode = 45
+    Surface8With2ExtraNode = 46
+    Line2With2ExtraNode = 47
 
     @staticmethod
     def _descriptors():
@@ -1210,23 +1219,109 @@ class element_types(Enum):
                 element_types.EMagCircle, "EMagCircle", "EMagCircle", "shell"
             ),
             element_types.Surface3: ElementDescriptor(
-                element_types.Surface3, "Surface3", "surface3", "shell"
+                element_types.Surface3,
+                "Linear 3-nodes Triangle Surface",
+                "surface3",
+                "shell",
+                3,
+                0,
+                3,
+                False,
+                True,
+                False,
+                False,
             ),
             element_types.Surface4: ElementDescriptor(
-                element_types.Surface4, "Surface4", "surface4", "shell"
+                element_types.Surface4,
+                "Linear 4-nodes Quadrangle Surface",
+                "surface4",
+                "shell",
+                4,
+                0,
+                4,
+                False,
+                True,
+                False,
+                False,
             ),
             element_types.Surface6: ElementDescriptor(
-                element_types.Surface6, "Surface6", "surface6", "shell"
+                element_types.Surface6,
+                "Quadratic 6-nodes Triangle Surface",
+                "surface6",
+                "shell",
+                3,
+                3,
+                6,
+                False,
+                True,
+                False,
+                True,
             ),
             element_types.Surface8: ElementDescriptor(
-                element_types.Surface8, "Surface8", "surface8", "shell"
+                element_types.Surface8,
+                "Quadratic 8-nodes Quadrangle Surface",
+                "surface8",
+                "shell",
+                4,
+                4,
+                8,
+                False,
+                True,
+                False,
+                True,
             ),
-            element_types.Edge2: ElementDescriptor(element_types.Edge2, "Edge2", "edge2", "beam"),
-            element_types.Edge3: ElementDescriptor(element_types.Edge3, "Edge3", "edge3", "beam"),
+            element_types.Edge2: ElementDescriptor(
+                element_types.Edge2,
+                "Linear 2-nodes Edge",
+                "edge2",
+                "beam",
+                2,
+                0,
+                2,
+                False,
+                False,
+                True,
+                False,
+            ),
+            element_types.Edge3: ElementDescriptor(
+                element_types.Edge3,
+                "Quadratic 3-nodes Edge",
+                "edge3",
+                "beam",
+                2,
+                1,
+                3,
+                False,
+                False,
+                True,
+                True,
+            ),
             element_types.Beam3: ElementDescriptor(
-                element_types.Beam3, "Beam3", "beam3", "beam", 2, 0, 3, False, False, True, False
+                element_types.Beam3,
+                "Linear 3-nodes Beam",
+                "beam3",
+                "beam",
+                2,
+                0,
+                3,
+                False,
+                False,
+                True,
+                False,
             ),
-            element_types.Beam4: ElementDescriptor(element_types.Beam4, "Beam4", "beam4", "beam"),
+            element_types.Beam4: ElementDescriptor(
+                element_types.Beam4,
+                "Quadratic 4-nodes Beam",
+                "beam4",
+                "beam",
+                2,
+                1,
+                4,
+                False,
+                False,
+                True,
+                True,
+            ),
             element_types.GeneralPlaceholder: ElementDescriptor(
                 element_types.GeneralPlaceholder,
                 "GeneralPlaceholder",
@@ -1254,6 +1349,175 @@ class element_types(Enum):
                 -1,
                 True,
                 False,
+                False,
+            ),
+            element_types.Edge2With1ExtraNode: ElementDescriptor(
+                element_types.Edge2With1ExtraNode,
+                "Linear 2-nodes Edge with 1 extra node",
+                "edge2with1extranode",
+                "beam",
+                2,
+                0,
+                3,
+                False,
+                False,
+                True,
+                False,
+            ),
+            element_types.Edge2With2ExtraNode: ElementDescriptor(
+                element_types.Edge2With2ExtraNode,
+                "Linear 2-nodes Edge with 2 extra node",
+                "edge2with2extranode",
+                "beam",
+                2,
+                0,
+                4,
+                False,
+                False,
+                True,
+                False,
+            ),
+            element_types.Edge3With1ExtraNode: ElementDescriptor(
+                element_types.Edge3With1ExtraNode,
+                "Quadratic 3-nodes Edge with 1 extra node",
+                "edge3with1extranode",
+                "beam",
+                2,
+                1,
+                4,
+                False,
+                False,
+                True,
+                True,
+            ),
+            element_types.Edge3With2ExtraNode: ElementDescriptor(
+                element_types.Edge3With2ExtraNode,
+                "Quadratic 3-nodes Edge with 2 extra node",
+                "edge3with2extranode",
+                "beam",
+                2,
+                1,
+                5,
+                False,
+                False,
+                True,
+                True,
+            ),
+            element_types.Surface3With1ExtraNode: ElementDescriptor(
+                element_types.Surface3With1ExtraNode,
+                "Linear 3-nodes Surface with 1 extra node",
+                "surface3with1extranode",
+                "shell",
+                3,
+                0,
+                4,
+                False,
+                True,
+                False,
+                False,
+            ),
+            element_types.Surface4With1ExtraNode: ElementDescriptor(
+                element_types.Surface4With1ExtraNode,
+                "Linear 4-nodes Surface with 1 extra node",
+                "surface4with1extranode",
+                "shell",
+                4,
+                0,
+                5,
+                False,
+                True,
+                False,
+                False,
+            ),
+            element_types.Surface6With1ExtraNode: ElementDescriptor(
+                element_types.Surface6With1ExtraNode,
+                "Quadratic 6-nodes Surface with 1 extra node",
+                "surface6with1extranode",
+                "shell",
+                3,
+                3,
+                7,
+                False,
+                True,
+                False,
+                True,
+            ),
+            element_types.Surface8With1ExtraNode: ElementDescriptor(
+                element_types.Surface8With1ExtraNode,
+                "Quadratic 8-nodes Surface with 1 extra node",
+                "surface8with1extranode",
+                "shell",
+                4,
+                4,
+                9,
+                False,
+                True,
+                False,
+                True,
+            ),
+            element_types.Surface3With2ExtraNode: ElementDescriptor(
+                element_types.Surface3With2ExtraNode,
+                "Linear 3-nodes Surface with 2 extra node",
+                "surface3with2extranode",
+                "shell",
+                3,
+                0,
+                5,
+                False,
+                True,
+                False,
+                False,
+            ),
+            element_types.Surface4With2ExtraNode: ElementDescriptor(
+                element_types.Surface4With2ExtraNode,
+                "Linear 4-nodes Surface with 2 extra node",
+                "surface4with2extranode",
+                "shell",
+                4,
+                0,
+                6,
+                False,
+                True,
+                False,
+                False,
+            ),
+            element_types.Surface6With2ExtraNode: ElementDescriptor(
+                element_types.Surface6With2ExtraNode,
+                "Quadratic 6-nodes Surface with 2 extra node",
+                "surface6with2extranode",
+                "shell",
+                3,
+                3,
+                8,
+                False,
+                True,
+                False,
+                True,
+            ),
+            element_types.Surface8With2ExtraNode: ElementDescriptor(
+                element_types.Surface8With2ExtraNode,
+                "Quadratic 8-nodes Surface with 2 extra node",
+                "surface8with2extranode",
+                "shell",
+                4,
+                4,
+                10,
+                False,
+                True,
+                False,
+                True,
+            ),
+            element_types.Line2With2ExtraNode: ElementDescriptor(
+                element_types.Line2With2ExtraNode,
+                "Linear 2-nodes Line with 2 extra node",
+                "line2with2extranode",
+                "beam",
+                2,
+                0,
+                4,
+                False,
+                False,
+                True,
                 False,
             ),
         }
@@ -1314,10 +1578,17 @@ class element_types(Enum):
         return descriptor
 
 
-class _element_shapes(Enum):
+class _element_shapes_legacy(Enum):
     # NODAL = 0
     # ELEMENTAL = 1
     SHELL = 0
     SOLID = 1
     BEAM = 2
     UNKNOWN_SHAPE = 3
+
+
+class _element_shapes(Enum):
+    UNKNOWN_SHAPE = 0
+    SHELL = 1
+    SOLID = 2
+    BEAM = 3

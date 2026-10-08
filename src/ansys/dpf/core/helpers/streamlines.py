@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -146,7 +146,7 @@ def compute_streamlines(meshed_region, field, **kwargs):
     ...        source_center=(0.55, 0.55, 0.),
     ...        n_points=10,
     ...        source_radius=0.08,
-    ...        max_time=10.0
+    ...        max_length=10.0
     ...        )
 
     """

@@ -224,6 +224,18 @@ class MeshedRegionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def meshed_region_set_ply_layer_support(meshedRegion, gdc):
+		raise NotImplementedError
+
+	@staticmethod
+	def meshed_region_get_ply_layer_support(meshedRegion):
+		raise NotImplementedError
+
+	@staticmethod
+	def meshed_region_has_ply_layer_support(meshedRegion):
+		raise NotImplementedError
+
+	@staticmethod
 	def meshed_region_new_on_client(client):
 		raise NotImplementedError
 

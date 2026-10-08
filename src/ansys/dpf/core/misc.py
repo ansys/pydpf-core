@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,7 +22,6 @@
 
 """Miscellaneous functions for the DPF module."""
 
-import glob
 import os
 from pathlib import Path
 from pkgutil import iter_modules
@@ -106,7 +105,6 @@ def get_ansys_path(ansys_path=None):
     # ANSYS_DPF_PATH > hosting Unified Install > Python package > AWP_ROOTXXX > any Ansys install on the disk
     if ansys_path is None:
         ansys_path = find_ansys()
-
     # If still no install has been found, throw an exception
     if ansys_path is None:
         raise ValueError(
@@ -126,15 +124,15 @@ def get_ansys_path(ansys_path=None):
         ver = int(str(ansys_path)[-3:])
     else:
         ver = 222
-    if ver < 211:
+    if ver < 211:  # noqa: PLR2004
         raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
-    if ver == 211 and is_ubuntu():
+    if ver == 211 and is_ubuntu():  # noqa: PLR2004
         raise OSError("DPF on v211 does not support Ubuntu")
     return ansys_path
 
 
 def _pythonize_awp_version(version):
-    if len(version) != 3:
+    if len(version) != 3:  # noqa: PLR2004
         return version
     return "20" + version[0:2] + "." + version[2]
 

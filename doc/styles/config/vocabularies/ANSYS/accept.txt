@@ -1,5 +1,6 @@
 (?i)ansys
 APIs
+astroid
 Abaqus
 CPython
 DPF [Ss]erver
@@ -45,6 +46,8 @@ serializer
 setuptools
 socio-economic
 substep
+synopsys
+Synopsys
 systyem
 tqdm
 von

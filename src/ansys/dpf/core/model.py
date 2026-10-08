@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -255,7 +255,7 @@ class Model:
         >>> transient = examples.download_transient_result()
         >>> model = Model(transient)
         >>> model.plot()
-        (None, <pyvista.plotting.plotter.Plotter ...>)
+        ([], <pyvista.plotting.plotter.Plotter ...>)
 
         """
         from ansys.dpf.core.plotter import DpfPlotter
@@ -291,6 +291,7 @@ class Metadata:
 
     def __init__(self, data_sources, server):
         self._server = server
+        self._server._register_metadata(self)
         self._set_data_sources(data_sources)
         self._meshed_region = None
         self._meshes_container = None

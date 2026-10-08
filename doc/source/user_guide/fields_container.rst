@@ -398,6 +398,65 @@ To access the entire array of data as a ``numpy`` array:
 This array has 6 components by elementary data (symmetrical tensor XX,YY,ZZ,XY,YZ,XZ).
 Note that this array is a genuine, local, numpy array (overloaded by the DPFArray).
 
+Interpreting field length and shape
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The length of a ``Field`` and the length of its ``data`` array describe
+different quantities:
+
+* ``len(field)`` returns ``field.size``, which is the total number of scalar
+    values. For a uniform field, this is the number of elementary data entries
+    multiplied by the number of components.
+* ``len(field.data)`` follows NumPy semantics and returns the size of the first
+    axis. For a multi-component field, this is the number of rows, not the total
+    number of scalar values.
+* ``field.elementary_data_count`` is the number of rows in the uniform
+    ``field.data`` view. Shell layers and ElementalNodal nodes can produce more
+    rows than there are IDs in ``field.scoping``.
+
+For one SHELL281 element, the stress result has six components and three shell
+layers. A MAPDL RST result can contain values on the four corner nodes only. The
+corner-only ElementalNodal field therefore has 12 rows and 72 scalar values:
+
+.. code-block:: python
+
+    field.data.shape  # (12, 6)
+    len(field)        # 72
+    len(field.data)   # 12
+
+Requesting the result at the Nodal location enables midside-node extension by
+default. The same element then has eight nodes per layer, or 24 rows and 144
+scalar values:
+
+.. code-block:: python
+
+    field.data.shape  # (24, 6)
+    len(field)        # 144
+    len(field.data)   # 24
+
+Selecting one component changes the number of columns, but not the number of
+entity/layer rows. A ``(24, 6)`` stress array becomes ``(24,)`` when selecting
+X, and ``len(field)`` becomes 24 because the field now has one component.
+
+For result operators that expose the ``shell_layer`` input, the selector values
+are:
+
+* ``0``: top
+* ``1``: bottom
+* ``2``: top and bottom
+* ``3``: mid
+* ``4``: top, bottom, and mid
+
+For ``topbottommid``, the data is ordered bottom, top, then mid for each
+entity/node. The value ``5`` is not the top-bottom-mid selector.
+
+MAPDL RST files can provide quadratic-element results on corner nodes without
+providing original midside-node values. The ``extend_to_mid_nodes`` result pin
+computes midside values when averaging to ``Nodal`` location. Set it to
+``False`` to keep only corner-node values. The standalone
+``dpf.operators.averaging.extend_to_mid_nodes`` and
+``extend_to_mid_nodes_fc`` operators also compute midside values from corner
+values; they do not recover values that were absent from the result file.
+
 .. code-block:: python
 
     print(type(array))

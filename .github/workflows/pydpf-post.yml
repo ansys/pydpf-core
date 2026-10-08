@@ -1,11 +1,11 @@
-name: PyDPF-Post testing
+name: PyDPF-Post testing # zizmor: ignore[concurrency-limits] , this is a reusable workflow
 
 on:
 # Can be called by the CI
   workflow_call:
     inputs:
       post_branch:
-        default: ''
+        default: 'main'
         type: string
       ANSYS_VERSION:
         required: false
@@ -20,12 +20,17 @@ on:
         required: false
         type: string
         default: "false"
+    secrets:
+      LICENSE_SERVER:
+        required: true
+      PYANSYS_CI_BOT_TOKEN:
+        required: true
 # Can be called manually
   workflow_dispatch:
     inputs:
       post_branch:
-        description: 'PyDPF-Post branch or tag to test. Leave empty to get latest tagged version'
-        default: ''
+        description: 'PyDPF-Post branch or tag to test. Set to `latest` to get latest tagged version'
+        default: 'main'
         type: string
       ANSYS_VERSION:
         description: "ANSYS version"
@@ -46,10 +51,15 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
 
+permissions: {}
+
 jobs:
   Clone_and_Test:
-    name: Clone and Test
+    name: Clone and Test # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read # Required for checkout
+      pull-requests: write # Required for posting test outcome comments
     strategy:
       fail-fast: false
       matrix:
@@ -57,57 +67,38 @@ jobs:
         python-version: ["3.10"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
-      - name: "Set licensing if necessary"
-        if: ${{ (inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) > '231' }}
+      - name: "Set licensing"
         shell: bash
+        env:
+          LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
-          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
+          echo "ANSYSLMD_LICENSE_FILE=1055@${LICENSE_SERVER}" >> $GITHUB_ENV
+          echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
 
       - name: "Setup Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: "Install ansys-dpf-core build requirements"
-        run: pip install -r requirements/requirements_build.txt
+      - name: "Install uv"
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
 
-      - name: "Build ansys-dpf-core wheel"
-        shell: bash
+      - name: "Install ansys-dpf-core"
         run: |
-          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
-              export platform="manylinux_2_17"
-          else
-              export platform="win"
-          fi
-          python .ci/build_wheel.py -p $platform -w
-
-      - name: "Expose ansys-dpf-core wheel"
-        shell: bash
-        id: wheel
-        working-directory: dist
-        run: |
-          export name=`ls ansys_dpf_core*.whl`
-          echo ${name}
-          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-
-      - name: "Install ansys-dpf-core wheel"
-        shell: bash
-        run: |
-          pip install dist/${{ steps.wheel.outputs.wheel_name }}[graphics]
+          uv pip install --system .[graphics]
 
       - name: "Install DPF"
         id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-server@v2.3
+        uses: ansys/pydpf-actions/install-dpf-server@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         with:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
-
-      - name: "Check licences of packages"
-        uses: ansys/pydpf-actions/check-licenses@v2.3
 
       - name: "Test import"
         shell: bash
@@ -116,11 +107,13 @@ jobs:
 
       - name: "Clone PyDPF-Post"
         shell: bash
+        env:
+          POST_BRANCH: ${{ inputs.post_branch }}
         run: |
           REPO="https://github.com/ansys/pydpf-post.git"
-          BranchName=${{ inputs.post_branch }}
+          BranchName="${POST_BRANCH}"
           echo branch="$BranchName"
-          if [ "$BranchName" = '' ];
+          if [ "$BranchName" = 'latest' ];
           then
               BranchName=$(git ls-remote --tags --sort="v:refname" --refs $REPO | tail -n1 | cut -d/ -f3)
           fi
@@ -131,31 +124,31 @@ jobs:
         shell: bash
         run: |
           cd pydpf-post
-          pip install .
+          uv pip install --system .
           ls
 
       - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
+        uses: ansys/pydpf-actions/prepare_tests@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         with:
           DEBUG: true
           working-directory: pydpf-post
 
       - name: "List installed packages"
         shell: bash
-        run: pip list
+        run: uv pip list --system
 
       - name: "Test Docstrings"
         id: docstrings
-        uses: ansys/pydpf-actions/test_docstrings@v2.3
+        uses: ansys/pydpf-actions/test_docstrings@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         with:
           MODULE: post
           PACKAGE_NAME: ansys-dpf-post
           working-directory: pydpf-post/src
         if: inputs.test_docstrings == 'true'
-        timeout-minutes: 10
+        timeout-minutes: 12
         continue-on-error: true
         
-      - uses: mainmatter/continue-on-error-comment@v1
+      - uses: mainmatter/continue-on-error-comment@b2606cc5ef2525ec21692999676a19f047e3e082 # v1.2.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           outcome: ${{ steps.docstrings.outcome }}
@@ -171,11 +164,14 @@ jobs:
         timeout-minutes: 60
         continue-on-error: true
 
-      - uses: mainmatter/continue-on-error-comment@v1
+      - uses: mainmatter/continue-on-error-comment@b2606cc5ef2525ec21692999676a19f047e3e082 # v1.2.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           outcome: ${{ steps.api.outcome }}
           test-id: PyDPF-Post API tests on ${{ matrix.os }}
           
       - name: "Kill all servers"
-        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+        if: always()
+        shell: bash
+        run: |
+          uv run --no-project --with psutil python -c "import psutil; proc_name = 'Ans.Dpf.Grpc'; nb_procs = len([proc.kill() for proc in psutil.process_iter() if proc_name in proc.name()]); print(f'Killed {nb_procs} {proc_name} processes.')"

@@ -128,6 +128,10 @@ class DataProcessingAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def data_processing_get_server_version_full(major, minor, micro, modifier):
+		raise NotImplementedError
+
+	@staticmethod
 	def data_processing_get_os():
 		raise NotImplementedError
 
@@ -233,6 +237,18 @@ class DataProcessingAbstractAPI:
 
 	@staticmethod
 	def data_processing_get_server_version_on_client(client, major, minor):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_get_server_version_full_on_client(client, major, minor, micro, modifier):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_get_grpc_client_server_version(major, minor):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_processing_get_grpc_client_server_version_full(major, minor, micro, modifier):
 		raise NotImplementedError
 
 	@staticmethod

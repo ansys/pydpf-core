@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,16 +22,17 @@
 
 """Operator."""
 
+from __future__ import annotations
+
 from enum import Enum
-import logging
 import os
-import traceback
-import warnings
+from typing import TYPE_CHECKING
 
 import numpy
 from packaging.version import Version
 
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.check_version import (
     server_meet_version,
@@ -40,7 +41,8 @@ from ansys.dpf.core.check_version import (
 )
 from ansys.dpf.core.common import types, types_enum_to_types
 from ansys.dpf.core.config import Config
-from ansys.dpf.core.errors import DpfVersionNotSupported
+from ansys.dpf.core.config_proxy import _ConfigProxy
+from ansys.dpf.core.errors import DPFServerException, DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.core.outputs import Output, Outputs, _Outputs
@@ -58,8 +60,9 @@ from ansys.dpf.gate import (
     operator_grpcapi,
 )
 
-LOG = logging.getLogger(__name__)
-LOG.setLevel("DEBUG")
+if TYPE_CHECKING:  # pragma: no cover
+    from ansys.dpf.core.inputs import _Inputs
+    from ansys.dpf.core.server import AnyServerType
 
 
 class _SubOperator:
@@ -90,18 +93,30 @@ class Operator:
 
     Parameters
     ----------
-    name : str
+    name:
         Name of the operator. For example, ``"U"``. You can use the
         ``"html_doc"`` operator to retrieve a list of existing operators.
 
-    config : Config, optional
+    config:
         The Configuration allows to customize how the operation
         will be processed by the operator. The default is ``None``.
 
-    server : server.DPFServer, optional
+    server:
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
         server.
+
+    operator:
+        An existing operator reference to wrap. If an operator reference is provided,
+        the name, server, inputs_type, and outputs_type parameters are ignored.
+
+    inputs_type:
+        The class to use for the inputs of the operator. If not specified,
+        the default Inputs class is used.
+
+    outputs_type:
+        The class to use for the outputs of the operator. If not specified,
+        the default Outputs class is used.
 
     Examples
     --------
@@ -119,12 +134,22 @@ class Operator:
 
     """
 
-    def __init__(self, name=None, config=None, server=None, operator=None):
+    def __init__(  # noqa: PLR0913
+        self,
+        name: str = None,
+        config: Config = None,
+        server: AnyServerType = None,
+        operator: Operator | int = None,
+        inputs_type: type[_Inputs] = Inputs,
+        outputs_type: type[_Outputs] = Outputs,
+    ):
         """Initialize the operator with its name by connecting to a stub."""
         self.name = name
         self._internal_obj = None
         self._description = None
         self._inputs = None
+        self._inputs_class = inputs_type
+        self._outputs_class = outputs_type
         self._id = None
 
         # step 1: get server
@@ -151,13 +176,10 @@ class Operator:
             else:
                 self._internal_obj = operator
                 self.name = self._api.operator_name(self)
+        elif self._server.has_client():
+            self._internal_obj = self._api.operator_new_on_client(self.name, self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.operator_new_on_client(
-                    self.name, self._server.client
-                )
-            else:
-                self._internal_obj = self._api.operator_new(self.name)
+            self._internal_obj = self._api.operator_new(self.name)
 
         if self._internal_obj is None:
             raise KeyError(
@@ -168,9 +190,14 @@ class Operator:
             )
 
         self._spec = Specification(operator_name=self.name, server=self._server)
-        # add dynamic inputs
-        if len(self._spec.inputs) > 0 and self._inputs is None:
-            self._inputs = Inputs(self._spec.inputs, self)
+        # add dynamic inputs if no specific Inputs subclass is used
+        if len(self._spec.inputs) > 0:
+            if self._inputs_class == Inputs:
+                self._inputs = self._inputs_class(self._spec.inputs, self)
+            else:
+                self._inputs = self._inputs_class(self)
+        else:
+            self._inputs = None
 
         # step4: if object exists: take instance (config)
         if config:
@@ -219,8 +246,13 @@ class Operator:
 
     @property
     def _outputs(self):
-        if self._spec and len(self._spec.outputs) != 0:
-            return Outputs(self._spec.outputs, self)
+        if self._outputs_class == Outputs:
+            if self._spec and len(self._spec.outputs) != 0:
+                return self._outputs_class(self._spec.outputs, self)
+            else:
+                return None
+        else:
+            return self._outputs_class(self)
 
     @_outputs.setter
     def _outputs(self, value):
@@ -242,7 +274,7 @@ class Operator:
     def progress_bar(self, value: bool) -> None:
         self._progress_bar = value
 
-    def connect(self, pin, inpt, pin_out=0):
+    def connect(self, pin, inpt, pin_out=0):  # noqa: PLR0912, C901
         """Connect an input on the operator using a pin number.
 
         Parameters
@@ -292,7 +324,7 @@ class Operator:
             )
             self._api.operator_connect_label_space(self, pin, label_space_to_con)
         elif isinstance(inpt, UnitSystem):
-            if inpt.ID != -2:  # Ansys UnitSystem
+            if inpt.ID != -2:  # Ansys UnitSystem  # noqa: PLR2004
                 self.connect(pin, inpt.ID)
             else:  # Custom UnitSystem
                 self.connect(pin, inpt.unit_names)
@@ -301,7 +333,7 @@ class Operator:
                 inpt = str(inpt)
             for type_tuple in self._type_to_input_method:
                 if isinstance(inpt, type_tuple[0]):
-                    if len(type_tuple) == 3:
+                    if len(type_tuple) == 3:  # noqa: PLR2004
                         inpt = type_tuple[2](inpt)
                     return type_tuple[1](self, pin, inpt)
             errormsg = f"input type {inpt.__class__} cannot be connected"
@@ -321,40 +353,44 @@ class Operator:
         self._api.operator_connect_operator_as_input(self, pin, op)
 
     @staticmethod
-    def _getoutput_string(self, pin):
-        out = Operator._getoutput_string_as_bytes(self, pin)
+    def _getoutput_string(operator_instance, pin):
+        out = Operator._getoutput_string_as_bytes(operator_instance, pin)
         if out is not None and not isinstance(out, str):
             return out.decode("utf-8")
         return out
 
     @staticmethod
-    def _connect_string(self, pin, str):
-        return Operator._connect_string_as_bytes(self, pin, str.encode("utf-8"))
+    def _connect_string(operator_instance, pin, str):
+        return Operator._connect_string_as_bytes(operator_instance, pin, str.encode("utf-8"))
 
     @staticmethod
-    def _getoutput_string_as_bytes(self, pin):
-        if server_meet_version("8.0", self._server):
+    def _getoutput_string_as_bytes(operator_instance, pin):
+        if server_meet_version("8.0", operator_instance._server):
             size = integral_types.MutableUInt64(0)
-            return self._api.operator_getoutput_string_with_size(self, pin, size)
+            return operator_instance._api.operator_getoutput_string_with_size(
+                operator_instance, pin, size
+            )
         else:
-            return self._api.operator_getoutput_string(self, pin)
+            return operator_instance._api.operator_getoutput_string(operator_instance, pin)
 
     @staticmethod
-    def _getoutput_bytes(self, pin):
+    def _getoutput_bytes(operator_instance, pin):
         server_meet_version_and_raise(
             "8.0",
-            self._server,
+            operator_instance._server,
             "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2).",
         )
-        return Operator._getoutput_string_as_bytes(self, pin)
+        return Operator._getoutput_string_as_bytes(operator_instance, pin)
 
     @staticmethod
-    def _connect_string_as_bytes(self, pin, str):
-        if server_meet_version("8.0", self._server):
+    def _connect_string_as_bytes(operator_instance, pin, str):
+        if server_meet_version("8.0", operator_instance._server):
             size = integral_types.MutableUInt64(len(str))
-            return self._api.operator_connect_string_with_size(self, pin, str, size)
+            return operator_instance._api.operator_connect_string_with_size(
+                operator_instance, pin, str, size
+            )
         else:
-            return self._api.operator_connect_string(self, pin, str)
+            return operator_instance._api.operator_connect_string(operator_instance, pin, str)
 
     @property
     def _type_to_output_method(self):
@@ -562,7 +598,7 @@ class Operator:
             )
         return out
 
-    def get_output(self, pin=0, output_type=None):
+    def get_output(self, pin=0, output_type=None):  # noqa: C901
         """Retrieve the output of the operator on the pin number.
 
         To activate the progress bar for server version higher or equal to 3.0,
@@ -589,7 +625,7 @@ class Operator:
         out = None
         for type_tuple in self._type_to_output_method:
             if issubclass(output_type, type_tuple[0]):
-                if len(type_tuple) >= 3:
+                if len(type_tuple) >= 3:  # noqa: PLR2004
                     internal_obj = type_tuple[1](self, pin)
                     if internal_obj is None:
                         self._progress_thread = None
@@ -641,8 +677,9 @@ class Operator:
         >>> op.config = config_add
 
         """
-        config = self._api.operator_get_config(self)
-        return Config(config=config, server=self._server, spec=self._spec)
+        if not hasattr(self, "config_proxy"):
+            self._config_proxy = _ConfigProxy(self)
+        return self._config_proxy
 
     @config.setter
     def config(self, value):
@@ -755,13 +792,7 @@ class Operator:
 
     def __del__(self):
         """Delete this instance."""
-        try:
-            if hasattr(self, "_deleter_func"):
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    self._deleter_func[0](obj)
-        except:
-            warnings.warn(traceback.format_exc())
+        release_dpf_object(self)
 
     def __str__(self):
         """Describe the entity.
@@ -806,17 +837,31 @@ class Operator:
         >>> normfc = math.norm_fc(disp_op).eval()
 
         """
-        if not pin:
+        if pin is None:
             if self.outputs != None and len(self.outputs._outputs) > 0:
-                return self.outputs._outputs[0]()
+                pin = self.outputs._outputs[0]._pin
             else:
                 self.run()
-        else:
-            for output in self.outputs._outputs:
-                if output._pin == pin:
-                    return output()
+                return
 
-    def _find_outputs_corresponding_pins(
+        outputs = [output for output in self.outputs._outputs if output._pin == pin]
+        invalid_output_error = None
+        for output in outputs:
+            try:
+                return output()
+            except DPFServerException as error:
+                details = str(error)
+                if not (
+                    details.startswith('The requested Data format"')
+                    and details.endswith('" is not valid for this pin')
+                ):
+                    raise
+                invalid_output_error = error
+
+        if invalid_output_error is not None:
+            raise invalid_output_error
+
+    def _find_outputs_corresponding_pins(  # noqa: PLR0912, C901
         self, type_names, inpt, pin, corresponding_pins, input_type_name
     ):
         from ansys.dpf.core.results import Result
@@ -826,10 +871,13 @@ class Operator:
             # because cpp mappings are a single type mapping and
             # sometimes the spec contains 'B' instead of 'bool'
             if python_name == "B":
-                python_name = "bool"
+                python_name = "bool"  # noqa: PLW2901
 
             # Type match
             if input_type_name == python_name:
+                corresponding_pins.append(pin)
+            # Treat bytes as str
+            elif input_type_name == "bytes" and python_name == "str":
                 corresponding_pins.append(pin)
             # if the inpt has multiple potential outputs, find which ones can match
             elif isinstance(inpt, (_Outputs, Operator, Result)):
@@ -888,7 +936,7 @@ class Operator:
 
     def __pow__(self, value):
         """Raise each element of a field or a fields container to power 2."""
-        if value != 2:
+        if value != 2:  # noqa: PLR2004
             raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
 
@@ -1042,6 +1090,6 @@ def _write_output_type_to_type(output_type):
     if isinstance(output_type, types):
         try:
             return types_enum_to_types()[output_type]
-        except KeyError as e:
+        except KeyError:
             raise TypeError(f"{output_type} is not an implemented Operator's output")
     return output_type

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -25,17 +25,15 @@
 from __future__ import annotations
 
 from enum import Enum
-import logging
 import os
 from pathlib import Path
-import traceback
 from typing import Union
-import warnings
 
 import numpy
 
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs, server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.check_version import (
     server_meet_version,
     server_meet_version_and_raise,
@@ -52,9 +50,6 @@ from ansys.dpf.gate import (
     workflow_capi,
     workflow_grpcapi,
 )
-
-LOG = logging.getLogger(__name__)
-LOG.setLevel("DEBUG")
 
 
 class Workflow:
@@ -110,11 +105,10 @@ class Workflow:
         # step4: if object exists, take the instance, else create it
         if workflow is not None:
             self._internal_obj = workflow
+        elif self._server.has_client():
+            self._internal_obj = self._api.work_flow_new_on_client(self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.work_flow_new_on_client(self._server.client)
-            else:
-                self._internal_obj = self._api.work_flow_new()
+            self._internal_obj = self._api.work_flow_new()
 
         self.progress_bar = True
 
@@ -138,40 +132,44 @@ class Workflow:
         self._progress_bar = value
 
     @staticmethod
-    def _getoutput_string(self, pin):
-        out = Workflow._getoutput_string_as_bytes(self, pin)
+    def _getoutput_string(workflow_instance, pin):
+        out = Workflow._getoutput_string_as_bytes(workflow_instance, pin)
         if out is not None and not isinstance(out, str):
             return out.decode("utf-8")
         return out
 
     @staticmethod
-    def _connect_string(self, pin, str):
-        return Workflow._connect_string_as_bytes(self, pin, str.encode("utf-8"))
+    def _connect_string(workflow_instance, pin, str):
+        return Workflow._connect_string_as_bytes(workflow_instance, pin, str.encode("utf-8"))
 
     @staticmethod
-    def _getoutput_string_as_bytes(self, pin):
-        if server_meet_version("8.0", self._server):
+    def _getoutput_string_as_bytes(workflow_instance, pin):
+        if server_meet_version("8.0", workflow_instance._server):
             size = integral_types.MutableUInt64(0)
-            return self._api.work_flow_getoutput_string_with_size(self, pin, size)
+            return workflow_instance._api.work_flow_getoutput_string_with_size(
+                workflow_instance, pin, size
+            )
         else:
-            return self._api.work_flow_getoutput_string(self, pin)
+            return workflow_instance._api.work_flow_getoutput_string(workflow_instance, pin)
 
     @staticmethod
-    def _getoutput_bytes(self, pin):
+    def _getoutput_bytes(workflow_instance, pin):
         server_meet_version_and_raise(
             "8.0",
-            self._server,
+            workflow_instance._server,
             "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2).",
         )
-        return Workflow._getoutput_string_as_bytes(self, pin)
+        return Workflow._getoutput_string_as_bytes(workflow_instance, pin)
 
     @staticmethod
-    def _connect_string_as_bytes(self, pin, str):
-        if server_meet_version("8.0", self._server):
+    def _connect_string_as_bytes(workflow_instance, pin, str):
+        if server_meet_version("8.0", workflow_instance._server):
             size = integral_types.MutableUInt64(len(str))
-            return self._api.work_flow_connect_string_with_size(self, pin, str, size)
+            return workflow_instance._api.work_flow_connect_string_with_size(
+                workflow_instance, pin, str, size
+            )
         else:
-            return self._api.work_flow_connect_string(self, pin, str)
+            return workflow_instance._api.work_flow_connect_string(workflow_instance, pin, str)
 
     def connect(self, pin_name, inpt, pin_out=0):
         """Connect an input on the workflow using a pin name.
@@ -232,7 +230,7 @@ class Workflow:
         else:
             for type_tuple in self._type_to_input_method:
                 if isinstance(inpt, type_tuple[0]):
-                    if len(type_tuple) == 3:
+                    if len(type_tuple) == 3:  # noqa: PLR2004
                         inpt = type_tuple[2](inpt)
                     return type_tuple[1](self, pin_name, inpt)
             errormsg = f"input type {inpt.__class__} cannot be connected"
@@ -455,7 +453,7 @@ class Workflow:
         out = None
         for type_tuple in self._type_to_output_method:
             if issubclass(output_type, type_tuple[0]):
-                if len(type_tuple) >= 3:
+                if len(type_tuple) >= 3:  # noqa: PLR2004
                     if isinstance(type_tuple[2], str):
                         parameters = {type_tuple[2]: type_tuple[1](self, pin_name)}
                         out = output_type(**parameters, server=self._server)
@@ -1015,12 +1013,9 @@ class Workflow:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            if hasattr(self, "_internal_obj"):
-                if self._internal_obj is not None and self._internal_obj != "None":
-                    self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
+        internal_obj = getattr(self, "_internal_obj", None)
+        if internal_obj is not None and internal_obj != "None":
+            release_dpf_object(self)
 
     def __str__(self):
         """Describe the entity.
@@ -1032,3 +1027,31 @@ class Workflow:
         from ansys.dpf.core.core import _description
 
         return _description(self._internal_obj, self._server)
+
+    def required_plugins(self) -> list[str]:
+        """List of plugins required by the workflow based on registered operators.
+
+        Returns
+        -------
+        plugins:
+            List of plugins used by the workflow ordered alphabetically.
+            The plugin name reported is the one set when loading the plugin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> wf = dpf.Workflow()
+        >>> op1 = dpf.Operator("csv_to_field")  # from 'csv' plugin
+        >>> op2 = dpf.Operator("U")         # from 'core' plugin
+        >>> wf.add_operators([op1, op2])
+        >>> wf.required_plugins()
+        ['core', 'csv']
+        """
+        num = self._api.work_flow_number_of_operators(self)
+        out = []
+        for i in range(num):
+            op_name = self._api.work_flow_operator_name_by_index(self, i)
+            spec = dpf.core.dpf_operator.Operator.operator_specification(op_name, self._server)
+            plugin_name = spec.properties["plugin"]
+            out.append(plugin_name)
+        return sorted(list(set(out)))

@@ -4,3 +4,7 @@ from .kmeans_clustering import kmeans_clustering
 from .quantization import quantization
 from .quantization_fc import quantization_fc
 from .zfp_decompress import zfp_decompress
+from .zstd_compress import zstd_compress
+from .zstd_compress_fc import zstd_compress_fc
+from .zstd_decompress import zstd_decompress
+from .zstd_decompress_fc import zstd_decompress_fc

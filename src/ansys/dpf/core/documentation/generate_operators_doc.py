@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -19,6 +19,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
 """Generation of Markdown documentation source files for operators of a given DPF installation."""
 
 from __future__ import annotations
@@ -27,11 +28,13 @@ import argparse
 import os
 from pathlib import Path
 import re
+import warnings
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.core import load_library
 from ansys.dpf.core.dpf_operator import available_operator_names
+from ansys.dpf.core.mapping_types import reflection_type_to_cpp_type
 
 
 class Jinja2ImportError(ModuleNotFoundError):  # pragma: nocover
@@ -51,11 +54,13 @@ except ModuleNotFoundError:  # pragma: nocover
     raise Jinja2ImportError
 
 
-def initialize_server(
+def initialize_server(  # noqa: PLR0912, PLR0913, C901
     ansys_path: str | os.PathLike = None,
     include_composites: bool = False,
     include_sound: bool = False,
     verbose: bool = False,
+    custom_plugin_paths: list = None,
+    custom_plugin_names: list = None,
 ) -> dpf.AnyServerType:
     """Initialize a DPF server for a given installation folder by loading required plugins.
 
@@ -69,6 +74,14 @@ def initialize_server(
         Whether to generate documentation for operators of the Sound DPF plugin.
     verbose:
         Whether to print progress information.
+    custom_plugin_paths:
+        Paths to custom plugin files (.dll or .so) to load into the server.
+        Each plugin is loaded after the standard plugins.
+    custom_plugin_names:
+        Name aliases to use when loading the custom plugins via ``load_library``.
+        Each entry corresponds positionally to an entry in ``custom_plugin_paths``.
+        When an entry is ``None`` or the list is shorter than ``custom_plugin_paths``,
+        the name defaults to the file stem of the corresponding path.
 
     Returns
     -------
@@ -90,17 +103,44 @@ def initialize_server(
             binary_name = "composite_operators.dll"
         else:
             binary_name = "libcomposite_operators.so"
-        load_library(
-            filename=Path(server.ansys_path) / "dpf" / "plugins" / "dpf_composites" / binary_name,
-            name="composites",
-        )
+        try:
+            load_library(
+                filename=Path(server.ansys_path)
+                / "dpf"
+                / "plugins"
+                / "dpf_composites"
+                / binary_name,
+                name="composites",
+            )
+        except Exception as e:
+            warnings.warn("Could not load Composites plugin:" f"{e}")
     if include_sound and server.os == "nt":  # pragma: nocover
         if verbose:
             print("Loading Acoustics Plugin")
-        load_library(
-            filename=Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll",
-            name="sound",
-        )
+        try:
+            load_library(
+                filename=Path(server.ansys_path) / "Acoustics" / "SAS" / "ads" / "dpf_sound.dll",
+                name="sound",
+            )
+        except Exception as e:
+            warnings.warn("Could not load Acoustics plugin:" f"{e}")
+    for idx, plugin_path in enumerate(custom_plugin_paths or []):  # pragma: nocover
+        plugin_path = Path(plugin_path)  # noqa: PLW2901
+        # Resolve the name: use the provided name if available, else derive from the file stem
+        plugin_names = custom_plugin_names or []
+        raw_name = plugin_names[idx] if idx < len(plugin_names) else None
+        if raw_name is None:
+            # Strip leading "lib" prefix on Linux and drop the suffix to get a clean name
+            stem = plugin_path.stem
+            if stem.startswith("lib"):
+                stem = stem[3:]
+            raw_name = stem
+        if verbose:
+            print(f"Loading custom plugin '{raw_name}' from {plugin_path}")
+        try:
+            load_library(filename=plugin_path, name=raw_name)
+        except Exception as e:
+            warnings.warn(f"Could not load custom plugin '{raw_name}': {e}")
     if verbose:  # pragma: nocover
         print(f"Loaded plugins: {list(server.plugins.keys())}")
     return server
@@ -120,7 +160,9 @@ def extract_operator_description_update(content: str) -> str:
             The updated description to use for the operator.
     """
     match = re.search(r"## Description\s*(.*?)\s*(?=## |\Z)", content, re.DOTALL)
-    return match.group(0) + os.linesep if match else None
+    description = match.group(0) + os.linesep if match else None
+    # Handle unicode characters
+    return description.encode("unicode-escape").decode()
 
 
 def replace_operator_description(original_documentation: str, new_description: str):
@@ -193,9 +235,8 @@ def update_operator_descriptions(
                 bf.write(updated_content)
             if verbose:
                 print(f"Updated description for: {file_name}")
-        else:
-            if verbose:
-                print(f"No operator description found in: {upd_path}")
+        elif verbose:
+            print(f"No operator description found in: {upd_path}")
 
 
 def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:
@@ -220,22 +261,27 @@ def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:
     configurations_info = []
     for input_pin in spec.inputs:
         input_pin_info = spec.inputs[input_pin]
+        input_type_names = input_pin_info._type_names
         input_info.append(
             {
                 "pin_number": input_pin,
                 "name": input_pin_info.name,
-                "types": [str(t) for t in input_pin_info._type_names],
+                "types": [str(t) for t in input_type_names],
+                "cpp_types": [reflection_type_to_cpp_type(t) for t in input_type_names],
                 "document": input_pin_info.document,
                 "optional": input_pin_info.optional,
+                "ellipsis": input_pin_info.ellipsis,
             }
         )
     for output_pin in spec.outputs:
         output = spec.outputs[output_pin]
+        output_type_names = output._type_names
         output_info.append(
             {
                 "pin_number": output_pin,
                 "name": output.name,
-                "types": [str(t) for t in output._type_names],
+                "types": [str(t) for t in output_type_names],
+                "cpp_types": [reflection_type_to_cpp_type(t) for t in output_type_names],
                 "document": output.document,
                 "optional": output.optional,
             }
@@ -293,15 +339,30 @@ def fetch_doc_info(server: dpf.AnyServerType, operator_name: str) -> dict:
         "changelog": changelog_entries,  # Include all changelog entries
     }
 
+    op_description = latex_to_dollars(spec.description)
+
     return {
         "operator_name": op_friendly_name,
-        "operator_description": spec.description,
+        "operator_description": op_description,
         "inputs": input_info,
         "outputs": output_info,
         "configurations": configurations_info,
         "scripting_info": scripting_info,
         "exposure": exposure,
     }
+
+
+def latex_to_dollars(text: str) -> str:
+    r"""Convert LaTeX math delimiters from \\[.\\] to $$.$$ and from \\(.\\) to $.$ in a given text.
+
+    Parameters
+    ----------
+    text:
+        The input text containing LaTeX math delimiters.
+    """
+    return (
+        text.replace(r"\\[", "$$").replace(r"\\]", "$$").replace(r"\\(", "$").replace(r"\\)", "$")
+    )
 
 
 def get_plugin_operators(server: dpf.AnyServerType, plugin_name: str) -> list[str]:
@@ -326,11 +387,20 @@ def get_plugin_operators(server: dpf.AnyServerType, plugin_name: str) -> list[st
         spec = dpf.Operator.operator_specification(op_name=operator_name, server=server)
         if "plugin" in spec.properties and spec.properties["plugin"] == plugin_name:
             plugin_operators.append(operator_name)
+    if not plugin_operators:
+        warnings.warn(
+            f"No operators were found for plugin '{plugin_name}'. "
+            "The plugin may not be loaded on the server."
+        )
     return plugin_operators
 
 
-def generate_operator_doc(
-    server: dpf.AnyServerType, operator_name: str, include_private: bool, output_path: Path
+def generate_operator_doc(  # noqa: PLR0912, C901
+    server: dpf.AnyServerType,
+    operator_name: str,
+    include_private: bool,
+    output_path: Path,
+    router_info: dict = None,
 ):
     """Write the Markdown documentation page for a given operator on a given DPF server.
 
@@ -344,11 +414,30 @@ def generate_operator_doc(
         Whether to generate the documentation if the operator is private.
     output_path:
         Path to write the operator documentation at.
+    router_info:
+        Information about router operators.
 
     """
     operator_info = fetch_doc_info(server, operator_name)
-    scripting_name = operator_info["scripting_info"]["scripting_name"]
-    category = operator_info["scripting_info"]["category"]
+    supported_file_types = {}
+    if router_info is not None:
+        scripting_name = operator_info["scripting_info"]["scripting_name"]
+        operator_info["is_router"] = scripting_name in router_info["router_map"].keys()
+        if operator_info["is_router"]:
+            supported_keys = router_info["router_map"].get(scripting_name, []).split(";")
+            for key in supported_keys:
+                if key in router_info["namespace_ext_map"]:
+                    namespace = router_info["namespace_ext_map"][key]
+                    if namespace not in supported_file_types:
+                        supported_file_types[namespace] = [key]
+                    else:
+                        supported_file_types[namespace].append(key)
+        for namespace, supported_keys in supported_file_types.items():
+            supported_file_types[namespace] = sorted(supported_keys)
+    else:
+        operator_info["is_router"] = False
+    operator_info["supported_file_types"] = supported_file_types
+    category: str = operator_info["scripting_info"]["category"]
     if scripting_name:
         file_name = scripting_name
     else:
@@ -357,7 +446,7 @@ def generate_operator_doc(
         file_name = file_name.replace("::", "_")
     if not include_private and operator_info["exposure"] == "private":
         return
-    template_path = Path(__file__).parent / "operator_doc_template.md"
+    template_path = Path(__file__).parent / "operator_doc_template.j2"
     spec_folder = output_path / Path("operator-specifications")
     category_dir = spec_folder / category
     spec_folder.mkdir(parents=True, exist_ok=True)
@@ -391,7 +480,10 @@ def update_toc_tree(docs_path: Path):
             operators = []  # Reset operators for each category
             for file in folder.iterdir():
                 if (
-                    file.is_file() and file.suffix == ".md" and not file.name.endswith("_upd.md")
+                    file.is_file()
+                    and file.suffix == ".md"
+                    and not file.name.endswith("_upd.md")
+                    and not file.name.endswith("_category.md")
                 ):  # Ensure 'file' is a file with .md extension
                     file_name = file.name
                     file_path = f"{category}/{file_name}"
@@ -419,7 +511,128 @@ def update_toc_tree(docs_path: Path):
         file.write(new_toc)
 
 
-def generate_operators_doc(
+def update_categories(docs_path: Path):
+    """Update the category index files for the operator specifications.
+
+    Parameters
+    ----------
+    docs_path:
+        Path to the root of the DPF documentation sources.
+
+    """
+    specs_path = docs_path / Path("operator-specifications")
+    for folder in specs_path.iterdir():
+        if folder.is_dir():  # Ensure 'folder' is a directory
+            category = folder.name
+            operators = []  # Reset operators for each category
+            for file in folder.iterdir():
+                if (
+                    file.is_file()
+                    and file.suffix == ".md"
+                    and not file.name.endswith("_upd.md")
+                    and not file.name.endswith("_category.md")
+                ):  # Ensure 'file' is a file with .md extension
+                    file_name = file.name
+                    operator_name = file_name.replace("_", " ").replace(".md", "")
+                    operators.append({"operator_name": operator_name, "file_path": file_name})
+            # Update category index file
+            category_file_path = folder / f"{category}_category.md"
+            with category_file_path.open(mode="w") as cat_file:
+                cat_file.write(f"# {category.capitalize()} operators\n\n")
+                for operator in operators:
+                    cat_file.write(f"- [{operator['operator_name']}]({operator['file_path']})\n")
+
+
+def update_operator_index(docs_path: Path):
+    """Update the main index file for all operator specifications.
+
+    Parameters
+    ----------
+    docs_path:
+        Path to the root of the DPF documentation sources.
+
+    """
+    specs_path = docs_path / Path("operator-specifications")
+    index_file_path = specs_path / "operator-specifications.md"
+    with index_file_path.open(mode="w") as index_file:
+        index_file.write("# Operator Specifications\n\n")
+        for folder in specs_path.iterdir():
+            if folder.is_dir():  # Ensure 'folder' is a directory
+                category = folder.name
+                index_file.write(
+                    f"- [{category.capitalize()} operators]({category}/{category}_category.md)\n\n"
+                )
+                index_file.write("\n")
+
+
+def get_operator_routing_info(server: dpf.AnyServerType) -> dict:
+    """Get information about router operators.
+
+    Parameters
+    ----------
+    server:
+        DPF server to query for the operator routing map.
+
+    Returns
+    -------
+    routing_map:
+        A dictionary with three main keys: "aliases", "namespace_ext_map", and "router_map".
+        "aliases" is a dictionary of operator aliases.
+        "namespace_ext_map" is a dictionary mapping keys to namespaces.
+        "router_map" is a dictionary mapping operator names to lists of supported keys.
+    """
+    dt_root: dpf.DataTree = dpf.dpf_operator.Operator(
+        name="info::router_discovery",
+        server=server,
+    ).eval()
+    router_info: dict = dt_root.to_dict()
+    return router_info
+
+
+def get_operator_routing_info_legacy(server: dpf.AnyServerType) -> dict:
+    """Reconstruct routing information from operator names for DPF servers older than 11.0.
+
+    For servers that do not expose the ``info::router_discovery`` operator, the routing
+    map is rebuilt by scanning all available operator names for the pattern
+    ``<namespace>::<key>::<router_name>`` (e.g. ``mapdl::rst::acceleration``).
+
+    Parameters
+    ----------
+    server:
+        DPF server to query for the list of all operators.
+
+    Returns
+    -------
+    routing_map:
+        A dictionary with the same three keys as :func:`get_operator_routing_info`:
+        "aliases" (always empty for this fallback), "namespace_ext_map", and "router_map".
+    """
+    _SOLVER_OP_PART_COUNT = 3
+    namespace_ext_map: dict[str, str] = {}
+    router_map: dict[str, list[str]] = {}
+    for op_name in available_operator_names(server):
+        parts = op_name.split("::")
+        if len(parts) == _SOLVER_OP_PART_COUNT:
+            namespace, key, router_name = parts
+            if "deprecated" in key.lower():
+                continue  # Skip deprecated operators
+            namespace_ext_map[key] = namespace
+            op_scripting_name = dpf.Operator.operator_specification(
+                op_name=router_name, server=server
+            ).properties.get("scripting_name", router_name)
+            if op_scripting_name not in router_map:
+                router_map[op_scripting_name] = []
+            if key not in router_map[op_scripting_name]:
+                router_map[op_scripting_name].append(key)
+
+    return {
+        "aliases": {},
+        "namespace_ext_map": namespace_ext_map,
+        "router_map": {name: ";".join(sorted(keys)) for name, keys in router_map.items()},
+    }
+
+
+def generate_operators_doc(  # noqa: PLR0913
     output_path: Path,
     ansys_path: Path = None,
     include_composites: bool = False,
@@ -427,6 +640,8 @@ def generate_operators_doc(
     include_private: bool = False,
     desired_plugin: str = None,
     verbose: bool = True,
+    custom_plugin_paths: list = None,
+    custom_plugin_names: list = None,
 ):
     """Generate the Markdown source files for the DPF operator documentation.
 
@@ -448,19 +663,61 @@ def generate_operators_doc(
         Whether to include private operators.
     desired_plugin:
         Restrict documentation generation to the operators of this specific plugin.
+        Can be used together with ``custom_plugin_paths`` to document only the operators
+        that belong to one of the loaded custom plugins.
     verbose:
         Whether to print progress information.
+    custom_plugin_paths:
+        Paths to custom plugin files (.dll or .so) to load before generating documentation.
+        Each plugin is loaded in addition to the standard set of plugins so that its operators
+        appear in the generated output.  Combine with ``desired_plugin`` to restrict the output
+        to only the operators of a specific plugin.
+    custom_plugin_names:
+        Name aliases to register each custom plugin under when calling ``load_library``.
+        Each entry corresponds positionally to an entry in ``custom_plugin_paths``.
+        Missing or ``None`` entries default to the file stem of the corresponding path.
 
     """
-    server = initialize_server(ansys_path, include_composites, include_sound, verbose)
+    if isinstance(custom_plugin_paths, str):
+        raise TypeError(
+            "'custom_plugin_paths' must be a list of path strings, not a plain string. "
+            "Wrap the single path in a list: custom_plugin_paths=[path]."
+        )
+    if isinstance(custom_plugin_names, str):
+        raise TypeError(
+            "'custom_plugin_names' must be a list of name strings, not a plain string. "
+            "Wrap the single name in a list: custom_plugin_names=[name]."
+        )
+    server = initialize_server(
+        ansys_path,
+        include_composites,
+        include_sound,
+        verbose,
+        custom_plugin_paths=custom_plugin_paths,
+        custom_plugin_names=custom_plugin_names,
+    )
     if desired_plugin is None:
         operators = available_operator_names(server)
     else:
         operators = get_plugin_operators(server, desired_plugin)
+        if not operators:
+            raise ValueError(
+                f"No operators were found for plugin '{desired_plugin}'. "
+                "The plugin may not be loaded on the server. "
+                "If it is a custom plugin, use 'custom_plugin_paths' to load it first."
+            )
+    if server.meet_version(required_version="11.0"):
+        router_info = get_operator_routing_info(server)
+    else:
+        router_info = get_operator_routing_info_legacy(server)
     for operator_name in operators:
-        generate_operator_doc(server, operator_name, include_private, output_path)
+        generate_operator_doc(server, operator_name, include_private, output_path, router_info)
     # Generate the toc tree
     update_toc_tree(output_path)
+    # Generate the category index files
+    update_categories(output_path)
+    # Generate the main index file for all categories
+    update_operator_index(output_path)
     # Use update files in output_path
     update_operator_descriptions(output_path)
 
@@ -473,9 +730,7 @@ def run_with_args():  # pragma: nocover
     parser.add_argument(
         "--ansys_path", default=None, help="Path to Ansys DPF Server installation directory"
     )
-    parser.add_argument(
-        "--output_path", default=None, help="Path to output directory", required=True
-    )
+    parser.add_argument("--output_path", default=".", help="Path to output directory")
     parser.add_argument("--include_private", action="store_true", help="Include private operators")
     parser.add_argument(
         "--include_composites", action="store_true", help="Include Composites operators"
@@ -484,6 +739,29 @@ def run_with_args():  # pragma: nocover
         "--include_sound", action="store_true", help="Include Sound operators (Windows only)"
     )
     parser.add_argument("--plugin", help="Restrict to the given plugin.")
+    parser.add_argument(
+        "--custom_plugin_path",
+        nargs="+",
+        default=None,
+        metavar="PATH",
+        help=(
+            "Path(s) to custom plugin files (.dll or .so) to load before generating documentation. "
+            "Accepts one or more paths separated by spaces. "
+            "Each plugin's operators are added to the documentation output. "
+            "Combine with --plugin to restrict the output to only a specific plugin's operators."
+        ),
+    )
+    parser.add_argument(
+        "--custom_plugin_name",
+        nargs="+",
+        default=None,
+        metavar="NAME",
+        help=(
+            "Name alias(es) to register the custom plugin(s) under when loading them. "
+            "Each entry corresponds positionally to a --custom_plugin_path entry. "
+            "Defaults to the file stem of the corresponding path."
+        ),
+    )
     parser.add_argument(
         "-v",
         "--verbose",
@@ -500,6 +778,8 @@ def run_with_args():  # pragma: nocover
         include_sound=args.include_sound,
         include_private=args.include_private,
         desired_plugin=args.plugin,
+        custom_plugin_paths=args.custom_plugin_path,
+        custom_plugin_names=args.custom_plugin_name,
     )
 
 

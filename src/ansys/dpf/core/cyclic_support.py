@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,10 +22,8 @@
 
 """Cyclic Support."""
 
-import traceback
-import warnings
-
 from ansys.dpf.core import field, property_field, server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.gate import cyclic_support_capi, cyclic_support_grpcapi
 
@@ -362,7 +360,4 @@ class CyclicSupport:
 
     def __del__(self):
         """Delete this instance."""
-        try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
+        release_dpf_object(self)

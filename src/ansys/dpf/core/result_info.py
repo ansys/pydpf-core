@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -23,12 +23,11 @@
 """ResultInfo."""
 
 from enum import Enum, unique
-import traceback
 from types import SimpleNamespace
 from typing import List, Union
-import warnings
 
 from ansys.dpf.core import available_result, collection_base, server as server_module, support
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.available_result import Homogeneity
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import locations
@@ -110,9 +109,9 @@ class ResultInfo:
     >>> model = dpf.Model(transient)
     >>> result_info = model.metadata.result_info # printable result_info
 
-    >>> result_info.available_results[0].name
+    >>> result_info["displacement"].name
     'displacement'
-    >>> result_info.available_results[0].homogeneity
+    >>> result_info["displacement"].homogeneity
     'length'
 
     """
@@ -208,7 +207,7 @@ class ResultInfo:
         """Check if a given name is present in available results."""
         return value in self._names
 
-    def add_result(
+    def add_result(  # noqa: PLR0913
         self,
         operator_name: str,
         scripting_name: str,
@@ -249,9 +248,8 @@ class ResultInfo:
             raise NotImplementedError("Cannot add a result to a ResultInfo via gRPC.")
         if nature == natures.scalar:
             dimensions = [1]
-        else:
-            if not dimensions:
-                raise ValueError(f"Argument 'dimensions' is required for a {nature.name} result.")
+        elif not dimensions:
+            raise ValueError(f"Argument 'dimensions' is required for a {nature.name} result.")
         size_dim = len(dimensions)
         self._api.result_info_add_result(
             self,
@@ -422,6 +420,12 @@ class ResultInfo:
         """Main title."""
         return self._api.result_info_get_main_title(self)
 
+    @main_title.setter
+    @version_requires("2027.1.0pre0")
+    def main_title(self, value):
+        """Set main title."""
+        self._api.result_info_set_main_title(self, value)
+
     @property
     def available_results(self):
         """Available results, containing all information about results present in the result files.
@@ -444,7 +448,7 @@ class ResultInfo:
         core_api.init_data_processing_environment(self)
         return core_api
 
-    def _get_result(self, numres):
+    def _get_result(self, numres):  # noqa: C901
         """Return requested result.
 
         Parameters
@@ -472,17 +476,11 @@ class ResultInfo:
             self._api.result_info_get_result_location(self, numres, loc_name)
             loc_name = str(loc_name)
         except AttributeError:
-            if name in available_result._result_properties:
-                loc_name = available_result._result_properties[name]["location"]
-            else:
-                loc_name = ""
+            loc_name = ""
         try:
             scripting_name = self._api.result_info_get_result_scripting_name(self, numres)
         except AttributeError:
-            if name in available_result._result_properties:
-                scripting_name = available_result._result_properties[name]["scripting_name"]
-            else:
-                scripting_name = available_result._remove_spaces(physic_name)
+            scripting_name = available_result._remove_spaces(physic_name)
         num_sub_res = self._api.result_info_get_number_of_sub_results(self, numres)
         sub_res = {}
         for ires in range(num_sub_res):
@@ -596,7 +594,7 @@ class ResultInfo:
         """
         try:
             return self.n_results
-        except Exception as e:
+        except Exception:
             return 0
 
     def __iter__(self):
@@ -638,7 +636,4 @@ class ResultInfo:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
+        release_dpf_object(self)

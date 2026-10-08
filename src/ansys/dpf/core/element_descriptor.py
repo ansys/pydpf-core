@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -60,7 +60,7 @@ class ElementDescriptor:
 
     """  # noqa: E501
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         enum_id,
         description,

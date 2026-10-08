@@ -1,4 +1,4 @@
-name: tests
+name: tests # zizmor: ignore[concurrency-limits] , this is a reusable workflow
 
 on:
 # Can be called by the CI
@@ -11,10 +11,6 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-      wheel:
-        required: false
-        type: string
-        default: 'false'
       wheelhouse:
         required: false
         type: string
@@ -33,6 +29,13 @@ on:
         required: false
         type: string
         default: 'false'
+    secrets:
+      LICENSE_SERVER:
+        required: true
+      PYANSYS_CI_BOT_TOKEN:
+        required: true
+      CODECOV_TOKEN:
+        required: false
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -45,11 +48,6 @@ on:
         description: "ANSYS version"
         required: false
         type: string
-      wheel:
-        description: "Generate a wheel"
-        required: false
-        type: string
-        default: 'false'
       wheelhouse:
         description: "Generate a wheelhouse"
         required: false
@@ -75,235 +73,239 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
 
+permissions: {}
+
 jobs:
   setup:
-    name: "Setup"
+    name: "Setup" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     runs-on: ubuntu-latest
     outputs:
       python_versions: ${{ steps.set_array.outputs.python_versions }}
     steps:
       - id: set_array
+        env:
+          PYTHON_VERSIONS: ${{ inputs.python_versions }}
         run: |
-          echo "python_versions=${{ toJSON(inputs.python_versions) }}" >> $GITHUB_OUTPUT
+          echo "python_versions=${PYTHON_VERSIONS}" >> $GITHUB_OUTPUT
 
-  tests:
-    name: "Tests"
+  build-wheelhouse:
+    name: "Build wheelhouse" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
     needs: setup
-    timeout-minutes: 120
+    if: inputs.wheelhouse == 'true'
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
         python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
         os: ["windows-latest", "ubuntu-latest"]
+    steps:
+      - name: "Build a wheelhouse of the Python library"
+        uses: ansys/actions/build-wheelhouse@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
+        with:
+          library-name: "ansys-dpf-core"
+          operating-system: ${{ matrix.os }}${{ inputs.test_any == 'true' && '-any' || '' }}
+          python-version: ${{ matrix.python-version }}
+
+  tests:
+    name: "Tests" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
+    needs: setup
+    timeout-minutes: 120
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
+        os: ["windows-latest", "ubuntu-latest"]
+    env:
+      ANSYS_DPF_WHEEL_PLATFORM: ${{ inputs.test_any == 'true' && 'any' || '' }}
+      UV_PYTHON: ${{ matrix.python-version }}
+      # `uv sync` is run explicitly below, this variable is needed to prevent re-syncing on `uv run`.
+      UV_NO_SYNC: "1"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
-      - name: "Set licensing if necessary"
-        if: ${{ (inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT) > '231' }}
+      - name: "Set licensing"
         shell: bash
+        env:
+          LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
-          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV      
+          echo "ANSYSLMD_LICENSE_FILE=1055@${LICENSE_SERVER}" >> $GITHUB_ENV
 
       - name: "Setup Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: "Setup Graphviz"
-        uses: ts-graphviz/setup-graphviz@v2
+        uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2.0.2
 
-      - name: "Update pip to the latest version and install tox"
+      - name: "Install uv"
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
+      - name: "Install tox"
         shell: pwsh
         run: |
-          python -m pip install -U pip
-          python -m pip install -U tox tox-uv
-
-      - name: "Build the wheel"
-        shell: bash
-        run: |
-          if [ ${{ inputs.test_any }} == 'true' ]; then
-              export platform="any" 
-          elif [ ${{ matrix.os }} == "ubuntu-latest" ]; then
-              export platform="manylinux_2_17"
-          else
-              export platform="win"
-          fi
-          tox -e build-wheel -- $platform
-
-      - name: "Expose the wheel"
-        shell: bash
-        id: wheel
-        working-directory: dist
-        run: |
-          export name=`ls ansys_dpf_core*.whl`
-          echo ${name}
-          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-
-      - name: "Upload wheel to artifacts"
-        if: (inputs.wheel == 'true') && !( (inputs.test_any == 'true') && (matrix.os == 'ubuntu-latest') )
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.wheel.outputs.wheel_name }}
-          path: dist/${{ steps.wheel.outputs.wheel_name }}
-
-      - name: "Define wheelhouse name"
-        if: inputs.wheelhouse == 'true'
-        shell: bash
-        id: wheelhouse
-        run: |
-          export wheel_name=${{ steps.wheel.outputs.wheel_name }}
-          export IFS='-'
-          read -a strarr <<< $wheel_name
-          export version="${strarr[1]}"
-          echo $version
-          export name=ansys-dpf-core-v${version}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}.zip
-          echo "name=${name}" >> "$GITHUB_OUTPUT"
-
-      - name: "Zip wheelhouse"
-        if: inputs.wheelhouse == 'true'
-        uses: vimtor/action-zip@v1.1
-        with:
-          files: dist
-          dest: ${{ steps.wheelhouse.outputs.name }}
-
-      - name: "Upload wheelhouse to artifacts"
-        if: inputs.wheelhouse == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.wheelhouse.outputs.name }}
-          path: ${{ steps.wheelhouse.outputs.name }}
-          retention-days: 7
+          uv sync --only-group tox
 
       - name: "Install DPF"
         id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-server@v2.3
+        uses: ansys/pydpf-actions/install-dpf-server@feat/update-actions-for-uv # zizmor: ignore[unpinned-uses] TODO: pin to a released pydpf-actions tag
         with:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
+          skip-python-install: "true"
 
-      - name: "Check licences of packages"
-        uses: ansys/pydpf-actions/check-licenses@v2.3
-
-      - name: "Test import"
+      - name: "Expose the standalone DPF server to tox"
+        id: dpf-standalone
+        if: env.MODE == 'PIP'
         shell: bash
+        env:
+          STANDALONE_PATH: ${{ steps.set-server-path.outputs.standalone-path }}
         run: |
-          python -m pip install dist/${{ steps.wheel.outputs.wheel_name }}
-          python -c "from ansys.dpf import core"
+          echo "requirement=-e ${STANDALONE_PATH}" >> "$GITHUB_OUTPUT"
 
       - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@dependencies/bump_pyvista_setup-headless-display-action_to_v4
+        uses: ansys/pydpf-actions/prepare_tests@feat/update-actions-for-uv # zizmor: ignore[unpinned-uses] TODO: pin to a released pydpf-actions tag
         with:
           DEBUG: true
-          
+          skip-python-dependencies-install: "true"
+
       - name: "Test Docstrings"
         if: (inputs.DOCSTRING == 'true')
-        uses: ansys/pydpf-actions/test_docstrings@v2.3
-        with:
-          MODULE: ${{env.MODULE}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          working-directory: src
-
-      - name: "Set tox extra CLI arguments"
-        id: tox-cli-arguments
         shell: bash
+        env:
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         run: |
-          if [ $MODE == 'PIP' ]; then
-            echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }} -x testenv.deps+="-e dpf-standalone/v${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}"' >> "$GITHUB_OUTPUT"
-          else
-            echo 'TOX_EXTRA_ARG=--installpkg dist/${{ steps.wheel.outputs.wheel_name }}' >> "$GITHUB_OUTPUT"
-          fi
+          export DPF_DEFAULT_GRPC_MODE=insecure
+          uv run tox -e test-docstrings,kill-servers
+
+      - name: "Upload Docstring Test Results"
+        if: (inputs.DOCSTRING == 'true')
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ${{ env.PACKAGE_NAME }}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.standalone_suffix }}_doctest_${{ runner.os }}
+          path: src/junit/test-doctests-results.xml
+          overwrite: true
 
       - name: "Organize test files"
         shell: bash
         run: |
-          tox -e pretest
+          uv run tox -e pretest
 
       - name: "Test API test_entry"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+        env:
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
           timeout_minutes: 10
           max_attempts: 2
           shell: bash
           command: |
-            tox -e test-api_entry,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
-
-      - name: "Run compatible tests in parallel"
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 20
-          max_attempts: 2
-          shell: bash
-          command: |
-            tox run-parallel -m ciparalleltests ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+            export DPF_DEFAULT_GRPC_MODE=insecure
+            uv run tox -e test-api_entry,kill-servers
 
       - name: "Test API test_server"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+        env:
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
           timeout_minutes: 10
           max_attempts: 2
           shell: bash
           command: |
-            tox -e test-server,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+            export DPF_DEFAULT_GRPC_MODE=insecure
+            uv run tox -e test-server,kill-servers
 
       - name: "Test API test_remote_workflow"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+        env:
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
           timeout_minutes: 10
           max_attempts: 3
           shell: bash
           command: |
-            tox -e test-remote_workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+            export DPF_DEFAULT_GRPC_MODE=insecure
+            uv run tox -e test-remote_workflow,kill-servers
 
       - name: "Test API test_remote_operator"
         shell: bash
+        env:
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         run: |
-          tox -e test-remote_operator,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+          export DPF_DEFAULT_GRPC_MODE=insecure
+          uv run tox -e test-remote_operator,kill-servers
 
       - name: "Test API test_workflow"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+        env:
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
           timeout_minutes: 10
           max_attempts: 4
           shell: bash
           command: |
-            tox -e test-workflow,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+            export DPF_DEFAULT_GRPC_MODE=insecure
+            uv run tox -e test-workflow,kill-servers
 
       - name: "Test API test_service"
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+        env:
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
           timeout_minutes: 10
           max_attempts: 2
           shell: bash
           command: |
-            tox -e test-service,kill-servers ${{ steps.tox-cli-arguments.outputs.TOX_EXTRA_ARG }}
+            export DPF_DEFAULT_GRPC_MODE=insecure
+            uv run tox -e test-service,kill-servers
+
+      - name: "Run compatible tests in parallel"
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+        env:
+          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
+        with:
+          timeout_minutes: 20
+          max_attempts: 2
+          shell: bash
+          command: |
+            export DPF_DEFAULT_GRPC_MODE=insecure
+            uv run tox run-parallel -m ciparalleltests
 
       - name: "Combine coverage results"
         shell: bash
         run: |
-          tox -e covreport
+          uv run tox -e covreport
 
       - name: "Upload Test Results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
           path: tests/junit/test-results.xml
 
       - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
-          file: ./.tox/.cov/coverage.xml
+          report_type: coverage
+          files: ./.tox/.cov/coverage.xml
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}.xml
           flags: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
 
       - name: "Upload test analytics results to Codecov"
         if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          report_type: test_results
           name: test_results_${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
           flags: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}

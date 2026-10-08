@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,7 +22,12 @@
 
 """Examples result files."""
 
-import os
+__all__ = [
+    "get_example_required_minimum_dpf_version",
+    "find_files",
+    "fluid_axial_model",
+]
+
 from pathlib import Path
 
 from ansys.dpf.core import DataSources, path_utilities, server as server_module

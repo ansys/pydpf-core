@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,10 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import conftest
 import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core.elements import element_types
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0
 
 
 @pytest.fixture()
@@ -53,7 +55,7 @@ def tetra_element_descriptor(model_elements):
 
 
 @pytest.fixture()
-def line_element_descriptor(model_elements):
+def beam_element_descriptor(model_elements):
     el_index = model_elements.scoping.index(10834)
     return dpf.element_types.descriptor(model_elements[el_index].type)
 
@@ -137,22 +139,37 @@ def test_tetra_element_descriptor(tetra_element_descriptor):
     )
 
 
-def test_line_element_descriptor(line_element_descriptor):
-    check_element_attributes(
-        line_element_descriptor,
-        18,
-        "Linear 2-nodes Line",
-        "line2",
-        "beam",
-        2,
-        0,
-        2,
-        False,
-        False,
-        True,
-        False,
-    )
-
+def test_beam_element_descriptor(beam_element_descriptor):
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0:
+        check_element_attributes(
+            beam_element_descriptor,
+            30,
+            "Linear 3-nodes Beam",
+            "beam3",
+            "beam",
+            2,
+            0,
+            3,
+            False,
+            False,
+            True,
+            False,
+        )
+    else:
+        check_element_attributes(
+            beam_element_descriptor,
+            18,
+            "Linear 2-nodes Line",
+            "line2",
+            "beam",
+            2,
+            0,
+            2,
+            False,
+            False,
+            True,
+            False,
+        )
 
 def test_no_element_descriptor():
     # descriptor = dpf.element_types.descriptor(89)
@@ -662,16 +679,16 @@ def test_surface3():
     check_from_enum_id(
         24,
         element_types.Surface3,
-        "Surface3",
+        "Linear 3-nodes Triangle Surface",
         "surface3",
         "shell",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        3,
+        0,
+        3,
+        False,
+        True,
+        False,
+        False,
     )
 
 
@@ -679,16 +696,16 @@ def test_surface4():
     check_from_enum_id(
         25,
         element_types.Surface4,
-        "Surface4",
+        "Linear 4-nodes Quadrangle Surface",
         "surface4",
         "shell",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        4,
+        0,
+        4,
+        False,
+        True,
+        False,
+        False,
     )
 
 
@@ -696,16 +713,16 @@ def test_surface6():
     check_from_enum_id(
         26,
         element_types.Surface6,
-        "Surface6",
+        "Quadratic 6-nodes Triangle Surface",
         "surface6",
         "shell",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        3,
+        3,
+        6,
+        False,
+        True,
+        False,
+        True,
     )
 
 
@@ -713,16 +730,16 @@ def test_surface8():
     check_from_enum_id(
         27,
         element_types.Surface8,
-        "Surface8",
+        "Quadratic 8-nodes Quadrangle Surface",
         "surface8",
         "shell",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        4,
+        4,
+        8,
+        False,
+        True,
+        False,
+        True,
     )
 
 
@@ -730,16 +747,16 @@ def test_edge2():
     check_from_enum_id(
         28,
         element_types.Edge2,
-        "Edge2",
+        "Linear 2-nodes Edge",
         "edge2",
         "beam",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        2,
+        0,
+        2,
+        False,
+        False,
+        True,
+        False,
     )
 
 
@@ -747,16 +764,16 @@ def test_edge3():
     check_from_enum_id(
         29,
         element_types.Edge3,
-        "Edge3",
+        "Quadratic 3-nodes Edge",
         "edge3",
         "beam",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        2,
+        1,
+        3,
+        False,
+        False,
+        True,
+        True,
     )
 
 
@@ -764,7 +781,7 @@ def test_beam3():
     check_from_enum_id(
         30,
         element_types.Beam3,
-        "Beam3",
+        "Linear 3-nodes Beam",
         "beam3",
         "beam",
         2,
@@ -781,16 +798,16 @@ def test_beam4():
     check_from_enum_id(
         31,
         element_types.Beam4,
-        "Beam4",
+        "Quadratic 4-nodes Beam",
         "beam4",
         "beam",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+        2,
+        1,
+        4,
+        False,
+        False,
+        True,
+        True,
     )
 
 
@@ -825,4 +842,225 @@ def test_polyhedron():
         False,
         False,
         None,
+    )
+
+
+def test_edge2with1extranode():
+    check_from_enum_id(
+        35,
+        element_types.Edge2With1ExtraNode,
+        "Linear 2-nodes Edge with 1 extra node",
+        "edge2with1extranode",
+        "beam",
+        2,
+        0,
+        3,
+        False,
+        False,
+        True,
+        False,
+    )
+
+
+def test_edge2with2extranode():
+    check_from_enum_id(
+        36,
+        element_types.Edge2With2ExtraNode,
+        "Linear 2-nodes Edge with 2 extra node",
+        "edge2with2extranode",
+        "beam",
+        2,
+        0,
+        4,
+        False,
+        False,
+        True,
+        False,
+    )
+
+
+def test_edge3with1extranode():
+    check_from_enum_id(
+        37,
+        element_types.Edge3With1ExtraNode,
+        "Quadratic 3-nodes Edge with 1 extra node",
+        "edge3with1extranode",
+        "beam",
+        2,
+        1,
+        4,
+        False,
+        False,
+        True,
+        True,
+    )
+
+
+def test_edge3with2extranode():
+    check_from_enum_id(
+        38,
+        element_types.Edge3With2ExtraNode,
+        "Quadratic 3-nodes Edge with 2 extra node",
+        "edge3with2extranode",
+        "beam",
+        2,
+        1,
+        5,
+        False,
+        False,
+        True,
+        True,
+    )
+
+
+def test_surface3with1extranode():
+    check_from_enum_id(
+        39,
+        element_types.Surface3With1ExtraNode,
+        "Linear 3-nodes Surface with 1 extra node",
+        "surface3with1extranode",
+        "shell",
+        3,
+        0,
+        4,
+        False,
+        True,
+        False,
+        False,
+    )
+
+
+def test_surface4with1extranode():
+    check_from_enum_id(
+        40,
+        element_types.Surface4With1ExtraNode,
+        "Linear 4-nodes Surface with 1 extra node",
+        "surface4with1extranode",
+        "shell",
+        4,
+        0,
+        5,
+        False,
+        True,
+        False,
+        False,
+    )
+
+
+def test_surface6with1extranode():
+    check_from_enum_id(
+        41,
+        element_types.Surface6With1ExtraNode,
+        "Quadratic 6-nodes Surface with 1 extra node",
+        "surface6with1extranode",
+        "shell",
+        3,
+        3,
+        7,
+        False,
+        True,
+        False,
+        True,
+    )
+
+
+def test_surface8with1extranode():
+    check_from_enum_id(
+        42,
+        element_types.Surface8With1ExtraNode,
+        "Quadratic 8-nodes Surface with 1 extra node",
+        "surface8with1extranode",
+        "shell",
+        4,
+        4,
+        9,
+        False,
+        True,
+        False,
+        True,
+    )
+
+
+def test_surface3with2extranode():
+    check_from_enum_id(
+        43,
+        element_types.Surface3With2ExtraNode,
+        "Linear 3-nodes Surface with 2 extra node",
+        "surface3with2extranode",
+        "shell",
+        3,
+        0,
+        5,
+        False,
+        True,
+        False,
+        False,
+    )
+
+
+def test_surface4with2extranode():
+    check_from_enum_id(
+        44,
+        element_types.Surface4With2ExtraNode,
+        "Linear 4-nodes Surface with 2 extra node",
+        "surface4with2extranode",
+        "shell",
+        4,
+        0,
+        6,
+        False,
+        True,
+        False,
+        False,
+    )
+
+
+def test_surface6with2extranode():
+    check_from_enum_id(
+        45,
+        element_types.Surface6With2ExtraNode,
+        "Quadratic 6-nodes Surface with 2 extra node",
+        "surface6with2extranode",
+        "shell",
+        3,
+        3,
+        8,
+        False,
+        True,
+        False,
+        True,
+    )
+
+
+def test_surface8with2extranode():
+    check_from_enum_id(
+        46,
+        element_types.Surface8With2ExtraNode,
+        "Quadratic 8-nodes Surface with 2 extra node",
+        "surface8with2extranode",
+        "shell",
+        4,
+        4,
+        10,
+        False,
+        True,
+        False,
+        True,
+    )
+
+
+def test_line2with2extranode():
+    check_from_enum_id(
+        47,
+        element_types.Line2With2ExtraNode,
+        "Linear 2-nodes Line with 2 extra node",
+        "line2with2extranode",
+        "beam",
+        2,
+        0,
+        4,
+        False,
+        False,
+        True,
+        False,
     )

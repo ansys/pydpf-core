@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -106,6 +106,35 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
 def testfiles_dir():
     """Return the path of the testfiles directory."""
     return _get_test_files_directory()
+
+
+@pytest.fixture()
+def tmp_path_server(tmp_path):
+    """Return a temporary directory path that is accessible by the DPF server.
+
+    When the server runs in Docker the standard ``tmp_path`` fixture points to a
+    host path that the container cannot reach.  This fixture instead creates a
+    temporary directory inside the already-mounted test-files volume and translates
+    the path to its container equivalent before yielding it.  Cleanup is handled
+    automatically regardless of the execution environment.
+    """
+    if running_docker:
+        import shutil
+        import tempfile
+
+        local_dir = tempfile.mkdtemp(dir=_get_test_files_directory())
+        # Translate host path to container path using the mounted-volumes mapping.
+        # (DockerConfig has the dict; RunningDockerConfig.replace_with_mounted_volumes
+        # uses the same logic.)
+        server_path = os.path.normpath(local_dir)
+        for host, container in ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes.items():
+            server_path = server_path.replace(os.path.normpath(host), container)
+        try:
+            yield server_path
+        finally:
+            shutil.rmtree(local_dir, ignore_errors=True)
+    else:
+        yield str(tmp_path)
 
 
 @pytest.fixture()
@@ -255,6 +284,20 @@ def fluent_axial_comp():
 
 
 @pytest.fixture()
+def fluent_axial_comp_flprj():
+    """Return a function which creates a data sources
+    with a 'flrpj' file of fluent axial compressor case."""
+
+    def return_ds(server=None):
+        ds = core.DataSources(server=server)
+        files = examples.download_fluent_axial_comp(server=server)
+        ds.set_result_file_path(files["flprj"], "flprj")
+        return ds
+
+    return return_ds
+
+
+@pytest.fixture()
 def fluent_mixing_elbow_steady_state():
     """Return a function which creates a data sources
     with a cas and a dat file of fluent mixing elbow steady-state case."""
@@ -329,6 +372,11 @@ def cfx_mixing_elbow():
     return return_ds
 
 
+DEFAULT_ANSYS_PATH = core._global_server().ansys_path
+
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0 = meets_version(
+    get_server_version(core._global_server()), "2027.1.0pre0"
+)
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0 = meets_version(
     get_server_version(core._global_server()), "11.0"
 )
@@ -350,30 +398,6 @@ SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0 = meets_version(
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1 = meets_version(
     get_server_version(core._global_server()), "7.1"
 )
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0 = meets_version(
-    get_server_version(core._global_server()), "7.0"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2 = meets_version(
-    get_server_version(core._global_server()), "6.2"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1 = meets_version(
-    get_server_version(core._global_server()), "6.1"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 = meets_version(
-    get_server_version(core._global_server()), "6.0"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0 = meets_version(
-    get_server_version(core._global_server()), "5.0"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 = meets_version(
-    get_server_version(core._global_server()), "4.0"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 = meets_version(
-    get_server_version(core._global_server()), "3.0"
-)
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0 = meets_version(
-    get_server_version(core._global_server()), "2.1"
-)
 
 
 IS_USING_GATEBIN = _try_use_gatebin()
@@ -384,20 +408,11 @@ def raises_for_servers_version_under(version):
     parameter. Else it makes sure that the test fails by raising a "DpfVersionNotSupported"
     error.
     """
+    server_meets_version = meets_version(get_server_version(core._global_server()), version)
 
     def decorator(func):
         @pytest.mark.xfail(
-            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0
-            if version == "3.0"
-            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
-            if version == "4.0"
-            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
-            if version == "5.0"
-            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0
-            if version == "6.0"
-            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0
-            if version == "10.0"
-            else True,
+            not server_meets_version,
             reason=f"Requires server version greater than or equal to {version}",
             raises=core.errors.DpfVersionNotSupported,
         )
@@ -413,12 +428,7 @@ def raises_for_servers_version_under(version):
 def remove_none_available_config(configs, config_names):
     configs_out = []
     config_names_out = []
-    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
-        for conf, conf_name in zip(configs, config_names):
-            if conf == core.AvailableServerConfigs.LegacyGrpcServer:
-                configs_out.append(conf)
-                config_names_out.append(conf_name)
-    elif running_docker:
+    if running_docker:
         for conf, conf_name in zip(configs, config_names):
             if conf != core.AvailableServerConfigs.InProcessServer:
                 configs_out.append(conf)
@@ -552,11 +562,8 @@ def server_clayer(request):
 
 @pytest.fixture
 def server_in_process():
-    if (
-        not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
-        or ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker
-    ):
-        pytest.skip("InProcess unavailable for Ansys <222")
+    if ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker:
+        pytest.skip("InProcess unavailable for Docker")
     else:
         return core.start_local_server(
             config=core.AvailableServerConfigs.InProcessServer, as_global=False
@@ -581,10 +588,7 @@ class LocalServers:
         self._max_iter = 3
 
     def __getitem__(self, item):
-        if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
-            conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
-        else:
-            conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
+        conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
         if len(self._local_servers) <= item:
             while len(self._local_servers) <= item:
                 self._local_servers.append(core.start_local_server(as_global=False, config=conf))

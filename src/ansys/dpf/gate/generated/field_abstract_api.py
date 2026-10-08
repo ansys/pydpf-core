@@ -284,6 +284,14 @@ class FieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def csfield_set_header_as_data_tree(field, header):
+		raise NotImplementedError
+
+	@staticmethod
+	def csfield_get_header_as_data_tree(field):
+		raise NotImplementedError
+
+	@staticmethod
 	def csfield_get_data_for_dpf_vector(field, var1, data, size):
 		raise NotImplementedError
 

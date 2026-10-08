@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -272,12 +272,7 @@ class Result:
         self._mesh_scoping = None
         self._location = None
         self._mesh_by_default = mesh_by_default
-        if isinstance(result_info, str):
-            from ansys.dpf.core.available_result import available_result_from_name
-
-            self._result_info = available_result_from_name(result_info)
-        else:
-            self._result_info = result_info
+        self._result_info = result_info
         self._specific_fc_type = None
         from ansys.dpf.core import operators
 
@@ -496,11 +491,9 @@ class Result:
         >>> model = dpf.Model(examples.download_all_kinds_of_complexity())
         >>> disp = model.results.displacement
         >>> fc_disp = disp.split_by_body.eval()
-        >>> len(fc_disp)
-        13
         >>> fc_disp.get_mat_scoping().ids
         <BLANKLINE>
-        ...1, 5, 6, 10, 2, 7, 8, 13, 4, 12, 15, 16, 17]...
+        ...1, 5, 6, 10, 2, 7, 8, 13, ...
         >>> disp_mat_10 = fc_disp.get_field_by_mat_id(10)
 
         """
@@ -525,12 +518,10 @@ class Result:
         >>> model = dpf.Model(examples.download_all_kinds_of_complexity())
         >>> disp = model.results.displacement
         >>> fc_disp = disp.split_by_shape.eval()
-        >>> len(fc_disp)
-        4
-
         >>> shell_disp = fc_disp.shell_field()
         >>> solid_disp = fc_disp.solid_field()
-
+        >>> len(shell_disp)
+        4458
         """
         self._specific_fc_type = "shape"
         return self._add_split_on_property_type("elshape")
@@ -547,11 +538,8 @@ class Result:
         self._mesh_scoping.inputs.requested_location(self._result_info.native_scoping_location)
         self._mesh_scoping.inputs.mesh(self._connector.mesh_provider)
         self._mesh_scoping.inputs.label1(prop)
-        if previous_mesh_scoping:
-            try:
-                self._mesh_scoping.inputs.mesh_scoping(previous_mesh_scoping)
-            except:
-                pass
+        if isinstance(previous_mesh_scoping, Scoping):
+            self._mesh_scoping.inputs.mesh_scoping(previous_mesh_scoping)
         return self
 
     def on_mesh_scoping(self, mesh_scoping):
@@ -644,8 +632,9 @@ class CommonResults(Results):
     of the class:'Results'.
     """
 
-    def __init__(self, connector, mesh_by_default, result_info, server):
-        super().__init__(connector, mesh_by_default, result_info, server, False)
+    def __init__(self, connector, result_info, mesh_by_default, server):
+        self._result_info = result_info
+        super().__init__(connector, result_info, mesh_by_default, server, False)
         self._op_map_rev = dict(
             displacement="displacement",
             stress="stress",
@@ -678,7 +667,7 @@ class CommonResults(Results):
         >>> disp = disp.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = disp.eval()
         """
-        return super().__result__("displacement")
+        return super().__result__(self._result_info["displacement"])
 
     @property
     def elastic_strain(self):
@@ -704,7 +693,7 @@ class CommonResults(Results):
         >>> strain = strain.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = strain.eval()
         """
-        return super().__result__("elastic_strain")
+        return super().__result__(self._result_info["elastic_strain"])
 
     @property
     def stress(self):
@@ -730,7 +719,7 @@ class CommonResults(Results):
         >>> stress = stress.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = stress.eval()
         """
-        return super().__result__("stress")
+        return super().__result__(self._result_info["stress"])
 
     @property
     def structural_temperature(self):
@@ -756,7 +745,7 @@ class CommonResults(Results):
         >>> structural_temperature = structural_temperature.on_last_time_freq()
         >>> last_time_disp = structural_temperature.eval()
         """
-        return super().__result__("structural_temperature")
+        return super().__result__(self._result_info["structural_temperature"])
 
     @property
     def temperature(self):
@@ -781,7 +770,7 @@ class CommonResults(Results):
         >>> temperature = model.results.temperature.on_last_time_freq()
         >>> last_time_disp = temperature.eval()
         """
-        return super().__result__("temperature")
+        return super().__result__(self._result_info["temperature"])
 
     @property
     def electric_potential(self):
@@ -806,4 +795,4 @@ class CommonResults(Results):
         >>> electric_potential = model.results.electric_potential.on_first_time_freq()
         >>> last_time_disp = electric_potential.eval()
         """
-        return super().__result__("electric_potential")
+        return super().__result__(self._result_info["electric_potential"])

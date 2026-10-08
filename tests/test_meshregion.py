@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -26,7 +26,6 @@ import vtk
 
 from ansys import dpf
 from ansys.dpf.core.check_version import server_meet_version
-import conftest
 
 
 @pytest.fixture()
@@ -124,7 +123,6 @@ def test_get_coordinates_field_meshedregion(simple_bar_model):
     assert np.all(coordinates.meshed_region.nodes.scoping.ids == mesh.nodes.scoping.ids)
 
 
-@conftest.raises_for_servers_version_under("3.0")
 def test_set_coordinates_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     field_coordinates = mesh.nodes.coordinates_field
@@ -159,7 +157,6 @@ def test_get_element_types_field_meshedregion(simple_bar_model):
     assert field_element_types.component_count == 1
 
 
-@conftest.raises_for_servers_version_under("3.0")
 def test_set_element_types_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     field_element_types = mesh.elements.element_types_field
@@ -189,7 +186,6 @@ def test_get_materials_field_meshedregion(simple_bar_model):
     assert np.allclose(materials.data, field_mat.data)
 
 
-@conftest.raises_for_servers_version_under("3.0")
 def test_set_materials_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     materials = mesh.property_field(dpf.core.common.elemental_properties.material)
@@ -220,7 +216,6 @@ def test_get_connectivities_field_meshedregion(simple_bar_model):
     assert np.allclose(connectivity.data, field_connect.data)
 
 
-@conftest.raises_for_servers_version_under("3.0")
 def test_set_connectivities_field_meshed_region(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     connectivity = mesh.elements.connectivities_field
@@ -327,12 +322,19 @@ def test_id_indeces_mapping_on_elements_2(allkindofcomplexity, server_type):
     mapping = mesh.elements.mapping_id_to_index
     elements = mesh.elements
     assert len(mapping) == len(elements)
-    if server_meet_version("9.0", mesh._server):
+    if server_meet_version("15.0", mesh._server):
+        assert len(elements) == 10497
+        assert mapping[23] == 31
+        assert mapping[4520] == 2172
+    elif server_meet_version("9.0", mesh._server):
         assert len(elements) == 10294
+        assert mapping[23] == 24
+        assert mapping[4520] == 2011
     else:
         assert len(elements) == 10292
-    assert mapping[23] == 24
-    assert mapping[4520] == 2011
+        assert mapping[23] == 24
+        assert mapping[4520] == 2011
+
 
 
 def test_named_selection_mesh(allkindofcomplexity, server_type):
@@ -352,7 +354,6 @@ def test_named_selection_mesh(allkindofcomplexity, server_type):
     assert scop.location == dpf.core.locations().nodal
 
 
-@conftest.raises_for_servers_version_under("3.0")
 def test_set_named_selection_mesh(allkindofcomplexity, server_type):
     model = dpf.core.Model(allkindofcomplexity, server=server_type)
     mesh = model.metadata.meshed_region
@@ -603,10 +604,6 @@ def test_mesh_deep_copy(allkindofcomplexity, server_type):
     )
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="Available with CFF starting 7.0",
-)
 def test_mesh_deep_copy_large(fluent_multiphase, server_type):
     model = dpf.core.Model(fluent_multiphase(server=server_type), server=server_type)
     mesh = model.metadata.meshed_region
@@ -643,13 +640,123 @@ def test_mesh_deep_copy2(simple_bar_model, server_type):
     )
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Bug in server version lower than 4.0",
-)
 def test_empty_mesh_get_scoping(server_type):
     mesh = dpf.core.MeshedRegion(server=server_type)
     okay = mesh.nodes.scoping is None or len(mesh.nodes.scoping) == 0
     assert okay
     okay = mesh.elements.scoping is None or len(mesh.elements.scoping) == 0
     assert okay
+
+
+def test_meshed_region_bounding_box(simple_bar_model):
+    """Test the bounding_box property of MeshedRegion."""
+    mesh = simple_bar_model.metadata.meshed_region
+
+    # Get the bounding box
+    bbox = mesh.bounding_box
+
+    # Verify it's a Field
+    assert isinstance(bbox, dpf.core.Field)
+
+    # Verify the field has nodal location
+    assert bbox.location == dpf.core.locations.overall
+
+    # Verify the field has 1 entity
+    assert len(bbox.scoping.ids) == 1
+
+    # Get all data as a 1x6 array
+    bbox_data = bbox.data
+    assert bbox_data.shape == (1, 6)
+
+    # First are min values, second are max values
+    min_coords = bbox_data[0, 0:3]
+    max_coords = bbox_data[0, 3:6]
+
+    # Verify min is less than or equal to max for each dimension
+    assert np.all(min_coords <= max_coords)
+
+    # Verify the bounding box matches the actual coordinate range
+    coords = mesh.nodes.coordinates_field.data
+    expected_min = np.min(coords, axis=0)
+    expected_max = np.max(coords, axis=0)
+
+    assert np.allclose(min_coords, expected_min)
+    assert np.allclose(max_coords, expected_max)
+
+    # Verify the unit is set correctly
+    coords_field = mesh.nodes.coordinates_field
+    if coords_field.unit:
+        assert bbox.unit == coords_field.unit
+
+
+# ---------------------------------------------------------------------------
+# scatter_field_to_location
+# ---------------------------------------------------------------------------
+
+
+def test_scatter_field_to_location_field_shape(simple_bar_model):
+    """A nodal displacement Field scatters to a (n_nodes, n_components) array."""
+    mesh = simple_bar_model.metadata.meshed_region
+    disp = simple_bar_model.results.displacement().eval()[0]
+
+    arr = mesh._scatter_field_to_location(disp)
+
+    assert arr.shape == (len(mesh.nodes), disp.component_count)
+    # displacement is fully-scoped on this model -> no NaN
+    assert not np.isnan(arr).any()
+    # Values must match the field data for a scoping that covers every node
+    ind, mask = mesh.nodes.map_scoping(disp.scoping)
+    expected = np.full(arr.shape, np.nan)
+    expected[ind] = disp.data[mask]
+    assert np.allclose(arr, expected)
+
+
+def test_scatter_field_to_location_partial_scoping_yields_nans(simple_bar_model):
+    """Nodes not present in ``source``'s scoping produce NaNs in the output."""
+    mesh = simple_bar_model.metadata.meshed_region
+    disp = simple_bar_model.results.displacement().eval()[0]
+
+    # Keep only the first few nodes in the scoping
+    kept_ids = list(disp.scoping.ids)[:5]
+    partial = dpf.core.fields_factory.field_from_array(
+        np.zeros((len(kept_ids), 3)) + 42.0, server=simple_bar_model._server
+    )
+    partial.scoping = dpf.core.Scoping(
+        ids=kept_ids, location=dpf.core.locations.nodal, server=simple_bar_model._server
+    )
+    partial.location = dpf.core.locations.nodal
+
+    arr = mesh._scatter_field_to_location(partial)
+
+    # Positions in kept_ids are 42.0, all others are NaN
+    ind, _ = mesh.nodes.map_scoping(partial.scoping)
+    assert np.allclose(arr[ind], 42.0)
+    mask_nan = np.ones(arr.shape[0], dtype=bool)
+    mask_nan[ind] = False
+    assert np.isnan(arr[mask_nan]).all()
+
+
+def test_scatter_field_to_location_fields_container_matches_field(simple_bar_model):
+    """A single-entry FieldsContainer scatters identically to its single Field."""
+    mesh = simple_bar_model.metadata.meshed_region
+    disp = simple_bar_model.results.displacement().eval()[0]
+
+    fc = dpf.core.FieldsContainer(server=simple_bar_model._server)
+    fc.add_label("id")
+    fc.add_field({"id": 1}, disp)
+
+    arr_field = mesh._scatter_field_to_location(disp)
+    arr_container = mesh._scatter_field_to_location(fc)
+
+    assert arr_field.shape == arr_container.shape
+    assert np.allclose(arr_field, arr_container, equal_nan=True)
+
+
+def test_scatter_field_to_location_invalid_location_raises(simple_bar_model):
+    """An unsupported location string raises ``ValueError``."""
+    mesh = simple_bar_model.metadata.meshed_region
+    disp = simple_bar_model.results.displacement().eval()[0]
+
+    with pytest.raises(ValueError, match="location"):
+        mesh._scatter_field_to_location(disp, location="not_a_location")
+

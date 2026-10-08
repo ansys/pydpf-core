@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -81,7 +81,7 @@ class PinSpecification:
     name_derived_class = str
     aliases: list[str]
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         name: str,
         type_names: list,
@@ -152,11 +152,15 @@ class PinSpecification:
         return "{class_name}({params})".format(
             class_name=self.__class__.__name__,
             params=", ".join(
-                "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
-                for k, v in vars(self).items()
-                if not ("{param}" == "name_derived_class" and "name_derived_class" != "")
+                "{param}={value}".format(
+                    param=instance_var, value=f"'{value}'" if isinstance(value, str) else value
+                )
+                for instance_var, value in vars(self).items()
+                if not (instance_var == "name_derived_class" and value != "")
             ),
         )
+
+    __hash__ = None
 
     def __eq__(self, other):
         """One instance is equal to the other if their string representation is the same."""
@@ -297,20 +301,19 @@ class Specification(SpecificationBase):
         # step4: if object exists: take instance, else create it (specification)
         if specification is not None:
             self.internal_obj = specification
-        else:
-            if operator_name:
-                if self._server.has_client():
-                    self._internal_obj = self._api.operator_specification_new_on_client(
-                        self._server.client, operator_name
-                    )
-                else:
-                    self._internal_obj = self._api.operator_specification_new(operator_name)
+        elif operator_name:
+            if self._server.has_client():
+                self._internal_obj = self._api.operator_specification_new_on_client(
+                    self._server.client, operator_name
+                )
             else:
-                if self._server.has_client():
-                    raise NotImplementedError(
-                        "Creating an empty specification on a gRPC client is not implemented"
-                    )
-                self._internal_obj = self._api.operator_empty_specification_new()
+                self._internal_obj = self._api.operator_specification_new(operator_name)
+        else:
+            if self._server.has_client():
+                raise NotImplementedError(
+                    "Creating an empty specification on a gRPC client is not implemented"
+                )
+            self._internal_obj = self._api.operator_empty_specification_new()
 
         self.operator_name = operator_name
         self._map_output_pin_spec = None
@@ -334,7 +337,7 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.math.add()
         >>> operator.specification.properties
-        {'category': 'math', 'exposure': 'public', 'plugin': 'core', 'user_name': '+'}
+        {'category': '...', 'exposure': '...', 'plugin': '...', 'user_name': '...'}
         """
         if self._properties is None:
             temp_properties = dict()
@@ -363,9 +366,9 @@ class Specification(SpecificationBase):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> operator = dpf.operators.math.scale()
+        >>> operator = dpf.operators.invariant.invariants()
         >>> operator.specification.description
-        'Scales a field by a constant factor...'
+        'Computes the element-wise invariants...'
         """
         if self._internal_obj is not None:
             return self._api.operator_specification_get_description(self)
@@ -386,8 +389,8 @@ class Specification(SpecificationBase):
         >>> 4 in operator.specification.inputs.keys()
         True
         >>> operator.specification.inputs[4]
-        PinSpecification(name='data_sources', _type_names=['data_sources'], ...set', ellipsis=False,
-         name_derived_class='', aliases=[...])
+        PinSpecification(name='...', _type_names=[...], ...,
+         name_derived_class=..., aliases=[...])
         """
         if self._map_input_pin_spec is None:
             self._map_input_pin_spec = {}
@@ -407,8 +410,8 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.mesh.mesh_provider()
         >>> operator.specification.outputs
-        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], ...=False,
-         name_derived_class='', aliases=[...])}
+        {0: PinSpecification(name='...', _type_names=[...], ...,
+         name_derived_class=..., aliases=[...])}
         """
         if self._map_output_pin_spec is None:
             self._map_output_pin_spec = {}
@@ -577,7 +580,7 @@ class SpecificationProperties:
 
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         user_name: Union[str, None] = None,
         category: Union[str, None] = None,
@@ -650,6 +653,8 @@ class SpecificationProperties:
             The value of the specified attribute.
         """
         return getattr(self, item)
+
+    __hash__ = None
 
     def __eq__(self, other):
         """
