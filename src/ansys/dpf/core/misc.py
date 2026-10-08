@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -102,15 +102,11 @@ def get_ansys_path(ansys_path=None):
         Full path to an Ansys installation.
 
     """
-    # If no custom path was given in input
-    # First check the environment variable for a custom path
-    if ansys_path is None:
-        ansys_path = os.environ.get("ANSYS_DPF_PATH")
-        if ansys_path:
-            ansys_path = ansys_path.replace('"', "")
-    # Then check for usual installation folders with AWP_ROOT and installed modules
+    # If no custom path was given in input, resolve it using the documented order:
+    # ANSYS_DPF_PATH > hosting Unified Install > Python package > AWP_ROOTXXX > any Ansys install on the disk
     if ansys_path is None:
         ansys_path = find_ansys()
+
     # If still no install has been found, throw an exception
     if ansys_path is None:
         raise ValueError(
