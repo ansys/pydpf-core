@@ -278,3 +278,11 @@ dpf.download_file(Path(tmp) / "out.glb", Path.cwd() / "out.glb")
 
 # %%
 # You can download :download:`output <images/thumb/out.glb>` from the ``gltf`` operator.
+
+###############################################################################
+# Release native workflow resources before interpreter teardown.
+
+import gc
+
+del new_operator, displacement, skin_mesh, mesh, model
+gc.collect()

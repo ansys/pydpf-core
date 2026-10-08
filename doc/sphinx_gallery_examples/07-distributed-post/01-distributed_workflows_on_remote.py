@@ -135,3 +135,12 @@ merge.connect(1, remote_operators[1], 0)
 fc = nodal.get_output(0, dpf.types.fields_container)
 print(fc[0])
 fc[0].meshed_region.plot(fc[0])
+
+###############################################################################
+# Release the operator chains and results before shutting down their servers.
+# This avoids leaving native workflow resources alive during interpreter teardown.
+
+import gc
+
+del fc, nodal, merge, remote_operators, stress1, stress2, mul, ds
+gc.collect()

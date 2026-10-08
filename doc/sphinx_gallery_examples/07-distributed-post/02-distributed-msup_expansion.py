@@ -194,3 +194,12 @@ merged_mesh = merge_mesh.get_output(0, dpf.types.meshed_region)
 merged_mesh.plot(fc.get_field_by_time_complex_ids(1, 0))
 merged_mesh.plot(fc.get_field_by_time_complex_ids(10, 0))
 print(fc)
+
+###############################################################################
+# Release native workflow resources before interpreter teardown.
+
+import gc
+
+del fc, merged_mesh, component, expansion, response, merge_fields, merge_mesh
+del remote_displacement_operators, remote_mesh_operators, displacement, mesh, ds
+gc.collect()
