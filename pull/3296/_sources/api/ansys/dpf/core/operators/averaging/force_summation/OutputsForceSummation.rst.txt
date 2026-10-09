@@ -1,0 +1,199 @@
+
+
+
+
+
+
+:class:`OutputsForceSummation`
+==============================
+
+
+.. py:class:: ansys.dpf.core.operators.averaging.force_summation.OutputsForceSummation(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   force_summation operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_force_accumulation = op.outputs.force_accumulation()
+   >>> result_moment_accumulation = op.outputs.moment_accumulation()
+   >>> result_heat_accumulation = op.outputs.heat_accumulation()
+   >>> result_forces_on_nodes = op.outputs.forces_on_nodes()
+   >>> result_moments_on_nodes = op.outputs.moments_on_nodes()
+   >>> result_heats_on_nodes = op.outputs.heats_on_nodes()
+
+
+
+
+
+.. py:currentmodule:: OutputsForceSummation
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~force_accumulation`
+            - Allows to get force_accumulation output of the operator
+          * - :py:attr:`~moment_accumulation`
+            - Allows to get moment_accumulation output of the operator
+          * - :py:attr:`~heat_accumulation`
+            - Allows to get heat_accumulation output of the operator
+          * - :py:attr:`~forces_on_nodes`
+            - Allows to get forces_on_nodes output of the operator
+          * - :py:attr:`~moments_on_nodes`
+            - Allows to get moments_on_nodes output of the operator
+          * - :py:attr:`~heats_on_nodes`
+            - Allows to get heats_on_nodes output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.force_summation import OutputsForceSummation
+
+Property detail
+---------------
+
+.. py:property:: force_accumulation
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get force_accumulation output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> # Get the output from op.outputs. ...
+   >>> result_force_accumulation = op.outputs.force_accumulation()
+
+.. py:property:: moment_accumulation
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get moment_accumulation output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> # Get the output from op.outputs. ...
+   >>> result_moment_accumulation = op.outputs.moment_accumulation()
+
+.. py:property:: heat_accumulation
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get heat_accumulation output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> # Get the output from op.outputs. ...
+   >>> result_heat_accumulation = op.outputs.heat_accumulation()
+
+.. py:property:: forces_on_nodes
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get forces_on_nodes output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> # Get the output from op.outputs. ...
+   >>> result_forces_on_nodes = op.outputs.forces_on_nodes()
+
+.. py:property:: moments_on_nodes
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get moments_on_nodes output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> # Get the output from op.outputs. ...
+   >>> result_moments_on_nodes = op.outputs.moments_on_nodes()
+
+.. py:property:: heats_on_nodes
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get heats_on_nodes output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> # Get the output from op.outputs. ...
+   >>> result_heats_on_nodes = op.outputs.heats_on_nodes()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

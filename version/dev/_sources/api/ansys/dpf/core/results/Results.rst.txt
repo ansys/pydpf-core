@@ -1,0 +1,180 @@
+
+
+
+
+
+
+:class:`Results`
+================
+
+
+.. py:class:: ansys.dpf.core.results.Results(connector, result_info, mesh_by_default=True, server=None, generate_ops=True)
+
+   Organizes the results from DPF into accessible methods.
+
+   All the available results are dynamically created base on the model's class:'ResultInfo' class.
+
+   .. attribute:: displacement
+
+      Result provider helper wrapping the regular displacement operator.
+      With this wrapper, time and mesh scopings can easily
+      be customized.
+
+      :type: Result
+
+   .. rubric:: Examples
+
+   Create a displacement result from the model and choose its time and mesh scopings.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_msup_transient())
+   >>> disp = model.results.displacement.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
+   >>> last_time_disp = disp.eval()
+
+   stress : Result
+       Result provider helper wrapping the regular stress operator.
+       With this wrapper, time and mesh scopings, location, and more
+       can easily be customized.
+
+   .. rubric:: Examples
+
+   Create a stress result from the model and choose its time and mesh scopings.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_msup_transient())
+   >>> stress = model.results.stress.on_last_time_freq.on_named_selection('_CONSTRAINEDNODES')
+   >>> last_time_stress = stress.eval()
+
+   .... all other results : Result
+       Result provider helper wrapping all types of providers available for a
+       given result file.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_electric_therm())
+   >>> v = model.results.electric_potential
+   >>> dissip = model.results.thermal_dissipation_energy
+
+   .. rubric:: Examples
+
+   Extract the result object from a model.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_simple_bar())
+   >>> results = model.results # printable object
+
+   Access the displacement at all times.
+
+   >>> from ansys.dpf.core import Model
+   >>> from ansys.dpf.core import examples
+   >>> transient = examples.download_transient_result()
+   >>> model = Model(transient)
+   >>> displacements = model.results.displacement.on_all_time_freqs.eval()
+
+
+
+
+
+
+
+
+.. py:currentmodule:: Results
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__result__`
+            - Create and return a result of the specified type.
+          * - :py:attr:`~__str__`
+            - Return a string representation of the `Results` object.
+          * - :py:attr:`~__iter__`
+            - Iterate over the available results.
+          * - :py:attr:`~__getitem__`
+            - Access a result by index.
+          * - :py:attr:`~__len__`
+            - Return the number of results available.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.results import Results
+
+
+
+Method detail
+-------------
+
+.. py:method:: __result__(result_type, *args)
+
+   Create and return a result of the specified type.
+
+   :param result_type: The type of the result to generate.
+   :type result_type: any
+   :param \*args: Additional arguments required for creating the result.
+   :type \*args: tuple
+
+   :returns: An instance of the `Result` class, providing access to the specified result.
+   :rtype: Result
+
+
+.. py:method:: __str__()
+
+   Return a string representation of the `Results` object.
+
+   :returns: String description of the `Results` object.
+   :rtype: str
+
+
+.. py:method:: __iter__()
+
+   Iterate over the available results.
+
+   :Yields: *Result* -- Each result dynamically added to the `Results` object.
+
+
+.. py:method:: __getitem__(val)
+
+   Access a result by index.
+
+   :param val: The index of the result to retrieve.
+   :type val: int
+
+   :returns: The result at the specified index.
+   :rtype: Result
+
+
+.. py:method:: __len__()
+
+   Return the number of results available.
+
+   :returns: The number of results.
+   :rtype: int
+
+
+
+
+

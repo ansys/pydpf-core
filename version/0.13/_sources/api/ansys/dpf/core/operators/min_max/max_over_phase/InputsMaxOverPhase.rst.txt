@@ -1,0 +1,212 @@
+
+
+
+
+
+
+:class:`InputsMaxOverPhase`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.min_max.max_over_phase.InputsMaxOverPhase(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   max_over_phase operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.max_over_phase()
+   >>> my_real_field = dpf.Field()
+   >>> op.inputs.real_field.connect(my_real_field)
+   >>> my_imaginary_field = dpf.Field()
+   >>> op.inputs.imaginary_field.connect(my_imaginary_field)
+   >>> my_abs_value = bool()
+   >>> op.inputs.abs_value.connect(my_abs_value)
+   >>> my_phase_increment = float()
+   >>> op.inputs.phase_increment.connect(my_phase_increment)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMaxOverPhase
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~real_field`
+            - Allows to connect real_field input to the operator.
+          * - :py:attr:`~imaginary_field`
+            - Allows to connect imaginary_field input to the operator.
+          * - :py:attr:`~abs_value`
+            - Allows to connect abs_value input to the operator.
+          * - :py:attr:`~phase_increment`
+            - Allows to connect phase_increment input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.min_max.max_over_phase import InputsMaxOverPhase
+
+Property detail
+---------------
+
+.. py:property:: real_field
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect real_field input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.max_over_phase()
+   >>> op.inputs.real_field.connect(my_real_field)
+   >>> # or
+   >>> op.inputs.real_field(my_real_field)
+
+.. py:property:: imaginary_field
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect imaginary_field input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.max_over_phase()
+   >>> op.inputs.imaginary_field.connect(my_imaginary_field)
+   >>> # or
+   >>> op.inputs.imaginary_field(my_imaginary_field)
+
+.. py:property:: abs_value
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect abs_value input to the operator.
+
+   Should use absolute value.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.max_over_phase()
+   >>> op.inputs.abs_value.connect(my_abs_value)
+   >>> # or
+   >>> op.inputs.abs_value(my_abs_value)
+
+.. py:property:: phase_increment
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect phase_increment input to the operator.
+
+   Phase increment (default is 10.0 degrees).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.max_over_phase()
+   >>> op.inputs.phase_increment.connect(my_phase_increment)
+   >>> # or
+   >>> op.inputs.phase_increment(my_phase_increment)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

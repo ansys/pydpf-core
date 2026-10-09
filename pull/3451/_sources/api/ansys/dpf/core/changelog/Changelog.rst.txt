@@ -1,0 +1,210 @@
+
+
+
+
+
+
+:class:`Changelog`
+==================
+
+
+.. py:class:: ansys.dpf.core.changelog.Changelog(gdc: ansys.dpf.core.GenericDataContainer = None, server: ansys.dpf.core.server_types.AnyServerType = None)
+
+   Changelog of an operator.
+
+   Requires DPF 11.0 (2026 R1) or above.
+
+   :param gdc: An optional GenericDataContainer to initialize the changelog with.
+   :param server: The server to create the changelog on. Defaults to the current global server.
+
+
+
+
+
+
+
+.. py:currentmodule:: Changelog
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~append`
+            - Append a version and associated changes description to the changelog.
+          * - :py:attr:`~patch_bump`
+            - Bump the patch of the current version with associated changes description.
+          * - :py:attr:`~minor_bump`
+            - Bump the minor of the current version with associated changes description.
+          * - :py:attr:`~major_bump`
+            - Bump the major of the current version with associated changes description.
+          * - :py:attr:`~expect_version`
+            - Check the current latest version of the changelog.
+          * - :py:attr:`~changes_for_version`
+            - Return changes description for a specific version in the changelog.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~last_version`
+            - Highest version in the changelog.
+          * - :py:attr:`~versions`
+            - List of all versions for which the changelog stores descriptions.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~gdc`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - Return item at the given index or changes description for the given version.
+          * - :py:attr:`~__len__`
+            - Return the number of items in the changelog.
+          * - :py:attr:`~__contains__`
+            - Check if version is in the changelog.
+          * - :py:attr:`~__str__`
+            - Create string representation of the changelog.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.changelog import Changelog
+
+Property detail
+---------------
+
+.. py:property:: last_version
+   :type: packaging.version.Version
+
+
+   Highest version in the changelog.
+
+   :returns: Highest version in the changelog.
+   :rtype: version
+
+.. py:property:: versions
+   :type: [packaging.version.Version]
+
+
+   List of all versions for which the changelog stores descriptions.
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: gdc
+   :value: None
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: append(version: packaging.version.Version, changes: str)
+
+   Append a version and associated changes description to the changelog.
+
+
+.. py:method:: patch_bump(changes: str) -> Changelog
+
+   Bump the patch of the current version with associated changes description.
+
+   :param changes: Description of the changes associated to the patch bump.
+
+   :returns: Returns the current changelog to allow for chaining calls to bumps.
+   :rtype: changelog
+
+
+.. py:method:: minor_bump(changes: str) -> Changelog
+
+   Bump the minor of the current version with associated changes description.
+
+   :param changes: Description of the changes associated to the minor bump.
+
+   :returns: Returns the current changelog to allow for chaining calls to bumps.
+   :rtype: changelog
+
+
+.. py:method:: major_bump(changes: str) -> Changelog
+
+   Bump the major of the current version with associated changes description.
+
+   :param changes: Description of the changes associated to the major bump.
+
+   :returns: Returns the current changelog to allow for chaining calls to bumps.
+   :rtype: changelog
+
+
+.. py:method:: expect_version(version: packaging.version.Version | str) -> Changelog
+
+   Check the current latest version of the changelog.
+
+   Useful when chaining version bumps to check the resulting version is as expected.
+   Adds readability to the specification of the operator.
+
+   :param version: Expected current latest version of the changelog.
+
+   :returns: Returns the current changelog to allow for chaining calls to bumps.
+   :rtype: changelog
+
+
+.. py:method:: __getitem__(item: packaging.version.Version | int) -> str | [packaging.version.Version, str]
+
+   Return item at the given index or changes description for the given version.
+
+
+.. py:method:: __len__()
+
+   Return the number of items in the changelog.
+
+
+.. py:method:: __contains__(item: packaging.version.Version)
+
+   Check if version is in the changelog.
+
+
+.. py:method:: changes_for_version(version: packaging.version.Version) -> str
+
+   Return changes description for a specific version in the changelog.
+
+
+.. py:method:: __str__()
+
+   Create string representation of the changelog.
+
+
+
+
+

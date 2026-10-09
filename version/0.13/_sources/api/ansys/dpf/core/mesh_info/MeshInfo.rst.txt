@@ -1,0 +1,312 @@
+
+
+
+
+
+
+:class:`MeshInfo`
+=================
+
+.. py:class:: ansys.dpf.core.mesh_info.MeshInfo(generic_data_container=None, mesh_info=None, server=None)
+
+   Hold the information relative to a mesh region.
+
+   This class describes the available mesh information.
+
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: ansys.dpf.core.server, optional
+   :param generic_data_container: Generic data container that is wrapped into the mesh info.
+   :type generic_data_container: ansys.dpf.core.generic_data_container, optional
+   :param mesh_info: Hold the information of the mesh region into a generic data container.
+   :type mesh_info: optional
+
+   .. rubric:: Examples
+
+   Explore the mesh info from the model
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> fluent = examples.fluid_axial_model()
+   >>> model = dpf.Model(fluent)
+   >>> mesh_info = model.metadata.mesh_info
+
+   .. rubric:: Notes
+
+   Class available with server's version starting at 7.0 (2024 R1 pre0).
+
+
+
+
+.. py:currentmodule:: MeshInfo
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~deep_copy`
+            - Create a deep copy of the mesh_info's data on a given server.
+          * - :py:attr:`~get_property`
+            - Get property with given name.
+          * - :py:attr:`~set_property`
+            - Register given property with the given name.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~generic_data_container`
+            - GenericDataContainer wrapped into the MeshInfo that contains all the relative information of the derived class.
+          * - :py:attr:`~number_nodes`
+            - Returns number of nodes in the mesh.
+          * - :py:attr:`~number_faces`
+            - Returns number of faces in the mesh.
+          * - :py:attr:`~number_elements`
+            - Returns number of elements in the mesh.
+          * - :py:attr:`~splittable_by`
+            - Return name of properties according to which the mesh can be split by.
+          * - :py:attr:`~available_elem_types`
+            - Returns available mesh element types.
+          * - :py:attr:`~part_names`
+            - Return part names of the mesh.
+          * - :py:attr:`~parts`
+            - Dictionary of available part IDs to part names.
+          * - :py:attr:`~part_scoping`
+            - Return part scoping of the mesh.
+          * - :py:attr:`~body_names`
+            - Return body names of the mesh.
+          * - :py:attr:`~body_scoping`
+            - Return body scoping of the mesh.
+          * - :py:attr:`~bodies`
+            - Dictionary of available body IDs to body names.
+          * - :py:attr:`~zone_names`
+            - Return zone names of the mesh.
+          * - :py:attr:`~zones`
+            - Dictionary of available zone IDs to zone names.
+          * - :py:attr:`~face_zones`
+            - Dictionary of available face zone IDs to face zone names.
+          * - :py:attr:`~cell_zones`
+            - Dictionary of available cell zone IDs to cell zone names.
+          * - :py:attr:`~zone_scoping`
+            - Return zone scoping of the mesh.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Return a string representation of the MeshInfo instance.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.mesh_info import MeshInfo
+
+Property detail
+---------------
+
+.. py:property:: generic_data_container
+   :type: ansys.dpf.core.generic_data_container.GenericDataContainer
+
+
+   GenericDataContainer wrapped into the MeshInfo that contains all the relative information of the derived class.
+
+   :rtype: :class:`ansys.dpf.core.generic_data_container.GenericDataContainer`
+
+.. py:property:: number_nodes
+
+   Returns number of nodes in the mesh.
+
+   :returns: **number_nodes** -- Number of nodes of the mesh.
+   :rtype: int
+
+.. py:property:: number_faces
+
+   Returns number of faces in the mesh.
+
+   :returns: **number_faces** -- Number of faces of the mesh.
+   :rtype: int
+
+.. py:property:: number_elements
+
+   Returns number of elements in the mesh.
+
+   :returns: **number_elements** -- Number of elements of the mesh.
+   :rtype: int
+
+.. py:property:: splittable_by
+
+   Return name of properties according to which the mesh can be split by.
+
+   :returns: **splittable by which entity** -- Name of the properties according to which the mesh can be split by.
+   :rtype: StringField
+
+.. py:property:: available_elem_types
+
+   Returns available mesh element types.
+
+   :returns: **available element types** -- element type available for the mesh.
+   :rtype: Scoping
+
+.. py:property:: part_names
+
+   Return part names of the mesh.
+
+   :returns: **part_names** -- part names of the mesh (if it can be split by parts)
+   :rtype: StringField
+
+.. py:property:: parts
+   :type: dict
+
+
+   Dictionary of available part IDs to part names.
+
+   :returns: * *parts* -- Map of part IDs to part names.
+             * *.. warning* -- Currently unavailable for LegacyGrpc servers.
+
+.. py:property:: part_scoping
+
+   Return part scoping of the mesh.
+
+   :returns: * **part_scoping** (*Scoping*) -- part Scoping of the mesh (if it can be split by parts)
+             * *.. warning* -- Currently unavailable for LegacyGrpc servers.
+
+.. py:property:: body_names
+
+   Return body names of the mesh.
+
+   :returns: **body_names** -- body names of the mesh (if it can be split by bodies)
+   :rtype: StringField
+
+.. py:property:: body_scoping
+
+   Return body scoping of the mesh.
+
+   :returns: **body_scoping** -- body Scoping of the mesh (if it can be split by bodies)
+   :rtype: Scoping
+
+.. py:property:: bodies
+   :type: dict
+
+
+   Dictionary of available body IDs to body names.
+
+   :returns: * *bodies* -- Map of body IDs to body names.
+             * *.. warning* -- Currently unavailable for LegacyGrpc servers.
+
+.. py:property:: zone_names
+
+   Return zone names of the mesh.
+
+   :returns: * **zone_names** (*StringField*) -- zone_names of the mesh (if it can be split by zones)
+             * *.. warning* -- Currently unavailable for LegacyGrpc servers.
+
+.. py:property:: zones
+   :type: dict
+
+
+   Dictionary of available zone IDs to zone names.
+
+   :returns: * *zones* -- Map of zone IDs to zone names.
+             * *.. warning* -- Currently unavailable for LegacyGrpc servers.
+
+.. py:property:: face_zones
+   :type: dict
+
+
+   Dictionary of available face zone IDs to face zone names.
+
+   :returns: * *face_zones* -- Map of face zone IDs to face zone names.
+             * *.. warning* -- Currently unavailable for LegacyGrpc servers.
+
+.. py:property:: cell_zones
+   :type: dict
+
+
+   Dictionary of available cell zone IDs to cell zone names.
+
+   :returns: * *cell_zones* -- Map of cell zone IDs to cell zone names.
+             * *.. warning* -- Currently unavailable for LegacyGrpc servers.
+
+.. py:property:: zone_scoping
+
+   Return zone scoping of the mesh.
+
+   :returns: * **zone_scoping** (*Scoping*) -- zone Scoping of the mesh (if it can be split by zone)
+             * *.. warning* -- Currently unavailable for LegacyGrpc servers.
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+   Return a string representation of the MeshInfo instance.
+
+   :returns: A string representation of the information about a mesh space.
+   :rtype: str
+
+
+.. py:method:: deep_copy(server=None)
+
+   Create a deep copy of the mesh_info's data on a given server.
+
+   This method is useful for passing data from one server instance to another.
+
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: ansys.dpf.core.server, optional
+
+   :returns: **mesh_info_copy**
+   :rtype: MeshInfo
+
+
+.. py:method:: get_property(property_name)
+
+   Get property with given name.
+
+   :param property_name: Property name.
+   :type property_name: str
+
+   :rtype: Property object instance.
+
+
+.. py:method:: set_property(property_name, prop)
+
+   Register given property with the given name.
+
+   :param property_name: Property name.
+   :type property_name: str
+   :param prop: object instance.
+   :type prop: Int, String, Float, Field, StringField, GenericDataContainer, Scoping
+
+
+
+
+

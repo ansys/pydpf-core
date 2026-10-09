@@ -1,0 +1,74 @@
+
+
+
+
+
+
+The ``documentation`` package
+=================================
+
+.. py:module:: ansys.dpf.core.documentation
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: documentation
+.. tab-set::
+
+
+    .. tab-item:: Submodules
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.documentation.generate_operators_doc`
+            - Generation of Markdown documentation source files for operators of a given DPF installation.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-fa-file"></span> generate_operators_doc</api/ansys/dpf/core/documentation/generate_operators_doc/index>
+
+
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Documentation generation tools.
+
+
+
+
+
+

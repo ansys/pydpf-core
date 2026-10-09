@@ -1,0 +1,78 @@
+
+
+
+
+
+
+The ``data_sources.py`` module
+==============================
+
+.. py:module:: ansys.dpf.core.data_sources
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: data_sources
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.data_sources.DataSources`
+            - Manages paths to files as sources of data.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> DataSources</api/ansys/dpf/core/data_sources/DataSources>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Data sources.
+
+
+
+
+
+
+
+

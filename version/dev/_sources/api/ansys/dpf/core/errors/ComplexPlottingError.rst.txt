@@ -1,0 +1,31 @@
+
+
+
+
+
+
+:class:`ComplexPlottingError`
+=============================
+
+
+.. py:exception:: ansys.dpf.core.errors.ComplexPlottingError(msg=_COMPLEX_PLOTTING_ERROR_MSG)
+
+   Bases: :py:obj:`ValueError`
+
+
+   Error raised when attempting to plot a field with complex data.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.errors import ComplexPlottingError
+
+
+
+
+

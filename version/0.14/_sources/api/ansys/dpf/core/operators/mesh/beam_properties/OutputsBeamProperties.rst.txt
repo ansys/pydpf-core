@@ -1,0 +1,379 @@
+
+
+
+
+
+
+:class:`OutputsBeamProperties`
+==============================
+
+
+.. py:class:: ansys.dpf.core.operators.mesh.beam_properties.OutputsBeamProperties(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   beam_properties operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mesh_out = op.outputs.mesh_out()
+   >>> result_field_type_section_id = op.outputs.field_type_section_id()
+   >>> result_field_area = op.outputs.field_area()
+   >>> result_field_moment_inertia = op.outputs.field_moment_inertia()
+   >>> result_field_geometry = op.outputs.field_geometry()
+   >>> result_field_young_modulus = op.outputs.field_young_modulus()
+   >>> result_field_poisson_ratio = op.outputs.field_poisson_ratio()
+   >>> result_field_shear_modulus = op.outputs.field_shear_modulus()
+   >>> result_field_beam_length = op.outputs.field_beam_length()
+   >>> result_field_torsion_constant = op.outputs.field_torsion_constant()
+   >>> result_field_warping_constant = op.outputs.field_warping_constant()
+   >>> result_field_offset_type = op.outputs.field_offset_type()
+   >>> result_field_offset_y = op.outputs.field_offset_y()
+   >>> result_field_offset_z = op.outputs.field_offset_z()
+
+
+
+
+
+.. py:currentmodule:: OutputsBeamProperties
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh_out`
+            - Allows to get mesh_out output of the operator
+          * - :py:attr:`~field_type_section_id`
+            - Allows to get field_type_section_id output of the operator
+          * - :py:attr:`~field_area`
+            - Allows to get field_area output of the operator
+          * - :py:attr:`~field_moment_inertia`
+            - Allows to get field_moment_inertia output of the operator
+          * - :py:attr:`~field_geometry`
+            - Allows to get field_geometry output of the operator
+          * - :py:attr:`~field_young_modulus`
+            - Allows to get field_young_modulus output of the operator
+          * - :py:attr:`~field_poisson_ratio`
+            - Allows to get field_poisson_ratio output of the operator
+          * - :py:attr:`~field_shear_modulus`
+            - Allows to get field_shear_modulus output of the operator
+          * - :py:attr:`~field_beam_length`
+            - Allows to get field_beam_length output of the operator
+          * - :py:attr:`~field_torsion_constant`
+            - Allows to get field_torsion_constant output of the operator
+          * - :py:attr:`~field_warping_constant`
+            - Allows to get field_warping_constant output of the operator
+          * - :py:attr:`~field_offset_type`
+            - Allows to get field_offset_type output of the operator
+          * - :py:attr:`~field_offset_y`
+            - Allows to get field_offset_y output of the operator
+          * - :py:attr:`~field_offset_z`
+            - Allows to get field_offset_z output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.beam_properties import OutputsBeamProperties
+
+Property detail
+---------------
+
+.. py:property:: mesh_out
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get mesh_out output of the operator
+
+   This mesh updates a new map containing a field of the beam's properties if there is at least one beam in mesh.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_mesh_out = op.outputs.mesh_out()
+
+.. py:property:: field_type_section_id
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_type_section_id output of the operator
+
+   This field contains the section ID of beams. 1:REC; 3:CSOLID, 4:CTUBE, 5:CHAN, 6:Z, 7:L, 8:I, 9:T, 11:HATS, 12:HREC.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_type_section_id = op.outputs.field_type_section_id()
+
+.. py:property:: field_area
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_area output of the operator
+
+   This field contains the area of beams.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_area = op.outputs.field_area()
+
+.. py:property:: field_moment_inertia
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_moment_inertia output of the operator
+
+   This field contains the inertia moment of beams. Iyy, Iyz, Izz.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_moment_inertia = op.outputs.field_moment_inertia()
+
+.. py:property:: field_geometry
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_geometry output of the operator
+
+   This field contains the geometry of beams. REC:b,h. CSOLID:Ri. CTUBE:Ri, Re. CHAN:w1,w2,w3,t1,t2,t3. Z:w1,w2,w3,t1,t2,t3. L:w1,w2,t1,t2. I:w1,w2,w3,t1,t2,t3. T:w1,w2,t1,t2. HATS: w1,w2,w3,w4,t1,t2,t3,t4. HREC:w1,w2,t1,t2,t3,t4.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_geometry = op.outputs.field_geometry()
+
+.. py:property:: field_young_modulus
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_young_modulus output of the operator
+
+   This field contains the Young's modulus of beams.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_young_modulus = op.outputs.field_young_modulus()
+
+.. py:property:: field_poisson_ratio
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_poisson_ratio output of the operator
+
+   This field contains the Poisson's ratio of beams.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_poisson_ratio = op.outputs.field_poisson_ratio()
+
+.. py:property:: field_shear_modulus
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_shear_modulus output of the operator
+
+   This field contains the Shear Modulus of beams.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_shear_modulus = op.outputs.field_shear_modulus()
+
+.. py:property:: field_beam_length
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_beam_length output of the operator
+
+   This field contains the length of beams.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_beam_length = op.outputs.field_beam_length()
+
+.. py:property:: field_torsion_constant
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_torsion_constant output of the operator
+
+   This field contains the Torsion Constant of beams.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_torsion_constant = op.outputs.field_torsion_constant()
+
+.. py:property:: field_warping_constant
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_warping_constant output of the operator
+
+   This field contains the Warping Constant of beams.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_warping_constant = op.outputs.field_warping_constant()
+
+.. py:property:: field_offset_type
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_offset_type output of the operator
+
+   This field contains offset type of beams.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_offset_type = op.outputs.field_offset_type()
+
+.. py:property:: field_offset_y
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_offset_y output of the operator
+
+   This field contains offset y of beams.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_offset_y = op.outputs.field_offset_y()
+
+.. py:property:: field_offset_z
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_offset_z output of the operator
+
+   This field contains offset z of beams.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.beam_properties()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_offset_z = op.outputs.field_offset_z()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.stress_von_mises
+   :inherited-members:

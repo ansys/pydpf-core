@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.scoping.rescope_fc
+   :inherited-members:

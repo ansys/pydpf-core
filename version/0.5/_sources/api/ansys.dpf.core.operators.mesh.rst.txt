@@ -1,0 +1,39 @@
+ansys.dpf.core.operators.mesh package
+=====================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.mesh.acmo_mesh_provider
+   ansys.dpf.core.operators.mesh.beam_properties
+   ansys.dpf.core.operators.mesh.combine_levelset
+   ansys.dpf.core.operators.mesh.exclude_levelset
+   ansys.dpf.core.operators.mesh.external_layer
+   ansys.dpf.core.operators.mesh.from_field
+   ansys.dpf.core.operators.mesh.from_scoping
+   ansys.dpf.core.operators.mesh.make_plane_levelset
+   ansys.dpf.core.operators.mesh.make_sphere_levelset
+   ansys.dpf.core.operators.mesh.mesh_clip
+   ansys.dpf.core.operators.mesh.mesh_cut
+   ansys.dpf.core.operators.mesh.mesh_plan_clip
+   ansys.dpf.core.operators.mesh.mesh_provider
+   ansys.dpf.core.operators.mesh.mesh_to_graphics
+   ansys.dpf.core.operators.mesh.mesh_to_graphics_edges
+   ansys.dpf.core.operators.mesh.meshes_provider
+   ansys.dpf.core.operators.mesh.node_coordinates
+   ansys.dpf.core.operators.mesh.point_cloud_search
+   ansys.dpf.core.operators.mesh.points_from_coordinates
+   ansys.dpf.core.operators.mesh.skin
+   ansys.dpf.core.operators.mesh.split_fields
+   ansys.dpf.core.operators.mesh.split_mesh
+   ansys.dpf.core.operators.mesh.stl_export
+   ansys.dpf.core.operators.mesh.tri_mesh_skin
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core.operators.mesh
+   :inherited-members:

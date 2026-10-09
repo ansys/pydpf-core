@@ -1,0 +1,122 @@
+
+
+
+
+
+
+The ``dpf_operator.py`` module
+==============================
+
+.. py:module:: ansys.dpf.core.dpf_operator
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: dpf_operator
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.dpf_operator.Operator`
+            - Represents an operator, which is an elementary operation.
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~available_operator_names`
+            - Return the list of operator names available in the server.
+
+
+
+
+    .. tab-item:: Constants
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~LOG`
+            - 
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> Operator</api/ansys/dpf/core/dpf_operator/Operator>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Operator.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: available_operator_names(server=None)
+
+   Return the list of operator names available in the server.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+   :type server: server.DPFServer, optional
+
+   :rtype: list
+
+   .. rubric:: Notes
+
+   Function available with server's version starting at 3.0. Not available for server
+   of type GrpcServer.
+
+
+.. py:data:: LOG
+
+
+

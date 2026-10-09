@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.workflow_energy_per_harmonic
+   :inherited-members:

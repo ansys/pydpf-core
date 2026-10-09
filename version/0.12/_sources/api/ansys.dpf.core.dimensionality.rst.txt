@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.dimensionality
+   :inherited-members:

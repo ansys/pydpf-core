@@ -1,0 +1,154 @@
+
+
+
+
+
+
+:class:`InputsMergeGenericDataContainer`
+========================================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_generic_data_container.InputsMergeGenericDataContainer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   merge_generic_data_container operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_generic_data_container()
+   >>> my_generic_data_container1 = dpf.GenericDataContainer()
+   >>> op.inputs.generic_data_container1.connect(my_generic_data_container1)
+   >>> my_generic_data_container2 = dpf.GenericDataContainer()
+   >>> op.inputs.generic_data_container2.connect(my_generic_data_container2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMergeGenericDataContainer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~generic_data_container1`
+            - Allows to connect generic_data_container1 input to the operator.
+          * - :py:attr:`~generic_data_container2`
+            - Allows to connect generic_data_container2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_generic_data_container import InputsMergeGenericDataContainer
+
+Property detail
+---------------
+
+.. py:property:: generic_data_container1
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.generic_data_container.GenericDataContainer]
+
+
+   Allows to connect generic_data_container1 input to the operator.
+
+   Either a vector of generic data containers (sharing the same data types) or generic data containers from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_generic_data_container()
+   >>> op.inputs.generic_data_container1.connect(my_generic_data_container1)
+   >>> # or
+   >>> op.inputs.generic_data_container1(my_generic_data_container1)
+
+.. py:property:: generic_data_container2
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.generic_data_container.GenericDataContainer]
+
+
+   Allows to connect generic_data_container2 input to the operator.
+
+   Either a vector of generic data containers (sharing the same data types) or generic data containers from pin 0 to ... to merge. Supported types rely on existing type specific merge operators.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_generic_data_container()
+   >>> op.inputs.generic_data_container2.connect(my_generic_data_container2)
+   >>> # or
+   >>> op.inputs.generic_data_container2(my_generic_data_container2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

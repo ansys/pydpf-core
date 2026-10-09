@@ -1,0 +1,529 @@
+
+
+
+
+
+
+:class:`OutputsTransformInvariantTermsRbd`
+==========================================
+
+.. py:class:: ansys.dpf.core.operators.result.transform_invariant_terms_rbd.OutputsTransformInvariantTermsRbd(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   transform_invariant_terms_rbd operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_model_data = op.outputs.model_data()
+   >>> result_center_of_mass = op.outputs.center_of_mass()
+   >>> result_inertia_relief = op.outputs.inertia_relief()
+   >>> result_model_size = op.outputs.model_size()
+   >>> result_master_node_coordinates = op.outputs.master_node_coordinates()
+   >>> result_v_trsf = op.outputs.v_trsf()
+   >>> result_k_mat = op.outputs.k_mat()
+   >>> result_mass_mat = op.outputs.mass_mat()
+   >>> result_c_mat = op.outputs.c_mat()
+   >>> result_rhs = op.outputs.rhs()
+   >>> result_dn = op.outputs.dn()
+   >>> result_dr_cross_n = op.outputs.dr_cross_n()
+   >>> result_drn = op.outputs.drn()
+   >>> result_dn_cross_n = op.outputs.dn_cross_n()
+   >>> result_dnx_y = op.outputs.dnx_y()
+   >>> result_dny_y = op.outputs.dny_y()
+   >>> result_dnz_y = op.outputs.dnz_y()
+   >>> result_dyx_n = op.outputs.dyx_n()
+   >>> result_dyy_n = op.outputs.dyy_n()
+   >>> result_dyz_n = op.outputs.dyz_n()
+   >>> result_dnxn = op.outputs.dnxn()
+   >>> result_dnyn = op.outputs.dnyn()
+   >>> result_dnzn = op.outputs.dnzn()
+
+
+
+
+
+.. py:currentmodule:: OutputsTransformInvariantTermsRbd
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~model_data`
+            - Allows to get model_data output of the operator
+          * - :py:attr:`~center_of_mass`
+            - Allows to get center_of_mass output of the operator
+          * - :py:attr:`~inertia_relief`
+            - Allows to get inertia_relief output of the operator
+          * - :py:attr:`~model_size`
+            - Allows to get model_size output of the operator
+          * - :py:attr:`~master_node_coordinates`
+            - Allows to get master_node_coordinates output of the operator
+          * - :py:attr:`~v_trsf`
+            - Allows to get v_trsf output of the operator
+          * - :py:attr:`~k_mat`
+            - Allows to get k_mat output of the operator
+          * - :py:attr:`~mass_mat`
+            - Allows to get mass_mat output of the operator
+          * - :py:attr:`~c_mat`
+            - Allows to get c_mat output of the operator
+          * - :py:attr:`~rhs`
+            - Allows to get rhs output of the operator
+          * - :py:attr:`~dn`
+            - Allows to get dn output of the operator
+          * - :py:attr:`~dr_cross_n`
+            - Allows to get dr_cross_n output of the operator
+          * - :py:attr:`~drn`
+            - Allows to get drn output of the operator
+          * - :py:attr:`~dn_cross_n`
+            - Allows to get dn_cross_n output of the operator
+          * - :py:attr:`~dnx_y`
+            - Allows to get dnx_y output of the operator
+          * - :py:attr:`~dny_y`
+            - Allows to get dny_y output of the operator
+          * - :py:attr:`~dnz_y`
+            - Allows to get dnz_y output of the operator
+          * - :py:attr:`~dyx_n`
+            - Allows to get dyx_n output of the operator
+          * - :py:attr:`~dyy_n`
+            - Allows to get dyy_n output of the operator
+          * - :py:attr:`~dyz_n`
+            - Allows to get dyz_n output of the operator
+          * - :py:attr:`~dnxn`
+            - Allows to get dnxn output of the operator
+          * - :py:attr:`~dnyn`
+            - Allows to get dnyn output of the operator
+          * - :py:attr:`~dnzn`
+            - Allows to get dnzn output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.transform_invariant_terms_rbd import OutputsTransformInvariantTermsRbd
+
+Property detail
+---------------
+
+.. py:property:: model_data
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get model_data output of the operator
+
+   data describing the finite element model
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_model_data = op.outputs.model_data()
+
+.. py:property:: center_of_mass
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get center_of_mass output of the operator
+
+   center of mass of the body
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_center_of_mass = op.outputs.center_of_mass()
+
+.. py:property:: inertia_relief
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get inertia_relief output of the operator
+
+   inertia matrix
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_inertia_relief = op.outputs.inertia_relief()
+
+.. py:property:: model_size
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get model_size output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_model_size = op.outputs.model_size()
+
+.. py:property:: master_node_coordinates
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get master_node_coordinates output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_master_node_coordinates = op.outputs.master_node_coordinates()
+
+.. py:property:: v_trsf
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get v_trsf output of the operator
+
+   translational and rotational shape functions
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_v_trsf = op.outputs.v_trsf()
+
+.. py:property:: k_mat
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get k_mat output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_k_mat = op.outputs.k_mat()
+
+.. py:property:: mass_mat
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get mass_mat output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_mass_mat = op.outputs.mass_mat()
+
+.. py:property:: c_mat
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get c_mat output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_c_mat = op.outputs.c_mat()
+
+.. py:property:: rhs
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get rhs output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_rhs = op.outputs.rhs()
+
+.. py:property:: dn
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get dn output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_dn = op.outputs.dn()
+
+.. py:property:: dr_cross_n
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get dr_cross_n output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_dr_cross_n = op.outputs.dr_cross_n()
+
+.. py:property:: drn
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get drn output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_drn = op.outputs.drn()
+
+.. py:property:: dn_cross_n
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get dn_cross_n output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_dn_cross_n = op.outputs.dn_cross_n()
+
+.. py:property:: dnx_y
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get dnx_y output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_dnx_y = op.outputs.dnx_y()
+
+.. py:property:: dny_y
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get dny_y output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_dny_y = op.outputs.dny_y()
+
+.. py:property:: dnz_y
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get dnz_y output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_dnz_y = op.outputs.dnz_y()
+
+.. py:property:: dyx_n
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get dyx_n output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_dyx_n = op.outputs.dyx_n()
+
+.. py:property:: dyy_n
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get dyy_n output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_dyy_n = op.outputs.dyy_n()
+
+.. py:property:: dyz_n
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get dyz_n output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_dyz_n = op.outputs.dyz_n()
+
+.. py:property:: dnxn
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get dnxn output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_dnxn = op.outputs.dnxn()
+
+.. py:property:: dnyn
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get dnyn output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_dnyn = op.outputs.dnyn()
+
+.. py:property:: dnzn
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get dnzn output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transform_invariant_terms_rbd()
+   >>> # Get the output from op.outputs. ...
+   >>> result_dnzn = op.outputs.dnzn()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

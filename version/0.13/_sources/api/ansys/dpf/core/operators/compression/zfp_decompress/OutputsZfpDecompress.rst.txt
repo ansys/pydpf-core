@@ -1,0 +1,125 @@
+
+
+
+
+
+
+:class:`OutputsZfpDecompress`
+=============================
+
+.. py:class:: ansys.dpf.core.operators.compression.zfp_decompress.OutputsZfpDecompress(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   zfp_decompress operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.zfp_decompress()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_dataOut = op.outputs.dataOut()
+   >>> result_decompress_speed = op.outputs.decompress_speed()
+
+
+
+
+
+.. py:currentmodule:: OutputsZfpDecompress
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~decompress_speed`
+            - Allows to get decompress_speed output of the operator
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~dataOut_as_field`
+            - 
+          * - :py:attr:`~dataOut_as_fields_container`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.zfp_decompress import OutputsZfpDecompress
+
+Property detail
+---------------
+
+.. py:property:: decompress_speed
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get decompress_speed output of the operator
+
+   the output entity is a double, containing decompression speed (mb/sec)
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.zfp_decompress()
+   >>> # Get the output from op.outputs. ...
+   >>> result_decompress_speed = op.outputs.decompress_speed()
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: dataOut_as_field
+
+.. py:attribute:: dataOut_as_fields_container
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

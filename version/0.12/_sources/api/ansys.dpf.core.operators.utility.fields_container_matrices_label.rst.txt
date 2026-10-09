@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.fields_container_matrices_label
+   :inherited-members:

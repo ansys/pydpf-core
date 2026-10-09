@@ -1,0 +1,31 @@
+
+
+
+
+
+
+:class:`PyVistaImportError`
+===========================
+
+
+.. py:exception:: ansys.dpf.core.vtk_helper.PyVistaImportError(msg='To use plotting capabilities, please install pyvista with :\n pip install pyvista>=0.32.0')
+
+   Bases: :py:obj:`ModuleNotFoundError`
+
+
+   Error raised when PyVista could not be imported during plotting.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.vtk_helper import PyVistaImportError
+
+
+
+
+
