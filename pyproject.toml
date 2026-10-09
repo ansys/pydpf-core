@@ -150,7 +150,7 @@ operator_doc = [
 tox = [
   "tox==4.64.1",
   # "bare" variant of tox-uv: uv is expected to already be available on the PATH.
-  "tox-uv-bare==1.36.0"
+  "tox-uv-bare==1.36.1"
 ]
 
 [project.urls]
