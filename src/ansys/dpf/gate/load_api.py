@@ -71,51 +71,62 @@ def _pythonize_awp_version(version):
 def _find_latest_ansys_versions():
     """Find the DPF installation to use, by order of priority.
 
-        The order of discovery is:
+    The order of discovery is:
 
-        1. the ``ANSYS_DPF_PATH`` environment variable,
-        2. the Ansys Unified Install hosting this PyDPF installation, if any,
-        3. the latest ``ansys-dpf-server`` package installed in the current Python environment,
-        4. the latest ``AWP_ROOTXXX`` Ansys Unified Install.
+    1. the ``ANSYS_DPF_PATH`` environment variable,
+    2. the latest ``ansys-dpf-server`` package installed in the current Python environment,
+    3. the Ansys Unified Install hosting this PyDPF installation, if any,
+    4. the latest ``AWP_ROOTXXX`` Ansys Unified Install.
 
-        Returns
-        -------
-        str
+    The Python environments shipped inside an Unified Install contain no ``ansys-dpf-server``
+    package, so for a PyDPF shipped with ``vXXX`` step 2 finds nothing and step 3 selects the
+    server of that same ``vXXX``.
+
+    Returns
+    -------
+    str
         Path to the DPF installation to use, or ``None`` if none was found.
-        """
+    """
     # 1. An explicitly requested installation always wins
     env_path = _path_to_dpf_from_env_variable()
     if env_path:
         return env_path
-    # 2. If PyDPF is living inside a Unified Install, use that very install
+    # 2. Latest ansys-dpf-server package installed in the current Python environment
+    path_per_version = _paths_to_dpf_server_library_installs()
+    if len(path_per_version) > 0:
+        return path_per_version[sorted(path_per_version)[-1]]
+    # 3. Unified Install hosting this PyDPF, if any
     hosting_install = _path_to_dpf_in_hosting_unified_install()
     if hosting_install:
         return hosting_install
-    # 3. Else use the latest ansys-dpf-server package installed in the current Python environment
-    path_per_version = _paths_to_dpf_server_library_installs()
-    if len(path_per_version) > 0:
-        path = path_per_version[sorted(path_per_version)[-1]]  # allows 271 to take precedence over 261
-        return path
-    # 4. Else the latest local Ansys Unified Install declared by AWP_ROOTXXX
+    # 4. Latest Unified Install declared by AWP_ROOTXXX
     path_per_version = _paths_to_dpf_in_unified_installs()
-    if (len(path_per_version) > 0):
-        path = path_per_version[sorted(path_per_version)[-1]]
-        return path
+    if len(path_per_version) > 0:
+        return path_per_version[sorted(path_per_version)[-1]]
     return None
 
 
 def _path_to_dpf_from_env_variable():
-    """Return the DPF installation defined by the ``ANSYS_DPF_PATH`` environment variable, if available
+    """Return the DPF installation defined by the ``ANSYS_DPF_PATH`` environment variable.
+
     Returns
     -------
     str
-        Path defined by ``ANSYS_DPF_PATH``, or ``None`` if the variable is not set or does not point to an
-        existing directory.
+        Normalized path defined by ``ANSYS_DPF_PATH``, or ``None`` if the variable is not set.
+
+    Raises
+    ------
+    ValueError
+        If ``ANSYS_DPF_PATH`` does not point to an existing directory.
     """
     ansys_path = os.environ.get("ANSYS_DPF_PATH", None)
     if not ansys_path:
         return None
-    ansys_path = ansys_path.replace('"', "")
+    ansys_path = os.path.normpath(ansys_path.replace('"', "").strip())
+    if not os.path.isdir(ansys_path):
+        raise ValueError(
+            f'ANSYS_DPF_PATH is set to "{ansys_path}", which is not an existing directory.'
+        )
     return ansys_path
 
 
@@ -150,40 +161,43 @@ def _unified_install_root_of(path):
         return None
     try:
         # Make the path absolute and normalized (no ".." or duplicate separators).
-        # Symbolic links are deliberately not resolved, so the "vXXX" folder name is kept.
-        current = os.path.abspath(str(path))
+        candidates = [os.path.abspath(str(path)), os.path.realpath(str(path))]
     except (TypeError, ValueError):
         return None
-    while True:
-        parent, name = os.path.split(current)
-        # Reached the top of the tree (drive root such as "C:\" or "/"): nothing found
-        if not name or parent == current:
-            return None
+    for current in dict.fromkeys(candidates):  # abspath first, realpath as fallback
+        while True:
+            parent, name = os.path.split(current)
+            # Reached the top of the tree (drive root such as "C:\" or "/"): try next candidate
+            if not name or parent == current:
+                break
 
-        # A candidate must be named "vXXX" AND contain the DPF binaries folder. The second
-        # test prevents false positives on unrelated folders that happen to be named like "v123".
-        if _UNIFIED_INSTALL_VERSION_FOLDER.match(name) and os.path.isdir(
-            os.path.join(current, _get_path_in_install())
-        ):
-            return current
-        current = parent
+            # A candidate must be named "vXXX" AND contain the DPF binaries folder. The second
+            # test prevents false positives on unrelated folders that happen to be named like "v123".
+            if _UNIFIED_INSTALL_VERSION_FOLDER.match(name) and os.path.isdir(
+                os.path.join(current, _get_path_in_install())
+            ):
+                return current
+            current = parent
+    return None
 
 
 def _path_to_dpf_in_hosting_unified_install():
     """Return the Ansys Unified Install root hosting this very PyDPF installation.
 
-       When PyDPF is shipped inside an Ansys Unified Install (``.../ANSYS Inc/vXXX/...``),
-       it must use the DPF server of that same Unified Install, and not the latest
-       ``AWP_ROOTXXX`` available on the machine.
+    When PyDPF is shipped inside an Ansys Unified Install (``.../ANSYS Inc/vXXX/...``),
+    it must use the DPF server of that same Unified Install, and not the latest
+    ``AWP_ROOTXXX`` available on the machine.
 
-       It does not use the unified install server even if the venv/python process that runs the
-       pydpf pacakge comes from within the  (``.../ANSYS Inc/vXXX/...``) path.
+    Detection relies only on the location of the PyDPF package files. The location of the
+    Python interpreter or virtual environment running PyDPF is not considered: a PyDPF package
+    installed elsewhere is not treated as hosted, even when run by a Python interpreter
+    located inside ``.../ANSYS Inc/vXXX/...``.
 
-       Returns
-       -------
-       str
-           Root of the hosting Unified Install, or ``None`` when PyDPF does not live
-           inside a Unified Install.
+    Returns
+    -------
+    str
+        Root of the hosting Unified Install, or ``None`` when PyDPF does not live
+        inside a Unified Install.
     """
     ansys_path = _unified_install_root_of(os.path.dirname(os.path.abspath(__file__)))
     if ansys_path is not None:
