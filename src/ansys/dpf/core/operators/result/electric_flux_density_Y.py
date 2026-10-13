@@ -46,7 +46,7 @@ class electric_flux_density_Y(Operator):
     data_sources: DataSources
         result file path container, used if no streams are set
     bool_rotate_to_global: bool, optional
-        if true the field is rotated to global coordinate system (default true)
+        if true the field is rotated to global coordinate system (default true). This input is ignored for PSD and Spectrum results.
     mesh: MeshedRegion or MeshesContainer, optional
         prevents from reading the mesh in the result files
     requested_location: str, optional
@@ -201,7 +201,7 @@ can be Nodal/ElementalNodal/Elemental. Default: averaged on nodes.
                     name="bool_rotate_to_global",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""if true the field is rotated to global coordinate system (default true)""",
+                    document=r"""if true the field is rotated to global coordinate system (default true). This input is ignored for PSD and Spectrum results.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -465,7 +465,7 @@ class InputsElectricFluxDensityY(_Inputs):
     def bool_rotate_to_global(self) -> Input[bool]:
         r"""Allows to connect bool_rotate_to_global input to the operator.
 
-        if true the field is rotated to global coordinate system (default true)
+        if true the field is rotated to global coordinate system (default true). This input is ignored for PSD and Spectrum results.
 
         Returns
         -------

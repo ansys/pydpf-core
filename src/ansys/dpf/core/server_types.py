@@ -44,6 +44,7 @@ import time
 import traceback
 from typing import TYPE_CHECKING, Union
 import warnings
+import weakref
 
 import psutil
 
@@ -486,6 +487,10 @@ class BaseServer(abc.ABC):
         self._info_instance = None
         self._docker_config = server_factory.RunningDockerConfig()
         self._server_meet_version = {}
+        self._metadata_instances = weakref.WeakSet()
+
+    def _register_metadata(self, metadata):
+        self._metadata_instances.add(metadata)
 
     def set_as_global(self, as_global=True):
         """Set the current server as global if necessary.
@@ -1251,7 +1256,8 @@ class InProcessServer(CServer):
         return os.name
 
     def shutdown(self):  # noqa: D102
-        pass
+        for metadata in self._metadata_instances:
+            metadata.release_streams()
 
     __hash__ = None
 

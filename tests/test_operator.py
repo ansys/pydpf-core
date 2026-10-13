@@ -1409,6 +1409,21 @@ def test_operator_exception():
         op.eval()
 
 
+def test_eval_conditional_output(server_in_process, tmp_path):
+    workflow = dpf.core.Workflow(server=server_in_process)
+    serializer = ops.serialization.export_symbolic_workflow(
+        workflow=workflow, server=server_in_process
+    )
+    assert isinstance(serializer.eval(), str)
+
+    serializer = ops.serialization.export_symbolic_workflow(
+        workflow=workflow,
+        path=str(tmp_path / "workflow.dpf"),
+        server=server_in_process,
+    )
+    assert isinstance(serializer.eval(), dpf.core.DataSources)
+
+
 def test_delete_operator(server_type):
     op = dpf.core.Operator("min_max", server=server_type)
     op = None

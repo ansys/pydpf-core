@@ -42,7 +42,7 @@ from ansys.dpf.core.check_version import (
 from ansys.dpf.core.common import types, types_enum_to_types
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.config_proxy import _ConfigProxy
-from ansys.dpf.core.errors import DpfVersionNotSupported
+from ansys.dpf.core.errors import DPFServerException, DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.core.outputs import Output, Outputs, _Outputs
@@ -837,15 +837,29 @@ class Operator:
         >>> normfc = math.norm_fc(disp_op).eval()
 
         """
-        if not pin:
+        if pin is None:
             if self.outputs != None and len(self.outputs._outputs) > 0:
-                return self.outputs._outputs[0]()
+                pin = self.outputs._outputs[0]._pin
             else:
                 self.run()
-        else:
-            for output in self.outputs._outputs:
-                if output._pin == pin:
-                    return output()
+                return
+
+        outputs = [output for output in self.outputs._outputs if output._pin == pin]
+        invalid_output_error = None
+        for output in outputs:
+            try:
+                return output()
+            except DPFServerException as error:
+                details = str(error)
+                if not (
+                    details.startswith('The requested Data format"')
+                    and details.endswith('" is not valid for this pin')
+                ):
+                    raise
+                invalid_output_error = error
+
+        if invalid_output_error is not None:
+            raise invalid_output_error
 
     def _find_outputs_corresponding_pins(  # noqa: PLR0912, C901
         self, type_names, inpt, pin, corresponding_pins, input_type_name

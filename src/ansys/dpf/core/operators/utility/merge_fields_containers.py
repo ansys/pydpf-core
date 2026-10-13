@@ -25,6 +25,8 @@ class merge_fields_containers(Operator):
 
     Inputs
     ------
+    skip_merge_supports: bool, optional
+        If true, field supports are not merged; for each group of fields, the first non-null input field support is used as the merged field support. Cannot be used with pin -2 (merged_fields_support). Default is false.
     should_merge_named_selections: bool, optional
         For some result files (such as RST), the scoping on names selection is duplicated through all the distributed files.If this pin is false, the merging process is skipped. If it is true, this scoping is merged. Default is true.
     sum_merge: bool, optional
@@ -50,6 +52,8 @@ class merge_fields_containers(Operator):
     >>> op = dpf.operators.utility.merge_fields_containers()
 
     >>> # Make input connections
+    >>> my_skip_merge_supports = bool()
+    >>> op.inputs.skip_merge_supports.connect(my_skip_merge_supports)
     >>> my_should_merge_named_selections = bool()
     >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
     >>> my_sum_merge = bool()
@@ -65,6 +69,7 @@ class merge_fields_containers(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.merge_fields_containers(
+    ...     skip_merge_supports=my_skip_merge_supports,
     ...     should_merge_named_selections=my_should_merge_named_selections,
     ...     sum_merge=my_sum_merge,
     ...     merged_fields_support=my_merged_fields_support,
@@ -79,6 +84,7 @@ class merge_fields_containers(Operator):
 
     def __init__(
         self,
+        skip_merge_supports=None,
         should_merge_named_selections=None,
         sum_merge=None,
         merged_fields_support=None,
@@ -95,6 +101,8 @@ class merge_fields_containers(Operator):
             inputs_type=InputsMergeFieldsContainers,
             outputs_type=OutputsMergeFieldsContainers,
         )
+        if skip_merge_supports is not None:
+            self.inputs.skip_merge_supports.connect(skip_merge_supports)
         if should_merge_named_selections is not None:
             self.inputs.should_merge_named_selections.connect(
                 should_merge_named_selections
@@ -119,6 +127,12 @@ class merge_fields_containers(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -300: PinSpecification(
+                    name="skip_merge_supports",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""If true, field supports are not merged; for each group of fields, the first non-null input field support is used as the merged field support. Cannot be used with pin -2 (merged_fields_support). Default is false.""",
+                ),
                 -200: PinSpecification(
                     name="should_merge_named_selections",
                     type_names=["bool"],
@@ -222,6 +236,8 @@ class InputsMergeFieldsContainers(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.merge_fields_containers()
+    >>> my_skip_merge_supports = bool()
+    >>> op.inputs.skip_merge_supports.connect(my_skip_merge_supports)
     >>> my_should_merge_named_selections = bool()
     >>> op.inputs.should_merge_named_selections.connect(my_should_merge_named_selections)
     >>> my_sum_merge = bool()
@@ -238,6 +254,10 @@ class InputsMergeFieldsContainers(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_fields_containers._spec().inputs, op)
+        self._skip_merge_supports: Input[bool] = Input(
+            merge_fields_containers._spec().input_pin(-300), -300, op, -1
+        )
+        self._inputs.append(self._skip_merge_supports)
         self._should_merge_named_selections: Input[bool] = Input(
             merge_fields_containers._spec().input_pin(-200), -200, op, -1
         )
@@ -262,6 +282,27 @@ class InputsMergeFieldsContainers(_Inputs):
             merge_fields_containers._spec().input_pin(1), 1, op, 1
         )
         self._inputs.append(self._fields_containers2)
+
+    @property
+    def skip_merge_supports(self) -> Input[bool]:
+        r"""Allows to connect skip_merge_supports input to the operator.
+
+        If true, field supports are not merged; for each group of fields, the first non-null input field support is used as the merged field support. Cannot be used with pin -2 (merged_fields_support). Default is false.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.merge_fields_containers()
+        >>> op.inputs.skip_merge_supports.connect(my_skip_merge_supports)
+        >>> # or
+        >>> op.inputs.skip_merge_supports(my_skip_merge_supports)
+        """
+        return self._skip_merge_supports
 
     @property
     def should_merge_named_selections(self) -> Input[bool]:
