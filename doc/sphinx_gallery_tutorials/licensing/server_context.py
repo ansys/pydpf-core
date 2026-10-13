@@ -23,6 +23,7 @@
 # _order: 1
 """
 .. _ref_tutorials_server_context:
+.. _user_guide_server_context:
 
 Server Context
 ==============

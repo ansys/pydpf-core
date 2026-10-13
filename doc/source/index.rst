@@ -8,7 +8,7 @@ PyDPF-Core is a Python client library for the Ansys Data Processing Framework (D
 
 .. note::
 
-   **New to DPF?** If you are new to the Data Processing Framework and prefer a guided, step-by-step learning path, consider starting with `DPF Onboarding <https://developer.ansys.com/docs/dpf-onboarding-{version_slug}/index.md>`_, which covers foundational concepts and setup before diving into PyDPF-Core specifics.
+    **New to DPF?** If you are new to the Data Processing Framework and prefer a guided, step-by-step learning path, consider starting with the :doc:`Getting Started guide <getting_started/index>`, which covers foundational concepts and setup before diving into PyDPF-Core specifics.
 
 .. grid:: 1 2 3 3
     :gutter: 1 2 3 3

@@ -31,7 +31,7 @@ This example downloads a simple pontoon mesh from the internet and uses the
 
 The default plotter settings display the mesh with edges shown and
 lighting enabled. For a list of all keyword arguments, see 
-`plot <https://docs.pyvista.org/plotting/plotting.html?highlight=plot#pyvista.plot>`_.
+:ref:`plot <pyvista_doc_plot_method>`.
 
 
 Plot the meshed region
