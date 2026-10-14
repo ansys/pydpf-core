@@ -43,11 +43,11 @@ Tests live in `tests/test_server_discovery.py`. Everything runs on fake folders 
 | Key | Fake location under `tmp_path` |
 |---|---|
 | `v261`, `v271` | `ANSYS Inc/v261`, `ANSYS Inc/v271` (with `aisol/...` and `dpf/...` sub-folders) |
-| `standalone` | `AnsysDev/dpf_standalone_win_v27.1.pre0/ansys/dpf/server_2027_1_pre0` |
-| `package` | `venv/Lib/site-packages/ansys/dpf/server_2027_1_pre0` (pip `ansys-dpf-server` 2027.1.pre0) |
+| `standalone` | `AnsysDev/dpf_standalone_win_v35.2.pre3/ansys/dpf/server_2035_2_pre3` |
+| `package` | `venv/Lib/site-packages/ansys/dpf/server_2035_2_pre3` (pip `ansys-dpf-server` 2035.2.pre3) |
 | `pydpf_cpython_vXXX` | `ANSYS Inc/vXXX/commonfiles/CPython/3_10/winx64/Release/Ansys/PyDPF/ansys/dpf/gate/load_api.py` (v261, v271) |
 | `pydpf_zip_vXXX` | `ANSYS Inc/vXXX/dpf/python/original/dpf-site.zip/ansys/dpf/gate/load_api.py` (v261, v271) |
-| `pydpf_standalone` | `AnsysDev/dpf_standalone_win_v27.1.pre0/ansys/dpf/gate/load_api.py` |
+| `pydpf_standalone` | `AnsysDev/dpf_standalone_win_v35.2.pre3/ansys/dpf/gate/load_api.py` |
 | `pydpf_external` | `venv/Lib/site-packages/ansys/dpf/gate/load_api.py` (pip-installed PyDPF) |
 
 The `clean_discovery_env` fixture removes `ANSYS_DPF_PATH`, every `AWP_ROOT*` variable and any
@@ -84,7 +84,7 @@ real server package, so each test only enables the sources it needs.
 |---|---|---|
 | H01 | `test_hosting_detection[H01]` | `_unified_install_root_of` finds `v261` from `commonfiles/CPython` |
 | H02 | `test_hosting_detection[H02]` | Same from inside `dpf-site.zip` (path does not exist on disk) |
-| H03 | `test_hosting_detection[H03]` | Standalone folder `v27.1.pre0` is not a `vXXX` Unified Install |
+| H03 | `test_hosting_detection[H03]` | Standalone folder `v35.2.pre3` is not a `vXXX` Unified Install |
 | H04 | `test_hosting_detection[H04]` | External venv PyDPF is not hosted |
 | H05 | `test_hosting_detection_vxxx_without_aisol` | A `vXXX` folder without `aisol/...` is ignored |
 | E01 | `test_ansys_dpf_path_trailing_separator` | Trailing separator in `ANSYS_DPF_PATH` is normalized, for Unified and standalone targets, on both routes |
@@ -110,7 +110,7 @@ from ansys.dpf.core.server_factory import AvailableServerConfigs, ServerFactory
 from ansys.dpf.gate import load_api
 from conftest import running_docker
 
-PACKAGE_VERSION = Version("2027.1.pre0")
+PACKAGE_VERSION = Version("2035.2.pre3")
 
 
 # ---------------------------------------------------------------------------------------------
@@ -136,16 +136,16 @@ def _make_server_package(site_packages: Path, suffix: str) -> Path:
 def _make_layout(tmp_path: Path) -> dict:
     """Return every location used by the tests. Only the folders a test needs are created."""
     ansys_inc = tmp_path / "ANSYS Inc"
-    standalone_dir = tmp_path / "AnsysDev" / "dpf_standalone_win_v27.1.pre0"
+    standalone_dir = tmp_path / "AnsysDev" / "dpf_standalone_win_v35.2.pre3"
     site_packages = tmp_path / "venv" / "Lib" / "site-packages"
     gate = Path("ansys") / "dpf" / "gate" / "load_api.py"
     return {
         "ansys_inc": ansys_inc,
         "v261": ansys_inc / "v261",
         "v271": ansys_inc / "v271",
-        "standalone": standalone_dir / "ansys" / "dpf" / "server_2027_1_pre0",
+        "standalone": standalone_dir / "ansys" / "dpf" / "server_2035_2_pre3",
         "site_packages": site_packages,
-        "package": site_packages / "ansys" / "dpf" / "server_2027_1_pre0",
+        "package": site_packages / "ansys" / "dpf" / "server_2035_2_pre3",
         # Possible locations of load_api.py (only used as strings, never created)
         "pydpf_cpython": ansys_inc / "v261" / "commonfiles" / "CPython" / "3_10" / "winx64"
         / "Release" / "Ansys" / "PyDPF" / gate,
@@ -208,7 +208,7 @@ def _setup(tmp_path, monkeypatch, deployment, pydpf, venv, env):
         monkeypatch.setenv("AWP_ROOT271", str(layout["standalone"]))
     monkeypatch.setattr(load_api, "__file__", str(layout[f"pydpf_{pydpf}"]))
     if venv:
-        _make_server_package(layout["site_packages"], "2027_1_pre0")
+        _make_server_package(layout["site_packages"], "2035_2_pre3")
         monkeypatch.setattr(
             load_api,
             "_paths_to_dpf_server_library_installs",
@@ -265,7 +265,7 @@ def test_discovery_priority(
     [
         ("pydpf_cpython", "v261"),
         ("pydpf_zip", "v261"),
-        ("pydpf_standalone", None),  # "v27.1.pre0" is not a vXXX folder
+        ("pydpf_standalone", None),  # "v35.2.pre3" is not a vXXX folder
         ("pydpf_external", None),
     ],
     ids=["H01", "H02", "H03", "H04"],
