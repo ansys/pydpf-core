@@ -100,6 +100,7 @@ real server package, so each test only enables the sources it needs.
 
 import os
 from pathlib import Path
+import shutil
 
 from packaging.version import Version
 import pytest
@@ -152,6 +153,20 @@ def _make_layout(tmp_path: Path) -> dict:
         "pydpf_standalone": standalone_dir / gate,
         "pydpf_external": site_packages / gate,
     }
+
+
+@pytest.fixture(autouse=True)
+def _delete_fake_layout(request):
+    """Delete the fake folders of a test as soon as it ends.
+
+    Every folder is created under ``tmp_path``, which pytest only purges on later runs
+    (it keeps the last three). Remove it right after each test instead.
+    """
+    tmp_path = request.getfixturevalue("tmp_path") if "tmp_path" in request.fixturenames else None
+    yield
+    if tmp_path is not None:
+        shutil.rmtree(tmp_path, ignore_errors=True)
+        assert not tmp_path.exists(), f"Fake layout not deleted: {tmp_path}"
 
 
 @pytest.fixture()
