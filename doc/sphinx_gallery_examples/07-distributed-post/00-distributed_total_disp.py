@@ -152,3 +152,11 @@ fc = merge.get_output(0, dpf.types.fields_container)
 print(fc)
 print(fc[0].min().data)
 print(fc[0].max().data)
+
+###############################################################################
+# Release native workflow resources before interpreter teardown.
+
+import gc
+
+del fc, merge, remote_operators, displacement, norm, ds
+gc.collect()
