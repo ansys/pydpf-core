@@ -33,7 +33,7 @@ import numpy
 
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs, server as server_module
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.check_version import (
     server_meet_version,
     server_meet_version_and_raise,
@@ -1015,7 +1015,9 @@ class Workflow:
         """
         internal_obj = getattr(self, "_internal_obj", None)
         if internal_obj is not None and internal_obj != "None":
-            release_dpf_object(self)
+            cleanup = globals().get("release_dpf_object")
+            if callable(cleanup):
+                cleanup(self)
 
     def __str__(self):
         """Describe the entity.

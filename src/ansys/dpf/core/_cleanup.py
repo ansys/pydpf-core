@@ -32,9 +32,18 @@ def _is_local_capi_deleter(deleter):
     return getattr(deleter, "__module__", "").startswith("ansys.dpf.gate.generated.")
 
 
+def _warn_cleanup_exception():
+    """Warn about a cleanup exception when warning dependencies are available."""
+    warn = getattr(warnings, "warn", None)
+    format_exc = getattr(traceback, "format_exc", None)
+    if callable(warn) and callable(format_exc):
+        warn(format_exc())
+
+
 def release_dpf_object(obj):
     """Release a DPF object through its configured native deleter."""
-    if sys is None or sys.is_finalizing():
+    is_finalizing = getattr(sys, "is_finalizing", None)
+    if not callable(is_finalizing) or is_finalizing():
         return
     try:
         deleter = getattr(obj, "_deleter_func", None)
@@ -51,7 +60,4 @@ def release_dpf_object(obj):
             else:
                 _gate_capi._call_or_defer(deleter[0], native_obj)
     except Exception:
-        warn = getattr(warnings, "warn", None)
-        format_exc = getattr(traceback, "format_exc", None)
-        if warn is not None and format_exc is not None:
-            warn(format_exc())
+        _warn_cleanup_exception()

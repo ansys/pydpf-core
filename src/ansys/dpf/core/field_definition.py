@@ -25,7 +25,7 @@
 from __future__ import annotations
 
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.available_result import Homogeneity
 from ansys.dpf.core.check_version import (
     meets_version,
@@ -310,4 +310,6 @@ class FieldDefinition:
 
     def __del__(self):
         """Delete the current instance."""
-        release_dpf_object(self)
+        cleanup = globals().get("release_dpf_object")
+        if callable(cleanup):
+            cleanup(self)

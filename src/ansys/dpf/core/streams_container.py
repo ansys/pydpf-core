@@ -27,7 +27,7 @@ Contains classes associated with the DPF StreamsContainer.
 """
 
 from ansys.dpf.core import errors, server as server_module
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core.server_types import BaseServer
@@ -203,7 +203,9 @@ class StreamsContainer:
     def __del__(self):
         """Delete the entry."""
         if not getattr(self, "owned", False):
-            release_dpf_object(self)
+            cleanup = globals().get("release_dpf_object")
+            if callable(cleanup):
+                cleanup(self)
 
     def add_stream(
         self, stream: Stream, group: int = None, is_result: int = None, result: int = None

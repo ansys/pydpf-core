@@ -30,7 +30,7 @@ from typing import TYPE_CHECKING, Union
 import numpy as np
 
 from ansys.dpf.core import server as server_module, server_types
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.cache import _setter
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import locations
@@ -394,7 +394,9 @@ class Scoping:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        release_dpf_object(self)
+        cleanup = globals().get("release_dpf_object")
+        if callable(cleanup):
+            cleanup(self)
 
     def __iter__(self):
         """Return an iterator over the scoping ids."""
