@@ -97,7 +97,7 @@ doc = [
   "pypandoc==1.17",
   "pytest-sphinx==0.7.1",
   "pyvista[jupyter]==0.49.0",
-  "quarto-cli==1.10.18",
+  "quarto-cli==1.10.19",
   "sphinx==8.2.3 ; python_version >= '3.11'",
   "sphinx==8.1.3 ; python_version < '3.11'",
   "sphinx-copybutton==0.5.2",
