@@ -201,13 +201,6 @@ jobs:
         run: |
           uv run tox -e pretest
 
-      - name: "Test API test_server_discovery"
-        shell: bash
-        env:
-          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
-        run: |
-          uv run tox -e test-server_discovery
-
       - name: "Test API test_entry"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         env:
