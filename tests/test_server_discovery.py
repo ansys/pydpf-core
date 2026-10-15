@@ -154,7 +154,7 @@ def _make_layout(tmp_path: Path) -> dict:
         "pydpf_external": site_packages / gate,
     }
 
-
+# deletes each test's fake folders when the test ends
 @pytest.fixture(autouse=True)
 def _delete_fake_layout(request):
     """Delete the fake folders of a test as soon as it ends.
@@ -168,7 +168,7 @@ def _delete_fake_layout(request):
         shutil.rmtree(tmp_path, ignore_errors=True)
         assert not tmp_path.exists(), f"Fake layout not deleted: {tmp_path}"
 
-
+# removes any real ANSYS_DPF_PATH, AWP_ROOT* variables and server packages, so each test only sees the sources it sets up.
 @pytest.fixture()
 def clean_discovery_env(monkeypatch):
     """Remove every discovery source so each test enables only the ones it needs."""
@@ -225,16 +225,16 @@ def _setup(tmp_path, monkeypatch, deployment, pydpf, venv, env):
 
 MATRIX = [
     # code,  deployment,   pydpf,        venv,  env,          expected
-    ("U01", "unified", "cpython", False, None, "v261"),
-    ("U02", "unified", "zip", False, None, "v261"),
-    ("U03", "unified", "external", False, None, "v271"),
-    ("U04", "unified", "cpython", True, None, "package"),
-    ("U05", "unified", "external", True, None, "package"),
-    ("U06", "unified", "zip", True, "v271", "v271"),
-    ("U07", "unified", "external", True, "v261", "v261"),
-    ("S01", "standalone", "standalone", False, None, "standalone"),
-    ("S02", "standalone", "standalone", True, None, "package"),
-    ("S03", "standalone", "standalone", True, "standalone", "standalone"),
+    ("U01", "unified", "cpython", False, None, "v261"), #PyDPF is shipped inside v261 (the CPython). v261 wins over the newer AWP_ROOT271
+    ("U02", "unified", "zip", False, None, "v261"), #PyDPF is shipped inside v261 (dpf-site.zip layout). v261 wins over the newer AWP_ROOT271
+    ("U03", "unified", "external", False, None, "v271"), #PyDPF comes from an external venv, so no install hosts it. The latest AWP_ROOTXXX (v271) wins
+    ("U04", "unified", "cpython", True, None, "package"),#a pip-installed server package wins over the hosting install.
+    ("U05", "unified", "external", True, None, "package"),#a pip-installed server package wins over the hosting install.
+    ("U06", "unified", "zip", True, "v271", "v271"),#ANSYS_DPF_PATH wins over everything else
+    ("U07", "unified", "external", True, "v261", "v261"),#ANSYS_DPF_PATH wins over everything else
+    ("S01", "standalone", "standalone", False, None, "standalone"),#DPF standalone setup. AWP_ROOT271 points to the standalone, and the standalone folder isn't mistaken for a Unified Install.
+    ("S02", "standalone", "standalone", True, None, "package"),#a pip-installed package wins over the standalone
+    ("S03", "standalone", "standalone", True, "standalone", "standalone"),# ANSYS_DPF_PATH pointing to the standalone wins over the package.
 ]
 
 
@@ -263,10 +263,10 @@ def test_discovery_priority(
 @pytest.mark.parametrize(
     "pydpf, expected",
     [
-        ("pydpf_cpython", "v261"),
-        ("pydpf_zip", "v261"),
+        ("pydpf_cpython", "v261"), #v261 is found from the CPython path.
+        ("pydpf_zip", "v261"),# v261 is found from inside dpf-site.zip
         ("pydpf_standalone", None),  # "v35.2.pre3" is not a vXXX folder
-        ("pydpf_external", None),
+        ("pydpf_external", None),# a PyDPF in an external venv has no hosting install
     ],
     ids=["H01", "H02", "H03", "H04"],
 )
@@ -277,7 +277,7 @@ def test_hosting_detection(tmp_path, pydpf, expected):
     result = load_api._unified_install_root_of(layout[pydpf])
     assert result == (str(layout[expected]) if expected else None)
 
-
+# A folder named like v123 that has no aisol subfolder isn't treated as an install.
 def test_hosting_detection_vxxx_without_aisol(tmp_path):  # H05
     fake = tmp_path / "v123" / "some" / "folder"
     fake.mkdir(parents=True)
@@ -288,7 +288,7 @@ def test_hosting_detection_vxxx_without_aisol(tmp_path):  # H05
 # ANSYS_DPF_PATH validation
 # ---------------------------------------------------------------------------------------------
 
-
+# ANSYS_DPF_PATH ending in \ or / still works on both lookups, for a Unified Install and for a standalone target.
 @pytest.mark.parametrize("target", ["v271", "standalone"], ids=["E01-unified", "E01-standalone"])
 def test_ansys_dpf_path_trailing_separator(tmp_path, monkeypatch, clean_discovery_env, target):
     layout = _make_layout(tmp_path)
@@ -297,7 +297,7 @@ def test_ansys_dpf_path_trailing_separator(tmp_path, monkeypatch, clean_discover
     assert load_api._find_latest_ansys_versions() == str(layout[target])
     assert misc.get_ansys_path() == str(layout[target])
 
-
+# . If ANSYS_DPF_PATH points to a missing folder, you get a clear ValueError instead of a silent switch to another install.
 def test_ansys_dpf_path_not_a_directory(tmp_path, monkeypatch, clean_discovery_env):  # E02
     _setup(tmp_path, monkeypatch, "unified", "cpython", True, None)
     monkeypatch.setenv("ANSYS_DPF_PATH", str(tmp_path / "ANSYS Inc" / "v999"))
@@ -309,12 +309,12 @@ def test_ansys_dpf_path_not_a_directory(tmp_path, monkeypatch, clean_discovery_e
 # Route A specifics: explicit argument, default folder scan, nothing found
 # ---------------------------------------------------------------------------------------------
 
-
+# A path passed explicitly to get_ansys_path(path) wins over every automatic source.
 def test_explicit_ansys_path_wins(tmp_path, monkeypatch, clean_discovery_env):  # A01
     layout = _setup(tmp_path, monkeypatch, "unified", "cpython", True, "v271")
     assert misc.get_ansys_path(str(layout["v261"])) == str(layout["v261"])
 
-
+#  When nothing else is found, find_ansys() falls back to the newest vXXX folder under Program Files\ANSYS Inc
 @pytest.mark.skipif(os.name != "nt", reason="Default folder is hard-coded on Linux")
 def test_default_folder_scan(tmp_path, monkeypatch, clean_discovery_env):  # A02
     _make_unified_install(tmp_path / "ANSYS INC", "261")
@@ -323,7 +323,7 @@ def test_default_folder_scan(tmp_path, monkeypatch, clean_discovery_env):  # A02
     assert load_api._find_latest_ansys_versions() is None
     assert misc.find_ansys() == str(latest)
 
-
+# With no source at all, the low-level lookup returns None and get_ansys_path() raises a clear "Unable to locate any Ansys installation" error.
 def test_nothing_found(monkeypatch, clean_discovery_env):  # A03
     assert load_api._find_latest_ansys_versions() is None
     monkeypatch.setattr(misc, "find_ansys", lambda: None)
@@ -346,6 +346,7 @@ def test_nothing_found(monkeypatch, clean_discovery_env):  # A03
     ],
     ids=["W01-in-process", "W01-grpc", "W01-legacy-grpc"],
 )
+# start_local_server() passes the discovered path to the in-process, gRPC and legacy gRPC server types. These cases are skipped in Docker.
 def test_start_local_server_passes_discovered_path(monkeypatch, config):
     received = {}
 
@@ -370,7 +371,7 @@ def _capture_api_path(monkeypatch, received):
 
     monkeypatch.setattr(load_api, "_get_api_path_from_installer_or_package", fake_api_path)
 
-
+#  load_client_api() called without a path uses the discovery order to find the client library.
 def test_load_client_api_uses_discovery(monkeypatch):  # W02
     received = {}
     _capture_api_path(monkeypatch, received)
@@ -378,7 +379,7 @@ def test_load_client_api_uses_discovery(monkeypatch):  # W02
     load_api.load_client_api()
     assert received["ansys_path"] == "discovered_install"
 
-
+# The same check for load_grpc_client(), which loads the gRPC client library.
 def test_load_grpc_client_uses_discovery(monkeypatch):  # W03
     received = {}
     _capture_api_path(monkeypatch, received)
