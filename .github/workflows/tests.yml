@@ -205,6 +205,7 @@ jobs:
 
       - name: "Test API test_entry"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+        id: retry_test_entry
         env:
           DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
@@ -217,6 +218,7 @@ jobs:
 
       - name: "Test API test_server"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+        id: retry_test_server
         env:
           DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
@@ -229,6 +231,7 @@ jobs:
 
       - name: "Test API test_remote_workflow"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+        id: retry_test_remote_workflow
         env:
           DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
@@ -249,6 +252,7 @@ jobs:
 
       - name: "Test API test_workflow"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+        id: retry_test_workflow
         env:
           DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
@@ -261,6 +265,7 @@ jobs:
 
       - name: "Test API test_service"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+        id: retry_test_service
         env:
           DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
@@ -273,6 +278,7 @@ jobs:
 
       - name: "Run compatible tests in parallel"
         uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+        id: retry_compatible_tests
         env:
           DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
         with:
@@ -282,6 +288,32 @@ jobs:
           command: |
             export DPF_DEFAULT_GRPC_MODE=insecure
             uv run tox run-parallel -m ciparalleltests
+
+      - name: "Report retry activity"
+        if: ${{ !cancelled() }}
+        shell: bash
+        env:
+          TEST_ENTRY_ATTEMPTS: ${{ steps.retry_test_entry.outputs.total_attempts || '0' }}
+          TEST_SERVER_ATTEMPTS: ${{ steps.retry_test_server.outputs.total_attempts || '0' }}
+          TEST_REMOTE_WORKFLOW_ATTEMPTS: ${{ steps.retry_test_remote_workflow.outputs.total_attempts || '0' }}
+          TEST_WORKFLOW_ATTEMPTS: ${{ steps.retry_test_workflow.outputs.total_attempts || '0' }}
+          TEST_SERVICE_ATTEMPTS: ${{ steps.retry_test_service.outputs.total_attempts || '0' }}
+          COMPATIBLE_TESTS_ATTEMPTS: ${{ steps.retry_compatible_tests.outputs.total_attempts || '0' }}
+        run: |
+          report_retry() {
+              local test_group="$1"
+              local attempts="$2"
+              if [ "$attempts" -gt 1 ]; then
+                  echo "::warning title=Retry used::$test_group required $attempts attempts; inspect first-attempt failure before treating it as infrastructure."
+              fi
+          }
+
+          report_retry "test_entry" "$TEST_ENTRY_ATTEMPTS"
+          report_retry "test_server" "$TEST_SERVER_ATTEMPTS"
+          report_retry "test_remote_workflow" "$TEST_REMOTE_WORKFLOW_ATTEMPTS"
+          report_retry "test_workflow" "$TEST_WORKFLOW_ATTEMPTS"
+          report_retry "test_service" "$TEST_SERVICE_ATTEMPTS"
+          report_retry "compatible_tests" "$COMPATIBLE_TESTS_ATTEMPTS"
 
       - name: "Combine coverage results"
         shell: bash
