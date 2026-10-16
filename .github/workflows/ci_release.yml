@@ -82,7 +82,7 @@ jobs:
     steps:
       - uses: ansys/actions/build-library@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
         with:
-          library-name: "ansys-dpf-core"
+          library-name: "ansys-dpf-core-${{ matrix.name }}"
 
   tests:
     name: "Test ${{ matrix.test_any && 'any' || 'platform-specific' }} wheel"
