@@ -1,0 +1,131 @@
+
+
+
+
+
+
+:class:`InputsNodalFromMesh`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.scoping.nodal_from_mesh.InputsNodalFromMesh(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   nodal_from_mesh operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.nodal_from_mesh()
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+
+
+
+
+
+
+.. py:currentmodule:: InputsNodalFromMesh
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.nodal_from_mesh import InputsNodalFromMesh
+
+Property detail
+---------------
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.meshed_region.MeshedRegion]
+
+
+   Allows to connect mesh input to the operator.
+
+   Mesh from which to extract the nodal scoping
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.nodal_from_mesh()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.make_time_freq_support_chunk_for_each
+   :inherited-members:

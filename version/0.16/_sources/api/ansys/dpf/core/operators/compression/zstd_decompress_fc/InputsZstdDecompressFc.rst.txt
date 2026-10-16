@@ -1,0 +1,137 @@
+
+
+
+
+
+
+:class:`InputsZstdDecompressFc`
+===============================
+
+
+.. py:class:: ansys.dpf.core.operators.compression.zstd_decompress_fc.InputsZstdDecompressFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   zstd_decompress_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.zstd_decompress_fc()
+   >>> my_compressed_input = dpf.AnyCollection()
+   >>> op.inputs.compressed_input.connect(my_compressed_input)
+
+
+
+
+
+
+.. py:currentmodule:: InputsZstdDecompressFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~compressed_input`
+            - Allows to connect compressed_input input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.compression.zstd_decompress_fc import InputsZstdDecompressFc
+
+Property detail
+---------------
+
+.. py:property:: compressed_input
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect compressed_input input to the operator.
+
+   Collection of generic data containers containing the following elements needed for the decompression of each field :
+   - Uncompressed metadata (header, support, field definition)
+   - Compressed data
+   - Compressed scoping and its location
+   - Compressed data pointer if it exists
+   - Input field type (field or custom type field)
+
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.compression.zstd_decompress_fc()
+   >>> op.inputs.compressed_input.connect(my_compressed_input)
+   >>> # or
+   >>> op.inputs.compressed_input(my_compressed_input)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

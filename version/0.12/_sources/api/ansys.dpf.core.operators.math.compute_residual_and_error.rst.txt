@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.compute_residual_and_error
+   :inherited-members:

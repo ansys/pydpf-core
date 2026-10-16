@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.merge_fields_by_label
+   :inherited-members:

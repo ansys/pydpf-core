@@ -1,0 +1,408 @@
+
+
+
+
+
+
+:class:`DataTree`
+=================
+
+.. py:class:: ansys.dpf.core.data_tree.DataTree(data=None, data_tree=None, server=None)
+
+   Represents an entity mapping attributes names to values.
+
+   :param data: Dictionary attributes names to its associated data to add to the data tree.
+   :type data: dict(string:object)
+   :param data_tree:
+   :type data_tree: ctypes.c_void_p, ansys.grpc.dpf.data_tree_pb2.DataTree message, optional
+   :param server: Server with channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: DPFServer, optional
+
+   .. rubric:: Examples
+
+   Create a data tree from a dictionary.
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree({"num_entities":3, "list_of_raws":[1,2,3,4], "name": "George"})
+   >>> data_tree.get_as("name", dpf.types.string)
+   'George'
+   >>> data_tree.get_as("list_of_raws", dpf.types.vec_int)
+   [1, 2, 3, 4]
+
+   Create a data tree with add.
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree()
+   >>> data_tree.add(num_entities=3, list_of_raws=[1,2,3,4], name="George")
+   >>> txt = data_tree.write_to_txt()
+
+   Create a data tree with a context manager.
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree()
+   >>> with data_tree.to_fill() as to_fill:
+   ...     to_fill.num_entities = 3
+   ...     to_fill.list_of_raws = [1,2,3,4]
+   >>> json = data_tree.write_to_json()
+
+   .. rubric:: Notes
+
+   Class available with server's version starting at 4.0 (Ansys 2022R2).
+
+
+
+
+
+
+
+
+.. py:currentmodule:: DataTree
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~add`
+            - Add attributes with their value to the data tree.
+          * - :py:attr:`~to_fill`
+            - Use with a with statement to modify local data_tree and sync with the server in one action.
+          * - :py:attr:`~write_to_txt`
+            - Write the data tree either as a file or as returned string in a text format.
+          * - :py:attr:`~write_to_json`
+            - Write the data tree either as a file or as returned string in a json format.
+          * - :py:attr:`~has`
+            - Return True if the entry exists.
+          * - :py:attr:`~get_as`
+            - Return an attribute value by its name in the required type.
+          * - :py:attr:`~to_dict`
+            - Return a read-only dictionary representation of the DataTree.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~attribute_names`
+            - Returns a list of defined attribute names.
+          * - :py:attr:`~sub_tree_names`
+            - Returns a list of defined sub-tree names.
+
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~read_from_json`
+            - Convert a json string or file to DataTree.
+          * - :py:attr:`~read_from_txt`
+            - Convert a text string or file to DataTree.
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__setattr__`
+            - Set an attribute for the DataTree object.
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+          * - :py:attr:`~__del__`
+            - Delete this instance.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.data_tree import DataTree
+
+Property detail
+---------------
+
+.. py:property:: attribute_names
+
+   Returns a list of defined attribute names.
+
+   :rtype: list[str]
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree()
+   >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
+   >>> data_tree.attribute_names
+   ['id', 'name', 'qualities']
+
+.. py:property:: sub_tree_names
+
+   Returns a list of defined sub-tree names.
+
+   :rtype: list[str]
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree()
+   >>> first_subtree = dpf.DataTree()
+   >>> second_subtree = dpf.DataTree()
+   >>> data_tree.add(first=first_subtree, second=second_subtree)
+   >>> data_tree.sub_tree_names
+   ['first', 'second']
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: add(*args, **kwargs)
+
+   Add attributes with their value to the data tree.
+
+   :param args:
+   :type args: dict[string:object], optional
+   :param kwargs: Attributes names and their values to add.
+   :type kwargs: int, float, string, list[int], list[double], list[str], DataTree
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree()
+   >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
+
+
+.. py:method:: to_fill()
+
+   Use with a with statement to modify local data_tree and sync with the server in one action.
+
+   This method allows to access and modify the local copy of the data_tree
+   without sending a request to the server. It should be used in a ``with``
+   statement so that the local data tree is released and the data is sent to
+   the server in one action. If it is not used in a ``with`` statement,
+   :func:`<release_data> DataTree.release_data()` should be used to update the data tree.
+
+   .. warning::
+
+      If this :func:`<release_data> DataTree.to_fill()` method is not used as
+      a context manager in a ``with`` statement or if the method `release_data()`
+      is not called,
+      the data will not be updated.
+
+   :returns: **local_data_tree**
+   :rtype: DataTree
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree()
+   >>> with data_tree.to_fill() as to_fill:
+   ...     to_fill.name = "George"
+   ...     to_fill.qualities=["nice", "funny"]
+   ...     to_fill.id = 3
+
+
+.. py:method:: write_to_txt(path=None)
+
+   Write the data tree either as a file or as returned string in a text format.
+
+   :param path: If a path is specified the output is written to this file.
+   :type path: str, optional
+
+   :rtype: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree()
+   >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
+   >>> txt = data_tree.write_to_txt()
+   >>> import tempfile
+   >>> import os
+   >>> data_tree.write_to_txt(os.path.join(tempfile.mkdtemp(), "data_tree.txt"))
+   <BLANKLINE>
+   ...
+
+
+.. py:method:: write_to_json(path=None)
+
+   Write the data tree either as a file or as returned string in a json format.
+
+   :param path: If a path is specified the output is written to this file.
+   :type path: str, optional
+
+   :rtype: str
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree()
+   >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
+   >>> txt = data_tree.write_to_json()
+   >>> import tempfile
+   >>> import os
+   >>> data_tree.write_to_json(os.path.join(tempfile.mkdtemp(), "data_tree.json"))
+   <BLANKLINE>
+   ...
+
+
+.. py:method:: read_from_json(path=None, txt=None, server=None)
+   :staticmethod:
+
+
+   Convert a json string or file to DataTree.
+
+   :param path: If a path is specified the output is read from this file.
+   :type path: str, optional
+   :param txt: If a txt is specified the output is read from this string.
+   :type txt: str, optional
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: DPFServer, optional
+
+   :rtype: DataTree
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree({"num_entities":3, "list_of_raws":[1,2,3,4], "name": "George"})
+   >>> txt = data_tree.write_to_json()
+   >>> data_tree_copy = dpf.DataTree.read_from_json(txt=txt)
+
+
+.. py:method:: read_from_txt(path=None, txt=None, server=None)
+   :staticmethod:
+
+
+   Convert a text string or file to DataTree.
+
+   :param path: If a path is specified the output is read from this file.
+   :type path: str, optional
+   :param txt: If a txt is specified the output is read from this string.
+   :type txt: str, optional
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+   :type server: DPFServer, optional
+
+   :rtype: DataTree
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree({"num_entities":3, "list_of_raws":[1,2,3,4], "name": "George"})
+   >>> txt = data_tree.write_to_txt()
+   >>> data_tree_copy = dpf.DataTree.read_from_txt(txt=txt)
+
+
+.. py:method:: has(entry)
+
+   Return True if the entry exists.
+
+   :param entry:
+   :type entry: str
+
+   :rtype: bool
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree()
+   >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
+   >>> data_tree.has("qualities")
+   True
+   >>> data_tree.has("flaws")
+   False
+
+
+.. py:method:: get_as(name, type_to_return=types.string)
+
+   Return an attribute value by its name in the required type.
+
+   :param name: Name of the attribute to return
+   :type name: str
+   :param type_to_return: Type of the attribute to return. String is supported for all attributes.
+   :type type_to_return: types, type (str, int, float...)
+
+   :rtype: str, int, float, list[int], list[float], list[str], DataTree
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree()
+   >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
+   >>> data_tree.get_as("id")
+   '3'
+   >>> data_tree.get_as("id", dpf.types.int)
+   3
+   >>> data_tree.get_as("qualities", dpf.types.vec_string)
+   ['nice', 'funny']
+
+
+.. py:method:: to_dict()
+
+   Return a read-only dictionary representation of the DataTree.
+
+   :rtype: dict
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> data_tree = dpf.DataTree()
+   >>> sub = dpf.DataTree()
+   >>> sub.add(str="hello world")
+   >>> data_tree.add(id=3, sub_tree=sub)
+   >>> data_tree.to_dict()
+   {'id': '3', 'sub_tree': {'str': 'hello world'}}
+
+
+.. py:method:: __setattr__(key, value)
+
+   Set an attribute for the DataTree object.
+
+   :param key: The name of the attribute to set. If the attribute is a reserved key
+               (e.g., internal attributes starting with "_common_keys" or attributes
+               defined in the class), it is set using the parent class's `__setattr__` method.
+               Otherwise, it adds the attribute and its value to the data tree.
+   :type key: str
+   :param value: The value of the attribute to set.
+   :type value: object
+
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: Description of the entity.
+   :rtype: str
+
+
+.. py:method:: __del__()
+
+   Delete this instance.
+
+
+
+
+

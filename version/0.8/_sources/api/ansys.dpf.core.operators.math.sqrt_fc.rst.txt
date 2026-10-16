@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.sqrt_fc
+   :inherited-members:

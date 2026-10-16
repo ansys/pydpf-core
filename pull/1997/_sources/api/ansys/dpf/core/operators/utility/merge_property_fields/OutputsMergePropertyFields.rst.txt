@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`OutputsMergePropertyFields`
+===================================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.merge_property_fields.OutputsMergePropertyFields(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   merge_property_fields operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_property_fields()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_property_field = op.outputs.property_field()
+
+
+
+
+
+.. py:currentmodule:: OutputsMergePropertyFields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~property_field`
+            - Allows to get property_field output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.merge_property_fields import OutputsMergePropertyFields
+
+Property detail
+---------------
+
+.. py:property:: property_field
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.property_field.PropertyField]
+
+
+   Allows to get property_field output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.merge_property_fields()
+   >>> # Get the output from op.outputs. ...
+   >>> result_property_field = op.outputs.property_field()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.beam_rs_shear_stress
+   :inherited-members:

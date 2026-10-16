@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.thickness
+   :inherited-members:

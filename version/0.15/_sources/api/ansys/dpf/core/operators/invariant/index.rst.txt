@@ -1,0 +1,139 @@
+
+
+
+
+
+
+The ``invariant`` package
+=============================
+
+.. py:module:: ansys.dpf.core.operators.invariant
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: invariant
+.. tab-set::
+
+
+    .. tab-item:: Submodules
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.convertnum_bcs_to_nod`
+            - convertnum_bcs_to_nod
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.convertnum_nod_to_bcs`
+            - convertnum_nod_to_bcs
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.convertnum_op`
+            - convertnum_op
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.eigen_values`
+            - eigen_values
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.eigen_values_fc`
+            - eigen_values_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.eigen_vectors`
+            - eigen_vectors
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.eigen_vectors_fc`
+            - eigen_vectors_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.invariants`
+            - invariants
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.invariants_fc`
+            - invariants_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.principal_invariants`
+            - principal_invariants
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.principal_invariants_fc`
+            - principal_invariants_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.segalman_von_mises_eqv`
+            - segalman_von_mises_eqv
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.segalman_von_mises_eqv_fc`
+            - segalman_von_mises_eqv_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.von_mises_eqv`
+            - von_mises_eqv
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.invariant.von_mises_eqv_fc`
+            - von_mises_eqv_fc
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-fa-file"></span> convertnum_bcs_to_nod</api/ansys/dpf/core/operators/invariant/convertnum_bcs_to_nod/index>
+    <span class="nf nf-fa-file"></span> convertnum_nod_to_bcs</api/ansys/dpf/core/operators/invariant/convertnum_nod_to_bcs/index>
+    <span class="nf nf-fa-file"></span> convertnum_op</api/ansys/dpf/core/operators/invariant/convertnum_op/index>
+    <span class="nf nf-fa-file"></span> eigen_values</api/ansys/dpf/core/operators/invariant/eigen_values/index>
+    <span class="nf nf-fa-file"></span> eigen_values_fc</api/ansys/dpf/core/operators/invariant/eigen_values_fc/index>
+    <span class="nf nf-fa-file"></span> eigen_vectors</api/ansys/dpf/core/operators/invariant/eigen_vectors/index>
+    <span class="nf nf-fa-file"></span> eigen_vectors_fc</api/ansys/dpf/core/operators/invariant/eigen_vectors_fc/index>
+    <span class="nf nf-fa-file"></span> invariants</api/ansys/dpf/core/operators/invariant/invariants/index>
+    <span class="nf nf-fa-file"></span> invariants_fc</api/ansys/dpf/core/operators/invariant/invariants_fc/index>
+    <span class="nf nf-fa-file"></span> principal_invariants</api/ansys/dpf/core/operators/invariant/principal_invariants/index>
+    <span class="nf nf-fa-file"></span> principal_invariants_fc</api/ansys/dpf/core/operators/invariant/principal_invariants_fc/index>
+    <span class="nf nf-fa-file"></span> segalman_von_mises_eqv</api/ansys/dpf/core/operators/invariant/segalman_von_mises_eqv/index>
+    <span class="nf nf-fa-file"></span> segalman_von_mises_eqv_fc</api/ansys/dpf/core/operators/invariant/segalman_von_mises_eqv_fc/index>
+    <span class="nf nf-fa-file"></span> von_mises_eqv</api/ansys/dpf/core/operators/invariant/von_mises_eqv/index>
+    <span class="nf nf-fa-file"></span> von_mises_eqv_fc</api/ansys/dpf/core/operators/invariant/von_mises_eqv_fc/index>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

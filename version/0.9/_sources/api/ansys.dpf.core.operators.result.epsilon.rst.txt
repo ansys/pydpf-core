@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.epsilon
+   :inherited-members:

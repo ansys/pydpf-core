@@ -1,0 +1,85 @@
+
+
+
+
+
+
+The ``faces.py`` module
+=======================
+
+.. py:module:: ansys.dpf.core.faces
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: faces
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.faces.Face`
+            - Contains all properties of a face of a mesh.
+
+
+          * - :py:obj:`~ansys.dpf.core.faces.Faces`
+            - Contains faces belonging to a meshed region.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> Face</api/ansys/dpf/core/faces/Face>
+    <span class="nf nf-cod-symbol_class"></span> Faces</api/ansys/dpf/core/faces/Faces>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Faces.
+
+
+
+
+
+
+
+

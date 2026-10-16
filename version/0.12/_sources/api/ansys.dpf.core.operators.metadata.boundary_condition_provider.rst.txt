@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.metadata.boundary_condition_provider
+   :inherited-members:

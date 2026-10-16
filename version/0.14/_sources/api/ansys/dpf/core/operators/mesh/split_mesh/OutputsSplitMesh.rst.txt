@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`OutputsSplitMesh`
+=========================
+
+
+.. py:class:: ansys.dpf.core.operators.mesh.split_mesh.OutputsSplitMesh(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   split_mesh operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.split_mesh()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_meshes = op.outputs.meshes()
+
+
+
+
+
+.. py:currentmodule:: OutputsSplitMesh
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~meshes`
+            - Allows to get meshes output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.split_mesh import OutputsSplitMesh
+
+Property detail
+---------------
+
+.. py:property:: meshes
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get meshes output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.split_mesh()
+   >>> # Get the output from op.outputs. ...
+   >>> result_meshes = op.outputs.meshes()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

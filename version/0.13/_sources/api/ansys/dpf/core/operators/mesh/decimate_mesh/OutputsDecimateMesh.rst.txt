@@ -1,0 +1,105 @@
+
+
+
+
+
+
+:class:`OutputsDecimateMesh`
+============================
+
+.. py:class:: ansys.dpf.core.operators.mesh.decimate_mesh.OutputsDecimateMesh(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   decimate_mesh operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.decimate_mesh()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mesh = op.outputs.mesh()
+
+
+
+
+
+.. py:currentmodule:: OutputsDecimateMesh
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh`
+            - Allows to get mesh output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.decimate_mesh import OutputsDecimateMesh
+
+Property detail
+---------------
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get mesh output of the operator
+
+   Decimated mesh with triangle elements
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.decimate_mesh()
+   >>> # Get the output from op.outputs. ...
+   >>> result_mesh = op.outputs.mesh()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+
