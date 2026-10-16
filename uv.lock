@@ -204,7 +204,7 @@ wheels = [
 
 [[package]]
 name = "ansys-dpf-core"
-version = "0.16.2.dev0"
+version = "0.16.3"
 source = { editable = "." }
 dependencies = [
     { name = "ansys-tools-common" },
