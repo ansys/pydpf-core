@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import io
 import os
 import platform
 import gc
@@ -252,6 +253,78 @@ def test_docker_busy_port(remote_config_server_type, clean_up):
         )
     server = start_local_server(as_global=False, port=busy_port, config=remote_config_server_type)
     assert server.external_port != busy_port
+
+
+def test_start_local_server_retries_repeated_docker_port_collisions(monkeypatch):
+    attempted_ports = []
+
+    class FakeServer:
+        def __init__(self, ansys_path, ip, port, **kwargs):
+            attempted_ports.append(port)
+            if len(attempted_ports) <= 4:
+                raise errors.InvalidPortError(f"Port {port} in use")
+            self.port = port
+
+    docker_config = dpf.core.server_factory.DockerConfig(use_docker=True)
+    monkeypatch.setattr(docker_config, "find_port_available_for_docker_bind", lambda port: port)
+    monkeypatch.setattr(server, "port_in_use", lambda port: False)
+    monkeypatch.setattr(
+        server.ServerFactory,
+        "get_server_type_from_config",
+        staticmethod(lambda *args: FakeServer),
+    )
+    monkeypatch.setattr(dpf.core, "_server_instances", [])
+
+    started_server = start_local_server(
+        ip="127.0.0.1",
+        port=50086,
+        docker_config=docker_config,
+        config=ServerConfig(),
+        use_pypim_by_default=False,
+    )
+
+    assert started_server.port == 50090
+    assert attempted_ports == [50086, 50087, 50088, 50089, 50090]
+
+
+def test_launch_dpf_on_docker_cleans_container_after_bind_failure(monkeypatch):
+    class InlineThread:
+        def __init__(self, target, daemon=None):
+            self.target = target
+
+        def start(self):
+            self.target()
+
+    class FailedDockerProcess:
+        def __init__(self):
+            self.stdout = io.BytesIO()
+            self.stderr = io.BytesIO(
+                b"failed to bind host port for 0.0.0.0:50086: address already in use\n"
+            )
+
+        def kill(self):
+            pass
+
+    monkeypatch.setattr(server_types, "Thread", InlineThread)
+    monkeypatch.setattr(
+        server_types, "_run_launch_server_process", lambda *args: FailedDockerProcess()
+    )
+    docker_config = dpf.core.server_factory.DockerConfig(use_docker=True)
+    running_docker_config = dpf.core.server_factory.RunningDockerConfig(
+        docker_config=docker_config,
+        server_id="container-id",
+    )
+    remove_container = Mock()
+    monkeypatch.setattr(running_docker_config, "remove_docker_image", remove_container)
+
+    with pytest.raises(errors.InvalidPortError, match="Port 50086 in use"):
+        server_types.launch_dpf_on_docker(
+            running_docker_config=running_docker_config,
+            port=50086,
+            timeout=1,
+        )
+
+    remove_container.assert_called_once()
 
 
 @pytest.mark.skipif(
