@@ -84,7 +84,7 @@ def is_ubuntu():
     return False
 
 
-def get_ansys_path(ansys_path=None):  # noqa: PLR0912, C901
+def get_ansys_path(ansys_path=None):
     """Return the input path if provided; otherwise, check ANSYS_DPF_PATH, AWP_ROOT, and the latest ansys-dpf-server modules.
 
     Give input path back if given, else look for ANSYS_DPF_PATH,
@@ -101,30 +101,8 @@ def get_ansys_path(ansys_path=None):  # noqa: PLR0912, C901
         Full path to an Ansys installation.
 
     """
-    # If no custom path was given in input
-    # First check the environment variable for a custom path
-    if ansys_path is None:
-        ansys_path = os.environ.get("ANSYS_DPF_PATH")
-        if ansys_path:
-            ansys_path = ansys_path.replace('"', "")
-    # Check whether the current module is within an Ansys installation
-    if ansys_path is None:
-        current_file = Path(__file__).resolve()
-        path_parts = current_file.parts
-        if os.name == "posix":
-            ansys_inc_str = "ansys_inc"
-        else:
-            ansys_inc_str = "ANSYS Inc"
-        ansys_inc_part = str(Path(ansys_inc_str) / "v")
-        commonfiles_interpreter_part = str(Path("commonfiles") / "CPython")
-        if ansys_inc_part in str(current_file) and commonfiles_interpreter_part in str(
-            current_file
-        ):
-            ansys_index = path_parts.index(ansys_inc_str)
-            possible_ansys_path = Path(*path_parts[: ansys_index + 2])
-            if possible_ansys_path.is_dir():
-                ansys_path = str(possible_ansys_path)
-    # Then check for usual installation folders with AWP_ROOT and installed modules
+    # If no custom path was given in input, resolve it using the documented order:
+    # ANSYS_DPF_PATH > hosting Unified Install > Python package > AWP_ROOTXXX > any Ansys install on the disk
     if ansys_path is None:
         ansys_path = find_ansys()
     # If still no install has been found, throw an exception
@@ -143,7 +121,7 @@ def get_ansys_path(ansys_path=None):  # noqa: PLR0912, C901
     reobj_vXYZ = re.compile("^v[0123456789]{3}$")
     if reobj_vXYZ.match(ansys_folder_name):
         # vXYZ Unified Install folder
-        ver = int(str(ansys_path)[-3:])
+        ver = int(ansys_folder_name[-3:])  # robust to a trailing separator
     else:
         ver = 222
     if ver < 211:  # noqa: PLR2004
@@ -164,10 +142,11 @@ def _find_latest_ansys_versions():
 
 
 def find_ansys():
-    """Check ANSYS environment variables or default paths for the latest installation.
+    """Find the latest DPF Server installation.
 
-    Search for a standard ANSYS environment variable (AWP_ROOTXXX) or a standard installation
-    location to find the path to the latest Ansys installation.
+    Use the discovery order of :func:`get_ansys_path` (``ANSYS_DPF_PATH``, Python package,
+    hosting Unified Install, ``AWP_ROOTXXX``), then fall back to the latest ``vXXX`` folder in the
+    default Ansys installation folder.
 
     Returns
     -------
