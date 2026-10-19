@@ -237,14 +237,30 @@ jobs:
           key: ${{ steps.cache-doc-build-restore.outputs.cache-primary-key }}
 
       - name: "Zip HTML Documentation"
+        id: zip-html-documentation
         shell: pwsh
         run: |
-          Compress-Archive -Path doc/build/html/* -Destination HTML-doc-$env:PACKAGE_NAME.zip
+          $htmlPath = "doc/build/html"
+          if (-not (Test-Path -LiteralPath $htmlPath -PathType Container)) {
+            Write-Host "Skipping HTML documentation artifact packaging because $htmlPath does not exist. Check the Build HTML Documentation step above for the primary failure."
+            "artifact_ready=false" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+
+          $htmlFiles = @(Get-ChildItem -LiteralPath $htmlPath -Force)
+          if ($htmlFiles.Count -eq 0) {
+            Write-Host "Skipping HTML documentation artifact packaging because $htmlPath is empty. Check the Build HTML Documentation step above for the primary failure."
+            "artifact_ready=false" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+
+          Compress-Archive -Path "$htmlPath/*" -DestinationPath "HTML-doc-$env:PACKAGE_NAME.zip"
+          "artifact_ready=true" >> $env:GITHUB_OUTPUT
         if: always()
 
       - name: "Upload HTML Documentation"
+        if: always() && steps.zip-html-documentation.outputs.artifact_ready == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: HTML-doc-${{env.PACKAGE_NAME}}.zip
           path: HTML-doc-${{env.PACKAGE_NAME}}.zip
-        if: always()
