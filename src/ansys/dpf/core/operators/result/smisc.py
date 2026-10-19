@@ -29,11 +29,12 @@ if TYPE_CHECKING:
 
 class smisc(Operator):
     r"""Read/compute elemental summable miscellaneous data by calling the
-    readers defined by the datasources. Modal superposition (on demand
-    expansion) and cyclic cxpansion procedures are supported, however, you
-    should verify that the linear combination is applicable for the
-    associated element according to the MAPDL documentation description of
-    each item.
+    readers defined by the datasources.
+
+    Modal superposition (on demand expansion) and cyclic cxpansion
+    procedures are supported, however, you should verify that the linear
+    combination is applicable for the associated element according to the
+    MAPDL documentation description of each item.
 
 
     Inputs
@@ -164,11 +165,12 @@ class smisc(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Read/compute elemental summable miscellaneous data by calling the
-readers defined by the datasources. Modal superposition (on demand
-expansion) and cyclic cxpansion procedures are supported, however, you
-should verify that the linear combination is applicable for the
-associated element according to the MAPDL documentation description of
-each item.
+readers defined by the datasources.
+
+Modal superposition (on demand expansion) and cyclic cxpansion
+procedures are supported, however, you should verify that the linear
+combination is applicable for the associated element according to the
+MAPDL documentation description of each item.
 """
         spec = Specification(
             description=description,
