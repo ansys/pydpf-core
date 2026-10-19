@@ -86,6 +86,7 @@ all = [
 doc = [
   "ansys-sphinx-theme[autoapi]==1.10.0 ; python_version >= '3.12'",
   "ansys-sphinx-theme[autoapi]==1.9.0 ; python_version < '3.12'",
+  "sphinx-autoapi @ git+https://github.com/moe-ad/sphinx-autoapi@feat/option-to-detect-changed-files-by-content",
   "ansys-tools-visualization-interface>=0.13.0",
   "enum-tools[sphinx]==0.13.0",
   "graphviz==0.21",

@@ -118,6 +118,8 @@ autoapi_ignore_list = [
     "*/grpc/*",
 ]
 
+autoapi_change_detection = "content"
+
 # -- General configuration ---------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.

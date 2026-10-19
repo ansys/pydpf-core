@@ -277,6 +277,7 @@ doc = [
     { name = "quarto-cli" },
     { name = "sphinx", version = "8.1.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "sphinx", version = "8.2.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "sphinx-autoapi" },
     { name = "sphinx-copybutton" },
     { name = "sphinx-design", version = "0.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "sphinx-design", version = "0.7.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
@@ -380,6 +381,7 @@ doc = [
     { name = "quarto-cli", specifier = "==1.10.19" },
     { name = "sphinx", marker = "python_full_version < '3.11'", specifier = "==8.1.3" },
     { name = "sphinx", marker = "python_full_version >= '3.11'", specifier = "==8.2.3" },
+    { name = "sphinx-autoapi", git = "https://github.com/moe-ad/sphinx-autoapi?rev=feat%2Foption-to-detect-changed-files-by-content" },
     { name = "sphinx-copybutton", specifier = "==0.5.2" },
     { name = "sphinx-design", marker = "python_full_version < '3.11'", specifier = "==0.6.1" },
     { name = "sphinx-design", marker = "python_full_version >= '3.11'", specifier = "==0.7.0" },
@@ -4925,17 +4927,13 @@ wheels = [
 [[package]]
 name = "sphinx-autoapi"
 version = "3.8.1"
-source = { registry = "https://pypi.org/simple" }
+source = { git = "https://github.com/moe-ad/sphinx-autoapi?rev=feat%2Foption-to-detect-changed-files-by-content#7018ce6ddb6cdc4e76d5e4605c966f11fdaf4da7" }
 dependencies = [
     { name = "astroid" },
     { name = "jinja2" },
     { name = "pyyaml" },
     { name = "sphinx", version = "8.1.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "sphinx", version = "8.2.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/09/5e/7b42f3f774aa116741b8031b740c854612ed7dd7d616695e934a2b7fb94f/sphinx_autoapi-3.8.1.tar.gz", hash = "sha256:04643fc50485039294ace8b660d0d1b821a1686824a975725a5106e8cf1fb30b", size = 58898, upload-time = "2026-08-23T17:04:25.612Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/72/4e/e49564ab6f38341921ae855451aed2ba9915f61c43780200d5aebb57ae4d/sphinx_autoapi-3.8.1-py3-none-any.whl", hash = "sha256:9a3bd3ee1ba82d537f1620a3922292d43ee8b9ff9c69bc198965ac4bcd5a6775", size = 35975, upload-time = "2026-08-23T17:04:24.168Z" },
 ]
 
 [[package]]
