@@ -118,8 +118,6 @@ autoapi_ignore_list = [
     "*/grpc/*",
 ]
 
-autoapi_change_detection = "content"
-
 # -- General configuration ---------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -318,6 +316,7 @@ Refer to <a href='https://dpf.docs.pyansys.com/version/stable/getting_started/dp
         "ignore": autoapi_ignore_list,
         "add_toctree_entry": True,
         "member_order": "bysource",
+        "change_detection": "content",
     },
     "cheatsheet": {
         "file": "cheatsheet/cheat_sheet.qmd",
