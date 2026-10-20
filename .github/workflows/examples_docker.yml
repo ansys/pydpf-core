@@ -117,6 +117,21 @@ jobs:
         shell: bash
         run: uv pip list --system
 
+      - name: "Clean stale DPF containers"
+        shell: bash
+        run: |
+          if [[ -z "${DPF_DOCKER:-}" ]]; then
+            echo "DPF_DOCKER is unset; no DPF containers to clean."
+            exit 0
+          fi
+          containers=$(docker ps --all --quiet --filter "ancestor=${DPF_DOCKER}")
+          if [[ -n "$containers" ]]; then
+            echo "Removing stale DPF containers for ${DPF_DOCKER}:"
+            printf '%s\n' "$containers" | xargs --no-run-if-empty docker rm --force
+          else
+            echo "No stale DPF containers found for ${DPF_DOCKER}."
+          fi
+
       - name: "Run examples"
         shell: bash
         working-directory: .ci
@@ -124,3 +139,19 @@ jobs:
           export DPF_DEFAULT_GRPC_MODE=insecure
           echo on
           python run_examples.py
+
+      - name: "Clean up DPF containers"
+        if: always()
+        shell: bash
+        run: |
+          if [[ -z "${DPF_DOCKER:-}" ]]; then
+            echo "DPF_DOCKER is unset; no DPF containers to clean."
+            exit 0
+          fi
+          containers=$(docker ps --all --quiet --filter "ancestor=${DPF_DOCKER}")
+          if [[ -n "$containers" ]]; then
+            echo "Removing DPF containers for ${DPF_DOCKER}:"
+            printf '%s\n' "$containers" | xargs --no-run-if-empty docker rm --force
+          else
+            echo "No DPF containers found for ${DPF_DOCKER}."
+          fi
