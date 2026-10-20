@@ -29,9 +29,10 @@ if TYPE_CHECKING:
 
 class nmisc(Operator):
     r"""Read/compute elemental non summable miscellaneous data by calling the
-    readers defined by the datasources. Modal superposition (on demand
-    expansion) and cyclic cxpansion procedures are not supported since
-    results cannot be summed.
+    readers defined by the datasources.
+
+    Modal superposition (on demand expansion) and cyclic cxpansion
+    procedures are not supported since results cannot be summed.
 
 
     Inputs
@@ -162,9 +163,10 @@ class nmisc(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Read/compute elemental non summable miscellaneous data by calling the
-readers defined by the datasources. Modal superposition (on demand
-expansion) and cyclic cxpansion procedures are not supported since
-results cannot be summed.
+readers defined by the datasources.
+
+Modal superposition (on demand expansion) and cyclic cxpansion
+procedures are not supported since results cannot be summed.
 """
         spec = Specification(
             description=description,
