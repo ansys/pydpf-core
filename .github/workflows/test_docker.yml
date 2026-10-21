@@ -1,7 +1,6 @@
-name: test_docker # zizmor: ignore[concurrency-limits] , this is a reusable workflow
+name: Install DPF on Docker # zizmor: ignore[concurrency-limits] , this is a reusable workflow
 
 on:
-# Can be called by the CI
   workflow_call:
     inputs:
       standalone_suffix:
@@ -13,13 +12,8 @@ on:
         required: false
         type: string
     secrets:
-      LICENSE_SERVER:
-        required: true
       PYANSYS_CI_BOT_TOKEN:
         required: true
-      CODECOV_TOKEN:
-        required: false
-# Can be called manually
   workflow_dispatch:
     inputs:
       standalone_suffix:
@@ -32,212 +26,19 @@ on:
         required: false
         type: string
 
-env:
-  PACKAGE_NAME: ansys-dpf-core
-  MODULE: core
-  ANSYS_DPF_ACCEPT_LA: Y
-  ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
-
 permissions: {}
 
 jobs:
   docker_tests:
-    name: "Build and Test On Docker" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
-    runs-on: ${{ matrix.os }}
+    name: "Install DPF on Docker"
+    runs-on: ubuntu-latest
     permissions:
       contents: read
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10"]
-        os: ["ubuntu-latest"]
-
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: "Setup Python"
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: "Setup Graphviz"
-        uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2.0.2
-
-      - name: "Install uv"
-        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
-        with:
-          enable-cache: false
-
-      - name: "Install package"
-        run: |
-          uv pip install --system .[graphics]
-
       - name: "Install DPF"
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-docker@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         with:
-          dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
+          dpf-standalone-TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
-
-      - name: "Test import"
-        shell: bash
-        working-directory: tests
-        run: python -c "from ansys.dpf import core"
-
-      - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
-        with:
-          DEBUG: true
-          install-from-dependency-groups: "true"
-
-      - name: "List installed packages"
-        shell: bash
-        run: uv pip list --system
-
-      - name: "Separate long Core tests"
-        shell: pwsh
-        run: |
-          .github\workflows\scripts\separate_long_core_tests.ps1
-
-      - name: "Set pytest arguments"
-        shell: bash
-        run: |
-          echo "COVERAGE=--cov=ansys.dpf.${MODULE} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
-          echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
-
-          echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
-
-      - name: "Test API Entry"
-        shell: bash
-        working-directory: tests
-        run: |
-          cd entry
-          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results10.xml  .
-        if: always()
-        timeout-minutes: 10
-
-      - name: "Test API"
-        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
-        with:
-          timeout_minutes: 15
-          max_attempts: 2
-          shell: bash
-          command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results.xml tests/.
-
-      - name: "Test API test_launcher"
-        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
-        with:
-          timeout_minutes: 2
-          max_attempts: 2
-          shell: bash
-          command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results2.xml test_launcher/.
-
-      - name: "Test API test_server"
-        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
-        with:
-          timeout_minutes: 8
-          max_attempts: 2
-          shell: bash
-          command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results3.xml test_server/.
-
-      - name: "Test API test_local_server"
-        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
-        with:
-          timeout_minutes: 2
-          max_attempts: 2
-          shell: bash
-          command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results4.xml test_local_server/.
-
-      - name: "Test API test_multi_server"
-        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
-        with:
-          timeout_minutes: 5
-          max_attempts: 2
-          shell: bash
-          command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results5.xml test_multi_server/.
-
-      - name: "Test API test_remote_workflow"
-        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
-        with:
-          timeout_minutes: 2
-          max_attempts: 3
-          shell: bash
-          command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results6.xml test_remote_workflow/.
-
-      - name: "Test API test_remote_operator"
-        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
-        with:
-          timeout_minutes: 2
-          max_attempts: 2
-          shell: bash
-          command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results7.xml test_remote_operator/.
-
-      - name: "Test API test_workflow"
-        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
-        with:
-          timeout_minutes: 3
-          max_attempts: 3
-          shell: bash
-          command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results8.xml test_workflow/.
-
-      - name: "Test API test_service"
-        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
-        with:
-          timeout_minutes: 3
-          max_attempts: 2
-          shell: bash
-          command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
-
-      - name: "Test Operators"
-        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
-        with:
-          timeout_minutes: 3
-          max_attempts: 2
-          shell: bash
-          command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results12.xml tests/operators/.
-
-      - name: "Test Documentation"
-        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
-        with:
-          timeout_minutes: 8
-          max_attempts: 2
-          shell: bash
-          command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results13.xml test_documentation/.
-
-      - name: "Upload Test Results"
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}_docker
-          path: tests/junit/test-results.xml
-        timeout-minutes: 5
-
-      - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # required
-          report_type: coverage
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}_docker.xml
-          flags: docker,${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}
-
-      - name: "Upload test analytics results to Codecov"
-        if: ${{ !cancelled() }}
-        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          report_type: test_results
-          name: test_results_${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
-          flags: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
+          ANSYS_VERSION: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}

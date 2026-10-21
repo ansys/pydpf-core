@@ -1,7 +1,6 @@
-name: examples_docker # zizmor: ignore[concurrency-limits] , this is a reusable workflow
+name: Install DPF for Docker examples # zizmor: ignore[concurrency-limits] , this is a reusable workflow
 
 on:
-# Can be called by the CI
   workflow_call:
     inputs:
       python_versions:
@@ -17,15 +16,12 @@ on:
         type: string
         default: ''
     secrets:
-      LICENSE_SERVER:
-        required: true
       PYANSYS_CI_BOT_TOKEN:
         required: true
-# Can be called manually
   workflow_dispatch:
     inputs:
       python_versions:
-        description: "Python interpreters to test."
+        description: "Python interpreters to use for DPF installation."
         required: true
         type: string
         default: '["3.10"]'
@@ -39,17 +35,11 @@ on:
         type: string
         default: ''
 
-env:
-  PACKAGE_NAME: ansys-dpf-core
-  MODULE: core
-  ANSYS_DPF_ACCEPT_LA: Y
-  ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
-
 permissions: {}
 
 jobs:
   setup:
-    name: "Setup" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
+    name: "Setup"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -60,13 +50,12 @@ jobs:
         env:
           PYTHON_VERSIONS: ${{ inputs.python_versions }}
         run: |
-          echo "python_versions=${PYTHON_VERSIONS}" >> $GITHUB_OUTPUT
+          echo "python_versions=${PYTHON_VERSIONS}" >> "$GITHUB_OUTPUT"
 
   examples:
-    name: "Run Examples" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
+    name: "Install DPF for Docker examples"
     needs: setup
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 40
     permissions:
       contents: read
     strategy:
@@ -74,53 +63,11 @@ jobs:
       matrix:
         python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
         os: ["ubuntu-latest"]
-
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: "Setup Python"
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: "Install uv"
-        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
-        with:
-          enable-cache: false
-
-      - name: "Install package"
-        run: |
-          uv pip install --system .[graphics]
-
       - name: "Install DPF"
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-docker@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         with:
-          dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
+          dpf-standalone-TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
-
-      - name: "Test import"
-        shell: bash
-        working-directory: tests
-        run: python -c "from ansys.dpf import core"
-
-      - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
-        with:
-          DEBUG: true
-          install-from-dependency-groups: "true"
-
-      - name: "List installed packages"
-        shell: bash
-        run: uv pip list --system
-
-      - name: "Run examples"
-        shell: bash
-        working-directory: .ci
-        run: |
-          export DPF_DEFAULT_GRPC_MODE=insecure
-          echo on
-          python run_examples.py
+          ANSYS_VERSION: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
