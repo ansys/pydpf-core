@@ -114,7 +114,7 @@ jobs:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).patch }}
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   docs:
@@ -128,7 +128,7 @@ jobs:
       event_name: ${{ github.event_name }}
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
 
   examples:
     permissions:
@@ -140,7 +140,7 @@ jobs:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).patch }}
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
 
   tests-retro:
     name: "Test DPF ${{ matrix.version.version }}${{ matrix.version.patch }} compatibility"
@@ -159,7 +159,7 @@ jobs:
       standalone_suffix: ${{ matrix.version.patch }}
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   tests-pydpf-post:
@@ -185,7 +185,7 @@ jobs:
       post_branch: latest
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
 
   docker_tests:
     name: "Build and Test on Docker"
@@ -197,7 +197,7 @@ jobs:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).patch }}
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   docker_examples:
@@ -211,7 +211,7 @@ jobs:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH).patch }}
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
 
   draft_release:
     name: "Draft Release"

@@ -165,7 +165,7 @@ jobs:
       DOCSTRING: ${{ matrix.test-any == 'false' }}
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   docker_tests:
@@ -179,7 +179,7 @@ jobs:
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   docker_examples:
@@ -194,7 +194,7 @@ jobs:
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
 
   docs:
     if: |
@@ -211,7 +211,7 @@ jobs:
       python_version: "3.12"
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
 
   doc-deploy-pr:
     name: "Deploy PR documentation"
@@ -265,7 +265,7 @@ jobs:
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
 
   pydpf-post:
     name: "PyDPF-Post"
@@ -283,7 +283,7 @@ jobs:
       test_docstrings: "true"
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
 
   tests-retro:
     name: "Test DPF ${{ matrix.version.version }}${{ matrix.version.patch }} compatibility"
@@ -309,5 +309,5 @@ jobs:
       standalone_suffix: ${{ matrix.version.patch }}
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
-      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      DPF_STANDALONE: ${{ secrets.DPF_STANDALONE }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

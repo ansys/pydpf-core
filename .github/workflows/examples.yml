@@ -19,7 +19,7 @@ on:
     secrets:
       LICENSE_SERVER:
         required: true
-      PYANSYS_CI_BOT_TOKEN:
+      DPF_STANDALONE:
         required: true
 # Can be called manually
   workflow_dispatch:
@@ -104,7 +104,7 @@ jobs:
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-server@195207a462b23da5645fde44ac685e81b29035a4 # v2.3
         with:
-          dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_STANDALONE}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           ANSYS_VERSION : ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}
 
