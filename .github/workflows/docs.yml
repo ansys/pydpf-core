@@ -104,7 +104,7 @@ jobs:
 
       - name: "Install DPF"
         id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-server@feat/update-actions-for-uv # zizmor: ignore[unpinned-uses] TODO: pin to a released pydpf-actions tag
+        uses: ansys/pydpf-actions/install-dpf-server@fed4370754c863ca24dd1295d3bbfe6771d09de3 # pinned commit
         with:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
@@ -126,9 +126,25 @@ jobs:
       - name: "Setup Graphviz"
         uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2.0.2
 
+      # Keep external tool versions explicit. To update them, bump the versions here
+      # and verify the documentation workflow; do not resolve latest releases at runtime.
+      - name: "Install TinyTeX"
+        shell: powershell
+        run: |
+          $env:ChocolateyToolsLocation = Join-Path $env:RUNNER_TEMP "chocolatey-tools"
+          choco install tinytex --version=2026.9.0 -y --no-progress
+          if ($LASTEXITCODE -ne 0) {
+            throw "Installing TinyTeX 2026.9.0 failed."
+          }
+          $tinyTeXBin = Join-Path $env:ChocolateyToolsLocation "TinyTeX\bin\windows"
+          if (-not (Test-Path -LiteralPath (Join-Path $tinyTeXBin "pdflatex.exe"))) {
+            throw "TinyTeX 2026.9.0 did not install pdflatex at $tinyTeXBin."
+          }
+          $tinyTeXBin | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
+
       - name: "Install OS packages"
         run: |
-          choco install pandoc
+          choco install pandoc --version=3.12.1 -y --no-progress
 
       - name: "Setup Quarto"
         uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2.2.0
@@ -140,20 +156,16 @@ jobs:
         run: |
           quarto --version
 
-      - name: Verify tinytex is installed
-        run: |
-          quarto install tinytex --no-prompt --update-path
-
       - name: "Install Poppler for PDF to PNG conversion"
         shell: powershell
         run: |
-          choco install poppler -y
+          choco install poppler --version=26.9.0 -y --no-progress
           echo "C:\Program Files\poppler\bin" | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
 
       - name: Install Miktex and update PATH with Miktex binaries
         shell: powershell
         run: |
-          choco install miktex -y
+          choco install miktex --version=25.3.0 -y --no-progress
           echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
 
       - name: Set up Miktex to automatically install packages
