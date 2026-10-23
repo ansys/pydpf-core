@@ -154,7 +154,7 @@ jobs:
       fail-fast: false
       matrix:
         test-any: ['false', 'true']
-    uses: ./.github/workflows/tests.yml
+    uses: $/.github/workflows/tests.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -172,7 +172,7 @@ jobs:
     name: "Build and Test on Docker"
     permissions:
       contents: read # Required by test_docker.yml jobs
-    uses: ./.github/workflows/test_docker.yml
+    uses: $/.github/workflows/test_docker.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -186,7 +186,7 @@ jobs:
     name: "Run examples on Docker"
     permissions:
       contents: read # Required by examples_docker.yml jobs
-    uses: ./.github/workflows/examples_docker.yml
+    uses: $/.github/workflows/examples_docker.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -202,7 +202,7 @@ jobs:
     permissions:
       contents: read # Required by docs.yml jobs
       pull-requests: write # Required by doc-style job
-    uses: ./.github/workflows/docs.yml
+    uses: $/.github/workflows/docs.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -257,7 +257,7 @@ jobs:
       (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     permissions:
       contents: read # Required by examples.yml jobs
-    uses: ./.github/workflows/examples.yml
+    uses: $/.github/workflows/examples.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -274,7 +274,7 @@ jobs:
     permissions:
       contents: read # Required by pydpf-post.yml jobs
       pull-requests: write # Required for posting test outcome comments
-    uses: ./.github/workflows/pydpf-post.yml
+    uses: $/.github/workflows/pydpf-post.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -301,7 +301,7 @@ jobs:
         include:
           - version: ${{ fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH) }}
             docstring: "true"
-    uses: ./.github/workflows/tests.yml
+    uses: $/.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ matrix.version.version }}
       python_versions: '["3.10"]'

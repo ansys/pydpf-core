@@ -101,7 +101,7 @@ jobs:
   update_ansys_lab_examples:
     permissions:
       contents: write # Required by ansys_lab.yml deploy_examples job for git push
-    uses: ./.github/workflows/ansys_lab.yml
+    uses: $/.github/workflows/ansys_lab.yml
     needs: Publish_to_PyPI
     with:
       version: ${{ github.event.inputs.release_tag || needs.Publish_to_PyPI.outputs.version }}
