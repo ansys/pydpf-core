@@ -89,7 +89,7 @@ jobs:
           path: HTML-doc-ansys-dpf-core.zip
 
       - name: "Deploy the stable documentation"
-        uses: ansys/actions/doc-deploy-stable@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
+        uses: ansys/actions/doc-deploy-stable@6700e198ce2c381605ed1ae7b260ad4a84ec7f4b # v11.1.1
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}

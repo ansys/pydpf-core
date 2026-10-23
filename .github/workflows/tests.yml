@@ -102,7 +102,7 @@ jobs:
         os: ["windows-latest", "ubuntu-latest"]
     steps:
       - name: "Build a wheelhouse of the Python library"
-        uses: ansys/actions/build-wheelhouse@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
+        uses: ansys/actions/build-wheelhouse@6700e198ce2c381605ed1ae7b260ad4a84ec7f4b # v11.1.1
         with:
           library-name: "ansys-dpf-core"
           operating-system: ${{ matrix.os }}${{ inputs.test_any == 'true' && '-any' || '' }}
