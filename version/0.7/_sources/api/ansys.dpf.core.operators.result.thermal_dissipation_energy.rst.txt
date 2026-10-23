@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.thermal_dissipation_energy
+   :inherited-members:

@@ -1,0 +1,200 @@
+
+
+
+
+
+
+:class:`InputsElementTypesProvider`
+===================================
+
+
+.. py:class:: ansys.dpf.core.operators.metadata.element_types_provider.InputsElementTypesProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   element_types_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.element_types_provider()
+   >>> my_solver_element_types_ids = int()
+   >>> op.inputs.solver_element_types_ids.connect(my_solver_element_types_ids)
+   >>> my_streams = dpf.StreamsContainer()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_output_type = int()
+   >>> op.inputs.output_type.connect(my_output_type)
+
+
+
+
+
+
+.. py:currentmodule:: InputsElementTypesProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~solver_element_types_ids`
+            - Allows to connect solver_element_types_ids input to the operator.
+          * - :py:attr:`~streams`
+            - Allows to connect streams input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~output_type`
+            - Allows to connect output_type input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.element_types_provider import InputsElementTypesProvider
+
+Property detail
+---------------
+
+.. py:property:: solver_element_types_ids
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect solver_element_types_ids input to the operator.
+
+   Element Type ids to recover used by the solver. If not set, all available element types are recovered.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.element_types_provider()
+   >>> op.inputs.solver_element_types_ids.connect(my_solver_element_types_ids)
+   >>> # or
+   >>> op.inputs.solver_element_types_ids(my_solver_element_types_ids)
+
+.. py:property:: streams
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.streams_container.StreamsContainer]
+
+
+   Allows to connect streams input to the operator.
+
+   Result file container allowed to be kept open to cache data.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.element_types_provider()
+   >>> op.inputs.streams.connect(my_streams)
+   >>> # or
+   >>> op.inputs.streams(my_streams)
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.data_sources.DataSources]
+
+
+   Allows to connect data_sources input to the operator.
+
+   Result file path container, used if no streams are set.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.element_types_provider()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: output_type
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect output_type input to the operator.
+
+   Get the output as a GenericDataContainer (pin value 1, default) or as a PropertyField (pin value 2).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.element_types_provider()
+   >>> op.inputs.output_type.connect(my_output_type)
+   >>> # or
+   >>> op.inputs.output_type(my_output_type)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

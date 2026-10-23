@@ -1,0 +1,143 @@
+
+
+
+
+
+
+:class:`OutputsSerializerToString`
+==================================
+
+.. py:class:: ansys.dpf.core.operators.serialization.serializer_to_string.OutputsSerializerToString(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   serializer_to_string operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serializer_to_string()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_nof_chunks = op.outputs.nof_chunks()
+   >>> result_serialized_string1 = op.outputs.serialized_string1()
+   >>> result_serialized_string2 = op.outputs.serialized_string2()
+
+
+
+
+
+.. py:currentmodule:: OutputsSerializerToString
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~nof_chunks`
+            - Allows to get nof_chunks output of the operator
+          * - :py:attr:`~serialized_string1`
+            - Allows to get serialized_string1 output of the operator
+          * - :py:attr:`~serialized_string2`
+            - Allows to get serialized_string2 output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.serializer_to_string import OutputsSerializerToString
+
+Property detail
+---------------
+
+.. py:property:: nof_chunks
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get nof_chunks output of the operator
+
+   Number of chunks when mode passed to input pin(-1) = 2.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serializer_to_string()
+   >>> # Get the output from op.outputs. ...
+   >>> result_nof_chunks = op.outputs.nof_chunks()
+
+.. py:property:: serialized_string1
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get serialized_string1 output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serializer_to_string()
+   >>> # Get the output from op.outputs. ...
+   >>> result_serialized_string1 = op.outputs.serialized_string1()
+
+.. py:property:: serialized_string2
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get serialized_string2 output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.serializer_to_string()
+   >>> # Get the output from op.outputs. ...
+   >>> result_serialized_string2 = op.outputs.serialized_string2()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

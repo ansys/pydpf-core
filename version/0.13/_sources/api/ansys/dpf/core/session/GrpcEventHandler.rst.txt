@@ -1,0 +1,101 @@
+
+
+
+
+
+
+:class:`GrpcEventHandler`
+=========================
+
+.. py:class:: ansys.dpf.core.session.GrpcEventHandler(session)
+
+   Bases: :py:obj:`EventHandlerBase`
+
+
+   Handle events for a server session using gRPC.
+
+   Manages event listening and operator addition to track workflow progress and logging.
+
+
+
+.. py:currentmodule:: GrpcEventHandler
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~start_listening`
+            - Start listening for events from the server session.
+          * - :py:attr:`~add_operator`
+            - Add an operator to the server session.
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~bar`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.session import GrpcEventHandler
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: bar
+   :value: None
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: start_listening()
+
+   Start listening for events from the server session.
+
+   Displays a progress bar if available, and logs workflow status.
+
+   :returns: A thread that listens for events in the background.
+   :rtype: threading.Thread
+
+
+.. py:method:: add_operator(operator, pin, identifier)
+
+   Add an operator to the server session.
+
+   :param operator: The operator to add.
+   :type operator: object
+   :param pin: The pin to associate with the operator.
+   :type pin: object
+   :param identifier: A unique identifier for the operator.
+   :type identifier: str
+
+
+
+
+

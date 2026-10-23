@@ -1,0 +1,297 @@
+
+
+
+
+
+
+:class:`InputsForceSummation`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.averaging.force_summation.InputsForceSummation(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   force_summation operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_nodal_scoping = dpf.Scoping()
+   >>> op.inputs.nodal_scoping.connect(my_nodal_scoping)
+   >>> my_elemental_scoping = dpf.Scoping()
+   >>> op.inputs.elemental_scoping.connect(my_elemental_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_force_type = int()
+   >>> op.inputs.force_type.connect(my_force_type)
+   >>> my_spoint = dpf.Field()
+   >>> op.inputs.spoint.connect(my_spoint)
+   >>> my_scoping_filter = int()
+   >>> op.inputs.scoping_filter.connect(my_scoping_filter)
+
+
+
+
+
+
+.. py:currentmodule:: InputsForceSummation
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~nodal_scoping`
+            - Allows to connect nodal_scoping input to the operator.
+          * - :py:attr:`~elemental_scoping`
+            - Allows to connect elemental_scoping input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~force_type`
+            - Allows to connect force_type input to the operator.
+          * - :py:attr:`~spoint`
+            - Allows to connect spoint input to the operator.
+          * - :py:attr:`~scoping_filter`
+            - Allows to connect scoping_filter input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.force_summation import InputsForceSummation
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to connect time_scoping input to the operator.
+
+   default = all time steps
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: nodal_scoping
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping | ansys.dpf.core.scopings_container.ScopingsContainer]
+
+
+   Allows to connect nodal_scoping input to the operator.
+
+   Nodal Scoping or Scopings Container with a single label. Set of nodes in which elemental contribution forces will be accumulated (default = all nodes)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.nodal_scoping.connect(my_nodal_scoping)
+   >>> # or
+   >>> op.inputs.nodal_scoping(my_nodal_scoping)
+
+.. py:property:: elemental_scoping
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping | ansys.dpf.core.scopings_container.ScopingsContainer]
+
+
+   Allows to connect elemental_scoping input to the operator.
+
+   Elemental Scoping or Scopings Container with a single label. Set of elements contributing to the force calculation. (default = all elements)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.elemental_scoping.connect(my_elemental_scoping)
+   >>> # or
+   >>> op.inputs.elemental_scoping(my_elemental_scoping)
+
+.. py:property:: streams_container
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.streams_container.StreamsContainer]
+
+
+   Allows to connect streams_container input to the operator.
+
+   Streams container. Optional if using data sources.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.data_sources.DataSources]
+
+
+   Allows to connect data_sources input to the operator.
+
+   Data sources. Optional if using a streams container.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: force_type
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect force_type input to the operator.
+
+   Type of force to be processed (0: Total forces (static, damping, and inertia)., 1 (default): Static forces, 2: Damping forces, 3: Inertia forces)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.force_type.connect(my_force_type)
+   >>> # or
+   >>> op.inputs.force_type(my_force_type)
+
+.. py:property:: spoint
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect spoint input to the operator.
+
+   Field or fields container of the coordinates of the point used for moment summations. Defaults to (0,0,0). If unitless, it is assumed to be in meters.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.spoint.connect(my_spoint)
+   >>> # or
+   >>> op.inputs.spoint(my_spoint)
+
+.. py:property:: scoping_filter
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect scoping_filter input to the operator.
+
+   Selected set of nodes.
+
+   - 0 (default): Sum all nodal forces for all selected nodes, excluding contact elements
+   - 1: Sum all nodal forces for contact nodes only.
+   - 2: Sum all nodal forces for all selected nodes, including contact elements.
+
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.force_summation()
+   >>> op.inputs.scoping_filter.connect(my_scoping_filter)
+   >>> # or
+   >>> op.inputs.scoping_filter(my_scoping_filter)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

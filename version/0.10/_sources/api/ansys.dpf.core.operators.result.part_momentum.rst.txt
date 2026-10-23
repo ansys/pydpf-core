@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.part_momentum
+   :inherited-members:

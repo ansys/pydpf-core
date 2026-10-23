@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.change_location
+   :inherited-members:

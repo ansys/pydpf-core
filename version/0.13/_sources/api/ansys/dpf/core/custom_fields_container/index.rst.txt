@@ -1,0 +1,90 @@
+
+
+
+
+
+
+The ``custom_fields_container.py`` module
+=========================================
+
+.. py:module:: ansys.dpf.core.custom_fields_container
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: custom_fields_container
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.custom_fields_container.ElShapeFieldsContainer`
+            - Represents a fields container with fields split by an element shape.
+
+
+          * - :py:obj:`~ansys.dpf.core.custom_fields_container.BodyFieldsContainer`
+            - Represents a fields container with fields split by a body.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> ElShapeFieldsContainer</api/ansys/dpf/core/custom_fields_container/ElShapeFieldsContainer>
+    <span class="nf nf-cod-symbol_class"></span> BodyFieldsContainer</api/ansys/dpf/core/custom_fields_container/BodyFieldsContainer>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Custom Fields Containers.
+
+Contains the inherited classes from the
+:class:`FieldsContainer <ansys.dpf.core.fields_container.FieldsContainer>` class.
+These new classes offer helpers to access data for specific usage, such as
+results split by body or split by material.
+
+
+
+
+
+
+
+

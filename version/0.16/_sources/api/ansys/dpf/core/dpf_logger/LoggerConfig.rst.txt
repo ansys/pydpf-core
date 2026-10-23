@@ -1,0 +1,84 @@
+
+
+
+
+
+
+:class:`LoggerConfig`
+=====================
+
+
+.. py:class:: ansys.dpf.core.dpf_logger.LoggerConfig
+
+   Configuration used when registering a DPF logger.
+
+
+
+.. py:currentmodule:: LoggerConfig
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~sink_values`
+            - Return sink values as integers expected by C-layer APIs.
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~level`
+            - 
+          * - :py:attr:`~sinks`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.dpf_logger import LoggerConfig
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: level
+   :type:  LogLevel
+
+.. py:attribute:: sinks
+   :type:  Optional[Iterable[LoggerSink]]
+   :value: None
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: sink_values() -> list[int]
+
+   Return sink values as integers expected by C-layer APIs.
+
+
+
+
+

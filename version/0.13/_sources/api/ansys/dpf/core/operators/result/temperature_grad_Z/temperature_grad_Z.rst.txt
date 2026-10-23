@@ -1,0 +1,456 @@
+
+
+
+
+
+
+:class:`temperature_grad_Z`
+===========================
+
+.. py:class:: ansys.dpf.core.operators.result.temperature_grad_Z.temperature_grad_Z(time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, bool_rotate_to_global=None, mesh=None, requested_location=None, read_cyclic=None, read_beams=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Read/compute Temperature Gradient Z component of the vector (3rd
+   component) by calling the readers defined by the datasources. Regarding
+   the requested location and the input mesh scoping, the result location
+   can be Nodal/ElementalNodal/Elemental.
+
+
+   :param time_scoping: time/freq values (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output. To specify time/freq values at specific load steps, put a Field (and not a list) in input with a scoping located on "TimeFreq_steps". Linear time freq intrapolation is performed if the values are not in the result files and the data at the max time or freq is taken when time/freqs are higher than available time/freqs in result files. To get all data for all time/freq sets, connect an int with value -1.
+   :type time_scoping: Scoping or int or float or Field, optional
+   :param mesh_scoping: nodes or elements scoping required in output. The output fields will be scoped on these node or element IDs. To figure out the ordering of the fields data, look at their scoping IDs as they might not be ordered as the input scoping was. The scoping's location indicates whether nodes or elements are asked for. Using scopings container allows you to split the result fields container into domains
+   :type mesh_scoping: ScopingsContainer or Scoping, optional
+   :param fields_container: FieldsContainer already allocated modified inplace
+   :type fields_container: FieldsContainer, optional
+   :param streams_container: result file container allowed to be kept open to cache data
+   :type streams_container: StreamsContainer, optional
+   :param data_sources: result file path container, used if no streams are set
+   :type data_sources: DataSources
+   :param bool_rotate_to_global: if true the field is rotated to global coordinate system (default true)
+   :type bool_rotate_to_global: bool, optional
+   :param mesh: prevents from reading the mesh in the result files
+   :type mesh: MeshedRegion or MeshesContainer, optional
+   :param requested_location: requested location, default is Nodal
+   :type requested_location: str, optional
+   :param read_cyclic: if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)
+   :type read_cyclic: int, optional
+   :param read_beams: elemental nodal beam results are read if this pin is set to true (default is false)
+   :type read_beams: bool, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.result.temperature_grad_Z()
+
+   >>> # Make input connections
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_mesh_scoping = dpf.ScopingsContainer()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_bool_rotate_to_global = bool()
+   >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> my_read_cyclic = int()
+   >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+   >>> my_read_beams = bool()
+   >>> op.inputs.read_beams.connect(my_read_beams)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.result.temperature_grad_Z(
+   ...     time_scoping=my_time_scoping,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     fields_container=my_fields_container,
+   ...     streams_container=my_streams_container,
+   ...     data_sources=my_data_sources,
+   ...     bool_rotate_to_global=my_bool_rotate_to_global,
+   ...     mesh=my_mesh,
+   ...     requested_location=my_requested_location,
+   ...     read_cyclic=my_read_cyclic,
+   ...     read_beams=my_read_beams,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: temperature_grad_Z
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect an input on the operator using a pin number.
+          * - :py:attr:`~connect_operator_as_input`
+            - Connect an operator as an input on a pin.
+          * - :py:attr:`~get_output`
+            - Retrieve the output of the operator on the pin number.
+          * - :py:attr:`~run`
+            - Evaluate this operator.
+          * - :py:attr:`~eval`
+            - Evaluate this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+          * - :py:attr:`~progress_bar`
+            - Enable or disable progress bar display when requesting the operator's output.
+          * - :py:attr:`~config`
+            - Copy of the operator's current configuration.
+          * - :py:attr:`~id`
+            - Retrieve the unique identifier of the operator.
+          * - :py:attr:`~specification`
+            - Returns the Specification (or documentation) of this Operator.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~name`
+            - 
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+          * - :py:attr:`~operator_specification`
+            - Documents an Operator with its description (what the Operator does),its inputs and outputs and some properties.
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__del__`
+            - Delete this instance.
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+          * - :py:attr:`~__add__`
+            - Add two fields or two fields containers.
+          * - :py:attr:`~__sub__`
+            - Subtract two fields or two fields containers.
+          * - :py:attr:`~__pow__`
+            - Raise each element of a field or a fields container to power 2.
+          * - :py:attr:`~__mul__`
+            - Multiply two fields or two fields containers.
+          * - :py:attr:`~__truediv__`
+            - Perform division with another operator or a scalar.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.temperature_grad_Z import temperature_grad_Z
+
+Property detail
+---------------
+
+.. py:property:: inputs
+   :type: InputsTemperatureGradZ
+
+
+   Enables to connect inputs to the operator
+
+   :returns: An instance of InputsTemperatureGradZ.
+   :rtype: inputs
+
+.. py:property:: outputs
+   :type: OutputsTemperatureGradZ
+
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: An instance of OutputsTemperatureGradZ.
+   :rtype: outputs
+
+.. py:property:: progress_bar
+   :type: bool
+
+
+   Enable or disable progress bar display when requesting the operator's output.
+
+   With this property, the user can choose to print a progress bar when
+   the operator's output is requested, default is False
+
+.. py:property:: config
+
+   Copy of the operator's current configuration.
+
+   You can modify the copy of the configuration and then use ``operator.config = new_config``
+   or instantiate an operator with the new configuration as a parameter.
+
+   For information on an operator's options, see the documentation for that operator.
+
+   :returns: Copy of the operator's current configuration.
+   :rtype: :class:`ansys.dpf.core.config.Config`
+
+   .. rubric:: Examples
+
+   Modify the copy of an operator's configuration and set it as current config
+   of the operator.
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.add()
+   >>> config_add = op.config
+   >>> config_add.set_work_by_index_option(True)
+   >>> op.config = config_add
+
+.. py:property:: id
+   :type: int
+
+
+   Retrieve the unique identifier of the operator.
+
+   This property returns the unique ID associated with the operator.
+   This property is lazily initialized.
+
+   :returns: The unique identifier of the operator.
+   :rtype: int
+
+   .. rubric:: Notes
+
+   Property available with server's version starting at 10.0.
+
+.. py:property:: specification
+
+   Returns the Specification (or documentation) of this Operator.
+
+   :rtype: Specification
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: name
+   :value: None
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+
+   :returns: A new Config instance equivalent to the default config for this operator.
+   :rtype: config
+
+
+.. py:method:: connect(pin, inpt, pin_out=0)
+
+   Connect an input on the operator using a pin number.
+
+   :param pin: Number of the input pin.
+   :type pin: int
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
+   :param ScopingsContainer: Operator, os.PathLike Object to connect to.
+   :param MeshedRegion: Operator, os.PathLike Object to connect to.
+   :param MeshesContainer: Operator, os.PathLike Object to connect to.
+   :param DataSources: Operator, os.PathLike Object to connect to.
+   :param CyclicSupport: Operator, os.PathLike Object to connect to.
+   :param dict: Operator, os.PathLike Object to connect to.
+   :param Outputs: Operator, os.PathLike Object to connect to.
+   :param pin_out: If the input is an operator, the output pin of the input operator. The default is ``0``.
+   :type pin_out: int, optional
+
+   .. rubric:: Examples
+
+   Compute the minimum of displacement by chaining the ``"U"`` and ``"min_max_fc"`` operators.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> data_src = dpf.DataSources(examples.find_multishells_rst())
+   >>> disp_op = dpf.operators.result.displacement()
+   >>> disp_op.inputs.data_sources(data_src)
+   >>> max_fc_op = dpf.operators.min_max.min_max_fc()
+   >>> max_fc_op.inputs.connect(disp_op.outputs)
+   >>> max_field = max_fc_op.outputs.field_max()
+   >>> max_field.data
+   DPFArray([[0.59428386, 0.00201751, 0.0006032 ]]...
+
+
+.. py:method:: connect_operator_as_input(pin, op)
+
+   Connect an operator as an input on a pin.
+
+   :param pin: Number of the output pin. The default is ``0``.
+   :type pin: int
+   :param op: Requested type of the output. The default is ``None``.
+   :type op: :class:`ansys.dpf.core.dpf_operator.Operator`
+
+
+.. py:method:: get_output(pin=0, output_type=None)
+
+   Retrieve the output of the operator on the pin number.
+
+   To activate the progress bar for server version higher or equal to 3.0,
+   use ``my_op.progress_bar=True``
+
+   :param pin: Number of the output pin. The default is ``0``.
+   :type pin: int, optional
+   :param output_type: Requested type of the output. The default is ``None``.
+   :type output_type: :class:`ansys.dpf.core.common.types`, type,  optional
+
+   :returns: Output of the operator.
+   :rtype: type
+
+
+.. py:method:: __del__()
+
+   Delete this instance.
+
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: Description of the entity.
+   :rtype: str
+
+
+.. py:method:: run()
+
+   Evaluate this operator.
+
+
+.. py:method:: eval(pin=None)
+
+   Evaluate this operator.
+
+   :param pin: Number of the output pin. The default is ``None``.
+   :type pin: int
+
+   :returns: **output** -- Returns the first output of the operator by default and the output of a
+             given pin when specified. Or, it only evaluates the operator without output.
+   :rtype: FieldsContainer, Field, MeshedRegion, Scoping
+
+   .. rubric:: Examples
+
+   Use the ``eval`` method.
+
+   >>> from ansys.dpf import core as dpf
+   >>> import ansys.dpf.core.operators.math as math
+   >>> from ansys.dpf.core import examples
+   >>> data_src = dpf.DataSources(examples.find_multishells_rst())
+   >>> disp_op = dpf.operators.result.displacement()
+   >>> disp_op.inputs.data_sources(data_src)
+   >>> normfc = math.norm_fc(disp_op).eval()
+
+
+.. py:method:: __add__(fields_b)
+
+   Add two fields or two fields containers.
+
+   :returns: **add**
+   :rtype: operators.math.add_fc
+
+
+.. py:method:: __sub__(fields_b)
+
+   Subtract two fields or two fields containers.
+
+   :returns: **minus**
+   :rtype: operators.math.minus_fc
+
+
+.. py:method:: __pow__(value)
+
+   Raise each element of a field or a fields container to power 2.
+
+
+.. py:method:: __mul__(value)
+
+   Multiply two fields or two fields containers.
+
+   :returns: **mul**
+   :rtype: operators.math.generalized_inner_product_fc
+
+
+.. py:method:: operator_specification(op_name, server=None)
+   :staticmethod:
+
+
+   Documents an Operator with its description (what the Operator does),its inputs and outputs and some properties.
+
+
+.. py:method:: __truediv__(inpt)
+
+   Perform division with another operator or a scalar.
+
+   This method allows the use of the division operator (`/`) between an
+   `Operator` instance and either another `Operator` or a scalar value (float).
+
+
+
+
+

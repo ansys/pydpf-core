@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.geo.transform_invariant_terms_rbd
+   :inherited-members:

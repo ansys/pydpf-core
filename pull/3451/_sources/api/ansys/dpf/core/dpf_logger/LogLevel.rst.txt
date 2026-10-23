@@ -1,0 +1,99 @@
+
+
+
+
+
+
+:class:`LogLevel`
+=================
+
+
+.. py:class:: ansys.dpf.core.dpf_logger.LogLevel(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   DPF logging levels.
+
+
+
+.. py:currentmodule:: LogLevel
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~trace`
+            - 
+          * - :py:attr:`~debug`
+            - 
+          * - :py:attr:`~info`
+            - 
+          * - :py:attr:`~warn`
+            - 
+          * - :py:attr:`~error`
+            - 
+          * - :py:attr:`~critical`
+            - 
+          * - :py:attr:`~off`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.dpf_logger import LogLevel
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: trace
+   :value: 0
+
+
+.. py:attribute:: debug
+   :value: 1
+
+
+.. py:attribute:: info
+   :value: 2
+
+
+.. py:attribute:: warn
+   :value: 3
+
+
+.. py:attribute:: error
+   :value: 4
+
+
+.. py:attribute:: critical
+   :value: 5
+
+
+.. py:attribute:: off
+   :value: 6
+
+
+
+
+
+

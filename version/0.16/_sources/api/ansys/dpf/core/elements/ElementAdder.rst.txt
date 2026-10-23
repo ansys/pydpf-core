@@ -1,0 +1,153 @@
+
+
+
+
+
+
+:class:`ElementAdder`
+=====================
+
+
+.. py:class:: ansys.dpf.core.elements.ElementAdder
+
+   Provides for adding new elements in a meshed region.
+
+   :param id: ID to assign to the new element.
+   :type id: int
+   :param shape: Shape of the element. Options are ``"solid"``, ``"shell"``, ``"beam"``
+                 and ``"unknown_shape"``.
+   :type shape: str
+   :param connectivity: List of the node indices to connect to the new element.
+   :type connectivity: list
+
+   .. rubric:: Examples
+
+   Create a meshed region from scratch.
+
+   >>> import ansys.dpf.core as dpf
+   >>> meshed_region = dpf.MeshedRegion(num_nodes=4, num_elements=1)
+   >>> i=0
+   >>> for node in meshed_region.nodes.add_nodes(4):
+   ...     node.id = i+1
+   ...     node.coordinates = [float(i), float(i), 0.0]
+   ...     i=i+1
+   >>> for element in meshed_region.elements.add_elements(1):
+   ...     element.id=1
+   ...     element.connectivity = range(0,4)
+   ...     element.is_shell=True #or is_solid, is_beam, is_point
+
+
+
+.. py:currentmodule:: ElementAdder
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~is_solid`
+            - Whether the element is a solid.
+          * - :py:attr:`~is_shell`
+            - Whether the element is a shell.
+          * - :py:attr:`~is_beam`
+            - Whether the element is a beam.
+          * - :py:attr:`~is_point`
+            - Whether the element is a point.
+          * - :py:attr:`~shape`
+            - Shape of the element.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~id`
+            - 
+          * - :py:attr:`~connectivity`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.elements import ElementAdder
+
+Property detail
+---------------
+
+.. py:property:: is_solid
+   :type: bool
+
+
+   Whether the element is a solid.
+
+   :rtype: bool
+
+.. py:property:: is_shell
+   :type: bool
+
+
+   Whether the element is a shell.
+
+   :rtype: bool
+
+.. py:property:: is_beam
+   :type: bool
+
+
+   Whether the element is a beam.
+
+   :rtype: bool
+
+.. py:property:: is_point
+   :type: bool
+
+
+   Whether the element is a point.
+
+   :rtype: bool
+
+.. py:property:: shape
+   :type: str
+
+
+   Shape of the element.
+
+   :returns: Shape of the element. Options are ``"solid"``, ``"shell"``, ``"beam"``
+             and ``"unknown_shape"``.
+   :rtype: str
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: id
+   :value: 0
+
+
+.. py:attribute:: connectivity
+   :value: [0]
+
+
+
+
+
+

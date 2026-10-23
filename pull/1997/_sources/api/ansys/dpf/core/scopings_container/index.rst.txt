@@ -1,0 +1,80 @@
+
+
+
+
+
+
+The ``scopings_container.py`` module
+====================================
+
+.. py:module:: ansys.dpf.core.scopings_container
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: scopings_container
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.scopings_container.ScopingsContainer`
+            - A class used to represent a ScopingsContainer which contains scopings split on a given space.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> ScopingsContainer</api/ansys/dpf/core/scopings_container/ScopingsContainer>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+ScopingsContainer.
+
+Contains classes associated to the DPF ScopingsContainer
+
+
+
+
+
+
+
+
