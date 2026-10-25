@@ -29,3 +29,10 @@ def test_grouped_ellipsis_operator_specs_use_any_for_untyped_outputs():
 
     assert iterator_spec.outputs[0].type_names == ["any"]
     assert producer_consumer_spec.outputs[0].type_names == ["any"]
+
+
+def test_normals_wrapper_uses_unified_input_pins():
+    spec = ops.geo.normals._spec()
+
+    assert spec.input_pin(2).name == "field"
+    assert spec.input_pin(9).name == "requested_location"

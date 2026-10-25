@@ -22,8 +22,11 @@ if TYPE_CHECKING:
 
 
 class normals_provider_nl(Operator):
-    r"""Computes the normals on nodes/faces/elements based on integration points
-    (more accurate for non-linear elements) on a skin mesh.
+    r"""Compatibility name for the enhanced normals provider.
+
+    Prefer :class:`ansys.dpf.core.operators.geo.normals` for new code. This
+    name remains available for existing workflows. It computes normals on
+    nodes, faces, and elements using integration points on a skin mesh.
 
 
     Inputs
@@ -89,8 +92,9 @@ class normals_provider_nl(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the normals on nodes/faces/elements based on integration points
-(more accurate for non-linear elements) on a skin mesh.
+        description = r"""Compatibility name for the enhanced normals provider.
+Prefer :class:`ansys.dpf.core.operators.geo.normals` for new code.
+Computes nodal, face, elemental, and elemental-nodal normals using integration points on a skin mesh.
 """
         spec = Specification(
             description=description,
