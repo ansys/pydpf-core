@@ -22,7 +22,7 @@ on:
 permissions: {}
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ansys-lab-${{ github.ref }}
   cancel-in-progress: true
 
 env:
