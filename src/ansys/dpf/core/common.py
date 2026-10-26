@@ -509,12 +509,15 @@ def type_to_internal_object_keyword():
 def type_to_special_dpf_constructors():
     """Return dpf type mapped to special dpf constructors."""
     from ansys.dpf.core import collection_base
-    from ansys.dpf.gate.dpf_vector import DPFVectorInt
+    from ansys.dpf.gate.dpf_vector import DPFVectorDouble, DPFVectorInt
 
     return {
         DPFVectorInt: lambda obj, server: collection_base.IntCollection(
             server=server, collection=obj
-        ).get_integral_entries()
+        ).get_integral_entries(),
+        DPFVectorDouble: lambda obj, server: collection_base.FloatCollection(
+            server=server, collection=obj
+        ).get_integral_entries(),
     }
 
 

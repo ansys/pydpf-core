@@ -79,6 +79,7 @@ class fields_container(Operator):
             map_output_pin_spec={
                 0: PinSpecification(
                     name="incremented_result",
+                    type_names=["any"],
                     optional=False,
                     document=r"""""",
                 ),

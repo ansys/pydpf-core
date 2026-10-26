@@ -21,8 +21,8 @@ if TYPE_CHECKING:
 
 class norm_fc(Operator):
     r"""Computes the `:math:`L_p`
-    norm <https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm>`__ of the
-    component vector for each entity in every field of the input fields
+    norm <https://en.wikipedia.org/wiki/Norm_%28mathematics%29#p-norm>`__ of
+    the component vector for each entity in every field of the input fields
     container:
     :math:`\mathrm{out}[k] = \left(\sum_{j=0}^{n_c-1} |v_{k,j}|^p\right)^{1/p}`.
     Default is :math:`p = 2` (Euclidean norm). Each output field is scalar.
@@ -81,8 +81,8 @@ class norm_fc(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Computes the `:math:`L_p`
-norm <https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm>`__ of the
-component vector for each entity in every field of the input fields
+norm <https://en.wikipedia.org/wiki/Norm_%28mathematics%29#p-norm>`__ of
+the component vector for each entity in every field of the input fields
 container:
 :math:`\mathrm{out}[k] = \left(\sum_{j=0}^{n_c-1} |v_{k,j}|^p\right)^{1/p}`.
 Default is :math:`p = 2` (Euclidean norm). Each output field is scalar.

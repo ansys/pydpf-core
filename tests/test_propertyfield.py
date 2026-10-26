@@ -43,6 +43,23 @@ def property_field(simple_bar):
     return property_field
 
 
+@pytest.mark.parametrize("nature", [natures.scalar, natures.vector, natures.symmatrix])
+def test_create_property_field_with_explicit_server_does_not_use_global(
+    server_type, monkeypatch, nature
+):
+    def unexpected_global_server():
+        pytest.fail("PropertyField creation with an explicit server must not use the global server")
+
+    monkeypatch.setattr(core, "SERVER", None)
+    monkeypatch.setattr(core.server, "_global_server", unexpected_global_server)
+
+    field = core.PropertyField(nature=nature, server=server_type)
+
+    assert field._internal_obj is not None
+    assert field._server is server_type
+    assert core.SERVER is None
+
+
 def test_scopingdata_property_field(server_type):
     pfield = dpf.core.PropertyField(server=server_type)
     list_ids = [1, 2, 4, 6, 7]

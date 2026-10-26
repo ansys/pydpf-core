@@ -148,6 +148,10 @@ class ResultInfoAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def result_info_set_main_title(resultInfo, main_title):
+		raise NotImplementedError
+
+	@staticmethod
 	def result_info_set_unit_system(resultInfo, unit_system):
 		raise NotImplementedError
 

@@ -36,9 +36,9 @@ class record_reader(Operator):
 
         The MAPDL records tree can be found in the following links:
 
-        - [Ansys Help - Retrieving Data from the Results File](https://ansyshelp.ansys.com/public/account/secured?returnurl=//////Views/Secured/corp/v252/en/ans_prog/datafromRST.html)
+        - [Ansys Help - Retrieving Data from the Results File](https://ansyshelp.ansys.com/public/Views/Secured/corp/v252/en/ans_prog/datafromRST.html)
 
-        - [Ansys Help - Description of the Results File](https://ansyshelp.ansys.com/public/account/secured?returnurl=/Views/Secured/corp/v252/en/ans_prog/Hlp_P_INT1_2.html)
+        - [Ansys Help - Description of the Results File](https://ansyshelp.ansys.com/public/Views/Secured/corp/v252/en/ans_prog/Hlp_P_INT1_2.html)
 
     Outputs
     -------
@@ -122,9 +122,9 @@ For example to read the nodal solution of the 4th set, input should be **RST::DS
 
 The MAPDL records tree can be found in the following links:
 
-- [Ansys Help - Retrieving Data from the Results File](https://ansyshelp.ansys.com/public/account/secured?returnurl=//////Views/Secured/corp/v252/en/ans_prog/datafromRST.html)
+- [Ansys Help - Retrieving Data from the Results File](https://ansyshelp.ansys.com/public/Views/Secured/corp/v252/en/ans_prog/datafromRST.html)
 
-- [Ansys Help - Description of the Results File](https://ansyshelp.ansys.com/public/account/secured?returnurl=/Views/Secured/corp/v252/en/ans_prog/Hlp_P_INT1_2.html)""",
+- [Ansys Help - Description of the Results File](https://ansyshelp.ansys.com/public/Views/Secured/corp/v252/en/ans_prog/Hlp_P_INT1_2.html)""",
                 ),
             },
             map_output_pin_spec={
@@ -261,9 +261,9 @@ class InputsRecordReader(_Inputs):
 
         The MAPDL records tree can be found in the following links:
 
-        - [Ansys Help - Retrieving Data from the Results File](https://ansyshelp.ansys.com/public/account/secured?returnurl=//////Views/Secured/corp/v252/en/ans_prog/datafromRST.html)
+        - [Ansys Help - Retrieving Data from the Results File](https://ansyshelp.ansys.com/public/Views/Secured/corp/v252/en/ans_prog/datafromRST.html)
 
-        - [Ansys Help - Description of the Results File](https://ansyshelp.ansys.com/public/account/secured?returnurl=/Views/Secured/corp/v252/en/ans_prog/Hlp_P_INT1_2.html)
+        - [Ansys Help - Description of the Results File](https://ansyshelp.ansys.com/public/Views/Secured/corp/v252/en/ans_prog/Hlp_P_INT1_2.html)
 
         Returns
         -------

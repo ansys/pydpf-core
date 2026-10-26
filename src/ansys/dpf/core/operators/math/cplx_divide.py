@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 class cplx_divide(Operator):
     r"""Computes the `complex
-    division <https://en.wikipedia.org/wiki/Complex_number#Multiplicative_inverse>`__
+    division <https://en.wikipedia.org/wiki/Complex_number#Complex_conjugate,_absolute_value,_argument_and_division>`__
     :math:`z_1 / z_2` for matching fields in two complex-valued fields
     containers:
     :math:`\mathrm{Re}(z_\mathrm{out}[i]) = (\mathrm{Re}_1 \mathrm{Re}_2 + \mathrm{Im}_1 \mathrm{Im}_2) / D`,
@@ -83,7 +83,7 @@ class cplx_divide(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Computes the `complex
-division <https://en.wikipedia.org/wiki/Complex_number#Multiplicative_inverse>`__
+division <https://en.wikipedia.org/wiki/Complex_number#Complex_conjugate,_absolute_value,_argument_and_division>`__
 :math:`z_1 / z_2` for matching fields in two complex-valued fields
 containers:
 :math:`\mathrm{Re}(z_\mathrm{out}[i]) = (\mathrm{Re}_1 \mathrm{Re}_2 + \mathrm{Im}_1 \mathrm{Im}_2) / D`,

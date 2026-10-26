@@ -28,8 +28,8 @@ if TYPE_CHECKING:
 
 class total_strain_principal_3(Operator):
     r"""Read/compute element nodal component total strains 3rd principal
-    component by calling the readers defined by the datasources and
-    computing its eigen values. This operation is independent of the
+    component, average on nodes by default if no target location is given,
+    and compute the eigen values. This operation is independent of the
     coordinate system unless averaging across elements is requested, in
     which case a rotation to the global coordinate system is performed. The
     off-diagonal strains are first converted from Voigt notation to the
@@ -155,8 +155,8 @@ class total_strain_principal_3(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Read/compute element nodal component total strains 3rd principal
-component by calling the readers defined by the datasources and
-computing its eigen values. This operation is independent of the
+component, average on nodes by default if no target location is given,
+and compute the eigen values. This operation is independent of the
 coordinate system unless averaging across elements is requested, in
 which case a rotation to the global coordinate system is performed. The
 off-diagonal strains are first converted from Voigt notation to the

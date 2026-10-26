@@ -94,6 +94,7 @@ optional inputs.
             map_output_pin_spec={
                 0: PinSpecification(
                     name="output",
+                    type_names=["any"],
                     optional=False,
                     document=r"""Returns primary_value if provided, otherwise default_value""",
                 ),

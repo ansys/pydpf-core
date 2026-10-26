@@ -193,14 +193,6 @@ dpf-standalone/
 
 search/
 
-# ansys-dpf-gate, ansys-grpc-dpf and ansys-dpg-gatebin
-src/ansys/dpf/gate/
-src/ansys/dpf/gatebin/
-src/ansys/grpc/
-
-# C extensions
-*.so
-
 # Ignore auto-generated API reference
 doc/source/api
 doc/source/examples

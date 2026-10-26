@@ -420,6 +420,10 @@ class WorkflowAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def work_flow_getoutput_string_data(wf, pin_name, data, size):
+		raise NotImplementedError
+
+	@staticmethod
 	def work_flow_getoutput_int(wf, pin_name):
 		raise NotImplementedError
 

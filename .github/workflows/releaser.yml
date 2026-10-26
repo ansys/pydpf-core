@@ -83,13 +83,13 @@ jobs:
           ls
 
       - name: "Upload artifact"
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: HTML-doc-ansys-dpf-core.zip
           path: HTML-doc-ansys-dpf-core.zip
 
       - name: "Deploy the stable documentation"
-        uses: ansys/actions/doc-deploy-stable@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
+        uses: ansys/actions/doc-deploy-stable@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -101,7 +101,7 @@ jobs:
   update_ansys_lab_examples:
     permissions:
       contents: write # Required by ansys_lab.yml deploy_examples job for git push
-    uses: ./.github/workflows/ansys_lab.yml
+    uses: $/.github/workflows/ansys_lab.yml
     needs: Publish_to_PyPI
     with:
       version: ${{ github.event.inputs.release_tag || needs.Publish_to_PyPI.outputs.version }}

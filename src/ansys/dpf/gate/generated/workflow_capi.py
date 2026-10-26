@@ -952,6 +952,15 @@ class WorkflowCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 		return newres
 
 	@staticmethod
+	def work_flow_getoutput_string_data(wf, pin_name, data, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.WorkFlow_getoutput_string_data(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), utils.to_char_ptr_ptr(data), size, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def work_flow_getoutput_int(wf, pin_name):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

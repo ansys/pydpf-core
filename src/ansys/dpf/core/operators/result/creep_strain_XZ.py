@@ -30,7 +30,8 @@ class creep_strain_XZ(Operator):
     r"""Read/compute element nodal component creep strains XZ shear component
     (02 component) by calling the readers defined by the datasources.
     Regarding the requested location and the input mesh scoping, the result
-    location can be Nodal/ElementalNodal/Elemental.
+    location can be Nodal/ElementalNodal/Elemental. Default: averaged on
+    nodes.
 
 
     Inputs
@@ -46,7 +47,7 @@ class creep_strain_XZ(Operator):
     data_sources: DataSources
         result file path container, used if no streams are set
     bool_rotate_to_global: bool, optional
-        if true the field is rotated to global coordinate system (default true)
+        if true the field is rotated to global coordinate system (default true). This input is ignored for PSD and Spectrum results.
     mesh: MeshedRegion or MeshesContainer, optional
         prevents from reading the mesh in the result files
     requested_location: str, optional
@@ -155,7 +156,8 @@ class creep_strain_XZ(Operator):
         description = r"""Read/compute element nodal component creep strains XZ shear component
 (02 component) by calling the readers defined by the datasources.
 Regarding the requested location and the input mesh scoping, the result
-location can be Nodal/ElementalNodal/Elemental.
+location can be Nodal/ElementalNodal/Elemental. Default: averaged on
+nodes.
 """
         spec = Specification(
             description=description,
@@ -201,7 +203,7 @@ location can be Nodal/ElementalNodal/Elemental.
                     name="bool_rotate_to_global",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""if true the field is rotated to global coordinate system (default true)""",
+                    document=r"""if true the field is rotated to global coordinate system (default true). This input is ignored for PSD and Spectrum results.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -465,7 +467,7 @@ class InputsCreepStrainXz(_Inputs):
     def bool_rotate_to_global(self) -> Input[bool]:
         r"""Allows to connect bool_rotate_to_global input to the operator.
 
-        if true the field is rotated to global coordinate system (default true)
+        if true the field is rotated to global coordinate system (default true). This input is ignored for PSD and Spectrum results.
 
         Returns
         -------

@@ -26,14 +26,13 @@ from __future__ import annotations
 
 from enum import Enum
 import os
-import traceback
 from typing import TYPE_CHECKING
-import warnings
 
 import numpy
 from packaging.version import Version
 
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.check_version import (
     server_meet_version,
@@ -43,7 +42,7 @@ from ansys.dpf.core.check_version import (
 from ansys.dpf.core.common import types, types_enum_to_types
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.config_proxy import _ConfigProxy
-from ansys.dpf.core.errors import DpfVersionNotSupported
+from ansys.dpf.core.errors import DPFServerException, DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.core.outputs import Output, Outputs, _Outputs
@@ -793,17 +792,7 @@ class Operator:
 
     def __del__(self):
         """Delete this instance."""
-        try:
-            if hasattr(self, "_deleter_func"):
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    self._deleter_func[0](obj)
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        release_dpf_object(self)
 
     def __str__(self):
         """Describe the entity.
@@ -848,15 +837,29 @@ class Operator:
         >>> normfc = math.norm_fc(disp_op).eval()
 
         """
-        if not pin:
+        if pin is None:
             if self.outputs != None and len(self.outputs._outputs) > 0:
-                return self.outputs._outputs[0]()
+                pin = self.outputs._outputs[0]._pin
             else:
                 self.run()
-        else:
-            for output in self.outputs._outputs:
-                if output._pin == pin:
-                    return output()
+                return
+
+        outputs = [output for output in self.outputs._outputs if output._pin == pin]
+        invalid_output_error = None
+        for output in outputs:
+            try:
+                return output()
+            except DPFServerException as error:
+                details = str(error)
+                if not (
+                    details.startswith('The requested Data format"')
+                    and details.endswith('" is not valid for this pin')
+                ):
+                    raise
+                invalid_output_error = error
+
+        if invalid_output_error is not None:
+            raise invalid_output_error
 
     def _find_outputs_corresponding_pins(  # noqa: PLR0912, C901
         self, type_names, inpt, pin, corresponding_pins, input_type_name

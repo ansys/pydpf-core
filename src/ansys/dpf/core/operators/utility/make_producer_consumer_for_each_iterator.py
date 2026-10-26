@@ -289,6 +289,7 @@ the producers and the consumers.
             map_output_pin_spec={
                 0: PinSpecification(
                     name="iterator",
+                    type_names=["any"],
                     optional=False,
                     document=r"""to connect to producer_consumer_for_each""",
                 ),

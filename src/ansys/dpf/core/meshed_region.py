@@ -33,12 +33,11 @@ if TYPE_CHECKING:  # pragma: nocover
     from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.server_types import AnyServerType
 
-import traceback
-import warnings
 
 import numpy as np
 
 from ansys.dpf.core import field, property_field, scoping, server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core.check_version import meets_version, version_requires
 from ansys.dpf.core.common import (
@@ -348,17 +347,7 @@ class MeshedRegion:
 
     def __del__(self):
         """Delete this instance of the meshed region."""
-        try:
-            if hasattr(self, "_deleter_func"):
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    self._deleter_func[0](obj)
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        release_dpf_object(self)
 
     def __str__(self):
         """Return string representation of the meshed region."""

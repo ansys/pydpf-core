@@ -23,12 +23,11 @@
 """ResultInfo."""
 
 from enum import Enum, unique
-import traceback
 from types import SimpleNamespace
 from typing import List, Union
-import warnings
 
 from ansys.dpf.core import available_result, collection_base, server as server_module, support
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.available_result import Homogeneity
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import locations
@@ -421,6 +420,12 @@ class ResultInfo:
         """Main title."""
         return self._api.result_info_get_main_title(self)
 
+    @main_title.setter
+    @version_requires("2027.1.0pre0")
+    def main_title(self, value):
+        """Set main title."""
+        self._api.result_info_set_main_title(self, value)
+
     @property
     def available_results(self):
         """Available results, containing all information about results present in the result files.
@@ -631,14 +636,4 @@ class ResultInfo:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            if hasattr(self, "_deleter_func"):
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    self._deleter_func[0](obj)
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        release_dpf_object(self)

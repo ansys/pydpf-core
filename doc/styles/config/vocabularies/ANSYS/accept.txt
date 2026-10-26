@@ -1,5 +1,6 @@
 (?i)ansys
 APIs
+astroid
 Abaqus
 CPython
 DPF [Ss]erver

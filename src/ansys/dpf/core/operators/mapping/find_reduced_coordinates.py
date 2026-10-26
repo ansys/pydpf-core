@@ -61,6 +61,20 @@ class find_reduced_coordinates(Operator):
     (``find_reduced_coordinates``), then evaluate field values at those
     locations (``on_reduced_coordinates``).
 
+    Element selection at boundaries
+    -------------------------------
+
+    When a query point lies near the boundary between adjacent elements, the
+    operator uses a distance-based selection strategy: - If the point passes
+    the tolerant box containment test for multiple elements, the operator
+    selects the element with the smallest computed distance to the point -
+    This ensures physically accurate element assignment, particularly
+    important for points on element edges/faces where numerical tolerance
+    could otherwise cause ambiguous assignments - Among multiple candidates,
+    Point Elements are only used if no other candidate is available; if no
+    candidate strictly contains the point, permissivity is allowed only when
+    a single candidate was found
+
 
     Inputs
     ------
@@ -72,6 +86,18 @@ class find_reduced_coordinates(Operator):
         - **FieldsContainer**: Multiple coordinate fields, typically organized by time step or spatial region. Each field is processed independently.
         - **MeshedRegion**: Node coordinates of the mesh are used as query points. Useful for evaluating fields at mesh nodes.
         - **MeshesContainer**: Multiple meshes whose node coordinates are used as query points.
+    locate_tolerance: float, optional
+        Tolerance used when locating query coordinates within elements.
+
+        **Default**: $5 \times 10^{-5}$
+
+        Lower values provide more accurate coordinate location but may fail for points near element boundaries. If no element is found at the specified tolerance, the tolerance is progressively relaxed up to a maximum of $0.1$.
+    search_tolerance: float, optional
+        Tolerance used when searching elements by the coordinates of the query points (first filter step).
+
+        **Default**: $1 \times 10^{-6}$
+
+        If the default value is used, and no element is found at the specified tolerance, the tolerance is progressively relaxed up.
     mesh: MeshedRegion or MeshesContainer, optional
         Mesh(es) defining the finite element domain where elements are searched. The operator searches for elements containing the query coordinates within this mesh.
 
@@ -115,6 +141,10 @@ class find_reduced_coordinates(Operator):
     >>> # Make input connections
     >>> my_coordinates = dpf.Field()
     >>> op.inputs.coordinates.connect(my_coordinates)
+    >>> my_locate_tolerance = float()
+    >>> op.inputs.locate_tolerance.connect(my_locate_tolerance)
+    >>> my_search_tolerance = float()
+    >>> op.inputs.search_tolerance.connect(my_search_tolerance)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_use_quadratic_elements = bool()
@@ -123,6 +153,8 @@ class find_reduced_coordinates(Operator):
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mapping.find_reduced_coordinates(
     ...     coordinates=my_coordinates,
+    ...     locate_tolerance=my_locate_tolerance,
+    ...     search_tolerance=my_search_tolerance,
     ...     mesh=my_mesh,
     ...     use_quadratic_elements=my_use_quadratic_elements,
     ... )
@@ -135,6 +167,8 @@ class find_reduced_coordinates(Operator):
     def __init__(
         self,
         coordinates=None,
+        locate_tolerance=None,
+        search_tolerance=None,
         mesh=None,
         use_quadratic_elements=None,
         config=None,
@@ -149,6 +183,10 @@ class find_reduced_coordinates(Operator):
         )
         if coordinates is not None:
             self.inputs.coordinates.connect(coordinates)
+        if locate_tolerance is not None:
+            self.inputs.locate_tolerance.connect(locate_tolerance)
+        if search_tolerance is not None:
+            self.inputs.search_tolerance.connect(search_tolerance)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if use_quadratic_elements is not None:
@@ -192,6 +230,20 @@ This operator is typically paired with ``on_reduced_coordinates`` to
 complete field interpolation: first find where points are located
 (``find_reduced_coordinates``), then evaluate field values at those
 locations (``on_reduced_coordinates``).
+
+Element selection at boundaries
+-------------------------------
+
+When a query point lies near the boundary between adjacent elements, the
+operator uses a distance-based selection strategy: - If the point passes
+the tolerant box containment test for multiple elements, the operator
+selects the element with the smallest computed distance to the point -
+This ensures physically accurate element assignment, particularly
+important for points on element edges/faces where numerical tolerance
+could otherwise cause ambiguous assignments - Among multiple candidates,
+Point Elements are only used if no other candidate is available; if no
+candidate strictly contains the point, permissivity is allowed only when
+a single candidate was found
 """
         spec = Specification(
             description=description,
@@ -212,6 +264,26 @@ locations (``on_reduced_coordinates``).
 - **FieldsContainer**: Multiple coordinate fields, typically organized by time step or spatial region. Each field is processed independently.
 - **MeshedRegion**: Node coordinates of the mesh are used as query points. Useful for evaluating fields at mesh nodes.
 - **MeshesContainer**: Multiple meshes whose node coordinates are used as query points.""",
+                ),
+                5: PinSpecification(
+                    name="locate_tolerance",
+                    type_names=["double"],
+                    optional=True,
+                    document=r"""Tolerance used when locating query coordinates within elements.
+
+**Default**: $5 \times 10^{-5}$
+
+Lower values provide more accurate coordinate location but may fail for points near element boundaries. If no element is found at the specified tolerance, the tolerance is progressively relaxed up to a maximum of $0.1$.""",
+                ),
+                6: PinSpecification(
+                    name="search_tolerance",
+                    type_names=["double"],
+                    optional=True,
+                    document=r"""Tolerance used when searching elements by the coordinates of the query points (first filter step).
+
+**Default**: $1 \times 10^{-6}$
+
+If the default value is used, and no element is found at the specified tolerance, the tolerance is progressively relaxed up.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -318,6 +390,10 @@ class InputsFindReducedCoordinates(_Inputs):
     >>> op = dpf.operators.mapping.find_reduced_coordinates()
     >>> my_coordinates = dpf.Field()
     >>> op.inputs.coordinates.connect(my_coordinates)
+    >>> my_locate_tolerance = float()
+    >>> op.inputs.locate_tolerance.connect(my_locate_tolerance)
+    >>> my_search_tolerance = float()
+    >>> op.inputs.search_tolerance.connect(my_search_tolerance)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_use_quadratic_elements = bool()
@@ -330,6 +406,14 @@ class InputsFindReducedCoordinates(_Inputs):
             Field | FieldsContainer | MeshedRegion | MeshesContainer
         ] = Input(find_reduced_coordinates._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._coordinates)
+        self._locate_tolerance: Input[float] = Input(
+            find_reduced_coordinates._spec().input_pin(5), 5, op, -1
+        )
+        self._inputs.append(self._locate_tolerance)
+        self._search_tolerance: Input[float] = Input(
+            find_reduced_coordinates._spec().input_pin(6), 6, op, -1
+        )
+        self._inputs.append(self._search_tolerance)
         self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
             find_reduced_coordinates._spec().input_pin(7), 7, op, -1
         )
@@ -367,6 +451,56 @@ class InputsFindReducedCoordinates(_Inputs):
         >>> op.inputs.coordinates(my_coordinates)
         """
         return self._coordinates
+
+    @property
+    def locate_tolerance(self) -> Input[float]:
+        r"""Allows to connect locate_tolerance input to the operator.
+
+        Tolerance used when locating query coordinates within elements.
+
+        **Default**: $5 \times 10^{-5}$
+
+        Lower values provide more accurate coordinate location but may fail for points near element boundaries. If no element is found at the specified tolerance, the tolerance is progressively relaxed up to a maximum of $0.1$.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mapping.find_reduced_coordinates()
+        >>> op.inputs.locate_tolerance.connect(my_locate_tolerance)
+        >>> # or
+        >>> op.inputs.locate_tolerance(my_locate_tolerance)
+        """
+        return self._locate_tolerance
+
+    @property
+    def search_tolerance(self) -> Input[float]:
+        r"""Allows to connect search_tolerance input to the operator.
+
+        Tolerance used when searching elements by the coordinates of the query points (first filter step).
+
+        **Default**: $1 \times 10^{-6}$
+
+        If the default value is used, and no element is found at the specified tolerance, the tolerance is progressively relaxed up.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mapping.find_reduced_coordinates()
+        >>> op.inputs.search_tolerance.connect(my_search_tolerance)
+        >>> # or
+        >>> op.inputs.search_tolerance(my_search_tolerance)
+        """
+        return self._search_tolerance
 
     @property
     def mesh(self) -> Input[MeshedRegion | MeshesContainer]:

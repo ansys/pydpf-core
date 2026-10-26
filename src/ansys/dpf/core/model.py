@@ -291,6 +291,7 @@ class Metadata:
 
     def __init__(self, data_sources, server):
         self._server = server
+        self._server._register_metadata(self)
         self._set_data_sources(data_sources)
         self._meshed_region = None
         self._meshes_container = None

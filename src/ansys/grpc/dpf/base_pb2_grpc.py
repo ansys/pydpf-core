@@ -84,6 +84,11 @@ class BaseServiceStub(object):
                 request_serializer=base__pb2.DuplicateRefRequest.SerializeToString,
                 response_deserializer=base__pb2.DuplicateRefResponse.FromString,
                 _registered_method=True)
+        self.ObjectsHoldSameData = channel.unary_unary(
+                '/ansys.api.dpf.base.v0.BaseService/ObjectsHoldSameData',
+                request_serializer=base__pb2.ObjectsHoldSameDataRequest.SerializeToString,
+                response_deserializer=base__pb2.ObjectsHoldSameDataResponse.FromString,
+                _registered_method=True)
         self.CreateTmpDir = channel.unary_unary(
                 '/ansys.api.dpf.base.v0.BaseService/CreateTmpDir',
                 request_serializer=base__pb2.Empty.SerializeToString,
@@ -178,6 +183,12 @@ class BaseServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ObjectsHoldSameData(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def CreateTmpDir(self, request, context):
         """creates a temporary dir server side
         """
@@ -266,6 +277,11 @@ def add_BaseServiceServicer_to_server(servicer, server):
                     servicer.DuplicateRef,
                     request_deserializer=base__pb2.DuplicateRefRequest.FromString,
                     response_serializer=base__pb2.DuplicateRefResponse.SerializeToString,
+            ),
+            'ObjectsHoldSameData': grpc.unary_unary_rpc_method_handler(
+                    servicer.ObjectsHoldSameData,
+                    request_deserializer=base__pb2.ObjectsHoldSameDataRequest.FromString,
+                    response_serializer=base__pb2.ObjectsHoldSameDataResponse.SerializeToString,
             ),
             'CreateTmpDir': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateTmpDir,
@@ -563,6 +579,33 @@ class BaseService(object):
             '/ansys.api.dpf.base.v0.BaseService/DuplicateRef',
             base__pb2.DuplicateRefRequest.SerializeToString,
             base__pb2.DuplicateRefResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ObjectsHoldSameData(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ansys.api.dpf.base.v0.BaseService/ObjectsHoldSameData',
+            base__pb2.ObjectsHoldSameDataRequest.SerializeToString,
+            base__pb2.ObjectsHoldSameDataResponse.FromString,
             options,
             channel_credentials,
             insecure,

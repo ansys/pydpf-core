@@ -25,7 +25,7 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import fields_factory
-from ansys.dpf.gate.dpf_vector import DPFVectorCustomType
+from ansys.dpf.gate import dpf_vector
 
 
 def test_perf_vec_setters(server_type):
@@ -108,4 +108,21 @@ def test_update_empty_dpf_vector_custom_type_field(server_type):
 
 def test_invalid_unitary_type_dpf_vector_custom_type(server_type):
     with pytest.raises(ValueError, match="DPFVectorCustomType: invalid unitary_type"):
-        DPFVectorCustomType(unitary_type=np.complex128)
+        dpf_vector.DPFVectorCustomType(unitary_type=np.complex128)
+
+
+@pytest.mark.parametrize(
+    "vector_type",
+    [
+        dpf_vector.DPFVectorBase,
+        dpf_vector.DPFVectorInt,
+        dpf_vector.DPFVectorDouble,
+        dpf_vector.DPFVectorCustomType,
+        dpf_vector.DPFVectorString,
+    ],
+)
+def test_dpf_vector_destructor_when_sys_is_cleared(monkeypatch, vector_type):
+    vector = object.__new__(vector_type)
+    monkeypatch.setattr(dpf_vector, "sys", None)
+
+    vector_type.__del__(vector)

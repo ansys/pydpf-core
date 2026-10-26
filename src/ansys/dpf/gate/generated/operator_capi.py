@@ -580,6 +580,15 @@ class OperatorCAPI(operator_abstract_api.OperatorAbstractAPI):
 		return newres
 
 	@staticmethod
+	def operator_getoutput_string_data(op, iOutput, data, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_getoutput_string_data(op._internal_obj if op is not None else None, utils.to_int32(iOutput), utils.to_char_ptr_ptr(data), size, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def operator_getoutput_bytearray(op, iOutput, size):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

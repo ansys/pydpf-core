@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 class cplx_multiply(Operator):
     r"""Computes the standard `complex
-    multiplication <https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_square>`__
+    multiplication <https://en.wikipedia.org/wiki/Complex_number#Multiplication>`__
     :math:`z_1 \cdot z_2` for matching fields in two complex-valued fields
     containers:
     :math:`\mathrm{Re}(z_\mathrm{out})[i] = \mathrm{Re}_1 \mathrm{Re}_2 - \mathrm{Im}_1 \mathrm{Im}_2`,
@@ -80,7 +80,7 @@ class cplx_multiply(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Computes the standard `complex
-multiplication <https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_square>`__
+multiplication <https://en.wikipedia.org/wiki/Complex_number#Multiplication>`__
 :math:`z_1 \cdot z_2` for matching fields in two complex-valued fields
 containers:
 :math:`\mathrm{Re}(z_\mathrm{out})[i] = \mathrm{Re}_1 \mathrm{Re}_2 - \mathrm{Im}_1 \mathrm{Im}_2`,

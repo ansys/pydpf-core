@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: PyAnsys Vulnerability check (on ${{ github.ref == 'refs/heads/main' && 'main' || 'dev mode' }})
-        uses: ansys/actions/check-vulnerabilities@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
+        uses: ansys/actions/check-vulnerabilities@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
         with:
           python-version: "3.12"
           python-package-name: "ansys-dpf-core"
@@ -58,7 +58,19 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: ansys/actions/check-actions-security@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
+      - uses: ansys/actions/check-actions-security@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
+
+  check-licenses:
+    name: "Check library dependencies ship with valid licenses"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: "Validate third party licenses"
+        uses: ansys/actions/check-licenses@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
+        with:
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}
+          target: 'all'
 
   pick_server_suffix:
     name: "Pick Server Suffix"
@@ -101,41 +113,38 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: ansys/actions/code-style@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
+      - uses: ansys/actions/code-style@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
         with:
           use-python-cache: false
 
-  build_linux1:
-    name: "Build linux1 wheel"
-    runs-on: ubuntu-latest
+  build-wheels:
+    name: "Build ${{ matrix.name }} wheel"
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
+    env:
+      ANSYS_DPF_WHEEL_PLATFORM: ${{ matrix.platform-tag }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: 'any'
+            platform-tag: 'any'
+            os: ubuntu-latest
+          - name: 'linux1'
+            platform-tag: 'manylinux1'
+            os: ubuntu-latest
+          - name: 'linux'
+            platform-tag: 'manylinux_2_17'
+            os: ubuntu-latest
+          - name: 'windows'
+            platform-tag: 'win'
+            os: windows-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ansys/actions/build-library@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
         with:
-          persist-credentials: false
-
-      - name: "Install requirements"
-        run: |
-          pip install -U pip
-          pip install --group build
-
-      - name: "Build the manylinux1 wheel"
-        shell: bash
-        id: wheel
-        run: |
-          python .ci/build_wheel.py -p manylinux1
-          cd dist
-          export name=`ls ansys_dpf_core*.whl`
-          echo ${name}
-          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-          cd ..
-
-      - name: "Upload wheel any as artifact"
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: ${{ steps.wheel.outputs.wheel_name }}
-          path: dist/${{ steps.wheel.outputs.wheel_name }}
+          library-name: "ansys-dpf-core"
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}
 
   tests-latest:
     name: "Test ${{ matrix.test-any == 'true' && 'any' || 'platform-specific' }} wheel against latest DPF version"
@@ -145,12 +154,11 @@ jobs:
       fail-fast: false
       matrix:
         test-any: ['false', 'true']
-    uses: ./.github/workflows/tests.yml
+    uses: $/.github/workflows/tests.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
       python_versions: '["3.10"]'
-      wheel: true
       wheelhouse: false
       standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_any: ${{ matrix.test-any }}
@@ -164,7 +172,7 @@ jobs:
     name: "Build and Test on Docker"
     permissions:
       contents: read # Required by test_docker.yml jobs
-    uses: ./.github/workflows/test_docker.yml
+    uses: $/.github/workflows/test_docker.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -178,7 +186,7 @@ jobs:
     name: "Run examples on Docker"
     permissions:
       contents: read # Required by examples_docker.yml jobs
-    uses: ./.github/workflows/examples_docker.yml
+    uses: $/.github/workflows/examples_docker.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -194,7 +202,7 @@ jobs:
     permissions:
       contents: read # Required by docs.yml jobs
       pull-requests: write # Required by doc-style job
-    uses: ./.github/workflows/docs.yml
+    uses: $/.github/workflows/docs.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -214,7 +222,7 @@ jobs:
       contents: write # Required for pushing documentation to gh-pages
       pull-requests: write # Required for posting deployment status comments
     steps:
-      - uses: ansys/actions/doc-deploy-pr@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
+      - uses: ansys/actions/doc-deploy-pr@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
@@ -235,7 +243,7 @@ jobs:
       pull-requests: write # Required for posting deployment status comments
     steps:
       - name: "Upload development documentation"
-        uses: ansys/actions/doc-deploy-dev@7e89e00c5619374a1da8c2e876309d8b15ff0559 # v11.0.3
+        uses: ansys/actions/doc-deploy-dev@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -249,7 +257,7 @@ jobs:
       (startsWith(github.head_ref, 'main') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft)
     permissions:
       contents: read # Required by examples.yml jobs
-    uses: ./.github/workflows/examples.yml
+    uses: $/.github/workflows/examples.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -266,7 +274,7 @@ jobs:
     permissions:
       contents: read # Required by pydpf-post.yml jobs
       pull-requests: write # Required for posting test outcome comments
-    uses: ./.github/workflows/pydpf-post.yml
+    uses: $/.github/workflows/pydpf-post.yml
     needs: pick_server_suffix
     with:
       ANSYS_VERSION: ${{ inputs.ansys_version || vars.ANSYS_VERSION_DEFAULT }}
@@ -293,7 +301,7 @@ jobs:
         include:
           - version: ${{ fromJson(vars.ANSYS_VERSION_LAST_RELEASED_WITH_PATCH) }}
             docstring: "true"
-    uses: ./.github/workflows/tests.yml
+    uses: $/.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ matrix.version.version }}
       python_versions: '["3.10"]'

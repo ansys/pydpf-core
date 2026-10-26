@@ -35,6 +35,7 @@ import os
 from pathlib import Path
 import platform
 import socket
+import subprocess  # nosec B404
 import sys
 import traceback
 from typing import Union
@@ -59,6 +60,48 @@ from ansys.dpf.core.server_types import (  # noqa: F401  # pylint: disable=unuse
     AnyServerType,
     BaseServer,
 )
+
+
+def _get_docker_container_ip(container_id: str) -> str:
+    """Return the IP address of a running Docker container using ``docker inspect``."""
+    result = subprocess.run(  # nosec B603 B607
+        [
+            "docker",
+            "inspect",
+            "-f",
+            "{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}",
+            container_id,
+        ],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return result.stdout.split()[0]
+
+
+def get_server_address(server: AnyServerType) -> str:
+    """Return the ``ip:port`` address for communication between DPF servers.
+
+    Parameters
+    ----------
+    server : AnyServerType
+        DPF gRPC server whose address is requested.
+
+    Returns
+    -------
+    str
+        Server address in the form ``ip:port``.
+
+    Notes
+    -----
+    For a server running in Docker, the container IP on the Docker network is
+    retrieved using the Docker CLI instead of the IP reported by the server.
+    The calling server must be able to reach that network. If the container has
+    multiple networks, the first IP returned by ``docker inspect`` is used.
+    """
+    if server.docker_config.use_docker:
+        return f"{_get_docker_container_ip(server.docker_config.server_id)}:{server.port}"
+    return f"{server.ip}:{server.port}"
 
 
 def shutdown_global_server():

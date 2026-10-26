@@ -18,6 +18,7 @@ from .mesh_extraction import mesh_extraction
 from .mesh_get_attribute import mesh_get_attribute
 from .mesh_plan_clip import mesh_plan_clip
 from .mesh_provider import mesh_provider
+from .mesh_set_attribute import mesh_set_attribute
 from .mesh_to_graphics import mesh_to_graphics
 from .mesh_to_graphics_edges import mesh_to_graphics_edges
 from .mesh_to_pyvista import mesh_to_pyvista

@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
 
 class prns_to_field(Operator):
-    r"""Read the presol of nodal field generated file from mapdl.
+    r"""Read the prnsol of nodal field generated file from mapdl.
 
 
     Inputs
@@ -72,7 +72,7 @@ class prns_to_field(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Read the presol of nodal field generated file from mapdl.
+        description = r"""Read the prnsol of nodal field generated file from mapdl.
 """
         spec = Specification(
             description=description,

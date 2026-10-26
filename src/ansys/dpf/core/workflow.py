@@ -27,14 +27,13 @@ from __future__ import annotations
 from enum import Enum
 import os
 from pathlib import Path
-import traceback
 from typing import Union
-import warnings
 
 import numpy
 
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs, server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.check_version import (
     server_meet_version,
     server_meet_version_and_raise,
@@ -1014,16 +1013,9 @@ class Workflow:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            if hasattr(self, "_internal_obj"):
-                if self._internal_obj is not None and self._internal_obj != "None":
-                    self._deleter_func[0](self._deleter_func[1](self))
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        internal_obj = getattr(self, "_internal_obj", None)
+        if internal_obj is not None and internal_obj != "None":
+            release_dpf_object(self)
 
     def __str__(self):
         """Describe the entity.

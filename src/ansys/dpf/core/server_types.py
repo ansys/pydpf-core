@@ -44,11 +44,13 @@ import time
 import traceback
 from typing import TYPE_CHECKING, Union
 import warnings
+import weakref
 
 import psutil
 
 from ansys.dpf import core
 from ansys.dpf.core import __version__, errors, server_context, server_factory
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core._version import (
     CALENDAR_VERSIONING_FIRST_MAJOR,
     min_server_version,
@@ -119,6 +121,37 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
     return dpf_run_dir
 
 
+def _build_launch_server_command(  # noqa: PLR0913
+    executable,
+    ip,
+    port,
+    context: ServerContext = None,
+    grpc_mode: server_factory.GrpcMode = server_factory.DEFAULT_GRPC_MODE,
+    certificates_dir: Path = None,
+    platform_name: str = os.name,
+):
+    """Build a local server command without loading native libraries or starting a process."""
+    run_cmd = [executable, "--address", str(ip), "--port", str(port)]
+    if context not in (
+        None,
+        AvailableServerContexts.entry,
+        AvailableServerContexts.premium,
+    ):
+        if context.licensing_context_type == CUSTOM_XML_CONTEXT_TYPE and len(context.xml_path) > 0:
+            run_cmd.extend(["--context", context.xml_path])
+        else:
+            run_cmd.extend(["--context", str(int(context.licensing_context_type))])
+
+    if grpc_mode == server_factory.GrpcMode.Insecure:
+        run_cmd.extend(["--mode", "0"])
+    elif grpc_mode == server_factory.GrpcMode.mTLS:
+        run_cmd.extend(["--mode", "3"])
+        if certificates_dir is not None and isinstance(certificates_dir, Path):
+            run_cmd.extend(["--certs-dir", str(certificates_dir)])
+
+    return subprocess.list2cmdline(run_cmd) if platform_name == "nt" else run_cmd
+
+
 def _run_launch_server_process(  # noqa: PLR0913
     ip,
     port,
@@ -135,41 +168,18 @@ def _run_launch_server_process(  # noqa: PLR0913
         if os.name == "posix":
             bShell = True
         run_cmd = docker_config.docker_run_cmd_command(docker_server_port, port)
+        if os.name == "nt":
+            run_cmd = " ".join(run_cmd)
     else:
-        run_cmd = []
         if os.name == "nt":
             executable = "Ans.Dpf.Grpc.bat"
-            run_cmd.append(executable)
         else:
             executable = "./Ans.Dpf.Grpc.sh"  # pragma: no cover
-            run_cmd.append(executable)
-
-        run_cmd.append(f"--address {ip}")
-        run_cmd.append(f"--port {port}")
-        if context not in (
-            None,
-            AvailableServerContexts.entry,
-            AvailableServerContexts.premium,
-        ):
-            if (
-                context.licensing_context_type == CUSTOM_XML_CONTEXT_TYPE
-                and len(context.xml_path) > 0
-            ):  # 2 == custom xml
-                run_cmd.append(f"--context {context.xml_path}")
-            else:
-                run_cmd.append(f"--context {int(context.licensing_context_type)}")
-
-        if grpc_mode == server_factory.GrpcMode.Insecure:
-            run_cmd.append("--mode 0")
-        elif grpc_mode == server_factory.GrpcMode.mTLS:
-            run_cmd.append("--mode 3")
-            if certificates_dir is not None and isinstance(certificates_dir, Path):
-                run_cmd.append(f"--certs-dir {str(certificates_dir)}")
-
+        run_cmd = _build_launch_server_command(
+            executable, ip, port, context, grpc_mode, certificates_dir, platform_name=os.name
+        )
         path_in_install = load_api._get_path_in_install(internal_folder="bin")
         dpf_run_dir = _verify_ansys_path_is_valid(ansys_path, executable, path_in_install)
-    if os.name == "nt":
-        run_cmd = " ".join(run_cmd)
     old_dir = Path.cwd()
     os.chdir(dpf_run_dir)
     process = subprocess.Popen(
@@ -477,6 +487,10 @@ class BaseServer(abc.ABC):
         self._info_instance = None
         self._docker_config = server_factory.RunningDockerConfig()
         self._server_meet_version = {}
+        self._metadata_instances = weakref.WeakSet()
+
+    def _register_metadata(self, metadata):
+        self._metadata_instances.add(metadata)
 
     def set_as_global(self, as_global=True):
         """Set the current server as global if necessary.
@@ -771,6 +785,8 @@ class CServer(BaseServer, ABC):
         Warning
             If an exception occurs while attempting to delete resources.
         """
+        if sys is None or sys.is_finalizing():
+            return
         try:
             self._del_session()
             if self._own_process:
@@ -813,17 +829,7 @@ class GrpcClient:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            if hasattr(self, "_deleter_func"):
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    self._deleter_func[0](obj)
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        release_dpf_object(self)
 
 
 class GrpcServer(CServer):
@@ -1250,7 +1256,8 @@ class InProcessServer(CServer):
         return os.name
 
     def shutdown(self):  # noqa: D102
-        pass
+        for metadata in self._metadata_instances:
+            metadata.release_streams()
 
     __hash__ = None
 
@@ -1678,6 +1685,8 @@ class LegacyGrpcServer(BaseServer):
         Warning
             If an exception occurs while attempting to delete resources.
         """
+        if sys is None or sys.is_finalizing():
+            return
         try:
             self._del_session()
             if self._own_process:

@@ -291,6 +291,7 @@ from .pres_to_field import pres_to_field
 from .pressure import pressure
 from .pretension import pretension
 from .prns_to_field import prns_to_field
+from .prrs_to_field import prrs_to_field
 from .radiation_area import radiation_area
 from .radiation_heat_flow_rate import radiation_heat_flow_rate
 from .raw_acceleration import raw_acceleration

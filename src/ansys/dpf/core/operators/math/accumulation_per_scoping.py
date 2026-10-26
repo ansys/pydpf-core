@@ -16,11 +16,9 @@ from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.data_sources import DataSources
     from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.scoping import Scoping
     from ansys.dpf.core.scopings_container import ScopingsContainer
-    from ansys.dpf.core.streams_container import StreamsContainer
 
 
 class accumulation_per_scoping(Operator):
@@ -34,11 +32,6 @@ class accumulation_per_scoping(Operator):
     The master sum is computed by summing all entity values of the input
     fields container restricted to the master scoping when provided, or of
     the full input fields container otherwise.
-
-    For cyclic and multistage models, the master scoping and the input
-    scopings container are first expanded to the full mesh. When a master
-    scoping is provided, each scoping in the input scopings container is
-    intersected with it before accumulation.
 
     Each output field contains one entity per scoping plus one master
     entity: - entity id :math:`0` holds the master sum (or :math:`100\%` for
@@ -56,10 +49,6 @@ class accumulation_per_scoping(Operator):
         Fields container containing the values to accumulate per scoping.
     mesh_scoping: Scoping, optional
         Master scoping. When provided, each scoping in the input scopings container is intersected with it, and the master sum is computed over this scoping. When omitted, the master sum is computed over the full input fields container and no intersection is performed.
-    streams_container: StreamsContainer, optional
-        Streams describing the source result file. Required when no data sources is provided. Used to detect cyclic and multistage models and expand the scopings accordingly. Takes precedence over the data sources when both are provided.
-    data_sources: DataSources, optional
-        Data sources describing the source result file. Required when no streams is provided. Used to detect cyclic and multistage models and expand the scopings accordingly.
     scopings_container: ScopingsContainer
         Scopings container. The sum of the input fields container is computed over each scoping it contains. Must contain at least one scoping.
 
@@ -82,10 +71,6 @@ class accumulation_per_scoping(Operator):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
-    >>> my_streams_container = dpf.StreamsContainer()
-    >>> op.inputs.streams_container.connect(my_streams_container)
-    >>> my_data_sources = dpf.DataSources()
-    >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_scopings_container = dpf.ScopingsContainer()
     >>> op.inputs.scopings_container.connect(my_scopings_container)
 
@@ -93,8 +78,6 @@ class accumulation_per_scoping(Operator):
     >>> op = dpf.operators.math.accumulation_per_scoping(
     ...     fields_container=my_fields_container,
     ...     mesh_scoping=my_mesh_scoping,
-    ...     streams_container=my_streams_container,
-    ...     data_sources=my_data_sources,
     ...     scopings_container=my_scopings_container,
     ... )
 
@@ -107,8 +90,6 @@ class accumulation_per_scoping(Operator):
         self,
         fields_container=None,
         mesh_scoping=None,
-        streams_container=None,
-        data_sources=None,
         scopings_container=None,
         config=None,
         server=None,
@@ -124,10 +105,6 @@ class accumulation_per_scoping(Operator):
             self.inputs.fields_container.connect(fields_container)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
-        if streams_container is not None:
-            self.inputs.streams_container.connect(streams_container)
-        if data_sources is not None:
-            self.inputs.data_sources.connect(data_sources)
         if scopings_container is not None:
             self.inputs.scopings_container.connect(scopings_container)
 
@@ -143,11 +120,6 @@ label (time, complex, or other).
 The master sum is computed by summing all entity values of the input
 fields container restricted to the master scoping when provided, or of
 the full input fields container otherwise.
-
-For cyclic and multistage models, the master scoping and the input
-scopings container are first expanded to the full mesh. When a master
-scoping is provided, each scoping in the input scopings container is
-intersected with it before accumulation.
 
 Each output field contains one entity per scoping plus one master
 entity: - entity id :math:`0` holds the master sum (or :math:`100\%` for
@@ -172,18 +144,6 @@ epsilon.
                     type_names=["scoping"],
                     optional=True,
                     document=r"""Master scoping. When provided, each scoping in the input scopings container is intersected with it, and the master sum is computed over this scoping. When omitted, the master sum is computed over the full input fields container and no intersection is performed.""",
-                ),
-                3: PinSpecification(
-                    name="streams_container",
-                    type_names=["streams_container"],
-                    optional=True,
-                    document=r"""Streams describing the source result file. Required when no data sources is provided. Used to detect cyclic and multistage models and expand the scopings accordingly. Takes precedence over the data sources when both are provided.""",
-                ),
-                4: PinSpecification(
-                    name="data_sources",
-                    type_names=["data_sources"],
-                    optional=True,
-                    document=r"""Data sources describing the source result file. Required when no streams is provided. Used to detect cyclic and multistage models and expand the scopings accordingly.""",
                 ),
                 5: PinSpecification(
                     name="scopings_container",
@@ -265,10 +225,6 @@ class InputsAccumulationPerScoping(_Inputs):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
-    >>> my_streams_container = dpf.StreamsContainer()
-    >>> op.inputs.streams_container.connect(my_streams_container)
-    >>> my_data_sources = dpf.DataSources()
-    >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_scopings_container = dpf.ScopingsContainer()
     >>> op.inputs.scopings_container.connect(my_scopings_container)
     """
@@ -283,14 +239,6 @@ class InputsAccumulationPerScoping(_Inputs):
             accumulation_per_scoping._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_scoping)
-        self._streams_container: Input[StreamsContainer] = Input(
-            accumulation_per_scoping._spec().input_pin(3), 3, op, -1
-        )
-        self._inputs.append(self._streams_container)
-        self._data_sources: Input[DataSources] = Input(
-            accumulation_per_scoping._spec().input_pin(4), 4, op, -1
-        )
-        self._inputs.append(self._data_sources)
         self._scopings_container: Input[ScopingsContainer] = Input(
             accumulation_per_scoping._spec().input_pin(5), 5, op, -1
         )
@@ -337,48 +285,6 @@ class InputsAccumulationPerScoping(_Inputs):
         >>> op.inputs.mesh_scoping(my_mesh_scoping)
         """
         return self._mesh_scoping
-
-    @property
-    def streams_container(self) -> Input[StreamsContainer]:
-        r"""Allows to connect streams_container input to the operator.
-
-        Streams describing the source result file. Required when no data sources is provided. Used to detect cyclic and multistage models and expand the scopings accordingly. Takes precedence over the data sources when both are provided.
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.math.accumulation_per_scoping()
-        >>> op.inputs.streams_container.connect(my_streams_container)
-        >>> # or
-        >>> op.inputs.streams_container(my_streams_container)
-        """
-        return self._streams_container
-
-    @property
-    def data_sources(self) -> Input[DataSources]:
-        r"""Allows to connect data_sources input to the operator.
-
-        Data sources describing the source result file. Required when no streams is provided. Used to detect cyclic and multistage models and expand the scopings accordingly.
-
-        Returns
-        -------
-        input:
-            An Input instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.math.accumulation_per_scoping()
-        >>> op.inputs.data_sources.connect(my_data_sources)
-        >>> # or
-        >>> op.inputs.data_sources(my_data_sources)
-        """
-        return self._data_sources
 
     @property
     def scopings_container(self) -> Input[ScopingsContainer]:

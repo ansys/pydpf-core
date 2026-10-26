@@ -26,12 +26,10 @@ Any.
 Module containing the wrapper class representing all supported DPF datatypes.
 """
 
-import traceback
-import warnings
-
 import numpy as np
 
 from ansys.dpf.core import errors, server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.check_version import server_meet_version, server_meet_version_and_raise
 from ansys.dpf.core.common import create_dpf_instance
 import ansys.dpf.core.server_types
@@ -66,6 +64,7 @@ class Any:
         self._api_instance = None
 
         # step 2: if object exists, take the instance, else create it
+        self._internal_obj = None
         if any_dpf is not None:
             self._internal_obj = any_dpf
 
@@ -109,6 +108,39 @@ class Any:
         else:
             return self._api.any_new_from_string_on_client(client, str)
 
+    @staticmethod
+    def _check_native_backend_any_support(obj, server):
+        from ansys.dpf.core import (
+            meshed_region,
+            meshes_container,
+            result_info,
+            scopings_container,
+            time_freq_support,
+        )
+        from ansys.dpf.gate import dpf_vector
+
+        if issubclass(obj, meshed_region.MeshedRegion):
+            server_meet_version_and_raise(
+                "8.0",
+                server,
+                "MeshedRegion Any conversion requires server versions starting at 2024 R2 (24.2).",
+            )
+        elif any(
+            issubclass(obj, supported_type)
+            for supported_type in (
+                meshes_container.MeshesContainer,
+                scopings_container.ScopingsContainer,
+                time_freq_support.TimeFreqSupport,
+                result_info.ResultInfo,
+                dpf_vector.DPFVectorDouble,
+            )
+        ):
+            server_meet_version_and_raise(
+                "2027.1.0pre0",
+                server,
+                "This Any conversion requires server versions starting at 2027 R1 (27.1).",
+            )
+
     def _type_to_new_from_get_as_method(self, obj):  # noqa: PLR0911, PLR0912, C901
         from ansys.dpf.core import (
             collection,
@@ -121,9 +153,15 @@ class Any:
             fields_container,
             generic_data_container,
             generic_support,
+            meshed_region,
+            meshes_container,
             property_field,
+            result_info,
             scoping,
+            scopings_container,
+            streams_container,
             string_field,
+            time_freq_support,
             workflow,
         )
 
@@ -153,6 +191,16 @@ class Any:
             )
         elif issubclass(obj, field.Field):
             return self._api.any_new_from_field, self._api.any_get_as_field
+        elif issubclass(obj, meshed_region.MeshedRegion):
+            return (
+                self._api.any_new_from_meshed_region,
+                self._api.any_get_as_meshed_region,
+            )
+        elif issubclass(obj, meshes_container.MeshesContainer):
+            return (
+                self._api.any_new_from_meshes_container,
+                self._api.any_get_as_meshes_container,
+            )
         elif issubclass(obj, property_field.PropertyField):
             return (
                 self._api.any_new_from_property_field,
@@ -177,6 +225,11 @@ class Any:
             return (
                 self._api.any_new_from_scoping,
                 self._api.any_get_as_scoping,
+            )
+        elif issubclass(obj, scopings_container.ScopingsContainer):
+            return (
+                self._api.any_new_from_scopings_container,
+                self._api.any_get_as_scopings_container,
             )
         elif issubclass(obj, data_tree.DataTree):
             return (
@@ -203,6 +256,11 @@ class Any:
                 self._api.any_new_from_int_collection,
                 self._api.any_get_as_int_collection,
             )
+        elif issubclass(obj, dpf_vector.DPFVectorDouble):
+            return (
+                self._api.any_new_from_double_collection,
+                self._api.any_get_as_double_collection,
+            )
         elif issubclass(obj, dpf_operator.Operator):
             return (
                 self._api.any_new_from_operator,
@@ -217,6 +275,21 @@ class Any:
             return (
                 self._api.any_new_from_generic_support,
                 self._api.any_get_as_generic_support,
+            )
+        elif issubclass(obj, time_freq_support.TimeFreqSupport):
+            return (
+                self._api.any_new_from_time_freq_support,
+                self._api.any_get_as_time_freq_support,
+            )
+        elif issubclass(obj, result_info.ResultInfo):
+            return (
+                self._api.any_new_from_result_info,
+                self._api.any_get_as_result_info,
+            )
+        elif issubclass(obj, streams_container.StreamsContainer):
+            return (
+                self._api.any_new_from_streams,
+                self._api.any_get_as_streams,
             )
         elif issubclass(obj, cyclic_support.CyclicSupport):
             return (
@@ -247,6 +320,7 @@ class Any:
         if not inner_server.meet_version("7.0"):
             raise errors.DpfVersionNotSupported("7.0")
 
+        Any._check_native_backend_any_support(type(obj), inner_server)
         any_dpf = Any(server=inner_server)
 
         type_tuple = any_dpf._type_to_new_from_get_as_method(type(obj))
@@ -264,8 +338,7 @@ class Any:
 
             return any_dpf
         elif isinstance(obj, (list, np.ndarray)):
-            type_tuple = any_dpf._type_to_new_from_get_as_method(dpf_vector.DPFVectorInt)
-            from ansys.dpf.core import collection
+            from ansys.dpf.core import collection, collection_base
 
             if server_meet_version_and_raise(
                 "9.0",
@@ -275,8 +348,15 @@ class Any:
                 "server versions starting at 9.0",
             ):
                 inpt = collection.CollectionBase.integral_collection(obj, inner_server)
+                vector_type = (
+                    dpf_vector.DPFVectorDouble
+                    if isinstance(inpt, collection_base.FloatCollection)
+                    else dpf_vector.DPFVectorInt
+                )
+                any_dpf._check_native_backend_any_support(vector_type, inner_server)
+                type_tuple = any_dpf._type_to_new_from_get_as_method(vector_type)
                 any_dpf._internal_obj = type_tuple[0](inpt)
-                any_dpf._internal_type = dpf_vector.DPFVectorInt
+                any_dpf._internal_type = vector_type
                 any_dpf._get_as_method = type_tuple[1]
                 return any_dpf
 
@@ -324,6 +404,7 @@ class Any:
 
         type_tuple = self._type_to_new_from_get_as_method(self._internal_type)
         if type_tuple is not None:
+            self._check_native_backend_any_support(self._internal_type, self._server)
             internal_obj = type_tuple[1](self)
             if (
                 self._internal_type is int
@@ -342,14 +423,4 @@ class Any:
 
     def __del__(self):
         """Delete the entry."""
-        try:
-            if hasattr(self, "_deleter_func"):
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    self._deleter_func[0](obj)
-        except Exception:
-            # During interpreter shutdown, ``warnings``/``traceback`` may be None.
-            warn = getattr(warnings, "warn", None)
-            format_exc = getattr(traceback, "format_exc", None)
-            if warn is not None and format_exc is not None:
-                warn(format_exc())
+        release_dpf_object(self)
