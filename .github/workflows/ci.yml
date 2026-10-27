@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: PyAnsys Vulnerability check (on ${{ github.ref == 'refs/heads/main' && 'main' || 'dev mode' }})
-        uses: ansys/actions/check-vulnerabilities@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
+        uses: ansys/actions/check-vulnerabilities@a5c8d0d92928e144130a3c64aa7200b9547785de # v11.1.3
         with:
           python-version: "3.12"
           python-package-name: "ansys-dpf-core"
@@ -58,7 +58,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: ansys/actions/check-actions-security@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
+      - uses: ansys/actions/check-actions-security@a5c8d0d92928e144130a3c64aa7200b9547785de # v11.1.3
 
   check-licenses:
     name: "Check library dependencies ship with valid licenses"
@@ -67,7 +67,7 @@ jobs:
       contents: read
     steps:
       - name: "Validate third party licenses"
-        uses: ansys/actions/check-licenses@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
+        uses: ansys/actions/check-licenses@a5c8d0d92928e144130a3c64aa7200b9547785de # v11.1.3
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
           target: 'all'
@@ -113,7 +113,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: ansys/actions/code-style@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
+      - uses: ansys/actions/code-style@a5c8d0d92928e144130a3c64aa7200b9547785de # v11.1.3
         with:
           use-python-cache: false
 
@@ -141,7 +141,7 @@ jobs:
             platform-tag: 'win'
             os: windows-latest
     steps:
-      - uses: ansys/actions/build-library@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
+      - uses: ansys/actions/build-library@a5c8d0d92928e144130a3c64aa7200b9547785de # v11.1.3
         with:
           library-name: "ansys-dpf-core"
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
@@ -222,7 +222,7 @@ jobs:
       contents: write # Required for pushing documentation to gh-pages
       pull-requests: write # Required for posting deployment status comments
     steps:
-      - uses: ansys/actions/doc-deploy-pr@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
+      - uses: ansys/actions/doc-deploy-pr@a5c8d0d92928e144130a3c64aa7200b9547785de # v11.1.3
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
@@ -243,7 +243,7 @@ jobs:
       pull-requests: write # Required for posting deployment status comments
     steps:
       - name: "Upload development documentation"
-        uses: ansys/actions/doc-deploy-dev@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
+        uses: ansys/actions/doc-deploy-dev@a5c8d0d92928e144130a3c64aa7200b9547785de # v11.1.3
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
