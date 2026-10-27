@@ -102,7 +102,7 @@ jobs:
 
       - name: "Install DPF"
         id: set-server-path
-        uses: ansys/pydpf-actions/install-dpf-server@2edfdd9c113f149a5eda0d09c3bf56d031e765a1 # v2.4
+        uses: ansys/pydpf-actions/install-dpf-server@c672fc3844d1606e8dc650ee3ab634be7ea60916 # v2.4
         with:
           dpf-standalone-TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
@@ -114,7 +114,7 @@ jobs:
         run: python -c "from ansys.dpf import core"
 
       - name: "Prepare Testing Environment"
-        uses: ansys/pydpf-actions/prepare_tests@2edfdd9c113f149a5eda0d09c3bf56d031e765a1 # v2.4
+        uses: ansys/pydpf-actions/prepare_tests@c672fc3844d1606e8dc650ee3ab634be7ea60916 # v2.4
         with:
           DEBUG: true
           install-from-dependency-groups: "true"
