@@ -167,16 +167,21 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
     @staticmethod
     def data_processing_load_library_on_client(sLibraryKey, sDllPath, sloader_symbol, client):
         from ansys.grpc.dpf import base_pb2
+        from grpc import RpcError
+
         request = base_pb2.PluginRequest()
         request.name = sLibraryKey
         request.dllPath = sDllPath
         request.symbol = sloader_symbol
         try:
             _get_stub(client).Load(request)
-        except Exception as e:
+        except Exception as error:
+            details = error.details() if isinstance(error, RpcError) else None
+            if errors._parse_structured_error(details) is not None:
+                raise errors.DPFServerException(details) from None
             raise errors.DPFServerException(
                 f'Unable to load library "{sDllPath}". File may not exist or'
-                f" is missing dependencies:\n{str(e)}"
+                f" is missing dependencies:\n{str(error)}"
             )
 
     @staticmethod

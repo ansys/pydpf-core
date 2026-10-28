@@ -194,30 +194,34 @@ def record_operator(operator_type, *args) -> None:
         Forwarded arguments passed in ``load_operators`` method
 
     """
-    if isinstance(operator_type, type):
-        operator = operator_type()
-    else:
-        operator = operator_type
-    if dpf.SERVER is None:
-        settings.set_server_configuration(server_factory.ServerConfig(None, False))
-        server.start_local_server(context=AvailableServerContexts.premium)
-    if len(args) == 2:  # noqa: PLR2004
-        external_operator_api.external_operator_record_with_abstract_core_and_wrapper(
-            operator._call_back(),
-            __operator_main__,
-            operator.name,
-            operator._internal_specification,
-            ctypes.c_void_p(*args[0]),
-            ctypes.c_void_p(*args[1]),
-        )
-    else:
-        external_operator_api.external_operator_record_with_abstract_core(
-            operator._call_back(),
-            __operator_main__,
-            operator.name,
-            operator._internal_specification,
-            ctypes.c_void_p(*args),
-        )
+    try:
+        if isinstance(operator_type, type):
+            operator = operator_type()
+        else:
+            operator = operator_type
+        if dpf.SERVER is None:
+            settings.set_server_configuration(server_factory.ServerConfig(None, False))
+            server.start_local_server(context=AvailableServerContexts.premium)
+        if len(args) == 2:  # noqa: PLR2004
+            external_operator_api.external_operator_record_with_abstract_core_and_wrapper(
+                operator._call_back(),
+                __operator_main__,
+                operator.name,
+                operator._internal_specification,
+                ctypes.c_void_p(*args[0]),
+                ctypes.c_void_p(*args[1]),
+            )
+        else:
+            external_operator_api.external_operator_record_with_abstract_core(
+                operator._call_back(),
+                __operator_main__,
+                operator.name,
+                operator._internal_specification,
+                ctypes.c_void_p(*args),
+            )
+    except Exception as error:
+        error.__dict__["_dpf_plugin_load_phase"] = "operator_registration"
+        raise
 
 
 class CustomOperatorBase:

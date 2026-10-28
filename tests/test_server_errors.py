@@ -125,6 +125,7 @@ def test_server_exception_legacy_flat_string():
     assert exception.suggestion is None
     assert exception.fields == {}
     assert exception.chain == []
+    assert exception.frames == []
 
 
 def test_server_exception_legacy_no_chain():
@@ -196,6 +197,109 @@ def test_server_exception_structured_multiple_operator_frames():
         errors.OperatorFrame("native::recursor", 1930),
     ]
     assert str(exception) == "Out-of-memory."
+
+
+def test_server_exception_structured_plugin_context():
+    payload = {
+        "depth": 3,
+        "frames": {
+            "2": {
+                "type": "kernel_clayer",
+                "what": "Plugin load failed at the CLayer boundary.",
+                "function_name": "DataProcessing_load_library",
+            },
+            "1": {
+                "type": "plugin_load",
+                "what": "Failed to load Python plugin.",
+                "plugin_key": "py_custom_plugin",
+                "plugin_path": "/plugins/custom_plugin",
+                "entry_point": "load_operators",
+                "phase": "module_import",
+            },
+            "0": {
+                "type": "python_exception",
+                "what": "ModuleNotFoundError: No module named 'plugin_dependency'",
+                "python_exception_type": "ModuleNotFoundError",
+                "python_traceback": "Traceback: missing plugin_dependency",
+            },
+        },
+    }
+    exception = errors.DPFServerException(json.dumps(payload))
+
+    assert exception.type == "python_exception"
+    assert exception.fields["python_exception_type"] == "ModuleNotFoundError"
+    assert exception.frames == [payload["frames"][str(index)] for index in range(3)]
+    assert exception.frames[1]["plugin_key"] == "py_custom_plugin"
+    assert exception.frames[1]["phase"] == "module_import"
+    assert exception.chain == []
+    assert str(exception) == payload["frames"]["0"]["what"]
+
+
+def test_python_plugin_registration_failure_keeps_original_exception(monkeypatch):
+    from ansys.dpf.core import custom_operator
+
+    original_error = ValueError("Invalid operator specification")
+
+    class InvalidOperator:
+        def _call_back(self):
+            raise original_error
+
+    monkeypatch.setattr(dpf, "SERVER", object())
+    with pytest.raises(ValueError) as exception_info:
+        custom_operator.record_operator(InvalidOperator())
+
+    assert exception_info.value is original_error
+    assert str(original_error) == "Invalid operator specification"
+    assert getattr(original_error, "_dpf_plugin_load_phase") == "operator_registration"
+
+
+@pytest.mark.parametrize("structured", [False, True])
+def test_legacy_grpc_plugin_load_error_contract(monkeypatch, structured):
+    from grpc import RpcError
+
+    from ansys.dpf.gate import data_processing_grpcapi
+
+    payload = {
+        "depth": 1,
+        "frames": {
+            "0": {
+                "type": "plugin_load",
+                "what": "Python wrapper is missing.",
+                "plugin_key": "py_plugin",
+                "phase": "wrapper_library",
+            },
+        },
+    }
+    details = json.dumps(payload) if structured else "native legacy load failure"
+
+    class LoadFailure(RpcError):
+        def details(self):
+            return details
+
+        def __str__(self):
+            return f"RPC envelope: {details}"
+
+    class Stub:
+        def Load(self, request):
+            raise LoadFailure()
+
+    monkeypatch.setattr(data_processing_grpcapi, "_get_stub", lambda client: Stub())
+    with pytest.raises(errors.DPFServerException) as exception_info:
+        data_processing_grpcapi.DataProcessingGRPCAPI.data_processing_load_library_on_client(
+            "py_plugin", "/plugins/plugin", "load_operators", object()
+        )
+
+    exception = exception_info.value
+    if structured:
+        assert exception.type == "plugin_load"
+        assert exception.fields["plugin_key"] == "py_plugin"
+        assert exception.fields["phase"] == "wrapper_library"
+        assert str(exception) == "Python wrapper is missing."
+        assert "RPC envelope" not in str(exception)
+    else:
+        assert exception.type is None
+        assert 'Unable to load library "/plugins/plugin"' in str(exception)
+        assert "native legacy load failure" in str(exception)
 
 
 def test_server_exception_not_structured_json():
