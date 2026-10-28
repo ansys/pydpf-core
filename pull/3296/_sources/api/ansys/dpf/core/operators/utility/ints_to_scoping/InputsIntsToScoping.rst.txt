@@ -1,0 +1,182 @@
+
+
+
+
+
+
+:class:`InputsIntsToScoping`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.ints_to_scoping.InputsIntsToScoping(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   ints_to_scoping operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ints_to_scoping()
+   >>> my_ids = int()
+   >>> op.inputs.ids.connect(my_ids)
+   >>> my_location = str()
+   >>> op.inputs.location.connect(my_location)
+   >>> my_upper_bound = int()
+   >>> op.inputs.upper_bound.connect(my_upper_bound)
+
+
+
+
+
+
+
+.. py:currentmodule:: InputsIntsToScoping
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~ids`
+            - Allows to connect ids input to the operator.
+          * - :py:attr:`~location`
+            - Allows to connect location input to the operator.
+          * - :py:attr:`~upper_bound`
+            - Allows to connect upper_bound input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getattr__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.ints_to_scoping import InputsIntsToScoping
+
+Property detail
+---------------
+
+.. py:property:: ids
+   :type: ansys.dpf.core.inputs.Input[int | ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to connect ids input to the operator.
+
+   Integer ID(s) for the scoping: single int, vector of ints, or existing scoping
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ints_to_scoping()
+   >>> op.inputs.ids.connect(my_ids)
+   >>> # or
+   >>> op.inputs.ids(my_ids)
+
+.. py:property:: location
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect location input to the operator.
+
+   Location string for the scoping (e.g., 'Nodal', 'Elemental'). Default is empty
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ints_to_scoping()
+   >>> op.inputs.location.connect(my_location)
+   >>> # or
+   >>> op.inputs.location(my_location)
+
+.. py:property:: upper_bound
+   :type: ansys.dpf.core.inputs.Input[int | ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to connect upper_bound input to the operator.
+
+   Upper bound for creating a range scoping. Creates IDs from pin 0 value to this upper bound (inclusive)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.ints_to_scoping()
+   >>> op.inputs.upper_bound.connect(my_upper_bound)
+   >>> # or
+   >>> op.inputs.upper_bound(my_upper_bound)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getattr__(name)
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

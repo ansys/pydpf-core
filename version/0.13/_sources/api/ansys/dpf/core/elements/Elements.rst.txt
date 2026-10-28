@@ -1,0 +1,410 @@
+
+
+
+
+
+
+:class:`Elements`
+=================
+
+.. py:class:: ansys.dpf.core.elements.Elements(mesh)
+
+   Contains elements belonging to a meshed region.
+
+   :param mesh: Name of the meshed region.
+   :type mesh: str
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> elements = model.metadata.meshed_region.elements
+   >>> elements.n_elements
+   8
+
+
+
+
+
+
+
+.. py:currentmodule:: Elements
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~element_by_id`
+            - Retrieve an element by element ID.
+          * - :py:attr:`~element_by_index`
+            - Retrieve an element using its index.
+          * - :py:attr:`~add_elements`
+            - Add one or more elements in the mesh.
+          * - :py:attr:`~add_solid_element`
+            - Add a solid 3D element in the mesh.
+          * - :py:attr:`~add_shell_element`
+            - Add a shell 2D element in the mesh.
+          * - :py:attr:`~add_beam_element`
+            - Add a beam 1D element in the mesh.
+          * - :py:attr:`~add_point_element`
+            - Add a point element (one node connectivity) in the mesh.
+          * - :py:attr:`~add_element`
+            - Add an element in the mesh.
+          * - :py:attr:`~map_scoping`
+            - Retrieve the indices to map the scoping of these elements to the scoping of a field.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scoping`
+            - Scoping of the elements.
+          * - :py:attr:`~element_types_field`
+            - Field of all element types.
+          * - :py:attr:`~materials_field`
+            - Field of all material IDs.
+          * - :py:attr:`~connectivities_field`
+            - Field containing for each element ID the node indices connected to the element.
+          * - :py:attr:`~n_elements`
+            - Number of elements.
+          * - :py:attr:`~mapping_id_to_index`
+            - Mapping between the IDs and indices of the entity.
+          * - :py:attr:`~has_shell_elements`
+            - Whether at least one element is a 2D element (shell).
+          * - :py:attr:`~has_solid_elements`
+            - Whether at list one element is a 3D element (solid).
+          * - :py:attr:`~has_beam_elements`
+            - Whether at least one element is a 1D beam element.
+          * - :py:attr:`~has_point_elements`
+            - Whether at least one element is a point element.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Provide a custom string representation.
+          * - :py:attr:`~__getitem__`
+            - Retrieve element based on an index.
+          * - :py:attr:`~__len__`
+            - Retrieve the number of elements.
+          * - :py:attr:`~__iter__`
+            - Provide for looping through the elements in loops.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.elements import Elements
+
+Property detail
+---------------
+
+.. py:property:: scoping
+   :type: scoping.Scoping
+
+
+   Scoping of the elements.
+
+   :rtype: :class:`ansys.dpf.core.scoping.Scoping`
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> elements = model.metadata.meshed_region.elements
+   >>> my_scoping = elements.scoping
+
+.. py:property:: element_types_field
+
+   Field of all element types.
+
+   :returns: Field of all element types.
+   :rtype: :class:`ansys.dpf.core.field.Field`
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> elements = model.metadata.meshed_region.elements
+   >>> field = elements.element_types_field
+   >>> print(field.data)
+   [1 1 1 1 1 1 1 1]
+
+.. py:property:: materials_field
+
+   Field of all material IDs.
+
+   :returns: Field of all materials IDs.
+   :rtype: :class:`ansys.dpf.core.field.Field`
+
+   .. rubric:: Examples
+
+   Extract the material IDs from the materials_field
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> elements = model.metadata.meshed_region.elements
+   >>> print(elements.materials_field.data)
+   [1 1 1 1 1 1 1 1]
+
+.. py:property:: connectivities_field
+
+   Field containing for each element ID the node indices connected to the element.
+
+   :returns: Field containing for each element ID the node indices connected to the element.
+   :rtype: :class:`ansys.dpf.core.field.Field`
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> elements = model.metadata.meshed_region.elements
+   >>> field = elements.connectivities_field
+   >>> field.get_entity_data(1)
+   DPFArray([ 0, 11, 13, 25,  2,  9,  8,  3, 29, 58, 63, 32, 40, 52, 42, 37, 28,
+          55, 53, 43]...
+
+.. py:property:: n_elements
+   :type: int
+
+
+   Number of elements.
+
+.. py:property:: mapping_id_to_index
+   :type: dict
+
+
+   Mapping between the IDs and indices of the entity.
+
+   This property is useful for mapping scalar results from a field to the meshed region.
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_simple_bar())
+   >>> meshed_region = model.metadata.meshed_region
+   >>> map = meshed_region.nodes.mapping_id_to_index
+
+.. py:property:: has_shell_elements
+   :type: bool
+
+
+   Whether at least one element is a 2D element (shell).
+
+   :rtype: bool
+
+.. py:property:: has_solid_elements
+   :type: bool
+
+
+   Whether at list one element is a 3D element (solid).
+
+   :rtype: bool
+
+.. py:property:: has_beam_elements
+   :type: bool
+
+
+   Whether at least one element is a 1D beam element.
+
+   :rtype: bool
+
+.. py:property:: has_point_elements
+   :type: bool
+
+
+   Whether at least one element is a point element.
+
+   :rtype: bool
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+   Provide a custom string representation.
+
+
+.. py:method:: __getitem__(index)
+
+   Retrieve element based on an index.
+
+
+.. py:method:: __len__()
+
+   Retrieve the number of elements.
+
+
+.. py:method:: __iter__()
+
+   Provide for looping through the elements in loops.
+
+
+.. py:method:: element_by_id(id) -> Element
+
+   Retrieve an element by element ID.
+
+   :param id: Number (ID) of the element.
+   :type id: int
+
+   :returns: Element object.
+   :rtype: Element
+
+
+.. py:method:: element_by_index(index) -> Element
+
+   Retrieve an element using its index.
+
+   :param index: Zero-based index.
+   :type index: int
+
+   :returns: Yield element.
+   :rtype: :class:`ansys.dpf.core.elements.ElementAdder`
+
+   .. rubric:: Examples
+
+   elements.element_by_index(0)
+
+   .. rubric:: Notes
+
+   This is equivalent to ``elements[0]``
+
+
+.. py:method:: add_elements(num)
+
+   Add one or more elements in the mesh.
+
+   :param num: Number of elements to add in the mesh.
+   :type num: int
+
+   :returns: Elements added to the mesh.
+   :rtype: :class:`ansys.dpf.core.elements.ElementAdder`
+
+   .. rubric:: Examples
+
+   >>> import ansys.dpf.core as dpf
+   >>> meshed_region = dpf.MeshedRegion(num_nodes=4,num_elements=3)
+   >>> i=0
+   >>> for node in meshed_region.nodes.add_nodes(4):
+   ...     node.id = i+1
+   ...     node.coordinates = [float(i), float(i), 0.0]
+   ...     i=i+1
+   >>> i=0
+   >>> for element in meshed_region.elements.add_elements(3):
+   ...     element.id=i+1
+   ...     element.connectivity = [i, i+1]
+   ...     element.is_beam=True #or is_solid, is_beam, is_point
+   ...     i=i+1
+
+
+.. py:method:: add_solid_element(id, connectivity)
+
+   Add a solid 3D element in the mesh.
+
+   :param id: ID to assign the new element.
+   :type id: int
+   :param connectivity: List of the node indices to connect to the new element.
+   :type connectivity: list
+
+
+.. py:method:: add_shell_element(id, connectivity)
+
+   Add a shell 2D element in the mesh.
+
+   :param id: ID to assign the new element.
+   :type id: int
+   :param connectivity: List of the node indices to connect to the new element.
+   :type connectivity: list
+
+
+.. py:method:: add_beam_element(id, connectivity)
+
+   Add a beam 1D element in the mesh.
+
+   :param id: ID to assign the new element.
+   :type id: int
+   :param connectivity: List of the node indices to connect to the new element.
+   :type connectivity: list
+
+
+.. py:method:: add_point_element(id, connectivity)
+
+   Add a point element (one node connectivity) in the mesh.
+
+   :param id: ID to assign the new element.
+   :type id: int
+   :param connectivity: List of the node indices to connect to the new element.
+   :type connectivity: list
+
+
+.. py:method:: add_element(id, shape, connectivity)
+
+   Add an element in the mesh.
+
+   :param id: ID to assign the new element.
+   :type id: int
+   :param shape: Shape of the element. Options are ``"solid"``, ``"shell"``, ``"beam"``
+                 and ``"unknown_shape"``.
+   :type shape: str
+   :param connectivity: List of the node indices to connect to the new element.
+   :type connectivity: list
+
+
+.. py:method:: map_scoping(external_scope)
+
+   Retrieve the indices to map the scoping of these elements to the scoping of a field.
+
+   :param external_scope: Scoping to map to.
+   :type external_scope: :class:`ansys.dpf.core.scoping.Scoping`
+
+   :returns: * **indices** (*numpy.ndarray*) -- List of indices to map from the external scope to the
+               scoping of these elements.
+             * **mask** (*numpy.ndarray*) -- Members of the external scope that are in the element scoping.
+
+   .. rubric:: Examples
+
+   Return the indices that map a field to an elements collection.
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_static_rst())
+   >>> elements = model.metadata.meshed_region.elements
+   >>> vol = model.results.elemental_volume()
+   >>> field = vol.outputs.fields_container()[0]
+   >>> ind, mask = elements.map_scoping(field.scoping)
+
+
+
+
+

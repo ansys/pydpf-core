@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.metadata.mesh_property_provider
+   :inherited-members:

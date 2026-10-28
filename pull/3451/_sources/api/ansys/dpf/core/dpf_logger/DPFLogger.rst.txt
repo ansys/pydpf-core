@@ -1,0 +1,110 @@
+
+
+
+
+
+
+:class:`DPFLogger`
+==================
+
+
+.. py:class:: ansys.dpf.core.dpf_logger.DPFLogger(implementation, core_api)
+
+   Wrapper around a native DPF logger implementation pointer.
+
+
+
+.. py:currentmodule:: DPFLogger
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~log`
+            - Log one message with the given level.
+          * - :py:attr:`~trace`
+            - Log message at trace level.
+          * - :py:attr:`~debug`
+            - Log message at debug level.
+          * - :py:attr:`~info`
+            - Log message at info level.
+          * - :py:attr:`~warn`
+            - Log message at warn level.
+          * - :py:attr:`~error`
+            - Log message at error level.
+          * - :py:attr:`~critical`
+            - Log message at critical level.
+          * - :py:attr:`~flush`
+            - Flush this logger sinks.
+
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.dpf_logger import DPFLogger
+
+
+
+Method detail
+-------------
+
+.. py:method:: log(message: str, level: LogLevel = LogLevel.info) -> None
+
+   Log one message with the given level.
+
+
+.. py:method:: trace(message: str) -> None
+
+   Log message at trace level.
+
+
+.. py:method:: debug(message: str) -> None
+
+   Log message at debug level.
+
+
+.. py:method:: info(message: str) -> None
+
+   Log message at info level.
+
+
+.. py:method:: warn(message: str) -> None
+
+   Log message at warn level.
+
+
+.. py:method:: error(message: str) -> None
+
+   Log message at error level.
+
+
+.. py:method:: critical(message: str) -> None
+
+   Log message at critical level.
+
+
+.. py:method:: flush() -> None
+
+   Flush this logger sinks.
+
+
+
+
+

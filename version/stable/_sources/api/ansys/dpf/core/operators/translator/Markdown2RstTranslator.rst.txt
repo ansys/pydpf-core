@@ -1,0 +1,61 @@
+
+
+
+
+
+
+:class:`Markdown2RstTranslator`
+===============================
+
+
+.. py:class:: ansys.dpf.core.operators.translator.Markdown2RstTranslator
+
+   A translator class for Markdown to RST text conversion.
+
+
+
+.. py:currentmodule:: Markdown2RstTranslator
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~convert`
+            - Convert the Markdown text in input to RST.
+
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.translator import Markdown2RstTranslator
+
+
+
+Method detail
+-------------
+
+.. py:method:: convert(text: str) -> str
+
+   Convert the Markdown text in input to RST.
+
+
+
+
+

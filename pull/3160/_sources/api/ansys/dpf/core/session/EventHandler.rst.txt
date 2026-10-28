@@ -1,0 +1,113 @@
+
+
+
+
+
+
+:class:`EventHandler`
+=====================
+
+
+.. py:class:: ansys.dpf.core.session.EventHandler(session)
+
+   Bases: :py:obj:`EventHandlerBase`
+
+
+   Handle events for a server session, including operator tracking and workflow progress updates.
+
+   Manages the listening of events and operator addition to workflows during execution.
+
+
+
+.. py:currentmodule:: EventHandler
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~start_listening`
+            - Start listening for events from the server session.
+          * - :py:attr:`~add_operator`
+            - Add an operator to a workflow in the server session.
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~bar`
+            - 
+          * - :py:attr:`~started_operators`
+            - 
+          * - :py:attr:`~finished_operators`
+            - 
+          * - :py:attr:`~py_obj`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.session import EventHandler
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: bar
+   :value: None
+
+
+.. py:attribute:: started_operators
+   :value: 0
+
+
+.. py:attribute:: finished_operators
+   :value: 0
+
+
+.. py:attribute:: py_obj
+
+
+
+Method detail
+-------------
+
+.. py:method:: start_listening()
+
+   Start listening for events from the server session.
+
+   Displays a progress bar if available and initializes operator tracking.
+
+   This method prepares the progress bar and resets counters for started and
+   finished operators.
+
+   :rtype: None
+
+
+.. py:method:: add_operator(operator, pin, identifier)
+
+   Add an operator to a workflow in the server session.
+
+
+
+
+

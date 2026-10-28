@@ -1,0 +1,269 @@
+
+
+
+
+
+
+The ``fields_factory.py`` module
+================================
+
+.. py:module:: ansys.dpf.core.fields_factory
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: fields_factory
+.. tab-set::
+
+
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~field_from_array`
+            - Create a DPF vector or scalar field from a numpy array or a Python list.
+
+
+          * - :py:obj:`~create_matrix_field`
+            - Create a matrix :class:`ansys.dpf.core.Field`.
+
+
+          * - :py:obj:`~create_3d_vector_field`
+            - Create a specific :class:`ansys.dpf.core.Field` with entities that have 3D vector format.
+
+
+          * - :py:obj:`~create_tensor_field`
+            - Create a specific :class:`ansys.dpf.core.Field` with entities that have a 3*3 format.
+
+
+          * - :py:obj:`~create_scalar_field`
+            - Create a specific `:class:`ansys.dpf.core.Field` with entities that are scalar.
+
+
+          * - :py:obj:`~create_vector_field`
+            - Create a specific `:class:`ansys.dpf.core.Field` with entities that have a vector format.
+
+
+          * - :py:obj:`~create_overall_field`
+            - Create a specific `:class:`ansys.dpf.core.Field` with entities that have an overall location.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+fields_factory.
+
+Contains functions to simplify creating fields.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: field_from_array(arr: list | numpy.ndarray, server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.Field
+
+   Create a DPF vector or scalar field from a numpy array or a Python list.
+
+   :param arr: Numpy array or Python list containing either 1 or 3 dimensions.
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+
+   :returns: DPF field constructed from the array.
+   :rtype: field
+
+
+.. py:function:: create_matrix_field(num_entities, num_lines, num_col, location: ansys.dpf.core.common.locations = locations.nodal, server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.Field
+
+   Create a matrix :class:`ansys.dpf.core.Field`.
+
+   This field contains entities that have a matrix format. This is a "reserve" mechanism,
+   not a resize one. This means that you need to append data to grow the size of your field.
+
+   :param num_entities: Number of entities to reserve.
+   :param num_lines: Number of matrix line.
+   :type num_lines: int
+   :param num_col: Number of matrix columns.
+   :type num_col: int
+   :param location: Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+
+   :returns: DPF field of the requested format.
+   :rtype: field
+
+   .. rubric:: Examples
+
+   Create a field containing 3 matrix entities of a col*lines = 2*5 size with
+   a nodal location (default).
+
+   >>> from ansys.dpf.core import fields_factory
+   >>> field = fields_factory.create_matrix_field(3, 5, 2)
+
+
+.. py:function:: create_3d_vector_field(num_entities, location: ansys.dpf.core.common.locations = locations.nodal, server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.Field
+
+   Create a specific :class:`ansys.dpf.core.Field` with entities that have 3D vector format.
+
+   This is a "reserve" mechanism, not a resize one. This means that you
+   need to append data to grow the size of your field.
+
+   :param num_entities: Number of entities to reserve
+   :param location: Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+
+   :returns: DPF field of the requested format.
+   :rtype: field
+
+   .. rubric:: Examples
+
+   Create a field containing 4 3D vector entities with a nodal location (default).
+
+   >>> from ansys.dpf.core import fields_factory
+   >>> field = fields_factory.create_3d_vector_field(4)
+
+
+.. py:function:: create_tensor_field(num_entities, location: ansys.dpf.core.common.locations = locations.nodal, server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.Field
+
+   Create a specific :class:`ansys.dpf.core.Field` with entities that have a 3*3 format.
+
+   This is a "reserve" mechanism, not a resize one. This means that you
+   need to append data to grow the size of your field.
+
+   :param num_entities: Number of entities to reserve.
+   :param location: Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+
+   :returns: DPF field in the requested format.
+   :rtype: field
+
+   .. rubric:: Examples
+
+   Create a field containing 4 tensor entities with a nodal location (default).
+
+   >>> from ansys.dpf.core import fields_factory
+   >>> field = fields_factory.create_tensor_field(4)
+
+
+.. py:function:: create_scalar_field(num_entities, location: ansys.dpf.core.common.locations = locations.nodal, server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.Field
+
+   Create a specific `:class:`ansys.dpf.core.Field` with entities that are scalar.
+
+   This is a "reserve" mechanism, not a resize one. This means that you
+   need to append data to grow the size of your field.
+
+   :param num_entities: Number of entities to reserve
+   :param location: Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+
+   :returns: DPF field in the requested format.
+   :rtype: field
+
+   .. rubric:: Examples
+
+   Create a field containing 4 scalars with a nodal location (default).
+
+   >>> from ansys.dpf.core import fields_factory
+   >>> field = fields_factory.create_scalar_field(4)
+
+
+.. py:function:: create_vector_field(num_entities, num_comp, location: ansys.dpf.core.common.locations = locations.nodal, server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.Field
+
+   Create a specific `:class:`ansys.dpf.core.Field` with entities that have a vector format.
+
+   This is a "reserve" mechanism, not a resize one. This means that you
+   need to append data to grow the size of your field.
+
+   :param num_entities: Number of entities to reserve.
+   :param num_comp: Number of vector components.
+   :param location: Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+
+   :returns: DPF field in the requested format.
+   :rtype: field
+
+   .. rubric:: Examples
+
+   Create a field containing 3 vector entities of 5 components each with a
+   nodal location (default).
+
+   >>> from ansys.dpf.core import fields_factory
+   >>> field = fields_factory.create_vector_field(3, 5)
+
+
+.. py:function:: create_overall_field(value: float | list[float], nature: ansys.dpf.core.common.natures = natures.scalar, num_entities: int = 1, num_comp: int = 1, server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.Field
+
+   Create a specific `:class:`ansys.dpf.core.Field` with entities that have an overall location.
+
+   Regarding the nature of the entity contained in the field, we set the same value
+   for all elements.
+
+   :param value: Value of the entity
+   :param nature: Nature of the field entity data. For example:
+
+                  - :class:`ansys.dpf.core.natures.matrix`
+                  - :class:`ansys.dpf.core.natures.scalar`
+   :param num_entities: Number of entities to reserve.
+   :param num_comp: Number of vector components.
+   :param server: Server with the channel connected to the remote or local instance.
+                  The default is ``None``, in which case an attempt is made to use the
+                  global server.
+
+   :returns: DPF field in the requested format.
+   :rtype: field
+
+   .. rubric:: Examples
+
+   Create a field containing 10 scalar entities of 1 component each with an
+   overall location (default). Same value (1.0) is set for all element of the field.
+
+   >>> from ansys.dpf.core import fields_factory
+   >>> field = fields_factory.create_overall_field(1.0, natures.scalar, 10, 1)
+
+
+
+

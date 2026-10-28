@@ -1,0 +1,94 @@
+
+
+
+
+
+
+:class:`OutputsRescopePropertyField`
+====================================
+
+
+.. py:class:: ansys.dpf.core.operators.scoping.rescope_property_field.OutputsRescopePropertyField(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   rescope_property_field operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.rescope_property_field()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields = op.outputs.fields()
+
+
+
+
+
+.. py:currentmodule:: OutputsRescopePropertyField
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_as_property_fields_container`
+            - 
+          * - :py:attr:`~fields_as_property_field`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.rescope_property_field import OutputsRescopePropertyField
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: fields_as_property_fields_container
+
+.. py:attribute:: fields_as_property_field
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

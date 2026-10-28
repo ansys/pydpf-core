@@ -1,0 +1,69 @@
+.. _ref_getting_started:
+
+===============
+Getting started
+===============
+
+The Data Processing Framework (DPF) provides numerical simulation users and engineers with a toolbox
+for accessing and transforming simulation data. DPF can access data from Ansys solver
+result files as well as from several neutral file formats. For more information, see :ref:`introduction`.
+
+This **workflow-based** framework allows you to perform complex preprocessing and
+postprocessing operations on large amounts of simulation data.
+
+PyDPF-Core is a Python client API communicating with a **DPF Server**, either
+through the network using gRPC or directly in the same process.
+
+.. grid:: 1 2 3 3
+    :gutter: 1 2 3 3
+    :padding: 1 2 3 3
+
+    .. grid-item-card:: Installation summary :fa:`rectangle-list`
+        :link: summary
+        :link-type: doc
+
+        Short overview of the installation steps to get started with PyDPF-Core.
+
+    .. grid-item-card:: Installing PyDPF-Core :fa:`file-arrow-down`
+        :link: install
+        :link-type: doc
+
+        Learn how to install the PyDPF-Core python package.
+
+    .. grid-item-card:: Installing DPF Server :fa:`download`
+        :link: dpf_server
+        :link-type: doc
+
+        Learn how to install the DPF Server.
+
+    .. grid-item-card:: Compatibility :fa:`handshake`
+        :link: compatibility
+        :link-type: doc
+
+        Learn about the compatibility between PyDPF-Core and DPF Server versions.
+
+    .. grid-item-card:: Licensing :fa:`user-check`
+        :link: licensing
+        :link-type: doc
+
+        Learn about the licensing requirements for using PyDPF-Core and DPF Server.
+
+    .. grid-item-card:: Dependencies :fa:`circle-nodes`
+        :link: dependencies
+        :link-type: doc
+
+        Learn about the dependencies required to use PyDPF-Core.
+
+
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+   summary
+   install
+   dpf_server
+   compatibility
+   licensing
+   dependencies
+

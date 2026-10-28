@@ -1,0 +1,194 @@
+
+
+
+
+
+
+:class:`InputsExtractSubSc`
+===========================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.extract_sub_sc.InputsExtractSubSc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   extract_sub_sc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_sc()
+   >>> my_scopings_container = dpf.ScopingsContainer()
+   >>> op.inputs.scopings_container.connect(my_scopings_container)
+   >>> my_label_space = dict()
+   >>> op.inputs.label_space.connect(my_label_space)
+   >>> my_collapse_labels = bool()
+   >>> op.inputs.collapse_labels.connect(my_collapse_labels)
+
+
+
+
+
+
+.. py:currentmodule:: InputsExtractSubSc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scopings_container`
+            - Allows to connect scopings_container input to the operator.
+          * - :py:attr:`~label_space`
+            - Allows to connect label_space input to the operator.
+          * - :py:attr:`~collapse_labels`
+            - Allows to connect collapse_labels input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.extract_sub_sc import InputsExtractSubSc
+
+Property detail
+---------------
+
+.. py:property:: scopings_container
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect scopings_container input to the operator.
+
+   scopings_container
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_sc()
+   >>> op.inputs.scopings_container.connect(my_scopings_container)
+   >>> # or
+   >>> op.inputs.scopings_container(my_scopings_container)
+
+.. py:property:: label_space
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect label_space input to the operator.
+
+   Label space, or scoping defining the label space (scoping location), values to keep (scoping IDs)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_sc()
+   >>> op.inputs.label_space.connect(my_label_space)
+   >>> # or
+   >>> op.inputs.label_space(my_label_space)
+
+.. py:property:: collapse_labels
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect collapse_labels input to the operator.
+
+   If set to true (default) the input label space (scoping location) is suppressed from the output scopings container, otherwise, label space is kept.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_sub_sc()
+   >>> op.inputs.collapse_labels.connect(my_collapse_labels)
+   >>> # or
+   >>> op.inputs.collapse_labels(my_collapse_labels)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

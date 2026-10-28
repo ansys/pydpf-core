@@ -1,0 +1,150 @@
+
+
+
+
+
+
+:class:`InputsOverlapFields`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.overlap_fields.InputsOverlapFields(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   overlap_fields operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.overlap_fields()
+   >>> my_base_field = dpf.Field()
+   >>> op.inputs.base_field.connect(my_base_field)
+   >>> my_overlapping_field = dpf.Field()
+   >>> op.inputs.overlapping_field.connect(my_overlapping_field)
+
+
+
+
+
+
+.. py:currentmodule:: InputsOverlapFields
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~base_field`
+            - Allows to connect base_field input to the operator.
+          * - :py:attr:`~overlapping_field`
+            - Allows to connect overlapping_field input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.overlap_fields import InputsOverlapFields
+
+Property detail
+---------------
+
+.. py:property:: base_field
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field]
+
+
+   Allows to connect base_field input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.overlap_fields()
+   >>> op.inputs.base_field.connect(my_base_field)
+   >>> # or
+   >>> op.inputs.base_field(my_base_field)
+
+.. py:property:: overlapping_field
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field]
+
+
+   Allows to connect overlapping_field input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.overlap_fields()
+   >>> op.inputs.overlapping_field.connect(my_overlapping_field)
+   >>> # or
+   >>> op.inputs.overlapping_field(my_overlapping_field)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

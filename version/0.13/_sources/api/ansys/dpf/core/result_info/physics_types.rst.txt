@@ -1,0 +1,92 @@
+
+
+
+
+
+
+:class:`physics_types`
+======================
+
+.. py:class:: ansys.dpf.core.result_info.physics_types(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   ``'Physics_types'`` enumerates the different types of physics that an analysis can have.
+
+
+
+.. py:currentmodule:: physics_types
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mechanical`
+            - 
+          * - :py:attr:`~thermal`
+            - 
+          * - :py:attr:`~magnetic`
+            - 
+          * - :py:attr:`~electric`
+            - 
+          * - :py:attr:`~unknown_physics`
+            - 
+          * - :py:attr:`~fluid`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.result_info import physics_types
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: mechanical
+   :value: 0
+
+
+.. py:attribute:: thermal
+   :value: 1
+
+
+.. py:attribute:: magnetic
+   :value: 2
+
+
+.. py:attribute:: electric
+   :value: 3
+
+
+.. py:attribute:: unknown_physics
+   :value: 4
+
+
+.. py:attribute:: fluid
+   :value: 5
+
+
+
+
+
+

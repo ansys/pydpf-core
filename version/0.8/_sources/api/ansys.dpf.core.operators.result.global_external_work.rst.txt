@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.global_external_work
+   :inherited-members:

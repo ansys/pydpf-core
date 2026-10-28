@@ -1,0 +1,237 @@
+
+
+
+
+
+
+:class:`OutputsWorkflowEnergyPerComponent`
+==========================================
+
+
+.. py:class:: ansys.dpf.core.operators.result.workflow_energy_per_component.OutputsWorkflowEnergyPerComponent(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   workflow_energy_per_component operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_component()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_component_energy = op.outputs.component_energy()
+   >>> result_component_energy_percentage = op.outputs.component_energy_percentage()
+   >>> result_component_total_energy = op.outputs.component_total_energy()
+   >>> result_component_total_energy_percentage = op.outputs.component_total_energy_percentage()
+   >>> result_component_strain_energy = op.outputs.component_strain_energy()
+   >>> result_component_strain_energy_percentage = op.outputs.component_strain_energy_percentage()
+   >>> result_component_kinetic_energy = op.outputs.component_kinetic_energy()
+   >>> result_component_kinetic_energy_percentage = op.outputs.component_kinetic_energy_percentage()
+
+
+
+
+
+.. py:currentmodule:: OutputsWorkflowEnergyPerComponent
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~component_energy`
+            - Allows to get component_energy output of the operator
+          * - :py:attr:`~component_energy_percentage`
+            - Allows to get component_energy_percentage output of the operator
+          * - :py:attr:`~component_total_energy`
+            - Allows to get component_total_energy output of the operator
+          * - :py:attr:`~component_total_energy_percentage`
+            - Allows to get component_total_energy_percentage output of the operator
+          * - :py:attr:`~component_strain_energy`
+            - Allows to get component_strain_energy output of the operator
+          * - :py:attr:`~component_strain_energy_percentage`
+            - Allows to get component_strain_energy_percentage output of the operator
+          * - :py:attr:`~component_kinetic_energy`
+            - Allows to get component_kinetic_energy output of the operator
+          * - :py:attr:`~component_kinetic_energy_percentage`
+            - Allows to get component_kinetic_energy_percentage output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.workflow_energy_per_component import OutputsWorkflowEnergyPerComponent
+
+Property detail
+---------------
+
+.. py:property:: component_energy
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get component_energy output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_component()
+   >>> # Get the output from op.outputs. ...
+   >>> result_component_energy = op.outputs.component_energy()
+
+.. py:property:: component_energy_percentage
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get component_energy_percentage output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_component()
+   >>> # Get the output from op.outputs. ...
+   >>> result_component_energy_percentage = op.outputs.component_energy_percentage()
+
+.. py:property:: component_total_energy
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get component_total_energy output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_component()
+   >>> # Get the output from op.outputs. ...
+   >>> result_component_total_energy = op.outputs.component_total_energy()
+
+.. py:property:: component_total_energy_percentage
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get component_total_energy_percentage output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_component()
+   >>> # Get the output from op.outputs. ...
+   >>> result_component_total_energy_percentage = op.outputs.component_total_energy_percentage()
+
+.. py:property:: component_strain_energy
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get component_strain_energy output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_component()
+   >>> # Get the output from op.outputs. ...
+   >>> result_component_strain_energy = op.outputs.component_strain_energy()
+
+.. py:property:: component_strain_energy_percentage
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get component_strain_energy_percentage output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_component()
+   >>> # Get the output from op.outputs. ...
+   >>> result_component_strain_energy_percentage = op.outputs.component_strain_energy_percentage()
+
+.. py:property:: component_kinetic_energy
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get component_kinetic_energy output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_component()
+   >>> # Get the output from op.outputs. ...
+   >>> result_component_kinetic_energy = op.outputs.component_kinetic_energy()
+
+.. py:property:: component_kinetic_energy_percentage
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get component_kinetic_energy_percentage output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.workflow_energy_per_component()
+   >>> # Get the output from op.outputs. ...
+   >>> result_component_kinetic_energy_percentage = op.outputs.component_kinetic_energy_percentage()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

@@ -1,0 +1,126 @@
+
+
+
+
+
+
+:class:`OutputsCyclicMeshExpansion`
+===================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.cyclic_mesh_expansion.OutputsCyclicMeshExpansion(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   cyclic_mesh_expansion operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.cyclic_mesh_expansion()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_meshed_region = op.outputs.meshed_region()
+   >>> result_cyclic_support = op.outputs.cyclic_support()
+
+
+
+
+
+.. py:currentmodule:: OutputsCyclicMeshExpansion
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~meshed_region`
+            - Allows to get meshed_region output of the operator
+          * - :py:attr:`~cyclic_support`
+            - Allows to get cyclic_support output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.cyclic_mesh_expansion import OutputsCyclicMeshExpansion
+
+Property detail
+---------------
+
+.. py:property:: meshed_region
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get meshed_region output of the operator
+
+   expanded meshed region.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.cyclic_mesh_expansion()
+   >>> # Get the output from op.outputs. ...
+   >>> result_meshed_region = op.outputs.meshed_region()
+
+.. py:property:: cyclic_support
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get cyclic_support output of the operator
+
+   input cyclic support modified in place containing the new expanded meshed regions.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.cyclic_mesh_expansion()
+   >>> # Get the output from op.outputs. ...
+   >>> result_cyclic_support = op.outputs.cyclic_support()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+
