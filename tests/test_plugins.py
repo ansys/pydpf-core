@@ -227,9 +227,59 @@ def test_structured_python_plugin_load_errors(
     assert exception.fields["python_exception_type"] == exception_type
     assert exception.fields["python_cause_type"] == cause_type
     assert exception.fields["phase"] == expected_phase
-    assert exception.fields["plugin_name"] == plugin_name
+    assert exception.fields["plugin_key"] == f"py_{plugin_name}"
+    assert exception.fields["module_name"] == plugin_name
     assert exception.fields["plugin_path"].endswith(plugin_name)
     assert exception.fields["entry_point"] == "load_operators"
     assert exception.fields["python_traceback"]
-    assert any(frame.get("plugin_name") == f"py_{plugin_name}" for frame in exception.frames)
+    assert any(
+        frame.get("type") == "plugin_load" and frame.get("plugin_key") == f"py_{plugin_name}"
+        for frame in exception.frames
+    )
+    assert all("plugin_kind" not in frame for frame in exception.frames)
     assert "Unknown exception occurred" not in str(exception)
+
+
+@pytest.mark.parametrize(
+    "library_name, symbol, root_type, phase",
+    [
+        ("NativePluginLoadTestPlugin", "ThrowStandard", "cppexception", "registration"),
+        ("NativePluginLoadTestPlugin", "ThrowStructured", "native_plugin_test_registration", "registration"),
+        ("NativePluginLoadTestPlugin", "ThrowHgp", "native_plugin_test_hgp_registration", "registration"),
+        ("NativePluginLoadTestPlugin", "ThrowNestedStandard", "cppexception", "registration"),
+        ("NativePluginLoadTestPlugin", "ThrowNonStandard", "unknown", "registration"),
+        ("NativePluginLoadTestPlugin", "ReturnFailure", "plugin_load", "registration"),
+        ("NativePluginLoadTestPlugin", "MissingEntryPoint", "cppexception", "symbol_resolution"),
+        ("NativePluginLoadTestWithDependency", "LoadOperators", "cppexception", "binary_load"),
+        ("MissingNativePluginBinary", "LoadOperators", "cppexception", "binary_load"),
+    ],
+)
+def test_structured_native_plugin_load_errors(server_type, library_name, symbol, root_type, phase):
+    server = server_type
+    if not server.meet_version("2027.2.pre0"):
+        pytest.skip("Structured plugin-load errors require server 2027.2 or later.")
+    if not server.local_server or not server.ansys_path:
+        pytest.skip("Native plugin fixtures require a local test server installation.")
+    runtime = Path(server.ansys_path)
+    directory = runtime / "aisol" / ("dll/linx64" if sys.platform.startswith("linux") else "bin/winx64")
+    prefix, suffix = ("lib", ".so") if sys.platform.startswith("linux") else ("", ".dll")
+    if not (directory / f"{prefix}NativePluginLoadTestPlugin{suffix}").exists():
+        pytest.skip("Native plugin-load test fixtures are not installed.")
+    library = directory / f"{prefix}{library_name}{suffix}"
+    plugin_key = f"shared_native_{library_name}_{symbol}"
+    with pytest.raises(errors.DPFServerException) as exception_info:
+        dpf.load_library(str(library), plugin_key, symbol, server=server)
+    exception = exception_info.value
+    assert exception.type == root_type
+    assert exception.fields["plugin_key"] == plugin_key
+    assert exception.fields["plugin_path"] == str(library)
+    assert exception.fields["entry_point"] == symbol
+    assert exception.fields["phase"] == phase
+    assert any(frame.get("type") == "plugin_load" for frame in exception.frames)
+    assert all("plugin_kind" not in frame for frame in exception.frames)
+    if symbol == "ReturnFailure":
+        assert exception.fields["return_code"] == "37"
+    if symbol == "ThrowStructured":
+        assert exception.fields["registration_name"] == "native_test_registration"
+    if symbol == "ThrowHgp":
+        assert exception.fields["registration_name"] == "hgp_native_test"

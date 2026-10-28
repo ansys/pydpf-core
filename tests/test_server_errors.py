@@ -209,9 +209,9 @@ def test_server_exception_structured_plugin_context():
                 "function_name": "DataProcessing_load_library",
             },
             "1": {
-                "type": "python_plugin_load",
+                "type": "plugin_load",
                 "what": "Failed to load Python plugin.",
-                "plugin_name": "py_custom_plugin",
+                "plugin_key": "py_custom_plugin",
                 "plugin_path": "/plugins/custom_plugin",
                 "entry_point": "load_operators",
                 "phase": "module_import",
@@ -229,7 +229,7 @@ def test_server_exception_structured_plugin_context():
     assert exception.type == "python_exception"
     assert exception.fields["python_exception_type"] == "ModuleNotFoundError"
     assert exception.frames == [payload["frames"][str(index)] for index in range(3)]
-    assert exception.frames[1]["plugin_name"] == "py_custom_plugin"
+    assert exception.frames[1]["plugin_key"] == "py_custom_plugin"
     assert exception.frames[1]["phase"] == "module_import"
     assert exception.chain == []
     assert str(exception) == payload["frames"]["0"]["what"]
@@ -263,9 +263,9 @@ def test_legacy_grpc_plugin_load_error_contract(monkeypatch, structured):
         "depth": 1,
         "frames": {
             "0": {
-                "type": "python_plugin_load",
+                "type": "plugin_load",
                 "what": "Python wrapper is missing.",
-                "plugin_name": "py_plugin",
+                "plugin_key": "py_plugin",
                 "phase": "wrapper_library",
             },
         },
@@ -291,8 +291,8 @@ def test_legacy_grpc_plugin_load_error_contract(monkeypatch, structured):
 
     exception = exception_info.value
     if structured:
-        assert exception.type == "python_plugin_load"
-        assert exception.fields["plugin_name"] == "py_plugin"
+        assert exception.type == "plugin_load"
+        assert exception.fields["plugin_key"] == "py_plugin"
         assert exception.fields["phase"] == "wrapper_library"
         assert str(exception) == "Python wrapper is missing."
         assert "RPC envelope" not in str(exception)
