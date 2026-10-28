@@ -26,7 +26,7 @@ import sys
 import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import errors, examples
+from ansys.dpf.core import errors, examples, plugins
 import conftest
 
 
@@ -151,3 +151,85 @@ def test_load_library_default_name(remote_config_server_type, testfiles_dir):
     dpf.load_library(filename=lib_name, server=server)
     assert len(server.plugins) == 3
     assert lib_name.split(".")[0] in server.plugins.keys()
+
+
+@pytest.mark.parametrize("load_api", ["load_library", "load_plugin_on_server"])
+@pytest.mark.parametrize(
+    "failure_name, source, expected_phase, exception_type, cause_type",
+    [
+        (
+            "import",
+            "raise ImportError('plugin import failed') from ModuleNotFoundError('missing_plugin_dependency')\n",
+            "module_import",
+            "ImportError",
+            "ModuleNotFoundError",
+        ),
+        (
+            "entry",
+            "def load_operators(*args):\n    raise ValueError('entry-point failure') from RuntimeError('original cause')\n",
+            "entry_point",
+            "ValueError",
+            "RuntimeError",
+        ),
+        ("missing", "value = 42\n", "entry_point", "AttributeError", ""),
+        ("noncallable", "load_operators = 42\n", "entry_point", "TypeError", ""),
+        (
+            "registration",
+            "from ansys.dpf.core.custom_operator import record_operator\n"
+            "class InvalidOperator:\n"
+            "    def __init__(self):\n"
+            "        raise ValueError('invalid operator registration') from RuntimeError('registration cause')\n"
+            "def load_operators(*args):\n"
+            "    record_operator(InvalidOperator, *args)\n",
+            "operator_registration",
+            "ValueError",
+            "RuntimeError",
+        ),
+    ],
+    ids=["import", "entry", "missing-entry", "noncallable-entry", "registration"],
+)
+def test_structured_python_plugin_load_errors(
+    server_type_remote_process,
+    tmp_path,
+    monkeypatch,
+    load_api,
+    failure_name,
+    source,
+    expected_phase,
+    exception_type,
+    cause_type,
+):
+    server = server_type_remote_process
+    if not server.meet_version("2027.2.pre0"):
+        pytest.skip("Structured Python-plugin load errors require server 2027.2 or later.")
+
+    plugin_name = f"structured_{failure_name}_{load_api}"
+    plugin_path = tmp_path / plugin_name
+    plugin_path.mkdir()
+    (plugin_path / "__init__.py").write_text(source, encoding="utf-8")
+
+    if load_api == "load_plugin_on_server":
+        initializer = plugins.importlib_metadata.PackagePath(f"{plugin_name}/__init__.py")
+        initializer.dist = plugins.importlib_metadata.PathDistribution(tmp_path / "plugin.dist-info")
+        monkeypatch.setattr(plugins.importlib_metadata, "files", lambda package: [initializer])
+    else:
+        server_path = dpf.path_utilities.join(dpf.make_tmp_dir_server(server=server), plugin_name)
+        dpf.upload_files_in_folder(server_path, plugin_path, specific_extension=".py", server=server)
+
+    with pytest.raises(errors.DPFServerException) as exception_info:
+        if load_api == "load_plugin_on_server":
+            plugins.load_plugin_on_server(f"ansys-dpf-{plugin_name}", server=server)
+        else:
+            dpf.load_library(server_path, f"py_{plugin_name}", "load_operators", server=server)
+
+    exception = exception_info.value
+    assert exception.type == "python_exception"
+    assert exception.fields["python_exception_type"] == exception_type
+    assert exception.fields["python_cause_type"] == cause_type
+    assert exception.fields["phase"] == expected_phase
+    assert exception.fields["plugin_name"] == plugin_name
+    assert exception.fields["plugin_path"].endswith(plugin_name)
+    assert exception.fields["entry_point"] == "load_operators"
+    assert exception.fields["python_traceback"]
+    assert any(frame.get("plugin_name") == f"py_{plugin_name}" for frame in exception.frames)
+    assert "Unknown exception occurred" not in str(exception)
