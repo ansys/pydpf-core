@@ -19,6 +19,7 @@ if TYPE_CHECKING:
     from ansys.dpf.core.field import Field
     from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.meshed_region import MeshedRegion
+    from ansys.dpf.core.scoping import Scoping
 
 
 class extend_to_mid_nodes(Operator):
@@ -30,6 +31,8 @@ class extend_to_mid_nodes(Operator):
     ------
     field: Field or FieldsContainer
         field or fields container with only one field is expected
+    element_scoping: Scoping, optional
+        Elements to visit when extending a Nodal field. The scoping must be Elemental and contain IDs belonging to the mesh. Unconnected: visit all mesh elements.
     mesh: MeshedRegion, optional
 
     Outputs
@@ -46,12 +49,15 @@ class extend_to_mid_nodes(Operator):
     >>> # Make input connections
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
+    >>> my_element_scoping = dpf.Scoping()
+    >>> op.inputs.element_scoping.connect(my_element_scoping)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.averaging.extend_to_mid_nodes(
     ...     field=my_field,
+    ...     element_scoping=my_element_scoping,
     ...     mesh=my_mesh,
     ... )
 
@@ -59,7 +65,9 @@ class extend_to_mid_nodes(Operator):
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, field=None, mesh=None, config=None, server=None):
+    def __init__(
+        self, field=None, element_scoping=None, mesh=None, config=None, server=None
+    ):
         super().__init__(
             name="extend_to_mid_nodes",
             config=config,
@@ -69,6 +77,8 @@ class extend_to_mid_nodes(Operator):
         )
         if field is not None:
             self.inputs.field.connect(field)
+        if element_scoping is not None:
+            self.inputs.element_scoping.connect(element_scoping)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
 
@@ -85,6 +95,12 @@ field defined also on the mid nodes.
                     type_names=["field", "fields_container"],
                     optional=False,
                     document=r"""field or fields container with only one field is expected""",
+                ),
+                2: PinSpecification(
+                    name="element_scoping",
+                    type_names=["scoping"],
+                    optional=True,
+                    document=r"""Elements to visit when extending a Nodal field. The scoping must be Elemental and contain IDs belonging to the mesh. Unconnected: visit all mesh elements.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -158,6 +174,8 @@ class InputsExtendToMidNodes(_Inputs):
     >>> op = dpf.operators.averaging.extend_to_mid_nodes()
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
+    >>> my_element_scoping = dpf.Scoping()
+    >>> op.inputs.element_scoping.connect(my_element_scoping)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     """
@@ -168,6 +186,10 @@ class InputsExtendToMidNodes(_Inputs):
             extend_to_mid_nodes._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._field)
+        self._element_scoping: Input[Scoping] = Input(
+            extend_to_mid_nodes._spec().input_pin(2), 2, op, -1
+        )
+        self._inputs.append(self._element_scoping)
         self._mesh: Input[MeshedRegion] = Input(
             extend_to_mid_nodes._spec().input_pin(7), 7, op, -1
         )
@@ -193,6 +215,27 @@ class InputsExtendToMidNodes(_Inputs):
         >>> op.inputs.field(my_field)
         """
         return self._field
+
+    @property
+    def element_scoping(self) -> Input[Scoping]:
+        r"""Allows to connect element_scoping input to the operator.
+
+        Elements to visit when extending a Nodal field. The scoping must be Elemental and contain IDs belonging to the mesh. Unconnected: visit all mesh elements.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.extend_to_mid_nodes()
+        >>> op.inputs.element_scoping.connect(my_element_scoping)
+        >>> # or
+        >>> op.inputs.element_scoping(my_element_scoping)
+        """
+        return self._element_scoping
 
     @property
     def mesh(self) -> Input[MeshedRegion]:
