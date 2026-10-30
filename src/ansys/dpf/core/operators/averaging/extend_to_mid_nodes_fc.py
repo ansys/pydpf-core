@@ -18,6 +18,8 @@ from ansys.dpf.core.server_types import AnyServerType
 if TYPE_CHECKING:
     from ansys.dpf.core.fields_container import FieldsContainer
     from ansys.dpf.core.meshed_region import MeshedRegion
+    from ansys.dpf.core.meshes_container import MeshesContainer
+    from ansys.dpf.core.scopings_container import ScopingsContainer
 
 
 class extend_to_mid_nodes_fc(Operator):
@@ -28,8 +30,10 @@ class extend_to_mid_nodes_fc(Operator):
     Inputs
     ------
     fields_container: FieldsContainer
-    mesh: MeshedRegion, optional
+    mesh: MeshedRegion or MeshesContainer, optional
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
+    element_scopings: ScopingsContainer, optional
+        Optional Elemental scopings restricting the elements visited for Nodal fields, without extracting meshes. Each field must match exactly one scoping by all container labels; extra field labels such as time are ignored. A single unlabeled scoping applies to every field. Unconnected: visit all elements of each matching mesh.
 
     Outputs
     -------
@@ -47,18 +51,28 @@ class extend_to_mid_nodes_fc(Operator):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_element_scopings = dpf.ScopingsContainer()
+    >>> op.inputs.element_scopings.connect(my_element_scopings)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.averaging.extend_to_mid_nodes_fc(
     ...     fields_container=my_fields_container,
     ...     mesh=my_mesh,
+    ...     element_scopings=my_element_scopings,
     ... )
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    def __init__(self, fields_container=None, mesh=None, config=None, server=None):
+    def __init__(
+        self,
+        fields_container=None,
+        mesh=None,
+        element_scopings=None,
+        config=None,
+        server=None,
+    ):
         super().__init__(
             name="extend_to_mid_nodes_fc",
             config=config,
@@ -70,6 +84,8 @@ class extend_to_mid_nodes_fc(Operator):
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
+        if element_scopings is not None:
+            self.inputs.element_scopings.connect(element_scopings)
 
     @staticmethod
     def _spec() -> Specification:
@@ -87,9 +103,15 @@ Elemental Nodal fields defined also on the mid nodes.
                 ),
                 1: PinSpecification(
                     name="mesh",
-                    type_names=["abstract_meshed_region"],
+                    type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
                     document=r"""The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.""",
+                ),
+                2: PinSpecification(
+                    name="element_scopings",
+                    type_names=["scopings_container"],
+                    optional=True,
+                    document=r"""Optional Elemental scopings restricting the elements visited for Nodal fields, without extracting meshes. Each field must match exactly one scoping by all container labels; extra field labels such as time are ignored. A single unlabeled scoping applies to every field. Unconnected: visit all elements of each matching mesh.""",
                 ),
             },
             map_output_pin_spec={
@@ -159,6 +181,8 @@ class InputsExtendToMidNodesFc(_Inputs):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_element_scopings = dpf.ScopingsContainer()
+    >>> op.inputs.element_scopings.connect(my_element_scopings)
     """
 
     def __init__(self, op: Operator):
@@ -167,10 +191,14 @@ class InputsExtendToMidNodesFc(_Inputs):
             extend_to_mid_nodes_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
-        self._mesh: Input[MeshedRegion] = Input(
+        self._mesh: Input[MeshedRegion | MeshesContainer] = Input(
             extend_to_mid_nodes_fc._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh)
+        self._element_scopings: Input[ScopingsContainer] = Input(
+            extend_to_mid_nodes_fc._spec().input_pin(2), 2, op, -1
+        )
+        self._inputs.append(self._element_scopings)
 
     @property
     def fields_container(self) -> Input[FieldsContainer]:
@@ -192,7 +220,7 @@ class InputsExtendToMidNodesFc(_Inputs):
         return self._fields_container
 
     @property
-    def mesh(self) -> Input[MeshedRegion]:
+    def mesh(self) -> Input[MeshedRegion | MeshesContainer]:
         r"""Allows to connect mesh input to the operator.
 
         The mesh region in this pin is used to perform the averaging. It is used if there is no fields support.
@@ -211,6 +239,27 @@ class InputsExtendToMidNodesFc(_Inputs):
         >>> op.inputs.mesh(my_mesh)
         """
         return self._mesh
+
+    @property
+    def element_scopings(self) -> Input[ScopingsContainer]:
+        r"""Allows to connect element_scopings input to the operator.
+
+        Optional Elemental scopings restricting the elements visited for Nodal fields, without extracting meshes. Each field must match exactly one scoping by all container labels; extra field labels such as time are ignored. A single unlabeled scoping applies to every field. Unconnected: visit all elements of each matching mesh.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.extend_to_mid_nodes_fc()
+        >>> op.inputs.element_scopings.connect(my_element_scopings)
+        >>> # or
+        >>> op.inputs.element_scopings(my_element_scopings)
+        """
+        return self._element_scopings
 
 
 class OutputsExtendToMidNodesFc(_Outputs):
