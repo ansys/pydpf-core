@@ -40,6 +40,10 @@ class elemental_nodal_to_nodal_elemental_fc(Operator):
     -------
     fields_container: FieldsContainer
         Nodal elemental fields with input fields container label spaces preserved.
+    node_scopings: ScopingsContainer
+        Nodal scopings aligned with the records of each output field, preserving the fields container label spaces.
+    element_scopings: ScopingsContainer
+        Elemental scopings aligned with the records of each output field, preserving the fields container label spaces.
 
     Examples
     --------
@@ -65,6 +69,8 @@ class elemental_nodal_to_nodal_elemental_fc(Operator):
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
+    >>> result_node_scopings = op.outputs.node_scopings()
+    >>> result_element_scopings = op.outputs.element_scopings()
     """
 
     def __init__(
@@ -122,6 +128,18 @@ is computed on a given node’s scoping.
                     type_names=["fields_container"],
                     optional=False,
                     document=r"""Nodal elemental fields with input fields container label spaces preserved.""",
+                ),
+                1: PinSpecification(
+                    name="node_scopings",
+                    type_names=["scopings_container"],
+                    optional=False,
+                    document=r"""Nodal scopings aligned with the records of each output field, preserving the fields container label spaces.""",
+                ),
+                2: PinSpecification(
+                    name="element_scopings",
+                    type_names=["scopings_container"],
+                    optional=False,
+                    document=r"""Elemental scopings aligned with the records of each output field, preserving the fields container label spaces.""",
                 ),
             },
         )
@@ -278,6 +296,8 @@ class OutputsElementalNodalToNodalElementalFc(_Outputs):
     >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental_fc()
     >>> # Connect inputs : op.inputs. ...
     >>> result_fields_container = op.outputs.fields_container()
+    >>> result_node_scopings = op.outputs.node_scopings()
+    >>> result_element_scopings = op.outputs.element_scopings()
     """
 
     def __init__(self, op: Operator):
@@ -286,6 +306,14 @@ class OutputsElementalNodalToNodalElementalFc(_Outputs):
             elemental_nodal_to_nodal_elemental_fc._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
+        self._node_scopings: Output[ScopingsContainer] = Output(
+            elemental_nodal_to_nodal_elemental_fc._spec().output_pin(1), 1, op
+        )
+        self._outputs.append(self._node_scopings)
+        self._element_scopings: Output[ScopingsContainer] = Output(
+            elemental_nodal_to_nodal_elemental_fc._spec().output_pin(2), 2, op
+        )
+        self._outputs.append(self._element_scopings)
 
     @property
     def fields_container(self) -> Output[FieldsContainer]:
@@ -306,3 +334,43 @@ class OutputsElementalNodalToNodalElementalFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """
         return self._fields_container
+
+    @property
+    def node_scopings(self) -> Output[ScopingsContainer]:
+        r"""Allows to get node_scopings output of the operator
+
+        Nodal scopings aligned with the records of each output field, preserving the fields container label spaces.
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental_fc()
+        >>> # Get the output from op.outputs. ...
+        >>> result_node_scopings = op.outputs.node_scopings()
+        """
+        return self._node_scopings
+
+    @property
+    def element_scopings(self) -> Output[ScopingsContainer]:
+        r"""Allows to get element_scopings output of the operator
+
+        Elemental scopings aligned with the records of each output field, preserving the fields container label spaces.
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental_fc()
+        >>> # Get the output from op.outputs. ...
+        >>> result_element_scopings = op.outputs.element_scopings()
+        """
+        return self._element_scopings
