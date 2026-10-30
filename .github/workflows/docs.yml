@@ -182,24 +182,24 @@ jobs:
             doc-build-main-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-${{hashfiles('uv.lock', 'pyproject.toml')}}-
             doc-build-main-DPF_${{inputs.ANSYS_VERSION}}${{inputs.standalone_suffix}}-
 
-      - name: "Reuse cached API documentation when the sources are unchanged"
-        # sphinx-autoapi only skips its read/render stage when no scanned source file is newer
-        # than the max mtime (modified timestamp) recorded in the cached Sphinx environment.
-        # However, actions/checkout gives every file a fresh mtime. Backdating is therefore
-        # required and is basedon an exact content hash so that any source change still triggers
-        # a full regeneration.
-        shell: bash
-        env:
-          SRC_HASH: ${{ hashfiles('src/ansys/**/*.py') }}
-        run: |
-          stamp="doc/build/.doctrees/.autoapi-src-hash"
-          if [[ -d doc/source/api && -f "${stamp}" && "$(cat "${stamp}")" == "${SRC_HASH}" ]]; then
-            find src/ansys -name '*.py' -exec touch -d '2000-01-01T00:00:00Z' {} +
-            echo "API sources unchanged: autoapi reuses the cached doc/source/api."
-          else
-            rm -rf doc/source/api
-            echo "API sources changed or not cached: autoapi regenerates doc/source/api."
-          fi
+      # - name: "Reuse cached API documentation when the sources are unchanged"
+      #   # sphinx-autoapi only skips its read/render stage when no scanned source file is newer
+      #   # than the max mtime (modified timestamp) recorded in the cached Sphinx environment.
+      #   # However, actions/checkout gives every file a fresh mtime. Backdating is therefore
+      #   # required and is basedon an exact content hash so that any source change still triggers
+      #   # a full regeneration.
+      #   shell: bash
+      #   env:
+      #     SRC_HASH: ${{ hashfiles('src/ansys/**/*.py') }}
+      #   run: |
+      #     stamp="doc/build/.doctrees/.autoapi-src-hash"
+      #     if [[ -d doc/source/api && -f "${stamp}" && "$(cat "${stamp}")" == "${SRC_HASH}" ]]; then
+      #       find src/ansys -name '*.py' -exec touch -d '2000-01-01T00:00:00Z' {} +
+      #       echo "API sources unchanged: autoapi reuses the cached doc/source/api."
+      #     else
+      #       rm -rf doc/source/api
+      #       echo "API sources changed or not cached: autoapi regenerates doc/source/api."
+      #     fi
 
       - name: "Restore tracked doc sources overwritten by the cache"
         # The cached output directories also hold files tracked by git, which the cache
@@ -215,13 +215,13 @@ jobs:
         run: |
           uv run tox -e doc-html
 
-      - name: "Stamp the cached API documentation"
-        shell: bash
-        env:
-          SRC_HASH: ${{ hashfiles('src/ansys/**/*.py') }}
-        run: |
-          mkdir -p doc/build/.doctrees
-          echo "${SRC_HASH}" > doc/build/.doctrees/.autoapi-src-hash
+      # - name: "Stamp the cached API documentation"
+      #   shell: bash
+      #   env:
+      #     SRC_HASH: ${{ hashfiles('src/ansys/**/*.py') }}
+      #   run: |
+      #     mkdir -p doc/build/.doctrees
+      #     echo "${SRC_HASH}" > doc/build/.doctrees/.autoapi-src-hash
 
       - name: "Save doc-build cache"
         id: cache-doc-build-save
