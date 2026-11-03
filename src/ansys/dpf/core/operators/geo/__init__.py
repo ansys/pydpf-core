@@ -8,7 +8,6 @@ from .faces_area import faces_area
 from .gauss_to_node import gauss_to_node
 from .integrate_over_elements import integrate_over_elements
 from .normals import normals
-from .normals_provider_nl import normals_provider_nl
 from .rotate import rotate
 from .rotate_fc import rotate_fc
 from .rotate_in_cylindrical_cs import rotate_in_cylindrical_cs
