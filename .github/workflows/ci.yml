@@ -166,7 +166,6 @@ jobs:
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
       PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
-      PYANSYS_CI_BOT_USERNAME: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   docker_tests:
