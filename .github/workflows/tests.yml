@@ -34,6 +34,8 @@ on:
         required: true
       PYANSYS_CI_BOT_TOKEN:
         required: true
+      PYANSYS_CI_BOT_USERNAME:
+        required: true
       CODECOV_TOKEN:
         required: false
 # Can be called manually
@@ -157,7 +159,18 @@ jobs:
         run: |
           uv sync --only-group tox
 
+      - name: "Configure DPF Linux image"
+        if: runner.os == 'Linux'
+        shell: bash
+        env:
+          GHCR_USERNAME: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+          GHCR_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+        run: |
+          echo "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USERNAME" --password-stdin
+          echo "DPF_DOCKER=ghcr.io/ansys/dpf-standalone:27R2" >> "$GITHUB_ENV"
+
       - name: "Install DPF"
+        if: runner.os == 'Windows'
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-server@c672fc3844d1606e8dc650ee3ab634be7ea60916 # v2.4
         with:
@@ -168,7 +181,7 @@ jobs:
 
       - name: "Expose the standalone DPF server to tox"
         id: dpf-standalone
-        if: env.MODE == 'PIP'
+        if: runner.os == 'Windows' && env.MODE == 'PIP'
         shell: bash
         env:
           STANDALONE_PATH: ${{ steps.set-server-path.outputs.standalone-path }}
