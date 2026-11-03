@@ -147,11 +147,19 @@ jobs:
           echo "ANSYSLMD_LICENSE_FILE=1055@${LICENSE_SERVER}" >> $GITHUB_ENV
 
       - name: "Setup Python"
+        if: runner.os == 'Windows'
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: "Install Linux test dependencies"
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          dnf install -y git graphviz mesa-libGL mesa-libOSMesa xorg-x11-server-Xvfb
+
       - name: "Setup Graphviz"
+        if: runner.os == 'Windows'
         uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2.0.2
 
       - name: "Install uv"
@@ -159,8 +167,14 @@ jobs:
         with:
           enable-cache: false
 
+      - name: "Install Python in Linux container"
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          uv python install "$UV_PYTHON"
+
       - name: "Install tox"
-        shell: pwsh
+        shell: bash
         run: |
           uv sync --only-group tox
 
@@ -184,10 +198,22 @@ jobs:
           echo "requirement=-e ${STANDALONE_PATH}" >> "$GITHUB_OUTPUT"
 
       - name: "Prepare Testing Environment"
+        if: runner.os == 'Windows'
         uses: ansys/pydpf-actions/prepare_tests@c672fc3844d1606e8dc650ee3ab634be7ea60916 # v2.4
         with:
           DEBUG: true
           skip-python-dependencies-install: "true"
+
+      - name: "Prepare Linux container for tests"
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          echo "VTK_DEFAULT_OPENGL_WINDOW=vtkOSOpenGLRenderWindow" >> "$GITHUB_ENV"
+          echo "PYVISTA_OFF_SCREEN=true" >> "$GITHUB_ENV"
+          echo "TMP=$RUNNER_TEMP" >> "$GITHUB_ENV"
+          echo "TEMP=$RUNNER_TEMP" >> "$GITHUB_ENV"
+          Xvfb :99 -screen 0 1024x768x24 > /tmp/xvfb.log 2>&1 &
+          echo "DISPLAY=:99.0" >> "$GITHUB_ENV"
 
       - name: "Test Docstrings"
         if: (inputs.DOCSTRING == 'true')
