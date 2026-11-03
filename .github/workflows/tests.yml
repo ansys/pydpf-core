@@ -110,25 +110,30 @@ jobs:
           operating-system: ${{ matrix.os }}${{ inputs.test_any == 'true' && '-any' || '' }}
           python-version: ${{ matrix.python-version }}
 
-  tests:
-    name: "Tests" # zizmor: ignore[concurrency-limits] , this is a reusable workflow
+  tests-linux:
+    name: "Linux Tests (DPF container)"
     needs: setup
     timeout-minutes: 120
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     strategy:
       fail-fast: false
       matrix:
         python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
-        os: ["windows-latest", "ubuntu-latest"]
+        os: ["ubuntu-latest"]
+    container:
+      image: ghcr.io/ansys/dpf-standalone:linux-27.2
+      credentials:
+        username: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+        password: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
     env:
       ANSYS_DPF_WHEEL_PLATFORM: ${{ inputs.test_any == 'true' && 'any' || '' }}
       UV_PYTHON: ${{ matrix.python-version }}
       # `uv sync` is run explicitly below, this variable is needed to prevent re-syncing on `uv run`.
       UV_NO_SYNC: "1"
 
-    steps:
+    steps: &tests_steps
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
@@ -158,17 +163,6 @@ jobs:
         shell: pwsh
         run: |
           uv sync --only-group tox
-
-      - name: "Install DPF Linux image"
-        if: runner.os == 'Linux'
-        shell: bash
-        env:
-          GHCR_USERNAME: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
-          GHCR_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
-        run: |
-          echo "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USERNAME" --password-stdin
-          docker pull ghcr.io/ansys/dpf-standalone:linux-27.2
-          echo "DPF_DOCKER=ghcr.io/ansys/dpf-standalone:linux-27.2" >> "$GITHUB_ENV"
 
       - name: "Install DPF"
         if: runner.os == 'Windows'
@@ -325,3 +319,21 @@ jobs:
           report_type: test_results
           name: test_results_${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }}${{ inputs.test_any == 'true' && '_any' || '' }}
           flags: ${{ inputs.ANSYS_VERSION || vars.ANSYS_VERSION_DEFAULT }},${{ matrix.os }},${{ matrix.python-version }}${{ inputs.test_any == 'true' && ',any' || '' }}
+
+  tests-windows:
+    name: "Windows Tests"
+    needs: setup
+    timeout-minutes: 120
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
+        os: ["windows-latest"]
+    env:
+      ANSYS_DPF_WHEEL_PLATFORM: ${{ inputs.test_any == 'true' && 'any' || '' }}
+      UV_PYTHON: ${{ matrix.python-version }}
+      UV_NO_SYNC: "1"
+    steps: *tests_steps
