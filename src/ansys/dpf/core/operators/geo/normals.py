@@ -22,16 +22,21 @@ if TYPE_CHECKING:
 
 
 class normals(Operator):
-    r"""compute the normals at the given nodes or element scoping based on the
-    given mesh (first version, the element normal is only handled on the
-    shell elements)
+    r"""Computes normals on skin, face, or shell meshes using the enhanced
+    normals implementation. Supports nodal, face, elemental, and
+    elemental-nodal locations, including quadratic elements.
 
 
     Inputs
     ------
     mesh: MeshedRegion, optional
+        Skin, face, or shell mesh region. If omitted, the mesh is taken from the field input.
     mesh_scoping: Scoping, optional
+        Optional scoping. If omitted with a field input, the field scoping is used.
     field: Field, optional
+        If mesh pin 0 is not connected, the field support supplies mesh and scoping unless pin 1 is connected.
+    requested_location: str, optional
+        Selects output location when scoping is omitted or is Elemental or ElementalNodal. Defaults to Elemental for element meshes and Faces for face-only meshes.
 
     Outputs
     -------
@@ -51,12 +56,15 @@ class normals(Operator):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
+    >>> my_requested_location = str()
+    >>> op.inputs.requested_location.connect(my_requested_location)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.geo.normals(
     ...     mesh=my_mesh,
     ...     mesh_scoping=my_mesh_scoping,
     ...     field=my_field,
+    ...     requested_location=my_requested_location,
     ... )
 
     >>> # Get output data
@@ -64,7 +72,13 @@ class normals(Operator):
     """
 
     def __init__(
-        self, mesh=None, mesh_scoping=None, field=None, config=None, server=None
+        self,
+        mesh=None,
+        mesh_scoping=None,
+        field=None,
+        requested_location=None,
+        config=None,
+        server=None,
     ):
         super().__init__(
             name="normals_provider",
@@ -79,12 +93,14 @@ class normals(Operator):
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if field is not None:
             self.inputs.field.connect(field)
+        if requested_location is not None:
+            self.inputs.requested_location.connect(requested_location)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""compute the normals at the given nodes or element scoping based on the
-given mesh (first version, the element normal is only handled on the
-shell elements)
+        description = r"""Computes normals on skin, face, or shell meshes using the enhanced
+normals implementation. Supports nodal, face, elemental, and
+elemental-nodal locations, including quadratic elements.
 """
         spec = Specification(
             description=description,
@@ -93,19 +109,25 @@ shell elements)
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Skin, face, or shell mesh region. If omitted, the mesh is taken from the field input.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Optional scoping. If omitted with a field input, the field scoping is used.""",
                 ),
-                3: PinSpecification(
+                2: PinSpecification(
                     name="field",
                     type_names=["field"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""If mesh pin 0 is not connected, the field support supplies mesh and scoping unless pin 1 is connected.""",
+                ),
+                9: PinSpecification(
+                    name="requested_location",
+                    type_names=["string"],
+                    optional=True,
+                    document=r"""Selects output location when scoping is omitted or is Elemental or ElementalNodal. Defaults to Elemental for element meshes and Faces for face-only meshes.""",
                 ),
             },
             map_output_pin_spec={
@@ -177,6 +199,8 @@ class InputsNormals(_Inputs):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
+    >>> my_requested_location = str()
+    >>> op.inputs.requested_location.connect(my_requested_location)
     """
 
     def __init__(self, op: Operator):
@@ -187,12 +211,18 @@ class InputsNormals(_Inputs):
             normals._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_scoping)
-        self._field: Input[Field] = Input(normals._spec().input_pin(3), 3, op, -1)
+        self._field: Input[Field] = Input(normals._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._field)
+        self._requested_location: Input[str] = Input(
+            normals._spec().input_pin(9), 9, op, -1
+        )
+        self._inputs.append(self._requested_location)
 
     @property
     def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
+
+        Skin, face, or shell mesh region. If omitted, the mesh is taken from the field input.
 
         Returns
         -------
@@ -213,6 +243,8 @@ class InputsNormals(_Inputs):
     def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
+        Optional scoping. If omitted with a field input, the field scoping is used.
+
         Returns
         -------
         input:
@@ -232,6 +264,8 @@ class InputsNormals(_Inputs):
     def field(self) -> Input[Field]:
         r"""Allows to connect field input to the operator.
 
+        If mesh pin 0 is not connected, the field support supplies mesh and scoping unless pin 1 is connected.
+
         Returns
         -------
         input:
@@ -246,6 +280,27 @@ class InputsNormals(_Inputs):
         >>> op.inputs.field(my_field)
         """
         return self._field
+
+    @property
+    def requested_location(self) -> Input[str]:
+        r"""Allows to connect requested_location input to the operator.
+
+        Selects output location when scoping is omitted or is Elemental or ElementalNodal. Defaults to Elemental for element meshes and Faces for face-only meshes.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.geo.normals()
+        >>> op.inputs.requested_location.connect(my_requested_location)
+        >>> # or
+        >>> op.inputs.requested_location(my_requested_location)
+        """
+        return self._requested_location
 
 
 class OutputsNormals(_Outputs):
