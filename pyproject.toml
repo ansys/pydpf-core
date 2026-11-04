@@ -222,6 +222,9 @@ combine-as-imports = true
 force-sort-within-sections = true
 known-first-party = ["ansys"]
 
+[tool.ruff.lint.pylint]
+max-positional-args = 12
+
 [tool.coverage.run]
 source = ["ansys.dpf.core"]
 patch = ["subprocess"]

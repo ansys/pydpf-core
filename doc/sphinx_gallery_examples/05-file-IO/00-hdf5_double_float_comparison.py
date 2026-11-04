@@ -114,6 +114,5 @@ else:
 float_precision = float_file_path.stat().st_size
 double_precision = double_file_path.stat().st_size
 print(
-    f"size with float precision: {float_precision}\n"
-    f"size with double precision: {double_precision}"
+    f"size with float precision: {float_precision}\nsize with double precision: {double_precision}"
 )

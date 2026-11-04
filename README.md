@@ -176,7 +176,7 @@ remote or local DPF instance, use the ``connect_to_server`` method:
 
 ```pycon
 >>> from ansys.dpf import core as dpf
->>> dpf.connect_to_server(ip='10.0.0.22', port=50054)
+>>> dpf.connect_to_server(ip="10.0.0.22", port=50054)
 ```
 
 Once connected, this connection remains for the duration of the
