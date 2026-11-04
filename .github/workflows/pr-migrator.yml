@@ -24,7 +24,7 @@ jobs:
     steps:
 
       - name: "Migrate fork PR"
-        uses: ansys/actions/hk-migrate-fork-pr@7410037bfb276c79ae91eb3617b9f5d2876f0c94 # v11.0.8
+        uses: ansys/actions/hk-migrate-fork-pr@87ff2e65e8884121f9afc97728ca9f213228ecc2 # v11.1.4
         with:
           pr-number: ${{ github.event.issue.number }}
           comment-id: ${{ github.event.comment.id }}
