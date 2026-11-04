@@ -262,8 +262,7 @@ class StringField(_FieldBase):
                 and data.size // self.component_count != data.size / self.component_count
             ):
                 raise ValueError(
-                    f"An array of shape {self.shape} is expected and "
-                    f"shape {data.shape} was input"
+                    f"An array of shape {self.shape} is expected and shape {data.shape} was input"
                 )
         string_list = integral_types.MutableListString(data)
         return self._api.csstring_field_set_data(self, _get_size_of_list(data), string_list)

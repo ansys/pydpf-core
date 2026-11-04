@@ -46,7 +46,7 @@ if grpc_path:
                 )
     print("Done updating ansys.grpc.dpf")
 else:
-    print(f"{grpc_path_key} environment variable is not defined. " "Cannot update ansys-grpc-dpf.")
+    print(f"{grpc_path_key} environment variable is not defined. Cannot update ansys-grpc-dpf.")
 
 if gate_path:
     # Update ansys-dpf-gate

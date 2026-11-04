@@ -185,7 +185,7 @@ elif os.name == "posix" and not (Path(plugin_path) / "assets" / "gltf_sites_linx
     run_cmd = f"{cmd_file}"
     args = (
         f' -pluginpath "{plugin_path}" '
-        f"-zippath \"{Path(plugin_path)/'assets'/'gltf_sites_linx64.zip'}\""
+        f'-zippath "{Path(plugin_path) / "assets" / "gltf_sites_linx64.zip"}"'
     )
     print(run_cmd + args)
     os.system(f"chmod u=rwx,o=x {cmd_file}")

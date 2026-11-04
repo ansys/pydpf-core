@@ -343,9 +343,7 @@ class Any:
             if server_meet_version_and_raise(
                 "9.0",
                 inner_server,
-                "Creating an Any from a list is only supported "
-                "with"
-                "server versions starting at 9.0",
+                "Creating an Any from a list is only supported withserver versions starting at 9.0",
             ):
                 inpt = collection.CollectionBase.integral_collection(obj, inner_server)
                 vector_type = (
