@@ -208,6 +208,12 @@ jobs:
         if: runner.os == 'Linux'
         shell: bash
         run: |
+          DPF_ROOT="${AWP_ROOT272}"
+          if [[ -z "$DPF_ROOT" ]]; then
+            echo "AWP_ROOT272 is not set by the DPF image" >&2
+            exit 1
+          fi
+          echo "LD_LIBRARY_PATH=$DPF_ROOT/commonfiles/fluids/lib/linx64:$DPF_ROOT/tp/hdf5/linx64/lib:$DPF_ROOT/tp/openssl/3.5/linx64/lib:$DPF_ROOT/tp/IntelMKL/2024.2.0/linx64/lib/intel64:$DPF_ROOT/tp/IntelCompiler/2025.3.2/linx64/lib:$DPF_ROOT/Framework/bin/Linux64:$DPF_ROOT/tp/stdc++:$DPF_ROOT/aisol/lib/linx64:$DPF_ROOT/aisol/dll/linx64:$DPF_ROOT/aisol/bin/linx64:$DPF_ROOT/dpf/bin/linx64:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
           echo "VTK_DEFAULT_OPENGL_WINDOW=vtkOSOpenGLRenderWindow" >> "$GITHUB_ENV"
           echo "PYVISTA_OFF_SCREEN=true" >> "$GITHUB_ENV"
           echo "TMP=$RUNNER_TEMP" >> "$GITHUB_ENV"
