@@ -83,7 +83,7 @@ class Changelog:
         """
         current_version = self.last_version
         new_version = Version(
-            f"{current_version.major}.{current_version.minor}.{current_version.micro+1}"
+            f"{current_version.major}.{current_version.minor}.{current_version.micro + 1}"
         )
         self.append(version=new_version, changes=changes)
         return self
@@ -102,7 +102,7 @@ class Changelog:
             Returns the current changelog to allow for chaining calls to bumps.
         """
         current_version = self.last_version
-        new_version = Version(f"{current_version.major}.{current_version.minor+1}.0")
+        new_version = Version(f"{current_version.major}.{current_version.minor + 1}.0")
         self.append(version=new_version, changes=changes)
         return self
 
@@ -120,7 +120,7 @@ class Changelog:
             Returns the current changelog to allow for chaining calls to bumps.
         """
         current_version = self.last_version
-        new_version = Version(f"{current_version.major+1}.0.0")
+        new_version = Version(f"{current_version.major + 1}.0.0")
         self.append(version=new_version, changes=changes)
         return self
 

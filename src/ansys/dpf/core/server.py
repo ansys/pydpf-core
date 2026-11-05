@@ -359,7 +359,7 @@ def start_local_server(  # noqa: PLR0912, PLR0913, PLR0915, C901
 
             warnings.warn(
                 f"Failed to start a server in {timeout}s, "
-                + f"trying again once in {timeout * 2.}s."
+                + f"trying again once in {timeout * 2.0}s."
             )
             timeout *= 2.0
             timed_out = True

@@ -521,7 +521,7 @@ class _PyVistaPlotter:
             # Get Node ID at max.
             node_id_at_max = max_field.scoping.id(0)
             labels.append(
-                f"Max: {((max_field.data ** 2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_max}"
+                f"Max: {((max_field.data**2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_max}"
             )
             # Get Node index at max value.
             node_ids.append(node_id_at_max)
@@ -531,7 +531,7 @@ class _PyVistaPlotter:
             # Get Node ID at min.
             node_id_at_min = min_field.scoping.id(0)
             labels.append(
-                f"Min: {((min_field.data ** 2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_min}"
+                f"Min: {((min_field.data**2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_min}"
             )
             # Get Node index at min. value.
             node_ids.append(node_id_at_min)
@@ -1168,7 +1168,7 @@ class _VisualizationInterfacePlotter:
             # Get Node ID at max.
             node_id_at_max = max_field.scoping.id(0)
             labels.append(
-                f"Max: {((max_field.data ** 2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_max}"
+                f"Max: {((max_field.data**2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_max}"
             )
             # Get Node index at max value.
             node_ids.append(node_id_at_max)
@@ -1178,7 +1178,7 @@ class _VisualizationInterfacePlotter:
             # Get Node ID at min.
             node_id_at_min = min_field.scoping.id(0)
             labels.append(
-                f"Min: {((min_field.data ** 2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_min}"
+                f"Min: {((min_field.data**2).sum() ** 0.5):.2e}\nNodeID: {node_id_at_min}"
             )
             # Get Node index at min. value.
             node_ids.append(node_id_at_min)
@@ -1848,8 +1848,7 @@ def plot_chart(fields_container, off_screen=False, screenshot=None):
     tfq = fields_container.time_freq_support
     if len(fields_container) != len(tfq.time_frequencies):
         raise Exception(
-            "Fields container must contain real fields at all time "
-            "steps of the time_freq_support."
+            "Fields container must contain real fields at all time steps of the time_freq_support."
         )
     time_field = tfq.time_frequencies
     normOp = dpf.core.Operator("norm_fc")
@@ -1954,8 +1953,7 @@ class Plotter:
         """
         warnings.warn(
             DeprecationWarning(
-                "Plotter.plot_chart is deprecated. Use "
-                "ansys.dpf.core.plotter.plot_chart instead."
+                "Plotter.plot_chart is deprecated. Use ansys.dpf.core.plotter.plot_chart instead."
             ),
             stacklevel=2,
         )

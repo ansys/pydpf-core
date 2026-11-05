@@ -68,7 +68,7 @@ def field_from_array(
         raise TypeError("Array must be a numeric type")
 
     shp_err = ValueError(
-        "Array must be either contain 1 dimension or " "2 dimensions with three components."
+        "Array must be either contain 1 dimension or 2 dimensions with three components."
     )
     if arr.ndim == 1:
         nature = natures.scalar

@@ -84,8 +84,7 @@ from ansys.dpf.core.examples.examples import find_files
 EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/main/"
 
 GITHUB_SOURCE_URL = (
-    "https://github.com/ansys/pydpf-core/raw/"
-    "main/doc/source/examples/07-python-operators/plugins/"
+    "https://github.com/ansys/pydpf-core/raw/main/doc/source/examples/07-python-operators/plugins/"
 )
 
 

@@ -818,8 +818,10 @@ class Workflow:
                 if permissive:
                     output_input_names = dict(
                         filter(
-                            lambda item: item[0] in left_workflow.output_names
-                            and item[1] in self.input_names,
+                            lambda item: (
+                                item[0] in left_workflow.output_names
+                                and item[1] in self.input_names
+                            ),
                             output_input_names.items(),
                         )
                     )

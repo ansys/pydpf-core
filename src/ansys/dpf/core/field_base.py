@@ -825,8 +825,7 @@ class _LocalFieldBase(_FieldBase):
         elif isinstance(data, (np.ndarray, np.generic)):
             if data.shape != self.shape and 0 != self.size:
                 raise ValueError(
-                    f"An array of shape {self.shape} is expected and "
-                    f"shape {data.shape} was input"
+                    f"An array of shape {self.shape} is expected and shape {data.shape} was input"
                 )
         if isinstance(data, (np.ndarray, np.generic)):
             self._data_copy = data.flatten().tolist()

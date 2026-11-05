@@ -113,7 +113,7 @@ def initialize_server(  # noqa: PLR0912, PLR0913, C901
                 name="composites",
             )
         except Exception as e:
-            warnings.warn("Could not load Composites plugin:" f"{e}")
+            warnings.warn(f"Could not load Composites plugin:{e}")
     if include_sound and server.os == "nt":  # pragma: nocover
         if verbose:
             print("Loading Acoustics Plugin")
@@ -123,7 +123,7 @@ def initialize_server(  # noqa: PLR0912, PLR0913, C901
                 name="sound",
             )
         except Exception as e:
-            warnings.warn("Could not load Acoustics plugin:" f"{e}")
+            warnings.warn(f"Could not load Acoustics plugin:{e}")
     for idx, plugin_path in enumerate(custom_plugin_paths or []):  # pragma: nocover
         plugin_path = Path(plugin_path)  # noqa: PLW2901
         # Resolve the name: use the provided name if available, else derive from the file stem
