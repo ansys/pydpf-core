@@ -127,7 +127,7 @@ jobs:
         python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
         os: ["ubuntu-latest"]
     container:
-      image: ghcr.io/ansys/dpf-standalone:linux-27.2
+      image: ghcr.io/ansys/dpf-standalone:linux-27.2 # zizmor: ignore[unpinned-images]
       credentials:
         username: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
         password: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
