@@ -1,0 +1,52 @@
+
+:orphan:
+
+.. _sphx_glr_tutorials_mesh_sg_execution_times:
+
+
+Computation times
+=================
+**02:02.666** total execution time for 6 files **from tutorials\mesh**:
+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr_tutorials_mesh_split_mesh.py` (``split_mesh.py``)
+     - 01:05.480
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mesh_get_mesh_from_result_file.py` (``get_mesh_from_result_file.py``)
+     - 00:26.051
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mesh_extract_mesh_in_split_parts.py` (``extract_mesh_in_split_parts.py``)
+     - 00:20.918
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mesh_explore_mesh.py` (``explore_mesh.py``)
+     - 00:06.445
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mesh_explore_mesh_metadata.py` (``explore_mesh_metadata.py``)
+     - 00:02.044
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mesh_create_a_mesh_from_scratch.py` (``create_a_mesh_from_scratch.py``)
+     - 00:01.727
+     - 0.0

@@ -1,0 +1,148 @@
+
+
+
+
+
+
+:class:`OutputsPrincipalInvariantsFc`
+=====================================
+
+
+.. py:class:: ansys.dpf.core.operators.invariant.principal_invariants_fc.OutputsPrincipalInvariantsFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   principal_invariants_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.principal_invariants_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_eig_1 = op.outputs.fields_eig_1()
+   >>> result_fields_eig_2 = op.outputs.fields_eig_2()
+   >>> result_fields_eig_3 = op.outputs.fields_eig_3()
+
+
+
+
+
+.. py:currentmodule:: OutputsPrincipalInvariantsFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_eig_1`
+            - Allows to get fields_eig_1 output of the operator
+          * - :py:attr:`~fields_eig_2`
+            - Allows to get fields_eig_2 output of the operator
+          * - :py:attr:`~fields_eig_3`
+            - Allows to get fields_eig_3 output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.invariant.principal_invariants_fc import OutputsPrincipalInvariantsFc
+
+Property detail
+---------------
+
+.. py:property:: fields_eig_1
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get fields_eig_1 output of the operator
+
+   first eigen value fields
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.principal_invariants_fc()
+   >>> # Get the output from op.outputs. ...
+   >>> result_fields_eig_1 = op.outputs.fields_eig_1()
+
+.. py:property:: fields_eig_2
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get fields_eig_2 output of the operator
+
+   second eigen value fields
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.principal_invariants_fc()
+   >>> # Get the output from op.outputs. ...
+   >>> result_fields_eig_2 = op.outputs.fields_eig_2()
+
+.. py:property:: fields_eig_3
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get fields_eig_3 output of the operator
+
+   third eigen value fields
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.principal_invariants_fc()
+   >>> # Get the output from op.outputs. ...
+   >>> result_fields_eig_3 = op.outputs.fields_eig_3()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

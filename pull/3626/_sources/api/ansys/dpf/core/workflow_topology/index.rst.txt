@@ -1,0 +1,132 @@
+
+
+
+
+
+
+The ``workflow_topology`` package
+=====================================
+
+.. py:module:: ansys.dpf.core.workflow_topology
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: workflow_topology
+.. tab-set::
+
+
+    .. tab-item:: Submodules
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.workflow_topology.data_connection`
+            - DataConnection.
+
+
+          * - :py:obj:`~ansys.dpf.core.workflow_topology.exposed_pin`
+            - ExposedPin.
+
+
+          * - :py:obj:`~ansys.dpf.core.workflow_topology.operator_connection`
+            - OperatorConnection.
+
+
+          * - :py:obj:`~ansys.dpf.core.workflow_topology.workflow_topology`
+            - WorkflowTopology.
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.workflow_topology.DataConnection`
+            - Represents a connection between a data and an operator in a workflow.
+
+
+          * - :py:obj:`~ansys.dpf.core.workflow_topology.ExposedPin`
+            - Represents an exposed input or output pin in a workflow.
+
+
+          * - :py:obj:`~ansys.dpf.core.workflow_topology.OperatorConnection`
+            - Represents a connection between two operators in a workflow.
+
+
+          * - :py:obj:`~ansys.dpf.core.workflow_topology.WorkflowTopology`
+            - Represent the workflow topology, including operators, connections, and input/output pins.
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-fa-file"></span> data_connection</api/ansys/dpf/core/workflow_topology/data_connection/index>
+    <span class="nf nf-fa-file"></span> exposed_pin</api/ansys/dpf/core/workflow_topology/exposed_pin/index>
+    <span class="nf nf-fa-file"></span> operator_connection</api/ansys/dpf/core/workflow_topology/operator_connection/index>
+    <span class="nf nf-fa-file"></span> workflow_topology</api/ansys/dpf/core/workflow_topology/workflow_topology/index>
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> DataConnection</api/ansys/dpf/core/workflow_topology/DataConnection>
+    <span class="nf nf-cod-symbol_class"></span> ExposedPin</api/ansys/dpf/core/workflow_topology/ExposedPin>
+    <span class="nf nf-cod-symbol_class"></span> OperatorConnection</api/ansys/dpf/core/workflow_topology/OperatorConnection>
+    <span class="nf nf-cod-symbol_class"></span> WorkflowTopology</api/ansys/dpf/core/workflow_topology/WorkflowTopology>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Workflow topology module.
+
+
+
+
+
+
+
+

@@ -1,0 +1,280 @@
+
+
+
+
+
+
+The ``server_types.py`` module
+==============================
+
+.. py:module:: ansys.dpf.core.server_types
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: server_types
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.server_types.GhostServer`
+            - Class used to keep in memory the port used by previous servers.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_types.BaseServer`
+            - Abstract class for servers.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_types.CServer`
+            - Abstract class for servers going through the DPFClientAPI.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_types.GrpcClient`
+            - Client using the gRPC communication protocol.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_types.GrpcServer`
+            - Server using the gRPC communication protocol.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_types.InProcessServer`
+            - Server using the InProcess communication protocol.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_types.LegacyGrpcServer`
+            - Provides an instance of the DPF server using InProcess gRPC.
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~check_valid_ip`
+            - Check if a valid IP address is entered.
+
+
+          * - :py:obj:`~launch_dpf`
+            - Launch Ansys DPF.
+
+
+          * - :py:obj:`~launch_dpf_on_docker`
+            - Launch Ansys DPF.
+
+
+          * - :py:obj:`~launch_remote_dpf`
+            - Launch a remote dpf server.
+
+
+          * - :py:obj:`~check_ansys_grpc_dpf_version`
+            - Check DPF grpc server version.
+
+
+          * - :py:obj:`~get_system_path`
+            - Return the current PATH environment variable value of the system.
+
+
+
+    .. tab-item:: Attributes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~DpfServer`
+            - 
+
+
+          * - :py:obj:`~AnyServerType`
+            - 
+
+
+
+    .. tab-item:: Constants
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~LOG`
+            - 
+
+
+          * - :py:obj:`~DPF_DEFAULT_PORT`
+            - 
+
+
+          * - :py:obj:`~LOCALHOST`
+            - 
+
+
+          * - :py:obj:`~RUNNING_DOCKER`
+            - 
+
+
+          * - :py:obj:`~MAX_PORT`
+            - 
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> GhostServer</api/ansys/dpf/core/server_types/GhostServer>
+    <span class="nf nf-cod-symbol_class"></span> BaseServer</api/ansys/dpf/core/server_types/BaseServer>
+    <span class="nf nf-cod-symbol_class"></span> CServer</api/ansys/dpf/core/server_types/CServer>
+    <span class="nf nf-cod-symbol_class"></span> GrpcClient</api/ansys/dpf/core/server_types/GrpcClient>
+    <span class="nf nf-cod-symbol_class"></span> GrpcServer</api/ansys/dpf/core/server_types/GrpcServer>
+    <span class="nf nf-cod-symbol_class"></span> InProcessServer</api/ansys/dpf/core/server_types/InProcessServer>
+    <span class="nf nf-cod-symbol_class"></span> LegacyGrpcServer</api/ansys/dpf/core/server_types/LegacyGrpcServer>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Server types.
+
+Contains the different kinds of
+servers available for the factory.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: check_valid_ip(ip)
+
+   Check if a valid IP address is entered.
+
+   This method raises an error when an invalid IP address is entered.
+
+
+.. py:function:: launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, context: ansys.dpf.core.server_context.ServerContext = None)
+
+   Launch Ansys DPF.
+
+   :param ansys_path: Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
+                      The default is the latest Ansys installation.
+   :type ansys_path: str, optional
+   :param ip: IP address of the remote or local instance to connect to. The
+              default is ``"LOCALHOST"``.
+   :type ip: str, optional
+   :param port: Port to connect to the remote instance on. The default is
+                ``"DPF_DEFAULT_PORT"``, which is 50054.
+   :type port: int
+   :param timeout: Maximum number of seconds for the initialization attempt.
+                   The default is ``10``. Once the specified number of seconds
+                   passes, the connection fails.
+   :type timeout: float, optional
+   :param context: Context to apply to DPF server when launching it.
+   :type context: , optional
+
+
+.. py:function:: launch_dpf_on_docker(running_docker_config=server_factory.RunningDockerConfig(), ansys_path=None, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10.0)
+
+   Launch Ansys DPF.
+
+   :param running_docker_config: To start DPF server as a docker, specify the docker configurations here.
+   :type running_docker_config: server_factory.RunningDockerConfig, optional
+   :param ansys_path: Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
+                      The default is the latest Ansys installation.
+   :type ansys_path: str, optional
+   :param ip: IP address of the remote or local instance to connect to. The
+              default is ``"LOCALHOST"``.
+   :type ip: str, optional
+   :param port: Port to connect to the remote instance on. The default is
+                ``"DPF_DEFAULT_PORT"``, which is 50054.
+   :type port: int
+   :param timeout: Maximum number of seconds for the initialization attempt.
+                   The default is ``10``. Once the specified number of seconds
+                   passes, the connection fails.
+   :type timeout: float, optional
+
+
+.. py:function:: launch_remote_dpf(version=None)
+
+   Launch a remote dpf server.
+
+
+.. py:function:: check_ansys_grpc_dpf_version(server, timeout)
+
+   Check DPF grpc server version.
+
+
+.. py:function:: get_system_path() -> str
+
+   Return the current PATH environment variable value of the system.
+
+
+.. py:data:: LOG
+
+.. py:data:: DPF_DEFAULT_PORT
+
+.. py:data:: LOCALHOST
+
+.. py:data:: RUNNING_DOCKER
+
+.. py:data:: MAX_PORT
+   :value: 65535
+
+
+.. py:data:: DpfServer
+
+.. py:data:: AnyServerType
+
+
+

@@ -1,0 +1,130 @@
+
+
+
+
+
+
+The ``animation.py`` module
+===========================
+
+.. py:module:: ansys.dpf.core.animation
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: animation
+.. tab-set::
+
+
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~animate_mode`
+            - Animate a single mode shape by sweeping its displacement amplitude.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Utility functions for creating DPF-based animations.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: animate_mode(fields_container: ansys.dpf.core.FieldsContainer, mode_number: int = 1, type_mode: int = 0, frame_number: int | None = None, save_as: str = '', deform_scale_factor: float = 1.0, **kwargs) -> Any
+
+   Animate a single mode shape by sweeping its displacement amplitude.
+
+   Extracts the field for *mode_number* from *fields_container*, builds a
+   :class:`~ansys.dpf.core.FieldsContainer` of N amplitude-scaled copies of
+   that field, and delegates to
+   :meth:`FieldsContainer.animate <ansys.dpf.core.FieldsContainer.animate>`.
+
+   The per-frame overlay shows the current relative displacement amplitude
+   (ranging from ``-1`` to ``1``) with the physical unit of the result field.
+
+   :param fields_container: Container of modal results.  Must contain a ``"time"`` label whose IDs
+                            correspond to mode numbers.
+   :param mode_number: Mode number to animate.  Must be present in the container's ``"time"``
+                       label.  The default is ``1``.
+   :param type_mode: Amplitude profile to use across the frames:
+
+                     * ``0`` (default): full cycle, amplitude sweeps ``1 → -1 → 1``.
+                     * ``1``: positive half only, amplitude sweeps ``1 → 0 → 1``.
+   :param frame_number: Total number of frames in the animation.
+                        For ``type_mode=0`` the value is forced to be odd (decremented by one
+                        if even); defaults to ``41``.
+                        For ``type_mode=1`` defaults to ``21``.
+   :param save_as: Path of the file to save the animation to.  Supports any format
+                   accepted by :func:`pyvista.Plotter.write_frame`, e.g. ``.gif`` or
+                   ``.mp4``.  Defaults to ``""`` (no file written).
+   :param deform_scale_factor: Scale factor applied when warping the mesh by the displacement field.
+                               Defaults to ``1.0``.
+   :param \*\*kwargs: Additional keyword arguments forwarded to
+                      :meth:`FieldsContainer.animate <ansys.dpf.core.FieldsContainer.animate>`
+                      and ultimately to :class:`pyvista.Plotter` (e.g. ``off_screen``,
+                      ``cpos``, ``framerate``, ``show_axes``).
+
+   :returns: The return value of :func:`pyvista.Plotter.show`.
+   :rtype: Any
+
+   :raises ValueError: If *mode_number* is not present in *fields_container*.
+   :raises ValueError: If *type_mode* is not ``0`` or ``1``.
+
+   .. rubric:: Examples
+
+   Animate the first mode of a modal analysis and save as a GIF.
+
+   >>> import ansys.dpf.core as dpf
+   >>> from ansys.dpf.core import animation, examples
+   >>> model = dpf.Model(examples.download_modal_frame())
+   >>> disp = model.results.displacement.on_all_time_freqs.eval()
+   >>> animation.animate_mode(disp, mode_number=1, save_as="mode1.gif")  # doctest: +SKIP
+
+   Use the absolute-value amplitude profile with a custom frame count.
+
+   >>> animation.animate_mode(  # doctest: +SKIP
+   ...     disp, mode_number=1, type_mode=1, frame_number=31, save_as="mode1_abs.gif"
+   ... )
+
+
+
+

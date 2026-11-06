@@ -1,0 +1,76 @@
+
+
+
+
+
+
+:class:`EventHandlerBase`
+=========================
+
+.. py:class:: ansys.dpf.core.session.EventHandlerBase
+
+   Abstract base class for handling server events related to workflows.
+
+   Subclasses must implement methods for starting event listening and adding
+   operators to workflows.
+
+
+
+
+
+.. py:currentmodule:: EventHandlerBase
+
+Overview
+--------
+
+.. tab-set::
+
+   .. tab-item:: Abstract methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~add_operator`
+            - Must be implemented by subclasses.
+          * - :py:attr:`~start_listening`
+            - Must be implemented by subclasses.
+
+
+
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.session import EventHandlerBase
+
+
+
+Method detail
+-------------
+
+.. py:method:: add_operator(operator, pin, identifier)
+   :abstractmethod:
+
+
+   Must be implemented by subclasses.
+
+
+.. py:method:: start_listening()
+   :abstractmethod:
+
+
+   Must be implemented by subclasses.
+
+
+
+
+

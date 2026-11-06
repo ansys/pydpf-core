@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.cplx_derive
+   :inherited-members:

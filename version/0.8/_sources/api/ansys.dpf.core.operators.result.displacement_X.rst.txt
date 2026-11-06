@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.displacement_X
+   :inherited-members:

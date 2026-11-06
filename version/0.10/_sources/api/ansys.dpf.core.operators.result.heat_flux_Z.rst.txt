@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.heat_flux_Z
+   :inherited-members:

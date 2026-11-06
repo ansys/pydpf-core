@@ -1,0 +1,141 @@
+
+
+
+
+
+
+The ``geometry.py`` module
+==========================
+
+.. py:module:: ansys.dpf.core.geometry
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: geometry
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.geometry.Points`
+            - Collection of DPF points.
+
+
+          * - :py:obj:`~ansys.dpf.core.geometry.Line`
+            - Create Line object from two 3D points.
+
+
+          * - :py:obj:`~ansys.dpf.core.geometry.Plane`
+            - Plane object.
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~normalize_vector`
+            - Normalize vector.
+
+
+          * - :py:obj:`~get_plane_local_axis`
+            - Determine local axis of the plane.
+
+
+          * - :py:obj:`~get_global_coords_from_local`
+            - Determine global coordinates from local coordinates.
+
+
+          * - :py:obj:`~get_local_coords_from_global`
+            - Determine local coordinates from global coordinates.
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> Points</api/ansys/dpf/core/geometry/Points>
+    <span class="nf nf-cod-symbol_class"></span> Line</api/ansys/dpf/core/geometry/Line>
+    <span class="nf nf-cod-symbol_class"></span> Plane</api/ansys/dpf/core/geometry/Plane>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Geometry.
+
+Module containing the different geometry objects.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: normalize_vector(vector)
+
+   Normalize vector.
+
+
+.. py:function:: get_plane_local_axis(normal_dir)
+
+   Determine local axis of the plane.
+
+
+.. py:function:: get_global_coords_from_local(local_coords, axes_plane, center)
+
+   Determine global coordinates from local coordinates.
+
+
+.. py:function:: get_local_coords_from_global(global_coords, axes_plane, center)
+
+   Determine local coordinates from global coordinates.
+
+
+
+

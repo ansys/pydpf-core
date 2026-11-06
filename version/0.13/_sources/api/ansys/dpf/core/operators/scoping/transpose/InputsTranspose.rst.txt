@@ -1,0 +1,214 @@
+
+
+
+
+
+
+:class:`InputsTranspose`
+========================
+
+.. py:class:: ansys.dpf.core.operators.scoping.transpose.InputsTranspose(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   transpose operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.transpose()
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_meshed_region = dpf.MeshedRegion()
+   >>> op.inputs.meshed_region.connect(my_meshed_region)
+   >>> my_inclusive = int()
+   >>> op.inputs.inclusive.connect(my_inclusive)
+   >>> my_requested_location = str()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+
+
+
+
+
+
+.. py:currentmodule:: InputsTranspose
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh_scoping`
+            - Allows to connect mesh_scoping input to the operator.
+          * - :py:attr:`~meshed_region`
+            - Allows to connect meshed_region input to the operator.
+          * - :py:attr:`~inclusive`
+            - Allows to connect inclusive input to the operator.
+          * - :py:attr:`~requested_location`
+            - Allows to connect requested_location input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.transpose import InputsTranspose
+
+Property detail
+---------------
+
+.. py:property:: mesh_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mesh_scoping input to the operator.
+
+   Scoping or scopings container (the input type is the output type)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.transpose()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> # or
+   >>> op.inputs.mesh_scoping(my_mesh_scoping)
+
+.. py:property:: meshed_region
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect meshed_region input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.transpose()
+   >>> op.inputs.meshed_region.connect(my_meshed_region)
+   >>> # or
+   >>> op.inputs.meshed_region(my_meshed_region)
+
+.. py:property:: inclusive
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect inclusive input to the operator.
+
+   if inclusive == 1 then all the elements/faces adjacent to the nodes/faces ids in input are added, if inclusive == 0, only the elements/faces which have all their nodes/faces in the scoping are included
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.transpose()
+   >>> op.inputs.inclusive.connect(my_inclusive)
+   >>> # or
+   >>> op.inputs.inclusive(my_inclusive)
+
+.. py:property:: requested_location
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect requested_location input to the operator.
+
+   Output scoping location for meshes with nodes, faces and elements. By default, elemental and faces scopings transpose to nodal, and nodal scopings transpose to elemental.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.transpose()
+   >>> op.inputs.requested_location.connect(my_requested_location)
+   >>> # or
+   >>> op.inputs.requested_location(my_requested_location)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

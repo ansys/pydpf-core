@@ -1,0 +1,107 @@
+
+
+
+
+
+
+The ``animator.py`` module
+==========================
+
+.. py:module:: ansys.dpf.core.animator
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: animator
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.animator.Animator`
+            - The DPF animator class.
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~scale_factor_to_fc`
+            - Scale the fields being animated by a factor.
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> Animator</api/ansys/dpf/core/animator/Animator>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Animator.
+
+This module contains the DPF animator class.
+
+Contains classes used to animate results based on workflows using PyVista.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: scale_factor_to_fc(scale_factor, fc)
+
+   Scale the fields being animated by a factor.
+
+   :param scale_factor: Scale factor to apply to the animated field.
+   :type scale_factor: int, float, list
+   :param fc: FieldsContainer containing the fields being animated.
+   :type fc: FieldsContainer
+
+
+
+

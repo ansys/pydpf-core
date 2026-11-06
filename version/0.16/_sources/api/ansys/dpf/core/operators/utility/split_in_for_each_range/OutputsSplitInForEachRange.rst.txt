@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`OutputsSplitInForEachRange`
+===================================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.split_in_for_each_range.OutputsSplitInForEachRange(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   split_in_for_each_range operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.split_in_for_each_range()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_output = op.outputs.output()
+
+
+
+
+
+.. py:currentmodule:: OutputsSplitInForEachRange
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~output`
+            - Allows to get output output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.split_in_for_each_range import OutputsSplitInForEachRange
+
+Property detail
+---------------
+
+.. py:property:: output
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get output output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.split_in_for_each_range()
+   >>> # Get the output from op.outputs. ...
+   >>> result_output = op.outputs.output()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.split_in_for_each_range
+   :inherited-members:

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.invariant.eigen_values_fc
+   :inherited-members:

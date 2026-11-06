@@ -1,0 +1,103 @@
+
+
+.. _sphx_glr_tutorials_data_structures:
+
+.. _ref_tutorials_data_structures:
+
+===================
+DPF data structures
+===================
+
+DPF uses two main data structures to handle data: Fields and Collections.
+It is important to be aware of how the data is structured in those containers.
+
+The data containers can be:
+
+    - **Raw data storage structures**: Data arrays (a ``Field`` for example) or Data Maps
+      (a ``DataTree`` for example)
+    - **Collections**: a group of same labeled objects from one DPF raw data storage
+      structure (a ``FieldsContainer`` for example, that is a group of ``Fields`` with
+      the same label)
+
+These tutorials explain how these structures work and how you can manipulate data within.
+
+.. grid:: 1 1 3 3
+    :gutter: 2
+    :padding: 2
+    :margin: 2
+
+    .. grid-item-card:: Data arrays - Fields
+       :link: ref_tutorials_data_arrays
+       :link-type: ref
+       :text-align: center
+
+       This tutorial shows how to create and work with data arrays in PyDPF-Core.
+
+
+    .. grid-item-card:: DPF collections
+       :link: ref_tutorials_collections
+       :link-type: ref
+       :text-align: center
+
+       This tutorial shows how to create and work with some DPF collections:
+       FieldsContainer, MeshesContainer and ScopingsContainer
+
+.. raw:: html
+
+   <style>.sphx-glr-thumbnails { display: none; }</style>
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="To process your data with DPF, you must format it according to the DPF data model. You can achieve this either by using DPF data readers on result files, or by using data to build DPF data storage containers.">
+
+.. only:: html
+
+  .. image:: /tutorials/data_structures/images/thumb/sphx_glr_data_arrays_thumb.png
+    :alt:
+
+  :doc:`/tutorials/data_structures/data_arrays`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Data Arrays</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This tutorial demonstrates how to create and work with some DPF collections: ansys.dpf.core.fields_container.FieldsContainer, ansys.dpf.core.meshes_container.MeshesContainer, and ansys.dpf.core.scopings_container.ScopingsContainer.">
+
+.. only:: html
+
+  .. image:: /tutorials/data_structures/images/thumb/sphx_glr_collections_thumb.png
+    :alt:
+
+  :doc:`/tutorials/data_structures/collections`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">DPF Collections</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /tutorials/data_structures/data_arrays
+   /tutorials/data_structures/collections
+

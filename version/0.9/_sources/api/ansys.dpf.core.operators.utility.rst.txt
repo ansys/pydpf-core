@@ -1,0 +1,86 @@
+ansys.dpf.core.operators.utility package
+========================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.utility.assemble_scalars_to_matrices
+   ansys.dpf.core.operators.utility.assemble_scalars_to_matrices_fc
+   ansys.dpf.core.operators.utility.assemble_scalars_to_vectors
+   ansys.dpf.core.operators.utility.assemble_scalars_to_vectors_fc
+   ansys.dpf.core.operators.utility.bind_support
+   ansys.dpf.core.operators.utility.bind_support_fc
+   ansys.dpf.core.operators.utility.change_location
+   ansys.dpf.core.operators.utility.change_shell_layers
+   ansys.dpf.core.operators.utility.compute_time_scoping
+   ansys.dpf.core.operators.utility.default_value
+   ansys.dpf.core.operators.utility.delegate_to_operator
+   ansys.dpf.core.operators.utility.ds_get_attribute
+   ansys.dpf.core.operators.utility.extract_field
+   ansys.dpf.core.operators.utility.extract_scoping
+   ansys.dpf.core.operators.utility.extract_sub_fc
+   ansys.dpf.core.operators.utility.extract_sub_mc
+   ansys.dpf.core.operators.utility.extract_sub_sc
+   ansys.dpf.core.operators.utility.extract_time_freq
+   ansys.dpf.core.operators.utility.fc_get_attribute
+   ansys.dpf.core.operators.utility.field
+   ansys.dpf.core.operators.utility.field_to_fc
+   ansys.dpf.core.operators.utility.fields_container
+   ansys.dpf.core.operators.utility.for_each
+   ansys.dpf.core.operators.utility.forward
+   ansys.dpf.core.operators.utility.forward_field
+   ansys.dpf.core.operators.utility.forward_fields_container
+   ansys.dpf.core.operators.utility.forward_meshes_container
+   ansys.dpf.core.operators.utility.hdf5dpf_workglow_provider
+   ansys.dpf.core.operators.utility.html_doc
+   ansys.dpf.core.operators.utility.incremental_concatenate_as_fc
+   ansys.dpf.core.operators.utility.ints_to_scoping
+   ansys.dpf.core.operators.utility.make_for_each_range
+   ansys.dpf.core.operators.utility.make_label_space
+   ansys.dpf.core.operators.utility.make_overall
+   ansys.dpf.core.operators.utility.make_producer_consumer_for_each_iterator
+   ansys.dpf.core.operators.utility.make_time_chunk_for_each
+   ansys.dpf.core.operators.utility.merge_any
+   ansys.dpf.core.operators.utility.merge_data_tree
+   ansys.dpf.core.operators.utility.merge_fields
+   ansys.dpf.core.operators.utility.merge_fields_by_label
+   ansys.dpf.core.operators.utility.merge_fields_containers
+   ansys.dpf.core.operators.utility.merge_generic_data_container
+   ansys.dpf.core.operators.utility.merge_materials
+   ansys.dpf.core.operators.utility.merge_meshes
+   ansys.dpf.core.operators.utility.merge_meshes_containers
+   ansys.dpf.core.operators.utility.merge_property_fields
+   ansys.dpf.core.operators.utility.merge_result_infos
+   ansys.dpf.core.operators.utility.merge_scopings
+   ansys.dpf.core.operators.utility.merge_scopings_containers
+   ansys.dpf.core.operators.utility.merge_supports
+   ansys.dpf.core.operators.utility.merge_time_freq_supports
+   ansys.dpf.core.operators.utility.merge_weighted_fields
+   ansys.dpf.core.operators.utility.merge_weighted_fields_containers
+   ansys.dpf.core.operators.utility.mesh
+   ansys.dpf.core.operators.utility.overlap_fields
+   ansys.dpf.core.operators.utility.producer_consumer_for_each
+   ansys.dpf.core.operators.utility.property_field
+   ansys.dpf.core.operators.utility.python_generator
+   ansys.dpf.core.operators.utility.python_script_exec
+   ansys.dpf.core.operators.utility.remote_operator_instantiate
+   ansys.dpf.core.operators.utility.remote_workflow_instantiate
+   ansys.dpf.core.operators.utility.remove_unnecessary_labels
+   ansys.dpf.core.operators.utility.scalars_to_field
+   ansys.dpf.core.operators.utility.server_path
+   ansys.dpf.core.operators.utility.set_attribute
+   ansys.dpf.core.operators.utility.set_property
+   ansys.dpf.core.operators.utility.split_in_for_each_range
+   ansys.dpf.core.operators.utility.strain_from_voigt
+   ansys.dpf.core.operators.utility.txt_file_to_dpf
+   ansys.dpf.core.operators.utility.unitary_field
+   ansys.dpf.core.operators.utility.weighted_merge_fields_by_label
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core.operators.utility
+   :inherited-members:

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.assemble_scalars_to_vectors_fc
+   :inherited-members:

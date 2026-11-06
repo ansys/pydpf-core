@@ -1,0 +1,93 @@
+
+
+
+
+
+
+:class:`OutputsExtractScoping`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.utility.extract_scoping.OutputsExtractScoping(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   extract_scoping operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.extract_scoping()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mesh_scoping = op.outputs.mesh_scoping()
+
+
+
+
+
+.. py:currentmodule:: OutputsExtractScoping
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh_scoping_as_scoping`
+            - 
+          * - :py:attr:`~mesh_scoping_as_scopings_container`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.extract_scoping import OutputsExtractScoping
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: mesh_scoping_as_scoping
+
+.. py:attribute:: mesh_scoping_as_scopings_container
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

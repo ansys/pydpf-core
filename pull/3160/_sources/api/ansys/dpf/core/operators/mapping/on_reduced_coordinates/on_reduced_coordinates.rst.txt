@@ -1,0 +1,493 @@
+
+
+
+
+
+
+:class:`on_reduced_coordinates`
+===============================
+
+
+.. py:class:: ansys.dpf.core.operators.mapping.on_reduced_coordinates.on_reduced_coordinates(fields_container=None, reduced_coordinates=None, element_ids=None, mesh=None, use_quadratic_elements=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Evaluates field data at specified reduced coordinates within given
+   elements using finite element shape function interpolation.
+
+   **Reduced coordinates**: Also known as natural or parametric
+   coordinates, these are coordinates in the reference element space
+   (typically ranging from -1 to 1 for most element types). For example, in
+   a quadrilateral element, reduced coordinates :math:`(\xi, \eta)` map to
+   physical coordinates :math:`(x, y)` through the element’s shape
+   functions.
+
+   **Mathematical formulation**: For a field :math:`u` evaluated at reduced
+   coordinates :math:`\boldsymbol{\xi} = (\xi_1, \xi_2, \xi_3)` within
+   element :math:`e`, the interpolated value is computed as:
+
+   .. math:: u(\boldsymbol{\xi}) = \sum_{i=1}^{N_{nodes}} N_i(\boldsymbol{\xi}) \cdot u_i
+
+   where :math:`N_i(\boldsymbol{\xi})` are the element shape functions
+   evaluated at the reduced coordinates, :math:`u_i` are the field values
+   at the element nodes, and :math:`N_{nodes}` is the number of nodes in
+   the element.
+
+   **Workflow**: This operator is typically used in conjunction with the
+   ‘find_reduced_coordinates’ operator: 1. **find_reduced_coordinates** -
+   Converts physical coordinates to reduced coordinates and identifies
+   containing elements 2. **on_reduced_coordinates** (this operator) -
+   Interpolates field values at those reduced coordinates
+
+   **Shape functions**: The interpolation uses finite element shape
+   functions appropriate for each element type (linear or quadratic
+   triangles, quadrilaterals, tetrahedra, hexahedra, etc.). When
+   ``use_quadratic_elements`` is enabled, mid-side node shape functions are
+   included for higher accuracy.
+
+   **Field location handling**: - **Nodal fields**: Interpolates using node
+   values and shape functions - **Elemental nodal fields**: Interpolates
+   using values already defined at element nodes (per element) - **Shell
+   layers**: For shell elements with multiple layers, interpolation is
+   performed separately for each layer
+
+
+   Inputs
+   ------
+   fields_container: FieldsContainer
+       Fields container with field results to interpolate. Can contain nodal or elemental nodal fields. If fields have mesh support attached, it will be used; otherwise, the `mesh` pin must be connected.
+   reduced_coordinates: Field or FieldsContainer
+       Reduced (natural/parametric) coordinates in reference element space where interpolation will be performed. Typically obtained from the 'find_reduced_coordinates' operator. For a 3D element, this is a 3-component vector field $(\xi, \eta, \zeta)$. Each coordinate set corresponds to a point inside an element.
+   element_ids: ScopingsContainer
+       Element IDs specifying which element contains each set of reduced coordinates. Typically obtained from the 'find_reduced_coordinates' operator output (pin 1). Must correspond one-to-one with the reduced coordinates in pin 1.
+   mesh: MeshedRegion or MeshesContainer, optional
+       Mesh region or meshes container defining the finite element mesh. Required if input fields (pin 0) have no mesh in their support. If a meshes container with multiple meshes is provided, it should have the same label space as the reduced coordinates fields container.
+   use_quadratic_elements: bool, optional
+       If true, uses quadratic shape functions (including mid-side nodes) for quadratic elements, providing higher accuracy but lower performance. Default is false (uses linear shape functions). Only enable when field results include values at mid-side nodes.
+
+   Outputs
+   -------
+   fields_container: FieldsContainer
+       Fields container with interpolated field values at the specified reduced coordinates. Output fields have nodal location and preserve the component structure of input fields. Shell layer data (if present) is interpolated separately for each layer. The number of entities in each output field may be less than the number of input reduced coordinates: a coordinate is omitted if its element ID is not found in the mesh or, for nodal fields, if any of the element's nodes has no data in the field.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.mapping.on_reduced_coordinates()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_reduced_coordinates = dpf.Field()
+   >>> op.inputs.reduced_coordinates.connect(my_reduced_coordinates)
+   >>> my_element_ids = dpf.ScopingsContainer()
+   >>> op.inputs.element_ids.connect(my_element_ids)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_use_quadratic_elements = bool()
+   >>> op.inputs.use_quadratic_elements.connect(my_use_quadratic_elements)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.mapping.on_reduced_coordinates(
+   ...     fields_container=my_fields_container,
+   ...     reduced_coordinates=my_reduced_coordinates,
+   ...     element_ids=my_element_ids,
+   ...     mesh=my_mesh,
+   ...     use_quadratic_elements=my_use_quadratic_elements,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: on_reduced_coordinates
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect an input on the operator using a pin number.
+          * - :py:attr:`~connect_operator_as_input`
+            - Connect an operator as an input on a pin.
+          * - :py:attr:`~get_output`
+            - Retrieve the output of the operator on the pin number.
+          * - :py:attr:`~run`
+            - Evaluate this operator.
+          * - :py:attr:`~eval`
+            - Evaluate this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+          * - :py:attr:`~progress_bar`
+            - Enable or disable progress bar display when requesting the operator's output.
+          * - :py:attr:`~config`
+            - Copy of the operator's current configuration.
+          * - :py:attr:`~id`
+            - Retrieve the unique identifier of the operator.
+          * - :py:attr:`~specification`
+            - Returns the Specification (or documentation) of this Operator.
+          * - :py:attr:`~changelog`
+            - Return the changelog of this operator.
+          * - :py:attr:`~version`
+            - Return the current version of the operator.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~name`
+            - 
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+          * - :py:attr:`~operator_specification`
+            - Documents an Operator with its description (what the Operator does),its inputs and outputs and some properties.
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__del__`
+            - Delete this instance.
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+          * - :py:attr:`~__add__`
+            - Add two fields or two fields containers.
+          * - :py:attr:`~__sub__`
+            - Subtract two fields or two fields containers.
+          * - :py:attr:`~__pow__`
+            - Raise each element of a field or a fields container to power 2.
+          * - :py:attr:`~__mul__`
+            - Multiply two fields or two fields containers.
+          * - :py:attr:`~__truediv__`
+            - Perform division with another operator or a scalar.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mapping.on_reduced_coordinates import on_reduced_coordinates
+
+Property detail
+---------------
+
+.. py:property:: inputs
+   :type: InputsOnReducedCoordinates
+
+
+   Enables to connect inputs to the operator
+
+   :returns: An instance of InputsOnReducedCoordinates.
+   :rtype: inputs
+
+.. py:property:: outputs
+   :type: OutputsOnReducedCoordinates
+
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: An instance of OutputsOnReducedCoordinates.
+   :rtype: outputs
+
+.. py:property:: progress_bar
+   :type: bool
+
+
+   Enable or disable progress bar display when requesting the operator's output.
+
+   With this property, the user can choose to print a progress bar when
+   the operator's output is requested, default is False
+
+.. py:property:: config
+
+   Copy of the operator's current configuration.
+
+   You can modify the copy of the configuration and then use ``operator.config = new_config``
+   or instantiate an operator with the new configuration as a parameter.
+
+   For information on an operator's options, see the documentation for that operator.
+
+   :returns: Copy of the operator's current configuration.
+   :rtype: :class:`ansys.dpf.core.config.Config`
+
+   .. rubric:: Examples
+
+   Modify the copy of an operator's configuration and set it as current config
+   of the operator.
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.add()
+   >>> config_add = op.config
+   >>> config_add.set_work_by_index_option(True)
+   >>> op.config = config_add
+
+.. py:property:: id
+   :type: int
+
+
+   Retrieve the unique identifier of the operator.
+
+   This property returns the unique ID associated with the operator.
+   This property is lazily initialized.
+
+   :returns: The unique identifier of the operator.
+   :rtype: int
+
+   .. rubric:: Notes
+
+   Property available with server's version starting at 10.0.
+
+.. py:property:: specification
+
+   Returns the Specification (or documentation) of this Operator.
+
+   :rtype: Specification
+
+.. py:property:: changelog
+   :type: ansys.dpf.core.changelog.Changelog
+
+
+   Return the changelog of this operator.
+
+   Requires DPF 11.0 (2026 R1) or above.
+
+   :returns: Changelog of the operator.
+   :rtype: changelog
+
+.. py:property:: version
+   :type: packaging.version.Version
+
+
+   Return the current version of the operator.
+
+   Requires DPF 11.0 (2026 R1) or above.
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: name
+   :value: None
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+
+   :returns: A new Config instance equivalent to the default config for this operator.
+   :rtype: config
+
+
+.. py:method:: connect(pin, inpt, pin_out=0)
+
+   Connect an input on the operator using a pin number.
+
+   :param pin: Number of the input pin.
+   :type pin: int
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
+   :param ScopingsContainer: Operator, os.PathLike Object to connect to.
+   :param MeshedRegion: Operator, os.PathLike Object to connect to.
+   :param MeshesContainer: Operator, os.PathLike Object to connect to.
+   :param DataSources: Operator, os.PathLike Object to connect to.
+   :param CyclicSupport: Operator, os.PathLike Object to connect to.
+   :param dict: Operator, os.PathLike Object to connect to.
+   :param Outputs: Operator, os.PathLike Object to connect to.
+   :param pin_out: If the input is an operator, the output pin of the input operator. The default is ``0``.
+   :type pin_out: int, optional
+
+   .. rubric:: Examples
+
+   Compute the minimum of displacement by chaining the ``"U"`` and ``"min_max_fc"`` operators.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> data_src = dpf.DataSources(examples.find_multishells_rst())
+   >>> disp_op = dpf.operators.result.displacement()
+   >>> disp_op.inputs.data_sources(data_src)
+   >>> max_fc_op = dpf.operators.min_max.min_max_fc()
+   >>> max_fc_op.inputs.connect(disp_op.outputs)
+   >>> max_field = max_fc_op.outputs.field_max()
+   >>> max_field.data
+   DPFArray([[0.59428386, 0.00201751, 0.0006032 ]]...
+
+
+.. py:method:: connect_operator_as_input(pin, op)
+
+   Connect an operator as an input on a pin.
+
+   :param pin: Number of the output pin. The default is ``0``.
+   :type pin: int
+   :param op: Requested type of the output. The default is ``None``.
+   :type op: :class:`ansys.dpf.core.dpf_operator.Operator`
+
+
+.. py:method:: get_output(pin=0, output_type=None)
+
+   Retrieve the output of the operator on the pin number.
+
+   To activate the progress bar for server version higher or equal to 3.0,
+   use ``my_op.progress_bar=True``
+
+   :param pin: Number of the output pin. The default is ``0``.
+   :type pin: int, optional
+   :param output_type: Requested type of the output. The default is ``None``.
+   :type output_type: :class:`ansys.dpf.core.common.types`, type,  optional
+
+   :returns: Output of the operator.
+   :rtype: type
+
+
+.. py:method:: __del__()
+
+   Delete this instance.
+
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: Description of the entity.
+   :rtype: str
+
+
+.. py:method:: run()
+
+   Evaluate this operator.
+
+
+.. py:method:: eval(pin=None)
+
+   Evaluate this operator.
+
+   :param pin: Number of the output pin. The default is ``None``.
+   :type pin: int
+
+   :returns: **output** -- Returns the first output of the operator by default and the output of a
+             given pin when specified. Or, it only evaluates the operator without output.
+   :rtype: FieldsContainer, Field, MeshedRegion, Scoping
+
+   .. rubric:: Examples
+
+   Use the ``eval`` method.
+
+   >>> from ansys.dpf import core as dpf
+   >>> import ansys.dpf.core.operators.math as math
+   >>> from ansys.dpf.core import examples
+   >>> data_src = dpf.DataSources(examples.find_multishells_rst())
+   >>> disp_op = dpf.operators.result.displacement()
+   >>> disp_op.inputs.data_sources(data_src)
+   >>> normfc = math.norm_fc(disp_op).eval()
+
+
+.. py:method:: __add__(fields_b)
+
+   Add two fields or two fields containers.
+
+   :returns: **add**
+   :rtype: operators.math.add_fc
+
+
+.. py:method:: __sub__(fields_b)
+
+   Subtract two fields or two fields containers.
+
+   :returns: **minus**
+   :rtype: operators.math.minus_fc
+
+
+.. py:method:: __pow__(value)
+
+   Raise each element of a field or a fields container to power 2.
+
+
+.. py:method:: __mul__(value)
+
+   Multiply two fields or two fields containers.
+
+   :returns: **mul**
+   :rtype: operators.math.generalized_inner_product_fc
+
+
+.. py:method:: operator_specification(op_name, server=None)
+   :staticmethod:
+
+
+   Documents an Operator with its description (what the Operator does),its inputs and outputs and some properties.
+
+
+.. py:method:: __truediv__(inpt)
+
+   Perform division with another operator or a scalar.
+
+   This method allows the use of the division operator (`/`) between an
+   `Operator` instance and either another `Operator` or a scalar value (float).
+
+
+
+
+

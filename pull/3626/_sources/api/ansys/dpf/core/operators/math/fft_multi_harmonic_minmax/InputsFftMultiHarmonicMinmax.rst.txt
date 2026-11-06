@@ -1,0 +1,315 @@
+
+
+
+
+
+
+:class:`InputsFftMultiHarmonicMinmax`
+=====================================
+
+
+.. py:class:: ansys.dpf.core.operators.math.fft_multi_harmonic_minmax.InputsFftMultiHarmonicMinmax(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   fft_multi_harmonic_minmax operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_rpm_scoping = dpf.Scoping()
+   >>> op.inputs.rpm_scoping.connect(my_rpm_scoping)
+   >>> my_fs_ratio = int()
+   >>> op.inputs.fs_ratio.connect(my_fs_ratio)
+   >>> my_num_subdivisions = int()
+   >>> op.inputs.num_subdivisions.connect(my_num_subdivisions)
+   >>> my_max_num_subdivisions = int()
+   >>> op.inputs.max_num_subdivisions.connect(my_max_num_subdivisions)
+   >>> my_num_cycles = int()
+   >>> op.inputs.num_cycles.connect(my_num_cycles)
+   >>> my_use_harmonic_zero = bool()
+   >>> op.inputs.use_harmonic_zero.connect(my_use_harmonic_zero)
+   >>> my_calculate_time_series = bool()
+   >>> op.inputs.calculate_time_series.connect(my_calculate_time_series)
+   >>> my_substeps_selector = dpf.()
+   >>> op.inputs.substeps_selector.connect(my_substeps_selector)
+
+
+
+
+
+
+.. py:currentmodule:: InputsFftMultiHarmonicMinmax
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~rpm_scoping`
+            - Allows to connect rpm_scoping input to the operator.
+          * - :py:attr:`~fs_ratio`
+            - Allows to connect fs_ratio input to the operator.
+          * - :py:attr:`~num_subdivisions`
+            - Allows to connect num_subdivisions input to the operator.
+          * - :py:attr:`~max_num_subdivisions`
+            - Allows to connect max_num_subdivisions input to the operator.
+          * - :py:attr:`~num_cycles`
+            - Allows to connect num_cycles input to the operator.
+          * - :py:attr:`~use_harmonic_zero`
+            - Allows to connect use_harmonic_zero input to the operator.
+          * - :py:attr:`~calculate_time_series`
+            - Allows to connect calculate_time_series input to the operator.
+          * - :py:attr:`~substeps_selector`
+            - Allows to connect substeps_selector input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.fft_multi_harmonic_minmax import InputsFftMultiHarmonicMinmax
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect fields_container input to the operator.
+
+   Complex multi-harmonic results fields container. Must have a complex label and a time-frequency support whose values are the harmonic excitation frequencies (RPMs). ElementalNodal results are not supported.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: rpm_scoping
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to connect rpm_scoping input to the operator.
+
+   RPM scoping. When provided, only the selected RPM set IDs are included in the Fourier series. When omitted, all available RPMs are used.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+   >>> op.inputs.rpm_scoping.connect(my_rpm_scoping)
+   >>> # or
+   >>> op.inputs.rpm_scoping(my_rpm_scoping)
+
+.. py:property:: fs_ratio
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect fs_ratio input to the operator.
+
+   Oversampling ratio used to set the uniform time step as $1/(f_{max} \times \mathit{fs_ratio})$. Default is $20$.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+   >>> op.inputs.fs_ratio.connect(my_fs_ratio)
+   >>> # or
+   >>> op.inputs.fs_ratio(my_fs_ratio)
+
+.. py:property:: num_subdivisions
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect num_subdivisions input to the operator.
+
+   Number of uniform time subdivisions per period. When provided, overrides the adaptive step computation. Default is $-1$ (adaptive).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+   >>> op.inputs.num_subdivisions.connect(my_num_subdivisions)
+   >>> # or
+   >>> op.inputs.num_subdivisions(my_num_subdivisions)
+
+.. py:property:: max_num_subdivisions
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect max_num_subdivisions input to the operator.
+
+   Maximum number of time subdivisions to avoid excessively fine discretisation. Default is $8000$.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+   >>> op.inputs.max_num_subdivisions.connect(my_max_num_subdivisions)
+   >>> # or
+   >>> op.inputs.max_num_subdivisions(my_max_num_subdivisions)
+
+.. py:property:: num_cycles
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect num_cycles input to the operator.
+
+   Number of periods over which the signal is evaluated. Default is $2$.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+   >>> op.inputs.num_cycles.connect(my_num_cycles)
+   >>> # or
+   >>> op.inputs.num_cycles(my_num_cycles)
+
+.. py:property:: use_harmonic_zero
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect use_harmonic_zero input to the operator.
+
+   When true, includes the harmonic-zero (constant) term for the first RPM. Default is false.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+   >>> op.inputs.use_harmonic_zero.connect(my_use_harmonic_zero)
+   >>> # or
+   >>> op.inputs.use_harmonic_zero(my_use_harmonic_zero)
+
+.. py:property:: calculate_time_series
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect calculate_time_series input to the operator.
+
+   When true (default), computes the full time series at output pin 2. Set to false to skip the time-series output and only compute min and max, which reduces computation time.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+   >>> op.inputs.calculate_time_series.connect(my_calculate_time_series)
+   >>> # or
+   >>> op.inputs.calculate_time_series(my_calculate_time_series)
+
+.. py:property:: substeps_selector
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect substeps_selector input to the operator.
+
+   List of harmonic order (substep) indices to include. When omitted, all available substeps are used.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+   >>> op.inputs.substeps_selector.connect(my_substeps_selector)
+   >>> # or
+   >>> op.inputs.substeps_selector(my_substeps_selector)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

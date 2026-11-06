@@ -1,0 +1,242 @@
+
+
+
+
+
+
+:class:`InputsRun`
+==================
+
+
+.. py:class:: ansys.dpf.core.operators.result.run.InputsRun(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   run operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> my_mapdl_exe_path = str()
+   >>> op.inputs.mapdl_exe_path.connect(my_mapdl_exe_path)
+   >>> my_working_dir = str()
+   >>> op.inputs.working_dir.connect(my_working_dir)
+   >>> my_number_of_processes = int()
+   >>> op.inputs.number_of_processes.connect(my_number_of_processes)
+   >>> my_number_of_threads = int()
+   >>> op.inputs.number_of_threads.connect(my_number_of_threads)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_server_mode = bool()
+   >>> op.inputs.server_mode.connect(my_server_mode)
+
+
+
+
+
+
+.. py:currentmodule:: InputsRun
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mapdl_exe_path`
+            - Allows to connect mapdl_exe_path input to the operator.
+          * - :py:attr:`~working_dir`
+            - Allows to connect working_dir input to the operator.
+          * - :py:attr:`~number_of_processes`
+            - Allows to connect number_of_processes input to the operator.
+          * - :py:attr:`~number_of_threads`
+            - Allows to connect number_of_threads input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~server_mode`
+            - Allows to connect server_mode input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.run import InputsRun
+
+Property detail
+---------------
+
+.. py:property:: mapdl_exe_path
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect mapdl_exe_path input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> op.inputs.mapdl_exe_path.connect(my_mapdl_exe_path)
+   >>> # or
+   >>> op.inputs.mapdl_exe_path(my_mapdl_exe_path)
+
+.. py:property:: working_dir
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect working_dir input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> op.inputs.working_dir.connect(my_working_dir)
+   >>> # or
+   >>> op.inputs.working_dir(my_working_dir)
+
+.. py:property:: number_of_processes
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect number_of_processes input to the operator.
+
+   Set the number of MPI processes used for resolution (default is 2)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> op.inputs.number_of_processes.connect(my_number_of_processes)
+   >>> # or
+   >>> op.inputs.number_of_processes(my_number_of_processes)
+
+.. py:property:: number_of_threads
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect number_of_threads input to the operator.
+
+   Set the number of threads used for resolution (default is 1)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> op.inputs.number_of_threads.connect(my_number_of_threads)
+   >>> # or
+   >>> op.inputs.number_of_threads(my_number_of_threads)
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.data_sources.DataSources]
+
+
+   Allows to connect data_sources input to the operator.
+
+   data sources containing the input file.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: server_mode
+   :type: ansys.dpf.core.inputs.Input[bool]
+
+
+   Allows to connect server_mode input to the operator.
+
+   used when a user includes commands in the input file allowing to launch DPF server inside MAPDL to interact with MAPDL using DPF client API
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> op.inputs.server_mode.connect(my_server_mode)
+   >>> # or
+   >>> op.inputs.server_mode(my_server_mode)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

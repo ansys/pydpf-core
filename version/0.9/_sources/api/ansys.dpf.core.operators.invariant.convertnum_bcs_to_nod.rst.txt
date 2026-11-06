@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.invariant.convertnum_bcs_to_nod
+   :inherited-members:

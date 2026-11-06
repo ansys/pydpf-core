@@ -1,0 +1,65 @@
+
+
+
+
+
+
+:class:`dict_with_missing_numpy_type`
+=====================================
+
+
+.. py:class:: ansys.dpf.core.custom_type_field.dict_with_missing_numpy_type
+
+   Bases: :py:obj:`dict`
+
+
+   Custom dictionary that returns the name attribute of a missing key.
+
+
+
+
+.. py:currentmodule:: dict_with_missing_numpy_type
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__missing__`
+            - Return the name attribute of a missing key.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.custom_type_field import dict_with_missing_numpy_type
+
+
+
+Method detail
+-------------
+
+.. py:method:: __missing__(key)
+
+   Return the name attribute of a missing key.
+
+
+
+
+

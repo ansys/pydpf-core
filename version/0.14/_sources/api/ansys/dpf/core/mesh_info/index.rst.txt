@@ -1,0 +1,78 @@
+
+
+
+
+
+
+The ``mesh_info.py`` module
+===========================
+
+.. py:module:: ansys.dpf.core.mesh_info
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: mesh_info
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.mesh_info.MeshInfo`
+            - Hold the information relative to a mesh region.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> MeshInfo</api/ansys/dpf/core/mesh_info/MeshInfo>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+MeshInfo.
+
+
+
+
+
+
+
+

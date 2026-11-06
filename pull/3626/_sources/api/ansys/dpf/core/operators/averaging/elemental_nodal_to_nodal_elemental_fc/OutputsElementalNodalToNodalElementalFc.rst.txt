@@ -1,0 +1,148 @@
+
+
+
+
+
+
+:class:`OutputsElementalNodalToNodalElementalFc`
+================================================
+
+
+.. py:class:: ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal_elemental_fc.OutputsElementalNodalToNodalElementalFc(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   elemental_nodal_to_nodal_elemental_fc operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental_fc()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+   >>> result_node_scopings = op.outputs.node_scopings()
+   >>> result_element_scopings = op.outputs.element_scopings()
+
+
+
+
+
+.. py:currentmodule:: OutputsElementalNodalToNodalElementalFc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to get fields_container output of the operator
+          * - :py:attr:`~node_scopings`
+            - Allows to get node_scopings output of the operator
+          * - :py:attr:`~element_scopings`
+            - Allows to get element_scopings output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal_elemental_fc import OutputsElementalNodalToNodalElementalFc
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get fields_container output of the operator
+
+   Nodal elemental fields with input fields container label spaces preserved.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental_fc()
+   >>> # Get the output from op.outputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+.. py:property:: node_scopings
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.scopings_container.ScopingsContainer]
+
+
+   Allows to get node_scopings output of the operator
+
+   Nodal scopings aligned with the records of each output field, preserving the fields container label spaces.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental_fc()
+   >>> # Get the output from op.outputs. ...
+   >>> result_node_scopings = op.outputs.node_scopings()
+
+.. py:property:: element_scopings
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.scopings_container.ScopingsContainer]
+
+
+   Allows to get element_scopings output of the operator
+
+   Elemental scopings aligned with the records of each output field, preserving the fields container label spaces.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental_fc()
+   >>> # Get the output from op.outputs. ...
+   >>> result_element_scopings = op.outputs.element_scopings()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

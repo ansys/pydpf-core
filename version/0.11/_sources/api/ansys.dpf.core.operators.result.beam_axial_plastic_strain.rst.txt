@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.beam_axial_plastic_strain
+   :inherited-members:

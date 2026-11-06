@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`OutputsRemoteWorkflowInstantiate`
+=========================================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.remote_workflow_instantiate.OutputsRemoteWorkflowInstantiate(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   remote_workflow_instantiate operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remote_workflow_instantiate()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_remote_workflow = op.outputs.remote_workflow()
+
+
+
+
+
+.. py:currentmodule:: OutputsRemoteWorkflowInstantiate
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~remote_workflow`
+            - Allows to get remote_workflow output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.remote_workflow_instantiate import OutputsRemoteWorkflowInstantiate
+
+Property detail
+---------------
+
+.. py:property:: remote_workflow
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.workflow.Workflow]
+
+
+   Allows to get remote_workflow output of the operator
+
+   remote workflow containing an image of the remote workflow and the protocols streams
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.remote_workflow_instantiate()
+   >>> # Get the output from op.outputs. ...
+   >>> result_remote_workflow = op.outputs.remote_workflow()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

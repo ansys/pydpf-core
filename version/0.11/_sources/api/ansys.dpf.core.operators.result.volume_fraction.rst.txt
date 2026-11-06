@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.volume_fraction
+   :inherited-members:

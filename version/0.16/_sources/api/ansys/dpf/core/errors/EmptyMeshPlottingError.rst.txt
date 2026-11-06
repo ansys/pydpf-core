@@ -1,0 +1,31 @@
+
+
+
+
+
+
+:class:`EmptyMeshPlottingError`
+===============================
+
+
+.. py:exception:: ansys.dpf.core.errors.EmptyMeshPlottingError(msg=_EMPTY_MESH_PLOTTING_MSG)
+
+   Bases: :py:obj:`ValueError`
+
+
+   Error raised when attempting to plot data with no mesh.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.errors import EmptyMeshPlottingError
+
+
+
+
+

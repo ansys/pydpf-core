@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.recombine_harmonic_indeces_cyclic
+   :inherited-members:

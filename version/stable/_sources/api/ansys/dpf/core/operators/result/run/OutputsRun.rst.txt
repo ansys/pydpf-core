@@ -1,0 +1,148 @@
+
+
+
+
+
+
+:class:`OutputsRun`
+===================
+
+
+.. py:class:: ansys.dpf.core.operators.result.run.OutputsRun(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   run operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_data_sources = op.outputs.data_sources()
+   >>> result_ip = op.outputs.ip()
+   >>> result_port = op.outputs.port()
+
+
+
+
+
+.. py:currentmodule:: OutputsRun
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~data_sources`
+            - Allows to get data_sources output of the operator
+          * - :py:attr:`~ip`
+            - Allows to get ip output of the operator
+          * - :py:attr:`~port`
+            - Allows to get port output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.run import OutputsRun
+
+Property detail
+---------------
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.data_sources.DataSources]
+
+
+   Allows to get data_sources output of the operator
+
+   returns the data source if the server_mode pin is not set to yes
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> # Get the output from op.outputs. ...
+   >>> result_data_sources = op.outputs.data_sources()
+
+.. py:property:: ip
+   :type: ansys.dpf.core.outputs.Output[str]
+
+
+   Allows to get ip output of the operator
+
+   returns the Ip if the server_mode pin is set to yes
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> # Get the output from op.outputs. ...
+   >>> result_ip = op.outputs.ip()
+
+.. py:property:: port
+   :type: ansys.dpf.core.outputs.Output[str]
+
+
+   Allows to get port output of the operator
+
+   returns a port when the server mode pin is set to yes
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.run()
+   >>> # Get the output from op.outputs. ...
+   >>> result_port = op.outputs.port()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

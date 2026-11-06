@@ -1,0 +1,249 @@
+
+
+
+
+
+
+:class:`StreamsContainer`
+=========================
+
+
+.. py:class:: ansys.dpf.core.streams_container.StreamsContainer(streams_container=None, server: ansys.dpf.core.server_types.BaseServer = None, data_sources: ansys.dpf.core.data_sources.DataSources = None)
+
+   Holds a collection of open, ready-to-use data streams.
+
+   A :class:`StreamsContainer` wraps one or more
+   :class:`~ansys.dpf.core.stream.Stream` objects (or the DPF-internal
+   equivalent).  Because the underlying files stay open and keep cached
+   data between evaluations, repeated reads are significantly faster than
+   reopening from a
+   :class:`~ansys.dpf.core.data_sources.DataSources`.
+
+   There are three ways to obtain a :class:`StreamsContainer`:
+
+   1. **From a Model** — DPF opens the file automatically; retrieve the
+      container via ``model.metadata.streams_provider``.
+   2. **From a DataSources** — wrap an existing
+      :class:`~ansys.dpf.core.data_sources.DataSources` so that DPF
+      manages the open handles.
+   3. **From scratch** — create an empty container and register one or
+      more custom :class:`~ansys.dpf.core.stream.Stream` objects with
+      :meth:`add_stream`.  This is the entry point for Python custom
+      plug-ins that provide their own ``streams_provider`` operator.
+
+   To close the open files and release cached data, call
+   :meth:`release_handles`.
+
+   .. note:: Only available with an InProcess server configuration.
+
+   .. rubric:: Examples
+
+   Obtain a container from an existing model:
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_multishells_rst())
+   >>> sc = model.metadata.streams_provider.outputs.streams_container()
+
+   Create a container from a :class:`~ansys.dpf.core.data_sources.DataSources`:
+
+   >>> ds = dpf.DataSources(examples.find_simple_bar())
+   >>> sc = dpf.StreamsContainer(data_sources=ds)
+
+   Create an empty container and register a custom stream:
+
+   >>> from ansys.dpf.core.stream import Stream
+   >>> class MyStream(Stream):
+   ...     @property
+   ...     def stream_type_name(self): return "rst"
+   ...     @property
+   ...     def time_freq_support(self): return dpf.TimeFreqSupport()
+   ...     @property
+   ...     def result_info(self): return dpf.ResultInfo()
+   ...
+   >>> sc = dpf.StreamsContainer()
+   >>> sc.add_stream(MyStream(examples.find_simple_bar()), group=1, is_result=1, result=1)
+
+
+
+
+.. py:currentmodule:: StreamsContainer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~release_handles`
+            - Close all open files and release cached data.
+          * - :py:attr:`~add_stream`
+            - Add an external stream to the container.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~datasources`
+            - DataSources associated with this container.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~owned`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__del__`
+            - Delete the entry.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.streams_container import StreamsContainer
+
+Property detail
+---------------
+
+.. py:property:: datasources
+
+   DataSources associated with this container.
+
+   Returns the :class:`~ansys.dpf.core.data_sources.DataSources` that
+   lists the result files backing this container's open streams.
+
+   :returns: Data sources for this container.
+   :rtype: ansys.dpf.core.DataSources
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: owned
+   :value: False
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: release_handles()
+
+   Close all open files and release cached data.
+
+   After calling this method all streams in the container are closed.
+   The container object itself remains valid — files will be reopened
+   automatically on the next evaluation that requires them.
+
+
+.. py:method:: __del__()
+
+   Delete the entry.
+
+
+.. py:method:: add_stream(stream: ansys.dpf.core.stream.Stream, group: int = None, is_result: int = None, result: int = None)
+
+   Add an external stream to the container.
+
+   Two registration strategies are available depending on how the
+   :class:`StreamsContainer` was created:
+
+   **Label-space strategy** (``group`` / ``is_result`` / ``result`` supplied):
+       The stream is registered under the given label values.  Use this
+       when the container was created without a backing
+       :class:`~ansys.dpf.core.data_sources.DataSources`, or when you want
+       explicit control over the labels.  A
+       :class:`~ansys.dpf.core.streams_container.StreamsContainer` created
+       from scratch holds a fixed three-label schema: ``group``,
+       ``is_result``, and ``result`` (all integers).
+
+   **DataSources-lookup strategy** (no labels supplied):
+       The stream's :attr:`~ansys.dpf.core.stream.Stream.file_path` is
+       matched against the files already registered in the container's
+       underlying :class:`~ansys.dpf.core.data_sources.DataSources`.  The
+       label space stored there is reused automatically.  Use this when the
+       container was created via
+       ``StreamsContainer(data_sources=ds)`` and the file is already in
+       ``ds``.
+
+   :param stream: The stream to add.  Must be a concrete subclass of
+                  :class:`~ansys.dpf.core.stream.Stream` that implements at least
+                  :attr:`~ansys.dpf.core.stream.Stream.stream_type_name` and
+                  :attr:`~ansys.dpf.core.stream.Stream.file_path`.
+   :type stream: Stream
+   :param group: Value for the ``group`` label.  When *all* three label arguments are
+                 ``None`` (the default) the DataSources-lookup strategy is used
+                 instead.
+   :type group: int, optional
+   :param is_result: Value for the ``is_result`` label.  Use ``1`` for a result stream,
+                     ``0`` for an auxiliary stream.
+   :type is_result: int, optional
+   :param result: Value for the ``result`` label.
+   :type result: int, optional
+
+   :raises DPFServerException: If the label-space strategy is used and the supplied labels do not
+       match the container's schema, or if the DataSources-lookup strategy
+       is used and the stream's file path is not found in the container's
+       ``DataSources``.
+
+   .. rubric:: Examples
+
+   **Label-space strategy** — container created without a DataSources:
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> from ansys.dpf.core.stream import Stream
+   ...
+   >>> class MyStream(Stream):
+   ...     @property
+   ...     def stream_type_name(self) -> str:
+   ...         return "rst"
+   ...     @property
+   ...     def time_freq_support(self):
+   ...         return dpf.TimeFreqSupport()
+   ...     @property
+   ...     def result_info(self):
+   ...         return dpf.ResultInfo()
+   ...
+   >>> rst_path = examples.find_simple_bar()
+   >>> sc = dpf.StreamsContainer()
+   >>> sc.add_stream(MyStream(rst_path), group=1, is_result=1, result=1)
+
+   **DataSources-lookup strategy** — container created from a DataSources:
+
+   >>> ds = dpf.DataSources(rst_path)
+   >>> sc = dpf.StreamsContainer(data_sources=ds)
+   >>> sc.add_stream(MyStream(rst_path))  # labels inferred from ds
+
+
+
+
+

@@ -1,0 +1,106 @@
+
+
+
+
+
+
+:class:`OutputsConcatenateFieldsContainers`
+===========================================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.concatenate_fields_containers.OutputsConcatenateFieldsContainers(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   concatenate_fields_containers operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.concatenate_fields_containers()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_merged_collections = op.outputs.merged_collections()
+
+
+
+
+
+.. py:currentmodule:: OutputsConcatenateFieldsContainers
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~merged_collections`
+            - Allows to get merged_collections output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.concatenate_fields_containers import OutputsConcatenateFieldsContainers
+
+Property detail
+---------------
+
+.. py:property:: merged_collections
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get merged_collections output of the operator
+
+   Fields containers with fields which have as many components as the sum of all the input fields' numbers of components of the same index.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.concatenate_fields_containers()
+   >>> # Get the output from op.outputs. ...
+   >>> result_merged_collections = op.outputs.merged_collections()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

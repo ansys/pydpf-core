@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.cyclic_expansion
+   :inherited-members:

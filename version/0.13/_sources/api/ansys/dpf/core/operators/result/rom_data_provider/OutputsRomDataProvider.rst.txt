@@ -1,0 +1,292 @@
+
+
+
+
+
+
+:class:`OutputsRomDataProvider`
+===============================
+
+.. py:class:: ansys.dpf.core.operators.result.rom_data_provider.OutputsRomDataProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   rom_data_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rom_data_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_rom_matrices = op.outputs.rom_matrices()
+   >>> result_mode_shapes = op.outputs.mode_shapes()
+   >>> result_lumped_mass = op.outputs.lumped_mass()
+   >>> result_model_data = op.outputs.model_data()
+   >>> result_center_of_mass = op.outputs.center_of_mass()
+   >>> result_inertia_relief = op.outputs.inertia_relief()
+   >>> result_model_size = op.outputs.model_size()
+   >>> result_field_coordinates_and_euler_angles = op.outputs.field_coordinates_and_euler_angles()
+   >>> result_nod = op.outputs.nod()
+   >>> result_meshed_region = op.outputs.meshed_region()
+
+
+
+
+
+.. py:currentmodule:: OutputsRomDataProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~rom_matrices`
+            - Allows to get rom_matrices output of the operator
+          * - :py:attr:`~mode_shapes`
+            - Allows to get mode_shapes output of the operator
+          * - :py:attr:`~lumped_mass`
+            - Allows to get lumped_mass output of the operator
+          * - :py:attr:`~model_data`
+            - Allows to get model_data output of the operator
+          * - :py:attr:`~center_of_mass`
+            - Allows to get center_of_mass output of the operator
+          * - :py:attr:`~inertia_relief`
+            - Allows to get inertia_relief output of the operator
+          * - :py:attr:`~model_size`
+            - Allows to get model_size output of the operator
+          * - :py:attr:`~field_coordinates_and_euler_angles`
+            - Allows to get field_coordinates_and_euler_angles output of the operator
+          * - :py:attr:`~nod`
+            - Allows to get nod output of the operator
+          * - :py:attr:`~meshed_region`
+            - Allows to get meshed_region output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.rom_data_provider import OutputsRomDataProvider
+
+Property detail
+---------------
+
+.. py:property:: rom_matrices
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get rom_matrices output of the operator
+
+   FieldsContainers containing the reduced matrices
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rom_data_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_rom_matrices = op.outputs.rom_matrices()
+
+.. py:property:: mode_shapes
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get mode_shapes output of the operator
+
+   FieldsContainers containing the mode shapes, which are CST and NOR for the cms method
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rom_data_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_mode_shapes = op.outputs.mode_shapes()
+
+.. py:property:: lumped_mass
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get lumped_mass output of the operator
+
+   FieldsContainers containing the lumped mass
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rom_data_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_lumped_mass = op.outputs.lumped_mass()
+
+.. py:property:: model_data
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get model_data output of the operator
+
+   data describing the finite element model
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rom_data_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_model_data = op.outputs.model_data()
+
+.. py:property:: center_of_mass
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get center_of_mass output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rom_data_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_center_of_mass = op.outputs.center_of_mass()
+
+.. py:property:: inertia_relief
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get inertia_relief output of the operator
+
+   inertia matrix
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rom_data_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_inertia_relief = op.outputs.inertia_relief()
+
+.. py:property:: model_size
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get model_size output of the operator
+
+   size of the model
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rom_data_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_model_size = op.outputs.model_size()
+
+.. py:property:: field_coordinates_and_euler_angles
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_coordinates_and_euler_angles output of the operator
+
+   coordinates and euler angles of all nodes
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rom_data_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_coordinates_and_euler_angles = op.outputs.field_coordinates_and_euler_angles()
+
+.. py:property:: nod
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get nod output of the operator
+
+   ids of master nodes
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rom_data_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_nod = op.outputs.nod()
+
+.. py:property:: meshed_region
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get meshed_region output of the operator
+
+   expanded meshed region.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.rom_data_provider()
+   >>> # Get the output from op.outputs. ...
+   >>> result_meshed_region = op.outputs.meshed_region()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

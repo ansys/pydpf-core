@@ -1,0 +1,309 @@
+
+
+
+
+
+
+:class:`InputsMigrateToVtu`
+===========================
+
+
+.. py:class:: ansys.dpf.core.operators.serialization.migrate_to_vtu.InputsMigrateToVtu(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   migrate_to_vtu operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> my_time_scoping = dpf.Scoping()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_streams_container = dpf.StreamsContainer()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_directory = str()
+   >>> op.inputs.directory.connect(my_directory)
+   >>> my_base_name = str()
+   >>> op.inputs.base_name.connect(my_base_name)
+   >>> my_result1 = str()
+   >>> op.inputs.result1.connect(my_result1)
+   >>> my_result2 = str()
+   >>> op.inputs.result2.connect(my_result2)
+   >>> my_write_mode = str()
+   >>> op.inputs.write_mode.connect(my_write_mode)
+
+
+
+
+
+
+.. py:currentmodule:: InputsMigrateToVtu
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~streams_container`
+            - Allows to connect streams_container input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~directory`
+            - Allows to connect directory input to the operator.
+          * - :py:attr:`~base_name`
+            - Allows to connect base_name input to the operator.
+          * - :py:attr:`~result1`
+            - Allows to connect result1 input to the operator.
+          * - :py:attr:`~result2`
+            - Allows to connect result2 input to the operator.
+          * - :py:attr:`~write_mode`
+            - Allows to connect write_mode input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.migrate_to_vtu import InputsMigrateToVtu
+
+Property detail
+---------------
+
+.. py:property:: time_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect time_scoping input to the operator.
+
+   time sets to export, default is all
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: streams_container
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect streams_container input to the operator.
+
+   result file container allowed to be kept open to cache data
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.streams_container.connect(my_streams_container)
+   >>> # or
+   >>> op.inputs.streams_container(my_streams_container)
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect data_sources input to the operator.
+
+   result file path container, used if no streams are set
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: directory
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect directory input to the operator.
+
+   directory path
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.directory.connect(my_directory)
+   >>> # or
+   >>> op.inputs.directory(my_directory)
+
+.. py:property:: base_name
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect base_name input to the operator.
+
+   vtu base file name, (default is file)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.base_name.connect(my_base_name)
+   >>> # or
+   >>> op.inputs.base_name(my_base_name)
+
+.. py:property:: result1
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect result1 input to the operator.
+
+   if Operator's names are connected to this Pin, only these results are exported (else all available results are exported)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.result1.connect(my_result1)
+   >>> # or
+   >>> op.inputs.result1(my_result1)
+
+.. py:property:: result2
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect result2 input to the operator.
+
+   if Operator's names are connected to this Pin, only these results are exported (else all available results are exported)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.result2.connect(my_result2)
+   >>> # or
+   >>> op.inputs.result2(my_result2)
+
+.. py:property:: write_mode
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect write_mode input to the operator.
+
+   Available are rawbinarycompressed, rawbinary, base64appended, base64inline, ascii, default is (rawbinarycompressed)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.migrate_to_vtu()
+   >>> op.inputs.write_mode.connect(my_write_mode)
+   >>> # or
+   >>> op.inputs.write_mode(my_write_mode)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+
