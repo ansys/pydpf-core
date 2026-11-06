@@ -90,3 +90,4 @@ PyDPF-Core is a Python client library for the Ansys Data Processing Framework (D
    api/index
    operator_reference
    contribute/index
+   changelog

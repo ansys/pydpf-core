@@ -248,3 +248,21 @@ path = ".ci/build_wheel.py"
 norecursedirs = ["*"]
 doctest_optionflags = ["NORMALIZE_WHITESPACE", "ELLIPSIS"]
 markers = ["slow: mark a test as slow."]
+
+[tool.towncrier]
+directory = "doc/source/changelog"
+filename = "doc/source/changelog.rst"
+start_string = ".. towncrier release notes start\n"
+template = "doc/source/changelog/template"
+title_format = "`{version} <https://github.com/ansys/pydpf-core/releases/tag/v{version}>`_ - {project_date}"
+issue_format = "`#{issue} <https://github.com/ansys/pydpf-core/pull/{issue}>`_"
+type = [
+  { directory = "breaking", name = "Breaking", showcontent = true },
+  { directory = "added", name = "Added", showcontent = true },
+  { directory = "fixed", name = "Fixed", showcontent = true },
+  { directory = "documentation", name = "Documentation", showcontent = true },
+  { directory = "dependencies", name = "Dependencies", showcontent = true },
+  { directory = "maintenance", name = "Maintenance", showcontent = true },
+  { directory = "miscellaneous", name = "Miscellaneous", showcontent = true },
+  { directory = "test", name = "Test", showcontent = true },
+]

@@ -212,12 +212,12 @@ jobs:
       - name: "Zip HTML Documentation"
         shell: pwsh
         run: |
-          Compress-Archive -Path doc/build/html/* -Destination HTML-doc-$env:PACKAGE_NAME.zip
+          Compress-Archive -Path doc/build/html/* -Destination documentation-html.zip
         if: always()
 
       - name: "Upload HTML Documentation"
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: HTML-doc-${{env.PACKAGE_NAME}}.zip
-          path: HTML-doc-${{env.PACKAGE_NAME}}.zip
+          name: documentation-html
+          path: documentation-html.zip
         if: always()
