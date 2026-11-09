@@ -49,6 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: ansys/actions/doc-changelog@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         with:
           token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
           bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
@@ -308,8 +309,6 @@ jobs:
       - uses: ansys/actions/doc-deploy-pr@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
-          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
-          decompress-artifact: true
           token: ${{ secrets.GITHUB_TOKEN }}
           bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
           bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
@@ -330,7 +329,5 @@ jobs:
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
-          decompress-artifact: true
           bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
           bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}

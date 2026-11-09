@@ -38,21 +38,6 @@ env:
   PACKAGE_NAME: 'ansys-dpf-core'
 
 jobs:
-
-  update-changelog:
-    name: "Update CHANGELOG for new tag"
-    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Required to push commits, delete and create tags
-      pull-requests: write  # Required to create pull requests
-    steps:
-      - uses: ansys/actions/doc-deploy-changelog@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
-        with:
-          token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
-          bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
-          bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
-
   debug:
     name: "Debug"
     runs-on: ubuntu-latest
@@ -62,9 +47,24 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
 
+  update-changelog:
+    name: "Update CHANGELOG for new tag"
+    needs: [debug]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to push commits, delete and create tags
+      pull-requests: write  # Required to create pull requests
+    steps:
+      - uses: ansys/actions/doc-deploy-changelog@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+        with:
+          token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+          bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+          bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
+
   style:
     name: "Style Check"
-    needs: [debug]
+    needs: [update-changelog]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -79,6 +79,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
+      id-token: write # Required for provenance attestations
+      attestations: write # Required for provenance attestations
     env:
       ANSYS_DPF_WHEEL_PLATFORM: ${{matrix.platform-tag}}
     strategy:
@@ -101,6 +103,7 @@ jobs:
       - uses: ansys/actions/build-library@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
         with:
           library-name: "ansys-dpf-core-${{ matrix.name }}"
+          attest-provenance: true
 
   tests:
     name: "Test ${{ matrix.test_any && 'any' || 'platform-specific' }} wheel"
@@ -240,15 +243,42 @@ jobs:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
       PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
 
+  merge-wheels:
+    name: "Merge the wheel artifacts of all platforms"
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: [build-wheels]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Download the wheel artifacts of all platforms"
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: ${{ env.PACKAGE_NAME }}-*-artifacts
+          path: artifacts
+
+      # Each platform build makes the same source distribution, so keep only one.
+      - name: "Collect the wheels and the source distribution"
+        shell: bash
+        run: |
+          mkdir dist
+          cp artifacts/*/*.whl dist/
+          cp "artifacts/${PACKAGE_NAME}-any-artifacts/"*.tar.gz dist/
+          ls dist
+
+      - name: "Upload the merged artifact"
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ${{ env.PACKAGE_NAME }}-artifacts
+          path: dist
+
   release-github:
     name: "Release project to GitHub"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [build-wheels, tests, docs, examples, tests-retro, docker_tests]
+    needs: [merge-wheels, tests, docs, examples, tests-retro, docker_tests]
     runs-on: ubuntu-latest
     environment: release
     permissions:
-      id-token: write # Required for GitHub release
       contents: write # Required for GitHub release
+      attestations: read # Required to add artifact attestation notes
     steps:
       - name: Release to GitHub
         uses: ansys/actions/release-github@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5

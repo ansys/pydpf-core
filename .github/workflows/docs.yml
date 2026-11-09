@@ -209,15 +209,9 @@ jobs:
             doc/source/images/auto-generated
           key: ${{ steps.cache-doc-build-restore.outputs.cache-primary-key }}
 
-      - name: "Zip HTML Documentation"
-        shell: pwsh
-        run: |
-          Compress-Archive -Path doc/build/html/* -Destination documentation-html.zip
-        if: always()
-
       - name: "Upload HTML Documentation"
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: documentation-html
-          path: documentation-html.zip
+          path: doc/build/html
         if: always()
