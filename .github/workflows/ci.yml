@@ -129,7 +129,7 @@ jobs:
     steps:
       - uses: ansys/actions/build-library@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
         with:
-          library-name: "ansys-dpf-core"
+          library-name: "ansys-dpf-core-${{ matrix.name }}"
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
 
   tests-retro:
