@@ -8,7 +8,7 @@ import ansys.grpc.dpf.collection_message_pb2 as collection__message__pb2
 import ansys.grpc.dpf.collection_pb2 as collection__pb2
 import ansys.grpc.dpf.support_pb2 as support__pb2
 
-GRPC_GENERATED_VERSION = '1.80.0'
+GRPC_GENERATED_VERSION = '1.80.1'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
