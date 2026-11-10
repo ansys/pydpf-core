@@ -7,9 +7,11 @@ REM Command file for Sphinx documentation
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
 )
+if "%SPHINXOPTS%" == "" (
+	set SPHINXOPTS=-n
+)
 set SOURCEDIR=source
-set BUILDDIR=build
-set SPHINXOPTS=-n
+set BUILDDIR=_build
 
 if "%1" == "" goto help
 if "%1" == "clean" goto clean
@@ -32,8 +34,8 @@ goto end
 
 :clean
 echo.Cleaning files form previous build...
-IF EXIST "build" (
-    rmdir "build" /s /q
+IF EXIST "%BUILDDIR%" (
+    rmdir "%BUILDDIR%" /s /q
 )
 IF EXIST "source\images\auto-generated" (
     rmdir "source\images\auto-generated" /s /q

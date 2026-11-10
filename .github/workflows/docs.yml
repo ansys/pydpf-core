@@ -70,9 +70,6 @@ jobs:
       contents: read
     env:
       ANSYS_DPF_WHEEL_PLATFORM: "any"
-      UV_PYTHON: ${{ inputs.python_version }}
-      # `uv sync` is run explicitly below, this variable is needed to prevent re-syncing on `uv run`.
-      UV_NO_SYNC: "1"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -87,21 +84,6 @@ jobs:
           echo "ANSYSLMD_LICENSE_FILE=1055@${LICENSE_SERVER}" >> $GITHUB_ENV
           echo "DPF_DEFAULT_GRPC_MODE=insecure" >> $GITHUB_ENV
 
-      - name: "Setup Python"
-        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
-        with:
-          python-version: ${{ inputs.python_version }}
-
-      - name: "Install uv"
-        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
-        with:
-          enable-cache: false
-
-      - name: "Install tox"
-        shell: pwsh
-        run: |
-          uv sync --only-group tox
-
       - name: "Install DPF"
         id: set-server-path
         uses: ansys/pydpf-actions/install-dpf-server@c672fc3844d1606e8dc650ee3ab634be7ea60916 # v2.4
@@ -111,55 +93,21 @@ jobs:
           ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
           skip-python-install: "true"
 
-      - name: "Expose the standalone DPF server to tox"
-        id: dpf-standalone
+      # The doc-build action makes its own virtual environment, so the server package
+      # is not installed. PyDPF-Core finds the server through ANSYS_DPF_PATH instead.
+      - name: "Point PyDPF-Core to the standalone DPF server"
         if: env.MODE == 'PIP'
-        shell: bash
+        shell: pwsh
         env:
           STANDALONE_PATH: ${{ steps.set-server-path.outputs.standalone-path }}
         run: |
-          echo "requirement=-e ${STANDALONE_PATH}" >> "$GITHUB_OUTPUT"
+          $server = Get-ChildItem -Directory -Path "$env:STANDALONE_PATH/ansys/dpf" -Filter "server_*" | Select-Object -First 1
+          if (-not $server) { throw "No DPF server folder was found in $env:STANDALONE_PATH." }
+          Write-Output "ANSYS_DPF_PATH=$($server.FullName)"
+          "ANSYS_DPF_PATH=$($server.FullName)" >> $env:GITHUB_ENV
 
       - name: "Setup headless display"
         uses: pyvista/setup-headless-display-action@10e6efb97af3cd1523828f0e22c39f0e4567f3e4 # v5.2.0
-
-      - name: "Setup Graphviz"
-        uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2.0.2
-
-      - name: "Install OS packages"
-        run: |
-          choco install pandoc
-
-      - name: "Setup Quarto"
-        uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2.2.0
-        with:
-          version: 1.6.43
-
-      - name: Check Quarto Version
-        shell: bash
-        run: |
-          quarto --version
-
-      - name: Verify tinytex is installed
-        run: |
-          quarto install tinytex --no-prompt --update-path
-
-      - name: "Install Poppler for PDF to PNG conversion"
-        shell: powershell
-        run: |
-          choco install poppler -y
-          echo "C:\Program Files\poppler\bin" | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
-
-      - name: Install Miktex and update PATH with Miktex binaries
-        shell: powershell
-        run: |
-          choco install miktex -y
-          echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
-
-      - name: Set up Miktex to automatically install packages
-        shell: powershell
-        run: |
-          initexmf --set-config-value [MPM]AutoInstall=1
 
       - name: "Restore doc build cache"
         id: cache-doc-build-restore
@@ -168,7 +116,7 @@ jobs:
         with:
           # This list MUST stay strictly identical to the one of the "Save doc-build cache" step.
           path: |
-            doc/build/.doctrees
+            doc/_build/doctrees
             doc/source/api
             doc/source/examples
             doc/source/tutorials
@@ -189,12 +137,19 @@ jobs:
         run: |
           git checkout -- doc/source/api doc/source/examples doc/source/tutorials
 
-      - name: "Build HTML Documentation"
-        shell: bash
-        env:
-          DPF_STANDALONE_REQUIREMENT: ${{ steps.dpf-standalone.outputs.requirement }}
-        run: |
-          uv run tox -e doc-html
+      - name: "Build the documentation"
+        uses: ansys/actions/doc-build@fix/doc-build-windows-latex
+        with:
+          python-version: ${{ inputs.python_version }}
+          # A new checkout would clean the DPF server and the restored doc build cache.
+          checkout: false
+          group-dependencies-name: "doc"
+          optional-dependencies-name: "graphics"
+          dependencies: "pandoc graphviz"
+          needs-quarto: true
+          check-links: false
+          sphinxopts: "-j auto --color"
+          build-pdf: ${{ github.ref_type == 'tag' }}
 
       - name: "Save doc-build cache"
         id: cache-doc-build-save
@@ -202,16 +157,9 @@ jobs:
         with:
           # Keep strictly identical to the path list of the "Restore doc build cache" step.
           path: |
-            doc/build/.doctrees
+            doc/_build/doctrees
             doc/source/api
             doc/source/examples
             doc/source/tutorials
             doc/source/images/auto-generated
           key: ${{ steps.cache-doc-build-restore.outputs.cache-primary-key }}
-
-      - name: "Upload HTML Documentation"
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: documentation-html
-          path: doc/build/html
-        if: always()
