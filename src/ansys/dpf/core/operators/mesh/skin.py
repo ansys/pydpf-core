@@ -35,6 +35,10 @@ class skin(Operator):
         If input mesh contains shell elements, output mesh shell elements (boolean = 1) are duplicated, one per each orientation, or (boolean = 0) remain unchanged.
     add_beam_point: bool, optional
         If input mesh contains beam or point elements, output mesh beam point elements (boolean = 1) are added or (boolean = 0) are ignored. Default: False
+    num_threads: int, optional
+        Number of threads used to extract the skin. The output does not depend on it. Default: 1.
+    get_original_element_id: bool, optional
+        If true, the skin mesh gets an original_element_id elemental property field giving, for each skin element ID, the ID of the input mesh element it has been extracted from. Default: false.
 
     Outputs
     -------
@@ -63,6 +67,10 @@ class skin(Operator):
     >>> op.inputs.duplicate_shell.connect(my_duplicate_shell)
     >>> my_add_beam_point = bool()
     >>> op.inputs.add_beam_point.connect(my_add_beam_point)
+    >>> my_num_threads = int()
+    >>> op.inputs.num_threads.connect(my_num_threads)
+    >>> my_get_original_element_id = bool()
+    >>> op.inputs.get_original_element_id.connect(my_get_original_element_id)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.skin(
@@ -70,6 +78,8 @@ class skin(Operator):
     ...     mesh_scoping=my_mesh_scoping,
     ...     duplicate_shell=my_duplicate_shell,
     ...     add_beam_point=my_add_beam_point,
+    ...     num_threads=my_num_threads,
+    ...     get_original_element_id=my_get_original_element_id,
     ... )
 
     >>> # Get output data
@@ -86,6 +96,8 @@ class skin(Operator):
         mesh_scoping=None,
         duplicate_shell=None,
         add_beam_point=None,
+        num_threads=None,
+        get_original_element_id=None,
         config=None,
         server=None,
         add_beam=None,
@@ -112,6 +124,10 @@ class skin(Operator):
                 )
             )
             self.inputs.add_beam_point.connect(add_beam)
+        if num_threads is not None:
+            self.inputs.num_threads.connect(num_threads)
+        if get_original_element_id is not None:
+            self.inputs.get_original_element_id.connect(get_original_element_id)
 
     @staticmethod
     def _spec() -> Specification:
@@ -145,6 +161,18 @@ initial elements are propagated to their facets.
                     optional=True,
                     document=r"""If input mesh contains beam or point elements, output mesh beam point elements (boolean = 1) are added or (boolean = 0) are ignored. Default: False""",
                     aliases=["add_beam"],
+                ),
+                4: PinSpecification(
+                    name="num_threads",
+                    type_names=["int32"],
+                    optional=True,
+                    document=r"""Number of threads used to extract the skin. The output does not depend on it. Default: 1.""",
+                ),
+                200: PinSpecification(
+                    name="get_original_element_id",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""If true, the skin mesh gets an original_element_id elemental property field giving, for each skin element ID, the ID of the input mesh element it has been extracted from. Default: false.""",
                 ),
             },
             map_output_pin_spec={
@@ -242,6 +270,10 @@ class InputsSkin(_Inputs):
     >>> op.inputs.duplicate_shell.connect(my_duplicate_shell)
     >>> my_add_beam_point = bool()
     >>> op.inputs.add_beam_point.connect(my_add_beam_point)
+    >>> my_num_threads = int()
+    >>> op.inputs.num_threads.connect(my_num_threads)
+    >>> my_get_original_element_id = bool()
+    >>> op.inputs.get_original_element_id.connect(my_get_original_element_id)
     """
 
     def __init__(self, op: Operator):
@@ -254,6 +286,12 @@ class InputsSkin(_Inputs):
         self._inputs.append(self._duplicate_shell)
         self._add_beam_point: Input[bool] = Input(skin._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._add_beam_point)
+        self._num_threads: Input[int] = Input(skin._spec().input_pin(4), 4, op, -1)
+        self._inputs.append(self._num_threads)
+        self._get_original_element_id: Input[bool] = Input(
+            skin._spec().input_pin(200), 200, op, -1
+        )
+        self._inputs.append(self._get_original_element_id)
 
     @property
     def mesh(self) -> Input[MeshedRegion]:
@@ -336,6 +374,48 @@ class InputsSkin(_Inputs):
         >>> op.inputs.add_beam_point(my_add_beam_point)
         """
         return self._add_beam_point
+
+    @property
+    def num_threads(self) -> Input[int]:
+        r"""Allows to connect num_threads input to the operator.
+
+        Number of threads used to extract the skin. The output does not depend on it. Default: 1.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.skin()
+        >>> op.inputs.num_threads.connect(my_num_threads)
+        >>> # or
+        >>> op.inputs.num_threads(my_num_threads)
+        """
+        return self._num_threads
+
+    @property
+    def get_original_element_id(self) -> Input[bool]:
+        r"""Allows to connect get_original_element_id input to the operator.
+
+        If true, the skin mesh gets an original_element_id elemental property field giving, for each skin element ID, the ID of the input mesh element it has been extracted from. Default: false.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.skin()
+        >>> op.inputs.get_original_element_id.connect(my_get_original_element_id)
+        >>> # or
+        >>> op.inputs.get_original_element_id(my_get_original_element_id)
+        """
+        return self._get_original_element_id
 
     def __getattr__(self, name):
         if name in ["add_beam"]:
