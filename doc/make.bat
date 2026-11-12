@@ -29,7 +29,20 @@ if errorlevel 9009 (
 	exit /b 1
 )
 
+if "%1" == "pdf" goto pdf
+
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+goto end
+
+:pdf
+REM Continue after LaTeX errors so that one bad character does not stop the PDF build.
+set LATEXMKOPTS=-f -interaction=nonstopmode
+%SPHINXBUILD% -M latexpdf %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+if not exist "%BUILDDIR%\latex\pydpf-core.pdf" (
+	echo.The PDF documentation was not generated. See the logs in %BUILDDIR%\latex.
+	popd
+	exit /b 1
+)
 goto end
 
 :clean

@@ -368,29 +368,22 @@ htmlhelp_basename = "pyansysdoc"
 
 # -- Options for LaTeX output ------------------------------------------------
 
+# XeLaTeX supports the Unicode characters of the docstrings, such as box-drawing characters.
+latex_engine = "xelatex"
+# Use makeindex, because xindy is not reliably available with MiKTeX on Windows.
+latex_use_xindy = False
+
 latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
+    # The API pages nest more lists than the LaTeX default of 6 levels.
+    "maxlistdepth": "10",
 }
 
-# Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title,
-#  author, documentclass [howto, manual, or own class]).
+# The target name must match the PDF name expected by ansys/actions/doc-build.
 latex_documents = [
     (
         master_doc,
-        "pyansys.tex",
-        "PyAnsys DPF-Core Documentation",
+        "pydpf-core.tex",
+        "PyDPF-Core Documentation",
         f"{author}",
         "manual",
     ),
