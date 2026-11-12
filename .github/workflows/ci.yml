@@ -293,6 +293,7 @@ jobs:
       standalone_suffix: ${{needs.pick-server-suffix.outputs.suffix}}
       event_name: ${{ github.event_name }}
       python_version: "3.12"
+      build_pdf: true
     secrets:
       LICENSE_SERVER: ${{ secrets.LICENSE_SERVER }}
       PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
