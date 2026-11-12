@@ -1,6 +1,7 @@
 .. title:: PyDPF-Core
 
-.. figure:: _static/pydpf-core.svg
+.. Sphinx uses the SVG logo for HTML and the PNG logo for the PDF.
+.. figure:: _static/pydpf-core.*
     :align: center
     :width: 640px
 
@@ -90,3 +91,4 @@ PyDPF-Core is a Python client library for the Ansys Data Processing Framework (D
    api/index
    operator_reference
    contribute/index
+   changelog

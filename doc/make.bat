@@ -7,9 +7,11 @@ REM Command file for Sphinx documentation
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
 )
+if "%SPHINXOPTS%" == "" (
+	set SPHINXOPTS=-n
+)
 set SOURCEDIR=source
-set BUILDDIR=build
-set SPHINXOPTS=-n
+set BUILDDIR=_build
 
 if "%1" == "" goto help
 if "%1" == "clean" goto clean
@@ -27,13 +29,26 @@ if errorlevel 9009 (
 	exit /b 1
 )
 
+if "%1" == "pdf" goto pdf
+
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+goto end
+
+:pdf
+REM Continue after LaTeX errors so that one bad character does not stop the PDF build.
+set LATEXMKOPTS=-f -interaction=nonstopmode
+%SPHINXBUILD% -M latexpdf %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+if not exist "%BUILDDIR%\latex\pydpf-core.pdf" (
+	echo.The PDF documentation was not generated. See the logs in %BUILDDIR%\latex.
+	popd
+	exit /b 1
+)
 goto end
 
 :clean
 echo.Cleaning files form previous build...
-IF EXIST "build" (
-    rmdir "build" /s /q
+IF EXIST "%BUILDDIR%" (
+    rmdir "%BUILDDIR%" /s /q
 )
 IF EXIST "source\images\auto-generated" (
     rmdir "source\images\auto-generated" /s /q

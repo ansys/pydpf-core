@@ -8,9 +8,13 @@ import subprocess
 
 from ansys_sphinx_theme import (
     ansys_favicon,
+    ansys_logo_white,
+    ansys_logo_white_cropped,
     get_version_match,
+    latex,
     pyansys_logo_dark_mode,
     pyansys_logo_light_mode,
+    watermark,
 )
 import numpy as np
 import pyvista
@@ -368,29 +372,26 @@ htmlhelp_basename = "pyansysdoc"
 
 # -- Options for LaTeX output ------------------------------------------------
 
-latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
-}
+# XeLaTeX supports the Unicode characters of the docstrings, such as box-drawing characters.
+latex_engine = "xelatex"
+# Use makeindex, because xindy is not reliably available with MiKTeX on Windows.
+latex_use_xindy = False
 
-# Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title,
-#  author, documentclass [howto, manual, or own class]).
+# Remove "colorrows" from the default table style. With the 2026 LaTeX packages,
+# it makes Sphinx 8 tables fail with "TeX capacity exceeded".
+# See https://github.com/sphinx-doc/sphinx/issues/14465 (fixed in Sphinx 9).
+latex_table_style = ["booktabs"]
+
+# PyAnsys cover page, as used by other PyAnsys projects.
+latex_additional_files = [watermark, ansys_logo_white, ansys_logo_white_cropped]
+latex_elements = {"preamble": latex.generate_preamble(html_title)}
+
+# The target name must match the PDF name expected by ansys/actions/doc-build.
 latex_documents = [
     (
         master_doc,
-        "pyansys.tex",
-        "PyAnsys DPF-Core Documentation",
+        "pydpf-core.tex",
+        "PyDPF-Core Documentation",
         f"{author}",
         "manual",
     ),
