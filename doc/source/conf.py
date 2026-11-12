@@ -8,9 +8,13 @@ import subprocess
 
 from ansys_sphinx_theme import (
     ansys_favicon,
+    ansys_logo_white,
+    ansys_logo_white_cropped,
     get_version_match,
+    latex,
     pyansys_logo_dark_mode,
     pyansys_logo_light_mode,
+    watermark,
 )
 import numpy as np
 import pyvista
@@ -373,10 +377,14 @@ latex_engine = "xelatex"
 # Use makeindex, because xindy is not reliably available with MiKTeX on Windows.
 latex_use_xindy = False
 
-latex_elements = {
-    # The API pages nest more lists than the LaTeX default of 6 levels.
-    "maxlistdepth": "10",
-}
+# Remove "colorrows" from the default table style. With the 2026 LaTeX packages,
+# it makes Sphinx 8 tables fail with "TeX capacity exceeded".
+# See https://github.com/sphinx-doc/sphinx/issues/14465 (fixed in Sphinx 9).
+latex_table_style = ["booktabs"]
+
+# PyAnsys cover page, as used by other PyAnsys projects.
+latex_additional_files = [watermark, ansys_logo_white, ansys_logo_white_cropped]
+latex_elements = {"preamble": latex.generate_preamble(html_title)}
 
 # The target name must match the PDF name expected by ansys/actions/doc-build.
 latex_documents = [

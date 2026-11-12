@@ -1,11 +1,9 @@
 .. title:: PyDPF-Core
 
-.. LaTeX cannot read SVG files, so the logo is only in the HTML output.
-.. only:: html
-
-    .. figure:: _static/pydpf-core.svg
-        :align: center
-        :width: 640px
+.. Sphinx uses the SVG logo for HTML and the PNG logo for the PDF.
+.. figure:: _static/pydpf-core.*
+    :align: center
+    :width: 640px
 
 PyDPF-Core is a Python client library for the Ansys Data Processing Framework (DPF). You are looking at the documentation for version |version|
 
