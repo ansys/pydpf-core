@@ -112,7 +112,7 @@ doc = [
 ]
 test = [
   "ansys-platform-instancemanagement==1.2.0",
-  "ansys-tools-common==0.5.3",
+  "ansys-tools-common==0.5.4",
   "ansys-tools-visualization-interface>=0.13.0",
   "coverage==7.16.2",
   "graphviz==0.21",
