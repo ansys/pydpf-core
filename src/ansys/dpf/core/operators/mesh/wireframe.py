@@ -21,21 +21,29 @@ if TYPE_CHECKING:
 
 
 class wireframe(Operator):
-    r"""Take a mesh and extracts its sharp edges, using pin 1 value as a
-    threshold angle.
+    r"""Extracts a wireframe mesh containing sharp edges from an input mesh. An
+    edge between adjacent surface facets is included when its `dihedral
+    angle <https://en.wikipedia.org/wiki/Dihedral_angle>`__ is greater than
+    the threshold in radians. Shell-element border edges and beam-element
+    edges are also included, regardless of the threshold. When
+    element_restriction is provided, it limits the surface facets considered
+    for dihedral and shell-border extraction. Beam elements are included
+    regardless of this scoping.
 
 
     Inputs
     ------
     mesh: MeshedRegion
+        Input mesh from which surface, shell-border, and beam edges are extracted.
     threshold: float
-        angle threshold in radian that will trigger an edge detection.
+        Dihedral-angle threshold in radians. A surface edge is included when the angle between adjacent surface normals is greater than this value. Shell-border and beam edges are included regardless of this threshold.
     element_restriction: Scoping, optional
-        Restrict the list of elements that must be treated when extractiong edges. Can be used to exclude unwanted bodies or unwanted elements like contact or surface load elements.
+        Optional elemental scoping that limits surface facets used for dihedral and shell-border edge extraction. If omitted, all eligible surface facets are considered. Beam elements are included regardless of this scoping.
 
     Outputs
     -------
     wireframe: MeshedRegion
+        New wireframe mesh containing line elements for extracted edges and only nodes used by those edges. It can be empty when no edges are selected. Node coordinates and original node identifiers are retained.
 
     Examples
     --------
@@ -87,8 +95,14 @@ class wireframe(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Take a mesh and extracts its sharp edges, using pin 1 value as a
-threshold angle.
+        description = r"""Extracts a wireframe mesh containing sharp edges from an input mesh. An
+edge between adjacent surface facets is included when its `dihedral
+angle <https://en.wikipedia.org/wiki/Dihedral_angle>`__ is greater than
+the threshold in radians. Shell-element border edges and beam-element
+edges are also included, regardless of the threshold. When
+element_restriction is provided, it limits the surface facets considered
+for dihedral and shell-border extraction. Beam elements are included
+regardless of this scoping.
 """
         spec = Specification(
             description=description,
@@ -97,19 +111,19 @@ threshold angle.
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Input mesh from which surface, shell-border, and beam edges are extracted.""",
                 ),
                 1: PinSpecification(
                     name="threshold",
                     type_names=["double"],
                     optional=False,
-                    document=r"""angle threshold in radian that will trigger an edge detection.""",
+                    document=r"""Dihedral-angle threshold in radians. A surface edge is included when the angle between adjacent surface normals is greater than this value. Shell-border and beam edges are included regardless of this threshold.""",
                 ),
                 2: PinSpecification(
                     name="element_restriction",
                     type_names=["scoping"],
                     optional=True,
-                    document=r"""Restrict the list of elements that must be treated when extractiong edges. Can be used to exclude unwanted bodies or unwanted elements like contact or surface load elements.""",
+                    document=r"""Optional elemental scoping that limits surface facets used for dihedral and shell-border edge extraction. If omitted, all eligible surface facets are considered. Beam elements are included regardless of this scoping.""",
                 ),
             },
             map_output_pin_spec={
@@ -117,7 +131,7 @@ threshold angle.
                     name="wireframe",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""New wireframe mesh containing line elements for extracted edges and only nodes used by those edges. It can be empty when no edges are selected. Node coordinates and original node identifiers are retained.""",
                 ),
             },
         )
@@ -200,6 +214,8 @@ class InputsWireframe(_Inputs):
     def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
+        Input mesh from which surface, shell-border, and beam edges are extracted.
+
         Returns
         -------
         input:
@@ -219,7 +235,7 @@ class InputsWireframe(_Inputs):
     def threshold(self) -> Input[float]:
         r"""Allows to connect threshold input to the operator.
 
-        angle threshold in radian that will trigger an edge detection.
+        Dihedral-angle threshold in radians. A surface edge is included when the angle between adjacent surface normals is greater than this value. Shell-border and beam edges are included regardless of this threshold.
 
         Returns
         -------
@@ -240,7 +256,7 @@ class InputsWireframe(_Inputs):
     def element_restriction(self) -> Input[Scoping]:
         r"""Allows to connect element_restriction input to the operator.
 
-        Restrict the list of elements that must be treated when extractiong edges. Can be used to exclude unwanted bodies or unwanted elements like contact or surface load elements.
+        Optional elemental scoping that limits surface facets used for dihedral and shell-border edge extraction. If omitted, all eligible surface facets are considered. Beam elements are included regardless of this scoping.
 
         Returns
         -------
@@ -280,6 +296,8 @@ class OutputsWireframe(_Outputs):
     @property
     def wireframe(self) -> Output[MeshedRegion]:
         r"""Allows to get wireframe output of the operator
+
+        New wireframe mesh containing line elements for extracted edges and only nodes used by those edges. It can be empty when no edges are selected. Node coordinates and original node identifiers are retained.
 
         Returns
         -------

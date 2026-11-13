@@ -21,17 +21,24 @@ if TYPE_CHECKING:
 
 
 class stl_export(Operator):
-    r"""export a mesh into a stl file.
+    r"""Exports the surface of a mesh to an STL file. By default, the file is
+    written in ASCII format; set ``binary_format`` to true to write a binary
+    STL file.
 
 
     Inputs
     ------
     mesh: MeshedRegion
+        Mesh whose surface is exported to the STL file.
     file_path: str
+        Path of the STL file to write.
+    binary_format: bool, optional
+        Whether to write a binary STL file. If omitted or false, the file is written in ASCII format.
 
     Outputs
     -------
     data_sources: DataSources
+        Data sources referencing the generated STL file.
 
     Examples
     --------
@@ -45,18 +52,23 @@ class stl_export(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_file_path = str()
     >>> op.inputs.file_path.connect(my_file_path)
+    >>> my_binary_format = bool()
+    >>> op.inputs.binary_format.connect(my_binary_format)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.stl_export(
     ...     mesh=my_mesh,
     ...     file_path=my_file_path,
+    ...     binary_format=my_binary_format,
     ... )
 
     >>> # Get output data
     >>> result_data_sources = op.outputs.data_sources()
     """
 
-    def __init__(self, mesh=None, file_path=None, config=None, server=None):
+    def __init__(
+        self, mesh=None, file_path=None, binary_format=None, config=None, server=None
+    ):
         super().__init__(
             name="stl_export",
             config=config,
@@ -68,10 +80,14 @@ class stl_export(Operator):
             self.inputs.mesh.connect(mesh)
         if file_path is not None:
             self.inputs.file_path.connect(file_path)
+        if binary_format is not None:
+            self.inputs.binary_format.connect(binary_format)
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""export a mesh into a stl file.
+        description = r"""Exports the surface of a mesh to an STL file. By default, the file is
+written in ASCII format; set ``binary_format`` to true to write a binary
+STL file.
 """
         spec = Specification(
             description=description,
@@ -80,13 +96,19 @@ class stl_export(Operator):
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Mesh whose surface is exported to the STL file.""",
                 ),
                 1: PinSpecification(
                     name="file_path",
                     type_names=["string"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Path of the STL file to write.""",
+                ),
+                2: PinSpecification(
+                    name="binary_format",
+                    type_names=["bool"],
+                    optional=True,
+                    document=r"""Whether to write a binary STL file. If omitted or false, the file is written in ASCII format.""",
                 ),
             },
             map_output_pin_spec={
@@ -94,7 +116,7 @@ class stl_export(Operator):
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Data sources referencing the generated STL file.""",
                 ),
             },
         )
@@ -156,6 +178,8 @@ class InputsStlExport(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_file_path = str()
     >>> op.inputs.file_path.connect(my_file_path)
+    >>> my_binary_format = bool()
+    >>> op.inputs.binary_format.connect(my_binary_format)
     """
 
     def __init__(self, op: Operator):
@@ -166,10 +190,16 @@ class InputsStlExport(_Inputs):
         self._inputs.append(self._mesh)
         self._file_path: Input[str] = Input(stl_export._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._file_path)
+        self._binary_format: Input[bool] = Input(
+            stl_export._spec().input_pin(2), 2, op, -1
+        )
+        self._inputs.append(self._binary_format)
 
     @property
     def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
+
+        Mesh whose surface is exported to the STL file.
 
         Returns
         -------
@@ -190,6 +220,8 @@ class InputsStlExport(_Inputs):
     def file_path(self) -> Input[str]:
         r"""Allows to connect file_path input to the operator.
 
+        Path of the STL file to write.
+
         Returns
         -------
         input:
@@ -204,6 +236,27 @@ class InputsStlExport(_Inputs):
         >>> op.inputs.file_path(my_file_path)
         """
         return self._file_path
+
+    @property
+    def binary_format(self) -> Input[bool]:
+        r"""Allows to connect binary_format input to the operator.
+
+        Whether to write a binary STL file. If omitted or false, the file is written in ASCII format.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.stl_export()
+        >>> op.inputs.binary_format.connect(my_binary_format)
+        >>> # or
+        >>> op.inputs.binary_format(my_binary_format)
+        """
+        return self._binary_format
 
 
 class OutputsStlExport(_Outputs):
@@ -228,6 +281,8 @@ class OutputsStlExport(_Outputs):
     @property
     def data_sources(self) -> Output[DataSources]:
         r"""Allows to get data_sources output of the operator
+
+        Data sources referencing the generated STL file.
 
         Returns
         -------
