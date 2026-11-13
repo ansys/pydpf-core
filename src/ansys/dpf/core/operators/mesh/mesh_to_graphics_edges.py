@@ -23,20 +23,31 @@ if TYPE_CHECKING:
 
 
 class mesh_to_graphics_edges(Operator):
-    r"""Generate edges of surface elements for input mesh
+    r"""Generates edge connectivity for triangular and quadrilateral shell or
+    surface elements in a mesh. The output contains input mesh node
+    coordinates and edge connectivity for each element. Connectivity stores
+    each edge as a pair of node IDs. For 6-node triangles and 8-node
+    quadrilaterals, ``include_mid_nodes`` controls whether mid-side nodes
+    are included. It defaults to ``true``; when ``false``, only corner nodes
+    are used. The mesh can be restricted with ``mesh_scoping`` before
+    connectivity is generated.
 
 
     Inputs
     ------
     mesh_scoping: Scoping, optional
+        Optional scoping used to restrict the input mesh before edge connectivity is generated. If omitted, the full input mesh is used.
     include_mid_nodes: bool, optional
+        Optional flag controlling whether mid-side nodes are included for second-order elements. Defaults to true; when false, only corner nodes are used.
     mesh: MeshedRegion
+        Surface mesh containing triangular or quadrilateral shell or surface elements with 3, 4, 6, or 8 nodes.
 
     Outputs
     -------
     nodes: Field
-        node coordinates
+        Node coordinates from the input mesh.
     connectivity: PropertyField
+        Edge connectivity for each input element, stored as consecutive node-ID pairs. Second-order element connectivity includes mid-side nodes when include_mid_nodes is true.
 
     Examples
     --------
@@ -89,7 +100,14 @@ class mesh_to_graphics_edges(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Generate edges of surface elements for input mesh
+        description = r"""Generates edge connectivity for triangular and quadrilateral shell or
+surface elements in a mesh. The output contains input mesh node
+coordinates and edge connectivity for each element. Connectivity stores
+each edge as a pair of node IDs. For 6-node triangles and 8-node
+quadrilaterals, ``include_mid_nodes`` controls whether mid-side nodes
+are included. It defaults to ``true``; when ``false``, only corner nodes
+are used. The mesh can be restricted with ``mesh_scoping`` before
+connectivity is generated.
 """
         spec = Specification(
             description=description,
@@ -98,19 +116,19 @@ class mesh_to_graphics_edges(Operator):
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Optional scoping used to restrict the input mesh before edge connectivity is generated. If omitted, the full input mesh is used.""",
                 ),
                 6: PinSpecification(
                     name="include_mid_nodes",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Optional flag controlling whether mid-side nodes are included for second-order elements. Defaults to true; when false, only corner nodes are used.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Surface mesh containing triangular or quadrilateral shell or surface elements with 3, 4, 6, or 8 nodes.""",
                 ),
             },
             map_output_pin_spec={
@@ -118,13 +136,13 @@ class mesh_to_graphics_edges(Operator):
                     name="nodes",
                     type_names=["field"],
                     optional=False,
-                    document=r"""node coordinates""",
+                    document=r"""Node coordinates from the input mesh.""",
                 ),
                 2: PinSpecification(
                     name="connectivity",
                     type_names=["property_field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Edge connectivity for each input element, stored as consecutive node-ID pairs. Second-order element connectivity includes mid-side nodes when include_mid_nodes is true.""",
                 ),
             },
         )
@@ -209,6 +227,8 @@ class InputsMeshToGraphicsEdges(_Inputs):
     def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
+        Optional scoping used to restrict the input mesh before edge connectivity is generated. If omitted, the full input mesh is used.
+
         Returns
         -------
         input:
@@ -228,6 +248,8 @@ class InputsMeshToGraphicsEdges(_Inputs):
     def include_mid_nodes(self) -> Input[bool]:
         r"""Allows to connect include_mid_nodes input to the operator.
 
+        Optional flag controlling whether mid-side nodes are included for second-order elements. Defaults to true; when false, only corner nodes are used.
+
         Returns
         -------
         input:
@@ -246,6 +268,8 @@ class InputsMeshToGraphicsEdges(_Inputs):
     @property
     def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
+
+        Surface mesh containing triangular or quadrilateral shell or surface elements with 3, 4, 6, or 8 nodes.
 
         Returns
         -------
@@ -291,7 +315,7 @@ class OutputsMeshToGraphicsEdges(_Outputs):
     def nodes(self) -> Output[Field]:
         r"""Allows to get nodes output of the operator
 
-        node coordinates
+        Node coordinates from the input mesh.
 
         Returns
         -------
@@ -310,6 +334,8 @@ class OutputsMeshToGraphicsEdges(_Outputs):
     @property
     def connectivity(self) -> Output[PropertyField]:
         r"""Allows to get connectivity output of the operator
+
+        Edge connectivity for each input element, stored as consecutive node-ID pairs. Second-order element connectivity includes mid-side nodes when include_mid_nodes is true.
 
         Returns
         -------

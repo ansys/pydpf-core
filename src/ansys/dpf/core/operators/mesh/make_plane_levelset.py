@@ -21,20 +21,30 @@ if TYPE_CHECKING:
 
 
 class make_plane_levelset(Operator):
-    r"""Computes the level set for a plane using coordinates.
+    r"""Computes the signed distance from each coordinate to a plane defined by
+    an origin and a normal vector. For coordinate :math:`\mathbf{x}`, plane
+    origin :math:`\mathbf{x}_0`, and nonzero normal :math:`\mathbf{n}`, the
+    result is
+    :math:`\frac{\mathbf{n}\cdot(\mathbf{x}-\mathbf{x}_0)}{\|\mathbf{n}\|}`.
+    Positive and negative values identify opposite sides of the plane, and
+    zero identifies points on the plane. The coordinates input accepts
+    either a coordinate field or a meshed region; for a meshed region, its
+    coordinate field is used.
 
 
     Inputs
     ------
     coordinates: MeshedRegion or Field
+        A coordinate field or meshed region providing 3D coordinates. If a meshed region is provided, its coordinate field is used.
     normal: Field
-        An overall 3D vector that gives the normal direction of the plane.
+        An overall 3D, nonzero vector with one entity that defines the plane normal.
     origin: Field
-        An overall 3d vector that gives a point of the plane.
+        An overall 3D vector with one entity that defines a point on the plane.
 
     Outputs
     -------
     field: Field
+        A field containing one signed-distance value for each coordinate entity. It uses the coordinate input's scoping, location, unit, and support.
 
     Examples
     --------
@@ -81,7 +91,15 @@ class make_plane_levelset(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the level set for a plane using coordinates.
+        description = r"""Computes the signed distance from each coordinate to a plane defined by
+an origin and a normal vector. For coordinate :math:`\mathbf{x}`, plane
+origin :math:`\mathbf{x}_0`, and nonzero normal :math:`\mathbf{n}`, the
+result is
+:math:`\frac{\mathbf{n}\cdot(\mathbf{x}-\mathbf{x}_0)}{\|\mathbf{n}\|}`.
+Positive and negative values identify opposite sides of the plane, and
+zero identifies points on the plane. The coordinates input accepts
+either a coordinate field or a meshed region; for a meshed region, its
+coordinate field is used.
 """
         spec = Specification(
             description=description,
@@ -90,19 +108,19 @@ class make_plane_levelset(Operator):
                     name="coordinates",
                     type_names=["abstract_meshed_region", "field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""A coordinate field or meshed region providing 3D coordinates. If a meshed region is provided, its coordinate field is used.""",
                 ),
                 1: PinSpecification(
                     name="normal",
                     type_names=["field"],
                     optional=False,
-                    document=r"""An overall 3D vector that gives the normal direction of the plane.""",
+                    document=r"""An overall 3D, nonzero vector with one entity that defines the plane normal.""",
                 ),
                 2: PinSpecification(
                     name="origin",
                     type_names=["field"],
                     optional=False,
-                    document=r"""An overall 3d vector that gives a point of the plane.""",
+                    document=r"""An overall 3D vector with one entity that defines a point on the plane.""",
                 ),
             },
             map_output_pin_spec={
@@ -110,7 +128,7 @@ class make_plane_levelset(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""A field containing one signed-distance value for each coordinate entity. It uses the coordinate input's scoping, location, unit, and support.""",
                 ),
             },
         )
@@ -195,6 +213,8 @@ class InputsMakePlaneLevelset(_Inputs):
     def coordinates(self) -> Input[MeshedRegion | Field]:
         r"""Allows to connect coordinates input to the operator.
 
+        A coordinate field or meshed region providing 3D coordinates. If a meshed region is provided, its coordinate field is used.
+
         Returns
         -------
         input:
@@ -214,7 +234,7 @@ class InputsMakePlaneLevelset(_Inputs):
     def normal(self) -> Input[Field]:
         r"""Allows to connect normal input to the operator.
 
-        An overall 3D vector that gives the normal direction of the plane.
+        An overall 3D, nonzero vector with one entity that defines the plane normal.
 
         Returns
         -------
@@ -235,7 +255,7 @@ class InputsMakePlaneLevelset(_Inputs):
     def origin(self) -> Input[Field]:
         r"""Allows to connect origin input to the operator.
 
-        An overall 3d vector that gives a point of the plane.
+        An overall 3D vector with one entity that defines a point on the plane.
 
         Returns
         -------
@@ -275,6 +295,8 @@ class OutputsMakePlaneLevelset(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        A field containing one signed-distance value for each coordinate entity. It uses the coordinate input's scoping, location, unit, and support.
 
         Returns
         -------

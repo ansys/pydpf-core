@@ -11,28 +11,41 @@ from warnings import warn
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs
+from ansys.dpf.core.outputs import _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.server_types import AnyServerType
 
 if TYPE_CHECKING:
     from ansys.dpf.core.scoping import Scoping
+    from ansys.dpf.core.scopings_container import ScopingsContainer
 
 
 class intersect(Operator):
     r"""Intersect 2 scopings and return the intersection and the difference
-    between the intersection and the first scoping.
+    between the intersection and the first scoping. If scopingB is a
+    scopings container, each scoping of scopingA (a scoping or a scopings
+    container) is intersected with each scoping of scopingB, and only the
+    intersection can be computed.
 
 
     Inputs
     ------
-    scopingA: Scoping
-    scopingB: Scoping
+    scopingA: Scoping or ScopingsContainer
+        A scopings container is only supported when scopingB is a scopings container.
+    scopingB: Scoping or ScopingsContainer
+        A scopings container is supported only when output_selection is 1 (intersection only).
+    output_selection: int, optional
+        Selects the outputs to compute: 0 for both the intersection and the difference, 1 for the intersection only, 2 for the difference only. Outputs that are not computed are returned as empty scopings. Default is 0. Must be 1 if scopingB is a scopings container.
 
     Outputs
     -------
-    intersection: Scoping
+    intersection: Scoping or ScopingsContainer
+        If scopingB is a scopings container: scopings container with one scoping per non-empty intersection, ordered as scopingA then scopingB, whose label space is the one of the scopingB scoping completed with the one of the scopingA scoping (the labels of scopingA and scopingB must be different).
     scopingA_min_intersection: Scoping
+        Empty scoping if scopingB is a scopings container.
+    scopingB_indices_without_intersection: Scoping
+        Only if scopingB is a scopings container: indices (starting at 0) of the scopings of scopingB intersecting no scoping of scopingA.
 
     Examples
     --------
@@ -46,19 +59,30 @@ class intersect(Operator):
     >>> op.inputs.scopingA.connect(my_scopingA)
     >>> my_scopingB = dpf.Scoping()
     >>> op.inputs.scopingB.connect(my_scopingB)
+    >>> my_output_selection = int()
+    >>> op.inputs.output_selection.connect(my_output_selection)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.scoping.intersect(
     ...     scopingA=my_scopingA,
     ...     scopingB=my_scopingB,
+    ...     output_selection=my_output_selection,
     ... )
 
     >>> # Get output data
     >>> result_intersection = op.outputs.intersection()
     >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()
+    >>> result_scopingB_indices_without_intersection = op.outputs.scopingB_indices_without_intersection()
     """
 
-    def __init__(self, scopingA=None, scopingB=None, config=None, server=None):
+    def __init__(
+        self,
+        scopingA=None,
+        scopingB=None,
+        output_selection=None,
+        config=None,
+        server=None,
+    ):
         super().__init__(
             name="scoping::intersect",
             config=config,
@@ -70,40 +94,57 @@ class intersect(Operator):
             self.inputs.scopingA.connect(scopingA)
         if scopingB is not None:
             self.inputs.scopingB.connect(scopingB)
+        if output_selection is not None:
+            self.inputs.output_selection.connect(output_selection)
 
     @staticmethod
     def _spec() -> Specification:
         description = r"""Intersect 2 scopings and return the intersection and the difference
-between the intersection and the first scoping.
+between the intersection and the first scoping. If scopingB is a
+scopings container, each scoping of scopingA (a scoping or a scopings
+container) is intersected with each scoping of scopingB, and only the
+intersection can be computed.
 """
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
                     name="scopingA",
-                    type_names=["scoping"],
+                    type_names=["scoping", "scopings_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""A scopings container is only supported when scopingB is a scopings container.""",
                 ),
                 1: PinSpecification(
                     name="scopingB",
-                    type_names=["scoping"],
+                    type_names=["scoping", "scopings_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""A scopings container is supported only when output_selection is 1 (intersection only).""",
+                ),
+                2: PinSpecification(
+                    name="output_selection",
+                    type_names=["int32"],
+                    optional=True,
+                    document=r"""Selects the outputs to compute: 0 for both the intersection and the difference, 1 for the intersection only, 2 for the difference only. Outputs that are not computed are returned as empty scopings. Default is 0. Must be 1 if scopingB is a scopings container.""",
                 ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
                     name="intersection",
-                    type_names=["scoping"],
+                    type_names=["scoping", "scopings_container"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""If scopingB is a scopings container: scopings container with one scoping per non-empty intersection, ordered as scopingA then scopingB, whose label space is the one of the scopingB scoping completed with the one of the scopingA scoping (the labels of scopingA and scopingB must be different).""",
                 ),
                 1: PinSpecification(
                     name="scopingA_min_intersection",
                     type_names=["scoping"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Empty scoping if scopingB is a scopings container.""",
+                ),
+                2: PinSpecification(
+                    name="scopingB_indices_without_intersection",
+                    type_names=["scoping"],
+                    optional=False,
+                    document=r"""Only if scopingB is a scopings container: indices (starting at 0) of the scopings of scopingB intersecting no scoping of scopingA.""",
                 ),
             },
         )
@@ -165,22 +206,30 @@ class InputsIntersect(_Inputs):
     >>> op.inputs.scopingA.connect(my_scopingA)
     >>> my_scopingB = dpf.Scoping()
     >>> op.inputs.scopingB.connect(my_scopingB)
+    >>> my_output_selection = int()
+    >>> op.inputs.output_selection.connect(my_output_selection)
     """
 
     def __init__(self, op: Operator):
         super().__init__(intersect._spec().inputs, op)
-        self._scopingA: Input[Scoping] = Input(
+        self._scopingA: Input[Scoping | ScopingsContainer] = Input(
             intersect._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._scopingA)
-        self._scopingB: Input[Scoping] = Input(
+        self._scopingB: Input[Scoping | ScopingsContainer] = Input(
             intersect._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._scopingB)
+        self._output_selection: Input[int] = Input(
+            intersect._spec().input_pin(2), 2, op, -1
+        )
+        self._inputs.append(self._output_selection)
 
     @property
-    def scopingA(self) -> Input[Scoping]:
+    def scopingA(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect scopingA input to the operator.
+
+        A scopings container is only supported when scopingB is a scopings container.
 
         Returns
         -------
@@ -198,8 +247,10 @@ class InputsIntersect(_Inputs):
         return self._scopingA
 
     @property
-    def scopingB(self) -> Input[Scoping]:
+    def scopingB(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect scopingB input to the operator.
+
+        A scopings container is supported only when output_selection is 1 (intersection only).
 
         Returns
         -------
@@ -216,6 +267,27 @@ class InputsIntersect(_Inputs):
         """
         return self._scopingB
 
+    @property
+    def output_selection(self) -> Input[int]:
+        r"""Allows to connect output_selection input to the operator.
+
+        Selects the outputs to compute: 0 for both the intersection and the difference, 1 for the intersection only, 2 for the difference only. Outputs that are not computed are returned as empty scopings. Default is 0. Must be 1 if scopingB is a scopings container.
+
+        Returns
+        -------
+        input:
+            An Input instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.scoping.intersect()
+        >>> op.inputs.output_selection.connect(my_output_selection)
+        >>> # or
+        >>> op.inputs.output_selection(my_output_selection)
+        """
+        return self._output_selection
+
 
 class OutputsIntersect(_Outputs):
     """Intermediate class used to get outputs from
@@ -228,40 +300,41 @@ class OutputsIntersect(_Outputs):
     >>> # Connect inputs : op.inputs. ...
     >>> result_intersection = op.outputs.intersection()
     >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()
+    >>> result_scopingB_indices_without_intersection = op.outputs.scopingB_indices_without_intersection()
     """
 
     def __init__(self, op: Operator):
         super().__init__(intersect._spec().outputs, op)
-        self._intersection: Output[Scoping] = Output(
-            intersect._spec().output_pin(0), 0, op
+        self.intersection_as_scoping = Output(
+            _modify_output_spec_with_one_type(
+                intersect._spec().output_pin(0), "scoping"
+            ),
+            0,
+            op,
         )
-        self._outputs.append(self._intersection)
+        self._outputs.append(self.intersection_as_scoping)
+        self.intersection_as_scopings_container = Output(
+            _modify_output_spec_with_one_type(
+                intersect._spec().output_pin(0), "scopings_container"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.intersection_as_scopings_container)
         self._scopingA_min_intersection: Output[Scoping] = Output(
             intersect._spec().output_pin(1), 1, op
         )
         self._outputs.append(self._scopingA_min_intersection)
-
-    @property
-    def intersection(self) -> Output[Scoping]:
-        r"""Allows to get intersection output of the operator
-
-        Returns
-        -------
-        output:
-            An Output instance for this pin.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.scoping.intersect()
-        >>> # Get the output from op.outputs. ...
-        >>> result_intersection = op.outputs.intersection()
-        """
-        return self._intersection
+        self._scopingB_indices_without_intersection: Output[Scoping] = Output(
+            intersect._spec().output_pin(2), 2, op
+        )
+        self._outputs.append(self._scopingB_indices_without_intersection)
 
     @property
     def scopingA_min_intersection(self) -> Output[Scoping]:
         r"""Allows to get scopingA_min_intersection output of the operator
+
+        Empty scoping if scopingB is a scopings container.
 
         Returns
         -------
@@ -276,3 +349,23 @@ class OutputsIntersect(_Outputs):
         >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()
         """
         return self._scopingA_min_intersection
+
+    @property
+    def scopingB_indices_without_intersection(self) -> Output[Scoping]:
+        r"""Allows to get scopingB_indices_without_intersection output of the operator
+
+        Only if scopingB is a scopings container: indices (starting at 0) of the scopings of scopingB intersecting no scoping of scopingA.
+
+        Returns
+        -------
+        output:
+            An Output instance for this pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.scoping.intersect()
+        >>> # Get the output from op.outputs. ...
+        >>> result_scopingB_indices_without_intersection = op.outputs.scopingB_indices_without_intersection()
+        """
+        return self._scopingB_indices_without_intersection
