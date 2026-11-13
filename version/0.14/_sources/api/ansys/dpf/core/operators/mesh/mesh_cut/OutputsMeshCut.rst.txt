@@ -1,0 +1,104 @@
+
+
+
+
+
+
+:class:`OutputsMeshCut`
+=======================
+
+
+.. py:class:: ansys.dpf.core.operators.mesh.mesh_cut.OutputsMeshCut(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   mesh_cut operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_cut()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mesh = op.outputs.mesh()
+
+
+
+
+
+.. py:currentmodule:: OutputsMeshCut
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh`
+            - Allows to get mesh output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.mesh_cut import OutputsMeshCut
+
+Property detail
+---------------
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get mesh output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_cut()
+   >>> # Get the output from op.outputs. ...
+   >>> result_mesh = op.outputs.mesh()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

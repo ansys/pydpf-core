@@ -1,0 +1,89 @@
+
+
+
+
+
+
+The ``operator_connection.py`` module
+=====================================
+
+.. py:module:: ansys.dpf.core.workflow_topology.operator_connection
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: operator_connection
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.workflow_topology.operator_connection.OperatorConnection`
+            - Represents a connection between two operators in a workflow.
+
+
+          * - :py:obj:`~ansys.dpf.core.workflow_topology.operator_connection.OperatorConnectionsCollection`
+            - Represents a collection of operator connections in a workflow.
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> OperatorConnection</api/ansys/dpf/core/workflow_topology/operator_connection/OperatorConnection>
+    <span class="nf nf-cod-symbol_class"></span> OperatorConnectionsCollection</api/ansys/dpf/core/workflow_topology/operator_connection/OperatorConnectionsCollection>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+OperatorConnection.
+
+This module contains the `OperatorConnection` and `OperatorConnectionsCollection`
+classes, which represent individual connections between operators and a
+collection of such connections within a workflow, respectively.
+
+
+
+
+
+
+
+

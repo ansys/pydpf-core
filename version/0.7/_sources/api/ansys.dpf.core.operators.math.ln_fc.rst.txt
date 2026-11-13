@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.ln_fc
+   :inherited-members:

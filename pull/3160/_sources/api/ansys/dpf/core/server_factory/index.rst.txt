@@ -1,0 +1,212 @@
+
+
+
+
+
+
+The ``server_factory.py`` module
+================================
+
+.. py:module:: ansys.dpf.core.server_factory
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: server_factory
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.server_factory.CommunicationProtocols`
+            - Defines available communication protocols.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_factory.GrpcMode`
+            - Defines available authentication modes for gRPC servers.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_factory.DockerConfig`
+            - Manage DPF Docker configuration and communication.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_factory.ServerConfig`
+            - Provides an instance of ServerConfig object to manage the server type used.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_factory.AvailableServerConfigs`
+            - Define available server configurations.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_factory.RunningDockerConfig`
+            - Holds all the configuration options and the process information of a running Docker image of a DPF server.
+
+
+          * - :py:obj:`~ansys.dpf.core.server_factory.ServerFactory`
+            - Factory for server type choice depending on current configuration.
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~get_default_server_config`
+            - Return the default configuration depending on the server version.
+
+
+          * - :py:obj:`~get_default_remote_server_config`
+            - Return the default configuration for gRPC communication.
+
+
+          * - :py:obj:`~create_default_docker_config`
+            - Return a docker configuration instance.
+
+
+
+
+    .. tab-item:: Constants
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~DEFAULT_COMMUNICATION_PROTOCOL`
+            - 
+
+
+          * - :py:obj:`~DEFAULT_LEGACY`
+            - 
+
+
+          * - :py:obj:`~DEFAULT_GRPC_MODE`
+            - 
+
+
+          * - :py:obj:`~DEFAULT_CERTIFICATES_DIR`
+            - 
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> CommunicationProtocols</api/ansys/dpf/core/server_factory/CommunicationProtocols>
+    <span class="nf nf-cod-symbol_class"></span> GrpcMode</api/ansys/dpf/core/server_factory/GrpcMode>
+    <span class="nf nf-cod-symbol_class"></span> DockerConfig</api/ansys/dpf/core/server_factory/DockerConfig>
+    <span class="nf nf-cod-symbol_class"></span> ServerConfig</api/ansys/dpf/core/server_factory/ServerConfig>
+    <span class="nf nf-cod-symbol_class"></span> AvailableServerConfigs</api/ansys/dpf/core/server_factory/AvailableServerConfigs>
+    <span class="nf nf-cod-symbol_class"></span> RunningDockerConfig</api/ansys/dpf/core/server_factory/RunningDockerConfig>
+    <span class="nf nf-cod-symbol_class"></span> ServerFactory</api/ansys/dpf/core/server_factory/ServerFactory>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Server factory, server configuration and communication protocols.
+
+Contains the server factory as well as the communication
+protocols and server configurations available.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: get_default_server_config(server_lower_than_or_equal_to_0_3: bool = False, docker_config: DockerConfig = None)
+
+   Return the default configuration depending on the server version.
+
+       - if ansys.dpf.core.SERVER_CONFIGURATION is not None, then this variable is taken
+       - if server_lower_than_or_equal_to_0_3 is True, then LegacyGrpcServer is taken
+       - if DPF_SERVER_TYPE environment variable is set to ``INPROCESS``, ``GRPC``, or
+         ``LEGACYGRPC``, then this variable is taken
+       - else DEFAULT_COMMUNICATION_PROTOCOL and DEFAULT_LEGACY are used.
+
+   :raises If DPF_SERVER_TYPE environment variable is set to unknown value.:
+
+
+.. py:function:: get_default_remote_server_config()
+
+   Return the default configuration for gRPC communication.
+
+   Follows get_default_server_config
+
+   :raises If DPF_SERVER_TYPE environment variable is set to unknown value.:
+
+
+.. py:function:: create_default_docker_config() -> DockerConfig
+
+   Return a docker configuration instance.
+
+
+.. py:data:: DEFAULT_COMMUNICATION_PROTOCOL
+   :value: 'InProcess'
+
+
+.. py:data:: DEFAULT_LEGACY
+   :value: False
+
+
+.. py:data:: DEFAULT_GRPC_MODE
+   :value: 'mtls'
+
+
+.. py:data:: DEFAULT_CERTIFICATES_DIR
+   :value: None
+
+
+
+

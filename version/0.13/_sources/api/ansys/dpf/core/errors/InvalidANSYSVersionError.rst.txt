@@ -1,0 +1,30 @@
+
+
+
+
+
+
+:class:`InvalidANSYSVersionError`
+=================================
+
+.. py:exception:: ansys.dpf.core.errors.InvalidANSYSVersionError(msg='')
+
+   Bases: :py:obj:`RuntimeError`
+
+
+   Error raised when the Ansys version is invalid.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.errors import InvalidANSYSVersionError
+
+
+
+
+

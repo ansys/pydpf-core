@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.stress_XZ
+   :inherited-members:

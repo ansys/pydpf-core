@@ -1,0 +1,123 @@
+
+
+
+
+
+
+:class:`OutputsMinMaxByTime`
+============================
+
+
+.. py:class:: ansys.dpf.core.operators.min_max.min_max_by_time.OutputsMinMaxByTime(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   min_max_by_time operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.min_max_by_time()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_min = op.outputs.min()
+   >>> result_max = op.outputs.max()
+
+
+
+
+
+.. py:currentmodule:: OutputsMinMaxByTime
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~min`
+            - Allows to get min output of the operator
+          * - :py:attr:`~max`
+            - Allows to get max output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.min_max.min_max_by_time import OutputsMinMaxByTime
+
+Property detail
+---------------
+
+.. py:property:: min
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get min output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.min_max_by_time()
+   >>> # Get the output from op.outputs. ...
+   >>> result_min = op.outputs.min()
+
+.. py:property:: max
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get max output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.min_max.min_max_by_time()
+   >>> # Get the output from op.outputs. ...
+   >>> result_max = op.outputs.max()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

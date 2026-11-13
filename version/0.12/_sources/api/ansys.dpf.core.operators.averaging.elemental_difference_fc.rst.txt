@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.averaging.elemental_difference_fc
+   :inherited-members:

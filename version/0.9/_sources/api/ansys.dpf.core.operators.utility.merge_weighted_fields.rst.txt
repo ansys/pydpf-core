@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.merge_weighted_fields
+   :inherited-members:

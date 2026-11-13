@@ -1,0 +1,123 @@
+
+
+
+
+
+
+:class:`OutputsMinMaxOverTime`
+==============================
+
+
+.. py:class:: ansys.dpf.core.operators.math.min_max_over_time.OutputsMinMaxOverTime(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   min_max_over_time operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.min_max_over_time()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field_container_1 = op.outputs.field_container_1()
+   >>> result_field_container_2 = op.outputs.field_container_2()
+
+
+
+
+
+.. py:currentmodule:: OutputsMinMaxOverTime
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field_container_1`
+            - Allows to get field_container_1 output of the operator
+          * - :py:attr:`~field_container_2`
+            - Allows to get field_container_2 output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.min_max_over_time import OutputsMinMaxOverTime
+
+Property detail
+---------------
+
+.. py:property:: field_container_1
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_container_1 output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.min_max_over_time()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_container_1 = op.outputs.field_container_1()
+
+.. py:property:: field_container_2
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get field_container_2 output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.min_max_over_time()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_container_2 = op.outputs.field_container_2()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.mean_temperature
+   :inherited-members:

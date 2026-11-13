@@ -1,0 +1,148 @@
+
+
+
+
+
+
+:class:`OutputsMeshToTetra`
+===========================
+
+
+.. py:class:: ansys.dpf.core.operators.mesh.mesh_to_tetra.OutputsMeshToTetra(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   mesh_to_tetra operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_tetra()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mesh = op.outputs.mesh()
+   >>> result_node_mapping = op.outputs.node_mapping()
+   >>> result_element_mapping = op.outputs.element_mapping()
+
+
+
+
+
+.. py:currentmodule:: OutputsMeshToTetra
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh`
+            - Allows to get mesh output of the operator
+          * - :py:attr:`~node_mapping`
+            - Allows to get node_mapping output of the operator
+          * - :py:attr:`~element_mapping`
+            - Allows to get element_mapping output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.mesh_to_tetra import OutputsMeshToTetra
+
+Property detail
+---------------
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get mesh output of the operator
+
+   Tetrahedralized mesh.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_tetra()
+   >>> # Get the output from op.outputs. ...
+   >>> result_mesh = op.outputs.mesh()
+
+.. py:property:: node_mapping
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get node_mapping output of the operator
+
+   Node mapping.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_tetra()
+   >>> # Get the output from op.outputs. ...
+   >>> result_node_mapping = op.outputs.node_mapping()
+
+.. py:property:: element_mapping
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get element_mapping output of the operator
+
+   Element mapping.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.mesh_to_tetra()
+   >>> # Get the output from op.outputs. ...
+   >>> result_element_mapping = op.outputs.element_mapping()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

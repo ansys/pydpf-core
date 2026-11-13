@@ -1,0 +1,175 @@
+
+
+
+
+
+
+:class:`InputsFieldToCsv`
+=========================
+
+
+.. py:class:: ansys.dpf.core.operators.serialization.field_to_csv.InputsFieldToCsv(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   field_to_csv operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.field_to_csv()
+   >>> my_field_or_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
+   >>> my_file_path = str()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> my_storage_type = int()
+   >>> op.inputs.storage_type.connect(my_storage_type)
+
+
+
+
+
+
+.. py:currentmodule:: InputsFieldToCsv
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field_or_fields_container`
+            - Allows to connect field_or_fields_container input to the operator.
+          * - :py:attr:`~file_path`
+            - Allows to connect file_path input to the operator.
+          * - :py:attr:`~storage_type`
+            - Allows to connect storage_type input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.serialization.field_to_csv import InputsFieldToCsv
+
+Property detail
+---------------
+
+.. py:property:: field_or_fields_container
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.fields_container.FieldsContainer | ansys.dpf.core.field.Field]
+
+
+   Allows to connect field_or_fields_container input to the operator.
+
+   field_or_fields_container
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.field_to_csv()
+   >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
+   >>> # or
+   >>> op.inputs.field_or_fields_container(my_field_or_fields_container)
+
+.. py:property:: file_path
+   :type: ansys.dpf.core.inputs.Input[str]
+
+
+   Allows to connect file_path input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.field_to_csv()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> # or
+   >>> op.inputs.file_path(my_file_path)
+
+.. py:property:: storage_type
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect storage_type input to the operator.
+
+   storage type : if matrices (without any particularity) are included in the fields container, the storage format can be chosen. 0 : flat/line format, 1 : ranked format. If 1 is chosen, the csv can not be read by "csv to field" operator anymore. Default : 0.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.serialization.field_to_csv()
+   >>> op.inputs.storage_type.connect(my_storage_type)
+   >>> # or
+   >>> op.inputs.storage_type(my_storage_type)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

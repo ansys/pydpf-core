@@ -1,0 +1,105 @@
+
+
+
+
+
+
+:class:`OutputsPropertyFieldProviderByName`
+===========================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.property_field_provider_by_name.OutputsPropertyFieldProviderByName(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   property_field_provider_by_name operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.property_field_provider_by_name()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_property_field = op.outputs.property_field()
+
+
+
+
+
+.. py:currentmodule:: OutputsPropertyFieldProviderByName
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~property_field`
+            - Allows to get property_field output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.property_field_provider_by_name import OutputsPropertyFieldProviderByName
+
+Property detail
+---------------
+
+.. py:property:: property_field
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get property_field output of the operator
+
+   property field
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.property_field_provider_by_name()
+   >>> # Get the output from op.outputs. ...
+   >>> result_property_field = op.outputs.property_field()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

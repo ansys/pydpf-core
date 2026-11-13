@@ -1,0 +1,200 @@
+
+
+
+
+
+
+:class:`InputsEulerLoadBuckling`
+================================
+
+
+.. py:class:: ansys.dpf.core.operators.result.euler_load_buckling.InputsEulerLoadBuckling(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   euler_load_buckling operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_load_buckling()
+   >>> my_field_beam_end_condition = dpf.DataSources()
+   >>> op.inputs.field_beam_end_condition.connect(my_field_beam_end_condition)
+   >>> my_field_beam_moment_inertia = dpf.Field()
+   >>> op.inputs.field_beam_moment_inertia.connect(my_field_beam_moment_inertia)
+   >>> my_field_beam_young_modulus = dpf.Field()
+   >>> op.inputs.field_beam_young_modulus.connect(my_field_beam_young_modulus)
+   >>> my_field_beam_length = dpf.Field()
+   >>> op.inputs.field_beam_length.connect(my_field_beam_length)
+
+
+
+
+
+
+.. py:currentmodule:: InputsEulerLoadBuckling
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field_beam_end_condition`
+            - Allows to connect field_beam_end_condition input to the operator.
+          * - :py:attr:`~field_beam_moment_inertia`
+            - Allows to connect field_beam_moment_inertia input to the operator.
+          * - :py:attr:`~field_beam_young_modulus`
+            - Allows to connect field_beam_young_modulus input to the operator.
+          * - :py:attr:`~field_beam_length`
+            - Allows to connect field_beam_length input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.euler_load_buckling import InputsEulerLoadBuckling
+
+Property detail
+---------------
+
+.. py:property:: field_beam_end_condition
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.data_sources.DataSources | ansys.dpf.core.field.Field]
+
+
+   Allows to connect field_beam_end_condition input to the operator.
+
+   This pin contains file csv or field of beam's end condition added by the user. If there's no file added, it would take value of all beam's end condition as 1.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_load_buckling()
+   >>> op.inputs.field_beam_end_condition.connect(my_field_beam_end_condition)
+   >>> # or
+   >>> op.inputs.field_beam_end_condition(my_field_beam_end_condition)
+
+.. py:property:: field_beam_moment_inertia
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field]
+
+
+   Allows to connect field_beam_moment_inertia input to the operator.
+
+   Field of beam's moment inertia
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_load_buckling()
+   >>> op.inputs.field_beam_moment_inertia.connect(my_field_beam_moment_inertia)
+   >>> # or
+   >>> op.inputs.field_beam_moment_inertia(my_field_beam_moment_inertia)
+
+.. py:property:: field_beam_young_modulus
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field]
+
+
+   Allows to connect field_beam_young_modulus input to the operator.
+
+   Field of beam's young modulus
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_load_buckling()
+   >>> op.inputs.field_beam_young_modulus.connect(my_field_beam_young_modulus)
+   >>> # or
+   >>> op.inputs.field_beam_young_modulus(my_field_beam_young_modulus)
+
+.. py:property:: field_beam_length
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field]
+
+
+   Allows to connect field_beam_length input to the operator.
+
+   Field of beam's length
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.euler_load_buckling()
+   >>> op.inputs.field_beam_length.connect(my_field_beam_length)
+   >>> # or
+   >>> op.inputs.field_beam_length(my_field_beam_length)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

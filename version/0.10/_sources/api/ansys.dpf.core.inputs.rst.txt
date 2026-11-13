@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.inputs
+   :inherited-members:

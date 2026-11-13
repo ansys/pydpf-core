@@ -1,0 +1,105 @@
+
+
+
+
+
+
+:class:`OutputsSplitOnPropertyType`
+===================================
+
+.. py:class:: ansys.dpf.core.operators.scoping.split_on_property_type.OutputsSplitOnPropertyType(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   split_on_property_type operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.split_on_property_type()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_mesh_scoping = op.outputs.mesh_scoping()
+
+
+
+
+
+.. py:currentmodule:: OutputsSplitOnPropertyType
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh_scoping`
+            - Allows to get mesh_scoping output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.split_on_property_type import OutputsSplitOnPropertyType
+
+Property detail
+---------------
+
+.. py:property:: mesh_scoping
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get mesh_scoping output of the operator
+
+   Scoping
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.split_on_property_type()
+   >>> # Get the output from op.outputs. ...
+   >>> result_mesh_scoping = op.outputs.mesh_scoping()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+
