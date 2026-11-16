@@ -1667,20 +1667,23 @@ class LegacyGrpcServer(BaseServer):
                     if hasattr(self, "_shutdown_func"):
                         self._shutdown_func[0](self._shutdown_func[1])
                 except Exception as e:
-                    try:
-                        if self.meet_version("4.0"):
-                            warnings.warn(
-                                f"couldn't properly release server: {str(e.args)}"
-                                ".\n Killing process."
-                            )
-                        p = psutil.Process(self.info["server_process_id"])
-                        p.kill()
-                        time.sleep(0.01)
-                    except:
-                        warnings.warn(traceback.format_exc())
+                    self._kill_server_process(e)
 
             self.live = False
             self._docker_config.remove_docker_image()
+
+    def _kill_server_process(self, release_error):
+        try:
+            if self.meet_version("4.0"):
+                warnings.warn(
+                    f"couldn't properly release server: {str(release_error.args)}"
+                    ".\n Killing process."
+                )
+            p = psutil.Process(self.info["server_process_id"])
+            p.kill()
+            time.sleep(0.01)
+        except:
+            warnings.warn(traceback.format_exc())
 
     @property
     def config(self):

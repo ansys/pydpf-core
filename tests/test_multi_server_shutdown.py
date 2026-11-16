@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -32,8 +32,10 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from conftest import running_docker
 
-# Server PIDs are container-local on Docker, and servers in separate containers cannot reach each other.
-pytestmark = pytest.mark.skipif(running_docker, reason="Requires servers running on the local host.")
+# On Docker, server PIDs are container-local and servers in separate containers cannot reach each other.
+pytestmark = pytest.mark.skipif(
+    running_docker, reason="Requires servers running on the local host."
+)
 
 GRPC_CONFIG = dpf.AvailableServerConfigs.GrpcServer
 STOP_TIMEOUT = 30.0
@@ -106,15 +108,14 @@ def test_cross_server_workflow_survives_dereference(cleanup_pids):
     server1, server2, (pid1, pid2), ds, disp_op, norm_op = _build_cross_server_workflow()
     cleanup_pids.extend([pid1, pid2])
 
-    server1 = None
+    del server1
     gc.collect()
     assert not _wait_stopped(pid1, timeout=2.0), "server1 stopped while still used by server2"
     assert _is_running(pid2)
 
     _check_result(norm_op)
 
-    server2 = None
-    ds = disp_op = norm_op = None
+    del server2, ds, disp_op, norm_op
     # operators are in reference cycles (op -> op._outputs -> op)
     gc.collect()
     assert _wait_stopped(pid2), "server2 still running after dereference"
