@@ -38,6 +38,7 @@ pytestmark = pytest.mark.skipif(
 )
 
 GRPC_CONFIG = dpf.AvailableServerConfigs.GrpcServer
+LEGACY_GRPC_CONFIG = dpf.AvailableServerConfigs.LegacyGrpcServer
 STOP_TIMEOUT = 30.0
 
 
@@ -122,13 +123,14 @@ def test_cross_server_workflow_survives_dereference(cleanup_pids):
     assert _wait_stopped(pid1), "server1 still running after dereference"
 
 
-def test_shutdown_from_non_owner_is_ignored_with_warning(cleanup_pids):
-    owner = dpf.start_local_server(as_global=False, config=GRPC_CONFIG)
+@pytest.mark.parametrize(
+    "config", [GRPC_CONFIG, LEGACY_GRPC_CONFIG], ids=["gRPC CLayer", "ansys-grpc-dpf"]
+)
+def test_shutdown_from_non_owner_is_ignored_with_warning(cleanup_pids, config):
+    owner = dpf.start_local_server(as_global=False, config=config)
     pid = owner.info["server_process_id"]
     cleanup_pids.append(pid)
-    connected = dpf.connect_to_server(
-        ip=owner.ip, port=owner.port, as_global=False, config=GRPC_CONFIG
-    )
+    connected = dpf.connect_to_server(ip=owner.ip, port=owner.port, as_global=False, config=config)
 
     with pytest.warns(UserWarning, match="was not started by this client"):
         connected.shutdown()
@@ -139,3 +141,17 @@ def test_shutdown_from_non_owner_is_ignored_with_warning(cleanup_pids):
         warnings.simplefilter("error", UserWarning)
         owner.shutdown()
     assert _wait_stopped(pid), "server still running after shutdown() by its owner"
+
+
+def test_legacy_shutdown_kills_process_when_release_fails(cleanup_pids):
+    server = dpf.start_local_server(as_global=False, config=LEGACY_GRPC_CONFIG)
+    pid = server.info["server_process_id"]
+    cleanup_pids.append(pid)
+
+    def failing_release(_):
+        raise RuntimeError("release failed")
+
+    server._shutdown_func = (failing_release, None)
+    with pytest.warns(UserWarning, match="couldn't properly release server"):
+        server.shutdown()
+    assert _wait_stopped(pid), "server still running after a failed release"
