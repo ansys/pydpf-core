@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -26,11 +26,10 @@ from __future__ import annotations
 
 import os
 from pathlib import Path, PurePosixPath, PureWindowsPath
-import traceback
 from typing import TYPE_CHECKING, Union
-import warnings
 
 from ansys.dpf.core import errors, server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.gate import (
     data_processing_capi,
@@ -42,7 +41,7 @@ from ansys.dpf.gate import (
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf import core as dpf
-    from ansys.dpf.core import server_types
+    from ansys.dpf.core import LabelSpace
     from ansys.dpf.core.server_types import AnyServerType
     from ansys.grpc.dpf import data_sources_pb2
 
@@ -66,6 +65,8 @@ class DataSources:
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
         server.
+    key:
+        Explicit key to associate to the result file given as ``result_path``.
 
     Examples
     --------
@@ -85,6 +86,7 @@ class DataSources:
         result_path: Union[str, os.PathLike] = None,
         data_sources: Union[dpf.DataSources, int, data_sources_pb2.DataSources] = None,
         server: AnyServerType = None,
+        key: str = "",
     ):
         """Initialize a connection with the server."""
         # step 1: get server
@@ -120,14 +122,13 @@ class DataSources:
             else:
                 self._internal_obj = None
                 raise errors.DpfValueError("Data source must be gRPC data sources message type")
+        elif self._server.has_client():
+            self._internal_obj = self._api.data_sources_new_on_client(self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.data_sources_new_on_client(self._server.client)
-            else:
-                self._internal_obj = self._api.data_sources_new("data_sources")
+            self._internal_obj = self._api.data_sources_new("data_sources")
 
         if result_path is not None:
-            self.set_result_file_path(result_path)
+            self.set_result_file_path(result_path, key=key)
 
     def set_result_file_path(
         self,
@@ -167,12 +168,8 @@ class DataSources:
         if key == "" and extension == ".res":
             key = "cas"
             self.add_file_path(filepath, key="dat")
-        # Handle no key given and no file extension
-        if key == "" and extension == "":
-            key = self.guess_result_key(str(filepath))
-        # Look for another extension for .h5 and .cff files
-        if key == "" and extension in [".h5", ".cff"]:
-            key = self.guess_second_key(str(filepath))
+        if key == "":
+            key = self._guess_key(str(filepath))
         if key == "":
             self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
         else:
@@ -262,6 +259,20 @@ class DataSources:
             new_key = new_split[0].strip(".")
         return new_key
 
+    @staticmethod
+    def _guess_key(filepath: Union[str, os.PathLike]) -> str:
+        """Guess the key associated with a data source file path."""
+        extension = Path(filepath).suffix
+        if extension == "":
+            return DataSources.guess_result_key(filepath)
+        if extension in [".h5", ".cff"]:
+            key = DataSources.guess_second_key(filepath)
+            if key:
+                return key
+        if extension == ".h5":
+            return "h5dpf"
+        return ""
+
     def set_domain_result_file_path(
         self, path: Union[str, os.PathLike], domain_id: int, key: str = None
     ) -> None:
@@ -278,6 +289,7 @@ class DataSources:
             Domain ID for the distributed files.
         key:
             Key to associate to the file.
+            If omitted, the key is inferred from the file path when possible.
 
         Examples
         --------
@@ -293,6 +305,8 @@ class DataSources:
 
         """
         path = PurePosixPath(path) if self._server.os == "posix" else PureWindowsPath(path)
+        if not key:
+            key = self._guess_key(str(path))
         if key:
             self._api.data_sources_set_domain_result_file_path_with_key_utf8(
                 self, str(path), key, domain_id
@@ -349,21 +363,21 @@ class DataSources:
         if not filepath.parent.name:
             # append local path
             filepath = Path.cwd() / filepath.name
+        if not key:
+            key = self._guess_key(str(filepath))
         if is_domain:
-            if key == "":
+            if not key:
                 raise NotImplementedError("A key must be given when using is_domain=True.")
-            else:
-                self._api.data_sources_add_domain_file_path_with_key_utf8(
-                    self, str(filepath), key, domain_id
-                )
+            self._api.data_sources_add_domain_file_path_with_key_utf8(
+                self, str(filepath), key, domain_id
+            )
+        elif key == "":
+            self._api.data_sources_add_file_path_utf8(self, str(filepath))
         else:
-            if key == "":
-                self._api.data_sources_add_file_path_utf8(self, str(filepath))
-            else:
-                self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
+            self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
 
     def add_domain_file_path(
-        self, filepath: Union[str, os.PathLike], key: str, domain_id: int
+        self, filepath: Union[str, os.PathLike], key: str = "", domain_id: int = 0
     ) -> None:
         """Add an accessory file path to the data sources in the given domain.
 
@@ -377,6 +391,7 @@ class DataSources:
         key:
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator.
+            If omitted, the key is inferred from the file path when possible.
         domain_id:
             Domain ID for the distributed files.
 
@@ -401,6 +416,10 @@ class DataSources:
         if not filepath.parent.name:
             # append local path
             filepath = Path.cwd() / filepath.name
+        if not key:
+            key = self._guess_key(str(filepath))
+        if not key:
+            raise NotImplementedError("A key must be given when using add_domain_file_path().")
         self._api.data_sources_add_domain_file_path_with_key_utf8(
             self, str(filepath), key, domain_id
         )
@@ -436,6 +455,8 @@ class DataSources:
         if not filepath.parent.name:
             # append local path
             filepath = Path.cwd() / filepath.name
+        if not key:
+            key = self._guess_key(str(filepath))
 
         self._api.data_sources_add_file_path_for_specified_result_utf8(
             self, str(filepath), key, result_key
@@ -701,6 +722,64 @@ class DataSources:
         """
         return self._api.data_sources_get_namespace(self, result_key)
 
+    def label_space_for_path(self, index: int) -> LabelSpace:
+        """Return the label space associated with the path at the given index.
+
+        When files are added to the data sources with a domain ID (for distributed solves),
+        each path is internally tagged with a label space that describes the subset of the
+        model it covers.  This method retrieves that label space by the position of the path
+        in the data sources.
+
+        Parameters
+        ----------
+        index:
+            0-based index of the path in the data sources.
+
+        Returns
+        -------
+        LabelSpace
+            Label space associated with the path at the given index.  For domain files, this
+            contains at least the ``"domain_id"`` label whose value matches the domain ID
+            supplied when the path was added.  Returns an empty
+            :class:`LabelSpace <ansys.dpf.core.label_space.LabelSpace>` if no label space
+            was set for that path.
+
+        Examples
+        --------
+        Get the label space of distributed result files added with domain IDs.
+
+        >>> from ansys.dpf import core as dpf
+        >>>
+        >>> # Create the DataSources object
+        >>> my_data_sources = dpf.DataSources()
+        >>> # Add two result files covering different domains
+        >>> my_data_sources.set_domain_result_file_path(path='/tmp/file0.rst', key='rst', domain_id=0)
+        >>> my_data_sources.set_domain_result_file_path(path='/tmp/file1.rst', key='rst', domain_id=1)
+        >>> # Retrieve the label space for the first path (domain_id=0)
+        >>> label_space_0 = my_data_sources.label_space_for_path(index=0)
+        >>> # Retrieve the label space for the second path (domain_id=1)
+        >>> label_space_1 = my_data_sources.label_space_for_path(index=1)
+
+        """
+        from ansys.dpf.core import LabelSpace
+
+        return LabelSpace(self._api.data_sources_get_label_space_by_path_index(self, index))
+
+    @property
+    def streams_container(self) -> dpf.StreamsContainer:
+        """Get the streams container representation of the data sources.
+
+        .. warning:: Only available with an InProcess server.
+
+        Returns
+        -------
+        streams_container:
+            StreamsContainer representation of the data sources.
+        """
+        from ansys.dpf.core.operators.metadata.streams_provider import streams_provider
+
+        return streams_provider(data_sources=self, server=self._server).outputs.streams_container()
+
     def __str__(self):
         """Describe the entity.
 
@@ -715,8 +794,4 @@ class DataSources:
 
     def __del__(self):
         """Delete this instance."""
-        try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
-            pass
+        release_dpf_object(self)

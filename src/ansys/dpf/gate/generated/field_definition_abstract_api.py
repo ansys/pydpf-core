@@ -148,6 +148,10 @@ class FieldDefinitionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def field_definition_deep_copy(fieldDef):
+		raise NotImplementedError
+
+	@staticmethod
 	def field_definition_new_on_client(client):
 		raise NotImplementedError
 

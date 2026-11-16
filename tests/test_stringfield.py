@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,14 +21,13 @@
 # SOFTWARE.
 
 import numpy as np
+import pytest
 
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.common import locations
-import conftest
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_scopingdata_string_field(server_type):
     pfield = dpf.core.StringField(server=server_type)
     list_ids = [1, 2, 4, 6, 7]
@@ -43,7 +42,6 @@ def test_scopingdata_string_field(server_type):
     assert pfield.data == list_data
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_set_get_data_string_field(server_type):
     field = dpf.core.StringField(nentities=20, server=server_type)
     data = []
@@ -55,7 +53,6 @@ def test_set_get_data_string_field(server_type):
     assert field.data != data
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_create_string_field_push_back(server_type):
     f_vec = core.StringField(1, server=server_type)
     vec = ["water", "oil", "gaz"]
@@ -80,7 +77,6 @@ def test_create_string_field_push_back(server_type):
     assert f_scal.data[2] == "blu"
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_entity_data_string_field(server_type):
     f_vec = core.StringField(1, server=server_type)
     vec = ["water", "oil", "gaz"]
@@ -97,7 +93,6 @@ def test_entity_data_string_field(server_type):
     assert f_vec.get_entity_data_by_id(3) == ["gaz"]
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_stream_large_data_string_field(server_type):
     nstring = 1000000
     field = dpf.core.StringField(nentities=nstring, server=server_type)
@@ -108,7 +103,6 @@ def test_stream_large_data_string_field(server_type):
     assert field.data == data
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_print_string_vector(server_type):
     field = dpf.core.StringField(nentities=20, server=server_type)
     data = []
@@ -132,7 +126,6 @@ def test_print_string_vector(server_type):
     d.__str__()
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_print_string_field(server_type):
     field = dpf.core.StringField(nentities=20, server=server_type)
     assert "String Field" in str(field)
@@ -144,3 +137,26 @@ def test_print_string_field(server_type):
     field.scoping.location = dpf.core.locations.nodal
     assert "20 Nodal entities" in str(field)
     assert "20 elementary data" in str(field)
+
+
+@pytest.mark.xfail(
+    reason="StringField.entity_data_offsets requires CSStringField_GetDataPointer_For_DpfVector in DPF server.",
+    strict=False,
+)
+def test_entity_data_offsets_string_field(server_type):
+    # Build a StringField with entities of different sizes so that the data
+    # pointer is populated automatically by append.
+    sfield = dpf.core.StringField(server=server_type)
+    sfield.append(["label_a", "label_b"], 10)  # entity 10: 2 strings -> offset 0
+    sfield.append(["label_c"], 20)  # entity 20: 1 string  -> offset 2
+
+    offsets = sfield.entity_data_offsets
+    assert len(offsets) == 2
+    assert offsets[0] == 0
+    assert offsets[1] == 2
+
+    # Round-trip: overwrite offsets and read back
+    sfield.entity_data_offsets = [0, 3]
+    offsets = sfield.entity_data_offsets
+    assert offsets[0] == 0
+    assert offsets[1] == 3

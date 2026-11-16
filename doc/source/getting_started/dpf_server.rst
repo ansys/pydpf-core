@@ -100,6 +100,7 @@ version of DPF Server to run:
 
 - It uses the ``ANSYS_DPF_PATH`` environment variable in priority if set and targeting a valid path to a DPF Server installation.
 - It then checks the currently active Python environment for any installed standalone DPF Server, and uses the latest version available.
+- It then checks whether PyDPF itself is installed inside an Ansys Unified Install and uses the DPF Server of that same install, if any.
 - It then checks for ``AWP_ROOTXXX`` environment variables, which are set by the **Ansys installer**, and uses the latest version available.
 - It then raises an error if all of the preceding steps failed to return a valid path to a DPF Server installation.
 
@@ -120,3 +121,39 @@ DPF Server can be run in a Docker container.
     docker build . -t dpf-core:v2025.1.pre0 --build-arg DPF_VERSION=251
 
 5. To run the DPF Docker container, license it. For more information, see :ref:`DPF Preview License Agreement<target_to_license_terms>`.
+
+.. _ref_dpf_server_secure_mode:
+
+Run DPF Server in Secure mode with mTLS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. warning::
+
+    Starting with Ansys 2026 R1 (DPF 2026.1.0, kernel version 11.0) and PyDPF-Core 0.15.0,
+    DPF Server gRPC connections default to using `authenticated mTLS Transport <https://tools.docs.pyansys.com/version/stable/user_guide/secure_grpc.html>`_.
+
+    This change is also brought by service packs for the following older Ansys versions:
+
+    - `Ansys 2025 R2 SP03`
+    - `Ansys 2025 R1 SP04`
+    - `Ansys 2024 R2 SP05`
+
+
+.. note::
+
+    The default client-server communication mode being InProcess,
+    this change only impacts users connecting to a remote DPF Server over gRPC.
+
+
+Both client and server now require mTLS certificates to establish a gRPC connection.
+
+The location to the mTLS certificates can be set using an environment variable ``ANSYS_GRPC_CERTIFICATES``.
+
+More information on the generation of certificates can be read on `Generating certificates for mTLS <https://tools.docs.pyansys.com/version/stable/user_guide/secure_grpc.html#generating-certificates-for-mtls>`_.
+
+This environment variable must be set both on the server machine and on the client machine when working remotely.
+
+The mTLS Transport mode can be disabled by setting ``DPF_DEFAULT_GRPC_MODE`` to ``insecure`` both client-side and server-side.
+
+This allows to fall back to the previous behavior when using gRPC communication.
+

@@ -1,4 +1,3 @@
-#
 from pathlib import Path
 
 
@@ -17,9 +16,8 @@ def get_tutorial_version_requirements(tutorial_path: str) -> str:
             if note_flag in line:
                 previous_line_is_note = True
                 skip_empty_line = True
+            elif skip_empty_line:
+                skip_empty_line = False
             else:
-                if skip_empty_line:
-                    skip_empty_line = False
-                else:
-                    previous_line_is_note = False
+                previous_line_is_note = False
     return minimum_version

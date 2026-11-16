@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -27,7 +27,7 @@ import numpy as np
 import ansys.dpf.core as dpf
 
 
-def animate_mode(
+def animate_mode(  # noqa: PLR0913
     fields_container,
     mode_number=1,
     type_mode=0,

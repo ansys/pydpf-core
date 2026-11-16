@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -167,7 +167,7 @@ class CustomTypeField(_FieldBase):
         self._api.init_custom_type_field_environment(self)
 
     @staticmethod
-    def _field_create_internal_obj(
+    def _field_create_internal_obj(  # noqa: PLR0913
         api,
         server,
         nature,

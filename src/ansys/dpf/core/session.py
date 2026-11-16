@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -26,11 +26,10 @@ import abc
 import ctypes
 import logging
 import threading
-import traceback
-import warnings
 import weakref
 
 from ansys.dpf.core import data_tree, errors, server as server_module, server_types
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import (
     _common_percentage_progress_bar,
@@ -39,7 +38,6 @@ from ansys.dpf.core.common import (
 from ansys.dpf.gate import capi, session_capi, session_grpcapi
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel("DEBUG")
 
 
 @capi.GenericCallBackType
@@ -71,7 +69,7 @@ def progress_call_back(obj, nature, arg):
                 handler.bar.update(handler.finished_operators / handler.started_operators * 100)
                 if handler.finished_operators == handler.started_operators:
                     handler.bar.finish()
-        elif nature == 9:
+        elif nature == 9:  # noqa: PLR2004
             handler.finished_operators = 0
             handler.started_operators = 0
         elif handler.bar:
@@ -340,12 +338,9 @@ class Session:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            if not self._released:
-                self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
-        self._released = True
+        if not getattr(self, "_released", False):
+            release_dpf_object(self)
+            self._released = True
 
     def __del__(self):
         """Clean up resources associated with the instance."""

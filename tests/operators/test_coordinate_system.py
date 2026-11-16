@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,12 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Tests the result.coordinate_system operator
 import numpy as np
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
-import conftest
 
 
 def test_operator_coordinate_system_rst(server_type):

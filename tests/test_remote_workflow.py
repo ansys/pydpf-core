@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,23 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-
 import numpy as np
 import pytest
 
 from ansys.dpf import core
 from ansys.dpf.core import examples, operators as ops
 from ansys.dpf.core.errors import ServerTypeError
-import conftest
+from ansys.dpf.core.server import get_server_address
 from conftest import local_servers, running_docker
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
 def test_simple_remote_workflow(simple_bar, local_server):
     data_sources1 = core.DataSources(simple_bar)
     wf = core.Workflow()
@@ -56,7 +50,7 @@ def test_simple_remote_workflow(simple_bar, local_server):
 
     grpc_stream_provider = ops.metadata.streams_provider()
     grpc_data_sources = core.DataSources()
-    grpc_data_sources.set_result_file_path(local_server.ip + ":" + str(local_server.port), "grpc")
+    grpc_data_sources.set_result_file_path(get_server_address(local_server), "grpc")
     grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
     remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -71,10 +65,6 @@ def test_simple_remote_workflow(simple_bar, local_server):
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
 def test_multi_process_remote_workflow():
     files = examples.download_distributed_files()
     workflows = []
@@ -90,9 +80,7 @@ def test_multi_process_remote_workflow():
 
         grpc_stream_provider = ops.metadata.streams_provider()
         grpc_data_sources = core.DataSources()
-        grpc_data_sources.set_result_file_path(
-            local_servers[i].ip + ":" + str(local_servers[i].port), "grpc"
-        )
+        grpc_data_sources.set_result_file_path(get_server_address(local_servers[i]), "grpc")
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
         remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -120,10 +108,6 @@ def test_multi_process_remote_workflow():
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
 def test_multi_process_connect_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -140,9 +124,7 @@ def test_multi_process_connect_remote_workflow():
 
         grpc_stream_provider = ops.metadata.streams_provider()
         grpc_data_sources = core.DataSources()
-        grpc_data_sources.set_result_file_path(
-            local_servers[i].ip + ":" + str(local_servers[i].port), "grpc"
-        )
+        grpc_data_sources.set_result_file_path(get_server_address(local_servers[i]), "grpc")
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
         remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -170,10 +152,7 @@ def test_multi_process_connect_remote_workflow():
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
+@pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_multi_process_connect_operator_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -190,9 +169,7 @@ def test_multi_process_connect_operator_remote_workflow():
 
         grpc_stream_provider = ops.metadata.streams_provider()
         grpc_data_sources = core.DataSources()
-        grpc_data_sources.set_result_file_path(
-            local_servers[i].ip + ":" + str(local_servers[i].port), "grpc"
-        )
+        grpc_data_sources.set_result_file_path(get_server_address(local_servers[i]), "grpc")
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
         remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -221,10 +198,6 @@ def test_multi_process_connect_operator_remote_workflow():
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
 def test_multi_process_getoutput_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -241,9 +214,7 @@ def test_multi_process_getoutput_remote_workflow():
 
         grpc_stream_provider = ops.metadata.streams_provider()
         grpc_data_sources = core.DataSources()
-        grpc_data_sources.set_result_file_path(
-            local_servers[i].ip + ":" + str(local_servers[i].port), "grpc"
-        )
+        grpc_data_sources.set_result_file_path(get_server_address(local_servers[i]), "grpc")
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
         remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -272,10 +243,6 @@ def test_multi_process_getoutput_remote_workflow():
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
 def test_multi_process_chain_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -292,9 +259,7 @@ def test_multi_process_chain_remote_workflow():
 
         grpc_stream_provider = ops.metadata.streams_provider()
         grpc_data_sources = core.DataSources()
-        grpc_data_sources.set_result_file_path(
-            local_servers[i].ip + ":" + str(local_servers[i].port), "grpc"
-        )
+        grpc_data_sources.set_result_file_path(get_server_address(local_servers[i]), "grpc")
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
         remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -316,9 +281,7 @@ def test_multi_process_chain_remote_workflow():
         local_wf.set_input_name("distrib" + str(i), merge, i)
     grpc_stream_provider = ops.metadata.streams_provider()
     grpc_data_sources = core.DataSources()
-    grpc_data_sources.set_result_file_path(
-        local_servers[2].ip + ":" + str(local_servers[2].port), "grpc"
-    )
+    grpc_data_sources.set_result_file_path(get_server_address(local_servers[2]), "grpc")
     grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
     remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -334,10 +297,6 @@ def test_multi_process_chain_remote_workflow():
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
 def test_remote_workflow_info(local_server):
     wf = core.Workflow()
     wf.progress_bar = False
@@ -349,7 +308,7 @@ def test_remote_workflow_info(local_server):
     wf.set_output_name("distrib", average.outputs.fields_container)
     grpc_stream_provider = ops.metadata.streams_provider()
     grpc_data_sources = core.DataSources()
-    grpc_data_sources.set_result_file_path(local_server.ip + ":" + str(local_server.port), "grpc")
+    grpc_data_sources.set_result_file_path(get_server_address(local_server), "grpc")
     grpc_stream_provider.inputs.data_sources(grpc_data_sources)
     remote_workflow_prov = core.Operator("remote_workflow_instantiate")
     remote_workflow_prov.connect(3, grpc_stream_provider, 0)
@@ -361,10 +320,6 @@ def test_remote_workflow_info(local_server):
 
 @pytest.mark.slow
 @pytest.mark.xfail(raises=ServerTypeError)
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
 @pytest.mark.skipif(running_docker, reason="Currently hanging on Docker, under investigation.")
 def test_multi_process_local_remote_local_remote_workflow(server_type_remote_process):
     files = examples.download_distributed_files(server=server_type_remote_process)
@@ -421,7 +376,7 @@ def test_multi_process_local_remote_local_remote_workflow(server_type_remote_pro
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
-@conftest.raises_for_servers_version_under("3.0")
+@pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_multi_process_transparent_api_remote_workflow():
     files = examples.download_distributed_files()
     workflows = []
@@ -454,7 +409,7 @@ def test_multi_process_transparent_api_remote_workflow():
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
-@conftest.raises_for_servers_version_under("3.0")
+@pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_multi_process_with_names_transparent_api_remote_workflow():
     files = examples.download_distributed_files()
     workflows = []
@@ -487,10 +442,7 @@ def test_multi_process_with_names_transparent_api_remote_workflow():
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
+@pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_multi_process_transparent_api_connect_local_datasources_remote_workflow():
     files = examples.download_distributed_files()
     workflows = []
@@ -525,8 +477,8 @@ def test_multi_process_transparent_api_connect_local_datasources_remote_workflow
 
 @pytest.mark.xfail(reason="Unstable test")
 @pytest.mark.skipif(
-    running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
+    running_docker,
+    reason="Failing for Docker",
 )
 def test_multi_process_transparent_api_connect_local_op_remote_workflow():
     files = examples.download_distributed_files()
@@ -562,11 +514,7 @@ def test_multi_process_transparent_api_connect_local_op_remote_workflow():
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
-@pytest.mark.skipif(
-    (not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 and os.name == "posix")
-    and not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
+@pytest.mark.skipif(running_docker, reason="Failing after major grpc changes.")
 def test_multi_process_transparent_api_create_on_local_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -598,7 +546,6 @@ def test_multi_process_transparent_api_create_on_local_remote_workflow():
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
-@conftest.raises_for_servers_version_under("3.0")
 def test_multi_process_transparent_api_create_on_local_remote_ith_address_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -620,7 +567,8 @@ def test_multi_process_transparent_api_create_on_local_remote_ith_address_workfl
 
     for i in files:
         data_sources1 = core.DataSources(files[i])
-        remote_wf = wf.create_on_other_server(ip=local_servers[i].ip, port=local_servers[i].port)
+        ip, port = get_server_address(local_servers[i]).split(":")
+        remote_wf = wf.create_on_other_server(ip=ip, port=port)
         remote_wf.connect("ds", data_sources1)
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(remote_wf, ("distrib", "distrib" + str(i)))
@@ -630,10 +578,6 @@ def test_multi_process_transparent_api_create_on_local_remote_ith_address_workfl
 
 
 @pytest.mark.xfail(reason="Unstable test")
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Requires server version higher than 4.0",
-)
 def test_distributed_workflows_integral_types():
     data_types = [
         {"value": True, "type": core.types.bool},

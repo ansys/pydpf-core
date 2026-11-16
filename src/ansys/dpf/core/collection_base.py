@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -25,13 +25,12 @@
 from __future__ import annotations
 
 import abc
-import traceback
 from typing import TYPE_CHECKING, Generic, List, Optional, TypeVar
-import warnings
 
 import numpy as np
 
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core.scoping import Scoping
@@ -89,6 +88,7 @@ class CollectionBase(Generic[TYPE]):
             else:
                 self._internal_obj = collection
         self.owned = False
+        self._loop_index = 0
 
     @property
     def _server(self):
@@ -533,7 +533,25 @@ class CollectionBase(Generic[TYPE]):
         """
         from ansys.dpf.core.support import Support
 
-        return Support(support=self._api.collection_get_support(self, label), server=self._server)
+        support = self._api.collection_get_support(self, label)
+        if support:
+            return Support(support=support, server=self._server)
+        else:
+            return support
+
+    @version_requires("2027.1.0pre0")
+    def deep_copy_supports(self, other: CollectionBase):
+        """Deep-copies the supports of all labels in the collection into the other collection.
+
+        Parameters
+        ----------
+        other : collection where the supports are to be deep-copied
+        """
+        other_server = other._server
+        for label in self.labels:
+            label_support = self.get_support(label)
+            if label_support is not None:
+                other.set_support(label, label_support.deep_copy(other_server))
 
     def __str__(self):
         """Describe the entity.
@@ -553,23 +571,25 @@ class CollectionBase(Generic[TYPE]):
 
     def __del__(self):
         """Delete the entry."""
-        try:
-            # delete
-            if not self.owned:
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    self._deleter_func[0](obj)
-        except:
-            warnings.warn(traceback.format_exc())
+        if not getattr(self, "owned", False):
+            release_dpf_object(self)
 
     def _get_ownership(self):
         self.owned = True
         return self._internal_obj
 
     def __iter__(self):
-        """Provide for looping through entry items."""
-        for i in range(len(self)):
-            yield self[i]
+        """Return iterator."""
+        self._loop_index = 0
+        return self
+
+    def __next__(self) -> TYPE:
+        """Return next element in iteration."""
+        if self._loop_index < len(self):
+            self._loop_index += 1
+            return self[self._loop_index - 1]
+        else:
+            raise StopIteration
 
 
 class IntegralCollection(CollectionBase):

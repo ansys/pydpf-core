@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -305,8 +305,10 @@ def test_named_selection_scoping(model_with_ns):
 
 def test_named_selection_scoping_with_deepcopy(model_with_ns):
     model = Model(model_with_ns)
+    expected_scop = mesh_scoping_factory.named_selection_scoping("SELECTION", model)
     server_2 = server.start_local_server(config=server_factory.AvailableServerConfigs.GrpcServer)
     scop = mesh_scoping_factory.named_selection_scoping("SELECTION", model, server_2)
     assert scop is not None
     assert len(scop.ids) != 0
+    assert scop.get_ids(np_array=False) == expected_scop.get_ids(np_array=False)
     assert scop._server == server_2

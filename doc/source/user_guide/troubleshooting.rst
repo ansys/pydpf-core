@@ -6,6 +6,17 @@ Troubleshooting
 This page explains how to resolve the most common issues encountered when
 using PyDPF-Core. It also includes suggestions for improving scripts.
 
+GCC 12 dependencies
+--------------------
+On Linux, starting a Python process that imports ``pydpf-core`` or starting a DPF server can
+require GCC 12. On systems whose default GCC version is older than GCC 12, set ``LD_PRELOAD``
+before starting Python or the DPF server. For a standalone DPF server installation, use
+``/path/to/standalone/ansys/dpf/server_2027_1_pre0/aisol/lib/linx64/libgcc_s.so.1``. For an
+Ansys unified installation, use ``/path/to/unified/aisol/lib/linx64/libgcc_s.so.1``. This is
+especially known to be required for the ``Ans.Dpf.CFF`` plugin. Alternatively, upgrade to a
+more recent operating system with GCC 12 support by default, such as Ubuntu 24.04 or Red Hat
+Enterprise Linux 10.
+
 .. _user_guide_troubleshooting_server_issues:
 
 Server issues
@@ -41,6 +52,9 @@ For ``PyDPF-Core``0.10.0, the `ansys.grpc.dpf <https://pypi.org/project/ansys-gr
 should always be synchronized with its server version.
 
 .. _user_guide_troubleshooting_model_issues:
+
+
+
 
 Model issues
 ------------
@@ -115,3 +129,40 @@ method:
     from ansys.dpf import core as dpf
     dpf.settings.disable_interpreter_properties_evaluation()
 
+Additional help resources
+-------------------------
+
+You can find additional assistance via the following means.
+
+Start a discussion
+~~~~~~~~~~~~~~~~~~
+
+Complex topics may require a discussion. Whether you want to know how to use
+PyDPF-Core for solving your specific problem or you have a suggestion for a new
+feature, a discussion is a good place to start.
+
+You can open a new discussion in the `PyDPF-Core discussions`_ section.
+
+Post issues
+~~~~~~~~~~~
+
+Use the `PyDPF-Core issues`_ page to submit questions, report bugs, and request new features. When possible, you should use these issue templates:
+
+- Bug, problem, error: For filing a bug report
+- Documentation issue: For requesting modifications to the documentation
+- Adding an example: For proposing a new example
+- New feature: For requesting enhancements to the code
+
+If your issue does not fit into one of these template categories, you can click the link for opening a blank issue.
+To reach the project support team, email pyansys.core@ansys.com.
+
+
+Ansys developer ecosystem resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Ansys also has an extensive developer ecosystem where you can find assistance for a variety of issues.
+
+- `Developer Portal`_: Blog posts, documentation, and guide
+- `Developer Forum`_: Scripting and usage support for PyAnsys and other Ansys developer tools
+- `Ansys Innovation Space`_: Product support forum and training materials
+- `Ansys Learning Hub`_: Training, courses and learning plans

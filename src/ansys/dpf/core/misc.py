@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -22,7 +22,6 @@
 
 """Miscellaneous functions for the DPF module."""
 
-import glob
 import os
 from pathlib import Path
 from pkgutil import iter_modules
@@ -102,13 +101,8 @@ def get_ansys_path(ansys_path=None):
         Full path to an Ansys installation.
 
     """
-    # If no custom path was given in input
-    # First check the environment variable for a custom path
-    if ansys_path is None:
-        ansys_path = os.environ.get("ANSYS_DPF_PATH")
-        if ansys_path:
-            ansys_path = ansys_path.replace('"', "")
-    # Then check for usual installation folders with AWP_ROOT and installed modules
+    # If no custom path was given in input, resolve it using the documented order:
+    # ANSYS_DPF_PATH > hosting Unified Install > Python package > AWP_ROOTXXX > any Ansys install on the disk
     if ansys_path is None:
         ansys_path = find_ansys()
     # If still no install has been found, throw an exception
@@ -127,18 +121,18 @@ def get_ansys_path(ansys_path=None):
     reobj_vXYZ = re.compile("^v[0123456789]{3}$")
     if reobj_vXYZ.match(ansys_folder_name):
         # vXYZ Unified Install folder
-        ver = int(str(ansys_path)[-3:])
+        ver = int(ansys_folder_name[-3:])  # robust to a trailing separator
     else:
         ver = 222
-    if ver < 211:
+    if ver < 211:  # noqa: PLR2004
         raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
-    if ver == 211 and is_ubuntu():
+    if ver == 211 and is_ubuntu():  # noqa: PLR2004
         raise OSError("DPF on v211 does not support Ubuntu")
     return ansys_path
 
 
 def _pythonize_awp_version(version):
-    if len(version) != 3:
+    if len(version) != 3:  # noqa: PLR2004
         return version
     return "20" + version[0:2] + "." + version[2]
 
@@ -148,10 +142,11 @@ def _find_latest_ansys_versions():
 
 
 def find_ansys():
-    """Check ANSYS environment variables or default paths for the latest installation.
+    """Find the latest DPF Server installation.
 
-    Search for a standard ANSYS environment variable (AWP_ROOTXXX) or a standard installation
-    location to find the path to the latest Ansys installation.
+    Use the discovery order of :func:`get_ansys_path` (``ANSYS_DPF_PATH``, Python package,
+    hosting Unified Install, ``AWP_ROOTXXX``), then fall back to the latest ``vXXX`` folder in the
+    default Ansys installation folder.
 
     Returns
     -------

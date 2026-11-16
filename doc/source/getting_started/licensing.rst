@@ -29,7 +29,7 @@ Starting a DPF Server without agreeing to the ``DPF Preview License Agreement`` 
 DPF Preview License Agreement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The standalone versions of DPF Server are protected using license terms specified in the `DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_
+The standalone versions of DPF Server are protected using license terms specified in the `DPFPreviewLicenseAgreement <https://download.ansys.com/assets/media/DPFPreviewLicenseAgreement.txt>`_
 file that can be found on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
 of the Ansys Customer Portal.
 The ``DPFPreviewLicenseAgreement`` file is a text file, which means that you can open it with a text editor, such as ``Notepad``.
@@ -161,6 +161,12 @@ The following user actions may fail due to licensing:
 Compatible Ansys license increments
 -----------------------------------
 
+With the default configuration, when an operator's ``license`` property is
+``any_dpf_supported_increments``, DPF tries the increments in the order listed below
+and checks out the first one it can successfully acquire. This is the default fallback
+order for generic license requirements; operators that require a specific increment use
+that increment directly.
+
 The following Ansys licensing increments provide rights to use the licensed DPF capabilities:
 
 - ``preppost`` available in the ``Ansys Mechanical Enterprise PrepPost`` product
@@ -189,6 +195,7 @@ The following Ansys licensing increments provide rights to use the licensed DPF 
 - ``fluent_meshing`` available in the ``Ansys CFD Enterprise`` product
 - ``avrxp_snd_level1`` available in the ``Ansys Sound Pro`` product
 - ``sherlock`` available in the ``Ansys Sherlock`` product
+- ``struct_exp`` available in the ``Ansys Structures Explorer`` product
 
 Each increment may be available in other products. On the Ansys Customer Portal,
 the `Licensing section <https://download.ansys.com/Installation%20and%20Licensing%20Help%20and%20Tutorials>`_

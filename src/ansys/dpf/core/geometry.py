@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -33,6 +33,9 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import Field
 from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core.plotter import DpfPlotter
+
+_N_SPATIAL_DIMS = 3  # 3D coordinates (x, y, z)
+_N_LINE_POINTS = 2  # A line is defined by 2 points
 
 
 def normalize_vector(vector):
@@ -91,7 +94,7 @@ class Points:
         """Print Points information."""
         txt = "DPF Points object:\n"
         txt += f"Number of points: {self.n_points}\n"
-        txt += f"Coordinates:\n"
+        txt += "Coordinates:\n"
         for point in self._coordinates.data:
             txt += f"  {point}\n"
         return txt
@@ -156,13 +159,13 @@ class Line:
         if not isinstance(coordinates, Field):
             coordinates = np.asarray(coordinates, dtype=np.float64)
             coordinates = field_from_array(coordinates)
-        if not len(coordinates.data) == 2:
+        if not len(coordinates.data) == _N_LINE_POINTS:
             raise ValueError("Only two points must be introduced to define a line")
 
         self._coordinates = coordinates
         self._server = server
         self._n_points = n_points
-        self._length = np.linalg.norm(coordinates.data)
+        self._length = np.linalg.norm(coordinates.data[1] - coordinates.data[0])
         self._mesh, self._path = self._discretize()
 
     def __getitem__(self, value):
@@ -186,7 +189,7 @@ class Line:
         origin = self._coordinates.data[0]
         diff = self._coordinates.data[1] - self._coordinates.data[0]
         path_1D = np.linspace(0, self.length, self._n_points)
-        path_3D = [origin + i_point * diff / self._n_points for i_point in range(self._n_points)]
+        path_3D = np.linspace(origin, origin + diff, self._n_points)
 
         # Create mesh for a line
         mesh = dpf.MeshedRegion(
@@ -294,18 +297,18 @@ class Plane:
 
     """
 
-    def __init__(self, center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None):
+    def __init__(self, center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None):  # noqa: PLR0913
         """Initialize Plane object from its center and normal direction."""
         # Input check
-        if not len(center) == 3:
+        if not len(center) == _N_SPATIAL_DIMS:
             raise ValueError("'center' of the plane must have length 3")
         if not isinstance(normal, Line):
-            if len(normal) == 2:
-                if not len(normal[0]) == len(normal[1]) == 3:
+            if len(normal) == _N_LINE_POINTS:
+                if not len(normal[0]) == len(normal[1]) == _N_SPATIAL_DIMS:
                     raise ValueError("Each point must contain 3 coordinates.")
                 normal_vect = normal
                 normal_dir = self._get_direction_from_vect(normal_vect)
-            elif len(normal) == 3:
+            elif len(normal) == _N_SPATIAL_DIMS:
                 normal_dir = normal / np.linalg.norm(normal)
                 normal_vect = [np.array([0, 0, 0]), normal_dir]
         else:

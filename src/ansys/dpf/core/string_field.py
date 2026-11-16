@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -101,7 +101,7 @@ class StringField(_FieldBase):
         self._api.init_string_field_environment(self)
 
     @staticmethod
-    def _field_create_internal_obj(
+    def _field_create_internal_obj(  # noqa: PLR0913
         api: string_field_abstract_api.StringFieldAbstractAPI,
         server,
         nature,
@@ -228,6 +228,21 @@ class StringField(_FieldBase):
         string_list = integral_types.MutableListString(data)
         self._api.csstring_field_push_back(self, scopingid, _get_size_of_list(data), string_list)
 
+    def _get_data_pointer(self):
+        from ansys.dpf.core.server_types import GrpcServer, LegacyGrpcServer
+
+        if isinstance(self._server, (GrpcServer, LegacyGrpcServer)):
+            # Remote gRPC servers crash when CSStringField_GetDataPointer is called
+            # with a shared object handle. Raise NotImplementedError early to avoid
+            # corrupting the server session for subsequent tests.
+            raise NotImplementedError(
+                "StringField.entity_data_offsets (data_pointer) is not supported on remote gRPC servers. "
+            )
+        return self._api.csstring_field_get_data_pointer(self, True)
+
+    def _set_data_pointer(self, data):
+        return self._api.csstring_field_set_data_pointer(self, _get_size_of_list(data), data)
+
     def _get_data(self, np_array=True):
         try:
             vec = dpf_vector.DPFVectorString(owner=self)
@@ -247,8 +262,7 @@ class StringField(_FieldBase):
                 and data.size // self.component_count != data.size / self.component_count
             ):
                 raise ValueError(
-                    f"An array of shape {self.shape} is expected and "
-                    f"shape {data.shape} was input"
+                    f"An array of shape {self.shape} is expected and shape {data.shape} was input"
                 )
         string_list = integral_types.MutableListString(data)
         return self._api.csstring_field_set_data(self, _get_size_of_list(data), string_list)

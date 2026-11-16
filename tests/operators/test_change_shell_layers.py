@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,21 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Tests the utility.change_shell_layers operator
-
-import os
-
-import pytest
-
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core.check_version import get_server_version, meets_version
 
 
-@pytest.mark.skipif(
-    os.name == "posix",
-    reason="Failure under investigation on Ubuntu (Issue #2424)",
-)
 def test_operator_change_shell_layers_connect_enum(server_type):
     model = dpf.Model(
         examples.download_all_kinds_of_complexity_modal(server=server_type), server=server_type

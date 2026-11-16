@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -19,13 +19,13 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
 import numpy as np
 import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import fields_factory
-from ansys.dpf.gate.dpf_vector import DPFVectorCustomType
-import conftest
+from ansys.dpf.gate import dpf_vector
 
 
 def test_perf_vec_setters(server_type):
@@ -67,7 +67,7 @@ def test_update_empty_dpf_vector_prop_field(server_type):
     prop_field.data = np.zeros((100))
     prop_field.scoping.ids = list(range(1, 100))
     assert np.allclose(prop_field.get_entity_data(1), [0])
-    dp = prop_field._data_pointer
+    dp = prop_field.entity_data_offsets
     dp = None
     assert np.allclose(prop_field.get_entity_data(1), [0])
 
@@ -77,36 +77,52 @@ def test_update_empty_dpf_vector_field(server_type):
     field.data = np.zeros((100), dtype=np.double)
     field.scoping.ids = list(range(1, 100))
     assert np.allclose(field.get_entity_data(1), [0])
-    dp = field._data_pointer
+    dp = field.entity_data_offsets
     dp = None
     assert np.allclose(field.get_entity_data(1), [0])
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="change in memory ownership in server 7.0",
+@pytest.mark.xfail(
+    reason="StringField.entity_data_offsets requires CSStringField_GetDataPointer_For_DpfVector in DPF server.",
+    strict=False,
 )
 def test_update_empty_dpf_vector_string_field(server_type):
     string_field = dpf.StringField(server=server_type)
     string_field.data = ["high", "goodbye", "hello"]
     string_field.scoping.ids = list(range(1, 3))
     assert string_field.get_entity_data(1) == ["goodbye"]
-    dp = string_field._data_pointer
+    dp = string_field.entity_data_offsets
     dp = None
     assert string_field.get_entity_data(1) == ["goodbye"]
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_update_empty_dpf_vector_custom_type_field(server_type):
     field = dpf.CustomTypeField(unitary_type=np.double, server=server_type)
     field.data = np.zeros((100), dtype=np.double)
     field.scoping.ids = list(range(1, 100))
     assert np.allclose(field.get_entity_data(1), [0])
-    dp = field._data_pointer
+    dp = field.entity_data_offsets
     dp = None
     assert np.allclose(field.get_entity_data(1), [0])
 
 
 def test_invalid_unitary_type_dpf_vector_custom_type(server_type):
     with pytest.raises(ValueError, match="DPFVectorCustomType: invalid unitary_type"):
-        DPFVectorCustomType(unitary_type=np.complex128)
+        dpf_vector.DPFVectorCustomType(unitary_type=np.complex128)
+
+
+@pytest.mark.parametrize(
+    "vector_type",
+    [
+        dpf_vector.DPFVectorBase,
+        dpf_vector.DPFVectorInt,
+        dpf_vector.DPFVectorDouble,
+        dpf_vector.DPFVectorCustomType,
+        dpf_vector.DPFVectorString,
+    ],
+)
+def test_dpf_vector_destructor_when_sys_is_cleared(monkeypatch, vector_type):
+    vector = object.__new__(vector_type)
+    monkeypatch.setattr(dpf_vector, "sys", None)
+
+    vector_type.__del__(vector)

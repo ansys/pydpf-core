@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -23,11 +23,10 @@
 """DataTree."""
 
 import enum
-import traceback
-import warnings
 import weakref
 
 from ansys.dpf.core import collection_base, common, errors, server as server_module
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.common import types
 from ansys.dpf.gate import (
     data_processing_capi,
@@ -154,7 +153,7 @@ class DataTree:
             )
         return self._api_instance
 
-    def add(self, *args, **kwargs):
+    def add(self, *args, **kwargs):  # noqa: C901
         """
         Add attributes with their value to the data tree.
 
@@ -617,7 +616,7 @@ class DataTree:
             The value of the attribute to set.
         """
         if key == "_common_keys" or key in self._common_keys or key in dir(self):
-            return super.__setattr__(self, key, value)
+            return super().__setattr__(key, value)
         self.add({key: value})
 
     def __str__(self):
@@ -634,14 +633,7 @@ class DataTree:
 
     def __del__(self):
         """Delete this instance."""
-        try:
-            # needs a proper deleter only when real datatree and not dict
-            if hasattr(self, "_deleter_func"):
-                obj = self._deleter_func[1](self)
-                if obj is not None:
-                    self._deleter_func[0](obj)
-        except:
-            warnings.warn(traceback.format_exc())
+        release_dpf_object(self)
 
 
 class _LocalDataTree(DataTree):
@@ -679,7 +671,7 @@ class _LocalDataTree(DataTree):
 
     def __setattr__(self, key, value):
         if key == "_common_keys" or key in self._common_keys:
-            return super.__setattr__(self, key, value)
+            return super().__setattr__(key, value)
         self.add({key: value})
 
     def __enter__(self):

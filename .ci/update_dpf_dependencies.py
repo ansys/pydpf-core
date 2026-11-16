@@ -13,7 +13,6 @@ It will update the current repo
 or the repo defined by the environment variable "ANSYSDPFCORE_ROOT" if it exists.
 """
 
-import glob
 import os
 from pathlib import Path
 import platform
@@ -47,7 +46,7 @@ if grpc_path:
                 )
     print("Done updating ansys.grpc.dpf")
 else:
-    print(f"{grpc_path_key} environment variable is not defined. " "Cannot update ansys-grpc-dpf.")
+    print(f"{grpc_path_key} environment variable is not defined. Cannot update ansys-grpc-dpf.")
 
 if gate_path:
     # Update ansys-dpf-gate

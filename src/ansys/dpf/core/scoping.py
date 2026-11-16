@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -25,13 +25,12 @@
 from __future__ import annotations
 
 import ctypes
-import traceback
 from typing import TYPE_CHECKING, Union
-import warnings
 
 import numpy as np
 
 from ansys.dpf.core import server as server_module, server_types
+from ansys.dpf.core._cleanup import release_dpf_object
 from ansys.dpf.core.cache import _setter
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import locations
@@ -39,8 +38,6 @@ from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
     dpf_vector,
-    dpf_vector_abstract_api,
-    dpf_vector_capi,
     scoping_capi,
     scoping_grpcapi,
     utils,
@@ -139,11 +136,10 @@ class Scoping:
             else:
                 # scoping is of type protobuf.message or DPFObject*
                 self._internal_obj = scoping
+        elif self._server.has_client():
+            self._internal_obj = self._api.scoping_new_on_client(self._server.client)
         else:
-            if self._server.has_client():
-                self._internal_obj = self._api.scoping_new_on_client(self._server.client)
-            else:
-                self._internal_obj = self._api.scoping_new()
+            self._internal_obj = self._api.scoping_new()
 
         # step5: handle specific calls to set attributes
         if ids is not None:
@@ -398,11 +394,7 @@ class Scoping:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except Exception as e:
-            print(str(e.args), str(self._deleter_func[0]))
-            warnings.warn(traceback.format_exc())
+        release_dpf_object(self)
 
     def __iter__(self):
         """Return an iterator over the scoping ids."""
@@ -456,7 +448,7 @@ class Scoping:
         scoping_copy : Scoping
         """
         scop = Scoping(server=server)
-        scop.ids = self.ids
+        scop.ids = self.get_ids(np_array=False)
         scop.location = self.location
         return scop
 
@@ -520,13 +512,13 @@ class Scoping:
         ...    ids=mesh.nodes.scoping.ids[0:100]
         ... )
         >>> node_scoping.plot(mesh=mesh, color="red")
-        (None, <pyvista.plotting.plotter.Plotter ...>)
+        ([], <pyvista.plotting.plotter.Plotter ...>)
         >>> element_scoping = dpf.Scoping(
         ...    location=dpf.locations.elemental,
         ...    ids=mesh.elements.scoping.ids[0:100]
         ... )
         >>> element_scoping.plot(mesh=mesh, color="green")
-        (None, <pyvista.plotting.plotter.Plotter ...>)
+        ([], <pyvista.plotting.plotter.Plotter ...>)
         """
         from ansys.dpf.core.plotter import DpfPlotter
 

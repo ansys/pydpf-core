@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -20,10 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import gc
 from pathlib import Path
 import shutil
+import tempfile
+
+import pytest
 
 from ansys import dpf
+from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
+from ansys.dpf.core.server_types import RUNNING_DOCKER
 
 
 def test_create_streams_container(server_in_process, simple_bar):
@@ -60,6 +66,46 @@ def test_release_streams_model(server_in_process, simple_bar):
 def test_release_streams_model_empty(server_in_process):
     model = dpf.core.Model(server=server_in_process)
     model.metadata.release_streams()
+
+
+@pytest.mark.parametrize(
+    "server_config",
+    [
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+        ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
+    ],
+    ids=["ansys-grpc-dpf", "gRPC CLayer", "in Process CLayer"],
+)
+def test_server_shutdown_releases_model_streams(server_config, testfiles_dir):
+    if server_config.protocol == CommunicationProtocols.InProcess and RUNNING_DOCKER.use_docker:
+        pytest.skip("InProcess unavailable for Docker")
+
+    server = dpf.core.start_local_server(config=server_config, as_global=False)
+    try:
+        with tempfile.TemporaryDirectory(dir=testfiles_dir) as tmp_dir:
+            local_file_path = Path(tmp_dir) / "file.rst"
+            server_file_path = server.docker_config.replace_with_mounted_volumes(
+                str(local_file_path)
+            )
+            shutil.copyfile(
+                dpf.core.examples.find_simple_bar(return_local_path=True), local_file_path
+            )
+            model = dpf.core.Model(server_file_path, server=server)
+            results = model.results
+
+            if server_config.protocol == CommunicationProtocols.InProcess:
+                server.shutdown()
+                assert model.results is results
+            else:
+                del results
+                del model
+                gc.collect()
+                server.shutdown()
+    finally:
+        server.shutdown()
+
+    assert not local_file_path.exists()
 
 
 def test_create_from_streams_container(server_in_process, simple_bar):
@@ -100,3 +146,59 @@ def test_retrieve_ip(server_in_process):
     # but not 0.0.0:0, 9999.999.999.999:999, 0.0.0.0
     ip_addr_regex = r"([0-9]{1,3}\.){3}[0-9]{1,3}:[0-9]{1,5}"
     assert re.match(ip_addr_regex, addr) != None
+
+
+from ansys.dpf.core.stream import Stream
+
+
+class DummyStream(Stream):
+    def __init__(self, file_path=None, server=None):
+        super().__init__(file_path=file_path)
+        self._server = server
+
+    @property
+    def time_freq_support(self) -> dpf.core.TimeFreqSupport:
+        return dpf.core.TimeFreqSupport()
+
+    @property
+    def result_info(self) -> dpf.core.ResultInfo:
+        return dpf.core.ResultInfo()
+
+    @property
+    def stream_type_name(self) -> str:
+        return "dummy_stream"
+
+
+def test_streams_container_add_stream(server_in_process, simple_bar):
+    dummy_stream = DummyStream(file_path=simple_bar)
+
+    sc = dpf.core.StreamsContainer(server=server_in_process)
+    sc.add_stream(stream=dummy_stream, group=1, is_result=1, result=1)
+
+
+def test_streams_container_add_stream_from_datasources(server_in_process, simple_bar):
+    ds = dpf.core.DataSources(simple_bar, server=server_in_process)
+    sc = dpf.core.StreamsContainer(data_sources=ds, server=server_in_process)
+    dummy_stream = DummyStream(file_path=simple_bar)
+    # No labels needed: the file path is matched against the DataSources entries.
+    sc.add_stream(stream=dummy_stream)
+
+
+def test_stream_release(server_in_process, simple_bar):
+    """Stream.release() must close the file handle and set _handle to None."""
+    dummy_stream = DummyStream(file_path=simple_bar)
+    assert dummy_stream._handle is not None
+    dummy_stream.release()
+    assert dummy_stream._handle is None
+
+
+def test_stream_release_frees_file(server_in_process, simple_bar):
+    """After Stream.release() the underlying file must be deletable (OS handle fully freed)."""
+    simple_bar = Path(simple_bar)
+    copy_path = simple_bar.parent / (simple_bar.stem + "_stream_rel" + simple_bar.suffix)
+    shutil.copyfile(simple_bar, copy_path)
+    dummy_stream = DummyStream(file_path=copy_path, server=server_in_process)
+    sc = dpf.core.StreamsContainer(server=server_in_process)
+    sc.add_stream(stream=dummy_stream, group=1, is_result=1, result=1)
+    dummy_stream.release()
+    copy_path.unlink()  # Would raise PermissionError on Windows if the handle were still open

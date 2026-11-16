@@ -20,7 +20,11 @@ class FieldDefinitionGRPCAPI(field_definition_abstract_api.FieldDefinitionAbstra
 
     @staticmethod
     def csfield_definition_fill_unit(fieldDef, symbol, size, homogeneity, factor, shift):
-        symbol.set_str(_get_stub(fieldDef._server).List(fieldDef._internal_obj).unit.symbol)
+        out = _get_stub(fieldDef._server).List(fieldDef._internal_obj)
+        symbol.set_str(out.unit.symbol)
+        # Fill homogeneity if available
+        if hasattr(out.unit.dim, 'homogeneity'):
+            homogeneity.val.value = out.unit.dim.homogeneity
 
     
     @staticmethod
@@ -63,8 +67,8 @@ class FieldDefinitionGRPCAPI(field_definition_abstract_api.FieldDefinitionAbstra
         dim.set(val.size)
 
     @staticmethod
-    def csfield_definition_set_unit(fieldDef, symbol, dummy, dummy1, dummy2, dummy3):
-        FieldDefinitionGRPCAPI._modify_field_def(fieldDef, unit=symbol)
+    def csfield_definition_set_unit(fieldDef, symbol, dummy, homogeneity, dummy2, dummy3):
+        FieldDefinitionGRPCAPI._modify_field_def(fieldDef, unit=symbol, homogeneity=homogeneity)
 
     @staticmethod
     def csfield_definition_set_shell_layers(fieldDef, shellLayers):
@@ -90,13 +94,16 @@ class FieldDefinitionGRPCAPI(field_definition_abstract_api.FieldDefinitionAbstra
 
     @staticmethod
     def _modify_field_def(
-            fieldDef, unit=None, location=None, dimensionality=None, shell_layer=None, name=None, quantity_type=None
+            fieldDef, unit=None, location=None, dimensionality=None, shell_layer=None, name=None, quantity_type=None, homogeneity=None
     ):
         from ansys.grpc.dpf import field_definition_pb2
         request = field_definition_pb2.FieldDefinitionUpdateRequest()
         request.field_definition.CopyFrom(fieldDef._internal_obj)
         if unit != None:
             request.unit_symbol.symbol = unit
+            # Set homogeneity if provided
+            if homogeneity != None:
+                request.unit_symbol.homogeneity = homogeneity
         if location != None:
             request.location.location = location
         if dimensionality != None:

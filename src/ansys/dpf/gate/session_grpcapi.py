@@ -1,3 +1,5 @@
+from contextlib import suppress
+
 from ansys.dpf.gate.generated import session_abstract_api
 from ansys.dpf.gate import grpc_stream_helpers, errors
 
@@ -56,16 +58,12 @@ class SessionGRPCAPI(session_abstract_api.SessionAbstractAPI):
         service.initial_metadata()
         bar.start()
         for chunk in service:
-            try:
+            with suppress(Exception):
                 bar.update(chunk.progress.progress_percentage)
                 if len(chunk.state.state):
                     LOG.warning(chunk.state.state)
-            except Exception as e:
-                pass
-        try:
+        with suppress(Exception):
             bar.finish()
-        except:
-            pass
 
     @staticmethod
     def flush_workflows(session):

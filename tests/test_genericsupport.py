@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -21,10 +21,9 @@
 # SOFTWARE.
 
 from ansys.dpf import core as dpf
-import conftest
+from ansys.dpf.core.support import Support
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_set_get_generic_support(server_type):
     support = dpf.GenericSupport("phase", server=server_type)
     field = dpf.Field(location="phase", nature=dpf.natures.scalar, server=server_type)
@@ -53,3 +52,18 @@ def test_set_get_generic_support(server_type):
     assert field is None
     field = support.prop_field_support_by_property("miscibility")
     assert isinstance(field, dpf.PropertyField)
+
+
+def test_support_destructor_without_native_object():
+    support = object.__new__(Support)
+    support._internal_obj = None
+    deleter_called = False
+
+    def deleter(value):
+        nonlocal deleter_called
+        deleter_called = True
+
+    support._deleter_func = (deleter, lambda value: value)
+
+    Support.__del__(support)
+    assert not deleter_called

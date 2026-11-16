@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -42,6 +42,7 @@ from ansys.dpf.core.custom_fields_container import (
     ElShapeFieldsContainer,
 )
 import conftest
+from tests.conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0
 
 
 @pytest.fixture()
@@ -81,10 +82,6 @@ def test_createby_message_copy_fields_container(server_type_legacy_grpc):
     assert fc._internal_obj == fields_container2._internal_obj
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Copying data is supported starting server version 3.0",
-)
 def test_createbycopy_fields_container(server_type):
     fc = FieldsContainer(server=server_type)
     fields_container2 = FieldsContainer(fields_container=fc)
@@ -360,10 +357,6 @@ def test_deep_copy_over_time_fields_container(velocity_acceleration):
     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Bug in server version lower than 3.0",
-)
 def test_light_copy(server_type):
     fc = FieldsContainer(server=server_type)
     fc.labels = ["time"]
@@ -561,7 +554,6 @@ def test_fields_container_get_time_scoping(server_type, disp_fc):
     assert freq_scoping.size == 1
 
 
-@conftest.raises_for_servers_version_under("5.0")
 def test_fields_container_set_tfsupport(server_type):
     coll = dpf.FieldsContainer(server=server_type)
     coll.labels = ["body", "time"]
@@ -584,8 +576,124 @@ def test_fields_container_set_tfsupport(server_type):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Available for servers >=2027.1"
 )
+def test_fields_container_deep_copy_local(server_type):
+    coll = dpf.FieldsContainer(server=server_type)
+    coll.labels = ["gen", "time", "cyc"]
+    tfq = TimeFreqSupport(server=server_type)
+    frequencies = fields_factory.create_scalar_field(1, server=server_type)
+    frequencies.append([1.0], 1)
+    tfq.time_frequencies = frequencies
+
+    gen_support = dpf.GenericSupport(name="gen", server=server_type)
+    str_f = dpf.StringField(server=server_type)
+    str_f.append(["inlet"], 1)
+    gen_support.set_support_of_property("name", str_f)
+
+    multi_stage = dpf.DataSources(examples.download_multi_stage_cyclic_result(), server=server_type)
+    cyc_support = dpf.operators.metadata.cyclic_support_provider(
+        server=server_type, data_sources=multi_stage
+    ).eval()
+
+    mesh = dpf.operators.mesh.mesh_provider(server=server_type, data_sources=multi_stage).eval()
+
+    coll.set_support("time", tfq)
+    coll.set_support("gen", gen_support)
+    coll.set_support("cyc", cyc_support)
+
+    coll_c = coll.deep_copy()
+
+    assert coll_c.get_support("time").available_field_supported_properties() == ["time_freqs"]
+    assert coll_c.get_support("time").get_as_time_freq_support().n_sets == 1
+    assert coll_c.get_support("gen").available_string_field_supported_properties() == ["name"]
+    assert coll_c.get_support("gen").string_field_support_by_property("name").data == ["inlet"]
+    assert coll_c.get_support("cyc").get_as_cyclic_support().num_stages == 2
+    assert coll_c.get_support("cyc").get_as_cyclic_support().num_sectors() == 6
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Available for servers >=2027.1"
+)
+def test_fields_container_deep_copy_gRPCCLayer(server_type):
+    coll = dpf.FieldsContainer(server=server_type)
+    coll.labels = ["gen", "time", "cyc"]
+    tfq = TimeFreqSupport(server=server_type)
+    frequencies = fields_factory.create_scalar_field(1, server=server_type)
+    frequencies.append([1.0], 1)
+    tfq.time_frequencies = frequencies
+
+    gen_support = dpf.GenericSupport(name="gen", server=server_type)
+    str_f = dpf.StringField(server=server_type)
+    str_f.append(["inlet"], 1)
+    gen_support.set_support_of_property("name", str_f)
+
+    multi_stage = dpf.DataSources(examples.download_multi_stage_cyclic_result(), server=server_type)
+    cyc_support = dpf.operators.metadata.cyclic_support_provider(
+        server=server_type, data_sources=multi_stage
+    ).eval()
+
+    coll.set_support("time", tfq)
+    coll.set_support("gen", gen_support)
+    coll.set_support("cyc", cyc_support)
+
+    server_dest = dpf.start_local_server(
+        config=dpf.ServerConfig(
+            protocol=dpf.server_factory.CommunicationProtocols.gRPC, legacy=False
+        ),
+        as_global=False,
+    )
+    coll_c = coll.deep_copy(server_dest)
+
+    assert coll_c.get_support("time").available_field_supported_properties() == ["time_freqs"]
+    assert coll_c.get_support("time").get_as_time_freq_support().n_sets == 1
+    assert coll_c.get_support("gen").available_string_field_supported_properties() == ["name"]
+    assert coll_c.get_support("gen").string_field_support_by_property("name").data == ["inlet"]
+    assert coll_c.get_support("cyc").get_as_cyclic_support().num_stages == 2
+    assert coll_c.get_support("cyc").get_as_cyclic_support().num_sectors() == 6
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2027_1_PRE0, reason="Available for servers >=2027.1"
+)
+def test_fields_container_deep_copy_LegacygRPC(server_type):
+    coll = dpf.FieldsContainer(server=server_type)
+    coll.labels = ["gen", "time", "cyc"]
+    tfq = TimeFreqSupport(server=server_type)
+    frequencies = fields_factory.create_scalar_field(1, server=server_type)
+    frequencies.append([1.0], 1)
+    tfq.time_frequencies = frequencies
+
+    gen_support = dpf.GenericSupport(name="gen", server=server_type)
+    str_f = dpf.StringField(server=server_type)
+    str_f.append(["inlet"], 1)
+    gen_support.set_support_of_property("name", str_f)
+
+    multi_stage = dpf.DataSources(examples.download_multi_stage_cyclic_result(), server=server_type)
+    cyc_support = dpf.operators.metadata.cyclic_support_provider(
+        server=server_type, data_sources=multi_stage
+    ).eval()
+
+    coll.set_support("time", tfq)
+    coll.set_support("gen", gen_support)
+    coll.set_support("cyc", cyc_support)
+
+    server_dest = dpf.start_local_server(
+        config=dpf.ServerConfig(
+            protocol=dpf.server_factory.CommunicationProtocols.gRPC, legacy=True
+        ),
+        as_global=False,
+    )
+    coll_c = coll.deep_copy(server_dest)
+
+    assert coll_c.get_support("time").available_field_supported_properties() == ["time_freqs"]
+    assert coll_c.get_support("time").get_as_time_freq_support().n_sets == 1
+    assert coll_c.get_support("gen").available_string_field_supported_properties() == ["name"]
+    assert coll_c.get_support("gen").string_field_support_by_property("name").data == ["inlet"]
+    assert coll_c.get_support("cyc").get_as_cyclic_support().num_stages == 2
+    assert coll_c.get_support("cyc").get_as_cyclic_support().num_sectors() == 6
+
+
 def test_fields_container_empty_tf_support(server_type):
     fields_container = dpf.FieldsContainer(server=server_type)
 
@@ -602,3 +710,43 @@ def test_get_entries_indices_fields_container(server_type):
     assert np.allclose(fc.get_entries_indices({"time": 1, "complex": 0}), [0])
     assert np.allclose(fc.get_entries_indices({"time": 2}), [1])
     assert np.allclose(fc.get_entries_indices({"complex": 0}), range(0, 20))
+
+
+# ---------------------------------------------------------------------------
+# normalize_shell_layers
+# ---------------------------------------------------------------------------
+
+
+def test_normalize_shell_layers_type_error(server_type):
+    """Passing anything other than a ``shell_layers`` enum raises ``TypeError``."""
+    fc = FieldsContainer(server=server_type)
+    with pytest.raises(TypeError, match="core.shell_layers"):
+        fc._normalize_shell_layers(shell_layer="top")
+
+
+def test_normalize_shell_layers_empty_container_returns_self(server_type):
+    """An empty container has no work to do and is returned unchanged."""
+    fc = FieldsContainer(server=server_type)
+    result = fc._normalize_shell_layers()
+    assert result is fc
+
+
+def test_normalize_shell_layers_converts_multi_layer_stress(allkindofcomplexity):
+    """A ``topbottommid`` shell container is normalized to a single layer."""
+    from ansys.dpf.core.common import shell_layers
+
+    model = dpf.Model(allkindofcomplexity)
+    stress_fc = model.results.stress().outputs.fields_container()
+    # Sanity: this fixture provides a multi-layer shell result
+    assert stress_fc[0].shell_layers == shell_layers.topbottommid
+
+    normalized = stress_fc._normalize_shell_layers(shell_layer=shell_layers.top)
+
+    # A new container is returned when conversion actually happened
+    assert normalized is not stress_fc
+    for f in normalized:
+        assert f.shell_layers not in (
+            shell_layers.topbottom,
+            shell_layers.topbottommid,
+        )
+

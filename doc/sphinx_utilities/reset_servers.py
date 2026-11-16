@@ -1,4 +1,3 @@
-#
 def reset_servers(gallery_conf, fname, when):
     import gc
 

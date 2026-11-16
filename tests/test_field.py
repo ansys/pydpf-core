@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -30,11 +30,15 @@ from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import FieldDefinition, operators as ops
 from ansys.dpf.core.available_result import Homogeneity
-from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.check_version import meets_version, server_meet_version
 from ansys.dpf.core.common import locations, shell_layers
+from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.gate.errors import DPFServerException, DpfVersionNotSupported
 import conftest
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, running_docker
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+)
 
 
 @pytest.fixture()
@@ -43,10 +47,24 @@ def stress_field(allkindofcomplexity, server_type):
     stress = model.results.stress()
     return stress.outputs.fields_container()[0]
 
-
 def test_create_field(server_type):
     field = dpf.core.Field(server=server_type)
     assert field._internal_obj is not None
+
+
+@pytest.mark.parametrize("nature", [core.natures.scalar, core.natures.vector, core.natures.symmatrix])
+def test_create_field_with_explicit_server_does_not_use_global(server_type, monkeypatch, nature):
+    def unexpected_global_server():
+        pytest.fail("Field creation with an explicit server must not use the global server")
+
+    monkeypatch.setattr(core, "SERVER", None)
+    monkeypatch.setattr(core.server, "_global_server", unexpected_global_server)
+
+    field = core.Field(nature=nature, server=server_type)
+
+    assert field._internal_obj is not None
+    assert field._server is server_type
+    assert core.SERVER is None
 
 
 def test_empty_field(server_type):
@@ -82,10 +100,6 @@ def test_append_scalar_data(server_type):
     assert np.allclose(field.data, list(range(0, 10)))
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
 def test_createbycopy_field(server_type):
     field = dpf.core.Field(server=server_type)
     field2 = dpf.core.Field(field=field)
@@ -216,6 +230,28 @@ def test_count_field(server_type):
     assert field.size == 20
 
 
+def test_len_field_counts_values_and_data_rows(server_type):
+    field = dpf.core.Field(
+        nentities=4,
+        nature=dpf.core.natures.symmatrix,
+        location=dpf.core.locations.nodal,
+        server=server_type,
+    )
+    field.scoping.ids = range(1, 5)
+    field.data = np.arange(4 * 6, dtype=float)
+
+    assert field.data.shape == (4, 6)
+    assert len(field) == 24
+    assert len(field.data) == 4
+
+    field.shell_layers = shell_layers.topbottommid
+    field.data = np.arange(4 * 3 * 6, dtype=float)
+
+    assert field.data.shape == (12, 6)
+    assert len(field) == 72
+    assert len(field.data) == 12
+
+
 def test_resize_field(server_type):
     field = dpf.core.Field(nentities=1, nature=dpf.core.natures.scalar, server=server_type)
     scoping = dpf.core.Scoping(server=server_type)
@@ -288,7 +324,6 @@ def test_field_definition_modif_field(allkindofcomplexity):
 
     fielddef.shell_layers = dpf.core.shell_layers.bottom
     assert fielddef.shell_layers == dpf.core.shell_layers.bottom
-
 
 def test_field_definition_set_in_field(allkindofcomplexity):
     dataSource = dpf.core.DataSources()
@@ -366,7 +401,7 @@ def test_create_overall_field():
         assert np.allclose(data_added[i], [i * 3.0 + 1.0, i * 3.0 + 3.0, i * 3.0 + 5.0])
 
 
-def test_data_pointer_field(allkindofcomplexity):
+def test_entity_data_offsets_field(allkindofcomplexity):
     dataSource = dpf.core.DataSources()
     dataSource.set_result_file_path(allkindofcomplexity)
     op = dpf.core.Operator("S")
@@ -374,35 +409,35 @@ def test_data_pointer_field(allkindofcomplexity):
 
     fcOut = op.get_output(0, dpf.core.types.fields_container)
 
-    data_pointer = fcOut[0]._data_pointer
+    data_pointer = fcOut[0].entity_data_offsets
     assert len(data_pointer) == len(fcOut[0].scoping)
     assert data_pointer[0] == 0
     assert data_pointer[1] == 72
 
     f = fcOut[0]
     data_pointer[1] = 40
-    f._data_pointer = data_pointer
-    data_pointer = fcOut[0]._data_pointer
+    f.entity_data_offsets = data_pointer
+    data_pointer = fcOut[0].entity_data_offsets
 
     assert len(data_pointer) == len(fcOut[0].scoping)
     assert data_pointer[0] == 0
     assert data_pointer[1] == 40
 
 
-def test_data_pointer_prop_field(server_type):
+def test_entity_data_offsets_prop_field(server_type):
     pfield = dpf.core.PropertyField(server=server_type)
     pfield.append([1, 2, 3], 1)
     pfield.append([1, 2, 3, 4], 2)
     pfield.append([1, 2, 3], 3)
-    data_pointer = pfield._data_pointer
+    data_pointer = pfield.entity_data_offsets
     assert len(data_pointer) == 3
     assert data_pointer[0] == 0
     assert data_pointer[1] == 3
     assert data_pointer[2] == 7
 
     data_pointer[1] = 4
-    pfield._data_pointer = data_pointer
-    data_pointer = pfield._data_pointer
+    pfield.entity_data_offsets = data_pointer
+    data_pointer = pfield.entity_data_offsets
     assert len(data_pointer) == 3
     assert data_pointer[0] == 0
     assert data_pointer[1] == 4
@@ -482,7 +517,9 @@ def test_to_nodal(stress_field):
 def test_mesh_support_field(stress_field):
     mesh = stress_field.meshed_region
     assert len(mesh.nodes.scoping) == 15129
-    if server_meet_version("9.0", mesh._server):
+    if server_meet_version("15.0", mesh._server):
+        assert len(mesh.elements.scoping) == 10497
+    elif server_meet_version("9.0", mesh._server):
         assert len(mesh.elements.scoping) == 10294
     else:
         assert len(mesh.elements.scoping) == 10292
@@ -512,7 +549,9 @@ def test_mesh_support_field_model(allkindofcomplexity):
     f = stress.outputs.fields_container()[0]
     mesh = f.meshed_region
     assert len(mesh.nodes.scoping) == 15129
-    if server_meet_version("9.0", model._server):
+    if server_meet_version("15.0", model._server):
+        assert len(mesh.elements.scoping) == 10497
+    elif server_meet_version("9.0", model._server):
         assert len(mesh.elements.scoping) == 10294
     else:
         assert len(mesh.elements.scoping) == 10292
@@ -564,7 +603,6 @@ def test_field_definition_quantity_type(server_type):
     assert fieldDef.is_of_quantity_type(qt)
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_create_and_set_get_name_field_definition(server_type):
     fieldDef = FieldDefinition(server=server_type)
     assert fieldDef is not None
@@ -636,7 +674,7 @@ def test_local_field_append(server_type_remote_process):
 
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
-    assert len(field_to_local._data_pointer) == 0
+    assert len(field_to_local.entity_data_offsets) == 0
 
 
 def test_local_elemental_nodal_field_append(server_type_remote_process):
@@ -655,7 +693,7 @@ def test_local_elemental_nodal_field_append(server_type_remote_process):
 
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
-    assert len(field_to_local._data_pointer) == num_entities
+    assert len(field_to_local.entity_data_offsets) == num_entities
 
     # flat data
     field_to_local = dpf.core.fields_factory.create_3d_vector_field(
@@ -667,7 +705,7 @@ def test_local_elemental_nodal_field_append(server_type_remote_process):
         assert f._is_set is True
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
-    assert len(field_to_local._data_pointer) == num_entities
+    assert len(field_to_local.entity_data_offsets) == num_entities
 
 
 def test_local_array_field_append(server_type_remote_process):
@@ -687,7 +725,7 @@ def test_local_array_field_append(server_type_remote_process):
 
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
-    assert len(field_to_local._data_pointer) == 0
+    assert len(field_to_local.entity_data_offsets) == 0
 
 
 def test_local_elemental_nodal_array_field_append(server_type_remote_process):
@@ -706,7 +744,7 @@ def test_local_elemental_nodal_array_field_append(server_type_remote_process):
 
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
-    assert len(field_to_local._data_pointer) == num_entities
+    assert len(field_to_local.entity_data_offsets) == num_entities
 
     # flat data
     field_to_local = dpf.core.fields_factory.create_3d_vector_field(
@@ -718,7 +756,7 @@ def test_local_elemental_nodal_array_field_append(server_type_remote_process):
 
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
-    assert len(field_to_local._data_pointer) == num_entities
+    assert len(field_to_local.entity_data_offsets) == num_entities
 
 
 def test_local_get_entity_data(server_type_remote_process):
@@ -826,12 +864,12 @@ def test_get_set_data_elemental_nodal_local_field(server_type_remote_process):
     )
     with field_to_local.as_local_field() as f:
         f.data = [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
-        f._data_pointer = [0, 6]
+        f.entity_data_offsets = [0, 6]
         f.scoping_ids = [1, 2]
         assert np.allclose(
             f.data, [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
         )
-        assert np.allclose(f._data_pointer, [0, 6])
+        assert np.allclose(f.entity_data_offsets, [0, 6])
         assert np.allclose(f.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
         assert np.allclose(f.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
         assert hasattr(f, "_is_set") is True
@@ -841,18 +879,18 @@ def test_get_set_data_elemental_nodal_local_field(server_type_remote_process):
         field_to_local.data,
         [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]],
     )
-    assert np.allclose(field_to_local._data_pointer, [0, 6])
+    assert np.allclose(field_to_local.entity_data_offsets, [0, 6])
     assert np.allclose(field_to_local.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
     assert np.allclose(field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
 
     with field_to_local.as_local_field() as f:
         f.data = [0.1, 0.2, 0.3, 0.1, 0.2, 0.3, 0.1, 0.2, 0.3, 0.1, 0.2, 0.4]
-        f._data_pointer = [0, 6]
+        f.entity_data_offsets = [0, 6]
         f.scoping_ids = [1, 2]
         assert np.allclose(
             f.data, [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
         )
-        assert np.allclose(f._data_pointer, [0, 6])
+        assert np.allclose(f.entity_data_offsets, [0, 6])
         assert np.allclose(f.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
         assert np.allclose(f.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
         assert hasattr(f, "_is_set") is True
@@ -862,18 +900,18 @@ def test_get_set_data_elemental_nodal_local_field(server_type_remote_process):
         field_to_local.data,
         [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]],
     )
-    assert np.allclose(field_to_local._data_pointer, [0, 6])
+    assert np.allclose(field_to_local.entity_data_offsets, [0, 6])
     assert np.allclose(field_to_local.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
     assert np.allclose(field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
 
     with field_to_local.as_local_field() as f:
         f.data = np.array([[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
-        f._data_pointer = [0, 6]
+        f.entity_data_offsets = [0, 6]
         f.scoping_ids = [1, 2]
         assert np.allclose(
             f.data, [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
         )
-        assert np.allclose(f._data_pointer, [0, 6])
+        assert np.allclose(f.entity_data_offsets, [0, 6])
         assert np.allclose(f.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
         assert np.allclose(f.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
         assert hasattr(f, "_is_set") is True
@@ -883,7 +921,7 @@ def test_get_set_data_elemental_nodal_local_field(server_type_remote_process):
         field_to_local.data,
         [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]],
     )
-    assert np.allclose(field_to_local._data_pointer, [0, 6])
+    assert np.allclose(field_to_local.entity_data_offsets, [0, 6])
     assert np.allclose(field_to_local.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
     assert np.allclose(field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
 
@@ -970,7 +1008,6 @@ def test_field_huge_amount_of_data(allkindofcomplexity):
     assert np.allclose(new_modif_data, modif_data)
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_field_mutable_data(server_clayer, allkindofcomplexity):
     # set data with a field created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
@@ -989,10 +1026,6 @@ def test_field_mutable_data(server_clayer, allkindofcomplexity):
     assert np.allclose(changed_data[0], data_copy[0] + 2.0)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="change in memory ownership in server 5.0",
-)
 def test_field_mutable_data_delete(server_clayer, allkindofcomplexity):
     # set data with a field created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
@@ -1019,11 +1052,10 @@ def get_simple_field(server_clayer):
     for i in range(0, 24):
         data[i] = i
     field.data = data
-    field._data_pointer = [0, 6, 12, 18]
+    field.entity_data_offsets = [0, 6, 12, 18]
     return field
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_mutable_entity_data_contiguous_field(server_clayer):
     simple_field = get_simple_field(server_clayer)
     vec = simple_field.get_entity_data(0)
@@ -1048,10 +1080,6 @@ def test_mutable_entity_data_contiguous_field(server_clayer):
     assert np.allclose(simple_field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]))
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="change in memory ownership in server 5.0",
-)
 def test_field_mutable_entity_data_by_id_delete(server_clayer):
     simple_field = get_simple_field(server_clayer)
     data = simple_field.get_entity_data_by_id(2)
@@ -1062,10 +1090,6 @@ def test_field_mutable_entity_data_by_id_delete(server_clayer):
     assert np.allclose(data, np.array([0, 7, 8, 9, 10, 11]))
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="change in memory ownership in server 5.0",
-)
 def test_field_mutable_entity_data_delete(server_clayer):
     simple_field = get_simple_field(server_clayer)
     data = simple_field.get_entity_data(1)
@@ -1076,7 +1100,6 @@ def test_field_mutable_entity_data_delete(server_clayer):
     assert np.allclose(data, np.array([0, 7, 8, 9, 10, 11]))
 
 
-@conftest.raises_for_servers_version_under("4.0")
 def test_mutable_entity_data_contiguous_field(server_clayer):
     field = dpf.core.Field(nentities=20, server=server_clayer)
     field_def = dpf.core.FieldDefinition(server=server_clayer)
@@ -1089,19 +1112,9 @@ def test_mutable_entity_data_contiguous_field(server_clayer):
     for i in range(0, 24):
         data[i] = i
     field.data = data
-    field._data_pointer = [0, 6, 12, 18]
+    field.entity_data_offsets = [0, 6, 12, 18]
 
     vec = field.get_entity_data(0)
-    assert np.allclose(vec, np.array(range(0, 6)))
-
-    vec[0][0] = 1
-    vec[0][5] = 4
-
-    assert np.allclose(vec, np.array([1, 1, 2, 3, 4, 4]))
-
-    vec.commit()
-
-    assert np.allclose(field.get_entity_data(0), np.array([1, 1, 2, 3, 4, 4]))
 
     vec = field.get_entity_data_by_id(2)
     assert np.allclose(vec, np.array(range(6, 12)))
@@ -1113,34 +1126,29 @@ def test_mutable_entity_data_contiguous_field(server_clayer):
     assert np.allclose(field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]))
 
 
-@conftest.raises_for_servers_version_under("4.0")
-def test_field_mutable_data_pointer(server_clayer, allkindofcomplexity):
+def test_field_mutable_entity_data_offsets(server_clayer, allkindofcomplexity):
     # set data with a field created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
     field = model.results.stress().outputs.fields_container()[0]
-    data = field._data_pointer
+    data = field.entity_data_offsets
     data_copy = copy.deepcopy(data)
     data[0] += 1
     data.commit()
-    changed_data = field._data_pointer
+    changed_data = field.entity_data_offsets
     assert np.allclose(changed_data, data)
     assert not np.allclose(changed_data, data_copy)
     assert np.allclose(changed_data[0], data_copy[0] + 1)
     data[0] += 1
     data = None
-    changed_data = field._data_pointer
+    changed_data = field.entity_data_offsets
     assert np.allclose(changed_data[0], data_copy[0] + 2)
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="change in memory ownership in server 5.0",
-)
-def test_field_mutable_data_pointer_delete(server_clayer, allkindofcomplexity):
+def test_field_mutable_entity_data_offsets_delete(server_clayer, allkindofcomplexity):
     # set data with a field created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
     field = model.results.stress().outputs.fields_container()[0]
-    data = field._data_pointer
+    data = field.entity_data_offsets
     data_copy = copy.deepcopy(data)
     field = None
     gc.collect()  # check that the memory is held by the dpfvector
@@ -1161,10 +1169,6 @@ def _deep_copy_test_identical_server(config):
     assert field.unit == copy.unit
 
 
-@pytest.mark.skipif(
-    running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="this server type does not exist before client" "dedicated to 4.0 server version",
-)
 def test_deep_copy_field_grpcclayer_to_grpcclayer():
     config = dpf.core.ServerConfig(
         protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=False
@@ -1177,17 +1181,6 @@ def test_deep_copy_field_grpclegacy_to_grpclegacy():
         protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=True
     )
     _deep_copy_test_identical_server(config)
-
-
-# @pytest.mark.skipif(
-#     running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-#     reason="this server type does not exist before client" "dedicated to 4.0 server version",
-# )
-# def test_deep_copy_field_inprocess_to_inprocess():
-#     config = dpf.core.ServerConfig(
-#         protocol=dpf.core.server_factory.CommunicationProtocols.InProcess, legacy=False
-#     )
-#     _deep_copy_test_identical_server(config)
 
 
 def test_deep_copy_field_2(plate_msup):
@@ -1392,7 +1385,7 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
         out = dpf.core.core._deep_copy(field_a, server_type_remote_process)
         assert np.allclose(out.data, data)
 
-elif conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0:
+elif conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
     # before server version 8.0 deep copying between a legacy grpc client and another client type
     # is not supported.
     @pytest.mark.skip
@@ -1439,7 +1432,7 @@ def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
 
 def test_set_units(server_type):
     data = np.random.random(100)
-    field = dpf.core.field_from_array(data)
+    field = dpf.core.field_from_array(data, server=server_type)
     # use string setter with recognized string
     field.unit = "m"
     assert field.unit == "m"
@@ -1447,7 +1440,7 @@ def test_set_units(server_type):
     if server_meet_version("11.0", server_type):
         # use tuple(Homogeneity, string) setter
         field.unit = (Homogeneity.dimensionless, "sones")
-        assert field.unit == "sones"
+        assert field.unit == (Homogeneity.dimensionless, "sones")
     else:
         with pytest.raises(DpfVersionNotSupported):
             # use tuple(Homogeneity, string) setter
@@ -1460,3 +1453,79 @@ def test_set_units(server_type):
     # use wrong type of arguments
     with pytest.raises(ValueError):
         field.unit = 1.0
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_11_0,
+    reason="Available for servers >=11.0 (2026 R1)",
+)
+def test_deep_copy_field_with_dimensionless_unit(server_type):
+    """Test that a field with dimensionless unit can be deep copied successfully."""
+    # Create a simple field with some data
+    my_field = dpf.core.Field(nentities=3, server=server_type)
+    my_field.scoping.ids = [1, 2, 3]
+    my_field.data = [1.0, 2.0, 3.0]
+
+    # Set a field's unit as dimensionless with a custom unit name
+    my_field.unit = (Homogeneity.dimensionless, "some_units")
+
+    # Attempt to create a deep copy
+    my_field_copy = my_field.deep_copy()
+
+    # Verify the copy was successful
+    assert my_field_copy is not None
+    assert my_field_copy.unit == my_field.unit
+    assert my_field_copy.unit == (Homogeneity.dimensionless, "some_units")
+
+@pytest.fixture(
+    params=[
+        pytest.param((dpf.core.natures.scalar, [1], 1, 1), id="scalar"),
+        pytest.param((dpf.core.natures.vector, [3], 3, 3), id="vector"),
+        pytest.param((dpf.core.natures.symmatrix, [3, 3], 9, 6), id="symmetric_matrix"),
+    ]
+)
+def dimensionality_test_data(request, server_type):
+    nature, dimensions, legacy_component_count, current_component_count = request.param
+    if not meets_version(server_type.version, "16.2"):
+        expected_component_count = legacy_component_count
+    else:
+        expected_component_count = current_component_count
+
+    dimensionality = dpf.core.Dimensionality(dimensions, nature, server=server_type)
+    return dimensionality, expected_component_count
+
+def test_dimensionality_component_count(dimensionality_test_data):
+    dimensionality, expected_component_count = dimensionality_test_data
+
+    assert dimensionality.component_count == expected_component_count
+
+
+def test_field_definition_set_dimensionality_component_count(
+    dimensionality_test_data, server_type
+):
+    dimensionality, expected_component_count = dimensionality_test_data
+    field_definition = FieldDefinition(server=server_type)
+
+    field_definition.dimensionality = dimensionality
+    dimensionality_out = field_definition.dimensionality
+
+    assert dimensionality_out == dimensionality
+    assert dimensionality_out.component_count == expected_component_count
+
+def test_field_definition_set_dimensionality_component_count_matrix(server_type):
+    nature, dimensions, legacy_component_count, current_component_count = (dpf.core.natures.matrix, [3, 3], 9, 9)
+    if not meets_version(server_type.version, "16.2"):
+        expected_component_count = legacy_component_count
+    else:
+        expected_component_count = current_component_count
+    dimensionality = dpf.core.Dimensionality(dimensions, nature, server=server_type)
+
+    assert dimensionality.component_count == expected_component_count
+
+    field_definition = FieldDefinition(server=server_type)
+    field_definition.dimensionality = dimensionality
+
+    if not meets_version(server_type.version, "16.2"):
+        assert field_definition.dimensionality == dpf.core.Dimensionality([3,3], dpf.core.natures.symmatrix)
+    else:
+        assert field_definition.dimensionality == dpf.core.Dimensionality([3,3], dpf.core.natures.matrix)

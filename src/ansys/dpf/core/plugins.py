@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2020 - 2026 Synopsys, Inc. and ANSYS, Inc. All rights reserved.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -27,25 +27,32 @@ Contains the utilities specific to installing and using Python DPF plugins.
 
 """
 
+from __future__ import annotations
+
 import os.path
 from pathlib import Path
 
 try:
     import importlib.metadata as importlib_metadata
 except ImportError:  # Python < 3.10 (backport)
-    import importlib_metadata as importlib_metadata
+    import importlib_metadata
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import server as server_module
 
 
-def load_plugin_on_server(plugin, server=None, symbol="load_operators", generate_operators=False):
+def load_plugin_on_server(
+    plugin: str | Path,
+    server: dpf.AnyServerType = None,
+    symbol: str = "load_operators",
+    generate_operators: bool = False,
+):
     """Load a DPF Python plugin on the global or given DPF server.
 
     Parameters
     ----------
     plugin:
-        DPF Python plugin to load.
+        Path to the DPF Python plugin to load.
     server:
         DPF server to load the plugin onto.
     symbol:

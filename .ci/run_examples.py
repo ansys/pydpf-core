@@ -1,17 +1,20 @@
-import glob
 import os
 from pathlib import Path
 import subprocess
 import sys
 
+from packaging.version import Version as PkgVersion
+
 import ansys.dpf.core as dpf
 from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
+
+_WINDOWS_ACCESS_VIOLATION_RETURNCODE = 3221225477  # 0xC0000005 STATUS_ACCESS_VIOLATION
 
 os.environ["PYVISTA_OFF_SCREEN"] = "true"
 os.environ["MPLBACKEND"] = "Agg"
 
 actual_path = Path(__file__).parent.absolute()
-examples_path = actual_path.parent / "examples"
+examples_path = actual_path.parent / "doc" / "sphinx_gallery_examples"
 print(examples_path)
 
 # Get the DPF server version
@@ -19,6 +22,14 @@ server = dpf.server.get_or_create_server(None)
 server_version = server.version
 server.shutdown()
 print(f"Server version: {server_version}")
+
+skipped_docker = [
+    "03-distributed-msup_expansion_steps.py",
+    "06-distributed_stress_averaging.py",
+    "01-distributed_workflows_on_remote.py",
+    "00-distributed_total_disp.py",
+    "02-distributed-msup_expansion.py",
+]
 
 for root, subdirectories, files in os.walk(examples_path):
     for subdirectory in subdirectories:
@@ -29,17 +40,24 @@ for root, subdirectories, files in os.walk(examples_path):
             elif "win" in sys.platform and "06-distributed_stress_averaging" in str(file):
                 # Currently very unstable in the GH CI
                 continue
+            if os.environ.get("DPF_DOCKER", None) is not None and Path(file).name in skipped_docker:
+                print(f"Skipping ${file} in Docker context", flush=True)
+                continue
+
             print("\n--------------------------------------------------")
             print(file)
             minimum_version_str = get_example_required_minimum_dpf_version(file)
-            if float(server_version) - float(minimum_version_str) < -0.05:
+            if PkgVersion(server_version) < PkgVersion(minimum_version_str):
                 print(f"Example skipped as it requires DPF {minimum_version_str}.", flush=True)
                 continue
             try:
-                out = subprocess.check_output([sys.executable, str(file)])
+                # Do not capture output when running Pyvista/VTK related examples
+                # Otherwise it might hang
+                p = subprocess.run(
+                    [sys.executable, str(file)], stdout=subprocess.DEVNULL, check=True
+                )
             except subprocess.CalledProcessError as e:
                 sys.stderr.write(str(e.args))
-                if e.returncode != 3221225477:
-                    print(out, flush=True)
+                if e.returncode != _WINDOWS_ACCESS_VIOLATION_RETURNCODE:
                     raise e
             print("PASS", flush=True)

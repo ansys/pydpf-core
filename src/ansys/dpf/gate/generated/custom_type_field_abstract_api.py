@@ -132,6 +132,10 @@ class CustomTypeFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def cscustom_type_field_set_header_as_data_tree(field, header):
+		raise NotImplementedError
+
+	@staticmethod
 	def cscustom_type_field_new_on_client(client, type, unitarySize, numEntities, numUnitaryData):
 		raise NotImplementedError
 

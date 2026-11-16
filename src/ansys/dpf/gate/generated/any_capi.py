@@ -177,6 +177,15 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		return res
 
 	@staticmethod
+	def any_get_as_generic_support(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_getAs_GenericSupport(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def any_get_as_workflow(any):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -303,6 +312,15 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		return res
 
 	@staticmethod
+	def any_get_as_label_space(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_getAs_LabelSpace(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def any_make_obj_as_any(dpf_object):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -352,6 +370,15 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Any_newFrom_FieldsContainer(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def any_new_from_property_fields_container(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_newFrom_PropertyFieldsContainer(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -550,6 +577,15 @@ class AnyCAPI(any_abstract_api.AnyAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.Any_newFrom_AnyCollection(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def any_new_from_generic_support(any):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Any_newFrom_GenericSupport(any._internal_obj if any is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

@@ -12,6 +12,9 @@ changelog:
     - title: Documentation
       labels:
         - documentation
+    - title: Tutorials
+      labels:
+        - tutorials
     - title: Examples
       labels:
         - examples

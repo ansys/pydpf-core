@@ -1,3 +1,4 @@
+from contextlib import suppress
 import sys
 import array
 import numpy as np
@@ -46,16 +47,12 @@ def _data_chunk_yielder(request, data, chunk_size=None, set_array=_set_array_to_
         if length - sent_length < unitary_size:
             unitary_size = length - sent_length
         yield request
-        try:
+        with suppress(Exception):
             if need_progress_bar:
                 bar.update(sent_length)
-        except:
-            pass
-    try:
+    with suppress(Exception):
         if need_progress_bar:
             bar.finish()
-    except:
-        pass
 
 
 def dtype_to_array_type(dtype):
@@ -92,27 +89,21 @@ def _data_get_chunk_(dtype, service, np_array=True, get_array=lambda chunk: chun
             curr_size = len(get_array(chunk)) // itemsize
             arr[i: i + curr_size] = np.frombuffer(get_array(chunk), dtype)
             i += curr_size
-            try:
+            with suppress(Exception):
                 if need_progress_bar:
                     bar.update(i)
-            except:
-                pass
 
     else:
         arr = []
         atype = dtype_to_array_type(dtype)
         for chunk in service:
             arr.extend(array.array(atype, get_array(chunk)))
-            try:
+            with suppress(Exception):
                 if need_progress_bar:
                     bar.update(len(arr))
-            except:
-                pass
-    try:
+    with suppress(Exception):
         if need_progress_bar:
             bar.finish()
-    except:
-        pass
     return arr
 
 

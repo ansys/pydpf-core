@@ -356,6 +356,15 @@ class ResultInfoCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
 		return newres
 
 	@staticmethod
+	def result_info_set_main_title(resultInfo, main_title):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ResultInfo_SetMainTitle(resultInfo._internal_obj if resultInfo is not None else None, utils.to_char_ptr(main_title), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def result_info_set_unit_system(resultInfo, unit_system):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
