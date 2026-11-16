@@ -461,26 +461,32 @@ def _copy_labels_images(app, exception):
 
 
 LATEX_MAX_LINE_LENGTH = 1000
+LATEX_MAX_OUTPUT_LINES = 100
 
 
-def _shorten_long_literal_lines(app, doctree, docname):
-    """Shorten very long code and output lines in the PDF.
+def _shorten_literal_blocks(app, doctree, docname):
+    """Shorten very long code lines and example outputs in the PDF.
 
-    TeX cannot read a line longer than 200,000 characters, and one long
-    example output line is sufficient to corrupt the full PDF.
+    TeX cannot read a line longer than 200,000 characters, and it runs out of
+    memory on very long example outputs. One such block stops the full PDF build.
     """
     if app.builder.name != "latex":
         return
     for block in doctree.findall(nodes.literal_block):
-        lines = block.astext().splitlines()
-        if all(len(line) <= LATEX_MAX_LINE_LENGTH for line in lines):
-            continue
-        text = "\n".join(
+        original_lines = block.astext().splitlines()
+        lines = [
             line if len(line) <= LATEX_MAX_LINE_LENGTH else line[:LATEX_MAX_LINE_LENGTH] + " ..."
-            for line in lines
-        )
-        block.rawsource = text
-        block.children = [nodes.Text(text)]
+            for line in original_lines
+        ]
+        is_example_output = "sphx-glr-script-out" in block["classes"]
+        if is_example_output and len(lines) > LATEX_MAX_OUTPUT_LINES:
+            omitted = len(lines) - LATEX_MAX_OUTPUT_LINES
+            lines = lines[:LATEX_MAX_OUTPUT_LINES]
+            lines.append(f"... ({omitted} more lines in the HTML documentation)")
+        if lines != original_lines:
+            text = "\n".join(lines)
+            block.rawsource = text
+            block.children = [nodes.Text(text)]
 
 
 def _remove_gif_images(app, doctree, docname):
@@ -511,7 +517,7 @@ def setup(app):
         app.add_role(name=role_name, role=BadgeRole(color))
 
     app.connect("build-finished", _copy_labels_images)
-    app.connect("doctree-resolved", _shorten_long_literal_lines)
+    app.connect("doctree-resolved", _shorten_literal_blocks)
     app.connect("doctree-resolved", _remove_gif_images)
 
 # Common content for every RST file such us links

@@ -210,6 +210,10 @@ Use the same Python environment and DPF server as for the HTML build.
 MiKTeX and ``latexmk`` must also be on ``PATH``.
 The command fails if Sphinx or LaTeX reports an error, even if a partial PDF exists.
 
+To stay within TeX memory limits, the PDF shows at most 100 lines per gallery
+output block. A notice identifies omitted lines. The HTML documentation keeps
+the full output.
+
 Three environment variables are available for the documentation build:
 
 - ``BUILD_EXAMPLES``: if set to ``true``, the examples are built. This is the
