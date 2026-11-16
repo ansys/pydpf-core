@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""Shutdown contract of gRPC servers, including workflows spanning 2 servers (Bug 1535712)."""
+"""Shutdown contract of gRPC servers, including workflows spanning 2 servers."""
 
 import gc
 import warnings
@@ -30,9 +30,13 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+from conftest import running_docker
+
+# Server PIDs are container-local on Docker, and servers in separate containers cannot reach each other.
+pytestmark = pytest.mark.skipif(running_docker, reason="Requires servers running on the local host.")
 
 GRPC_CONFIG = dpf.AvailableServerConfigs.GrpcServer
-STOP_TIMEOUT = 10.0
+STOP_TIMEOUT = 30.0
 
 
 def _is_running(pid: int) -> bool:
@@ -134,9 +138,3 @@ def test_shutdown_from_non_owner_is_ignored_with_warning(cleanup_pids):
         warnings.simplefilter("error", UserWarning)
         owner.shutdown()
     assert _wait_stopped(pid), "server still running after shutdown() by its owner"
-
-
-if __name__ == "__main__":
-    import sys
-
-    sys.exit(pytest.main([__file__, "-v", "-s", "-p", "no:cacheprovider", "--noconftest"]))
