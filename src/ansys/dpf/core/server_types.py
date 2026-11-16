@@ -573,6 +573,15 @@ class BaseServer(abc.ABC):
         """Must be implemented by subclasses."""
         pass
 
+    def _warn_shutdown_not_owned(self):
+        warnings.warn(
+            f"DPF server {getattr(self, '_address', '')} was not started by this client "
+            "(for example, it was connected to with connect_to_server()): shutdown() is ignored. "
+            "Stop the server from the process that started it.",
+            UserWarning,
+            stacklevel=3,
+        )
+
     def release(self):
         """Clear the available Operators and Releases licenses when necessary.
 
@@ -910,7 +919,17 @@ class GrpcServer(CServer):
         self._shutdown_func = (api.data_processing_release_server, self.client)
 
     def shutdown(self):
-        """Shutdown the server instance."""
+        """Shut down the server instance.
+
+        Only a client that started the server can shut it down: a server that was
+        only connected to (for example with :func:`connect_to_server`) is left running
+        and a warning is raised. Releasing the Python references to a server (for
+        example ``server = None``) does not stop it while other DPF objects still use it.
+        """
+        if not self._own_process:
+            if self.live:
+                self._warn_shutdown_not_owned()
+            return
         if self.live:
             _ = self.info  # initializing the info variable (giving access to ip and port): this can be required if start_local_server is called afterwards
             if self._remote_instance:
@@ -1451,8 +1470,17 @@ class LegacyGrpcServer(BaseServer):
         self._local_server = val
 
     def shutdown(self):
-        """Shutdown server instance."""
-        if self._own_process and self.live:
+        """Shut down the server instance.
+
+        Only a client that started the server can shut it down: a server that was
+        only connected to (for example with :func:`connect_to_server`) is left running
+        and a warning is raised.
+        """
+        if not self._own_process:
+            if self.live:
+                self._warn_shutdown_not_owned()
+            return
+        if self.live:
             _ = self.info  # initializing the info variable (giving access to ip and port): this can be required if start_local_server is called afterwards
             if self._remote_instance:
                 self._remote_instance.delete()
