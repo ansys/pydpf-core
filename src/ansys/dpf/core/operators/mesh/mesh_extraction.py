@@ -21,20 +21,29 @@ if TYPE_CHECKING:
 
 
 class mesh_extraction(Operator):
-    r"""Take a mesh and a scoping (elemental or nodal) and create a new mesh
-    that contains this selection only.
+    r"""Extracts a submesh from an input mesh using an elemental or nodal
+    scoping. A positive extension expands the scoping through mesh
+    connectivity before extraction, once per requested layer. When extension
+    is omitted or non-positive, the supplied scoping is used without
+    expansion. For an elemental scoping, output contains selected elements
+    and their nodes. For a nodal scoping, output contains selected nodes.
+    Mesh property fields and named selections are restricted to the
+    extracted mesh.
 
 
     Inputs
     ------
     mesh: MeshedRegion
+        Input mesh from which to extract a submesh.
     mesh_scoping: Scoping
+        Elemental or nodal scoping identifying the mesh entities to extract.
     extension: int, optional
-        Number of extension layer
+        Optional mesh-connectivity expansion count. Defaults to 0; non-positive values do not expand the scoping.
 
     Outputs
     -------
     abstract_meshed_region: MeshedRegion
+        Extracted submesh containing selected elements and their nodes, or selected nodes for a nodal scoping.
 
     Examples
     --------
@@ -81,8 +90,14 @@ class mesh_extraction(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Take a mesh and a scoping (elemental or nodal) and create a new mesh
-that contains this selection only.
+        description = r"""Extracts a submesh from an input mesh using an elemental or nodal
+scoping. A positive extension expands the scoping through mesh
+connectivity before extraction, once per requested layer. When extension
+is omitted or non-positive, the supplied scoping is used without
+expansion. For an elemental scoping, output contains selected elements
+and their nodes. For a nodal scoping, output contains selected nodes.
+Mesh property fields and named selections are restricted to the
+extracted mesh.
 """
         spec = Specification(
             description=description,
@@ -91,19 +106,19 @@ that contains this selection only.
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Input mesh from which to extract a submesh.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Elemental or nodal scoping identifying the mesh entities to extract.""",
                 ),
                 2: PinSpecification(
                     name="extension",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Number of extension layer""",
+                    document=r"""Optional mesh-connectivity expansion count. Defaults to 0; non-positive values do not expand the scoping.""",
                 ),
             },
             map_output_pin_spec={
@@ -111,7 +126,7 @@ that contains this selection only.
                     name="abstract_meshed_region",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Extracted submesh containing selected elements and their nodes, or selected nodes for a nodal scoping.""",
                 ),
             },
         )
@@ -196,6 +211,8 @@ class InputsMeshExtraction(_Inputs):
     def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
+        Input mesh from which to extract a submesh.
+
         Returns
         -------
         input:
@@ -214,6 +231,8 @@ class InputsMeshExtraction(_Inputs):
     @property
     def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
+
+        Elemental or nodal scoping identifying the mesh entities to extract.
 
         Returns
         -------
@@ -234,7 +253,7 @@ class InputsMeshExtraction(_Inputs):
     def extension(self) -> Input[int]:
         r"""Allows to connect extension input to the operator.
 
-        Number of extension layer
+        Optional mesh-connectivity expansion count. Defaults to 0; non-positive values do not expand the scoping.
 
         Returns
         -------
@@ -274,6 +293,8 @@ class OutputsMeshExtraction(_Outputs):
     @property
     def abstract_meshed_region(self) -> Output[MeshedRegion]:
         r"""Allows to get abstract_meshed_region output of the operator
+
+        Extracted submesh containing selected elements and their nodes, or selected nodes for a nodal scoping.
 
         Returns
         -------
