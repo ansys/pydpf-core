@@ -29,7 +29,7 @@ Starting a DPF Server without agreeing to the ``DPF Preview License Agreement`` 
 DPF Preview License Agreement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The standalone versions of DPF Server are protected using license terms specified in the `DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_
+The standalone versions of DPF Server are protected using license terms specified in the `DPFPreviewLicenseAgreement <https://download.ansys.com/assets/media/DPFPreviewLicenseAgreement.txt>`_
 file that can be found on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
 of the Ansys Customer Portal.
 The ``DPFPreviewLicenseAgreement`` file is a text file, which means that you can open it with a text editor, such as ``Notepad``.

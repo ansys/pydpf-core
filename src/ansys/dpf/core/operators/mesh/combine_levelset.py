@@ -20,17 +20,23 @@ if TYPE_CHECKING:
 
 
 class combine_levelset(Operator):
-    r"""Takes two level sets and computes their binary union.
+    r"""Computes the binary union of two signed level-set fields using the
+    entity-wise (component-wise) minimum, also known as the `pointwise
+    minimum <https://en.wikipedia.org/wiki/Minimum>`__. For corresponding
+    values, the output is :math:`\min(fieldA[i], fieldB[i])`.
 
 
     Inputs
     ------
     fieldA: Field
+        A field containing level-set values. The output is copied from this field and uses its scoping and field definition.
     fieldB: Field
+        A second level-set field whose values are combined entity-wise with fieldA values to compute the binary union.
 
     Outputs
     -------
     field: Field
+        A field containing the entity-wise minimum of corresponding fieldA and fieldB values. It uses fieldA's scoping and field definition.
 
     Examples
     --------
@@ -70,7 +76,10 @@ class combine_levelset(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Takes two level sets and computes their binary union.
+        description = r"""Computes the binary union of two signed level-set fields using the
+entity-wise (component-wise) minimum, also known as the `pointwise
+minimum <https://en.wikipedia.org/wiki/Minimum>`__. For corresponding
+values, the output is :math:`\min(fieldA[i], fieldB[i])`.
 """
         spec = Specification(
             description=description,
@@ -79,13 +88,13 @@ class combine_levelset(Operator):
                     name="fieldA",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""A field containing level-set values. The output is copied from this field and uses its scoping and field definition.""",
                 ),
                 1: PinSpecification(
                     name="fieldB",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""A second level-set field whose values are combined entity-wise with fieldA values to compute the binary union.""",
                 ),
             },
             map_output_pin_spec={
@@ -93,7 +102,7 @@ class combine_levelset(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""A field containing the entity-wise minimum of corresponding fieldA and fieldB values. It uses fieldA's scoping and field definition.""",
                 ),
             },
         )
@@ -172,6 +181,8 @@ class InputsCombineLevelset(_Inputs):
     def fieldA(self) -> Input[Field]:
         r"""Allows to connect fieldA input to the operator.
 
+        A field containing level-set values. The output is copied from this field and uses its scoping and field definition.
+
         Returns
         -------
         input:
@@ -190,6 +201,8 @@ class InputsCombineLevelset(_Inputs):
     @property
     def fieldB(self) -> Input[Field]:
         r"""Allows to connect fieldB input to the operator.
+
+        A second level-set field whose values are combined entity-wise with fieldA values to compute the binary union.
 
         Returns
         -------
@@ -229,6 +242,8 @@ class OutputsCombineLevelset(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        A field containing the entity-wise minimum of corresponding fieldA and fieldB values. It uses fieldA's scoping and field definition.
 
         Returns
         -------

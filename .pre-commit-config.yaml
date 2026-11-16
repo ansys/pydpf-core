@@ -32,12 +32,12 @@ repos:
     -   id: requirements-txt-fixer
 
 -   repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.13.6
+    rev: 0.13.7
     hooks:
     -   id: uv-lock
 
 -   repo: https://github.com/ansys/pre-commit-hooks
-    rev: v0.8.0
+    rev: v0.8.1
     hooks:
     -   id: add-license-headers
         args:

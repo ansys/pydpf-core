@@ -20,21 +20,27 @@ if TYPE_CHECKING:
 
 
 class edge_decimation(Operator):
-    r"""Takes a wireframe mesh (line elements) and reduces its node and edge
-    count by collapsing interior nodes whose two incident edges deviate from
-    straight by less than the given angular threshold. Branch nodes and
-    sharp corners are preserved.
+    r"""Reduces a wireframe mesh by removing interior nodes whose two incident
+    edges are nearly collinear. A node is removed only when it has two
+    incident edges with non-zero lengths and their deviation from a straight
+    line is strictly less than the angular threshold. Nodes with more than
+    two incident mesh connections, endpoints, and corners at or above the
+    threshold are not candidates for removal. Only supported line and edge
+    elements are converted to output edges; other element types do not
+    produce output elements.
 
 
     Inputs
     ------
     mesh: MeshedRegion
+        Input mesh containing line or edge elements to decimate. Supported line and edge element variants are converted to edge connections; other element types do not produce output elements.
     angular_limit_in_radian: float
-        angle threshold in radian that will trigger an edge removal.
+        Required angular threshold in radians. An interior node is removed when the deviation from straightness between its two incident edges is strictly less than this value. Non-positive values disable decimation.
 
     Outputs
     -------
     wireframe: MeshedRegion
+        Decimated wireframe mesh containing retained connectivity as 2-node line elements. Unsupported input elements and nodes not used by retained edges are omitted. Node coordinates, original node identifiers, and the mesh unit are retained; the output can be empty.
 
     Examples
     --------
@@ -76,10 +82,14 @@ class edge_decimation(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Takes a wireframe mesh (line elements) and reduces its node and edge
-count by collapsing interior nodes whose two incident edges deviate from
-straight by less than the given angular threshold. Branch nodes and
-sharp corners are preserved.
+        description = r"""Reduces a wireframe mesh by removing interior nodes whose two incident
+edges are nearly collinear. A node is removed only when it has two
+incident edges with non-zero lengths and their deviation from a straight
+line is strictly less than the angular threshold. Nodes with more than
+two incident mesh connections, endpoints, and corners at or above the
+threshold are not candidates for removal. Only supported line and edge
+elements are converted to output edges; other element types do not
+produce output elements.
 """
         spec = Specification(
             description=description,
@@ -88,13 +98,13 @@ sharp corners are preserved.
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Input mesh containing line or edge elements to decimate. Supported line and edge element variants are converted to edge connections; other element types do not produce output elements.""",
                 ),
                 1: PinSpecification(
                     name="angular_limit_in_radian",
                     type_names=["double"],
                     optional=False,
-                    document=r"""angle threshold in radian that will trigger an edge removal.""",
+                    document=r"""Required angular threshold in radians. An interior node is removed when the deviation from straightness between its two incident edges is strictly less than this value. Non-positive values disable decimation.""",
                 ),
             },
             map_output_pin_spec={
@@ -102,7 +112,7 @@ sharp corners are preserved.
                     name="wireframe",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Decimated wireframe mesh containing retained connectivity as 2-node line elements. Unsupported input elements and nodes not used by retained edges are omitted. Node coordinates, original node identifiers, and the mesh unit are retained; the output can be empty.""",
                 ),
             },
         )
@@ -181,6 +191,8 @@ class InputsEdgeDecimation(_Inputs):
     def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
 
+        Input mesh containing line or edge elements to decimate. Supported line and edge element variants are converted to edge connections; other element types do not produce output elements.
+
         Returns
         -------
         input:
@@ -200,7 +212,7 @@ class InputsEdgeDecimation(_Inputs):
     def angular_limit_in_radian(self) -> Input[float]:
         r"""Allows to connect angular_limit_in_radian input to the operator.
 
-        angle threshold in radian that will trigger an edge removal.
+        Required angular threshold in radians. An interior node is removed when the deviation from straightness between its two incident edges is strictly less than this value. Non-positive values disable decimation.
 
         Returns
         -------
@@ -240,6 +252,8 @@ class OutputsEdgeDecimation(_Outputs):
     @property
     def wireframe(self) -> Output[MeshedRegion]:
         r"""Allows to get wireframe output of the operator
+
+        Decimated wireframe mesh containing retained connectivity as 2-node line elements. Unsupported input elements and nodes not used by retained edges are omitted. Node coordinates, original node identifiers, and the mesh unit are retained; the output can be empty.
 
         Returns
         -------

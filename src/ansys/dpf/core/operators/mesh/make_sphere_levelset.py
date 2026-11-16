@@ -21,20 +21,29 @@ if TYPE_CHECKING:
 
 
 class make_sphere_levelset(Operator):
-    r"""Computes the level set for a sphere using coordinates.
+    r"""Computes a scalar value for each coordinate relative to a sphere. For
+    coordinate :math:`\mathbf{x}`, sphere center :math:`\mathbf{x}_0`, and
+    radius :math:`r`, the value is
+    :math:`\sqrt{\|\mathbf{x}-\mathbf{x}_0\|^2-r^2}`. Values are zero on the
+    sphere surface. For coordinates inside the sphere, the square-root
+    argument is negative and the output value is NaN. The coordinates input
+    accepts either a coordinate field or a meshed region; for a meshed
+    region, its coordinate field is used.
 
 
     Inputs
     ------
     coordinates: MeshedRegion or Field
+        A coordinate field or meshed region providing 3D coordinates. If a meshed region is provided, its coordinate field is used.
     origin: Field
-        An overall 3d vector that gives a point of the plane.
+        An overall 3-component vector with one entity defining the sphere center.
     radius: float
-        Sphere radius.
+        A scalar sphere radius. The implementation squares this value, so its sign does not affect the result.
 
     Outputs
     -------
     field: Field
+        A scalar field with one value for each coordinate entity. It uses the coordinate input's scoping and unit and is supported by the coordinate field or mesh.
 
     Examples
     --------
@@ -81,7 +90,14 @@ class make_sphere_levelset(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Computes the level set for a sphere using coordinates.
+        description = r"""Computes a scalar value for each coordinate relative to a sphere. For
+coordinate :math:`\mathbf{x}`, sphere center :math:`\mathbf{x}_0`, and
+radius :math:`r`, the value is
+:math:`\sqrt{\|\mathbf{x}-\mathbf{x}_0\|^2-r^2}`. Values are zero on the
+sphere surface. For coordinates inside the sphere, the square-root
+argument is negative and the output value is NaN. The coordinates input
+accepts either a coordinate field or a meshed region; for a meshed
+region, its coordinate field is used.
 """
         spec = Specification(
             description=description,
@@ -90,19 +106,19 @@ class make_sphere_levelset(Operator):
                     name="coordinates",
                     type_names=["abstract_meshed_region", "field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""A coordinate field or meshed region providing 3D coordinates. If a meshed region is provided, its coordinate field is used.""",
                 ),
                 1: PinSpecification(
                     name="origin",
                     type_names=["field"],
                     optional=False,
-                    document=r"""An overall 3d vector that gives a point of the plane.""",
+                    document=r"""An overall 3-component vector with one entity defining the sphere center.""",
                 ),
                 2: PinSpecification(
                     name="radius",
                     type_names=["double"],
                     optional=False,
-                    document=r"""Sphere radius.""",
+                    document=r"""A scalar sphere radius. The implementation squares this value, so its sign does not affect the result.""",
                 ),
             },
             map_output_pin_spec={
@@ -110,7 +126,7 @@ class make_sphere_levelset(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""A scalar field with one value for each coordinate entity. It uses the coordinate input's scoping and unit and is supported by the coordinate field or mesh.""",
                 ),
             },
         )
@@ -195,6 +211,8 @@ class InputsMakeSphereLevelset(_Inputs):
     def coordinates(self) -> Input[MeshedRegion | Field]:
         r"""Allows to connect coordinates input to the operator.
 
+        A coordinate field or meshed region providing 3D coordinates. If a meshed region is provided, its coordinate field is used.
+
         Returns
         -------
         input:
@@ -214,7 +232,7 @@ class InputsMakeSphereLevelset(_Inputs):
     def origin(self) -> Input[Field]:
         r"""Allows to connect origin input to the operator.
 
-        An overall 3d vector that gives a point of the plane.
+        An overall 3-component vector with one entity defining the sphere center.
 
         Returns
         -------
@@ -235,7 +253,7 @@ class InputsMakeSphereLevelset(_Inputs):
     def radius(self) -> Input[float]:
         r"""Allows to connect radius input to the operator.
 
-        Sphere radius.
+        A scalar sphere radius. The implementation squares this value, so its sign does not affect the result.
 
         Returns
         -------
@@ -275,6 +293,8 @@ class OutputsMakeSphereLevelset(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        A scalar field with one value for each coordinate entity. It uses the coordinate input's scoping and unit and is supported by the coordinate field or mesh.
 
         Returns
         -------
