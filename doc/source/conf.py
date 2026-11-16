@@ -17,6 +17,7 @@ from ansys_sphinx_theme import (
     watermark,
 )
 from docutils import nodes
+from docutils.parsers.rst import Directive
 import numpy as np
 import pyvista
 from pyvista.plotting.utilities.sphinx_gallery import DynamicScraper
@@ -512,6 +513,27 @@ def _exclude_operator_api_from_pdf(app):
         app.config.exclude_patterns.append("api/ansys/dpf/core/operators/**")
 
 
+class _SkipDirective(Directive):
+    """Directive that adds nothing to the document."""
+
+    optional_arguments = 1
+    final_argument_whitespace = True
+    has_content = True
+
+    def run(self):
+        return []
+
+
+def _skip_interactive_scenes_in_pdf(app):
+    """Skip the interactive PyVista scenes in the PDF.
+
+    The "offlineviewer" directive only makes HTML, and it fails with the LaTeX
+    builder. The PDF keeps the static image of each scene.
+    """
+    if app.builder.name == "latex":
+        app.add_directive("offlineviewer", _SkipDirective, override=True)
+
+
 # Define custom docutils roles for solver badges
 from sphinx_design.badges_buttons import BadgeRole
 
@@ -530,6 +552,7 @@ def setup(app):
     app.connect("doctree-resolved", _shorten_literal_blocks)
     app.connect("doctree-resolved", _remove_gif_images)
     app.connect("builder-inited", _exclude_operator_api_from_pdf)
+    app.connect("builder-inited", _skip_interactive_scenes_in_pdf)
 
 # Common content for every RST file such us links
 rst_epilog = ""
