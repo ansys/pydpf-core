@@ -502,6 +502,16 @@ def _remove_gif_images(app, doctree, docname):
             node.parent.remove(node)
 
 
+def _exclude_operator_api_from_pdf(app):
+    """Remove the generated operator API pages from the PDF.
+
+    These pages make a PDF of more than 11,000 pages, which is more than TeX can
+    process. The "Operators" section links to the full operator documentation.
+    """
+    if app.builder.name == "latex":
+        app.config.exclude_patterns.append("api/ansys/dpf/core/operators/**")
+
+
 # Define custom docutils roles for solver badges
 from sphinx_design.badges_buttons import BadgeRole
 
@@ -519,6 +529,7 @@ def setup(app):
     app.connect("build-finished", _copy_labels_images)
     app.connect("doctree-resolved", _shorten_literal_blocks)
     app.connect("doctree-resolved", _remove_gif_images)
+    app.connect("builder-inited", _exclude_operator_api_from_pdf)
 
 # Common content for every RST file such us links
 rst_epilog = ""

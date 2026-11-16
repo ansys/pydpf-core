@@ -35,7 +35,8 @@ if "%1" == "pdf" goto pdf
 goto end
 
 :pdf
-%SPHINXBUILD% -M latex %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+REM The PDF build uses its own doctree folder, because it includes fewer pages than the HTML build.
+%SPHINXBUILD% -M latex %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O% -d %BUILDDIR%\doctrees-latex
 if errorlevel 1 goto pdf-error
 REM latexmk reads the latexmkrc file that Sphinx writes, which selects the LaTeX engine.
 pushd %BUILDDIR%\latex
