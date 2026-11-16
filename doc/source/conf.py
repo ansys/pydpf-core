@@ -483,6 +483,19 @@ def _shorten_long_literal_lines(app, doctree, docname):
         block.children = [nodes.Text(text)]
 
 
+def _remove_gif_images(app, doctree, docname):
+    """Remove animated GIF images from the PDF, because LaTeX cannot include them.
+
+    Sphinx-gallery gives the GIF path directly to LaTeX, so Sphinx cannot
+    select or convert a different image format.
+    """
+    if app.builder.name != "latex":
+        return
+    for node in list(doctree.findall(nodes.Element)):
+        if node.get("uri", "").lower().endswith(".gif"):
+            node.parent.remove(node)
+
+
 # Define custom docutils roles for solver badges
 from sphinx_design.badges_buttons import BadgeRole
 
@@ -499,6 +512,7 @@ def setup(app):
 
     app.connect("build-finished", _copy_labels_images)
     app.connect("doctree-resolved", _shorten_long_literal_lines)
+    app.connect("doctree-resolved", _remove_gif_images)
 
 # Common content for every RST file such us links
 rst_epilog = ""
