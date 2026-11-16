@@ -16,6 +16,7 @@ from ansys_sphinx_theme import (
     pyansys_logo_light_mode,
     watermark,
 )
+from docutils import nodes
 import numpy as np
 import pyvista
 from pyvista.plotting.utilities.sphinx_gallery import DynamicScraper
@@ -458,6 +459,30 @@ def _copy_labels_images(app, exception):
         dst = target_dir / src.name
         shutil.copy2(src, dst)
 
+
+LATEX_MAX_LINE_LENGTH = 1000
+
+
+def _shorten_long_literal_lines(app, doctree, docname):
+    """Shorten very long code and output lines in the PDF.
+
+    TeX cannot read a line longer than 200,000 characters, and one long
+    example output line is sufficient to corrupt the full PDF.
+    """
+    if app.builder.name != "latex":
+        return
+    for block in doctree.findall(nodes.literal_block):
+        lines = block.astext().splitlines()
+        if all(len(line) <= LATEX_MAX_LINE_LENGTH for line in lines):
+            continue
+        text = "\n".join(
+            line if len(line) <= LATEX_MAX_LINE_LENGTH else line[:LATEX_MAX_LINE_LENGTH] + " ..."
+            for line in lines
+        )
+        block.rawsource = text
+        block.children = [nodes.Text(text)]
+
+
 # Define custom docutils roles for solver badges
 from sphinx_design.badges_buttons import BadgeRole
 
@@ -473,6 +498,7 @@ def setup(app):
         app.add_role(name=role_name, role=BadgeRole(color))
 
     app.connect("build-finished", _copy_labels_images)
+    app.connect("doctree-resolved", _shorten_long_literal_lines)
 
 # Common content for every RST file such us links
 rst_epilog = ""

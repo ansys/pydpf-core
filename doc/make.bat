@@ -35,15 +35,20 @@ if "%1" == "pdf" goto pdf
 goto end
 
 :pdf
-REM Continue after LaTeX errors so that one bad character does not stop the PDF build.
-set LATEXMKOPTS=-f -interaction=nonstopmode
-%SPHINXBUILD% -M latexpdf %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
-if not exist "%BUILDDIR%\latex\pydpf-core.pdf" (
-	echo.The PDF documentation was not generated. See the logs in %BUILDDIR%\latex.
-	popd
-	exit /b 1
-)
+%SPHINXBUILD% -M latex %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+if errorlevel 1 goto pdf-error
+REM latexmk reads the latexmkrc file that Sphinx writes, which selects the LaTeX engine.
+pushd %BUILDDIR%\latex
+latexmk -pdf -interaction=nonstopmode -halt-on-error pydpf-core.tex
+set LATEXMK_ERROR=%errorlevel%
+popd
+if not "%LATEXMK_ERROR%" == "0" goto pdf-error
 goto end
+
+:pdf-error
+echo.The PDF build failed. See the logs in %BUILDDIR%\latex.
+popd
+exit /b 1
 
 :clean
 echo.Cleaning files form previous build...
