@@ -157,6 +157,8 @@ jobs:
           group-dependencies-name: "doc,tox"
           optional-dependencies-name: "graphics"
           dependencies: "pandoc graphviz"
+          # On Windows, a cache hit skips "choco install", so the "dot" command of Graphviz is not available.
+          skip-dependencies-cache: true
           needs-quarto: true
           check-links: false
           sphinxopts: "-j auto --color"
