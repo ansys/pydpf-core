@@ -47,6 +47,7 @@ from ansys.dpf.core.server import (
 )
 from ansys.dpf.core.server_factory import CommunicationProtocols, GrpcMode, ServerConfig
 from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_10_0,
     raises_for_servers_version_under,
     remove_none_available_config,
@@ -470,6 +471,10 @@ requires_local_servers = pytest.mark.skipif(
 
 
 @requires_local_servers
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    reason="Before 8.0, a server used by another server stays alive after shutdown().",
+)
 def test_owner_shutdown_stops_server_used_by_another_server(cleanup_pids):
     """An explicit ``shutdown()`` by the owner always stops the server."""
     server1, server2, (pid1, pid2), ds, disp_op, norm_op = _build_cross_server_workflow()
