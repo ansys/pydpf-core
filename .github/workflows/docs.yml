@@ -103,8 +103,8 @@ jobs:
           ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
           skip-python-install: "true"
 
-      # The doc-build action makes its own virtual environment, so the server package
-      # is not installed. PyDPF-Core finds the server through ANSYS_DPF_PATH instead.
+      # The ansys/actions/doc-build action makes its own virtual environment, so this step is
+      # needed to ensure PyDPF-Core finds the server through ANSYS_DPF_PATH instead.
       - name: "Point PyDPF-Core to the standalone DPF server"
         if: env.MODE == 'PIP'
         shell: pwsh
@@ -151,13 +151,10 @@ jobs:
         uses: ansys/actions/doc-build@fix/doc-build-windows-latex
         with:
           python-version: ${{ inputs.python_version }}
-          # A new checkout would clean the DPF server and the restored doc build cache.
           checkout: false
-          # conf.py runs "tox list" to show the tox environments in the contribution guide.
           group-dependencies-name: "doc,tox"
           optional-dependencies-name: "graphics"
           dependencies: "pandoc graphviz"
-          # On Windows, a cache hit skips "choco install", so the "dot" command of Graphviz is not available.
           skip-dependencies-cache: true
           needs-quarto: true
           check-links: false

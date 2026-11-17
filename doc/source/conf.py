@@ -238,6 +238,23 @@ class _TutorialFileOrder:
     def __call__(self, filename):
         return _read_order(self._src_dir / filename)
 
+def _copy_labels_images(app, exception):
+    """Override sphinx-gallery images for 03-labels.py example.
+
+    The images captured during CI run do not show the labels as expected,
+    and the behavior is not reproducible locally. This hook replaces whatever
+    sphinx-gallery generated during the CI run.
+    """
+    _LABELS_IMAGES_SRC = Path(__file__).parent / "images" / "plotting"
+    _LABELS_IMAGES_PATTERN = "sphx_glr_03-labels"
+    if exception:
+        return
+    target_dir = Path(app.outdir) / "_images"
+    if not target_dir.exists():
+        return
+    for src in _LABELS_IMAGES_SRC.glob(f"{_LABELS_IMAGES_PATTERN}*"):
+        dst = target_dir / src.name
+        shutil.copy2(src, dst)
 
 sphinx_gallery_conf = {
     # convert rst to md for ipynb
@@ -442,24 +459,7 @@ epub_title = project
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
 
-def _copy_labels_images(app, exception):
-    """Override sphinx-gallery images for 03-labels.py example.
-
-    The images captured during CI run do not show the labels as expected,
-    and the behavior is not reproducible locally. This hook replaces whatever
-    sphinx-gallery generated during the CI run.
-    """
-    _LABELS_IMAGES_SRC = Path(__file__).parent / "images" / "plotting"
-    _LABELS_IMAGES_PATTERN = "sphx_glr_03-labels"
-    if exception:
-        return
-    target_dir = Path(app.outdir) / "_images"
-    if not target_dir.exists():
-        return
-    for src in _LABELS_IMAGES_SRC.glob(f"{_LABELS_IMAGES_PATTERN}*"):
-        dst = target_dir / src.name
-        shutil.copy2(src, dst)
-
+# -- Hooks necessary for a successful build of the PDF documentation-------------
 
 LATEX_MAX_LINE_LENGTH = 1000
 LATEX_MAX_OUTPUT_LINES = 100
@@ -469,7 +469,7 @@ def _shorten_literal_blocks(app, doctree, docname):
     """Shorten very long code lines and example outputs in the PDF.
 
     TeX cannot read a line longer than 200,000 characters, and it runs out of
-    memory on very long example outputs. One such block stops the full PDF build.
+    memory on very long example outputs, which causes failure of PDF build.
     """
     if app.builder.name != "latex":
         return
@@ -491,11 +491,7 @@ def _shorten_literal_blocks(app, doctree, docname):
 
 
 def _remove_gif_images(app, doctree, docname):
-    """Remove animated GIF images from the PDF, because LaTeX cannot include them.
-
-    Sphinx-gallery gives the GIF path directly to LaTeX, so Sphinx cannot
-    select or convert a different image format.
-    """
+    """Remove animated GIF images from the PDF, because LaTeX cannot include them."""
     if app.builder.name != "latex":
         return
     for node in list(doctree.findall(nodes.Element)):
@@ -507,7 +503,7 @@ def _exclude_operator_api_from_pdf(app):
     """Remove the generated operator API pages from the PDF.
 
     These pages make a PDF of more than 11,000 pages, which is more than TeX can
-    process. The "Operators" section links to the full operator documentation.
+    process. The "Operators" section links to searchable operator documentation.
     """
     if app.builder.name == "latex":
         app.config.exclude_patterns.append("api/ansys/dpf/core/operators/**")
