@@ -20,20 +20,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import gc
 import os
 import platform
-import gc
 import subprocess
 import sys
 import time
 from unittest.mock import Mock
+import warnings
 
+import grpc
 import packaging.version
 import psutil
 import pytest
 
 from ansys import dpf
-from ansys.dpf.core import errors, server, server_types
+from ansys.dpf.core import errors, examples, server, server_types
 from ansys.dpf.core.server import (
     _global_server,
     connect_to_server,
@@ -415,3 +417,134 @@ def test_available_servers():
             assert srv.local_server
             srv = out[version]()
             assert srv.local_server
+
+
+STOP_TIMEOUT = 30.0
+
+
+def _is_running(pid: int) -> bool:
+    try:
+        return psutil.Process(pid).status() != psutil.STATUS_ZOMBIE
+    except psutil.NoSuchProcess:
+        return False
+
+
+def _wait_stopped(pid: int, timeout: float = STOP_TIMEOUT) -> bool:
+    try:
+        psutil.Process(pid).wait(timeout=timeout)
+    except psutil.NoSuchProcess:
+        pass
+    except psutil.TimeoutExpired:
+        return False
+    return True
+
+
+def _build_cross_server_workflow():
+    config = dpf.core.AvailableServerConfigs.GrpcServer
+    server1 = start_local_server(as_global=False, config=config)
+    server2 = start_local_server(as_global=False, config=config)
+    pids = (server1.info["server_process_id"], server2.info["server_process_id"])
+
+    ds = dpf.core.DataSources(examples.find_static_rst(server=server1), server=server1)
+    disp_op = dpf.core.operators.result.displacement(server=server1)
+    disp_op.inputs.data_sources.connect(ds)
+
+    norm_op = dpf.core.operators.math.norm_fc(server=server2)
+    norm_op.inputs.connect(disp_op.outputs)
+    return server1, server2, pids, ds, disp_op, norm_op
+
+
+@pytest.fixture
+def cleanup_pids():
+    pids = []
+    yield pids
+    for pid in pids:
+        if _is_running(pid):
+            psutil.Process(pid).kill()
+
+
+# On Docker, server PIDs are container-local and servers in separate containers cannot reach each other.
+requires_local_servers = pytest.mark.skipif(
+    running_docker, reason="Requires servers running on the local host."
+)
+
+
+@requires_local_servers
+def test_owner_shutdown_stops_server_used_by_another_server(cleanup_pids):
+    """An explicit ``shutdown()`` by the owner always stops the server."""
+    server1, server2, (pid1, pid2), ds, disp_op, norm_op = _build_cross_server_workflow()
+    cleanup_pids.extend([pid1, pid2])
+
+    server1.shutdown()
+    assert _wait_stopped(pid1), "server1 still running after shutdown()"
+    assert _is_running(pid2)
+
+    with pytest.raises(errors.DPFServerException):
+        norm_op.get_output(0, dpf.core.types.fields_container)
+
+    server2.shutdown()
+    assert _wait_stopped(pid2), "server2 still running after shutdown()"
+
+
+@requires_local_servers
+def test_cross_server_workflow_survives_dereference(cleanup_pids):
+    """Dropping the Python references keeps a server alive while DPF objects still use it."""
+    server1, server2, (pid1, pid2), ds, disp_op, norm_op = _build_cross_server_workflow()
+    cleanup_pids.extend([pid1, pid2])
+
+    del server1
+    gc.collect()
+    assert not _wait_stopped(pid1, timeout=2.0), "server1 stopped while still used by server2"
+    assert _is_running(pid2)
+
+    fc = norm_op.get_output(0, dpf.core.types.fields_container)
+    assert fc[0].max().data_as_list[0] > 0.0
+
+    del server2, ds, disp_op, norm_op, fc
+    # operators are in reference cycles (op -> op._outputs -> op)
+    gc.collect()
+    assert _wait_stopped(pid2), "server2 still running after dereference"
+    assert _wait_stopped(pid1), "server1 still running after dereference"
+
+
+@requires_local_servers
+@pytest.mark.parametrize(
+    "config",
+    [
+        dpf.core.AvailableServerConfigs.GrpcServer,
+        dpf.core.AvailableServerConfigs.LegacyGrpcServer,
+    ],
+    ids=["gRPC CLayer", "ansys-grpc-dpf"],
+)
+def test_shutdown_from_non_owner_is_ignored_with_warning(cleanup_pids, config):
+    owner = start_local_server(as_global=False, config=config)
+    pid = owner.info["server_process_id"]
+    cleanup_pids.append(pid)
+    connected = connect_to_server(ip=owner.ip, port=owner.port, as_global=False, config=config)
+
+    with pytest.warns(UserWarning, match="was not started by this client"):
+        connected.shutdown()
+    assert not _wait_stopped(pid, timeout=2.0), "server stopped by a client that did not start it"
+    assert dpf.core.Field(server=connected)._internal_obj is not None
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", UserWarning)
+        owner.shutdown()
+    assert _wait_stopped(pid), "server still running after shutdown() by its owner"
+
+
+@requires_local_servers
+def test_legacy_shutdown_kills_process_when_release_fails(cleanup_pids):
+    server_legacy = start_local_server(
+        as_global=False, config=dpf.core.AvailableServerConfigs.LegacyGrpcServer
+    )
+    pid = server_legacy.info["server_process_id"]
+    cleanup_pids.append(pid)
+
+    def failing_release(_):
+        raise grpc.RpcError("release failed")
+
+    server_legacy._shutdown_func = (failing_release, None)
+    with pytest.warns(UserWarning, match="couldn't properly release server"):
+        server_legacy.shutdown()
+    assert _wait_stopped(pid), "server still running after a failed release"

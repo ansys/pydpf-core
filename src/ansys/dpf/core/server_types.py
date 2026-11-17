@@ -1061,12 +1061,12 @@ class GrpcServer(CServer):
             try:
                 if hasattr(self, "_preparing_shutdown_func"):
                     self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
-            except Exception as e:
+            except errors.DPFServerException as e:
                 warnings.warn("couldn't prepare shutdown: " + str(e.args))
             try:
                 if hasattr(self, "_shutdown_func"):
                     self._shutdown_func[0](self._shutdown_func[1])
-            except Exception as e:
+            except errors.DPFServerException as e:
                 warnings.warn("couldn't shutdown server: " + str(e.args))
 
             self._docker_config.remove_docker_image()
@@ -1653,36 +1653,35 @@ class LegacyGrpcServer(BaseServer):
                 self._warn_shutdown_not_owned()
             return
         if self.live:
+            import grpc
+
             _ = self.info  # initializing the info variable (giving access to ip and port): this can be required if start_local_server is called afterwards
             if self._remote_instance:
                 self._remote_instance.delete()
             try:
                 if hasattr(self, "_preparing_shutdown_func"):
                     self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
-            except Exception as e:
+            except grpc.RpcError as e:
                 warnings.warn("couldn't prepare shutdown: " + str(e.args))
 
             else:
                 try:
-                    if hasattr(self, "_shutdown_func"):
+                    if getattr(self, "_shutdown_func", (None,))[0] is not None:
                         self._shutdown_func[0](self._shutdown_func[1])
-                except Exception as e:
+                except grpc.RpcError as e:
                     self._kill_server_process(e)
 
             self.live = False
             self._docker_config.remove_docker_image()
 
     def _kill_server_process(self, release_error):
+        warnings.warn(
+            f"couldn't properly release server: {str(release_error.args)}.\n Killing process."
+        )
         try:
-            if self.meet_version("4.0"):
-                warnings.warn(
-                    f"couldn't properly release server: {str(release_error.args)}"
-                    ".\n Killing process."
-                )
-            p = psutil.Process(self.info["server_process_id"])
-            p.kill()
+            psutil.Process(self.info["server_process_id"]).kill()
             time.sleep(0.01)
-        except:
+        except psutil.Error:
             warnings.warn(traceback.format_exc())
 
     @property
