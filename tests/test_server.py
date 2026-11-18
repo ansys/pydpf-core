@@ -553,3 +553,102 @@ def test_legacy_shutdown_kills_process_when_release_fails(cleanup_pids):
     with pytest.warns(UserWarning, match="couldn't properly release server"):
         server_legacy.shutdown()
     assert _wait_stopped(pid), "server still running after a failed release"
+
+
+# The tests below use server objects without a running DPF server, so they also run on Docker.
+def _offline_server(server_type, own_process, **attributes):
+    server_object = object.__new__(server_type)
+    server_object._own_process = own_process
+    server_object.live = True
+    server_object._address = "127.0.0.1:0"
+    server_object._info_instance = {
+        "server_ip": "127.0.0.1",
+        "server_port": 0,
+        "server_process_id": 0,
+    }
+    server_object._session_instance = None
+    server_object._remote_instance = None
+    server_object._docker_config = Mock()
+    for name, value in attributes.items():
+        setattr(server_object, name, value)
+    return server_object
+
+
+def _raise(exception):
+    def func(_):
+        raise exception
+
+    return func
+
+
+@pytest.mark.parametrize("server_type", [server_types.GrpcServer, server_types.LegacyGrpcServer])
+def test_shutdown_of_not_owned_server_is_ignored(server_type):
+    release = Mock()
+    server_object = _offline_server(server_type, own_process=False, _shutdown_func=(release, None))
+
+    with pytest.warns(UserWarning, match="was not started by this client"):
+        server_object.shutdown()
+    release.assert_not_called()
+    assert server_object.live
+
+    server_object.live = False
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", UserWarning)
+        server_object.shutdown()
+
+
+def test_grpc_server_shutdown_warns_when_server_calls_fail():
+    failing = _raise(errors.DPFServerException("server error"))
+    server_object = _offline_server(
+        server_types.GrpcServer,
+        own_process=True,
+        _preparing_shutdown_func=(failing, None),
+        _shutdown_func=(failing, None),
+    )
+
+    with pytest.warns(UserWarning, match="couldn't prepare shutdown"):
+        with pytest.warns(UserWarning, match="couldn't shutdown server"):
+            server_object.shutdown()
+    assert not server_object.live
+    server_object._docker_config.remove_docker_image.assert_called_once_with()
+
+
+def test_legacy_shutdown_skips_release_when_prepare_fails():
+    release = Mock()
+    server_object = _offline_server(
+        server_types.LegacyGrpcServer,
+        own_process=True,
+        _preparing_shutdown_func=(_raise(grpc.RpcError("prepare failed")), None),
+        _shutdown_func=(release, None),
+    )
+
+    with pytest.warns(UserWarning, match="couldn't prepare shutdown"):
+        server_object.shutdown()
+    release.assert_not_called()
+    assert not server_object.live
+
+
+@pytest.mark.parametrize(
+    "kill_error", [None, psutil.NoSuchProcess(0)], ids=["killed", "kill fails"]
+)
+def test_legacy_shutdown_kills_process_when_release_fails_offline(monkeypatch, kill_error):
+    process_cls = Mock()
+    process_cls.return_value.kill.side_effect = kill_error
+    monkeypatch.setattr(server_types.psutil, "Process", process_cls)
+    server_object = _offline_server(
+        server_types.LegacyGrpcServer,
+        own_process=True,
+        _preparing_shutdown_func=(Mock(), None),
+        _shutdown_func=(_raise(grpc.RpcError("release failed")), None),
+    )
+
+    with warnings.catch_warnings(record=True) as record:
+        warnings.simplefilter("always")
+        server_object.shutdown()
+    messages = [str(w.message) for w in record]
+
+    process_cls.assert_called_once_with(0)
+    process_cls.return_value.kill.assert_called_once_with()
+    assert any("couldn't properly release server" in m for m in messages)
+    assert any("NoSuchProcess" in m for m in messages) == (kill_error is not None)
+    assert not server_object.live
