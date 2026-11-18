@@ -126,6 +126,8 @@ from .emissivity import emissivity
 from .emitted_radiation_heat_flux import emitted_radiation_heat_flux
 from .enclosure_number import enclosure_number
 from .enf_rotation_by_euler_nodes import enf_rotation_by_euler_nodes
+from .enforced_force import enforced_force
+from .enforced_moment import enforced_moment
 from .enthalpy import enthalpy
 from .entropy import entropy
 from .epsilon import epsilon
