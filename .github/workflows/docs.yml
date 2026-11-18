@@ -69,7 +69,7 @@ jobs:
       pull-requests: write # Required for doc-style action to post comments
     steps:
         - name: "Running documentation style checks"
-          uses: ansys/actions/doc-style@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+          uses: ansys/actions/doc-style@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
           with:
             token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -148,7 +148,7 @@ jobs:
           git checkout -- doc/source/api doc/source/examples doc/source/tutorials
 
       - name: "Build the documentation"
-        uses: ansys/actions/doc-build@fix/doc-build-windows-latex
+        uses: ansys/actions/doc-build@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         with:
           python-version: ${{ inputs.python_version }}
           checkout: false

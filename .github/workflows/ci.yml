@@ -48,7 +48,7 @@ jobs:
       pull-requests: write # Required to add comments on pull requests
     runs-on: ubuntu-latest
     steps:
-      - uses: ansys/actions/doc-changelog@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+      - uses: ansys/actions/doc-changelog@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         with:
           token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: PyAnsys Vulnerability check (on ${{ github.ref == 'refs/heads/main' && 'main' || 'dev mode' }})
-        uses: ansys/actions/check-vulnerabilities@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+        uses: ansys/actions/check-vulnerabilities@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         with:
           python-version: "3.12"
           python-package-name: "ansys-dpf-core"
@@ -77,7 +77,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: ansys/actions/check-actions-security@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+      - uses: ansys/actions/check-actions-security@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
 
   check-licenses:
     name: "Check library dependencies ship with valid licenses"
@@ -87,7 +87,7 @@ jobs:
       contents: read
     steps:
       - name: "Validate third party licenses"
-        uses: ansys/actions/check-licenses@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+        uses: ansys/actions/check-licenses@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
           target: 'all'
@@ -99,7 +99,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: ansys/actions/code-style@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+      - uses: ansys/actions/code-style@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         with:
           use-python-cache: false
 
@@ -128,7 +128,7 @@ jobs:
             platform-tag: 'win'
             os: windows-latest
     steps:
-      - uses: ansys/actions/build-library@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+      - uses: ansys/actions/build-library@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         with:
           library-name: "ansys-dpf-core-${{ matrix.name }}"
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
@@ -307,7 +307,7 @@ jobs:
       contents: write # Required for pushing documentation to gh-pages
       pull-requests: write # Required for posting deployment status comments
     steps:
-      - uses: ansys/actions/doc-deploy-pr@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+      - uses: ansys/actions/doc-deploy-pr@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -326,7 +326,7 @@ jobs:
       pull-requests: write # Required for posting deployment status comments
     steps:
       - name: "Upload development documentation"
-        uses: ansys/actions/doc-deploy-dev@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+        uses: ansys/actions/doc-deploy-dev@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}

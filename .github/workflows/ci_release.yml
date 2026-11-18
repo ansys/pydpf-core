@@ -55,7 +55,7 @@ jobs:
       contents: write  # Required to push commits, delete and create tags
       pull-requests: write  # Required to create pull requests
     steps:
-      - uses: ansys/actions/doc-deploy-changelog@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+      - uses: ansys/actions/doc-deploy-changelog@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
         with:
           token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
@@ -69,7 +69,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: ansys/actions/code-style@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+      - uses: ansys/actions/code-style@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         with:
           use-python-cache: false
 
@@ -100,7 +100,7 @@ jobs:
             platform-tag: 'win'
             os: windows-latest
     steps:
-      - uses: ansys/actions/build-library@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+      - uses: ansys/actions/build-library@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         with:
           library-name: "ansys-dpf-core-${{ matrix.name }}"
           attest-provenance: true
@@ -282,7 +282,7 @@ jobs:
       attestations: read # Required to add artifact attestation notes
     steps:
       - name: Release to GitHub
-        uses: ansys/actions/release-github@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+        uses: ansys/actions/release-github@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           library-name: ${{ env.PACKAGE_NAME }}
@@ -325,7 +325,7 @@ jobs:
       contents: write # Required for deploying documentation to gh-pages
     steps:
       - name: "Deploy the stable documentation"
-        uses: ansys/actions/doc-deploy-stable@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+        uses: ansys/actions/doc-deploy-stable@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
