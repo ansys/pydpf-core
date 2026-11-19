@@ -33,7 +33,7 @@ import numpy as np
 import pytest
 
 from ansys import dpf
-from ansys.dpf.core import dpf_operator, errors, operators as ops
+from ansys.dpf.core import _cleanup, dpf_operator, errors, operators as ops
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import derived_class_name_to_type, record_derived_class
 from ansys.dpf.core.custom_container_base import CustomContainerBase
@@ -93,6 +93,26 @@ def test_release_dpf_object_calls_grpc_deleter_during_api_loading(monkeypatch):
 
 def test_release_dpf_object_without_deleter_is_noop():
     release_dpf_object(object())
+
+
+def test_release_dpf_object_when_finalization_hook_is_unavailable(monkeypatch):
+    monkeypatch.setattr(_cleanup.sys, "is_finalizing", None)
+
+    release_dpf_object(object())
+
+
+def test_operator_destructor_when_cleanup_function_is_unavailable(monkeypatch):
+    operator = object.__new__(dpf_operator.Operator)
+    monkeypatch.setattr(dpf_operator, "release_dpf_object", None)
+
+    dpf_operator.Operator.__del__(operator)
+
+
+def test_warn_cleanup_exception_when_dependencies_are_unavailable(monkeypatch):
+    monkeypatch.setattr(_cleanup, "warnings", None)
+    monkeypatch.setattr(_cleanup, "traceback", None)
+
+    _cleanup._warn_cleanup_exception()
 
 
 def test_load_api_is_idempotent(monkeypatch, tmp_path):

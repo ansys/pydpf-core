@@ -50,7 +50,7 @@ import psutil
 
 from ansys.dpf import core
 from ansys.dpf.core import __version__, errors, server_context, server_factory
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core._version import (
     CALENDAR_VERSIONING_FIRST_MAJOR,
     min_server_version,
@@ -785,7 +785,8 @@ class CServer(BaseServer, ABC):
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        if sys is None or sys.is_finalizing():
+        is_finalizing = getattr(sys, "is_finalizing", None)
+        if sys is None or not callable(is_finalizing) or is_finalizing():
             return
         try:
             self._del_session()
@@ -829,7 +830,9 @@ class GrpcClient:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        release_dpf_object(self)
+        cleanup = globals().get("release_dpf_object")
+        if callable(cleanup):
+            cleanup(self)
 
 
 class GrpcServer(CServer):
@@ -1685,7 +1688,8 @@ class LegacyGrpcServer(BaseServer):
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        if sys is None or sys.is_finalizing():
+        is_finalizing = getattr(sys, "is_finalizing", None)
+        if sys is None or not callable(is_finalizing) or is_finalizing():
             return
         try:
             self._del_session()

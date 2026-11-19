@@ -37,7 +37,7 @@ if TYPE_CHECKING:  # pragma: nocover
 import numpy as np
 
 from ansys.dpf.core import field, property_field, scoping, server as server_module
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core.check_version import meets_version, version_requires
 from ansys.dpf.core.common import (
@@ -347,7 +347,9 @@ class MeshedRegion:
 
     def __del__(self):
         """Delete this instance of the meshed region."""
-        release_dpf_object(self)
+        cleanup = globals().get("release_dpf_object")
+        if callable(cleanup):
+            cleanup(self)
 
     def __str__(self):
         """Return string representation of the meshed region."""

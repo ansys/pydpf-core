@@ -47,7 +47,7 @@ if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.server import AnyServerType
 
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
@@ -221,4 +221,6 @@ class LabelSpace:
         -------
         None
         """
-        release_dpf_object(self)
+        cleanup = globals().get("release_dpf_object")
+        if callable(cleanup):
+            cleanup(self)

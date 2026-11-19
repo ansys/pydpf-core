@@ -29,7 +29,7 @@ import threading
 import weakref
 
 from ansys.dpf.core import data_tree, errors, server as server_module, server_types
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import (
     _common_percentage_progress_bar,
@@ -339,7 +339,9 @@ class Session:
             If an exception occurs while attempting to delete resources.
         """
         if not getattr(self, "_released", False):
-            release_dpf_object(self)
+            cleanup = globals().get("release_dpf_object")
+            if callable(cleanup):
+                cleanup(self)
             self._released = True
 
     def __del__(self):

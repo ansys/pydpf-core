@@ -32,7 +32,7 @@ import numpy
 from packaging.version import Version
 
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.changelog import Changelog
 from ansys.dpf.core.check_version import (
     server_meet_version,
@@ -792,7 +792,9 @@ class Operator:
 
     def __del__(self):
         """Delete this instance."""
-        release_dpf_object(self)
+        cleanup = globals().get("release_dpf_object")
+        if callable(cleanup):
+            cleanup(self)
 
     def __str__(self):
         """Describe the entity.

@@ -27,7 +27,8 @@ _deferred_cleanup = deque()
 
 def _call_or_defer(deleter, *args):
 	"""Call a native deleter now or queue it until API binding is complete."""
-	if sys is None or sys.is_finalizing():
+	is_finalizing = getattr(sys, "is_finalizing", None)
+	if sys is None or not callable(is_finalizing) or is_finalizing():
 		return
 	with _api_load_lock:
 		if _api_loading:

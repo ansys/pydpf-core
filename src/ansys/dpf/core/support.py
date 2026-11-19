@@ -25,7 +25,7 @@
 from typing import TYPE_CHECKING
 
 from ansys.dpf.core import collection_base, server as server_module
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.core import _deep_copy
 from ansys.dpf.gate import (
@@ -358,4 +358,6 @@ class Support:
         Warning
             If an exception occurs while attempting to delete resources.
         """
-        release_dpf_object(self)
+        cleanup = globals().get("release_dpf_object")
+        if callable(cleanup):
+            cleanup(self)

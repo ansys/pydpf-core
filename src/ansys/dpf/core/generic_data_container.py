@@ -36,7 +36,7 @@ if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Field, GenericDataContainer, Scoping, StringField
 
 from ansys.dpf.core import collection_base, errors, server as server_module, types
-from ansys.dpf.core._cleanup import release_dpf_object
+from ansys.dpf.core._cleanup import release_dpf_object  # noqa: F401
 from ansys.dpf.core.any import Any
 from ansys.dpf.core.dpf_operator import _write_output_type_to_type
 from ansys.dpf.core.mapping_types import map_types_to_python
@@ -208,4 +208,6 @@ class GenericDataContainer:
     def __del__(self):
         """Delete the current instance."""
         if getattr(self, "_internal_obj", None) is not None:
-            release_dpf_object(self)
+            cleanup = globals().get("release_dpf_object")
+            if callable(cleanup):
+                cleanup(self)

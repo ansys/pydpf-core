@@ -93,7 +93,8 @@ class DPFVectorBase:
         return self._modified and self.size > 0 # Updating is not necessary for an empty vector. Updating it can cause issue, see #2274
 
     def __del__(self):
-        if sys is None or sys.is_finalizing():
+        is_finalizing = getattr(sys, "is_finalizing", None)
+        if sys is None or not callable(is_finalizing) or is_finalizing():
             return
         if hasattr(self, "_internal_obj"):
             with suppress(Exception):
@@ -123,7 +124,8 @@ class DPFVectorInt(DPFVectorBase):
         self.dpf_vector_api.dpf_vector_int_commit(self, self.internal_data, self.internal_size, self.has_changed())
 
     def __del__(self):
-        if sys is None or sys.is_finalizing():
+        is_finalizing = getattr(sys, "is_finalizing", None)
+        if sys is None or not callable(is_finalizing) or is_finalizing():
             return
         with suppress(Exception):
             if hasattr(self, "_array"):
@@ -160,7 +162,8 @@ class DPFVectorDouble(DPFVectorBase):
         self.dpf_vector_api.dpf_vector_double_commit(self, self.internal_data, self.internal_size, self.has_changed())
 
     def __del__(self):
-        if sys is None or sys.is_finalizing():
+        is_finalizing = getattr(sys, "is_finalizing", None)
+        if sys is None or not callable(is_finalizing) or is_finalizing():
             return
         with suppress(Exception):
             if hasattr(self, "_array"):
@@ -230,7 +233,8 @@ class DPFVectorCustomType(DPFVectorBase):
         )
 
     def __del__(self):
-        if sys is None or sys.is_finalizing():
+        is_finalizing = getattr(sys, "is_finalizing", None)
+        if sys is None or not callable(is_finalizing) or is_finalizing():
             return
         with suppress(Exception):
             if hasattr(self, "_array"):
@@ -260,7 +264,8 @@ class DPFVectorString(DPFVectorBase):
         return self._array
 
     def __del__(self):
-        if sys is None or sys.is_finalizing():
+        is_finalizing = getattr(sys, "is_finalizing", None)
+        if sys is None or not callable(is_finalizing) or is_finalizing():
             return
         with suppress(Exception):
             if self._array:
