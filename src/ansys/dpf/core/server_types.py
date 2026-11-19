@@ -39,7 +39,7 @@ from pathlib import Path
 import socket
 import subprocess  # nosec B404
 import sys
-from threading import Lock, Thread
+from threading import Event, Thread
 import time
 import traceback
 from typing import TYPE_CHECKING, Union
@@ -236,10 +236,12 @@ def _wait_and_check_server_connection(  # noqa: PLR0913, C901
         except PermissionError:
             pass
         errstr = "\n".join(current_errors)
-        if (
-            "Only one usage of each socket address" in errstr
-            or "port is already allocated" in errstr
-        ):
+        port_collision_messages = (
+            "only one usage of each socket address",
+            "port is already allocated",
+            "address already in use",
+        )
+        if any(message in errstr.lower() for message in port_collision_messages):
             raise errors.InvalidPortError(f"Port {port} in use")
         raise RuntimeError(errors.format_dpf_error(errstr))
 
@@ -323,23 +325,31 @@ def launch_dpf_on_docker(
         passes, the connection fails.
 
     """
+    docker_server_port = int(os.environ.get("DOCKER_SERVER_PORT", port))
+    LOG.info(
+        "Starting DPF Docker server using host port %s and container port %s.",
+        port,
+        docker_server_port,
+    )
     process = _run_launch_server_process(ip, port, ansys_path, running_docker_config)
 
     # check to see if the service started
     cmd_lines = []
-    # Creating lock for threads
-    lock = Lock()
-    lock.acquire()
+    docker_run_output_ready = Event()
     lines = []
     current_errors = []
     running_docker_config.docker_server_port = port
 
     def read_stdout():
-        with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
-            for line in log_out:
-                LOG.debug(line)
-                cmd_lines.append(line)
-                lock.release()
+        try:
+            with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
+                for line in log_out:
+                    LOG.debug(line)
+                    cmd_lines.append(line)
+                    docker_run_output_ready.set()
+        finally:
+            docker_run_output_ready.set()
+        if cmd_lines:
             running_docker_config.listen_to_process(LOG, cmd_lines, lines, timeout)
 
     def read_stderr():
@@ -347,19 +357,25 @@ def launch_dpf_on_docker(
             for line in log_err:
                 LOG.error(line)
                 current_errors.append(line)
-            while lock.locked():
-                pass
+        docker_run_output_ready.wait()
+        if cmd_lines:
             running_docker_config.listen_to_process(LOG, cmd_lines, current_errors, timeout, False)
 
-    _wait_and_check_server_connection(
-        process,
-        port,
-        timeout,
-        lines,
-        current_errors,
-        stderr=read_stderr,
-        stdout=read_stdout,
-    )
+    startup_succeeded = False
+    try:
+        _wait_and_check_server_connection(
+            process,
+            port,
+            timeout,
+            lines,
+            current_errors,
+            stderr=read_stderr,
+            stdout=read_stdout,
+        )
+        startup_succeeded = True
+    finally:
+        if not startup_succeeded:
+            running_docker_config.remove_docker_image()
 
 
 def launch_remote_dpf(version=None):

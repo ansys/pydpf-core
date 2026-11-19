@@ -305,7 +305,7 @@ def start_local_server(  # noqa: PLR0912, PLR0913, PLR0915, C901
         context = server_context.SERVER_CONTEXT
 
     server = None
-    n_attempts = 3
+    n_attempts = 10
     timed_out = False
     for _ in range(n_attempts):
         try:
