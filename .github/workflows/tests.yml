@@ -102,7 +102,7 @@ jobs:
         os: ["windows-latest", "ubuntu-latest"]
     steps:
       - name: "Build a wheelhouse of the Python library"
-        uses: ansys/actions/build-wheelhouse@f5e1481b9c128197a30d1dc1dfc52b8cd6865555 # v11.1.5
+        uses: ansys/actions/build-wheelhouse@5a91d7c2c4da2e86f2b3b62ba62daad189a6b77c # v11.2.0
         with:
           library-name: "ansys-dpf-core"
           operating-system: ${{ matrix.os }}${{ inputs.test_any == 'true' && '-any' || '' }}
@@ -145,7 +145,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: "Setup Graphviz"
-        uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2.0.2
+        uses: ts-graphviz/setup-graphviz@6005aebc0168bb7f1c4b55f1e611648e57fb15d0 # v2.0.3
 
       - name: "Install uv"
         uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3

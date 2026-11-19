@@ -104,9 +104,11 @@ print("Array type: ", type(data_array))
 ###############################################################################
 # Get the data as a list
 # ~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# Extract the full list and display its first nine values.
 
 data_list = disp_field.data_as_list
-print("Displacement data as a list: ", "\n", data_list)
+print("Displacement data as a list (first nine values): ", "\n", data_list[:9])
 
 ###############################################################################
 # Extract specific data from a field
