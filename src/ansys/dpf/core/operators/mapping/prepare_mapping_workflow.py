@@ -22,32 +22,34 @@ if TYPE_CHECKING:
 
 
 class prepare_mapping_workflow(Operator):
-    r"""Generates a workflow that can map field results from a source support to
-    a target support using RBF (Radial Basis Function) interpolation. The
-    workflow exposes ‘source’, ‘optional_target_support’, and ‘target’ pins
-    that can be used to perform mapping operations.
+    r"""Generates a workflow for mapping field or fields-container results from
+    a source support to a target support using `radial basis
+    function <https://en.wikipedia.org/wiki/Radial_basis_function>`__ (RBF)
+    interpolation. The workflow exposes ``source``,
+    ``optional_target_support``, and ``target`` pins for the mapping
+    operation.
 
-    **Filter radius**: Uses an automatic value if not specified and the
-    source support provides access to a mesh region. If no mesh is
-    accessible from the source support, the filter radius must be provided
-    explicitly via pin 2.
+    If ``filter_radius`` is omitted and the source support is or carries a
+    mesh region, the radius is derived from the source mesh. If no mesh can
+    be obtained from the source support, ``filter_radius`` must be provided
+    explicitly.
 
 
     Inputs
     ------
     input_support: Field or MeshedRegion
-        Source support from which to map results. Can be a mesh region or a field containing 3D coordinates (vector field with 3 components). If a field is provided, its coordinate data is used directly for RBF construction. If the field has an associated mesh support, it will be used for automatic filter radius calculation.
+        Source support from which to map results. Provide a mesh region or a one-dimensional vector field with three components containing 3D coordinates. If a field is provided, its coordinate data is used directly for RBF construction. If the field has an associated mesh support, that mesh is used to derive the automatic filter radius.
     output_support: Field or MeshedRegion, optional
-        Target support to which results will be mapped. Can be a mesh region or a field containing 3D target coordinates (vector field with 3 components). If a field is provided, its coordinate data is used directly as target locations. If a mesh region is provided, its coordinates are extracted and a mesh support is attached to the output. The output workflow always exposes an 'optional_target_support' input pin. When this pin is provided, it acts as the default for that exposed pin, so the workflow can execute without further input; when omitted, 'optional_target_support' must be connected before the workflow is executed.
+        Target support to which results will be mapped. Provide a mesh region or a one-dimensional vector field with three components containing 3D target coordinates. If a field is provided, its coordinate data is used directly as target locations. If a mesh region is provided, its coordinates are extracted and a mesh support is attached to the output. The output workflow exposes an `optional_target_support` input pin. When this pin is provided, it is used as the default target support; when omitted, the exposed pin must be supplied before the workflow runs.
     filter_radius: float, optional
-        Radius size for the RBF filter. If not provided and the source support (pin 0) is or carries a mesh region, automatically calculated from the source mesh tetrahedra as the average tetrahedron volume divided by 2. If no mesh is accessible from pin 0, this pin must be supplied explicitly.
+        Radius used by the RBF filter. If omitted and the source support is or carries a mesh region, the value is derived from the source mesh. If no mesh is accessible from the source support, this pin must be supplied explicitly. An explicitly supplied value takes precedence over the mesh-derived value.
     influence_box: float, optional
         Size of the influence box for RBF interpolation. Defines the spatial extent for neighbor search. If not provided, defaults to 4 times the filter radius.
 
     Outputs
     -------
     mapping_workflow: Workflow
-        Workflow configured for mapping operations. Exposes input pins 'source' (field to map), 'optional_target_support' (target coordinates), and output pin 'target' (mapped result).
+        Workflow configured for mapping operations. Exposes `source` as a field or fields container to map. Exposes `optional_target_support` as the target coordinates or mesh support. Exposes `target` as the corresponding mapped field or fields container.
 
     Examples
     --------
@@ -105,15 +107,17 @@ class prepare_mapping_workflow(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Generates a workflow that can map field results from a source support to
-a target support using RBF (Radial Basis Function) interpolation. The
-workflow exposes ‘source’, ‘optional_target_support’, and ‘target’ pins
-that can be used to perform mapping operations.
+        description = r"""Generates a workflow for mapping field or fields-container results from
+a source support to a target support using `radial basis
+function <https://en.wikipedia.org/wiki/Radial_basis_function>`__ (RBF)
+interpolation. The workflow exposes ``source``,
+``optional_target_support``, and ``target`` pins for the mapping
+operation.
 
-**Filter radius**: Uses an automatic value if not specified and the
-source support provides access to a mesh region. If no mesh is
-accessible from the source support, the filter radius must be provided
-explicitly via pin 2.
+If ``filter_radius`` is omitted and the source support is or carries a
+mesh region, the radius is derived from the source mesh. If no mesh can
+be obtained from the source support, ``filter_radius`` must be provided
+explicitly.
 """
         spec = Specification(
             description=description,
@@ -122,19 +126,19 @@ explicitly via pin 2.
                     name="input_support",
                     type_names=["field", "abstract_meshed_region"],
                     optional=False,
-                    document=r"""Source support from which to map results. Can be a mesh region or a field containing 3D coordinates (vector field with 3 components). If a field is provided, its coordinate data is used directly for RBF construction. If the field has an associated mesh support, it will be used for automatic filter radius calculation.""",
+                    document=r"""Source support from which to map results. Provide a mesh region or a one-dimensional vector field with three components containing 3D coordinates. If a field is provided, its coordinate data is used directly for RBF construction. If the field has an associated mesh support, that mesh is used to derive the automatic filter radius.""",
                 ),
                 1: PinSpecification(
                     name="output_support",
                     type_names=["field", "abstract_meshed_region"],
                     optional=True,
-                    document=r"""Target support to which results will be mapped. Can be a mesh region or a field containing 3D target coordinates (vector field with 3 components). If a field is provided, its coordinate data is used directly as target locations. If a mesh region is provided, its coordinates are extracted and a mesh support is attached to the output. The output workflow always exposes an 'optional_target_support' input pin. When this pin is provided, it acts as the default for that exposed pin, so the workflow can execute without further input; when omitted, 'optional_target_support' must be connected before the workflow is executed.""",
+                    document=r"""Target support to which results will be mapped. Provide a mesh region or a one-dimensional vector field with three components containing 3D target coordinates. If a field is provided, its coordinate data is used directly as target locations. If a mesh region is provided, its coordinates are extracted and a mesh support is attached to the output. The output workflow exposes an `optional_target_support` input pin. When this pin is provided, it is used as the default target support; when omitted, the exposed pin must be supplied before the workflow runs.""",
                 ),
                 2: PinSpecification(
                     name="filter_radius",
                     type_names=["double"],
                     optional=True,
-                    document=r"""Radius size for the RBF filter. If not provided and the source support (pin 0) is or carries a mesh region, automatically calculated from the source mesh tetrahedra as the average tetrahedron volume divided by 2. If no mesh is accessible from pin 0, this pin must be supplied explicitly.""",
+                    document=r"""Radius used by the RBF filter. If omitted and the source support is or carries a mesh region, the value is derived from the source mesh. If no mesh is accessible from the source support, this pin must be supplied explicitly. An explicitly supplied value takes precedence over the mesh-derived value.""",
                 ),
                 3: PinSpecification(
                     name="influence_box",
@@ -148,7 +152,7 @@ explicitly via pin 2.
                     name="mapping_workflow",
                     type_names=["workflow"],
                     optional=False,
-                    document=r"""Workflow configured for mapping operations. Exposes input pins 'source' (field to map), 'optional_target_support' (target coordinates), and output pin 'target' (mapped result).""",
+                    document=r"""Workflow configured for mapping operations. Exposes `source` as a field or fields container to map. Exposes `optional_target_support` as the target coordinates or mesh support. Exposes `target` as the corresponding mapped field or fields container.""",
                 ),
             },
         )
@@ -239,7 +243,7 @@ class InputsPrepareMappingWorkflow(_Inputs):
     def input_support(self) -> Input[Field | MeshedRegion]:
         r"""Allows to connect input_support input to the operator.
 
-        Source support from which to map results. Can be a mesh region or a field containing 3D coordinates (vector field with 3 components). If a field is provided, its coordinate data is used directly for RBF construction. If the field has an associated mesh support, it will be used for automatic filter radius calculation.
+        Source support from which to map results. Provide a mesh region or a one-dimensional vector field with three components containing 3D coordinates. If a field is provided, its coordinate data is used directly for RBF construction. If the field has an associated mesh support, that mesh is used to derive the automatic filter radius.
 
         Returns
         -------
@@ -260,7 +264,7 @@ class InputsPrepareMappingWorkflow(_Inputs):
     def output_support(self) -> Input[Field | MeshedRegion]:
         r"""Allows to connect output_support input to the operator.
 
-        Target support to which results will be mapped. Can be a mesh region or a field containing 3D target coordinates (vector field with 3 components). If a field is provided, its coordinate data is used directly as target locations. If a mesh region is provided, its coordinates are extracted and a mesh support is attached to the output. The output workflow always exposes an 'optional_target_support' input pin. When this pin is provided, it acts as the default for that exposed pin, so the workflow can execute without further input; when omitted, 'optional_target_support' must be connected before the workflow is executed.
+        Target support to which results will be mapped. Provide a mesh region or a one-dimensional vector field with three components containing 3D target coordinates. If a field is provided, its coordinate data is used directly as target locations. If a mesh region is provided, its coordinates are extracted and a mesh support is attached to the output. The output workflow exposes an `optional_target_support` input pin. When this pin is provided, it is used as the default target support; when omitted, the exposed pin must be supplied before the workflow runs.
 
         Returns
         -------
@@ -281,7 +285,7 @@ class InputsPrepareMappingWorkflow(_Inputs):
     def filter_radius(self) -> Input[float]:
         r"""Allows to connect filter_radius input to the operator.
 
-        Radius size for the RBF filter. If not provided and the source support (pin 0) is or carries a mesh region, automatically calculated from the source mesh tetrahedra as the average tetrahedron volume divided by 2. If no mesh is accessible from pin 0, this pin must be supplied explicitly.
+        Radius used by the RBF filter. If omitted and the source support is or carries a mesh region, the value is derived from the source mesh. If no mesh is accessible from the source support, this pin must be supplied explicitly. An explicitly supplied value takes precedence over the mesh-derived value.
 
         Returns
         -------
@@ -343,7 +347,7 @@ class OutputsPrepareMappingWorkflow(_Outputs):
     def mapping_workflow(self) -> Output[Workflow]:
         r"""Allows to get mapping_workflow output of the operator
 
-        Workflow configured for mapping operations. Exposes input pins 'source' (field to map), 'optional_target_support' (target coordinates), and output pin 'target' (mapped result).
+        Workflow configured for mapping operations. Exposes `source` as a field or fields container to map. Exposes `optional_target_support` as the target coordinates or mesh support. Exposes `target` as the corresponding mapped field or fields container.
 
         Returns
         -------

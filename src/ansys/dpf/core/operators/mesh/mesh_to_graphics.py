@@ -23,23 +23,29 @@ if TYPE_CHECKING:
 
 
 class mesh_to_graphics(Operator):
-    r"""Generate tessellation for input mesh
+    r"""Converts a shell mesh into graphics-ready coordinates, normals, and
+    connectivity. By default, each element receives separate nodes and
+    element-node normals. When ``node_normals`` is true, the output uses
+    mesh nodes and connectivity with averaged normals at mesh nodes.
 
 
     Inputs
     ------
     mesh_scoping: Scoping, optional
+        Optional scoping used to restrict the mesh before generating outputs. If omitted, the full input mesh is used.
     node_normals: bool, optional
-        average element normals for node normals (default no, use element normals for node normals)
+        Whether to use averaged normals at mesh nodes. Defaults to false; when false, normals are generated for each element node.
     mesh: MeshedRegion
+        Shell mesh to convert into graphics-ready coordinates, normals, and connectivity.
 
     Outputs
     -------
     nodes: Field
-        node coordinates
+        Coordinates. By default, duplicated per element at elemental-nodal location; otherwise, nodal coordinates.
     normals: Field
-        node normals
+        Normals. By default, one normal per element node; with node_normals=true, averaged normals at mesh nodes.
     connectivity: PropertyField
+        Connectivity for output elements; links generated nodes by default and original mesh nodes when node_normals is true.
 
     Examples
     --------
@@ -88,7 +94,10 @@ class mesh_to_graphics(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Generate tessellation for input mesh
+        description = r"""Converts a shell mesh into graphics-ready coordinates, normals, and
+connectivity. By default, each element receives separate nodes and
+element-node normals. When ``node_normals`` is true, the output uses
+mesh nodes and connectivity with averaged normals at mesh nodes.
 """
         spec = Specification(
             description=description,
@@ -97,19 +106,19 @@ class mesh_to_graphics(Operator):
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Optional scoping used to restrict the mesh before generating outputs. If omitted, the full input mesh is used.""",
                 ),
                 2: PinSpecification(
                     name="node_normals",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""average element normals for node normals (default no, use element normals for node normals)""",
+                    document=r"""Whether to use averaged normals at mesh nodes. Defaults to false; when false, normals are generated for each element node.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Shell mesh to convert into graphics-ready coordinates, normals, and connectivity.""",
                 ),
             },
             map_output_pin_spec={
@@ -117,19 +126,19 @@ class mesh_to_graphics(Operator):
                     name="nodes",
                     type_names=["field"],
                     optional=False,
-                    document=r"""node coordinates""",
+                    document=r"""Coordinates. By default, duplicated per element at elemental-nodal location; otherwise, nodal coordinates.""",
                 ),
                 1: PinSpecification(
                     name="normals",
                     type_names=["field"],
                     optional=False,
-                    document=r"""node normals""",
+                    document=r"""Normals. By default, one normal per element node; with node_normals=true, averaged normals at mesh nodes.""",
                 ),
                 2: PinSpecification(
                     name="connectivity",
                     type_names=["property_field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""Connectivity for output elements; links generated nodes by default and original mesh nodes when node_normals is true.""",
                 ),
             },
         )
@@ -214,6 +223,8 @@ class InputsMeshToGraphics(_Inputs):
     def mesh_scoping(self) -> Input[Scoping]:
         r"""Allows to connect mesh_scoping input to the operator.
 
+        Optional scoping used to restrict the mesh before generating outputs. If omitted, the full input mesh is used.
+
         Returns
         -------
         input:
@@ -233,7 +244,7 @@ class InputsMeshToGraphics(_Inputs):
     def node_normals(self) -> Input[bool]:
         r"""Allows to connect node_normals input to the operator.
 
-        average element normals for node normals (default no, use element normals for node normals)
+        Whether to use averaged normals at mesh nodes. Defaults to false; when false, normals are generated for each element node.
 
         Returns
         -------
@@ -253,6 +264,8 @@ class InputsMeshToGraphics(_Inputs):
     @property
     def mesh(self) -> Input[MeshedRegion]:
         r"""Allows to connect mesh input to the operator.
+
+        Shell mesh to convert into graphics-ready coordinates, normals, and connectivity.
 
         Returns
         -------
@@ -303,7 +316,7 @@ class OutputsMeshToGraphics(_Outputs):
     def nodes(self) -> Output[Field]:
         r"""Allows to get nodes output of the operator
 
-        node coordinates
+        Coordinates. By default, duplicated per element at elemental-nodal location; otherwise, nodal coordinates.
 
         Returns
         -------
@@ -323,7 +336,7 @@ class OutputsMeshToGraphics(_Outputs):
     def normals(self) -> Output[Field]:
         r"""Allows to get normals output of the operator
 
-        node normals
+        Normals. By default, one normal per element node; with node_normals=true, averaged normals at mesh nodes.
 
         Returns
         -------
@@ -342,6 +355,8 @@ class OutputsMeshToGraphics(_Outputs):
     @property
     def connectivity(self) -> Output[PropertyField]:
         r"""Allows to get connectivity output of the operator
+
+        Connectivity for output elements; links generated nodes by default and original mesh nodes when node_normals is true.
 
         Returns
         -------

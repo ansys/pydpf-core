@@ -20,17 +20,21 @@ if TYPE_CHECKING:
 
 
 class exclude_levelset(Operator):
-    r"""Takes two level sets and excludes the second one from the first.
+    r"""Returns a copy of the first level-set field. The second input currently
+    has no effect on the output.
 
 
     Inputs
     ------
     fieldA: Field
+        A level-set field copied to the output. Its values, scoping, and field definition provide the output content.
     fieldB: Field
+        A second level-set field. It currently has no effect on the output.
 
     Outputs
     -------
     field: Field
+        A copy of fieldA with the same values, scoping, and field definition. The second input does not affect the result.
 
     Examples
     --------
@@ -70,7 +74,8 @@ class exclude_levelset(Operator):
 
     @staticmethod
     def _spec() -> Specification:
-        description = r"""Takes two level sets and excludes the second one from the first.
+        description = r"""Returns a copy of the first level-set field. The second input currently
+has no effect on the output.
 """
         spec = Specification(
             description=description,
@@ -79,13 +84,13 @@ class exclude_levelset(Operator):
                     name="fieldA",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""A level-set field copied to the output. Its values, scoping, and field definition provide the output content.""",
                 ),
                 1: PinSpecification(
                     name="fieldB",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""A second level-set field. It currently has no effect on the output.""",
                 ),
             },
             map_output_pin_spec={
@@ -93,7 +98,7 @@ class exclude_levelset(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document=r"""""",
+                    document=r"""A copy of fieldA with the same values, scoping, and field definition. The second input does not affect the result.""",
                 ),
             },
         )
@@ -172,6 +177,8 @@ class InputsExcludeLevelset(_Inputs):
     def fieldA(self) -> Input[Field]:
         r"""Allows to connect fieldA input to the operator.
 
+        A level-set field copied to the output. Its values, scoping, and field definition provide the output content.
+
         Returns
         -------
         input:
@@ -190,6 +197,8 @@ class InputsExcludeLevelset(_Inputs):
     @property
     def fieldB(self) -> Input[Field]:
         r"""Allows to connect fieldB input to the operator.
+
+        A second level-set field. It currently has no effect on the output.
 
         Returns
         -------
@@ -229,6 +238,8 @@ class OutputsExcludeLevelset(_Outputs):
     @property
     def field(self) -> Output[Field]:
         r"""Allows to get field output of the operator
+
+        A copy of fieldA with the same values, scoping, and field definition. The second input does not affect the result.
 
         Returns
         -------
