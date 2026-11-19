@@ -1,0 +1,232 @@
+
+
+
+
+
+
+:class:`Dimensionality`
+=======================
+
+
+.. py:class:: ansys.dpf.core.dimensionality.Dimensionality(dim_vec=None, nature: ansys.dpf.core.common.natures = natures.vector)
+
+   Represents the dimensionality of a field.
+
+       This class reads a list of dimension vectors and creates a dimensionality message.
+
+   :param dim_vec: List of integers for the dimension vectors. There is a 1D vector for a
+                   scalar or 3D vector. There is a 2D vector for a matrix. For example:
+
+                   * ``[1]``: scalar
+                   * ``[3]``: 3d vector
+                   * ``[3, 3]``: ``3 x 3`` matrix
+   :type dim_vec: list
+   :param nature:
+   :type nature: :class:`ansys.dpf.core.common.natures`
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: Dimensionality
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~is_1d_dim`
+            - Check if dimensionality is 1.
+          * - :py:attr:`~is_2d_dim`
+            - Check if dimensionality is 2.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~component_count`
+            - Retrieve the number of components based on the dimensionality.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~dim`
+            - 
+          * - :py:attr:`~nature`
+            - 
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scalar_dim`
+            - Retrieve the dimensionality of a scalar field.
+          * - :py:attr:`~vector_dim`
+            - Retrieve the dimensionality of a vector field of a given size.
+          * - :py:attr:`~vector_3d_dim`
+            - Retrieve the dimensionality of a three-dimension vector field.
+          * - :py:attr:`~tensor_dim`
+            - Retrieve the dimensionality of a symmetrical ``3 x 3`` tensor field.
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Customize the string representation of the dimensionality.
+          * - :py:attr:`~__eq__`
+            - Check if this Dimensionality object is equal to another.
+          * - :py:attr:`~__ne__`
+            - Check if this Dimensionality object is not equal to another.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.dimensionality import Dimensionality
+
+Property detail
+---------------
+
+.. py:property:: component_count
+
+   Retrieve the number of components based on the dimensionality.
+
+   :returns: Number of components.
+   :rtype: float
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: dim
+   :value: None
+
+
+.. py:attribute:: nature
+
+
+
+Method detail
+-------------
+
+.. py:method:: is_1d_dim()
+
+   Check if dimensionality is 1.
+
+
+.. py:method:: is_2d_dim()
+
+   Check if dimensionality is 2.
+
+
+.. py:method:: __str__()
+
+   Customize the string representation of the dimensionality.
+
+
+.. py:method:: scalar_dim()
+   :staticmethod:
+
+
+   Retrieve the dimensionality of a scalar field.
+
+   :returns: Dimensionality of the scalar field.
+   :rtype: :class:`ansys.dpf.core.dimensionnality.Dimensionality`
+
+
+.. py:method:: vector_dim(size)
+   :staticmethod:
+
+
+   Retrieve the dimensionality of a vector field of a given size.
+
+   :param size: Number of components by entity.
+   :type size: int
+
+   :returns: Dimensionality of the vector field.
+   :rtype: :class:`ansys.dpf.core.dimensionnality.Dimensionality`
+
+
+.. py:method:: vector_3d_dim()
+   :staticmethod:
+
+
+   Retrieve the dimensionality of a three-dimension vector field.
+
+   :returns: Dimensionality of the three-dimension vector field.
+   :rtype: :class:`ansys.dpf.core.dimensionnality.Dimensionality`
+
+
+.. py:method:: tensor_dim()
+   :staticmethod:
+
+
+   Retrieve the dimensionality of a symmetrical ``3 x 3`` tensor field.
+
+   :returns: Dimensionality of the symmetrical ``3 x 3`` tensor field.
+   :rtype: :class:`ansys.dpf.core.dimensionnality.Dimensionality`
+
+
+.. py:method:: __eq__(other)
+
+   Check if this Dimensionality object is equal to another.
+
+   Two Dimensionality objects are considered equal if their dimensionality
+   vectors (`dim`) and natures (`nature`) are the same.
+
+   :param other: The other Dimensionality object to compare with.
+   :type other: Dimensionality
+
+   :returns: `True` if the two objects are equal, `False` otherwise.
+   :rtype: bool
+
+
+.. py:method:: __ne__(other)
+
+   Check if this Dimensionality object is not equal to another.
+
+   Two Dimensionality objects are considered not equal if their dimensionality
+   vectors (`dim`) or natures (`nature`) differ.
+
+   :param other: The other Dimensionality object to compare with.
+   :type other: Dimensionality
+
+   :returns: `True` if the two objects are not equal, `False` otherwise.
+   :rtype: bool
+
+
+
+
+

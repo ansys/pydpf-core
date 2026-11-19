@@ -1,0 +1,641 @@
+
+
+
+
+
+
+:class:`InputsWriteCmsRbdFile`
+==============================
+
+
+.. py:class:: ansys.dpf.core.operators.result.write_cms_rbd_file.InputsWriteCmsRbdFile(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   write_cms_rbd_file operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> my_model_data = dpf.PropertyField()
+   >>> op.inputs.model_data.connect(my_model_data)
+   >>> my_center_of_mass = dpf.Field()
+   >>> op.inputs.center_of_mass.connect(my_center_of_mass)
+   >>> my_inertia_relief = dpf.Field()
+   >>> op.inputs.inertia_relief.connect(my_inertia_relief)
+   >>> my_model_size = float()
+   >>> op.inputs.model_size.connect(my_model_size)
+   >>> my_master_node_coordinates = dpf.()
+   >>> op.inputs.master_node_coordinates.connect(my_master_node_coordinates)
+   >>> my_v_trsf = dpf.()
+   >>> op.inputs.v_trsf.connect(my_v_trsf)
+   >>> my_k_mat = dpf.Field()
+   >>> op.inputs.k_mat.connect(my_k_mat)
+   >>> my_mass_mat = dpf.Field()
+   >>> op.inputs.mass_mat.connect(my_mass_mat)
+   >>> my_c_mat = dpf.Field()
+   >>> op.inputs.c_mat.connect(my_c_mat)
+   >>> my_rhs = dpf.Field()
+   >>> op.inputs.rhs.connect(my_rhs)
+   >>> my_dn = dpf.()
+   >>> op.inputs.dn.connect(my_dn)
+   >>> my_dr_cross_n = dpf.()
+   >>> op.inputs.dr_cross_n.connect(my_dr_cross_n)
+   >>> my_drn = dpf.()
+   >>> op.inputs.drn.connect(my_drn)
+   >>> my_dn_cross_n = dpf.()
+   >>> op.inputs.dn_cross_n.connect(my_dn_cross_n)
+   >>> my_dnx_y = dpf.()
+   >>> op.inputs.dnx_y.connect(my_dnx_y)
+   >>> my_dny_y = dpf.()
+   >>> op.inputs.dny_y.connect(my_dny_y)
+   >>> my_dnz_y = dpf.()
+   >>> op.inputs.dnz_y.connect(my_dnz_y)
+   >>> my_dyx_n = dpf.()
+   >>> op.inputs.dyx_n.connect(my_dyx_n)
+   >>> my_dyy_n = dpf.()
+   >>> op.inputs.dyy_n.connect(my_dyy_n)
+   >>> my_dyz_n = dpf.()
+   >>> op.inputs.dyz_n.connect(my_dyz_n)
+   >>> my_dnxn = dpf.()
+   >>> op.inputs.dnxn.connect(my_dnxn)
+   >>> my_dnyn = dpf.()
+   >>> op.inputs.dnyn.connect(my_dnyn)
+   >>> my_dnzn = dpf.()
+   >>> op.inputs.dnzn.connect(my_dnzn)
+   >>> my_file_path = str()
+   >>> op.inputs.file_path.connect(my_file_path)
+
+
+
+
+
+
+.. py:currentmodule:: InputsWriteCmsRbdFile
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~model_data`
+            - Allows to connect model_data input to the operator.
+          * - :py:attr:`~center_of_mass`
+            - Allows to connect center_of_mass input to the operator.
+          * - :py:attr:`~inertia_relief`
+            - Allows to connect inertia_relief input to the operator.
+          * - :py:attr:`~model_size`
+            - Allows to connect model_size input to the operator.
+          * - :py:attr:`~master_node_coordinates`
+            - Allows to connect master_node_coordinates input to the operator.
+          * - :py:attr:`~v_trsf`
+            - Allows to connect v_trsf input to the operator.
+          * - :py:attr:`~k_mat`
+            - Allows to connect k_mat input to the operator.
+          * - :py:attr:`~mass_mat`
+            - Allows to connect mass_mat input to the operator.
+          * - :py:attr:`~c_mat`
+            - Allows to connect c_mat input to the operator.
+          * - :py:attr:`~rhs`
+            - Allows to connect rhs input to the operator.
+          * - :py:attr:`~dn`
+            - Allows to connect dn input to the operator.
+          * - :py:attr:`~dr_cross_n`
+            - Allows to connect dr_cross_n input to the operator.
+          * - :py:attr:`~drn`
+            - Allows to connect drn input to the operator.
+          * - :py:attr:`~dn_cross_n`
+            - Allows to connect dn_cross_n input to the operator.
+          * - :py:attr:`~dnx_y`
+            - Allows to connect dnx_y input to the operator.
+          * - :py:attr:`~dny_y`
+            - Allows to connect dny_y input to the operator.
+          * - :py:attr:`~dnz_y`
+            - Allows to connect dnz_y input to the operator.
+          * - :py:attr:`~dyx_n`
+            - Allows to connect dyx_n input to the operator.
+          * - :py:attr:`~dyy_n`
+            - Allows to connect dyy_n input to the operator.
+          * - :py:attr:`~dyz_n`
+            - Allows to connect dyz_n input to the operator.
+          * - :py:attr:`~dnxn`
+            - Allows to connect dnxn input to the operator.
+          * - :py:attr:`~dnyn`
+            - Allows to connect dnyn input to the operator.
+          * - :py:attr:`~dnzn`
+            - Allows to connect dnzn input to the operator.
+          * - :py:attr:`~file_path`
+            - Allows to connect file_path input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.write_cms_rbd_file import InputsWriteCmsRbdFile
+
+Property detail
+---------------
+
+.. py:property:: model_data
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect model_data input to the operator.
+
+   data describing the finite element model
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.model_data.connect(my_model_data)
+   >>> # or
+   >>> op.inputs.model_data(my_model_data)
+
+.. py:property:: center_of_mass
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect center_of_mass input to the operator.
+
+   center of mass of the body
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.center_of_mass.connect(my_center_of_mass)
+   >>> # or
+   >>> op.inputs.center_of_mass(my_center_of_mass)
+
+.. py:property:: inertia_relief
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect inertia_relief input to the operator.
+
+   inertia matrix
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.inertia_relief.connect(my_inertia_relief)
+   >>> # or
+   >>> op.inputs.inertia_relief(my_inertia_relief)
+
+.. py:property:: model_size
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect model_size input to the operator.
+
+   size of the diagonal box containing the body
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.model_size.connect(my_model_size)
+   >>> # or
+   >>> op.inputs.model_size(my_model_size)
+
+.. py:property:: master_node_coordinates
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect master_node_coordinates input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.master_node_coordinates.connect(my_master_node_coordinates)
+   >>> # or
+   >>> op.inputs.master_node_coordinates(my_master_node_coordinates)
+
+.. py:property:: v_trsf
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect v_trsf input to the operator.
+
+   translational and rotational shape functions
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.v_trsf.connect(my_v_trsf)
+   >>> # or
+   >>> op.inputs.v_trsf(my_v_trsf)
+
+.. py:property:: k_mat
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect k_mat input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.k_mat.connect(my_k_mat)
+   >>> # or
+   >>> op.inputs.k_mat(my_k_mat)
+
+.. py:property:: mass_mat
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mass_mat input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.mass_mat.connect(my_mass_mat)
+   >>> # or
+   >>> op.inputs.mass_mat(my_mass_mat)
+
+.. py:property:: c_mat
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect c_mat input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.c_mat.connect(my_c_mat)
+   >>> # or
+   >>> op.inputs.c_mat(my_c_mat)
+
+.. py:property:: rhs
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect rhs input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.rhs.connect(my_rhs)
+   >>> # or
+   >>> op.inputs.rhs(my_rhs)
+
+.. py:property:: dn
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dn input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.dn.connect(my_dn)
+   >>> # or
+   >>> op.inputs.dn(my_dn)
+
+.. py:property:: dr_cross_n
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dr_cross_n input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.dr_cross_n.connect(my_dr_cross_n)
+   >>> # or
+   >>> op.inputs.dr_cross_n(my_dr_cross_n)
+
+.. py:property:: drn
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect drn input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.drn.connect(my_drn)
+   >>> # or
+   >>> op.inputs.drn(my_drn)
+
+.. py:property:: dn_cross_n
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dn_cross_n input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.dn_cross_n.connect(my_dn_cross_n)
+   >>> # or
+   >>> op.inputs.dn_cross_n(my_dn_cross_n)
+
+.. py:property:: dnx_y
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dnx_y input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.dnx_y.connect(my_dnx_y)
+   >>> # or
+   >>> op.inputs.dnx_y(my_dnx_y)
+
+.. py:property:: dny_y
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dny_y input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.dny_y.connect(my_dny_y)
+   >>> # or
+   >>> op.inputs.dny_y(my_dny_y)
+
+.. py:property:: dnz_y
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dnz_y input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.dnz_y.connect(my_dnz_y)
+   >>> # or
+   >>> op.inputs.dnz_y(my_dnz_y)
+
+.. py:property:: dyx_n
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dyx_n input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.dyx_n.connect(my_dyx_n)
+   >>> # or
+   >>> op.inputs.dyx_n(my_dyx_n)
+
+.. py:property:: dyy_n
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dyy_n input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.dyy_n.connect(my_dyy_n)
+   >>> # or
+   >>> op.inputs.dyy_n(my_dyy_n)
+
+.. py:property:: dyz_n
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dyz_n input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.dyz_n.connect(my_dyz_n)
+   >>> # or
+   >>> op.inputs.dyz_n(my_dyz_n)
+
+.. py:property:: dnxn
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dnxn input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.dnxn.connect(my_dnxn)
+   >>> # or
+   >>> op.inputs.dnxn(my_dnxn)
+
+.. py:property:: dnyn
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dnyn input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.dnyn.connect(my_dnyn)
+   >>> # or
+   >>> op.inputs.dnyn(my_dnyn)
+
+.. py:property:: dnzn
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dnzn input to the operator.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.dnzn.connect(my_dnzn)
+   >>> # or
+   >>> op.inputs.dnzn(my_dnzn)
+
+.. py:property:: file_path
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect file_path input to the operator.
+
+   path with cms_rbd extension where the export occurs
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.write_cms_rbd_file()
+   >>> op.inputs.file_path.connect(my_file_path)
+   >>> # or
+   >>> op.inputs.file_path(my_file_path)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

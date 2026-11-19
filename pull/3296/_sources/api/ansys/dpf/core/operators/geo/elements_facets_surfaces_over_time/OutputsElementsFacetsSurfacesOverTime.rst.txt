@@ -1,0 +1,127 @@
+
+
+
+
+
+
+:class:`OutputsElementsFacetsSurfacesOverTime`
+==============================================
+
+
+.. py:class:: ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.OutputsElementsFacetsSurfacesOverTime(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   elements_facets_surfaces_over_time operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.elements_facets_surfaces_over_time()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+   >>> result_mesh = op.outputs.mesh()
+
+
+
+
+
+.. py:currentmodule:: OutputsElementsFacetsSurfacesOverTime
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to get fields_container output of the operator
+          * - :py:attr:`~mesh`
+            - Allows to get mesh output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time import OutputsElementsFacetsSurfacesOverTime
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get fields_container output of the operator
+
+   Surfaces field.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.elements_facets_surfaces_over_time()
+   >>> # Get the output from op.outputs. ...
+   >>> result_fields_container = op.outputs.fields_container()
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.meshed_region.MeshedRegion]
+
+
+   Allows to get mesh output of the operator
+
+   Mesh made of surface elements only.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.geo.elements_facets_surfaces_over_time()
+   >>> # Get the output from op.outputs. ...
+   >>> result_mesh = op.outputs.mesh()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

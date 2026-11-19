@@ -1,0 +1,285 @@
+
+
+
+
+
+
+:class:`InputsTransientRayleighIntegration`
+===========================================
+
+.. py:class:: ansys.dpf.core.operators.result.transient_rayleigh_integration.InputsTransientRayleighIntegration(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   transient_rayleigh_integration operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transient_rayleigh_integration()
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_time_scoping = int()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_observation_mesh = dpf.MeshedRegion()
+   >>> op.inputs.observation_mesh.connect(my_observation_mesh)
+   >>> my_mass_density = float()
+   >>> op.inputs.mass_density.connect(my_mass_density)
+   >>> my_speed_of_sound = float()
+   >>> op.inputs.speed_of_sound.connect(my_speed_of_sound)
+
+
+
+
+
+
+.. py:currentmodule:: InputsTransientRayleighIntegration
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~fields_container`
+            - Allows to connect fields_container input to the operator.
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~time_scoping`
+            - Allows to connect time_scoping input to the operator.
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~observation_mesh`
+            - Allows to connect observation_mesh input to the operator.
+          * - :py:attr:`~mass_density`
+            - Allows to connect mass_density input to the operator.
+          * - :py:attr:`~speed_of_sound`
+            - Allows to connect speed_of_sound input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.transient_rayleigh_integration import InputsTransientRayleighIntegration
+
+Property detail
+---------------
+
+.. py:property:: fields_container
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect fields_container input to the operator.
+
+   the input field container expects acceleration fields
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transient_rayleigh_integration()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> # or
+   >>> op.inputs.fields_container(my_fields_container)
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mesh input to the operator.
+
+   The meshes region in this pin has to be boundary or skin mesh. This is the source meshes.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transient_rayleigh_integration()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: time_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect time_scoping input to the operator.
+
+   Load step number (if it's specified, the Transient rayleigh integration is computed only on the substeps of this step) or time scoping
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transient_rayleigh_integration()
+   >>> op.inputs.time_scoping.connect(my_time_scoping)
+   >>> # or
+   >>> op.inputs.time_scoping(my_time_scoping)
+
+.. py:property:: field
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect field input to the operator.
+
+   The field represents the coordinates of the observation position. It should be specified if not observation mesh is provided.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transient_rayleigh_integration()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: observation_mesh
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect observation_mesh input to the operator.
+
+   This is the observation mesh region
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transient_rayleigh_integration()
+   >>> op.inputs.observation_mesh.connect(my_observation_mesh)
+   >>> # or
+   >>> op.inputs.observation_mesh(my_observation_mesh)
+
+.. py:property:: mass_density
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mass_density input to the operator.
+
+   Mass density (if it's not specified, default value of the air is applied).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transient_rayleigh_integration()
+   >>> op.inputs.mass_density.connect(my_mass_density)
+   >>> # or
+   >>> op.inputs.mass_density(my_mass_density)
+
+.. py:property:: speed_of_sound
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect speed_of_sound input to the operator.
+
+   Speed of sound (if it's not specified, default value of the speed of sound in the air is applied).
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.transient_rayleigh_integration()
+   >>> op.inputs.speed_of_sound.connect(my_speed_of_sound)
+   >>> # or
+   >>> op.inputs.speed_of_sound(my_speed_of_sound)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

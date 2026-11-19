@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.swelling_strains
+   :inherited-members:

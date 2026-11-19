@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.mapping.find_reduced_coordinates
+   :inherited-members:

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.make_producer_consumer_for_each_iterator
+   :inherited-members:

@@ -1,0 +1,75 @@
+
+
+
+
+
+
+The ``gatebin.py`` module
+=========================
+
+.. py:module:: ansys.dpf._pyinstaller_hooks.hook-ansys.dpf.gatebin
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: gatebin
+.. tab-set::
+
+
+
+
+
+
+
+
+    .. tab-item:: Attributes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~binaries`
+            - 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Collect native DPF client libraries when freezing applications.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:data:: binaries
+
+
+

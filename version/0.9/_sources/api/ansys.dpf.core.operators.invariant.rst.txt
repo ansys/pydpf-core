@@ -1,0 +1,29 @@
+ansys.dpf.core.operators.invariant package
+==========================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.invariant.convertnum_bcs_to_nod
+   ansys.dpf.core.operators.invariant.convertnum_nod_to_bcs
+   ansys.dpf.core.operators.invariant.eigen_values
+   ansys.dpf.core.operators.invariant.eigen_values_fc
+   ansys.dpf.core.operators.invariant.eigen_vectors
+   ansys.dpf.core.operators.invariant.eigen_vectors_fc
+   ansys.dpf.core.operators.invariant.invariants
+   ansys.dpf.core.operators.invariant.invariants_fc
+   ansys.dpf.core.operators.invariant.principal_invariants
+   ansys.dpf.core.operators.invariant.principal_invariants_fc
+   ansys.dpf.core.operators.invariant.segalman_von_mises_eqv
+   ansys.dpf.core.operators.invariant.segalman_von_mises_eqv_fc
+   ansys.dpf.core.operators.invariant.von_mises_eqv
+   ansys.dpf.core.operators.invariant.von_mises_eqv_fc
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core.operators.invariant
+   :inherited-members:

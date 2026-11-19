@@ -1,0 +1,74 @@
+
+
+
+
+
+
+:class:`config_options`
+=======================
+
+.. py:class:: ansys.dpf.core.common.config_options
+
+   Contains strings to define configuration options.
+
+   .. attribute:: num_thread = "num_threads"
+
+      number of threads
+
+   .. attribute:: use_cache = "use_cache"
+
+      usage of cache if a server with gRPC communication
+      protocol is used.
+
+
+
+.. py:currentmodule:: config_options
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~num_threads`
+            - 
+          * - :py:attr:`~use_cache`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.common import config_options
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: num_threads
+   :value: 'num_threads'
+
+
+.. py:attribute:: use_cache
+   :value: 'use_cache'
+
+
+
+
+
+

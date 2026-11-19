@@ -1,0 +1,94 @@
+
+
+
+
+
+
+The ``compression`` package
+===============================
+
+.. py:module:: ansys.dpf.core.operators.compression
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+.. py:currentmodule:: compression
+.. tab-set::
+
+
+    .. tab-item:: Submodules
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.compression.apply_svd`
+            - apply_svd
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.compression.apply_zfp`
+            - apply_zfp
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.compression.kmeans_clustering`
+            - kmeans_clustering
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.compression.quantization`
+            - quantization
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.compression.quantization_fc`
+            - quantization_fc
+
+
+          * - :py:obj:`~ansys.dpf.core.operators.compression.zfp_decompress`
+            - zfp_decompress
+
+
+
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-fa-file"></span> apply_svd</api/ansys/dpf/core/operators/compression/apply_svd/index>
+    <span class="nf nf-fa-file"></span> apply_zfp</api/ansys/dpf/core/operators/compression/apply_zfp/index>
+    <span class="nf nf-fa-file"></span> kmeans_clustering</api/ansys/dpf/core/operators/compression/kmeans_clustering/index>
+    <span class="nf nf-fa-file"></span> quantization</api/ansys/dpf/core/operators/compression/quantization/index>
+    <span class="nf nf-fa-file"></span> quantization_fc</api/ansys/dpf/core/operators/compression/quantization_fc/index>
+    <span class="nf nf-fa-file"></span> zfp_decompress</api/ansys/dpf/core/operators/compression/zfp_decompress/index>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

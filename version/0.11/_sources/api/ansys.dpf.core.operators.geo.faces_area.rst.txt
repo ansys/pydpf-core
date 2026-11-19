@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.geo.faces_area
+   :inherited-members:

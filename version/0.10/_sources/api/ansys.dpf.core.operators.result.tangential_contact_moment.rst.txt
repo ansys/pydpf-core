@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.tangential_contact_moment
+   :inherited-members:

@@ -1,0 +1,31 @@
+
+
+
+
+
+
+:class:`Jinja2ImportError`
+==========================
+
+
+.. py:exception:: ansys.dpf.core.documentation.generate_operators_doc.Jinja2ImportError(msg='To generate Markdown documentation of operators, please install jinja2 with:\npip install jinja2')
+
+   Bases: :py:obj:`ModuleNotFoundError`
+
+
+   Error raised when Jinja2 could not be imported during operator documentation generation.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.documentation.generate_operators_doc import Jinja2ImportError
+
+
+
+
+

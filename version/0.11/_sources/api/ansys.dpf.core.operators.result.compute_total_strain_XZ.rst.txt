@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.compute_total_strain_XZ
+   :inherited-members:

@@ -1,0 +1,147 @@
+
+
+
+
+
+
+:class:`OutputsIntersect`
+=========================
+
+
+.. py:class:: ansys.dpf.core.operators.scoping.intersect.OutputsIntersect(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   intersect operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.intersect()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_intersection = op.outputs.intersection()
+   >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()
+   >>> result_scopingB_indices_without_intersection = op.outputs.scopingB_indices_without_intersection()
+
+
+
+
+
+.. py:currentmodule:: OutputsIntersect
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~scopingA_min_intersection`
+            - Allows to get scopingA_min_intersection output of the operator
+          * - :py:attr:`~scopingB_indices_without_intersection`
+            - Allows to get scopingB_indices_without_intersection output of the operator
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~intersection_as_scoping`
+            - 
+          * - :py:attr:`~intersection_as_scopings_container`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.intersect import OutputsIntersect
+
+Property detail
+---------------
+
+.. py:property:: scopingA_min_intersection
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to get scopingA_min_intersection output of the operator
+
+   Empty scoping if scopingB is a scopings container.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.intersect()
+   >>> # Get the output from op.outputs. ...
+   >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()
+
+.. py:property:: scopingB_indices_without_intersection
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.scoping.Scoping]
+
+
+   Allows to get scopingB_indices_without_intersection output of the operator
+
+   Only if scopingB is a scopings container: indices (starting at 0) of the scopings of scopingB intersecting no scoping of scopingA.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.scoping.intersect()
+   >>> # Get the output from op.outputs. ...
+   >>> result_scopingB_indices_without_intersection = op.outputs.scopingB_indices_without_intersection()
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: intersection_as_scoping
+
+.. py:attribute:: intersection_as_scopings_container
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

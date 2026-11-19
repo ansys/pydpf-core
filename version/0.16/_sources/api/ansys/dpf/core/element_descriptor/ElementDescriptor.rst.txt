@@ -1,0 +1,161 @@
+
+
+
+
+
+
+:class:`ElementDescriptor`
+==========================
+
+
+.. py:class:: ansys.dpf.core.element_descriptor.ElementDescriptor(enum_id, description, name, shape=None, n_corner_nodes=None, n_mid_nodes=None, n_nodes=None, is_solid=None, is_shell=None, is_beam=None, is_quadratic=None)
+
+   Describes an element.
+
+   :param element_id:
+   :type element_id: int
+   :param description: Specifies the element geometry and integration order.
+   :type description: str
+   :param name:
+   :type name: str
+   :param shape: Can be ``"solid"``, ``"shell"``, or ``"beam"``. The default is ``None``.
+   :type shape: str, optional
+   :param n_corner_nodes: The default is ``None``.
+   :type n_corner_nodes: int, optional
+   :param n_mid_nodes: The default is ``None``.
+   :type n_mid_nodes: int, optional
+   :param n_nodes: The default is ``None``.
+   :type n_nodes: int, optional
+   :param is_solid: Whether the element is a solid. The default is ``None``.
+   :type is_solid: bool, optional
+   :param is_shell: Whether the element is a shell. The default is ``None``.
+   :type is_shell: bool, optional
+   :param is_beam: Whether the element is a beam. The default is ``None``.
+   :type is_beam: bool, optional
+   :param is_quadratic: Whether the element is a quadratic. The default is ``None``.
+   :type is_quadratic: bool, optional
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> descriptor = dpf.ElementDescriptor(10, "Linear 4-nodes Tetrahedron", "tet4", "solid", 4, 0, 4, True, False, False, False)
+
+
+
+
+.. py:currentmodule:: ElementDescriptor
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~enum_id`
+            - 
+          * - :py:attr:`~description`
+            - 
+          * - :py:attr:`~name`
+            - 
+          * - :py:attr:`~n_corner_nodes`
+            - 
+          * - :py:attr:`~n_mid_nodes`
+            - 
+          * - :py:attr:`~n_nodes`
+            - 
+          * - :py:attr:`~shape`
+            - 
+          * - :py:attr:`~is_solid`
+            - 
+          * - :py:attr:`~is_shell`
+            - 
+          * - :py:attr:`~is_beam`
+            - 
+          * - :py:attr:`~is_quadratic`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Provide more details in the string representation.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.element_descriptor import ElementDescriptor
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: enum_id
+
+.. py:attribute:: description
+
+.. py:attribute:: name
+
+.. py:attribute:: n_corner_nodes
+   :value: None
+
+
+.. py:attribute:: n_mid_nodes
+   :value: None
+
+
+.. py:attribute:: n_nodes
+   :value: None
+
+
+.. py:attribute:: shape
+   :value: None
+
+
+.. py:attribute:: is_solid
+   :value: None
+
+
+.. py:attribute:: is_shell
+   :value: None
+
+
+.. py:attribute:: is_beam
+   :value: None
+
+
+.. py:attribute:: is_quadratic
+   :value: None
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+   Provide more details in the string representation.
+
+
+
+
+

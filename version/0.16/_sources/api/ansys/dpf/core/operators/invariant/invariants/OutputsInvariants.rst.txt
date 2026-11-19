@@ -1,0 +1,211 @@
+
+
+
+
+
+
+:class:`OutputsInvariants`
+==========================
+
+
+.. py:class:: ansys.dpf.core.operators.invariant.invariants.OutputsInvariants(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   invariants operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.invariants()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_field_int = op.outputs.field_int()
+   >>> result_field_eqv = op.outputs.field_eqv()
+   >>> result_field_max_shear = op.outputs.field_max_shear()
+   >>> result_field_eig_1 = op.outputs.field_eig_1()
+   >>> result_field_eig_2 = op.outputs.field_eig_2()
+   >>> result_field_eig_3 = op.outputs.field_eig_3()
+
+
+
+
+
+.. py:currentmodule:: OutputsInvariants
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field_int`
+            - Allows to get field_int output of the operator
+          * - :py:attr:`~field_eqv`
+            - Allows to get field_eqv output of the operator
+          * - :py:attr:`~field_max_shear`
+            - Allows to get field_max_shear output of the operator
+          * - :py:attr:`~field_eig_1`
+            - Allows to get field_eig_1 output of the operator
+          * - :py:attr:`~field_eig_2`
+            - Allows to get field_eig_2 output of the operator
+          * - :py:attr:`~field_eig_3`
+            - Allows to get field_eig_3 output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.invariant.invariants import OutputsInvariants
+
+Property detail
+---------------
+
+.. py:property:: field_int
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.field.Field]
+
+
+   Allows to get field_int output of the operator
+
+   stress intensity field
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.invariants()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_int = op.outputs.field_int()
+
+.. py:property:: field_eqv
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.field.Field]
+
+
+   Allows to get field_eqv output of the operator
+
+   stress equivalent intensity
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.invariants()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_eqv = op.outputs.field_eqv()
+
+.. py:property:: field_max_shear
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.field.Field]
+
+
+   Allows to get field_max_shear output of the operator
+
+   max shear stress field
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.invariants()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_max_shear = op.outputs.field_max_shear()
+
+.. py:property:: field_eig_1
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.field.Field]
+
+
+   Allows to get field_eig_1 output of the operator
+
+   first eigen value field
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.invariants()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_eig_1 = op.outputs.field_eig_1()
+
+.. py:property:: field_eig_2
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.field.Field]
+
+
+   Allows to get field_eig_2 output of the operator
+
+   second eigen value field
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.invariants()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_eig_2 = op.outputs.field_eig_2()
+
+.. py:property:: field_eig_3
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.field.Field]
+
+
+   Allows to get field_eig_3 output of the operator
+
+   third eigen value field
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.invariant.invariants()
+   >>> # Get the output from op.outputs. ...
+   >>> result_field_eig_3 = op.outputs.field_eig_3()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

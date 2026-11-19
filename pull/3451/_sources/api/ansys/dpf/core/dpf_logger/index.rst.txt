@@ -1,0 +1,191 @@
+
+
+
+
+
+
+The ``dpf_logger.py`` module
+============================
+
+.. py:module:: ansys.dpf.core.dpf_logger
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: dpf_logger
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.dpf_logger.LoggerConfig`
+            - Configuration used when registering a DPF logger.
+
+
+          * - :py:obj:`~ansys.dpf.core.dpf_logger.DPFLogger`
+            - Wrapper around a native DPF logger implementation pointer.
+
+
+
+    .. tab-item:: Enums
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.dpf_logger.LogLevel`
+            - DPF logging levels.
+
+
+          * - :py:obj:`~ansys.dpf.core.dpf_logger.LoggerSink`
+            - DPF logging sinks.
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~register_logger`
+            - Register and return a DPF logger instance.
+
+
+          * - :py:obj:`~get_logger`
+            - Get an existing DPF logger by name.
+
+
+          * - :py:obj:`~flush_all`
+            - Flush all currently registered DPF loggers.
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> LoggerConfig</api/ansys/dpf/core/dpf_logger/LoggerConfig>
+    <span class="nf nf-cod-symbol_class"></span> DPFLogger</api/ansys/dpf/core/dpf_logger/DPFLogger>
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_enum"></span> LogLevel</api/ansys/dpf/core/dpf_logger/LogLevel>
+    <span class="nf nf-cod-symbol_enum"></span> LoggerSink</api/ansys/dpf/core/dpf_logger/LoggerSink>
+
+
+
+
+
+
+
+
+Description
+-----------
+
+High-level access to DPF framework logging APIs.
+
+This module provides a Python wrapper around the native DPF logging APIs.
+It is designed for use in custom Python plugins, where code executes in-process
+with the DPF server and has direct access to native C-layer logging functions
+through the CAPI.
+
+Note: This API is only available in custom Python plugins. Remote or
+client-side Python environments cannot access these logging functions.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: register_logger(name: str, config: Optional[LoggerConfig] = None, server=None) -> DPFLogger
+
+   Register and return a DPF logger instance.
+
+   Intended for use in custom Python plugins.
+
+   :param name: Logger name to register.
+   :type name: str
+   :param config: Logger configuration (level, sinks). Default is Info level, stdout sink.
+   :type config: LoggerConfig, optional
+   :param server: DPF server instance. If None, uses global server.
+   :type server: DPFServer, optional
+
+   :returns: Logger wrapper bound to native DPF logger implementation.
+   :rtype: DPFLogger
+
+   :raises ServerTypeError: If called outside a custom Python plugin context or from a remote client.
+
+
+.. py:function:: get_logger(name: str, server=None) -> DPFLogger
+
+   Get an existing DPF logger by name.
+
+   Intended for use in custom Python plugins.
+
+   :param name: Logger name to retrieve.
+   :type name: str
+   :param server: DPF server instance. If None, uses global server.
+   :type server: DPFServer, optional
+
+   :returns: Logger wrapper bound to native DPF logger implementation.
+   :rtype: DPFLogger
+
+   :raises ServerTypeError: If called outside a custom Python plugin context or from a remote client.
+
+
+.. py:function:: flush_all(server=None) -> None
+
+   Flush all currently registered DPF loggers.
+
+   Intended for use in custom Python plugins.
+
+   :param server: DPF server instance. If None, uses global server.
+   :type server: DPFServer, optional
+
+   :raises ServerTypeError: If called outside a custom Python plugin context or from a remote client.
+
+
+
+

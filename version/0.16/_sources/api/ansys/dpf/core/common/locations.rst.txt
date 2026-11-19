@@ -1,0 +1,164 @@
+
+
+
+
+
+
+:class:`locations`
+==================
+
+
+.. py:class:: ansys.dpf.core.common.locations
+
+   Contains strings for scoping and field locations.
+
+   .. attribute:: none = "none"
+
+
+
+   .. attribute:: elemental = "Elemental"
+
+      data is one per element
+
+   .. attribute:: elemental_nodal = "ElementalNodal"
+
+      one per node per element
+
+   .. attribute:: nodal = "Nodal"
+
+      one per node
+
+   .. attribute:: time_freq = "TimeFreq_sets"
+
+      one per time set
+
+   .. attribute:: overall = "overall"
+
+      applies everywhere
+
+   .. attribute:: time_freq_step = "TimeFreq_steps"
+
+      one per time step
+
+   .. attribute:: faces = "Faces"
+
+      one per face
+
+   .. attribute:: zone = "zone"
+
+      one per zone
+
+   .. attribute:: elemental_and_faces = "ElementalAndFaces"
+
+      data available in elements and faces of the model
+
+   .. attribute:: modal = "Modal"
+
+      relative to modes
+
+
+
+.. py:currentmodule:: locations
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~none`
+            - 
+          * - :py:attr:`~elemental`
+            - 
+          * - :py:attr:`~elemental_nodal`
+            - 
+          * - :py:attr:`~nodal`
+            - 
+          * - :py:attr:`~time_freq`
+            - 
+          * - :py:attr:`~overall`
+            - 
+          * - :py:attr:`~time_freq_step`
+            - 
+          * - :py:attr:`~faces`
+            - 
+          * - :py:attr:`~zone`
+            - 
+          * - :py:attr:`~elemental_and_faces`
+            - 
+          * - :py:attr:`~modal`
+            - 
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.common import locations
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: none
+   :value: 'none'
+
+
+.. py:attribute:: elemental
+   :value: 'Elemental'
+
+
+.. py:attribute:: elemental_nodal
+   :value: 'ElementalNodal'
+
+
+.. py:attribute:: nodal
+   :value: 'Nodal'
+
+
+.. py:attribute:: time_freq
+   :value: 'TimeFreq_sets'
+
+
+.. py:attribute:: overall
+   :value: 'overall'
+
+
+.. py:attribute:: time_freq_step
+   :value: 'TimeFreq_steps'
+
+
+.. py:attribute:: faces
+   :value: 'Faces'
+
+
+.. py:attribute:: zone
+   :value: 'zone'
+
+
+.. py:attribute:: elemental_and_faces
+   :value: 'ElementalAndFaces'
+
+
+.. py:attribute:: modal
+   :value: 'Modal'
+
+
+
+
+
+

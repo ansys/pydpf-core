@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.plastic_strain_principal_3
+   :inherited-members:

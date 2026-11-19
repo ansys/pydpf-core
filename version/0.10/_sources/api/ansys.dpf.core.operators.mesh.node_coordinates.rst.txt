@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.mesh.node_coordinates
+   :inherited-members:

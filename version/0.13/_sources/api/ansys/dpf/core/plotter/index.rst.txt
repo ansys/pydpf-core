@@ -1,0 +1,131 @@
+
+
+
+
+
+
+The ``plotter.py`` module
+=========================
+
+.. py:module:: ansys.dpf.core.plotter
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: plotter
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.plotter.DpfPlotter`
+            - DpfPlotter class. Can be used in order to plot results over a mesh.
+
+
+          * - :py:obj:`~ansys.dpf.core.plotter.Plotter`
+            - Plots fields and meshed regions in DPF-Core.
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~plot_chart`
+            - Plot the minimum/maximum result values over time.
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> DpfPlotter</api/ansys/dpf/core/plotter/DpfPlotter>
+    <span class="nf nf-cod-symbol_class"></span> Plotter</api/ansys/dpf/core/plotter/Plotter>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Plotter.
+
+This module contains the DPF plotter class.
+
+Contains classes used to plot a mesh and a fields container using PyVista.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: plot_chart(fields_container, off_screen=False, screenshot=None)
+
+   Plot the minimum/maximum result values over time.
+
+   This is a valid method if ``time_freq_support`` contains
+   several time_steps, such as in a transient analysis.
+
+   :param fields_container: Fields container that must contains a result for each
+                            time step of ``time_freq_support``.
+   :type fields_container: dpf.core.FieldsContainer
+   :param off_screen: Whether to render the image off-screen. Useful for batch workflows.
+                      The default is ``False``.
+   :type off_screen: bool, optional
+   :param screenshot: A file path to which the figure should be saved. The format is inferred from the file
+                      extension in the path (defaults to ".png"). The default is ``None``.
+   :type screenshot: path-like, optional
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> model = dpf.Model(examples.find_transient_therm())
+   >>> t = model.results.temperature.on_all_time_freqs()
+   >>> fc = t.outputs.fields_container()
+   >>> plotter = dpf.plotter.plot_chart(fc)
+
+
+
+
