@@ -423,7 +423,7 @@ class Field(_FieldBase):
             data = self._api.csfield_get_entity_data(self, index)
         n_comp = self.component_count
         if n_comp != 1 and data.size != 0:
-            data.shape = (data.size // n_comp, n_comp)
+            data = data.reshape(data.size // n_comp, n_comp)
         return data
 
     def get_entity_data_by_id(self, id: int) -> dpf_array.DPFArray:
@@ -442,7 +442,7 @@ class Field(_FieldBase):
             data = self.get_entity_data(index)
         n_comp = self.component_count
         if n_comp != 1 and data.size != 0:
-            data.shape = (data.size // n_comp, n_comp)
+            data = data.reshape(data.size // n_comp, n_comp)
         return data
 
     def append(self, data: float | list[float] | np.ndarray[np.float64], scopingid: int):
@@ -481,7 +481,7 @@ class Field(_FieldBase):
             data = self._api.csfield_get_data(self, np_array)
         n_comp = self.component_count
         if np_array and n_comp != 1 and data.size != 0:
-            data.shape = (data.size // n_comp, n_comp)
+            data = data.reshape(data.size // n_comp, n_comp)
         return data
 
     def _set_data(self, data):

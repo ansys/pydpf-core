@@ -347,7 +347,7 @@ class CustomTypeField(_FieldBase):
             data = self._api.cscustom_type_field_get_entity_data(self, index)
         n_comp = self.component_count
         if n_comp != 1 and data.size != 0:
-            data.shape = (data.size // n_comp, n_comp)
+            data = data.reshape(data.size // n_comp, n_comp)
         return data
 
     def get_entity_data_by_id(self, id):
@@ -390,7 +390,7 @@ class CustomTypeField(_FieldBase):
             data = self.get_entity_data(index)
         n_comp = self.component_count
         if n_comp != 1 and data.size != 0:
-            data.shape = (data.size // n_comp, n_comp)
+            data = data.reshape(data.size // n_comp, n_comp)
         return data
 
     def append(self, data, scopingid):
@@ -424,7 +424,7 @@ class CustomTypeField(_FieldBase):
             data = self._api.cscustom_type_field_get_data(self, np_array)
         n_comp = self.component_count
         if np_array and n_comp != 1 and data.size != 0:
-            data.shape = (data.size // n_comp, n_comp)
+            data = data.reshape(data.size // n_comp, n_comp)
         return data
 
     def _set_data(self, data):
