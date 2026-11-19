@@ -27,4 +27,6 @@ DPF most-used entities
        :link-type: ref
        :text-align: center
 
-       .. image:: ../images/drawings/small_operator.svg
+       .. only:: html
+
+          .. image:: ../images/drawings/small_operator.svg

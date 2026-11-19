@@ -15,7 +15,9 @@ allow you to make various input and output connections.
 During an evaluation, an operator processes inputs to 
 compute an output with respect to the operator's description:
 
-.. figure:: ../images/drawings/operator_drawing.svg
+.. only:: html
+
+    .. figure:: ../images/drawings/operator_drawing.svg
 
 You can attach one operator's outputs to another operator's inputs to
 chain operators together, thereby creating workflows for conducting simple or
