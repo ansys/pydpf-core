@@ -128,3 +128,11 @@ new_scoping = new_operator.outputs.scoping()
 print("scoping in was:", norm.outputs.field().scoping)
 print("----------------------------------------------")
 print("scoping out is:", new_scoping)
+
+###############################################################################
+# Release native workflow resources before interpreter teardown.
+
+import gc
+
+del new_scoping, new_operator, norm, displacement, ds
+gc.collect()

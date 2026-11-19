@@ -127,3 +127,11 @@ print("first quartile is", new_operator.outputs.first_quartile())
 print("median is", new_operator.outputs.median())
 print("third quartile is", new_operator.outputs.third_quartile())
 print("variance is", new_operator.outputs.variance())
+
+###############################################################################
+# Release native workflow resources before interpreter teardown.
+
+import gc
+
+del new_operator, norm, displacement, ds
+gc.collect()

@@ -108,3 +108,11 @@ with dpf.LicenseContextManager(increment_name="preppost", license_timeout_in_sec
     # Instantiate the licensed operator
     out = op_premium.eval()
     print(out)
+
+###############################################################################
+# Release native workflow resources before interpreter teardown.
+
+import gc
+
+del out, op_premium, op_entry, field, lic
+gc.collect()

@@ -120,3 +120,13 @@ print(grpc_field, type(grpc_field._server), grpc_field._server)
 
 # Go back to default config:
 dpf.SERVER_CONFIGURATION = initial_config
+
+###############################################################################
+# Release native field resources before interpreter teardown.
+
+import gc
+
+del grpc_field, legacy_grpc_field
+if "DPF_DOCKER" not in os.environ.keys():
+    del in_process_field
+gc.collect()

@@ -112,3 +112,11 @@ mesh_copy.plot(out.get_field({"complex": 0}))
 
 # imaginary part
 mesh_copy.plot(out.get_field({"complex": 1}))
+
+###############################################################################
+# Release native workflow resources before interpreter teardown.
+
+import gc
+
+del out, comp, coordinates, fc_copy, fc_disp, mesh_copy, cs, disp, model
+gc.collect()
