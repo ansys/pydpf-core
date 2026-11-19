@@ -68,6 +68,9 @@ class DPFServerException(Exception):
     - ``chain``: list of :class:`OperatorFrame` the error passed through, from
       the outermost operator down to the root cause.
 
+        The ``frames`` attribute retains all structured frames, from the root cause
+        to the outermost boundary, including plugin-load context and non-operator frames.
+
     For legacy flat-string errors these attributes stay ``None``/empty and the
     behavior is unchanged.
 
@@ -106,6 +109,7 @@ class DPFServerException(Exception):
         self.suggestion = None
         self.fields = {}
         self.chain = []
+        self.frames = []
 
         structured = _parse_structured_error(msg)
         if structured is not None:
@@ -126,6 +130,7 @@ class DPFServerException(Exception):
         frames_raw = data.get("frames", {})
         # Frames are keyed by string indices; "0" is the innermost root cause.
         frames = [frames_raw[key] for key in sorted(frames_raw, key=int)]
+        self.frames = frames
         root = frames[0] if frames else {}
 
         self.type = root.get("type")
