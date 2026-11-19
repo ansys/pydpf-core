@@ -8,10 +8,16 @@ import subprocess
 
 from ansys_sphinx_theme import (
     ansys_favicon,
+    ansys_logo_white,
+    ansys_logo_white_cropped,
     get_version_match,
+    latex,
     pyansys_logo_dark_mode,
     pyansys_logo_light_mode,
+    watermark,
 )
+from docutils import nodes
+from docutils.parsers.rst import Directive
 import numpy as np
 import pyvista
 from pyvista.plotting.utilities.sphinx_gallery import DynamicScraper
@@ -232,6 +238,23 @@ class _TutorialFileOrder:
     def __call__(self, filename):
         return _read_order(self._src_dir / filename)
 
+def _copy_labels_images(app, exception):
+    """Override sphinx-gallery images for 03-labels.py example.
+
+    The images captured during CI run do not show the labels as expected,
+    and the behavior is not reproducible locally. This hook replaces whatever
+    sphinx-gallery generated during the CI run.
+    """
+    _LABELS_IMAGES_SRC = Path(__file__).parent / "images" / "plotting"
+    _LABELS_IMAGES_PATTERN = "sphx_glr_03-labels"
+    if exception:
+        return
+    target_dir = Path(app.outdir) / "_images"
+    if not target_dir.exists():
+        return
+    for src in _LABELS_IMAGES_SRC.glob(f"{_LABELS_IMAGES_PATTERN}*"):
+        dst = target_dir / src.name
+        shutil.copy2(src, dst)
 
 sphinx_gallery_conf = {
     # convert rst to md for ipynb
@@ -368,29 +391,26 @@ htmlhelp_basename = "pyansysdoc"
 
 # -- Options for LaTeX output ------------------------------------------------
 
-latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
-}
+# XeLaTeX supports the Unicode characters of the docstrings, such as box-drawing characters.
+latex_engine = "xelatex"
+# Use makeindex, because xindy is not reliably available with MiKTeX on Windows.
+latex_use_xindy = False
 
-# Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title,
-#  author, documentclass [howto, manual, or own class]).
+# Remove "colorrows" from the default table style. With the 2026 LaTeX packages,
+# it makes Sphinx 8 tables fail with "TeX capacity exceeded".
+# See https://github.com/sphinx-doc/sphinx/issues/14465 (fixed in Sphinx 9).
+latex_table_style = ["booktabs"]
+
+# PyAnsys cover page, as used by other PyAnsys projects.
+latex_additional_files = [watermark, ansys_logo_white, ansys_logo_white_cropped]
+latex_elements = {"preamble": latex.generate_preamble(html_title)}
+
+# The target name must match the PDF name expected by ansys/actions/doc-build.
 latex_documents = [
     (
         master_doc,
-        "pyansys.tex",
-        "PyAnsys DPF-Core Documentation",
+        "pydpf-core.tex",
+        "PyDPF-Core Documentation",
         f"{author}",
         "manual",
     ),
@@ -439,23 +459,76 @@ epub_title = project
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
 
-def _copy_labels_images(app, exception):
-    """Override sphinx-gallery images for 03-labels.py example.
+# -- Hooks necessary for a successful build of the PDF documentation-------------
 
-    The images captured during CI run do not show the labels as expected,
-    and the behavior is not reproducible locally. This hook replaces whatever
-    sphinx-gallery generated during the CI run.
+LATEX_MAX_LINE_LENGTH = 1000
+LATEX_MAX_OUTPUT_LINES = 100
+
+
+def _shorten_literal_blocks(app, doctree, docname):
+    """Shorten very long code lines and example outputs in the PDF.
+
+    TeX cannot read a line longer than 200,000 characters, and it runs out of
+    memory on very long example outputs, which causes failure of PDF build.
     """
-    _LABELS_IMAGES_SRC = Path(__file__).parent / "images" / "plotting"
-    _LABELS_IMAGES_PATTERN = "sphx_glr_03-labels"
-    if exception:
+    if app.builder.name != "latex":
         return
-    target_dir = Path(app.outdir) / "_images"
-    if not target_dir.exists():
+    for block in doctree.findall(nodes.literal_block):
+        original_lines = block.astext().splitlines()
+        lines = [
+            line if len(line) <= LATEX_MAX_LINE_LENGTH else line[:LATEX_MAX_LINE_LENGTH] + " ..."
+            for line in original_lines
+        ]
+        is_example_output = "sphx-glr-script-out" in block["classes"]
+        if is_example_output and len(lines) > LATEX_MAX_OUTPUT_LINES:
+            omitted = len(lines) - LATEX_MAX_OUTPUT_LINES
+            lines = lines[:LATEX_MAX_OUTPUT_LINES]
+            lines.append(f"... ({omitted} more lines in the HTML documentation)")
+        if lines != original_lines:
+            text = "\n".join(lines)
+            block.rawsource = text
+            block.children = [nodes.Text(text)]
+
+
+def _remove_gif_images(app, doctree, docname):
+    """Remove animated GIF images from the PDF, because LaTeX cannot include them."""
+    if app.builder.name != "latex":
         return
-    for src in _LABELS_IMAGES_SRC.glob(f"{_LABELS_IMAGES_PATTERN}*"):
-        dst = target_dir / src.name
-        shutil.copy2(src, dst)
+    for node in list(doctree.findall(nodes.Element)):
+        if node.get("uri", "").lower().endswith(".gif"):
+            node.parent.remove(node)
+
+
+def _exclude_operator_api_from_pdf(app):
+    """Remove the generated operator API pages from the PDF.
+
+    These pages make a PDF of more than 11,000 pages, which is more than TeX can
+    process. The "Operators" section links to searchable operator documentation.
+    """
+    if app.builder.name == "latex":
+        app.config.exclude_patterns.append("api/ansys/dpf/core/operators/**")
+
+
+class _SkipDirective(Directive):
+    """Directive that adds nothing to the document."""
+
+    optional_arguments = 1
+    final_argument_whitespace = True
+    has_content = True
+
+    def run(self):
+        return []
+
+
+def _skip_interactive_scenes_in_pdf(app):
+    """Skip the interactive PyVista scenes in the PDF.
+
+    The "offlineviewer" directive only makes HTML, and it fails with the LaTeX
+    builder. The PDF keeps the static image of each scene.
+    """
+    if app.builder.name == "latex":
+        app.add_directive("offlineviewer", _SkipDirective, override=True)
+
 
 # Define custom docutils roles for solver badges
 from sphinx_design.badges_buttons import BadgeRole
@@ -472,6 +545,10 @@ def setup(app):
         app.add_role(name=role_name, role=BadgeRole(color))
 
     app.connect("build-finished", _copy_labels_images)
+    app.connect("doctree-resolved", _shorten_literal_blocks)
+    app.connect("doctree-resolved", _remove_gif_images)
+    app.connect("builder-inited", _exclude_operator_api_from_pdf)
+    app.connect("builder-inited", _skip_interactive_scenes_in_pdf)
 
 # Common content for every RST file such us links
 rst_epilog = ""
