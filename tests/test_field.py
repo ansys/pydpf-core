@@ -22,6 +22,7 @@
 
 import copy
 import gc
+import warnings
 
 import numpy as np
 import pytest
@@ -1529,3 +1530,45 @@ def test_field_definition_set_dimensionality_component_count_matrix(server_type)
         assert field_definition.dimensionality == dpf.core.Dimensionality([3,3], dpf.core.natures.symmatrix)
     else:
         assert field_definition.dimensionality == dpf.core.Dimensionality([3,3], dpf.core.natures.matrix)
+
+
+def test_field_multi_component_data_is_reshaped(server_type):
+    # Multi-component data must come back as a 2D (n, n_comp) array from
+    # ``data``, ``get_entity_data`` and ``get_entity_data_by_id`` without
+    # triggering the NumPy >= 2.5 deprecation on setting ``ndarray.shape``.
+    field = dpf.core.Field(nentities=2, nature=dpf.core.natures.vector, server=server_type)
+    field.append(np.arange(0.0, 6.0).reshape(2, 3), 1)
+    field.append(np.arange(6.0, 12.0).reshape(2, 3), 2)
+
+    with warnings.catch_warnings():
+        warnings.filterwarnings("error", message=".*shape", category=DeprecationWarning)
+        data = field.data
+        entity_data = field.get_entity_data(1)
+        entity_data_by_id = field.get_entity_data_by_id(2)
+
+    assert data.shape == (4, 3)
+    assert np.allclose(data, np.arange(0.0, 12.0).reshape(4, 3))
+    assert entity_data.shape == (2, 3)
+    assert np.allclose(entity_data, np.arange(6.0, 12.0).reshape(2, 3))
+    assert entity_data_by_id.shape == (2, 3)
+    assert np.allclose(entity_data_by_id, np.arange(6.0, 12.0).reshape(2, 3))
+
+
+def test_field_multi_component_reshaped_data_writes_back(server_clayer):
+    # The reshaped array must remain a view on the DPF vector so that
+    # in-place modifications are propagated back to the field.
+    field = dpf.core.Field(nentities=2, nature=dpf.core.natures.vector, server=server_clayer)
+    field.append(np.arange(0.0, 6.0).reshape(2, 3), 1)
+    field.append(np.arange(6.0, 12.0).reshape(2, 3), 2)
+
+    entity_data = field.get_entity_data(1)
+    assert entity_data.shape == (2, 3)
+    entity_data[1, 2] = 100.0
+    entity_data.commit()
+    assert np.allclose(field.get_entity_data(1), [[6.0, 7.0, 8.0], [9.0, 10.0, 100.0]])
+
+    data = field.data
+    assert data.shape == (4, 3)
+    data[0, 0] = -1.0
+    data.commit()
+    assert field.data[0, 0] == -1.0

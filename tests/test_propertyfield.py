@@ -22,6 +22,7 @@
 
 import copy
 import gc
+import warnings
 
 import numpy as np
 import pytest
@@ -305,3 +306,25 @@ def test_print_property_field(server_type):
 
 if __name__ == "__main__":
     test_local_property_field()
+
+
+def test_property_field_multi_component_data_is_reshaped(server_type):
+    # Multi-component data must come back as a 2D (n, n_comp) array from
+    # ``data``, ``get_entity_data`` and ``get_entity_data_by_id`` without
+    # triggering the NumPy >= 2.5 deprecation on setting ``ndarray.shape``.
+    pfield = core.PropertyField(2, natures.vector, locations.elemental_nodal, server=server_type)
+    pfield.append(list(range(0, 6)), 1)
+    pfield.append(list(range(6, 12)), 2)
+
+    with warnings.catch_warnings():
+        warnings.filterwarnings("error", message=".*shape", category=DeprecationWarning)
+        data = pfield.data
+        entity_data = pfield.get_entity_data(1)
+        entity_data_by_id = pfield.get_entity_data_by_id(2)
+
+    assert data.shape == (4, 3)
+    assert np.array_equal(data, np.arange(0, 12).reshape(4, 3))
+    assert entity_data.shape == (2, 3)
+    assert np.array_equal(entity_data, np.arange(6, 12).reshape(2, 3))
+    assert entity_data_by_id.shape == (2, 3)
+    assert np.array_equal(entity_data_by_id, np.arange(6, 12).reshape(2, 3))

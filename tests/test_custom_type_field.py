@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import warnings
+
 import numpy as np
 import pytest
 
@@ -300,3 +302,29 @@ def test_check_types_custom_type_field(server_type):
     assert pfieldout.type == np.byte
     assert pfieldout.is_of_type(np.int8)
     assert not pfieldout.is_of_type(np.short)
+
+
+def test_custom_type_field_multi_component_data_is_reshaped(server_type):
+    # Multi-component data must come back as a 2D (n, n_comp) array from
+    # ``data``, ``get_entity_data`` and ``get_entity_data_by_id`` without
+    # triggering the NumPy >= 2.5 deprecation on setting ``ndarray.shape``.
+    field = dpf.core.CustomTypeField(np.float64, nentities=2, server=server_type)
+    field_def = dpf.core.FieldDefinition(server=server_type)
+    field_def.dimensionality = dpf.core.Dimensionality([3], dpf.core.natures.vector)
+    field.field_definition = field_def
+    field.scoping = dpf.core.Scoping(ids=[1, 2], location="faces", server=server_type)
+    field.data = np.arange(0.0, 12.0)
+    field.entity_data_offsets = [0, 6]
+
+    with warnings.catch_warnings():
+        warnings.filterwarnings("error", message=".*shape", category=DeprecationWarning)
+        data = field.data
+        entity_data = field.get_entity_data(1)
+        entity_data_by_id = field.get_entity_data_by_id(2)
+
+    assert data.shape == (4, 3)
+    assert np.allclose(data, np.arange(0.0, 12.0).reshape(4, 3))
+    assert entity_data.shape == (2, 3)
+    assert np.allclose(entity_data, np.arange(6.0, 12.0).reshape(2, 3))
+    assert entity_data_by_id.shape == (2, 3)
+    assert np.allclose(entity_data_by_id, np.arange(6.0, 12.0).reshape(2, 3))
