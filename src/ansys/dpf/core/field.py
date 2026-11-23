@@ -421,10 +421,7 @@ class Field(_FieldBase):
 
         except NotImplementedError:
             data = self._api.csfield_get_entity_data(self, index)
-        n_comp = self.component_count
-        if n_comp != 1 and data.size != 0:
-            data = data.reshape(data.size // n_comp, n_comp)
-        return data
+        return self._split_components(data)
 
     def get_entity_data_by_id(self, id: int) -> dpf_array.DPFArray:
         """Retrieve entity data by id."""
@@ -440,10 +437,7 @@ class Field(_FieldBase):
             if index < 0:
                 raise ValueError(f"The ID {id} must be greater than 0.")
             data = self.get_entity_data(index)
-        n_comp = self.component_count
-        if n_comp != 1 and data.size != 0:
-            data = data.reshape(data.size // n_comp, n_comp)
-        return data
+        return self._split_components(data)
 
     def append(self, data: float | list[float] | np.ndarray[np.float64], scopingid: int):
         """Append data to the Field."""
@@ -479,10 +473,7 @@ class Field(_FieldBase):
             data = dpf_array.DPFArray(vec) if np_array else dpf_array.DPFArray(vec).tolist()
         except NotImplementedError:
             data = self._api.csfield_get_data(self, np_array)
-        n_comp = self.component_count
-        if np_array and n_comp != 1 and data.size != 0:
-            data = data.reshape(data.size // n_comp, n_comp)
-        return data
+        return self._split_components(data) if np_array else data
 
     def _set_data(self, data):
         if isinstance(data, list):

@@ -245,6 +245,7 @@ path = ".ci/build_wheel.py"
 
 [tool.pytest]
 #filterwarnings = ['ignore:Use explicit output-to-input connections:DeprecationWarning']
+filterwarnings = ['error:Setting the shape on a NumPy array:DeprecationWarning:ansys\.dpf']
 norecursedirs = ["*"]
 doctest_optionflags = ["NORMALIZE_WHITESPACE", "ELLIPSIS"]
 markers = ["slow: mark a test as slow."]
