@@ -168,6 +168,12 @@ class _FieldBase:
             return (self.elementary_data_count, self.component_count)
         return self.elementary_data_count
 
+    def _split_components(self, data):
+        n_comp = self.component_count
+        if n_comp == 1 or data.size == 0:
+            return data
+        return data.reshape(-1, n_comp)
+
     @property
     @abstractmethod
     def location(self):
