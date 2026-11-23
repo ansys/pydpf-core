@@ -23,7 +23,8 @@ if TYPE_CHECKING:
 
 class skin(Operator):
     r"""Extracts a skin of the mesh in a new meshed region. The material ID of
-    initial elements are propagated to their facets.
+    initial elements are propagated to their facets. Currently supports only
+    2^29 elements.
 
 
     Inputs
@@ -116,7 +117,8 @@ class skin(Operator):
     @staticmethod
     def _spec() -> Specification:
         description = r"""Extracts a skin of the mesh in a new meshed region. The material ID of
-initial elements are propagated to their facets.
+initial elements are propagated to their facets. Currently supports only
+2^29 elements.
 """
         spec = Specification(
             description=description,
