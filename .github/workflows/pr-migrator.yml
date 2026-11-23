@@ -32,4 +32,4 @@ jobs:
           github-token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
           bot-username: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
           bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
-          team-slug: "pydpf-admins"
+          team-slug: "pydpf-approvers"
