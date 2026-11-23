@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = ">=3.10, <4"
 resolution-markers = [
     "python_full_version >= '3.14'",
@@ -206,7 +206,6 @@ wheels = [
 name = "ansys-dpf-core"
 version = "0.16.2.dev0"
 source = { editable = "." }
-default-groups = []
 dependencies = [
     { name = "ansys-tools-common" },
     { name = "grpcio" },
@@ -402,7 +401,7 @@ install = [
 operator-doc = [{ name = "jinja2", specifier = "==3.1.6" }]
 test = [
     { name = "ansys-platform-instancemanagement", specifier = "==1.2.0" },
-    { name = "ansys-tools-common", specifier = "==0.5.3" },
+    { name = "ansys-tools-common", specifier = "==0.5.4" },
     { name = "ansys-tools-visualization-interface", specifier = ">=0.13.0" },
     { name = "coverage", specifier = "==7.16.2" },
     { name = "graphviz", specifier = "==0.21" },
@@ -497,7 +496,7 @@ autoapi = [
 
 [[package]]
 name = "ansys-tools-common"
-version = "0.5.3"
+version = "0.5.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -506,9 +505,9 @@ dependencies = [
     { name = "scooby" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/04/0a/1291f8c5167c68a920361d214c6be8516f3452392dccbb72fb9f41a825ac/ansys_tools_common-0.5.3.tar.gz", hash = "sha256:f922fe151d76d94b42658c2f1a23111c9d05147a35aac0c88cba3155462bacae", size = 327064, upload-time = "2026-08-31T09:36:51.907Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/19/1d/ef8463cb01c03de816dc9939eb5740775796856664983820793a662d7d99/ansys_tools_common-0.5.4.tar.gz", hash = "sha256:ab460096ecf14341ba3fb3497083681c38359a3e7455d674659a346d8095a7f8", size = 327096, upload-time = "2026-11-12T07:47:56.364Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/62/fc/30cee1f72d0add309f45503255040087f65458b446b47743c550aa2ff707/ansys_tools_common-0.5.3-py3-none-any.whl", hash = "sha256:f1f70e424ba5f5ead6925b7d9471b0df691d80f8371f36997dcca63bdd11af85", size = 88760, upload-time = "2026-08-31T09:36:50.268Z" },
+    { url = "https://files.pythonhosted.org/packages/89/d2/42c7603d0943c0c2da41212525dc4905f556a9518a73cdb23d874b3297d2/ansys_tools_common-0.5.4-py3-none-any.whl", hash = "sha256:fb0d1eea20546483967a27a146f8393cfe9fe43aaaf73a70c37ea0c0a60c80ec", size = 88765, upload-time = "2026-11-12T07:47:54.863Z" },
 ]
 
 [[package]]
@@ -844,11 +843,11 @@ wheels = [
 
 [[package]]
 name = "certifi"
-version = "2026.7.22"
+version = "2026.10.23"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/a3/c2/24167ea9858356b47a87a50d39908bfdb72ceeefe0041586e704e5376b3a/certifi-2026.7.22.tar.gz", hash = "sha256:741e2c3b351ddf169a738da9f2c048608ff7f2c5cc02f1ebc6b118bb090d5d55", size = 138112, upload-time = "2026-07-22T03:35:12.644Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fd/11/b524cbd9bbdaca58608e4cf4053fd463417549e1959fa8d3aa18319f9555/certifi-2026.10.23.tar.gz", hash = "sha256:a9895e6e2758b371e0545e321a3a8fd1fcfd9829ada8824a936dfb16aaaf36cd", size = 136225, upload-time = "2026-10-23T11:36:16.478Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0b/a7/71ac2cff56fec219ed242bb11b8efb69fcc4bec75db06fb7bfe35de520e6/certifi-2026.7.22-py3-none-any.whl", hash = "sha256:62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775", size = 136983, upload-time = "2026-07-22T03:35:11.276Z" },
+    { url = "https://files.pythonhosted.org/packages/32/d1/a3652fe2c19134d0d15922177821d863cbd7e842d53a21bbe7e8e3a1b5ac/certifi-2026.10.23-py3-none-any.whl", hash = "sha256:e9b54de76e530bb6cf0ccd036787103acb58fd42ba930ea8bf948ddbaa2f61d1", size = 135082, upload-time = "2026-10-23T11:36:14.763Z" },
 ]
 
 [[package]]

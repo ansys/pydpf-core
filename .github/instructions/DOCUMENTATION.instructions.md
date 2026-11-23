@@ -402,7 +402,7 @@ Common PyDPF-Core references are available in `doc/source/links_and_refs.rst`:
    python -m tox -e doc-html
    ```
 
-2. **Check output**: `doc/build/html/index.html`
+2. **Check output**: `doc/_build/html/index.html`
 
 3. **Verify links**:
    ```bash

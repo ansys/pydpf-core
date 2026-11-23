@@ -195,8 +195,10 @@ def shutdown_all_session_servers():
     copy_instances = copy.deepcopy(_server_instances)
     for instance in copy_instances:
         try:
-            if hasattr(instance(), "shutdown"):
-                instance().shutdown()
+            server = instance()
+            # servers only connected to are not owned by this session: leave them running
+            if hasattr(server, "shutdown") and getattr(server, "_own_process", True):
+                server.shutdown()
         except Exception as e:
             print(e.args)
             pass
