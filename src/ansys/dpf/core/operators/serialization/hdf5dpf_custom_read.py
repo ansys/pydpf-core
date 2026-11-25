@@ -20,6 +20,7 @@ if TYPE_CHECKING:
     from ansys.dpf.core.data_sources import DataSources
     from ansys.dpf.core.data_tree import DataTree
     from ansys.dpf.core.scoping import Scoping
+    from ansys.dpf.core.scopings_container import ScopingsContainer
     from ansys.dpf.core.streams_container import StreamsContainer
 
 
@@ -31,7 +32,8 @@ class hdf5dpf_custom_read(Operator):
     Inputs
     ------
     time_scoping: Scoping, optional
-    mesh_scoping: Scoping, optional
+    mesh_scoping: Scoping or ScopingsContainer, optional
+        Entities to read. A scoping whose location is a label of the stored fields container (for example "mat") selects the fields with these label values; a labelled scopings container scopes each stored field with its compatible scopings. Any label combination that exists as label in the stored fields container can be used.
     streams: StreamsContainer, optional
         Hdf5df file stream.
     data_sources: DataSources, optional
@@ -127,9 +129,9 @@ deprecated, please use the ‘custom’ operator instead.
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
-                    type_names=["scoping"],
+                    type_names=["scoping", "scopings_container"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Entities to read. A scoping whose location is a label of the stored fields container (for example "mat") selects the fields with these label values; a labelled scopings container scopes each stored field with its compatible scopings. Any label combination that exists as label in the stored fields container can be used.""",
                 ),
                 3: PinSpecification(
                     name="streams",
@@ -239,7 +241,7 @@ class InputsHdf5DpfCustomRead(_Inputs):
             hdf5dpf_custom_read._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping: Input[Scoping] = Input(
+        self._mesh_scoping: Input[Scoping | ScopingsContainer] = Input(
             hdf5dpf_custom_read._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_scoping)
@@ -280,8 +282,10 @@ class InputsHdf5DpfCustomRead(_Inputs):
         return self._time_scoping
 
     @property
-    def mesh_scoping(self) -> Input[Scoping]:
+    def mesh_scoping(self) -> Input[Scoping | ScopingsContainer]:
         r"""Allows to connect mesh_scoping input to the operator.
+
+        Entities to read. A scoping whose location is a label of the stored fields container (for example "mat") selects the fields with these label values; a labelled scopings container scopes each stored field with its compatible scopings. Any label combination that exists as label in the stored fields container can be used.
 
         Returns
         -------
