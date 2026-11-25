@@ -244,7 +244,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         >>> split_mesh_op.connect(7, mesh_container[0])
         >>> split_mesh_op.connect(13, "elshape")
         >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
-        >>> solid_meshes = splitted_meshes.solid_meshes({"body": 1})
+        >>> solid_meshes = splitted_meshes.solid_meshes()
         """
         if label_space is None:
             label_space = {}
@@ -306,7 +306,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         >>> split_mesh_op.connect(7, mesh_container[0])
         >>> split_mesh_op.connect(13, "elshape")
         >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
-        >>> shell_meshes = splitted_meshes.shell_meshes({"body": 1})
+        >>> shell_meshes = splitted_meshes.shell_meshes()
         """
         if label_space is None:
             label_space = {}
@@ -368,7 +368,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         >>> split_mesh_op.connect(7, mesh_container[0])
         >>> split_mesh_op.connect(13, "elshape")
         >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
-        >>> beam_meshes = splitted_meshes.beam_meshes({"body": 1})
+        >>> beam_meshes = splitted_meshes.beam_meshes()
         """
         if label_space is None:
             label_space = {}
@@ -431,7 +431,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         >>> split_mesh_op.connect(7, mesh_container[0])
         >>> split_mesh_op.connect(13, "elshape")
         >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
-        >>> solid_mesh = splitted_meshes.solid_mesh({"body": 1})
+        >>> solid_mesh = splitted_meshes.solid_mesh()
         """
         if label_space is None:
             label_space = {}
@@ -494,7 +494,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         >>> split_mesh_op.connect(7, mesh_container[0])
         >>> split_mesh_op.connect(13, "elshape")
         >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
-        >>> shell_mesh = splitted_meshes.shell_mesh({"body": 1})
+        >>> shell_mesh = splitted_meshes.shell_mesh()
         """
         if label_space is None:
             label_space = {}
@@ -557,7 +557,7 @@ class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
         >>> split_mesh_op.connect(7, mesh_container[0])
         >>> split_mesh_op.connect(13, "elshape")
         >>> splitted_meshes = split_mesh_op.get_output(0, dpf_types.meshes_container)
-        >>> beam_mesh = splitted_meshes.beam_mesh({"body": 1})
+        >>> beam_mesh = splitted_meshes.beam_mesh()
         """
         if label_space is None:
             label_space = {}
