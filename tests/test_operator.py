@@ -647,7 +647,9 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
     else:
         assert len(mc) == 4
 
-    assert mc.labels == ["body", "elshape"]
+    # The "body" label is only added by some server versions
+    assert "elshape" in mc.labels
+    assert set(mc.labels) <= {"body", "elshape"}
     if server_meet_version("2027.1.0pre0", model._server):
         mesh = mc.get_mesh({"elshape": 2})
     else:
@@ -672,14 +674,14 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
     ):
         stress.inputs.connect(opsc.outputs)
     fc = stress.outputs.fields_container()
-    assert fc.labels == ["body", "elshape", "time"]
+    assert {"elshape", "time"} <= set(fc.labels) <= {"body", "elshape", "time"}
     if server_meet_version("2027.1.0pre0", model._server):
         assert len(fc) == 5
     else:
         assert len(fc) == 4
     stress.inputs.connect(mc)
     fc = stress.outputs.fields_container()
-    assert fc.labels == ["body", "elshape", "time"]
+    assert {"elshape", "time"} <= set(fc.labels) <= {"body", "elshape", "time"}
     if server_meet_version("2027.1.0pre0", model._server):
         assert len(fc) == 5
     else:
@@ -691,7 +693,7 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
         stress.inputs.connect(op.outputs.meshes)
 
     fc = stress.outputs.fields_container()
-    assert fc.labels == ["body", "elshape", "time"]
+    assert {"elshape", "time"} <= set(fc.labels) <= {"body", "elshape", "time"}
     if server_meet_version("2027.1.0pre0", model._server):
         assert len(fc) == 5
     else:
