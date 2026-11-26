@@ -77,8 +77,8 @@ my_meshes = ops.mesh.split_mesh(
 ).eval()
 
 # - Define the meshes for each body in separate variables
-ball_mesh = my_meshes.solid_mesh(label_space={"body": 1})
-plate_mesh = my_meshes.beam_mesh(label_space={"body": 2})
+ball_mesh = my_meshes.solid_mesh()
+plate_mesh = my_meshes.beam_mesh()
 
 print(my_meshes)
 
