@@ -45,15 +45,6 @@ class FieldCAPI(field_abstract_api.FieldAbstractAPI):
 		return res
 
 	@staticmethod
-	def field_get_scoping(constfield, size):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.Field_GetScoping(constfield, ctypes.byref(utils.to_int32(size)), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
 	def field_get_scoping_to_data_pointer_copy(field, scopingToDataPointer):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -296,15 +287,6 @@ class FieldCAPI(field_abstract_api.FieldAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.CSField_PushBack(field._internal_obj if field is not None else None, utils.to_int32(EntityId), utils.to_int32(size), utils.to_double_ptr(data), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def csfield_get_scoping(field, size):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSField_GetScoping(field._internal_obj if field is not None else None, ctypes.byref(utils.to_int32(size)), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
