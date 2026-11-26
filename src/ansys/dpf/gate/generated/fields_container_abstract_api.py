@@ -28,10 +28,6 @@ class FieldsContainerAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def fields_container_get_scoping(fieldContainer, ic, size):
-		raise NotImplementedError
-
-	@staticmethod
 	def fields_container_num_fields(fieldContainer):
 		raise NotImplementedError
 

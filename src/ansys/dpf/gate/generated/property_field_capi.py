@@ -45,15 +45,6 @@ class PropertyFieldCAPI(property_field_abstract_api.PropertyFieldAbstractAPI):
 		return res
 
 	@staticmethod
-	def property_field_get_scoping(field, size):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.PropertyField_GetScoping(field, ctypes.byref(utils.to_int32(size)), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
 	def property_field_get_entity_data(field, EntityIndex, size):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

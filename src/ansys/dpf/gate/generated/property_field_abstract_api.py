@@ -24,10 +24,6 @@ class PropertyFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def property_field_get_scoping(field, size):
-		raise NotImplementedError
-
-	@staticmethod
 	def property_field_get_entity_data(field, EntityIndex, size):
 		raise NotImplementedError
 

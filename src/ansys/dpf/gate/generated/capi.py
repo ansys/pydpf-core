@@ -1965,10 +1965,6 @@ def _load_api(path):
 		dll.Field_GetDataPointer.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Field_GetDataPointer.restype = ctypes.POINTER(ctypes.c_int32)
 
-	if hasattr(dll, "Field_GetScoping"):
-		dll.Field_GetScoping.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.Field_GetScoping.restype = ctypes.POINTER(ctypes.c_int32)
-
 	if hasattr(dll, "Field_GetScopingToDataPointerCopy"):
 		dll.Field_GetScopingToDataPointerCopy.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Field_GetScopingToDataPointerCopy.restype = None
@@ -2076,10 +2072,6 @@ def _load_api(path):
 	if hasattr(dll, "CSField_PushBack"):
 		dll.CSField_PushBack.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSField_PushBack.restype = None
-
-	if hasattr(dll, "CSField_GetScoping"):
-		dll.CSField_GetScoping.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.CSField_GetScoping.restype = ctypes.POINTER(ctypes.c_int32)
 
 	if hasattr(dll, "CSField_GetDataPtr"):
 		dll.CSField_GetDataPtr.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -2481,10 +2473,6 @@ def _load_api(path):
 	if hasattr(dll, "FieldsContainer_setField"):
 		dll.FieldsContainer_setField.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.FieldsContainer_setField.restype = None
-
-	if hasattr(dll, "FieldsContainer_GetScoping"):
-		dll.FieldsContainer_GetScoping.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.FieldsContainer_GetScoping.restype = ctypes.POINTER(ctypes.c_int32)
 
 	if hasattr(dll, "FieldsContainer_numFields"):
 		dll.FieldsContainer_numFields.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -3442,10 +3430,6 @@ def _load_api(path):
 	if hasattr(dll, "PropertyField_GetDataPointer"):
 		dll.PropertyField_GetDataPointer.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.PropertyField_GetDataPointer.restype = ctypes.POINTER(ctypes.c_int32)
-
-	if hasattr(dll, "PropertyField_GetScoping"):
-		dll.PropertyField_GetScoping.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.PropertyField_GetScoping.restype = ctypes.POINTER(ctypes.c_int32)
 
 	if hasattr(dll, "PropertyField_GetEntityData"):
 		dll.PropertyField_GetEntityData.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )

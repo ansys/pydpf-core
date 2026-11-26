@@ -54,15 +54,6 @@ class FieldsContainerCAPI(fields_container_abstract_api.FieldsContainerAbstractA
 		return res
 
 	@staticmethod
-	def fields_container_get_scoping(fieldContainer, ic, size):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.FieldsContainer_GetScoping(fieldContainer._internal_obj if fieldContainer is not None else None, utils.to_int32(ic), ctypes.byref(utils.to_int32(size)), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
 	def fields_container_num_fields(fieldContainer):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
