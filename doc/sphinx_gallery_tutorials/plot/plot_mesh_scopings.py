@@ -107,17 +107,16 @@ meshes: dpf.MeshesContainer = ops.mesh.split_mesh(mesh=mesh_1, property="mat").e
 
 node_scoping_3 = dpf.Scoping(
     location=dpf.locations.nodal,
-    ids=meshes.get_mesh({"mat": 1, "body": 1}).nodes.scoping.ids[0:100],
+    ids=meshes.get_mesh({"mat": 1}).nodes.scoping.ids[0:100],
 )
 node_scoping_4 = dpf.Scoping(
     location=dpf.locations.nodal,
-    ids=meshes.get_mesh({"mat": 2, "body": 2}).nodes.scoping.ids[0:100],
+    ids=meshes.get_mesh({"mat": 2}).nodes.scoping.ids[0:100],
 )
 node_sc_2 = dpf.ScopingsContainer()
 node_sc_2.add_label(label="mat")
-node_sc_2.add_label(label="body")
-node_sc_2.add_scoping(label_space={"mat": 1, "body": 1}, scoping=node_scoping_3)
-node_sc_2.add_scoping(label_space={"mat": 2, "body": 2}, scoping=node_scoping_4)
+node_sc_2.add_scoping(label_space={"mat": 1}, scoping=node_scoping_3)
+node_sc_2.add_scoping(label_space={"mat": 2}, scoping=node_scoping_4)
 node_sc_2.plot(mesh=meshes)
 
 ###############################################################################
