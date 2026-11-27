@@ -1,0 +1,168 @@
+
+
+
+
+
+
+:class:`Plane`
+==============
+
+.. py:class:: ansys.dpf.core.geometry.Plane(center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None)
+
+   Plane object.
+
+   :param center: 3D coordinates of the center point of the plane.
+   :type center: array, list
+   :param normal: Normal direction to the plane.
+   :type normal: array, list, Line
+   :param width: Width of the discretized plane (default = 1).
+   :type width: int, float
+   :param height: Height of the discretized plane (default = 1).
+   :type height: int, float
+   :param n_cells_x: Number of cells in the x direction of the plane.
+   :type n_cells_x: int
+   :param n_cells_y: Number of cells in the y direction of the plane.
+   :type n_cells_y: int
+   :param server: Server with the channel connected to the remote or local instance. The
+                  default is ``None``, in which case an attempt is made to use the global
+                  server.
+   :type server: :class:`ansys.dpf.core.server`, optional
+
+   .. rubric:: Examples
+
+   Create a plane from its center and normal direction, print object information and plot.
+
+   >>> from ansys.dpf.core.geometry import Plane
+   >>> plane = Plane([0, 0, 0], [1, 0, 0])
+   >>> print(plane)
+   DPF Plane object:
+   Center point: [0, 0, 0]
+   Normal direction: [1. 0. 0.]
+   Plane discretizaton using:
+     Width (x-dir): 1
+     Height (y-dir): 1
+     Num cells x-dir: 20
+     Num cells y-dir: 20
+   >>> plane.plot()
+
+
+
+
+.. py:currentmodule:: Plane
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~plot`
+            - Visualize plane object. If provided, ``mesh`` will be also plotted.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~center`
+            - Center of the plane.
+          * - :py:attr:`~normal_vect`
+            - Normal vector to the plane.
+          * - :py:attr:`~normal_dir`
+            - Normal direction to the plane.
+          * - :py:attr:`~mesh`
+            - Get discretized mesh for the plane.
+          * - :py:attr:`~width`
+            - Get width of the discretized plane.
+          * - :py:attr:`~height`
+            - Get height of the discretized plane.
+          * - :py:attr:`~n_cells_x`
+            - Get number of cells in the x direction of the plane.
+          * - :py:attr:`~n_cells_y`
+            - Get number of cells in the y direction of the plane.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - Print plane information.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.geometry import Plane
+
+Property detail
+---------------
+
+.. py:property:: center
+
+   Center of the plane.
+
+.. py:property:: normal_vect
+
+   Normal vector to the plane.
+
+.. py:property:: normal_dir
+
+   Normal direction to the plane.
+
+.. py:property:: mesh
+
+   Get discretized mesh for the plane.
+
+.. py:property:: width
+
+   Get width of the discretized plane.
+
+.. py:property:: height
+
+   Get height of the discretized plane.
+
+.. py:property:: n_cells_x
+
+   Get number of cells in the x direction of the plane.
+
+.. py:property:: n_cells_y
+
+   Get number of cells in the y direction of the plane.
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+   Print plane information.
+
+
+.. py:method:: plot(mesh=None, **kwargs)
+
+   Visualize plane object. If provided, ``mesh`` will be also plotted.
+
+
+
+
+

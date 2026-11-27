@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.metadata.integrate_over_time_freq
+   :inherited-members:

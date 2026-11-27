@@ -1,0 +1,98 @@
+
+
+
+
+
+
+The ``collection.py`` module
+============================
+
+.. py:module:: ansys.dpf.core.collection
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: collection
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.collection.Collection`
+            - Represents a collection of dpf objects organised by label spaces.
+
+
+
+
+
+    .. tab-item:: Functions
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~CollectionFactory`
+            - Create classes deriving from Collection at runtime for a given subtype.
+
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> Collection</api/ansys/dpf/core/collection/Collection>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Module containing the class representing dpf objects organized by label spaces.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:function:: CollectionFactory(subtype, BaseClass=Collection)
+
+   Create classes deriving from Collection at runtime for a given subtype.
+
+
+
+

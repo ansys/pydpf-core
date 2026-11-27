@@ -1,0 +1,262 @@
+
+
+
+
+
+
+:class:`InputsGrpcStartServer`
+==============================
+
+.. py:class:: ansys.dpf.core.operators.server.grpc_start_server.InputsGrpcStartServer(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   grpc_start_server operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> my_ip = str()
+   >>> op.inputs.ip.connect(my_ip)
+   >>> my_port = str()
+   >>> op.inputs.port.connect(my_port)
+   >>> my_starting_option = int()
+   >>> op.inputs.starting_option.connect(my_starting_option)
+   >>> my_should_start_server = bool()
+   >>> op.inputs.should_start_server.connect(my_should_start_server)
+   >>> my_data_sources = dpf.DataSources()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> my_dpf_context = str()
+   >>> op.inputs.dpf_context.connect(my_dpf_context)
+
+
+
+
+
+
+.. py:currentmodule:: InputsGrpcStartServer
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~ip`
+            - Allows to connect ip input to the operator.
+          * - :py:attr:`~port`
+            - Allows to connect port input to the operator.
+          * - :py:attr:`~starting_option`
+            - Allows to connect starting_option input to the operator.
+          * - :py:attr:`~should_start_server`
+            - Allows to connect should_start_server input to the operator.
+          * - :py:attr:`~data_sources`
+            - Allows to connect data_sources input to the operator.
+          * - :py:attr:`~dpf_context`
+            - Allows to connect dpf_context input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.server.grpc_start_server import InputsGrpcStartServer
+
+Property detail
+---------------
+
+.. py:property:: ip
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect ip input to the operator.
+
+   If no ip address is put, the local ip address is taken
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> op.inputs.ip.connect(my_ip)
+   >>> # or
+   >>> op.inputs.ip(my_ip)
+
+.. py:property:: port
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect port input to the operator.
+
+   If no port is put, port 50052 is taken
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> op.inputs.port.connect(my_port)
+   >>> # or
+   >>> op.inputs.port(my_port)
+
+.. py:property:: starting_option
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect starting_option input to the operator.
+
+   default is 1 that starts server in new thread. With 0, this thread will be waiting for grpc calls and will not be usable for anything else. With 2, it the server will be started in a new process.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> op.inputs.starting_option.connect(my_starting_option)
+   >>> # or
+   >>> op.inputs.starting_option(my_starting_option)
+
+.. py:property:: should_start_server
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect should_start_server input to the operator.
+
+   If true, the server is assumed to be local and is started. If false, only a client (able to send grpc calls) will be started
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> op.inputs.should_start_server.connect(my_should_start_server)
+   >>> # or
+   >>> op.inputs.should_start_server(my_should_start_server)
+
+.. py:property:: data_sources
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect data_sources input to the operator.
+
+   A data source with result key 'grpc' and file path 'port:ip' can be used instead of the input port and IP.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> op.inputs.data_sources.connect(my_data_sources)
+   >>> # or
+   >>> op.inputs.data_sources(my_data_sources)
+
+.. py:property:: dpf_context
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect dpf_context input to the operator.
+
+   This pin is associated with pin(2) = 2 (server started in a new process). User can enter the integer associated with a DPF context (1: Standalone Context - DpfCoreStandalone.xml, 3: Custom - DpfCustomDefined.xml) or a string with the path of the XML specifying the context.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.server.grpc_start_server()
+   >>> op.inputs.dpf_context.connect(my_dpf_context)
+   >>> # or
+   >>> op.inputs.dpf_context(my_dpf_context)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

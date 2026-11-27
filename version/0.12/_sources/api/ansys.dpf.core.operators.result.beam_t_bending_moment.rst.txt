@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.beam_t_bending_moment
+   :inherited-members:

@@ -1,0 +1,194 @@
+
+
+
+
+
+
+:class:`InputsDescendingSort`
+=============================
+
+
+.. py:class:: ansys.dpf.core.operators.logic.descending_sort.InputsDescendingSort(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   descending_sort operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.descending_sort()
+   >>> my_field = dpf.Field()
+   >>> op.inputs.field.connect(my_field)
+   >>> my_component_priority_table = dpf.()
+   >>> op.inputs.component_priority_table.connect(my_component_priority_table)
+   >>> my_sort_by_scoping = bool()
+   >>> op.inputs.sort_by_scoping.connect(my_sort_by_scoping)
+
+
+
+
+
+
+.. py:currentmodule:: InputsDescendingSort
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field`
+            - Allows to connect field input to the operator.
+          * - :py:attr:`~component_priority_table`
+            - Allows to connect component_priority_table input to the operator.
+          * - :py:attr:`~sort_by_scoping`
+            - Allows to connect sort_by_scoping input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.logic.descending_sort import InputsDescendingSort
+
+Property detail
+---------------
+
+.. py:property:: field
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect field input to the operator.
+
+   field or fields container with only one field is expected
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.descending_sort()
+   >>> op.inputs.field.connect(my_field)
+   >>> # or
+   >>> op.inputs.field(my_field)
+
+.. py:property:: component_priority_table
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect component_priority_table input to the operator.
+
+   component priority table (vector of int)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.descending_sort()
+   >>> op.inputs.component_priority_table.connect(my_component_priority_table)
+   >>> # or
+   >>> op.inputs.component_priority_table(my_component_priority_table)
+
+.. py:property:: sort_by_scoping
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect sort_by_scoping input to the operator.
+
+   if true, uses scoping to sort the field (default is false)
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.logic.descending_sort()
+   >>> op.inputs.sort_by_scoping.connect(my_sort_by_scoping)
+   >>> # or
+   >>> op.inputs.sort_by_scoping(my_sort_by_scoping)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

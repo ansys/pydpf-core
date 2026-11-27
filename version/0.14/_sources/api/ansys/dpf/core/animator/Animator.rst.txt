@@ -1,0 +1,110 @@
+
+
+
+
+
+
+:class:`Animator`
+=================
+
+
+.. py:class:: ansys.dpf.core.animator.Animator(workflow=None, **kwargs)
+
+   The DPF animator class.
+
+
+
+.. py:currentmodule:: Animator
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~animate`
+            - Animate the workflow of the Animator, using inputs.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~workflow`
+            - Workflow used to generate a Field at each frame of the animation.
+
+
+
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.animator import Animator
+
+Property detail
+---------------
+
+.. py:property:: workflow
+   :type: ansys.dpf.core.Workflow
+
+
+   Workflow used to generate a Field at each frame of the animation.
+
+   By default, the "to_render" Field output will be plotted,
+   and the "loop_over" input defines what the animation iterates on.
+   Optionally, the workflow can also have a "deform_by" Field output,
+   used to deform the mesh support.
+
+   :returns: **workflow**
+   :rtype: Workflow
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: animate(loop_over: ansys.dpf.core.Field, output_name: str = 'to_render', input_name: str = 'loop_over', save_as: str = None, scale_factor: Union[float, Sequence[float]] = 1.0, freq_kwargs: dict = None, shell_layer: ansys.dpf.core.shell_layers = core.shell_layers.top, **kwargs)
+
+   Animate the workflow of the Animator, using inputs.
+
+   :param loop_over: Field of values to loop over.
+                     Can for example be a subset of sets of TimeFreqSupport.time_frequencies.
+                     The unit of the Field will be displayed if present.
+   :param output_name: Name of the workflow output to use as Field for each frame's contour.
+                       Defaults to "to_render".
+   :param input_name: Name of the workflow inputs to feed loop_over values into.
+                      Defaults to "loop_over".
+   :param save_as: Path of file to save the animation to. Defaults to None. Can be of any format supported
+                   by pyvista.Plotter.write_frame (.gif, .mp4, ...).
+   :param scale_factor: Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
+                        scaling frequency-dependent.
+   :param freq_kwargs: Dictionary of kwargs given to the :func:`pyvista.Plotter.add_text` method, used to
+                       format the frequency information. Can also contain a "fmt" key,
+                       defining the format for the frequency displayed with a string such as ".3e".
+   :param shell_layer: Enum used to set the shell layer if the field to plot
+                       contains shell elements. Defaults to top layer.
+   :param \*\*kwargs: Additional keyword arguments for the animator.
+                      Used by :func:`pyvista.Plotter` (off_screen, cpos, ...),
+                      or by :func:`pyvista.Plotter.open_movie`
+                      (framerate, quality, ...)
+   :type \*\*kwargs: optional
+
+
+
+
+

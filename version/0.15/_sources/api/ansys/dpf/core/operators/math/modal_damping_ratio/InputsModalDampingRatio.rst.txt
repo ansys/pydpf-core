@@ -1,0 +1,223 @@
+
+
+
+
+
+
+:class:`InputsModalDampingRatio`
+================================
+
+
+.. py:class:: ansys.dpf.core.operators.math.modal_damping_ratio.InputsModalDampingRatio(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   modal_damping_ratio operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.modal_damping_ratio()
+   >>> my_natural_freq = dpf.()
+   >>> op.inputs.natural_freq.connect(my_natural_freq)
+   >>> my_const_ratio = float()
+   >>> op.inputs.const_ratio.connect(my_const_ratio)
+   >>> my_ratio_by_modes = dpf.()
+   >>> op.inputs.ratio_by_modes.connect(my_ratio_by_modes)
+   >>> my_m_coefficient = float()
+   >>> op.inputs.m_coefficient.connect(my_m_coefficient)
+   >>> my_k_coefficient = float()
+   >>> op.inputs.k_coefficient.connect(my_k_coefficient)
+
+
+
+
+
+
+.. py:currentmodule:: InputsModalDampingRatio
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~natural_freq`
+            - Allows to connect natural_freq input to the operator.
+          * - :py:attr:`~const_ratio`
+            - Allows to connect const_ratio input to the operator.
+          * - :py:attr:`~ratio_by_modes`
+            - Allows to connect ratio_by_modes input to the operator.
+          * - :py:attr:`~m_coefficient`
+            - Allows to connect m_coefficient input to the operator.
+          * - :py:attr:`~k_coefficient`
+            - Allows to connect k_coefficient input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.modal_damping_ratio import InputsModalDampingRatio
+
+Property detail
+---------------
+
+.. py:property:: natural_freq
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect natural_freq input to the operator.
+
+   input vector expects natural frequencies.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.modal_damping_ratio()
+   >>> op.inputs.natural_freq.connect(my_natural_freq)
+   >>> # or
+   >>> op.inputs.natural_freq(my_natural_freq)
+
+.. py:property:: const_ratio
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect const_ratio input to the operator.
+
+   constant modal damping ratio
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.modal_damping_ratio()
+   >>> op.inputs.const_ratio.connect(my_const_ratio)
+   >>> # or
+   >>> op.inputs.const_ratio(my_const_ratio)
+
+.. py:property:: ratio_by_modes
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect ratio_by_modes input to the operator.
+
+   modal damping ratio for each mode shape
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.modal_damping_ratio()
+   >>> op.inputs.ratio_by_modes.connect(my_ratio_by_modes)
+   >>> # or
+   >>> op.inputs.ratio_by_modes(my_ratio_by_modes)
+
+.. py:property:: m_coefficient
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect m_coefficient input to the operator.
+
+   global mass matrix multiplier
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.modal_damping_ratio()
+   >>> op.inputs.m_coefficient.connect(my_m_coefficient)
+   >>> # or
+   >>> op.inputs.m_coefficient(my_m_coefficient)
+
+.. py:property:: k_coefficient
+   :type: ansys.dpf.core.inputs.Input[float]
+
+
+   Allows to connect k_coefficient input to the operator.
+
+   global stiffness matrix multiplier
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.modal_damping_ratio()
+   >>> op.inputs.k_coefficient.connect(my_k_coefficient)
+   >>> # or
+   >>> op.inputs.k_coefficient(my_k_coefficient)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

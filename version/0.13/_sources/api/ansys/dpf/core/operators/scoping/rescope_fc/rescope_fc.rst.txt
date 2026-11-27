@@ -1,0 +1,419 @@
+
+
+
+
+
+
+:class:`rescope_fc`
+===================
+
+.. py:class:: ansys.dpf.core.operators.scoping.rescope_fc.rescope_fc(fields_container=None, mesh_scoping=None, default_value=None, config=None, server=None)
+
+   Bases: :py:obj:`ansys.dpf.core.dpf_operator.Operator`
+
+
+   Rescopes a field on the given scoping. If an ID does not exist in the
+   original field, the default value (in 2) is used when defined.
+
+
+   :param fields_container:
+   :type fields_container: FieldsContainer
+   :param mesh_scoping:
+   :type mesh_scoping: Scoping, optional
+   :param default_value: If pin 2 is used, the IDs not found in the field are added with this default value.
+   :type default_value: float, optional
+
+   :returns: **fields_container**
+   :rtype: FieldsContainer
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+
+   >>> # Instantiate operator
+   >>> op = dpf.operators.scoping.rescope_fc()
+
+   >>> # Make input connections
+   >>> my_fields_container = dpf.FieldsContainer()
+   >>> op.inputs.fields_container.connect(my_fields_container)
+   >>> my_mesh_scoping = dpf.Scoping()
+   >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+   >>> my_default_value = float()
+   >>> op.inputs.default_value.connect(my_default_value)
+
+   >>> # Instantiate operator and connect inputs in one line
+   >>> op = dpf.operators.scoping.rescope_fc(
+   ...     fields_container=my_fields_container,
+   ...     mesh_scoping=my_mesh_scoping,
+   ...     default_value=my_default_value,
+   ... )
+
+   >>> # Get output data
+   >>> result_fields_container = op.outputs.fields_container()
+
+
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: rescope_fc
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect an input on the operator using a pin number.
+          * - :py:attr:`~connect_operator_as_input`
+            - Connect an operator as an input on a pin.
+          * - :py:attr:`~get_output`
+            - Retrieve the output of the operator on the pin number.
+          * - :py:attr:`~run`
+            - Evaluate this operator.
+          * - :py:attr:`~eval`
+            - Evaluate this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~inputs`
+            - Enables to connect inputs to the operator
+          * - :py:attr:`~outputs`
+            - Enables to get outputs of the operator by evaluating it
+          * - :py:attr:`~progress_bar`
+            - Enable or disable progress bar display when requesting the operator's output.
+          * - :py:attr:`~config`
+            - Copy of the operator's current configuration.
+          * - :py:attr:`~id`
+            - Retrieve the unique identifier of the operator.
+          * - :py:attr:`~specification`
+            - Returns the Specification (or documentation) of this Operator.
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~name`
+            - 
+
+
+   .. tab-item:: Static methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~default_config`
+            - Returns the default config of the operator.
+          * - :py:attr:`~operator_specification`
+            - Documents an Operator with its description (what the Operator does),its inputs and outputs and some properties.
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__del__`
+            - Delete this instance.
+          * - :py:attr:`~__str__`
+            - Describe the entity.
+          * - :py:attr:`~__add__`
+            - Add two fields or two fields containers.
+          * - :py:attr:`~__sub__`
+            - Subtract two fields or two fields containers.
+          * - :py:attr:`~__pow__`
+            - Raise each element of a field or a fields container to power 2.
+          * - :py:attr:`~__mul__`
+            - Multiply two fields or two fields containers.
+          * - :py:attr:`~__truediv__`
+            - Perform division with another operator or a scalar.
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.scoping.rescope_fc import rescope_fc
+
+Property detail
+---------------
+
+.. py:property:: inputs
+   :type: InputsRescopeFc
+
+
+   Enables to connect inputs to the operator
+
+   :returns: An instance of InputsRescopeFc.
+   :rtype: inputs
+
+.. py:property:: outputs
+   :type: OutputsRescopeFc
+
+
+   Enables to get outputs of the operator by evaluating it
+
+   :returns: An instance of OutputsRescopeFc.
+   :rtype: outputs
+
+.. py:property:: progress_bar
+   :type: bool
+
+
+   Enable or disable progress bar display when requesting the operator's output.
+
+   With this property, the user can choose to print a progress bar when
+   the operator's output is requested, default is False
+
+.. py:property:: config
+
+   Copy of the operator's current configuration.
+
+   You can modify the copy of the configuration and then use ``operator.config = new_config``
+   or instantiate an operator with the new configuration as a parameter.
+
+   For information on an operator's options, see the documentation for that operator.
+
+   :returns: Copy of the operator's current configuration.
+   :rtype: :class:`ansys.dpf.core.config.Config`
+
+   .. rubric:: Examples
+
+   Modify the copy of an operator's configuration and set it as current config
+   of the operator.
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.add()
+   >>> config_add = op.config
+   >>> config_add.set_work_by_index_option(True)
+   >>> op.config = config_add
+
+.. py:property:: id
+   :type: int
+
+
+   Retrieve the unique identifier of the operator.
+
+   This property returns the unique ID associated with the operator.
+   This property is lazily initialized.
+
+   :returns: The unique identifier of the operator.
+   :rtype: int
+
+   .. rubric:: Notes
+
+   Property available with server's version starting at 10.0.
+
+.. py:property:: specification
+
+   Returns the Specification (or documentation) of this Operator.
+
+   :rtype: Specification
+
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: name
+   :value: None
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: default_config(server: ansys.dpf.core.server_types.AnyServerType = None) -> ansys.dpf.core.config.Config
+   :staticmethod:
+
+
+   Returns the default config of the operator.
+
+   This config can then be changed to the user needs and be used to
+   instantiate the operator. The Configuration allows to customize
+   how the operation will be processed by the operator.
+
+   :param server: Server with channel connected to the remote or local instance. When
+                  ``None``, attempts to use the global server.
+
+   :returns: A new Config instance equivalent to the default config for this operator.
+   :rtype: config
+
+
+.. py:method:: connect(pin, inpt, pin_out=0)
+
+   Connect an input on the operator using a pin number.
+
+   :param pin: Number of the input pin.
+   :type pin: int
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
+   :param ScopingsContainer: Operator, os.PathLike Object to connect to.
+   :param MeshedRegion: Operator, os.PathLike Object to connect to.
+   :param MeshesContainer: Operator, os.PathLike Object to connect to.
+   :param DataSources: Operator, os.PathLike Object to connect to.
+   :param CyclicSupport: Operator, os.PathLike Object to connect to.
+   :param dict: Operator, os.PathLike Object to connect to.
+   :param Outputs: Operator, os.PathLike Object to connect to.
+   :param pin_out: If the input is an operator, the output pin of the input operator. The default is ``0``.
+   :type pin_out: int, optional
+
+   .. rubric:: Examples
+
+   Compute the minimum of displacement by chaining the ``"U"`` and ``"min_max_fc"`` operators.
+
+   >>> from ansys.dpf import core as dpf
+   >>> from ansys.dpf.core import examples
+   >>> data_src = dpf.DataSources(examples.find_multishells_rst())
+   >>> disp_op = dpf.operators.result.displacement()
+   >>> disp_op.inputs.data_sources(data_src)
+   >>> max_fc_op = dpf.operators.min_max.min_max_fc()
+   >>> max_fc_op.inputs.connect(disp_op.outputs)
+   >>> max_field = max_fc_op.outputs.field_max()
+   >>> max_field.data
+   DPFArray([[0.59428386, 0.00201751, 0.0006032 ]]...
+
+
+.. py:method:: connect_operator_as_input(pin, op)
+
+   Connect an operator as an input on a pin.
+
+   :param pin: Number of the output pin. The default is ``0``.
+   :type pin: int
+   :param op: Requested type of the output. The default is ``None``.
+   :type op: :class:`ansys.dpf.core.dpf_operator.Operator`
+
+
+.. py:method:: get_output(pin=0, output_type=None)
+
+   Retrieve the output of the operator on the pin number.
+
+   To activate the progress bar for server version higher or equal to 3.0,
+   use ``my_op.progress_bar=True``
+
+   :param pin: Number of the output pin. The default is ``0``.
+   :type pin: int, optional
+   :param output_type: Requested type of the output. The default is ``None``.
+   :type output_type: :class:`ansys.dpf.core.common.types`, type,  optional
+
+   :returns: Output of the operator.
+   :rtype: type
+
+
+.. py:method:: __del__()
+
+   Delete this instance.
+
+
+.. py:method:: __str__()
+
+   Describe the entity.
+
+   :returns: Description of the entity.
+   :rtype: str
+
+
+.. py:method:: run()
+
+   Evaluate this operator.
+
+
+.. py:method:: eval(pin=None)
+
+   Evaluate this operator.
+
+   :param pin: Number of the output pin. The default is ``None``.
+   :type pin: int
+
+   :returns: **output** -- Returns the first output of the operator by default and the output of a
+             given pin when specified. Or, it only evaluates the operator without output.
+   :rtype: FieldsContainer, Field, MeshedRegion, Scoping
+
+   .. rubric:: Examples
+
+   Use the ``eval`` method.
+
+   >>> from ansys.dpf import core as dpf
+   >>> import ansys.dpf.core.operators.math as math
+   >>> from ansys.dpf.core import examples
+   >>> data_src = dpf.DataSources(examples.find_multishells_rst())
+   >>> disp_op = dpf.operators.result.displacement()
+   >>> disp_op.inputs.data_sources(data_src)
+   >>> normfc = math.norm_fc(disp_op).eval()
+
+
+.. py:method:: __add__(fields_b)
+
+   Add two fields or two fields containers.
+
+   :returns: **add**
+   :rtype: operators.math.add_fc
+
+
+.. py:method:: __sub__(fields_b)
+
+   Subtract two fields or two fields containers.
+
+   :returns: **minus**
+   :rtype: operators.math.minus_fc
+
+
+.. py:method:: __pow__(value)
+
+   Raise each element of a field or a fields container to power 2.
+
+
+.. py:method:: __mul__(value)
+
+   Multiply two fields or two fields containers.
+
+   :returns: **mul**
+   :rtype: operators.math.generalized_inner_product_fc
+
+
+.. py:method:: operator_specification(op_name, server=None)
+   :staticmethod:
+
+
+   Documents an Operator with its description (what the Operator does),its inputs and outputs and some properties.
+
+
+.. py:method:: __truediv__(inpt)
+
+   Perform division with another operator or a scalar.
+
+   This method allows the use of the division operator (`/`) between an
+   `Operator` instance and either another `Operator` or a scalar value (float).
+
+
+
+
+

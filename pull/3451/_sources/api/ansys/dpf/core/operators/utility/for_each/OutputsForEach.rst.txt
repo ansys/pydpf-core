@@ -1,0 +1,142 @@
+
+
+
+
+
+
+:class:`OutputsForEach`
+=======================
+
+
+.. py:class:: ansys.dpf.core.operators.utility.for_each.OutputsForEach(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   for_each operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_empty = op.outputs.empty()
+   >>> result_output1 = op.outputs.output1()
+   >>> result_output2 = op.outputs.output2()
+
+
+
+
+
+.. py:currentmodule:: OutputsForEach
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~empty`
+            - Allows to get empty output of the operator
+          * - :py:attr:`~output1`
+            - Allows to get output1 output of the operator
+          * - :py:attr:`~output2`
+            - Allows to get output2 output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.utility.for_each import OutputsForEach
+
+Property detail
+---------------
+
+.. py:property:: empty
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get empty output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> # Get the output from op.outputs. ...
+   >>> result_empty = op.outputs.empty()
+
+.. py:property:: output1
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get output1 output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> # Get the output from op.outputs. ...
+   >>> result_output1 = op.outputs.output1()
+
+.. py:property:: output2
+   :type: ansys.dpf.core.outputs.Output
+
+
+   Allows to get output2 output of the operator
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.utility.for_each()
+   >>> # Get the output from op.outputs. ...
+   >>> result_output2 = op.outputs.output2()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

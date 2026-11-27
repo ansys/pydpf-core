@@ -1,0 +1,334 @@
+
+:orphan:
+
+.. _sphx_glr_sg_execution_times:
+
+
+Computation times
+=================
+**21:01.235** total execution time for 100 files **from all galleries**:
+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr_examples_08-python-operators_02-python_operators_with_dependencies.py` (``..\sphinx_gallery_examples\08-python-operators\02-python_operators_with_dependencies.py``)
+     - 02:22.600
+     - 0.0
+   * - :ref:`sphx_glr_examples_02-modal_analyses_01-plot_and_animate_modes.py` (``..\sphinx_gallery_examples\02-modal_analyses\01-plot_and_animate_modes.py``)
+     - 01:48.200
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mesh_split_mesh.py` (``..\sphinx_gallery_tutorials\mesh\split_mesh.py``)
+     - 01:05.957
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_animate_animate_time.py` (``..\sphinx_gallery_tutorials\animate\animate_time.py``)
+     - 01:03.720
+     - 0.0
+   * - :ref:`sphx_glr_examples_06-plotting_06-animate_results.py` (``..\sphinx_gallery_examples\06-plotting\06-animate_results.py``)
+     - 00:48.257
+     - 0.0
+   * - :ref:`sphx_glr_examples_14-lsdyna_00-lsdyna_operators.py` (``..\sphinx_gallery_examples\14-lsdyna\00-lsdyna_operators.py``)
+     - 00:37.454
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mapping_mapping_prepare_workflow.py` (``..\sphinx_gallery_tutorials\mapping\mapping_prepare_workflow.py``)
+     - 00:34.522
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mapping_mapping_solid_to_skin.py` (``..\sphinx_gallery_tutorials\mapping\mapping_solid_to_skin.py``)
+     - 00:29.563
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_export_data_migrate_to_vtu.py` (``..\sphinx_gallery_tutorials\export_data\migrate_to_vtu.py``)
+     - 00:28.197
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mesh_get_mesh_from_result_file.py` (``..\sphinx_gallery_tutorials\mesh\get_mesh_from_result_file.py``)
+     - 00:26.062
+     - 0.0
+   * - :ref:`sphx_glr_examples_09-averaging_01-average_across_bodies.py` (``..\sphinx_gallery_examples\09-averaging\01-average_across_bodies.py``)
+     - 00:25.517
+     - 0.0
+   * - :ref:`sphx_glr_examples_14-lsdyna_02-lsdyna_erosion.py` (``..\sphinx_gallery_examples\14-lsdyna\02-lsdyna_erosion.py``)
+     - 00:24.684
+     - 0.0
+   * - :ref:`sphx_glr_examples_06-plotting_00-basic_plotting.py` (``..\sphinx_gallery_examples\06-plotting\00-basic_plotting.py``)
+     - 00:21.506
+     - 0.0
+   * - :ref:`sphx_glr_examples_12-fluids_02-fluids_results.py` (``..\sphinx_gallery_examples\12-fluids\02-fluids_results.py``)
+     - 00:21.105
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mesh_extract_mesh_in_split_parts.py` (``..\sphinx_gallery_tutorials\mesh\extract_mesh_in_split_parts.py``)
+     - 00:21.069
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_13-manage_licensing.py` (``..\sphinx_gallery_examples\04-advanced\13-manage_licensing.py``)
+     - 00:19.900
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_03-exchange_data_between_servers.py` (``..\sphinx_gallery_examples\04-advanced\03-exchange_data_between_servers.py``)
+     - 00:19.698
+     - 0.0
+   * - :ref:`sphx_glr_examples_07-distributed-post_02-distributed-msup_expansion.py` (``..\sphinx_gallery_examples\07-distributed-post\02-distributed-msup_expansion.py``)
+     - 00:19.308
+     - 0.0
+   * - :ref:`sphx_glr_examples_13-streamlines_00_plot_3d_streamlines.py` (``..\sphinx_gallery_examples\13-streamlines\00_plot_3d_streamlines.py``)
+     - 00:19.131
+     - 0.0
+   * - :ref:`sphx_glr_examples_03-harmonic_analyses_01-modal_superposition.py` (``..\sphinx_gallery_examples\03-harmonic_analyses\01-modal_superposition.py``)
+     - 00:18.584
+     - 0.0
+   * - :ref:`sphx_glr_examples_05-file-IO_04-basic-load-file.py` (``..\sphinx_gallery_examples\05-file-IO\04-basic-load-file.py``)
+     - 00:17.403
+     - 0.0
+   * - :ref:`sphx_glr_examples_12-fluids_01-fluids_mesh.py` (``..\sphinx_gallery_examples\12-fluids\01-fluids_mesh.py``)
+     - 00:17.189
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_plot_plot_contour.py` (``..\sphinx_gallery_tutorials\plot\plot_contour.py``)
+     - 00:16.096
+     - 0.0
+   * - :ref:`sphx_glr_examples_06-plotting_05-plot_on_warped_mesh.py` (``..\sphinx_gallery_examples\06-plotting\05-plot_on_warped_mesh.py``)
+     - 00:14.901
+     - 0.0
+   * - :ref:`sphx_glr_examples_07-distributed-post_03-distributed-msup_expansion_steps.py` (``..\sphinx_gallery_examples\07-distributed-post\03-distributed-msup_expansion_steps.py``)
+     - 00:14.378
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_12-read_distributed_files.py` (``..\sphinx_gallery_examples\04-advanced\12-read_distributed_files.py``)
+     - 00:13.829
+     - 0.0
+   * - :ref:`sphx_glr_examples_03-harmonic_analyses_00-multi_harmonic.py` (``..\sphinx_gallery_examples\03-harmonic_analyses\00-multi_harmonic.py``)
+     - 00:13.131
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_plot_plot_mesh_scopings.py` (``..\sphinx_gallery_tutorials\plot\plot_mesh_scopings.py``)
+     - 00:12.876
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_custom_operators_and_plugins_custom_operators.py` (``..\sphinx_gallery_tutorials\custom_operators_and_plugins\custom_operators.py``)
+     - 00:12.752
+     - 0.0
+   * - :ref:`sphx_glr_examples_10-mesh_operations_13-nodes_in_local_coordinate_system.py` (``..\sphinx_gallery_examples\10-mesh_operations\13-nodes_in_local_coordinate_system.py``)
+     - 00:12.733
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_05-extrapolation_strain_2d.py` (``..\sphinx_gallery_examples\04-advanced\05-extrapolation_strain_2d.py``)
+     - 00:12.697
+     - 0.0
+   * - :ref:`sphx_glr_examples_00-basic_09-results_over_space_subset.py` (``..\sphinx_gallery_examples\00-basic\09-results_over_space_subset.py``)
+     - 00:12.570
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_04-extrapolation_stress_3d.py` (``..\sphinx_gallery_examples\04-advanced\04-extrapolation_stress_3d.py``)
+     - 00:12.380
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_plot_plot_deformed_mesh.py` (``..\sphinx_gallery_tutorials\plot\plot_deformed_mesh.py``)
+     - 00:12.269
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_plot_plot_mesh.py` (``..\sphinx_gallery_tutorials\plot\plot_mesh.py``)
+     - 00:12.091
+     - 0.0
+   * - :ref:`sphx_glr_examples_07-distributed-post_01-distributed_workflows_on_remote.py` (``..\sphinx_gallery_examples\07-distributed-post\01-distributed_workflows_on_remote.py``)
+     - 00:12.049
+     - 0.0
+   * - :ref:`sphx_glr_examples_07-distributed-post_00-distributed_total_disp.py` (``..\sphinx_gallery_examples\07-distributed-post\00-distributed_total_disp.py``)
+     - 00:11.064
+     - 0.0
+   * - :ref:`sphx_glr_examples_05-file-IO_02-hdf5_serialize_and_read.py` (``..\sphinx_gallery_examples\05-file-IO\02-hdf5_serialize_and_read.py``)
+     - 00:10.888
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_02-volume_averaged_stress.py` (``..\sphinx_gallery_examples\04-advanced\02-volume_averaged_stress.py``)
+     - 00:10.773
+     - 0.0
+   * - :ref:`sphx_glr_examples_12-fluids_00-fluids_model.py` (``..\sphinx_gallery_examples\12-fluids\00-fluids_model.py``)
+     - 00:10.223
+     - 0.0
+   * - :ref:`sphx_glr_examples_00-basic_00-basic_example.py` (``..\sphinx_gallery_examples\00-basic\00-basic_example.py``)
+     - 00:10.153
+     - 0.0
+   * - :ref:`sphx_glr_examples_14-lsdyna_01-lsdyna_beam.py` (``..\sphinx_gallery_examples\14-lsdyna\01-lsdyna_beam.py``)
+     - 00:10.031
+     - 0.0
+   * - :ref:`sphx_glr_examples_02-modal_analyses_00-compare_modes.py` (``..\sphinx_gallery_examples\02-modal_analyses\00-compare_modes.py``)
+     - 00:09.747
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_licensing_operator_license.py` (``..\sphinx_gallery_tutorials\licensing\operator_license.py``)
+     - 00:08.196
+     - 0.0
+   * - :ref:`sphx_glr_examples_06-plotting_07-plot_on_geometries.py` (``..\sphinx_gallery_examples\06-plotting\07-plot_on_geometries.py``)
+     - 00:07.865
+     - 0.0
+   * - :ref:`sphx_glr_examples_11-cyclic-symmetry_02-modal_cyclic_no_expansion.py` (``..\sphinx_gallery_examples\11-cyclic-symmetry\02-modal_cyclic_no_expansion.py``)
+     - 00:07.673
+     - 0.0
+   * - :ref:`sphx_glr_examples_08-python-operators_01-package_python_operators.py` (``..\sphinx_gallery_examples\08-python-operators\01-package_python_operators.py``)
+     - 00:07.602
+     - 0.0
+   * - :ref:`sphx_glr_examples_05-file-IO_01-reduced_matrices_export.py` (``..\sphinx_gallery_examples\05-file-IO\01-reduced_matrices_export.py``)
+     - 00:07.489
+     - 0.0
+   * - :ref:`sphx_glr_examples_12-fluids_03-fluids_isosurface.py` (``..\sphinx_gallery_examples\12-fluids\03-fluids_isosurface.py``)
+     - 00:07.349
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_14-incremental_evaluation.py` (``..\sphinx_gallery_examples\04-advanced\14-incremental_evaluation.py``)
+     - 00:07.320
+     - 0.0
+   * - :ref:`sphx_glr_examples_00-basic_07-use_result_helpers.py` (``..\sphinx_gallery_examples\00-basic\07-use_result_helpers.py``)
+     - 00:06.654
+     - 0.0
+   * - :ref:`sphx_glr_examples_08-python-operators_00-wrapping_numpy_capabilities.py` (``..\sphinx_gallery_examples\08-python-operators\00-wrapping_numpy_capabilities.py``)
+     - 00:06.564
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mesh_explore_mesh.py` (``..\sphinx_gallery_tutorials\mesh\explore_mesh.py``)
+     - 00:06.547
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_data_structures_data_arrays.py` (``..\sphinx_gallery_tutorials\data_structures\data_arrays.py``)
+     - 00:06.375
+     - 0.0
+   * - :ref:`sphx_glr_examples_00-basic_03-create_entities.py` (``..\sphinx_gallery_examples\00-basic\03-create_entities.py``)
+     - 00:06.325
+     - 0.0
+   * - :ref:`sphx_glr_examples_10-mesh_operations_05-skin_extraction.py` (``..\sphinx_gallery_examples\10-mesh_operations\05-skin_extraction.py``)
+     - 00:05.465
+     - 0.0
+   * - :ref:`sphx_glr_examples_00-basic_05-use_local_data.py` (``..\sphinx_gallery_examples\00-basic\05-use_local_data.py``)
+     - 00:05.384
+     - 0.0
+   * - :ref:`sphx_glr_examples_13-streamlines_01_plot_surface_streamlines.py` (``..\sphinx_gallery_examples\13-streamlines\01_plot_surface_streamlines.py``)
+     - 00:05.253
+     - 0.0
+   * - :ref:`sphx_glr_examples_09-averaging_00-compute_and_average.py` (``..\sphinx_gallery_examples\09-averaging\00-compute_and_average.py``)
+     - 00:04.709
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mapping_mapping_on_reduced_coordinates.py` (``..\sphinx_gallery_tutorials\mapping\mapping_on_reduced_coordinates.py``)
+     - 00:04.524
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mapping_mapping_on_coordinates.py` (``..\sphinx_gallery_tutorials\mapping\mapping_on_coordinates.py``)
+     - 00:04.427
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_dpf_server_server_types.py` (``..\sphinx_gallery_tutorials\dpf_server\server_types.py``)
+     - 00:03.726
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_import_data_streams_for_multiple_operators.py` (``..\sphinx_gallery_tutorials\import_data\streams_for_multiple_operators.py``)
+     - 00:03.667
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_11-cycles_to_failure.py` (``..\sphinx_gallery_examples\04-advanced\11-cycles_to_failure.py``)
+     - 00:03.337
+     - 0.0
+   * - :ref:`sphx_glr_examples_06-plotting_03-labels.py` (``..\sphinx_gallery_examples\06-plotting\03-labels.py``)
+     - 00:02.964
+     - 0.0
+   * - :ref:`sphx_glr_examples_11-cyclic-symmetry_01-modal_cyclic.py` (``..\sphinx_gallery_examples\11-cyclic-symmetry\01-modal_cyclic.py``)
+     - 00:02.929
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_06-stress_gradient_path.py` (``..\sphinx_gallery_examples\04-advanced\06-stress_gradient_path.py``)
+     - 00:02.765
+     - 0.0
+   * - :ref:`sphx_glr_examples_11-cyclic-symmetry_03-cyclic_multi_stage.py` (``..\sphinx_gallery_examples\11-cyclic-symmetry\03-cyclic_multi_stage.py``)
+     - 00:02.613
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_00-multistage_advanced_options.py` (``..\sphinx_gallery_examples\04-advanced\00-multistage_advanced_options.py``)
+     - 00:02.489
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_10-asme_secviii_divtwo.py` (``..\sphinx_gallery_examples\04-advanced\10-asme_secviii_divtwo.py``)
+     - 00:02.220
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mesh_explore_mesh_metadata.py` (``..\sphinx_gallery_tutorials\mesh\explore_mesh_metadata.py``)
+     - 00:02.060
+     - 0.0
+   * - :ref:`sphx_glr_examples_00-basic_01-basic_operators.py` (``..\sphinx_gallery_examples\00-basic\01-basic_operators.py``)
+     - 00:02.040
+     - 0.0
+   * - :ref:`sphx_glr_examples_01-transient_analyses_00-basic_transient.py` (``..\sphinx_gallery_examples\01-transient_analyses\00-basic_transient.py``)
+     - 00:02.016
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_plot_plot_a_graph.py` (``..\sphinx_gallery_tutorials\plot\plot_a_graph.py``)
+     - 00:01.895
+     - 0.0
+   * - :ref:`sphx_glr_examples_06-plotting_04-plot_on_path.py` (``..\sphinx_gallery_examples\06-plotting\04-plot_on_path.py``)
+     - 00:01.771
+     - 0.0
+   * - :ref:`sphx_glr_examples_15-cfx_00-cfx_res_files.py` (``..\sphinx_gallery_examples\15-cfx\00-cfx_res_files.py``)
+     - 00:01.731
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mesh_create_a_mesh_from_scratch.py` (``..\sphinx_gallery_tutorials\mesh\create_a_mesh_from_scratch.py``)
+     - 00:01.709
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_export_data_vtk_helper.py` (``..\sphinx_gallery_tutorials\export_data\vtk_helper.py``)
+     - 00:01.591
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_post_processing_basics_main_steps.py` (``..\sphinx_gallery_tutorials\post_processing_basics\main_steps.py``)
+     - 00:01.552
+     - 0.0
+   * - :ref:`sphx_glr_examples_06-plotting_01-compare_results.py` (``..\sphinx_gallery_examples\06-plotting\01-compare_results.py``)
+     - 00:01.537
+     - 0.0
+   * - :ref:`sphx_glr_examples_10-mesh_operations_00-create_polygons_and_polyhedrons.py` (``..\sphinx_gallery_examples\10-mesh_operations\00-create_polygons_and_polyhedrons.py``)
+     - 00:01.500
+     - 0.0
+   * - :ref:`sphx_glr_examples_06-plotting_02-solution_combination.py` (``..\sphinx_gallery_examples\06-plotting\02-solution_combination.py``)
+     - 00:01.474
+     - 0.0
+   * - :ref:`sphx_glr_examples_01-transient_analyses_01-transient_easy_time_scoping.py` (``..\sphinx_gallery_examples\01-transient_analyses\01-transient_easy_time_scoping.py``)
+     - 00:01.451
+     - 0.0
+   * - :ref:`sphx_glr_examples_00-basic_08-results_over_time_subset.py` (``..\sphinx_gallery_examples\00-basic\08-results_over_time_subset.py``)
+     - 00:01.309
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_licensing_server_context.py` (``..\sphinx_gallery_tutorials\licensing\server_context.py``)
+     - 00:00.692
+     - 0.0
+   * - :ref:`sphx_glr_examples_05-file-IO_00-hdf5_double_float_comparison.py` (``..\sphinx_gallery_examples\05-file-IO\00-hdf5_double_float_comparison.py``)
+     - 00:00.642
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_01-solve_harmonic_problem.py` (``..\sphinx_gallery_examples\04-advanced\01-solve_harmonic_problem.py``)
+     - 00:00.535
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_export_data_vtu_export.py` (``..\sphinx_gallery_tutorials\export_data\vtu_export.py``)
+     - 00:00.535
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_mathematics_basic_maths.py` (``..\sphinx_gallery_tutorials\mathematics\basic_maths.py``)
+     - 00:00.510
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_import_data_extract_and_explore_results_data.py` (``..\sphinx_gallery_tutorials\import_data\extract_and_explore_results_data.py``)
+     - 00:00.506
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_import_data_narrow_down_data.py` (``..\sphinx_gallery_tutorials\import_data\narrow_down_data.py``)
+     - 00:00.500
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_import_data_extract_and_explore_results_metadata.py` (``..\sphinx_gallery_tutorials\import_data\extract_and_explore_results_metadata.py``)
+     - 00:00.489
+     - 0.0
+   * - :ref:`sphx_glr_examples_16-maths-ops_01-matrix-operations.py` (``..\sphinx_gallery_examples\16-maths-ops\01-matrix-operations.py``)
+     - 00:00.466
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_data_structures_collections.py` (``..\sphinx_gallery_tutorials\data_structures\collections.py``)
+     - 00:00.459
+     - 0.0
+   * - :ref:`sphx_glr_examples_00-basic_02-basic_field_containers.py` (``..\sphinx_gallery_examples\00-basic\02-basic_field_containers.py``)
+     - 00:00.451
+     - 0.0
+   * - :ref:`sphx_glr_examples_00-basic_10-math_operations.py` (``..\sphinx_gallery_examples\00-basic\10-math_operations.py``)
+     - 00:00.437
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_import_data_load_custom_data.py` (``..\sphinx_gallery_tutorials\import_data\load_custom_data.py``)
+     - 00:00.428
+     - 0.0
+   * - :ref:`sphx_glr_examples_00-basic_12-get_material_properties.py` (``..\sphinx_gallery_examples\00-basic\12-get_material_properties.py``)
+     - 00:00.424
+     - 0.0
+   * - :ref:`sphx_glr_tutorials_import_data_import_result_file.py` (``..\sphinx_gallery_tutorials\import_data\import_result_file.py``)
+     - 00:00.421
+     - 0.0
+   * - :ref:`sphx_glr_examples_04-advanced_07-load_plugin.py` (``..\sphinx_gallery_examples\04-advanced\07-load_plugin.py``)
+     - 00:00.415
+     - 0.0

@@ -1,0 +1,194 @@
+
+
+
+
+
+
+:class:`InputsDecimateMesh`
+===========================
+
+
+.. py:class:: ansys.dpf.core.operators.mesh.decimate_mesh.InputsDecimateMesh(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   decimate_mesh operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.decimate_mesh()
+   >>> my_mesh = dpf.MeshedRegion()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> my_preservation_ratio = float()
+   >>> op.inputs.preservation_ratio.connect(my_preservation_ratio)
+   >>> my_aggressiveness = int()
+   >>> op.inputs.aggressiveness.connect(my_aggressiveness)
+
+
+
+
+
+
+.. py:currentmodule:: InputsDecimateMesh
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~mesh`
+            - Allows to connect mesh input to the operator.
+          * - :py:attr:`~preservation_ratio`
+            - Allows to connect preservation_ratio input to the operator.
+          * - :py:attr:`~aggressiveness`
+            - Allows to connect aggressiveness input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.mesh.decimate_mesh import InputsDecimateMesh
+
+Property detail
+---------------
+
+.. py:property:: mesh
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect mesh input to the operator.
+
+   Mesh to decimate
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.decimate_mesh()
+   >>> op.inputs.mesh.connect(my_mesh)
+   >>> # or
+   >>> op.inputs.mesh(my_mesh)
+
+.. py:property:: preservation_ratio
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect preservation_ratio input to the operator.
+
+   Target ratio of elements to preserve, the actual number of elements preserved might differ. Default value is 0.5.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.decimate_mesh()
+   >>> op.inputs.preservation_ratio.connect(my_preservation_ratio)
+   >>> # or
+   >>> op.inputs.preservation_ratio(my_preservation_ratio)
+
+.. py:property:: aggressiveness
+   :type: ansys.dpf.core.inputs.Input
+
+
+   Allows to connect aggressiveness input to the operator.
+
+   Quality measure for the resulting decimated mesh. Lower aggresiveness will provide a higher quality mesh with the tradeoff of higher execution time. Value range is 0 to 150, default is 0.
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.mesh.decimate_mesh()
+   >>> op.inputs.aggressiveness.connect(my_aggressiveness)
+   >>> # or
+   >>> op.inputs.aggressiveness(my_aggressiveness)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+   :param inpt:
+   :type inpt: str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping, Enum,
+   :param ScopingsContainer: Input of the operator.
+   :type ScopingsContainer: E501
+   :param MeshedRegion: Input of the operator.
+   :type MeshedRegion: E501
+   :param MeshesContainer: Input of the operator.
+   :type MeshesContainer: E501
+   :param DataSources: Input of the operator.
+   :type DataSources: E501
+   :param CyclicSupport: Input of the operator.
+   :type CyclicSupport: E501
+   :param Outputs: Input of the operator.
+   :type Outputs: E501
+   :param os.PathLike  # noqa: Input of the operator.
+   :type os.PathLike  # noqa: E501
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+

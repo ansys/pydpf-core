@@ -1,0 +1,127 @@
+
+
+
+
+
+
+:class:`OutputsMembersInBendingNotCertified`
+============================================
+
+
+.. py:class:: ansys.dpf.core.operators.result.members_in_bending_not_certified.OutputsMembersInBendingNotCertified(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   members_in_bending_not_certified operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_buckling_resistance_bending_yy = op.outputs.buckling_resistance_bending_yy()
+   >>> result_buckling_resistance_bending_zz = op.outputs.buckling_resistance_bending_zz()
+
+
+
+
+
+.. py:currentmodule:: OutputsMembersInBendingNotCertified
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~buckling_resistance_bending_yy`
+            - Allows to get buckling_resistance_bending_yy output of the operator
+          * - :py:attr:`~buckling_resistance_bending_zz`
+            - Allows to get buckling_resistance_bending_zz output of the operator
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.result.members_in_bending_not_certified import OutputsMembersInBendingNotCertified
+
+Property detail
+---------------
+
+.. py:property:: buckling_resistance_bending_yy
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get buckling_resistance_bending_yy output of the operator
+
+   Fields Container of buckling resistance factor on axis y-y in case of bending(M). These factors should be less than 1 and positive.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> # Get the output from op.outputs. ...
+   >>> result_buckling_resistance_bending_yy = op.outputs.buckling_resistance_bending_yy()
+
+.. py:property:: buckling_resistance_bending_zz
+   :type: ansys.dpf.core.outputs.Output[ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to get buckling_resistance_bending_zz output of the operator
+
+   Fields Container of buckling resistance factor on axis z-z in case of bending(M). These factors should be less than 1 and positive.
+
+   :returns: An Output instance for this pin.
+   :rtype: output
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.result.members_in_bending_not_certified()
+   >>> # Get the output from op.outputs. ...
+   >>> result_buckling_resistance_bending_zz = op.outputs.buckling_resistance_bending_zz()
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

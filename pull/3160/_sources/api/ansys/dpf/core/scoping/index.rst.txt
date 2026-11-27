@@ -1,0 +1,95 @@
+
+
+
+
+
+
+The ``scoping.py`` module
+=========================
+
+.. py:module:: ansys.dpf.core.scoping
+
+
+Summary
+-------
+
+
+
+
+
+
+
+
+
+
+.. py:currentmodule:: scoping
+.. tab-set::
+
+
+
+
+    .. tab-item:: Classes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~ansys.dpf.core.scoping.Scoping`
+            - Represents a scoping, which is a subset of a model support.
+
+
+
+
+
+
+    .. tab-item:: Attributes
+
+        .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+
+          * - :py:obj:`~IdVectorType`
+            - 
+
+
+
+
+
+
+
+
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+   :hidden:
+
+    <span class="nf nf-cod-symbol_class"></span> Scoping</api/ansys/dpf/core/scoping/Scoping>
+
+
+
+
+
+
+
+
+
+Description
+-----------
+
+Scoping.
+
+
+
+
+
+
+
+Module detail
+-------------
+
+.. py:data:: IdVectorType
+
+
+

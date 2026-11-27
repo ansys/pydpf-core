@@ -1,0 +1,97 @@
+
+
+
+
+
+
+:class:`OutputsMeshPropertyProvider`
+====================================
+
+.. py:class:: ansys.dpf.core.operators.metadata.mesh_property_provider.OutputsMeshPropertyProvider(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.outputs._Outputs`
+
+
+   Intermediate class used to get outputs from
+   mesh_property_provider operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.metadata.mesh_property_provider()
+   >>> # Connect inputs : op.inputs. ...
+   >>> result_property = op.outputs.property()
+
+
+
+
+
+.. py:currentmodule:: OutputsMeshPropertyProvider
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+
+
+   .. tab-item:: Attributes
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~property_as_scoping`
+            - 
+          * - :py:attr:`~property_as_property_field`
+            - 
+          * - :py:attr:`~property_as_string_field`
+            - 
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__getitem__`
+            - 
+          * - :py:attr:`~__str__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.metadata.mesh_property_provider import OutputsMeshPropertyProvider
+
+
+Attribute detail
+----------------
+
+.. py:attribute:: property_as_scoping
+
+.. py:attribute:: property_as_property_field
+
+.. py:attribute:: property_as_string_field
+
+
+
+Method detail
+-------------
+
+.. py:method:: __getitem__(index) -> Output
+
+.. py:method:: __str__()
+
+
+
+

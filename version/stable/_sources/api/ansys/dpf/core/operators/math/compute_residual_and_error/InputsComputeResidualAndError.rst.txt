@@ -1,0 +1,237 @@
+
+
+
+
+
+
+:class:`InputsComputeResidualAndError`
+======================================
+
+
+.. py:class:: ansys.dpf.core.operators.math.compute_residual_and_error.InputsComputeResidualAndError(op: ansys.dpf.core.dpf_operator.Operator)
+
+   Bases: :py:obj:`ansys.dpf.core.inputs._Inputs`
+
+
+   Intermediate class used to connect user inputs to
+   compute_residual_and_error operator.
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.compute_residual_and_error()
+   >>> my_field_or_fields_container1 = dpf.Field()
+   >>> op.inputs.field_or_fields_container1.connect(my_field_or_fields_container1)
+   >>> my_normalization_type = int()
+   >>> op.inputs.normalization_type.connect(my_normalization_type)
+   >>> my_norm_calculation_type = int()
+   >>> op.inputs.norm_calculation_type.connect(my_norm_calculation_type)
+   >>> my_field_reference = int()
+   >>> op.inputs.field_reference.connect(my_field_reference)
+   >>> my_field_or_fields_container2 = dpf.Field()
+   >>> op.inputs.field_or_fields_container2.connect(my_field_or_fields_container2)
+
+
+
+
+
+
+.. py:currentmodule:: InputsComputeResidualAndError
+
+Overview
+--------
+
+.. tab-set::
+
+
+
+   .. tab-item:: Methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~connect`
+            - Connect any input (an entity or an operator output) to any input pin of this operator.
+
+
+   .. tab-item:: Properties
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~field_or_fields_container1`
+            - Allows to connect field_or_fields_container1 input to the operator.
+          * - :py:attr:`~normalization_type`
+            - Allows to connect normalization_type input to the operator.
+          * - :py:attr:`~norm_calculation_type`
+            - Allows to connect norm_calculation_type input to the operator.
+          * - :py:attr:`~field_reference`
+            - Allows to connect field_reference input to the operator.
+          * - :py:attr:`~field_or_fields_container2`
+            - Allows to connect field_or_fields_container2 input to the operator.
+
+
+
+
+   .. tab-item:: Special methods
+
+      .. list-table::
+          :header-rows: 0
+          :widths: auto
+
+          * - :py:attr:`~__str__`
+            - 
+          * - :py:attr:`~__call__`
+            - 
+          * - :py:attr:`~__getitem__`
+            - 
+
+
+
+
+Import detail
+-------------
+
+.. code-block:: python
+
+    from ansys.dpf.core.operators.math.compute_residual_and_error import InputsComputeResidualAndError
+
+Property detail
+---------------
+
+.. py:property:: field_or_fields_container1
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect field_or_fields_container1 input to the operator.
+
+   Field or fields container to be normalized (\\(FC_1\\))
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.compute_residual_and_error()
+   >>> op.inputs.field_or_fields_container1.connect(my_field_or_fields_container1)
+   >>> # or
+   >>> op.inputs.field_or_fields_container1(my_field_or_fields_container1)
+
+.. py:property:: normalization_type
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect normalization_type input to the operator.
+
+   Type of normalization applied to the residual and the norm (\\(norm\\)) :
+   - 0 for absolute (default)
+   - 1 for relative to the first entry
+   - 2 for normalized by the max of each field of the reference field
+   - 3 for normalized by the max over all fields of the reference field
+
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.compute_residual_and_error()
+   >>> op.inputs.normalization_type.connect(my_normalization_type)
+   >>> # or
+   >>> op.inputs.normalization_type(my_normalization_type)
+
+.. py:property:: norm_calculation_type
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect norm_calculation_type input to the operator.
+
+   Type for norm calculation (\\(p\\)) :
+   - 1 for \\( L_1 \\) norm
+   - 2 for \\( L_2 \\) norm (default)
+
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.compute_residual_and_error()
+   >>> op.inputs.norm_calculation_type.connect(my_norm_calculation_type)
+   >>> # or
+   >>> op.inputs.norm_calculation_type(my_norm_calculation_type)
+
+.. py:property:: field_reference
+   :type: ansys.dpf.core.inputs.Input[int]
+
+
+   Allows to connect field_reference input to the operator.
+
+   Reference for the normalization step (\\(r\\)) :
+   - 0 for pin 0 (default)
+   - 1 for residual
+   \\[ ref = \begin{cases} FC_1 &\text{ if } r = 0 \\\\ Res &\text{ if } r = 1 \end{cases} \\]
+
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.compute_residual_and_error()
+   >>> op.inputs.field_reference.connect(my_field_reference)
+   >>> # or
+   >>> op.inputs.field_reference(my_field_reference)
+
+.. py:property:: field_or_fields_container2
+   :type: ansys.dpf.core.inputs.Input[ansys.dpf.core.field.Field | ansys.dpf.core.fields_container.FieldsContainer]
+
+
+   Allows to connect field_or_fields_container2 input to the operator.
+
+   Field or fields container of the exact same dimensions as pin 0 to be used for residual computation  (\\(FC_2\\))
+   \\[ Res = \begin{cases} FC_1 - FC_2 &\text{ if } FC_2 \\\\ FC_1 &\text{ if not } FC_2 \end{cases} \\]
+
+
+   :returns: An Input instance for this pin.
+   :rtype: input
+
+   .. rubric:: Examples
+
+   >>> from ansys.dpf import core as dpf
+   >>> op = dpf.operators.math.compute_residual_and_error()
+   >>> op.inputs.field_or_fields_container2.connect(my_field_or_fields_container2)
+   >>> # or
+   >>> op.inputs.field_or_fields_container2(my_field_or_fields_container2)
+
+
+
+
+Method detail
+-------------
+
+.. py:method:: __str__()
+
+.. py:method:: connect(inpt)
+
+   Connect any input (an entity or an operator output) to any input pin of this operator.
+
+   Searches for the input type corresponding to the output.
+
+   .. deprecated::
+       Deprecated in favor of explicit output-to-input connections.
+
+
+.. py:method:: __call__(inpt)
+
+.. py:method:: __getitem__(item) -> Input
+
+
+
+
