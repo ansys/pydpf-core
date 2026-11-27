@@ -61,7 +61,8 @@ class rescope(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_fields = op.outputs.fields()
+    >>> result_fields_as_fields_container = op.outputs.fields_as_fields_container()
+    >>> result_fields_as_field = op.outputs.fields_as_field()
     """
 
     def __init__(

@@ -52,7 +52,8 @@ class window_hamming(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_field = op.outputs.field()
+    >>> result_field_as_field = op.outputs.field_as_field()
+    >>> result_field_as_fields_container = op.outputs.field_as_fields_container()
     """
 
     def __init__(self, field=None, config=None, server=None):

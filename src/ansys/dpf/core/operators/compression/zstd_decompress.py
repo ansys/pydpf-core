@@ -57,7 +57,8 @@ class zstd_decompress(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_decompressed_field = op.outputs.decompressed_field()
+    >>> result_decompressed_field_as_field = op.outputs.decompressed_field_as_field()
+    >>> result_decompressed_field_as_custom_type_field = op.outputs.decompressed_field_as_custom_type_field()
     """
 
     def __init__(self, compressed_input=None, config=None, server=None):

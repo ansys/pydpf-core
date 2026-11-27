@@ -74,7 +74,8 @@ class transpose(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_mesh_scoping = op.outputs.mesh_scoping()
+    >>> result_mesh_scoping_as_scoping = op.outputs.mesh_scoping_as_scoping()
+    >>> result_mesh_scoping_as_scopings_container = op.outputs.mesh_scoping_as_scopings_container()
     """
 
     def __init__(

@@ -4,6 +4,14 @@
 * text=auto
 
 ###############################################################################
+# Force LF line endings for Python sources.
+#
+# This ensures that when dpf_generate_operators in run locally, git status or
+# git diff will show files whose contents actually changed
+###############################################################################
+*.py text eol=lf
+
+###############################################################################
 # Set default behavior for command prompt diff.
 #
 # This is need for earlier builds of msysgit that does not have it on by

@@ -54,7 +54,8 @@ class zstd_decompress_fc(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_decompressed_fc = op.outputs.decompressed_fc()
+    >>> result_decompressed_fc_as_fields_container = op.outputs.decompressed_fc_as_fields_container()
+    >>> result_decompressed_fc_as_custom_type_fields_container = op.outputs.decompressed_fc_as_custom_type_fields_container()
     """
 
     def __init__(self, compressed_input=None, config=None, server=None):

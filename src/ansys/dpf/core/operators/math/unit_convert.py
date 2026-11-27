@@ -64,7 +64,10 @@ class unit_convert(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_converted_entity = op.outputs.converted_entity()
+    >>> result_converted_entity_as_field = op.outputs.converted_entity_as_field()
+    >>> result_converted_entity_as_fields_container = op.outputs.converted_entity_as_fields_container()
+    >>> result_converted_entity_as_meshed_region = op.outputs.converted_entity_as_meshed_region()
+    >>> result_converted_entity_as_meshes_container = op.outputs.converted_entity_as_meshes_container()
     """
 
     def __init__(

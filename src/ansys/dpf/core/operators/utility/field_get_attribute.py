@@ -57,7 +57,15 @@ class field_get_attribute(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_property = op.outputs.property()
+    >>> result_property_as_string = op.outputs.property_as_string()
+    >>> result_property_as_time_freq_support = op.outputs.property_as_time_freq_support()
+    >>> result_property_as_scoping = op.outputs.property_as_scoping()
+    >>> result_property_as_data_tree = op.outputs.property_as_data_tree()
+    >>> result_property_as_int32 = op.outputs.property_as_int32()
+    >>> result_property_as_vector_double_ = op.outputs.property_as_vector_double_()
+    >>> result_property_as_vector_int32_ = op.outputs.property_as_vector_int32_()
+    >>> result_property_as_vector_string_ = op.outputs.property_as_vector_string_()
+    >>> result_property_as_vector_char_ = op.outputs.property_as_vector_char_()
     """
 
     def __init__(self, field=None, property_name=None, config=None, server=None):

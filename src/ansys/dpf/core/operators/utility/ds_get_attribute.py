@@ -72,7 +72,8 @@ class ds_get_attribute(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_property = op.outputs.property()
+    >>> result_property_as_string = op.outputs.property_as_string()
+    >>> result_property_as_int32 = op.outputs.property_as_int32()
     """
 
     def __init__(

@@ -109,10 +109,14 @@ class compute_residual_and_error(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_residual = op.outputs.residual()
-    >>> result_error = op.outputs.error()
-    >>> result_residual_normalization_factor = op.outputs.residual_normalization_factor()
-    >>> result_error_normalization_factor = op.outputs.error_normalization_factor()
+    >>> result_residual_as_field = op.outputs.residual_as_field()
+    >>> result_residual_as_fields_container = op.outputs.residual_as_fields_container()
+    >>> result_error_as_field = op.outputs.error_as_field()
+    >>> result_error_as_fields_container = op.outputs.error_as_fields_container()
+    >>> result_residual_normalization_factor_as_field = op.outputs.residual_normalization_factor_as_field()
+    >>> result_residual_normalization_factor_as_fields_container = op.outputs.residual_normalization_factor_as_fields_container()
+    >>> result_error_normalization_factor_as_field = op.outputs.error_normalization_factor_as_field()
+    >>> result_error_normalization_factor_as_fields_container = op.outputs.error_normalization_factor_as_fields_container()
     """
 
     def __init__(

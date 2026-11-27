@@ -73,7 +73,8 @@ class change_shell_layers(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_fields_container = op.outputs.fields_container()
+    >>> result_fields_container_as_fields_container = op.outputs.fields_container_as_fields_container()
+    >>> result_fields_container_as_field = op.outputs.fields_container_as_field()
     """
 
     def __init__(

@@ -50,7 +50,8 @@ class zfp_decompress(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_dataOut = op.outputs.dataOut()
+    >>> result_dataOut_as_field = op.outputs.dataOut_as_field()
+    >>> result_dataOut_as_fields_container = op.outputs.dataOut_as_fields_container()
     >>> result_decompress_speed = op.outputs.decompress_speed()
     """
 

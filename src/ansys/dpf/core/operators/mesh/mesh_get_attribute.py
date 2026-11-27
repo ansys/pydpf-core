@@ -61,7 +61,11 @@ class mesh_get_attribute(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_property = op.outputs.property()
+    >>> result_property_as_scoping = op.outputs.property_as_scoping()
+    >>> result_property_as_field = op.outputs.property_as_field()
+    >>> result_property_as_property_field = op.outputs.property_as_property_field()
+    >>> result_property_as_int32 = op.outputs.property_as_int32()
+    >>> result_property_as_string_field = op.outputs.property_as_string_field()
     """
 
     def __init__(

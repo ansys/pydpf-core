@@ -51,7 +51,8 @@ class node_coordinates(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_coordinates = op.outputs.coordinates()
+    >>> result_coordinates_as_field = op.outputs.coordinates_as_field()
+    >>> result_coordinates_as_fields_container = op.outputs.coordinates_as_fields_container()
     """
 
     def __init__(self, mesh=None, config=None, server=None):

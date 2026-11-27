@@ -78,7 +78,8 @@ class element_types_provider(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_element_types_data = op.outputs.element_types_data()
+    >>> result_element_types_data_as_generic_data_container = op.outputs.element_types_data_as_generic_data_container()
+    >>> result_element_types_data_as_property_field = op.outputs.element_types_data_as_property_field()
     """
 
     def __init__(

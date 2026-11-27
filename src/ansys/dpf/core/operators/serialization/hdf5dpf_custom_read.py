@@ -79,7 +79,8 @@ class hdf5dpf_custom_read(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_field_or_fields_container = op.outputs.field_or_fields_container()
+    >>> result_field_or_fields_container_as_fields_container = op.outputs.field_or_fields_container_as_fields_container()
+    >>> result_field_or_fields_container_as_field = op.outputs.field_or_fields_container_as_field()
     """
 
     def __init__(
