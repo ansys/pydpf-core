@@ -68,7 +68,8 @@ class record_reader(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_field = op.outputs.field()
+    >>> result_field_as_property_field = op.outputs.field_as_property_field()
+    >>> result_field_as_field = op.outputs.field_as_field()
     """
 
     def __init__(

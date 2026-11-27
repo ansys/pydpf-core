@@ -67,7 +67,9 @@ class time_freq_support_get_attribute(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_property = op.outputs.property()
+    >>> result_property_as_double = op.outputs.property_as_double()
+    >>> result_property_as_field = op.outputs.property_as_field()
+    >>> result_property_as_scoping = op.outputs.property_as_scoping()
     """
 
     def __init__(

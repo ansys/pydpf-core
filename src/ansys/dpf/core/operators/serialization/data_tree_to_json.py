@@ -53,7 +53,8 @@ class data_tree_to_json(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_data_sources = op.outputs.data_sources()
+    >>> result_data_sources_as_data_sources = op.outputs.data_sources_as_data_sources()
+    >>> result_data_sources_as_string = op.outputs.data_sources_as_string()
     """
 
     def __init__(self, data_tree=None, path=None, config=None, server=None):

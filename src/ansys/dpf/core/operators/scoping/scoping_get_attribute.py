@@ -56,7 +56,8 @@ class scoping_get_attribute(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_property = op.outputs.property()
+    >>> result_property_as_vector_int32_ = op.outputs.property_as_vector_int32_()
+    >>> result_property_as_string = op.outputs.property_as_string()
     """
 
     def __init__(self, scoping=None, property_name=None, config=None, server=None):

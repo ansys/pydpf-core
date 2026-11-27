@@ -89,7 +89,14 @@ class {{class_name}}(Operator):
     {{#outputs}}
     >>> # Get output data
     {{#output_pins}}
+    {{#multiple_types}}
+    {{#printable_type_names}}
+    >>> result_{{name}}_as_{{.}} = op.outputs.{{name}}_as_{{.}}()
+    {{/printable_type_names}}
+    {{/multiple_types}}
+    {{^multiple_types}}
     >>> result_{{name}} = op.outputs.{{name}}()
+    {{/multiple_types}}
     {{/output_pins}}
     {{/outputs}}
     """

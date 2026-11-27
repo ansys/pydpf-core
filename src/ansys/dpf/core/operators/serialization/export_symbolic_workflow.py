@@ -64,7 +64,8 @@ class export_symbolic_workflow(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_data_sources = op.outputs.data_sources()
+    >>> result_data_sources_as_data_sources = op.outputs.data_sources_as_data_sources()
+    >>> result_data_sources_as_string = op.outputs.data_sources_as_string()
     """
 
     def __init__(

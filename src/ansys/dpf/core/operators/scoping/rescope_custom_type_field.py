@@ -61,7 +61,8 @@ class rescope_custom_type_field(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_fields = op.outputs.fields()
+    >>> result_fields_as_custom_type_fields_container = op.outputs.fields_as_custom_type_fields_container()
+    >>> result_fields_as_custom_type_field = op.outputs.fields_as_custom_type_field()
     """
 
     def __init__(

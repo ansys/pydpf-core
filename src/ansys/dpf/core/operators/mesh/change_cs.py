@@ -57,7 +57,8 @@ class change_cs(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_meshed_region = op.outputs.meshed_region()
+    >>> result_meshed_region_as_meshed_region = op.outputs.meshed_region_as_meshed_region()
+    >>> result_meshed_region_as_meshes_container = op.outputs.meshed_region_as_meshes_container()
     """
 
     def __init__(self, meshes=None, coordinate_system=None, config=None, server=None):

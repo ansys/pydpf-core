@@ -75,7 +75,8 @@ class modal_superposition(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_fields_container = op.outputs.fields_container()
+    >>> result_fields_container_as_fields_container = op.outputs.fields_container_as_fields_container()
+    >>> result_fields_container_as_custom_type_fields_container = op.outputs.fields_container_as_custom_type_fields_container()
     """
 
     def __init__(

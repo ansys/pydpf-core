@@ -70,7 +70,8 @@ class intersect(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_intersection = op.outputs.intersection()
+    >>> result_intersection_as_scoping = op.outputs.intersection_as_scoping()
+    >>> result_intersection_as_scopings_container = op.outputs.intersection_as_scopings_container()
     >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()
     >>> result_scopingB_indices_without_intersection = op.outputs.scopingB_indices_without_intersection()
     """

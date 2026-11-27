@@ -72,7 +72,8 @@ class apply_svd(Operator):
     >>> # Get output data
     >>> result_us_svd = op.outputs.us_svd()
     >>> result_vt_svd = op.outputs.vt_svd()
-    >>> result_sigma = op.outputs.sigma()
+    >>> result_sigma_as_field = op.outputs.sigma_as_field()
+    >>> result_sigma_as_fields_container = op.outputs.sigma_as_fields_container()
     """
 
     def __init__(

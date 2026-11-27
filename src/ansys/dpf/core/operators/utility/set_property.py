@@ -67,7 +67,8 @@ class set_property(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_field = op.outputs.field()
+    >>> result_field_as_field = op.outputs.field_as_field()
+    >>> result_field_as_fields_container = op.outputs.field_as_fields_container()
     """
 
     def __init__(
