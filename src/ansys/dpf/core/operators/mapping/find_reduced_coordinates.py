@@ -65,15 +65,9 @@ class find_reduced_coordinates(Operator):
     -------------------------------
 
     When a query point lies near the boundary between adjacent elements, the
-    operator uses a distance-based selection strategy: - If the point passes
-    the tolerant box containment test for multiple elements, the operator
-    selects the element with the smallest computed distance to the point -
-    This ensures physically accurate element assignment, particularly
-    important for points on element edges/faces where numerical tolerance
-    could otherwise cause ambiguous assignments - Among multiple candidates,
-    Point Elements are only used if no other candidate is available; if no
-    candidate strictly contains the point, permissivity is allowed only when
-    a single candidate was found
+    operator selects the first candidate whose reduced-coordinate search
+    succeeds. If none succeeds, it falls back to the closest candidate whose
+    tolerant containment test passes, or the first candidate if none passes.
 
 
     Inputs
@@ -235,15 +229,9 @@ Element selection at boundaries
 -------------------------------
 
 When a query point lies near the boundary between adjacent elements, the
-operator uses a distance-based selection strategy: - If the point passes
-the tolerant box containment test for multiple elements, the operator
-selects the element with the smallest computed distance to the point -
-This ensures physically accurate element assignment, particularly
-important for points on element edges/faces where numerical tolerance
-could otherwise cause ambiguous assignments - Among multiple candidates,
-Point Elements are only used if no other candidate is available; if no
-candidate strictly contains the point, permissivity is allowed only when
-a single candidate was found
+operator selects the first candidate whose reduced-coordinate search
+succeeds. If none succeeds, it falls back to the closest candidate whose
+tolerant containment test passes, or the first candidate if none passes.
 """
         spec = Specification(
             description=description,
