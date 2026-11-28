@@ -24,10 +24,6 @@ class FieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def field_get_scoping(constfield, size):
-		raise NotImplementedError
-
-	@staticmethod
 	def field_get_scoping_to_data_pointer_copy(field, scopingToDataPointer):
 		raise NotImplementedError
 
@@ -133,10 +129,6 @@ class FieldAbstractAPI:
 
 	@staticmethod
 	def csfield_push_back(field, EntityId, size, data):
-		raise NotImplementedError
-
-	@staticmethod
-	def csfield_get_scoping(field, size):
 		raise NotImplementedError
 
 	@staticmethod

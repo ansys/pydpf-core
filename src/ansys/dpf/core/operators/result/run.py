@@ -27,20 +27,23 @@ class run(Operator):
     Inputs
     ------
     mapdl_exe_path: str, optional
+        Path to the MAPDL executable. When not specified, AWP_ROOT272 must defined in the environment.
     working_dir: str, optional
+        Working directory for MAPDL. When not specified, a temporary directory will be used.
     number_of_processes: int, optional
-        Set the number of MPI processes used for resolution (default is 2)
+        Set the number of MPI processes used for resolution (default is to let MAPDL choose)
     number_of_threads: int, optional
-        Set the number of threads used for resolution (default is 1)
+        Set the number of threads used for resolution (default is to let MAPDL choose)
     data_sources: DataSources
-        data sources containing the input file.
+        data sources containing the input file. It must contain an .inp or .dat file. All the files of the data sources will be copied to the working directory.
     server_mode: bool, optional
-        used when a user includes commands in the input file allowing to launch DPF server inside MAPDL to interact with MAPDL using DPF client API
+        used when a user includes commands in the input file allowing to launch DPF server inside MAPDL to interact with MAPDL using DPF client API.
+        When set to true, MAPDL will still be running after the operator run is complete. If an exit command like /exit is not issued before the operator object goes out of scope, the MAPDL process might end up orphan or zombie.
 
     Outputs
     -------
     data_sources: DataSources
-        returns the data source if the server_mode pin is not set to yes
+        returns the data source if the server_mode pin is not set to yes. The data source will contain the results path for simple cases. For complex cases (multi analysis, distributed results, custom job name), the caller must build the data source.
     ip: str
         returns the Ip if the server_mode pin is set to yes
     port: str
@@ -126,37 +129,38 @@ file.
                     name="mapdl_exe_path",
                     type_names=["string"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Path to the MAPDL executable. When not specified, AWP_ROOT272 must defined in the environment.""",
                 ),
                 1: PinSpecification(
                     name="working_dir",
                     type_names=["string"],
                     optional=True,
-                    document=r"""""",
+                    document=r"""Working directory for MAPDL. When not specified, a temporary directory will be used.""",
                 ),
                 2: PinSpecification(
                     name="number_of_processes",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Set the number of MPI processes used for resolution (default is 2)""",
+                    document=r"""Set the number of MPI processes used for resolution (default is to let MAPDL choose)""",
                 ),
                 3: PinSpecification(
                     name="number_of_threads",
                     type_names=["int32"],
                     optional=True,
-                    document=r"""Set the number of threads used for resolution (default is 1)""",
+                    document=r"""Set the number of threads used for resolution (default is to let MAPDL choose)""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document=r"""data sources containing the input file.""",
+                    document=r"""data sources containing the input file. It must contain an .inp or .dat file. All the files of the data sources will be copied to the working directory.""",
                 ),
                 5: PinSpecification(
                     name="server_mode",
                     type_names=["bool"],
                     optional=True,
-                    document=r"""used when a user includes commands in the input file allowing to launch DPF server inside MAPDL to interact with MAPDL using DPF client API""",
+                    document=r"""used when a user includes commands in the input file allowing to launch DPF server inside MAPDL to interact with MAPDL using DPF client API.
+When set to true, MAPDL will still be running after the operator run is complete. If an exit command like /exit is not issued before the operator object goes out of scope, the MAPDL process might end up orphan or zombie.""",
                 ),
             },
             map_output_pin_spec={
@@ -164,7 +168,7 @@ file.
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document=r"""returns the data source if the server_mode pin is not set to yes""",
+                    document=r"""returns the data source if the server_mode pin is not set to yes. The data source will contain the results path for simple cases. For complex cases (multi analysis, distributed results, custom job name), the caller must build the data source.""",
                 ),
                 1: PinSpecification(
                     name="ip",
@@ -271,6 +275,8 @@ class InputsRun(_Inputs):
     def mapdl_exe_path(self) -> Input[str]:
         r"""Allows to connect mapdl_exe_path input to the operator.
 
+        Path to the MAPDL executable. When not specified, AWP_ROOT272 must defined in the environment.
+
         Returns
         -------
         input:
@@ -289,6 +295,8 @@ class InputsRun(_Inputs):
     @property
     def working_dir(self) -> Input[str]:
         r"""Allows to connect working_dir input to the operator.
+
+        Working directory for MAPDL. When not specified, a temporary directory will be used.
 
         Returns
         -------
@@ -309,7 +317,7 @@ class InputsRun(_Inputs):
     def number_of_processes(self) -> Input[int]:
         r"""Allows to connect number_of_processes input to the operator.
 
-        Set the number of MPI processes used for resolution (default is 2)
+        Set the number of MPI processes used for resolution (default is to let MAPDL choose)
 
         Returns
         -------
@@ -330,7 +338,7 @@ class InputsRun(_Inputs):
     def number_of_threads(self) -> Input[int]:
         r"""Allows to connect number_of_threads input to the operator.
 
-        Set the number of threads used for resolution (default is 1)
+        Set the number of threads used for resolution (default is to let MAPDL choose)
 
         Returns
         -------
@@ -351,7 +359,7 @@ class InputsRun(_Inputs):
     def data_sources(self) -> Input[DataSources]:
         r"""Allows to connect data_sources input to the operator.
 
-        data sources containing the input file.
+        data sources containing the input file. It must contain an .inp or .dat file. All the files of the data sources will be copied to the working directory.
 
         Returns
         -------
@@ -372,7 +380,8 @@ class InputsRun(_Inputs):
     def server_mode(self) -> Input[bool]:
         r"""Allows to connect server_mode input to the operator.
 
-        used when a user includes commands in the input file allowing to launch DPF server inside MAPDL to interact with MAPDL using DPF client API
+        used when a user includes commands in the input file allowing to launch DPF server inside MAPDL to interact with MAPDL using DPF client API.
+        When set to true, MAPDL will still be running after the operator run is complete. If an exit command like /exit is not issued before the operator object goes out of scope, the MAPDL process might end up orphan or zombie.
 
         Returns
         -------
@@ -419,7 +428,7 @@ class OutputsRun(_Outputs):
     def data_sources(self) -> Output[DataSources]:
         r"""Allows to get data_sources output of the operator
 
-        returns the data source if the server_mode pin is not set to yes
+        returns the data source if the server_mode pin is not set to yes. The data source will contain the results path for simple cases. For complex cases (multi analysis, distributed results, custom job name), the caller must build the data source.
 
         Returns
         -------
